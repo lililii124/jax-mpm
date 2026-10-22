@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "exit_code": 0,
+  "command": [
+    "H:\\test\\mpm\\.local\\ParaView\\ParaView 6.2.0\\bin\\pvpython.exe",
+    "H:\\test\\mpm\\tools\\check_vtk.py",
+    "H:\\test\\mpm\\outputs\\production\\water-entry\\neo-hookean"
+  ],
+  "frames_checked": [
+    0,
+    60
+  ],
+  "particles_per_frame": 1327400,
+  "source_dtype": "float64",
+  "visualization_dtype": "float32",
+  "relative_tolerance": 1e-06,
+  "absolute_tolerance": 1e-07,
+  "checked_fields": [
+    "coordinates",
+    "speed",
+    "damage",
+    "temperature",
+    "body"
+  ],
+  "log": "vtk_check.log"
+}

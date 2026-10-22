@@ -40,6 +40,10 @@ def collect(root, destination):
                 "video.json",
                 "jkr_law_cycle.csv",
                 "jkr_law_parameters.json",
+                "law_comparison.csv",
+                "memory.json",
+                "vtk_check.json",
+                "interpretation.json",
             ):
                 original = folder / name
                 if original.exists():
@@ -66,6 +70,11 @@ def collect(root, destination):
                     "sha256": hashes,
                 }
             )
+    contact_review = root / "outputs/contact-models/contact-review.json"
+    if contact_review.exists():
+        (destination / "contact-review.json").write_text(
+            contact_review.read_text(encoding="utf-8"), encoding="utf-8"
+        )
     (destination / "index.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
     lines = [
         "# Completed runs",

@@ -1,0 +1,150 @@
+{
+  "case": "rubber-ball / neo-hookean",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.00036290322580645164,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        -9.81,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "axis": 1,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 20833.333333333336,
+      "lam": 13888.888888888889,
+      "bulk": 27777.77777777778
+    }
+  ],
+  "steps": 1240,
+  "simulation_time": 0.45,
+  "particles": [
+    44720
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 2.454220900006476,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 70.93083829992975,
+  "min_J": 0.2734253771405514,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -2.693903585447577e-16,
+    62.53224901749798,
+    1.7361168451750404e-16
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "ball_center_y": 0.5999999999999999,
+      "ball_lowest_y": 0.4534090909090909
+    },
+    "final": {
+      "time": 0.45,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -2.693903585447577e-16,
+      "boundary_impulse_y": 62.53224901749798,
+      "boundary_impulse_z": 1.7361168451750404e-16,
+      "ball_center_y": 0.45142321450533707,
+      "ball_lowest_y": 0.3138134856123749
+    }
+  },
+  "definition": {
+    "purpose": "rubber-ball",
+    "sources": [
+      "https://www.dynaexamples.com/introduction/intro-by-j.-day/misc/ball"
+    ],
+    "particles_per_cell_per_axis": 3,
+    "sphere_center": [
+      0.5,
+      0.6,
+      0.5
+    ],
+    "sphere_radius": 0.15,
+    "floor_y": 0.125,
+    "adaptation": "filled elastic sphere above a rigid floor; no pressurized shell or airbag"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 11.309733552923253,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5000000000000001,
+      "com_y": 0.6,
+      "com_z": 0.5,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.014137166941154066,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 66.56909169250628,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.45,
+      "body": 0,
+      "mass": 11.309733552923253,
+      "momentum_x": -2.693903585447577e-16,
+      "momentum_y": 12.605430248118275,
+      "momentum_z": 1.7361168451750404e-16,
+      "kinetic_energy": 7.37185639386607,
+      "com_x": 0.5000000000000001,
+      "com_y": 0.4514232145053371,
+      "com_z": 0.5000000000000001,
+      "min_J": 0.9658684033618947,
+      "max_J": 1.0726953588034724,
+      "current_volume": 0.014685927901719562,
+      "max_speed": 1.4069551506118045,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 50.08472226421953,
+      "constitutive_work": 0.0,
+      "strain_energy": 2.3114762802841105
+    }
+  ]
+}

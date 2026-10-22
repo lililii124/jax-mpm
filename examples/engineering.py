@@ -157,18 +157,22 @@ def cellular_cushion(grid, ppc):
 def accelerated_tank(scene, grid, ppc):
     liquid, solid = fluid(2e5), neo_hookean(1e5, 0.3)
     c = max(np.sqrt(200.0), wave_speed(solid, 1100.0))
+    walls = tuple(
+        replace(wall, position=0.25 if wall.side == "lower" else 0.75) if wall.axis == 2 else wall
+        for wall in tank_walls()
+    )
     config = Config(
         dim=3,
         n_grid=grid,
         dt=0.15 / grid / c,
         material="fluid",
         boundary_cells=0,
-        boundaries=tank_walls(),
+        boundaries=walls,
     )
     structure_config = replace(
         config,
         material="neo-hookean",
-        boundaries=tank_walls() + (fixed_box((0.0,) * 3, (1.0, 0.16, 1.0)),),
+        boundaries=walls + (fixed_box((0.0,) * 3, (1.0, 0.16, 1.0)),),
     )
     water = block(
         config,
@@ -243,7 +247,9 @@ def accelerated_tank(scene, grid, ppc):
             "frequency_Hz": 1.5,
             "ramp_s": 0.1,
             "water_height": 0.425,
-            "initial_hydrostatic_equilibrium": True,
+            "tank_lower": [0.125, 0.125, 0.25],
+            "tank_upper": [0.875, 0.875, 0.75],
+            "initial_hydrostatic_pressure": True,
             "baffle_centers": baffle_centers if reference is not None else [],
             "baffle_thickness": 0.05,
             "baffle_window_y": [0.24, 0.34],

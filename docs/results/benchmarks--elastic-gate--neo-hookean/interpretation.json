@@ -1,0 +1,20 @@
+{
+  "case": "elastic-gate",
+  "trajectory_unchanged": true,
+  "initial_water_z_m": [
+    0.25,
+    0.75
+  ],
+  "gate_z_m": [
+    0.25,
+    0.75
+  ],
+  "tank_wall_z_m": [
+    0.125,
+    0.875
+  ],
+  "side_bypass_each_side_m": 0.125,
+  "initial_pressure": "vertical hydrostatic pressure field; lateral free faces are initially unbalanced",
+  "metadata_correction": "The original definition.initial_hydrostatic_equilibrium flag does not establish a global equilibrium; water can spread laterally and bypass the gate ends.",
+  "comparison_scope": "finite-width three-dimensional bypass case, not an extruded closed-width gate benchmark"
+}

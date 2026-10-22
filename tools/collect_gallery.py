@@ -52,12 +52,15 @@ ANIMATIONS = {
     "perforated-panel",
     "cellular-cushion",
     "baffled-tank",
+    "unbaffled-tank",
     "oblique",
     "fsi",
     "elastic-gate",
     "floating-block",
     "water-entry",
     "ball-beam",
+    "rubber-ball",
+    "large-bending",
     "large-twist",
     "dam-break",
 }
@@ -65,10 +68,23 @@ ANIMATIONS = {
 
 def preview(folder, name, render):
     """Select the largest response when a completed animation is available."""
+    if name == "water-entry" and render.get("frames_rendered", 0) > 1:
+        frame = round((render["frames_rendered"] - 1) * 2 / 3)
+        image = folder / "frames" / f"frame_{frame:05d}.png"
+        observable = folder / "observables.csv"
+        if image.exists() and observable.exists():
+            with observable.open(newline="", encoding="utf-8") as stream:
+                rows = list(csv.DictReader(stream))
+            if frame < len(rows):
+                return image, frame, float(rows[frame]["time"])
     columns = {
         "perforated-panel": "maximum_displacement",
+        "cellular-cushion": "cushion_upper_displacement_y",
+        "baffled-tank": "maximum_baffle_displacement",
         "sphere-contact": "nominal_indentation_m",
         "jkr-footprint": "prescribed_contact_radius_m",
+        "large-bending": "tracked_displacement_y",
+        "large-twist": "tip_rotation_x_rad",
     }
     observable = folder / "observables.csv"
     if name in columns and observable.exists() and render.get("frames_rendered", 0) > 1:
@@ -88,7 +104,7 @@ def main():
     lines = [
         "# Gallery",
         "",
-        "ParaView screenshots of completed runs. Every material point is rendered.",
+        "Selected ParaView frames and videos from completed runs. Every material point is rendered.",
         "Body colours distinguish contacting bodies; the brittle-material compression",
         "images show damage on a fixed range over time. [Run records](RESULTS.md) contain",
         "the parameters and numerical results.",

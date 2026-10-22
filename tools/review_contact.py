@@ -36,6 +36,7 @@ def sphere_review(folder):
     rows = read_rows(folder / "observables.csv")
     diagnostics = read_rows(folder / "diagnostics.csv")
     time = column(rows, "time")
+    sample_time = column(rows, "sample_time")
     load = column(rows, "indenter_reaction_y_N")
     transverse = np.hypot(
         column(rows, "indenter_reaction_x_N"), column(rows, "indenter_reaction_z_N")
@@ -53,8 +54,8 @@ def sphere_review(folder):
     density = summary["initial"][0]["mass"] / reference_volume
     material = summary["materials"][0]
     wave_speed = np.sqrt((material["lam"] + 2 * material["mu"]) / density)
-    loading = time <= peak_time
-    unloading = time > peak_time
+    loading = sample_time <= peak_time
+    unloading = sample_time > peak_time
     resolved = radius >= 4 * dx
     comparison = loading & resolved & (hertz >= 1.0)
     tolerance = 1e-9 * max(1.0, float(np.abs(load).max()))
@@ -75,10 +76,15 @@ def sphere_review(folder):
         "peak_prescribed_movement_per_step_in_grid_cells": float(peak_speed * config["dt"] / dx),
         "force_sampling": "next-step grid impulse / dt at each saved output frame",
         "minimum_reaction_y_N": float(load.min()),
+        "final_reaction_y_N": float(load[-1]),
+        "final_central_surface_displacement_y_m": float(
+            rows[-1]["central_surface_displacement_y_m"]
+        ),
         "maximum_transverse_reaction_N": float(transverse.max()),
         "tensile_reaction_frames": int(np.sum(load < -tolerance)),
         "maximum_reaction_y_N": float(load[i]),
         "maximum_reaction_frame_time_s": float(time[i]),
+        "maximum_reaction_sample_time_s": float(sample_time[i]),
         "maximum_nominal_indentation_m": float(indentation[j]),
         "reaction_at_maximum_indentation_N": float(load[j]),
         "Hertz_at_maximum_indentation_N": float(hertz[j]),
@@ -94,6 +100,9 @@ def sphere_review(folder):
         if relative.size
         else None,
         "first_sampled_separation_time_s": float(time[separated][0]) if np.any(separated) else None,
+        "first_separation_force_sample_time_s": float(sample_time[separated][0])
+        if np.any(separated)
+        else None,
         "positive_nominal_indentation_after_separation": bool(
             np.any(separated & (indentation > dx / 10))
         ),

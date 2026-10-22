@@ -20,10 +20,10 @@ grid-scale error. The free surface has zero applied traction.
 | `sloshing` | Shallow layer with initial horizontal velocity | Same tank | Surface height, momentum, energy |
 | `fsi` | Water column encounters an elastic obstacle | Tank walls; obstacle anchored below y=0.18 | Interface impulse and obstacle-top displacement |
 | `water-entry` | Elastic block drops onto a liquid layer | Tank walls; free block | Interface impulse and water-surface response |
-| `elastic-gate` | Water column against a thick elastic panel | Tank walls; panel clamped above y=0.65 | Lower-tip displacement and fluid front |
+| `elastic-gate` | Finite-width water column against a thick panel, with lateral bypass | Tank walls; panel clamped above y=0.65 | Lower-tip displacement and fluid front |
 | `floating-block` | Density ratio 0.5; initially 25% submerged block | Slip tank walls; free elastic body | Heave, vertical speed, surface height |
 | `rubber-ball` | Filled elastic sphere, radius 0.15 m, under gravity | Frictionless floor y=0.125 | Centre height and rebound |
-| `ball-beam` | Elastic sphere falls onto an elastic beam | Both beam ends clamped; two-body normal contact | Sphere height, beam displacement, contact impulse |
+| `ball-beam` | Elastic sphere falls onto an elastic beam | Both beam ends clamped; common floor y=0.125; two-body normal contact | Sphere height, lowest beam height, contact impulse |
 | `large-bending` | Cantilever with 0.6 m/s initial tip velocity | Clamp x≤0.2 | Large transverse displacement |
 | `large-twist` | Cantilever with amplified initial twist velocity | Clamp x≤0.2 | End rotation and energy |
 | `perforated-panel` | Nine-hole elastic panel; 3 kPa, 0.08 s smooth pressure pulse | Four edges clamped; reference-face dead traction | Central displacement and applied work |
@@ -54,8 +54,10 @@ step; the obstacle's wave speed remains within the explicit stability margin.
 `--dt-factor` can reduce this step. Nonlinear tangent wave speeds can differ
 from the initial estimate.
 
-Default durations: 0.15 s for beam/shear/panel cases, 0.24 s for block collision,
-0.25 s for sliding, 0.36 s for rebound, and 0.35 s for fluids/FSI. Compression
+Original-suite durations are 0.15 s for beam/shear/panel cases, 0.24 s for block
+collision, 0.25 s for sliding, 0.36 s for rebound, and 0.35 s for fluids/FSI.
+The added ball cases run 0.45 s, floating-block 0.5 s, and large-bending/twist
+0.35 s. Engineering durations are listed below. Compression
 uses one initial acoustic transit time through the specimen; this is a dynamic
 compression test, not a quasi-static stress–strain identification test.
 
@@ -92,14 +94,22 @@ a large spatial run.
 
 The [SPHinXsys elastic gate](https://www.sphinxsys.org/html/examples/example2_elasticGate.html)
 and [LS-DYNA gate](https://lsdyna.ansys.com/dam5/) motivate `elastic-gate`.
-This implementation extrudes the geometry into 3D and uses a compressible liquid,
-a Neo-Hookean solid and grid contact. Dimensions and parameters differ from the
+This implementation uses a finite-width panel, a compressible liquid,
+a Neo-Hookean solid and grid contact. Water and panel initially occupy
+z=0.25–0.75 m within walls at z=0.125/0.875 m. The 0.125 m side gaps allow
+three-dimensional bypass and lateral spreading. Its vertical hydrostatic
+pressure initialization is not a global equilibrium state. The original saved
+record's `initial_hydrostatic_equilibrium` label refers to that pressure field;
+[record notes](results/benchmarks--elastic-gate--neo-hookean/interpretation.json)
+clarify the geometry without altering its trajectory. Dimensions and parameters differ from the
 published benchmark; agreement with its experimental displacement has not been tested.
 
 `floating-block` follows the free-body/tank setting in the
 [DualSPHysics test catalogue](https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases).
 It starts from a heave imbalance in still water, with no wavemaker. The block
-is deformable and its density ratio is 0.5.
+is deformable and its density ratio is 0.5. Its sidewalls at z=0.25/0.75 m
+match the water-layer width. An earlier incomplete run with wider sidewalls
+was archived separately and is not included in the completed-run catalogue.
 
 `rubber-ball` and `ball-beam` exercise gravity, large deformation and contact.
 The [LS-DYNA ball example](https://www.dynaexamples.com/introduction/intro-by-j.-day/misc/ball)
@@ -108,6 +118,9 @@ uses a pressurized shell; the present example uses a filled elastic sphere.
 [JAX-FEM hyperelasticity](https://deepmodeling.github.io/jax-fem/learn/hyperelasticity/example.html),
 with dynamic release and beam geometry instead of its static cube problem.
 These adaptations are independent implementations, not imported solver decks.
+The twist observable is the principal least-squares angle of the free-end
+cross-section projected onto the yz plane, in radians. Ball–beam includes a
+common floor for both bodies if the beam deflects far enough to reach it.
 
 ## Dense runs and recovery
 
@@ -149,7 +162,9 @@ run records platen velocity and pad deformation. It models elastic cushioning;
 there is no strut self-contact or material fracture model in this example.
 
 The tank cases run for 0.7 s under 1.5 Hz horizontal base acceleration with a
-0.1 s smooth ramp. Computation uses the translating tank frame, applying the
+0.1 s smooth ramp. The tank spans x=0.125–0.875 m and z=0.25–0.75 m;
+the initial water layer fills its width to elevation y=0.425 m (0.3 m depth).
+Computation uses the translating tank frame, applying the
 inertial force `-mass * acceleration` to both fluid and structure. The three
 baffles are 0.05 m thick and have rectangular openings. The comparison keeps
 tank dimensions and liquid height fixed; the baffles displace some liquid,
@@ -158,5 +173,18 @@ are grid-resolution dependent.
 
 These configurations exercise engineering geometry, loading and observables.
 Their demonstration parameters are not calibrated component designs or certified
-load ratings. Full dimensions, load definitions and material values are written
-into each run's `summary.json`.
+load ratings. Key settings, load definitions and material values are written
+into each run's `summary.json`; the example source defines the full geometry.
+
+### Executed structural examples
+
+| Run | Particles | Steps | Recorded response |
+|---|---:|---:|---|
+| Perforated panel | 97,536 | 1,250 | Maximum displacement 0.10930 m at 0.112 s; central-region mean displacement −0.08069 m |
+| Cellular cushion | 192,180 | 3,100 | Maximum mean upper-skin compression 0.05044 m at 0.2312 s; platen rebounds |
+
+The cushion's 24.4608 kg platen receives an accumulated vertical contact impulse
+of 99.25169 N·s. Its momentum change, gravity impulse and independently accumulated
+contact impulse balance to 1.87 × 10⁻¹² N·s. These are recorded-run diagnostics;
+spatial and temporal convergence of the engineering configurations has not been established.
+The saved [results](RESULTS.md) include the complete response histories.

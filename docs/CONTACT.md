@@ -118,3 +118,18 @@ python tools/review_contact.py outputs/contact-models
 ```
 
 This writes `contact-review.json` and a Hertz/JKR `law_comparison.csv`. The sphere review separates loading from unloading and reports the interval where the Hertz reference radius spans at least four grid cells. This selection describes spatial resolution; it does not establish quasi-static or half-space conditions.
+
+## Recorded runs: 23 October 2026
+
+Both default cases completed **386,019 particles, 480 steps and 0.3 s** on the CPU in float64, using a 48³ grid and three particles per cell per axis. There are 41 saved frames per case.
+
+| Case | Minimum det(F) | Peak normal resultant | Maximum force-assignment error |
+|---|---:|---:|---:|
+| Rigid sphere | 0.657805 | 146.957 N reaction | — |
+| JKR pressure footprint | 0.835082 | 67.135 N prescribed load | 1.42 × 10⁻¹⁴ N |
+
+The sphere reaction remained compressive in all saved samples. At maximum nominal indentation, its reaction was 109.200 N against the Hertz reference of 124.629 N, a −12.38% difference. Across the nine loading samples with reference radius at least four grid cells, the median relative difference was +48.32% and the maximum absolute difference was 72.95%. The kinetic/strain-energy ratio at maximum indentation was 0.162. These results describe dynamic finite-block contact and do **not** establish Hertz half-space accuracy. The block rebounded during the return stroke; the final reaction was still 14.555 N, so this run did not sample complete separation.
+
+The JKR footprint had 32 attached output frames, including seven with tensile resultant. Load assignment preserved the resultant to 2.12 × 10⁻¹⁶ relative to the peak load, with zero assigned force while detached. All attached footprints contained at least 37 surface particles, but two frames near release had a contact radius below two grid cells. Central surface displacement ranged from −23.54 to +4.78 mm. These are responses to prescribed traction, not a solved geometric adhesion condition.
+
+The exported 801-point reduced-law cycle had one attachment and one detachment. It bracketed the displacement instability at −3.20545 mm between the last attached sample at −3.16873 mm and the first detached sample at −3.24325 mm. Maximum equation residuals were 1.39 × 10⁻¹⁷ m and 2.84 × 10⁻¹⁴ N. Full [review metrics](results/contact-review.json) and [law comparison](results/contact-models--jkr-footprint/law_comparison.csv) are saved with the run records and can be regenerated with the command above.

@@ -1,0 +1,195 @@
+{
+  "case": "jkr-footprint",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.000625,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            0.15,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 8000.0,
+      "lam": 8000.0,
+      "bulk": 13333.333333333334
+    }
+  ],
+  "steps": 480,
+  "simulation_time": 0.3,
+  "particles": [
+    386019
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 8.372175600001356,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 241.20593219992588,
+  "min_J": 0.8350822633560324,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -2.9735328782587445e-15,
+    13.901263205496889,
+    -2.7804771289205443e-15
+  ],
+  "external_impulse": [
+    0.0,
+    -7.036843669967993,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "nominal_law_indentation_m": -0.0048081808195072915,
+      "prescribed_law_force_N": 0.0,
+      "prescribed_contact_radius_m": 0.0,
+      "applied_force_y_N": 0.0,
+      "force_assignment_error_N": -0.0,
+      "footprint_resolved": true,
+      "loaded_surface_particles": 0,
+      "contact_attached": false,
+      "central_surface_displacement_y_m": 0.0
+    },
+    "final": {
+      "time": 0.3,
+      "external_work_trapezoidal": 0.7455576318663611,
+      "boundary_impulse_x": -2.9735328782587445e-15,
+      "boundary_impulse_y": 13.901263205496889,
+      "boundary_impulse_z": -2.7804771289205443e-15,
+      "nominal_law_indentation_m": -0.0048081808195072915,
+      "prescribed_law_force_N": 0.0,
+      "prescribed_contact_radius_m": 0.0,
+      "applied_force_y_N": 0.0,
+      "force_assignment_error_N": -0.0,
+      "footprint_resolved": true,
+      "loaded_surface_particles": 0,
+      "contact_attached": false,
+      "central_surface_displacement_y_m": 0.004044057989019529
+    }
+  },
+  "definition": {
+    "purpose": "jkr-footprint",
+    "sources": [
+      "https://doi.org/10.1098/rspa.1971.0141",
+      "https://github.com/ContactEngineering/Adhesion/blob/d4590102abef8e7f392ab7456bf53a6b036d5090/Adhesion/ReferenceSolutions/JKR.py"
+    ],
+    "particles_per_cell_per_axis": 3,
+    "lower": [
+      0.2,
+      0.15,
+      0.2
+    ],
+    "upper": [
+      0.8,
+      0.5,
+      0.8
+    ],
+    "young_modulus_Pa": 20000.0,
+    "poisson_ratio": 0.25,
+    "reduced_modulus_Pa": 21333.333333333332,
+    "base": "all velocity components fixed at y <= 0.15 m",
+    "other_faces": "traction-free",
+    "Hertz_comparison": "elastic half-space reference; finite block, finite strain and inertia remain",
+    "contact": "prescribed reduced-law pressure footprint on the reference top surface",
+    "geometric_adhesive_contact": false,
+    "work_of_adhesion_J_per_m2": 3.0,
+    "indenter_radius_m": 0.4,
+    "nominal_indentation_start_m": -0.0048081808195072915,
+    "nominal_indentation_peak_m": 0.025,
+    "pressure_edge_regularization_m": 0.006896551724137932,
+    "compliance": "nominal law displacement is prescribed; MPM displacement is an independent response",
+    "reaction_sampling": "prescribed external load; base reaction follows total momentum balance"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 126.00000000000003,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.32499999999999996,
+      "com_z": 0.5000000000000001,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.12600000000000006,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.3,
+      "body": 0,
+      "mass": 126.00000000000003,
+      "momentum_x": -2.9735328782587445e-15,
+      "momentum_y": 6.864419535528897,
+      "momentum_z": -2.7804771289205443e-15,
+      "kinetic_energy": 0.4394601573885043,
+      "com_x": 0.5000000000000001,
+      "com_y": 0.32442858958481197,
+      "com_z": 0.5,
+      "min_J": 0.9842744932730022,
+      "max_J": 1.03937131699135,
+      "current_volume": 0.12558821212876678,
+      "max_speed": 0.2462925845411721,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.18972987519577356
+    }
+  ]
+}

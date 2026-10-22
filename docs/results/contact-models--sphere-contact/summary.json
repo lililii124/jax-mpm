@@ -1,0 +1,224 @@
+{
+  "case": "sphere-contact",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.000625,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            0.15,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "center": [
+            0.5,
+            0.8,
+            0.5
+          ],
+          "radius": 0.3,
+          "displacement": [
+            0.0,
+            -0.04,
+            0.0
+          ],
+          "duration": 0.3
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 8000.0,
+      "lam": 8000.0,
+      "bulk": 13333.333333333334
+    }
+  ],
+  "steps": 480,
+  "simulation_time": 0.3,
+  "particles": [
+    386019
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 8.281754499999806,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 250.30012640003406,
+  "min_J": 0.6578048795118712,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -2.999275903591697e-15,
+    13.619353557878494,
+    -1.423486301705898e-15
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "sample_time": 0.000625,
+      "nominal_indentation_m": 1.7134485197911609e-06,
+      "indenter_reaction_x_N": 1.3552527156068805e-17,
+      "indenter_reaction_y_N": 0.1610888648252795,
+      "indenter_reaction_z_N": 1.6099873631148112e-17,
+      "Hertz_reference_load_N": 3.4943360944444323e-05,
+      "Hertz_reference_contact_radius_m": 0.0007169620324238574,
+      "Hertz_patch_grid_cells": 0.034414177556345155,
+      "load_minus_Hertz_N": 0.16105392146433506,
+      "relative_to_Hertz": null,
+      "central_surface_displacement_y_m": 0.0,
+      "maximum_surface_displacement_y_m": 0.0
+    },
+    "final": {
+      "time": 0.3,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -2.999275903591697e-15,
+      "boundary_impulse_y": 13.619353557878494,
+      "boundary_impulse_z": -1.423486301705898e-15,
+      "sample_time": 0.300625,
+      "nominal_indentation_m": 0.0,
+      "indenter_reaction_x_N": 1.3877787807814457e-15,
+      "indenter_reaction_y_N": 14.554855658821658,
+      "indenter_reaction_z_N": 1.8458541986565713e-15,
+      "Hertz_reference_load_N": 0.0,
+      "Hertz_reference_contact_radius_m": 0.0,
+      "Hertz_patch_grid_cells": 0.0,
+      "load_minus_Hertz_N": 14.554855658821658,
+      "relative_to_Hertz": null,
+      "central_surface_displacement_y_m": 0.005165403493946127,
+      "maximum_surface_displacement_y_m": 0.009272836056861633
+    }
+  },
+  "definition": {
+    "purpose": "sphere-contact",
+    "sources": [
+      "https://doi.org/10.1098/rspa.1971.0141",
+      "https://github.com/ContactEngineering/Adhesion/blob/d4590102abef8e7f392ab7456bf53a6b036d5090/Adhesion/ReferenceSolutions/JKR.py"
+    ],
+    "particles_per_cell_per_axis": 3,
+    "lower": [
+      0.2,
+      0.15,
+      0.2
+    ],
+    "upper": [
+      0.8,
+      0.5,
+      0.8
+    ],
+    "young_modulus_Pa": 20000.0,
+    "poisson_ratio": 0.25,
+    "reduced_modulus_Pa": 21333.333333333332,
+    "base": "all velocity components fixed at y <= 0.15 m",
+    "other_faces": "traction-free",
+    "Hertz_comparison": "elastic half-space reference; finite block, finite strain and inertia remain",
+    "contact": "frictionless unilateral grid-node rigid sphere",
+    "rigid_sphere": {
+      "center": [
+        0.5,
+        0.8,
+        0.5
+      ],
+      "radius": 0.3,
+      "displacement": [
+        0.0,
+        -0.04,
+        0.0
+      ],
+      "duration": 0.3
+    },
+    "rigid_sphere_motion": "center + displacement * (1-cos(2*pi*clip(t/duration,0,1)))/2",
+    "reaction_sampling": "next-step P2G boundary impulse divided by dt, at each output frame",
+    "peak_Hertz_contact_radius_in_grid_cells": 5.258136552049595
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 126.00000000000003,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.32499999999999996,
+      "com_z": 0.5000000000000001,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.12600000000000006,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.3,
+      "body": 0,
+      "mass": 126.00000000000003,
+      "momentum_x": -2.999275903591697e-15,
+      "momentum_y": 13.619353557878494,
+      "momentum_z": -1.423486301705898e-15,
+      "kinetic_energy": 0.9379275854122461,
+      "com_x": 0.5000000000000001,
+      "com_y": 0.3267423461299826,
+      "com_z": 0.5000000000000001,
+      "min_J": 0.8969141998883994,
+      "max_J": 1.0362459472409737,
+      "current_volume": 0.1262405395421573,
+      "max_speed": 0.2251991265439827,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.556508491862174
+    }
+  ]
+}

@@ -101,11 +101,14 @@ def gate(grid, ppc):
         (cfg, scfg),
         0.35,
         {
-            "purpose": "top-clamped elastic water gate",
+            "purpose": "top-clamped elastic water gate with lateral bypass",
             "sources": REFERENCES["elastic-gate"],
-            "adaptation": "3D extruded geometry; Neo-Hookean solid; compressible inviscid MPM contact",
+            "adaptation": "finite-width gate with side bypass; Neo-Hookean solid; compressible inviscid MPM contact",
             "particles_per_cell_per_axis": ppc,
-            "initial_hydrostatic_equilibrium": True,
+            "initial_hydrostatic_pressure": True,
+            "initial_water_z": [0.25, 0.75],
+            "tank_wall_z": [0.125, 0.875],
+            "side_bypass_width_m": 0.125,
             "gate_lower": (0.5, 0.125, 0.25),
             "gate_upper": (0.6, 0.7, 0.75),
         },
@@ -116,13 +119,17 @@ def gate(grid, ppc):
 def floating(grid, ppc):
     solid, liquid = neo_hookean(2e5, 0.3), fluid(2e5)
     c = np.sqrt((solid.bulk + 4 * solid.mu / 3) / 500.0)
+    walls = tuple(
+        replace(wall, position=0.25 if wall.side == "lower" else 0.75) if wall.axis == 2 else wall
+        for wall in tank_walls()
+    )
     cfg = Config(
         dim=3,
         n_grid=grid,
         dt=0.15 / grid / c,
         material="fluid",
         boundary_cells=0,
-        boundaries=tank_walls(),
+        boundaries=walls,
     )
     scfg = replace(cfg, material="neo-hookean")
     water = block(
@@ -151,7 +158,9 @@ def floating(grid, ppc):
             "sources": REFERENCES["floating-block"],
             "adaptation": "deformable block, finite tank, initial heave imbalance; no wavemaker",
             "particles_per_cell_per_axis": ppc,
-            "initial_hydrostatic_equilibrium": True,
+            "initial_hydrostatic_pressure": True,
+            "tank_lower": [0.125, 0.125, 0.25],
+            "tank_upper": [0.875, 0.875, 0.75],
             "density_ratio": 0.5,
             "initial_submerged_fraction": 0.25,
         },
@@ -183,6 +192,7 @@ def ball(scene, grid, ppc):
         scfg = replace(
             cfg,
             boundaries=(
+                PlaneWall(1, 0.125),
                 fixed_box((0.0,) * 3, (0.25, 1.0, 1.0)),
                 fixed_box((0.75, 0.0, 0.0), (1.0,) * 3),
             ),
@@ -219,10 +229,22 @@ def ball(scene, grid, ppc):
             "purpose": scene,
             "sources": REFERENCES[scene],
             "particles_per_cell_per_axis": ppc,
-            "adaptation": "filled elastic sphere and solid beam; no pressurized shell or airbag",
+            "sphere_center": [0.5, 0.6, 0.5],
+            "sphere_radius": 0.1 if scene == "ball-beam" else 0.15,
+            "floor_y": 0.125,
+            "adaptation": "filled elastic sphere above a clamped beam and common rigid floor"
+            if scene == "ball-beam"
+            else "filled elastic sphere above a rigid floor; no pressurized shell or airbag",
         },
         observer=observe,
     )
+
+
+def section_angle(reference, current):
+    reference = reference - reference.mean(axis=0)
+    current = current - current.mean(axis=0)
+    cross = np.sum(reference[:, 0] * current[:, 1] - reference[:, 1] * current[:, 0])
+    return float(np.arctan2(cross, np.sum(reference * current)))
 
 
 def setup(scene, grid, ppc):
@@ -238,6 +260,22 @@ def setup(scene, grid, ppc):
     factor = 20.0 if scene == "large-bending" else 15.0
     case.states = (case.states[0]._replace(v=case.states[0].v * factor),)
     case.duration = 0.35
+    if scene == "large-twist":
+        reference = np.asarray(case.states[0].x)
+        tip = reference[:, 0] > 0.72
+        section = reference[tip, 1:3]
+        original_observer = case.observer
+
+        def observe(states, time):
+            result = original_observer(states, time)
+            result["tip_rotation_x_rad"] = section_angle(section, np.asarray(states[0].x)[tip, 1:3])
+            return result
+
+        case.observer = observe
+        case.description.update(
+            rotation_measure="principal least-squares angle of the tip section in the yz plane",
+            rotation_region_x_min=0.72,
+        )
     case.description.update(
         purpose=scene,
         sources=REFERENCES[scene],
