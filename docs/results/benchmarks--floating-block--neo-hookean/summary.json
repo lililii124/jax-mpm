@@ -1,0 +1,300 @@
+{
+  "case": "floating-block / neo-hookean",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.00013440860215053763,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        -9.81,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "fluid",
+      "dim": 3,
+      "boundaries": [
+        {
+          "axis": 0,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 0,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.25,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.75,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        }
+      ]
+    },
+    {
+      "n_grid": 48,
+      "dt": 0.00013440860215053763,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        -9.81,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "axis": 0,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 0,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.25,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.75,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 0.0,
+      "lam": 0.0,
+      "bulk": 200000.0
+    },
+    {
+      "mu": 76923.07692307692,
+      "lam": 115384.61538461538,
+      "bulk": 166666.66666666663
+    }
+  ],
+  "steps": 3720,
+  "simulation_time": 0.5,
+  "particles": [
+    359984,
+    24389
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 56.58057979999285,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 1755.7036885000853,
+  "min_J": 0.9451725227549317,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    -1.53874810514444e-07,
+    19.66532620972713,
+    -3.917016880064603e-06
+  ],
+  "boundary_impulse": [
+    -3.2028428217015697e-06,
+    612.7271751656168,
+    -0.0003891731647334426
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "floating_center_y": 0.5000000000000001,
+      "floating_mean_velocity_y": 0.0,
+      "water_maximum_height": 0.4465425531914894
+    },
+    "final": {
+      "time": 0.5,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -3.2028428217015697e-06,
+      "boundary_impulse_y": 612.7271751656168,
+      "boundary_impulse_z": -0.0003891731647334426,
+      "floating_center_y": 0.45820602010988143,
+      "floating_mean_velocity_y": 0.011331552431784705,
+      "water_maximum_height": 0.4562939760856674
+    }
+  },
+  "definition": {
+    "purpose": "floating block heave release",
+    "sources": [
+      "https://github.com/DualSPHysics/DualSPHysics/wiki/7.-Testcases"
+    ],
+    "adaptation": "deformable block, finite tank, initial heave imbalance; no wavemaker",
+    "particles_per_cell_per_axis": 3,
+    "initial_hydrostatic_pressure": true,
+    "tank_lower": [
+      0.125,
+      0.125,
+      0.25
+    ],
+    "tank_upper": [
+      0.875,
+      0.875,
+      0.75
+    ],
+    "density_ratio": 0.5,
+    "initial_submerged_fraction": 0.25
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 121.02994253253291,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.2849612398983388,
+      "com_z": 0.5,
+      "min_J": 0.9841019639914935,
+      "max_J": 0.9998303978515982,
+      "current_volume": 0.12004490084055686,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 338.33554481606257,
+      "constitutive_work": 0.0,
+      "strain_energy": 1.0572019014032064
+    },
+    {
+      "time": 0.0,
+      "body": 1,
+      "mass": 3.9999999999999973,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.5,
+      "com_z": 0.5,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.007999999999999993,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 19.61999999999999,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.5,
+      "body": 0,
+      "mass": 121.02994253253291,
+      "momentum_x": -3.048968011098696e-06,
+      "momentum_y": -0.5900191661843508,
+      "momentum_z": -0.00038525614785327574,
+      "kinetic_energy": 0.02031493011584766,
+      "com_x": 0.4999999986386092,
+      "com_y": 0.28587936241537854,
+      "com_z": 0.5000002781498444,
+      "min_J": 0.9513935606982609,
+      "max_J": 1.027240738729706,
+      "current_volume": 0.12001095396241118,
+      "max_speed": 0.0555155561486611,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 339.42563511087377,
+      "constitutive_work": 0.0,
+      "strain_energy": 1.2082441320798414
+    },
+    {
+      "time": 0.5,
+      "body": 1,
+      "mass": 3.9999999999999973,
+      "momentum_x": -1.5387481060287402e-07,
+      "momentum_y": 0.04532620972713876,
+      "momentum_z": -3.917016880166865e-06,
+      "kinetic_energy": 0.0002593155667030862,
+      "com_x": 0.500000007205199,
+      "com_y": 0.4582060201098815,
+      "com_z": 0.5000011022440111,
+      "min_J": 0.9638052745460394,
+      "max_J": 1.009689709663348,
+      "current_volume": 0.007983047562679191,
+      "max_speed": 0.013784973578536858,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 17.980004229111735,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.015155560553251214
+    }
+  ]
+}

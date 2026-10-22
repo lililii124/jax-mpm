@@ -8,6 +8,28 @@ import shutil
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def copy_if_changed(source, target):
+    if target.exists():
+        source_stat, target_stat = source.stat(), target.stat()
+        if (source_stat.st_size, source_stat.st_mtime_ns) == (
+            target_stat.st_size, target_stat.st_mtime_ns
+        ):
+            return
+    shutil.copy2(source, target)
+
+
+def compression_source(model):
+    dense = f"dense-materials/compression/{model}"
+    folder = ROOT / "outputs" / dense
+    if all((folder / name).is_file() for name in ("summary.json", "render.json", "final.png")):
+        render = json.loads((folder / "render.json").read_text(encoding="utf-8"))
+        if render.get("renderer") == "ParaView" and render.get("style_revision", 0) >= 3:
+            return dense
+    return f"compression/compression/{model}"
+
+
 GROUPS = {
     "Engineering structures and tanks": [
         ("perforated-panel", "engineering/perforated-panel/neo-hookean"),
@@ -40,10 +62,10 @@ GROUPS = {
     "Constitutive examples": [
         ("orthotropic", "elastic_cantilever/cantilever/orthotropic"),
         ("transverse-isotropic", "elastic_cantilever/cantilever/transverse-isotropic"),
-        ("johnson-cook", "compression/compression/johnson-cook"),
-        ("jh2", "compression/compression/jh2"),
-        ("hjc", "compression/compression/hjc"),
-        ("rht", "compression/compression/rht"),
+        ("johnson-cook", compression_source("johnson-cook")),
+        ("jh2", compression_source("jh2")),
+        ("hjc", compression_source("hjc")),
+        ("rht", compression_source("rht")),
     ],
 }
 ANIMATIONS = {
@@ -63,6 +85,10 @@ ANIMATIONS = {
     "large-bending",
     "large-twist",
     "dam-break",
+    "johnson-cook",
+    "jh2",
+    "hjc",
+    "rht",
 }
 
 
@@ -122,7 +148,7 @@ def main():
                 continue
             summary = json.loads((folder / "summary.json").read_text())
             selected, frame, time = preview(folder, name, render)
-            shutil.copy2(selected, target / f"{name}.png")
+            copy_if_changed(selected, target / f"{name}.png")
             animation = (
                 name in ANIMATIONS
                 and (folder / "video.json").exists()
@@ -135,7 +161,7 @@ def main():
                     == hashlib.sha256((folder / "render.json").read_bytes()).hexdigest()
                 )
             if animation:
-                shutil.copy2(folder / "simulation.mp4", target / f"{name}.mp4")
+                copy_if_changed(folder / "simulation.mp4", target / f"{name}.mp4")
             count = sum(summary["particles"])
             identifier = "--".join(Path(relative).parts)
             video_link = f" · [Video](images/{name}.mp4)" if animation else ""

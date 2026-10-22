@@ -73,7 +73,7 @@ def build(root, output):
                 if name
                 in ("dam-break", "sloshing", "fsi", "elastic-gate", "floating-block", "water-entry")
                 else "material"
-                if source in ("elastic_cantilever", "compression")
+                if source in ("elastic_cantilever", "compression", "dense-materials")
                 else "dynamics"
             )
             cards.append(
@@ -125,9 +125,9 @@ document.querySelectorAll('article').forEach(c=>c.hidden=!((category==='all'||c.
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{category=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(c=>c.classList.toggle('active',c===b));filter()});
 search.oninput=filter;
 </script></body></html>"""
-    stats = f"<b>{completed}</b> 个完整算例<br>单例最大 <b>{largest:,}</b> 物质点"
+    stats = f"<b>{completed}</b> 个完整运行<br>单例最大 <b>{largest:,}</b> 物质点"
     partial = (
-        ("<details><summary>尚未完成的运行（未计入完整算例）</summary><ul>" + "".join(pending) + "</ul></details>")
+        ("<details><summary>尚未完成的运行（未计入完整记录）</summary><ul>" + "".join(pending) + "</ul></details>")
         if pending
         else ""
     )

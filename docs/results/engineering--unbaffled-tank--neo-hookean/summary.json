@@ -1,0 +1,203 @@
+{
+  "case": "unbaffled-tank / neo-hookean",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.00021874999999999998,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        -9.81,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "fluid",
+      "dim": 3,
+      "boundaries": [
+        {
+          "axis": 0,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 0,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.25,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.75,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 0.0,
+      "lam": 0.0,
+      "bulk": 200000.0
+    }
+  ],
+  "steps": 3200,
+  "simulation_time": 0.7,
+  "particles": [
+    342144
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 21.450442300003488,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 1334.8546034000465,
+  "min_J": 0.881160267558412,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    55.4536896522963,
+    811.6523011855455,
+    -0.0008565431226895855
+  ],
+  "external_impulse": [
+    5.697702937565266,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "tank_acceleration_x": 0.0,
+      "free_surface_y": 0.42159090909090907,
+      "water_center_x": 0.5000000000000001
+    },
+    "final": {
+      "time": 0.7,
+      "external_work_trapezoidal": 89.02940495330691,
+      "boundary_impulse_x": 55.4536896522963,
+      "boundary_impulse_y": 811.6523011855455,
+      "boundary_impulse_z": -0.0008565431226895855,
+      "tank_acceleration_x": 1.854101966249683,
+      "free_surface_y": 0.6333712716652928,
+      "water_center_x": 0.5573234138758719
+    }
+  },
+  "definition": {
+    "purpose": "liquid tank under horizontal harmonic base acceleration",
+    "particles_per_cell_per_axis": 3,
+    "frame": "tank-fixed translating frame",
+    "applied_inertial_force": "-mass * tank_acceleration on each body",
+    "acceleration_peak_m_s2": 6.0,
+    "frequency_Hz": 1.5,
+    "ramp_s": 0.1,
+    "water_height": 0.425,
+    "tank_lower": [
+      0.125,
+      0.125,
+      0.25
+    ],
+    "tank_upper": [
+      0.875,
+      0.875,
+      0.75
+    ],
+    "initial_hydrostatic_pressure": true,
+    "baffle_centers": [],
+    "baffle_thickness": 0.05,
+    "baffle_window_y": [
+      0.24,
+      0.34
+    ],
+    "baffle_window_z": [
+      0.4,
+      0.6
+    ]
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 113.34012575197335,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5000000000000001,
+      "com_y": 0.2746268029502067,
+      "com_z": 0.5,
+      "min_J": 0.9853448288889438,
+      "max_J": 0.9998327701079908,
+      "current_volume": 0.11249999999999999,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 305.348378899953,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.8302100032118167
+    }
+  ],
+  "final": [
+    {
+      "time": 0.7,
+      "body": 0,
+      "mass": 113.34012575197335,
+      "momentum_x": 61.151392589861565,
+      "momentum_y": 33.345657646744485,
+      "momentum_z": -0.0008565431226895855,
+      "kinetic_energy": 67.81151522732637,
+      "com_x": 0.557323413875872,
+      "com_y": 0.2878764279571483,
+      "com_z": 0.5000009770066052,
+      "min_J": 0.9069681161661414,
+      "max_J": 1.073983068441625,
+      "current_volume": 0.1119804580630508,
+      "max_speed": 2.046882996362557,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 320.0801948532393,
+      "constitutive_work": 0.0,
+      "strain_energy": 2.993647755093691
+    }
+  ]
+}

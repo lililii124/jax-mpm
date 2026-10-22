@@ -1,0 +1,208 @@
+{
+  "case": "compression / hjc",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 64,
+      "dt": 3.269488888772158e-07,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "hjc",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            0.35,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.65,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            -32.77052187294454,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0
+    }
+  ],
+  "steps": 140,
+  "simulation_time": 4.5772844442810214e-05,
+  "particles": [
+    195112
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 3.078826699987985,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 46.039642300020205,
+  "min_J": 0.968495422049205,
+  "max_damage": 0.5932362091072395,
+  "max_plastic_strain": 0.022248009072790204,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -1.6392356222416637e-13,
+    -629.4568957773511,
+    8.459010401862255e-14
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "tracked_displacement_x": 0.0,
+      "tracked_displacement_y": 0.0,
+      "tracked_displacement_z": 0.0
+    },
+    "final": {
+      "time": 4.5772844442810214e-05,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -1.6392356222416637e-13,
+      "boundary_impulse_y": -629.4568957773511,
+      "boundary_impulse_z": 8.459010401862255e-14,
+      "tracked_displacement_x": 3.527913584339236e-20,
+      "tracked_displacement_y": -0.0004121849338806833,
+      "tracked_displacement_z": 4.148143553198876e-19
+    }
+  },
+  "definition": {
+    "geometry": {
+      "lower": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "upper": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "model": "hjc",
+    "particles_per_cell_per_axis": 3,
+    "initial_acoustic_speed": 6554.104374588908,
+    "boundary_method": "grid velocity constraints",
+    "units": "m, s, kg, Pa",
+    "purpose": "prescribed-platen material compression"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 65.88000000000002,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.5,
+      "com_z": 0.5,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.027000000000000003,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 4.5772844442810214e-05,
+      "body": 0,
+      "mass": 65.88000000000002,
+      "momentum_x": -1.6392356222416637e-13,
+      "momentum_y": -629.4568957773511,
+      "momentum_z": 8.459010401862255e-14,
+      "kinetic_energy": 6614.586490541671,
+      "com_x": 0.5,
+      "com_y": 0.49979183669653277,
+      "com_z": 0.5,
+      "min_J": 0.968495422049205,
+      "max_J": 1.000054533269125,
+      "current_volume": 0.02689509867293042,
+      "max_speed": 31.291509718083883,
+      "max_plastic_strain": 0.022248009072790204,
+      "max_damage": 0.5932362091072395,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 12606.688656826766,
+      "strain_energy": null
+    }
+  ]
+}

@@ -10,12 +10,19 @@ SOURCES = (
     "suite",
     "elastic_cantilever",
     "compression",
+    "dense-materials",
     "benchmarks",
     "engineering",
     "contact-models",
     "production",
     "refinement",
 )
+
+
+def write_if_changed(path, content):
+    data = content.encode("utf-8") if isinstance(content, str) else content
+    if not path.exists() or path.read_bytes() != data:
+        path.write_bytes(data)
 
 
 def collect(root, destination):
@@ -48,7 +55,16 @@ def collect(root, destination):
                 original = folder / name
                 if original.exists():
                     content = original.read_text(encoding="utf-8").encode("utf-8")
-                    (target / name).write_bytes(content)
+                    if name == "vtk_check.json":
+                        verification = json.loads(content)
+                        if "command" in verification:
+                            verification["command"] = [
+                                "pvpython",
+                                "tools/check_vtk.py",
+                                folder.relative_to(root).as_posix(),
+                            ]
+                        content = (json.dumps(verification, indent=2) + "\n").encode("utf-8")
+                    write_if_changed(target / name, content)
                     hashes[name] = hashlib.sha256(content).hexdigest()
             render = (
                 json.loads((folder / "render.json").read_text())
@@ -70,12 +86,14 @@ def collect(root, destination):
                     "sha256": hashes,
                 }
             )
-    contact_review = root / "outputs/contact-models/contact-review.json"
-    if contact_review.exists():
-        (destination / "contact-review.json").write_text(
-            contact_review.read_text(encoding="utf-8"), encoding="utf-8"
-        )
-    (destination / "index.json").write_text(json.dumps(records, indent=2) + "\n", encoding="utf-8")
+    for source, name in (
+        ("contact-models", "contact-review.json"),
+        ("benchmarks", "dynamics-review.json"),
+    ):
+        review = root / "outputs" / source / name
+        if review.exists():
+            write_if_changed(destination / name, review.read_text(encoding="utf-8"))
+    write_if_changed(destination / "index.json", json.dumps(records, indent=2) + "\n")
     lines = [
         "# Completed runs",
         "",
@@ -102,7 +120,7 @@ def collect(root, destination):
         "describes the separate constitutive and convergence checks.",
         "",
     ]
-    (destination.parent / "RESULTS.md").write_text("\n".join(lines), encoding="utf-8")
+    write_if_changed(destination.parent / "RESULTS.md", "\n".join(lines))
     print(f"Collected {len(records)} completed runs in {destination}")
 
 

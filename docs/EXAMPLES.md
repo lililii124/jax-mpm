@@ -133,6 +133,17 @@ The second configuration contains 1,327,400 particles and advances 2,400 steps
 over 0.35 s. Check the [run catalogue](RESULTS.md) for execution status and measured
 results. Configuration size alone does not certify a completed run.
 
+For dense material compression:
+
+```bash
+python -m examples.suite --case compression --model johnson-cook --grid 64 --ppc 3 --frames 20 --no-render --resume --output outputs/dense-materials
+python -m examples.suite --case compression --model rht --grid 48 --ppc 3 --frames 20 --no-render --resume --output outputs/dense-materials
+```
+
+The first command also accepts `--model jh2` or `--model hjc`. The lower RHT
+grid resolution accounts for the cost of its adaptive constitutive integration.
+These runs retain the same specimen dimensions and prescribed platen motion.
+
 `frames_data/` stores every output frame. Two alternating checkpoint generations
 store the full state, including constitutive history and accumulated impulses.
 An atomic `checkpoint.json` selects the last complete generation. `--resume`
@@ -176,15 +187,21 @@ Their demonstration parameters are not calibrated component designs or certified
 load ratings. Key settings, load definitions and material values are written
 into each run's `summary.json`; the example source defines the full geometry.
 
-### Executed structural examples
+### Executed engineering examples
 
 | Run | Particles | Steps | Recorded response |
 |---|---:|---:|---|
 | Perforated panel | 97,536 | 1,250 | Maximum displacement 0.10930 m at 0.112 s; central-region mean displacement −0.08069 m |
 | Cellular cushion | 192,180 | 3,100 | Maximum mean upper-skin compression 0.05044 m at 0.2312 s; platen rebounds |
+| Baffled tank | 363,352 | 3,200 | Maximum baffle displacement 0.22821 m; highest water particle y=0.76858 m |
+| Unbaffled tank | 342,144 | 3,200 | Highest water particle y=0.70475 m; water centre reaches x=0.40874 m |
 
 The cushion's 24.4608 kg platen receives an accumulated vertical contact impulse
 of 99.25169 N·s. Its momentum change, gravity impulse and independently accumulated
 contact impulse balance to 1.87 × 10⁻¹² N·s. These are recorded-run diagnostics;
 spatial and temporal convergence of the engineering configurations has not been established.
 The saved [results](RESULTS.md) include the complete response histories.
+The tank elevation observable is the maximum water-particle height. Liquid masses
+are 93.31054 kg with baffles and 113.34013 kg without them. The
+[response review](results/dynamics-review.json) includes the prescribed-acceleration
+and applied-impulse checks alongside these histories.

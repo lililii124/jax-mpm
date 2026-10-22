@@ -2,6 +2,8 @@
   "renderer": "ParaView",
   "version": "(6, 2)",
   "style_revision": 3,
+  "frames_rendered": 21,
+  "animation": "simulation.gif",
   "field": "body",
   "resolution": [
     1200,
@@ -21,5 +23,6 @@
     0.49999999999999994
   ],
   "camera_parallel_scale": 0.5869573316166866,
-  "particles": 85776
+  "particles": 85776,
+  "auxiliary_geometry": []
 }

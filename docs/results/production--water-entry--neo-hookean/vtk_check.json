@@ -2,9 +2,9 @@
   "passed": true,
   "exit_code": 0,
   "command": [
-    "H:\\test\\mpm\\.local\\ParaView\\ParaView 6.2.0\\bin\\pvpython.exe",
-    "H:\\test\\mpm\\tools\\check_vtk.py",
-    "H:\\test\\mpm\\outputs\\production\\water-entry\\neo-hookean"
+    "pvpython",
+    "tools/check_vtk.py",
+    "outputs/production/water-entry/neo-hookean"
   ],
   "frames_checked": [
     0,

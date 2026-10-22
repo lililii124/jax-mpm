@@ -1,0 +1,948 @@
+{
+  "scope": "Read-only review of completed saved CSV/JSON diagnostics; no trajectory loading or additional solve.",
+  "limitations": [
+    "Saved-frame minima and maxima need not capture extrema between frames.",
+    "Positive saved J and volume do not establish spatial or temporal convergence.",
+    "Boundary impulse is derived from total momentum and is not an independent conservation test.",
+    "Reported energies omit APIC affine kinetic energy; no energy-conservation or calibrated damping claim is made."
+  ],
+  "cases": {
+    "rubber-ball": {
+      "case": "rubber-ball / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/benchmarks/rubber-ball/neo-hookean/summary.json",
+          "sha256": "7c57bcd25cfff7d169eca427ae4d201950973a1c43343e12c3ac13ddb370db2c",
+          "lf_text_sha256": "809dc7cb0edbad0dd5e1934792c025c1ece4709c94db18ba128adc63e3c3468d"
+        },
+        {
+          "path": "outputs/benchmarks/rubber-ball/neo-hookean/diagnostics.csv",
+          "sha256": "1eea61b4ce55a21c7d909015c27e4fad69c8ab3223d28d29828aa57045056e6c",
+          "lf_text_sha256": "49d6a8606788b95dbe57359b3a5f8222387b2102fb14426a560a90744b99c74b"
+        },
+        {
+          "path": "outputs/benchmarks/rubber-ball/neo-hookean/observables.csv",
+          "sha256": "e422711a628cee9f724305f85f4513f9f83ae47d6257ca9352e4b75500146ef7",
+          "lf_text_sha256": "cf359d02b75513f27ef7269aee19d26e25c7fa351191ea97027dfc0a098f7348"
+        }
+      ],
+      "particles": [
+        44720
+      ],
+      "steps": 1240,
+      "duration_s": 0.45,
+      "saved_frames": 41,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 11.309733552923253,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.2734253771405514,
+          "max_J": 1.1533767063413722,
+          "current_volume_m3": {
+            "initial": 0.014137166941154066,
+            "final": 0.014685927901719562,
+            "min": 0.012328900072770276,
+            "min_time_s": 0.29250000000000004,
+            "max": 0.014738143458253652,
+            "max_time_s": 0.405
+          },
+          "max_speed_m_s": 4.379868818601887,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": 1.1145647409934003,
+            "min": -2.480915719123246,
+            "min_time_s": 0.25875000000000004,
+            "max": 2.0942267175485907,
+            "max_time_s": 0.34875
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "ball_center_y": {
+          "initial": 0.5999999999999999,
+          "final": 0.45142321450533707,
+          "min": 0.21232913848926288,
+          "min_time_s": 0.29250000000000004,
+          "max": 0.5999999999999999,
+          "max_time_s": 0.0
+        },
+        "ball_lowest_y": {
+          "initial": 0.4534090909090909,
+          "final": 0.3138134856123749,
+          "min": 0.1327552494322508,
+          "min_time_s": 0.27,
+          "max": 0.4534090909090909,
+          "max_time_s": 0.0
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "nonzero_net_contact_impulse": false,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            -2.693903585447577e-16,
+            62.53224901749798,
+            1.7361168451750404e-16
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          -2.693903585447577e-16,
+          62.53224901749798,
+          1.7361168451750404e-16
+        ],
+        "reported_boundary_impulse_N_s": [
+          -2.693903585447577e-16,
+          62.53224901749798,
+          1.7361168451750404e-16
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "ball_response": {
+        "minimum_center_height_m": 0.21232913848926288,
+        "minimum_center_time_s": 0.29250000000000004,
+        "minimum_particle_height_m": 0.1327552494322508,
+        "final_particle_clearance_above_floor_m": 0.18881348561237488,
+        "rebound_observed": true,
+        "first_upward_saved_frame_after_lowest_center_s": 0.30375,
+        "height_recovered_after_lowest_center_m": 0.2390940760160742,
+        "final_mean_vertical_velocity_m_s": 1.1145647409934003,
+        "first_saved_nonzero_support_time_s": 0.24750000000000003,
+        "last_saved_support_increment_time_s": 0.36000000000000004,
+        "min_support_impulse_increment_N_s": -4.885336579718569e-11,
+        "support_timing_note": "Output-interval observations; grid contact starts within the reported interval and has grid-scale location error.",
+        "max_precontact_semiimplicit_freefall_position_error_m": 1.4988010832439613e-15
+      }
+    },
+    "large-bending": {
+      "case": "large-bending / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/benchmarks/large-bending/neo-hookean/summary.json",
+          "sha256": "94fd516fd3752b1276cf420a6a6571de797fa45c5a3ad6316cfc44d249c3ab19",
+          "lf_text_sha256": "4a19e5330e2e1a1f2f4823d060cd2ae873d1b538884bbfe4f7b2cd810b1e875e"
+        },
+        {
+          "path": "outputs/benchmarks/large-bending/neo-hookean/diagnostics.csv",
+          "sha256": "f40fed76686fda2536333582c813c4183796dd73755d94afe79f049ffdbe7c1b",
+          "lf_text_sha256": "0ef5f5819696d7b9aeed05587c5329909ecb3c7bac2720c44d0711267c29d79b"
+        },
+        {
+          "path": "outputs/benchmarks/large-bending/neo-hookean/observables.csv",
+          "sha256": "31065617427e9686dd0d4a757e7e3c5ae86e42b0835bd5e0d6e685897658add3",
+          "lf_text_sha256": "841d352614c7fe84a38578ecbf2694796c0b4922724104a0c7bf53fe8cb48a53"
+        }
+      ],
+      "particles": [
+        119944
+      ],
+      "steps": 560,
+      "duration_s": 0.35000000000000003,
+      "saved_frames": 41,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 39.0,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.8662710540639346,
+          "max_J": 1.1582420096785306,
+          "current_volume_m3": {
+            "initial": 0.03900000000000001,
+            "final": 0.03905837388205338,
+            "min": 0.03900000000000001,
+            "min_time_s": 0.0,
+            "max": 0.03912728349956302,
+            "max_time_s": 0.18375
+          },
+          "max_speed_m_s": 0.5931050296137016,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.1846092415598073,
+            "final": 0.14043115935779596,
+            "min": 0.14043115935779596,
+            "min_time_s": 0.35000000000000003,
+            "max": 0.1846092415598073,
+            "max_time_s": 0.0
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "tracked_displacement_x": {
+          "initial": 0.0,
+          "final": -0.016063192493193327,
+          "min": -0.016063192493193327,
+          "min_time_s": 0.35000000000000003,
+          "max": 0.0,
+          "max_time_s": 0.0
+        },
+        "tracked_displacement_y": {
+          "initial": 0.0,
+          "final": 0.13858843429759438,
+          "min": 0.0,
+          "min_time_s": 0.0,
+          "max": 0.13858843429759438,
+          "max_time_s": 0.35000000000000003
+        },
+        "tracked_displacement_z": {
+          "initial": 0.0,
+          "final": 8.309271069882637e-18,
+          "min": -7.359432928386455e-19,
+          "min_time_s": 0.02625,
+          "max": 8.309271069882637e-18,
+          "max_time_s": 0.35000000000000003
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "nonzero_net_contact_impulse": false,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            -1.7630948845824532,
+            -1.7229452058784416,
+            -2.372833629208466e-16
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          -1.7630948845824532,
+          -1.7229452058784416,
+          -2.372833629208466e-16
+        ],
+        "reported_boundary_impulse_N_s": [
+          -1.7630948845824532,
+          -1.7229452058784416,
+          -2.372833629208466e-16
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "bending_response": {
+        "maximum_absolute_tip_mean_displacement_y_m": 0.13858843429759438,
+        "peak_time_s": 0.35000000000000003,
+        "peak_is_final_saved_frame": true,
+        "interpretation": "Mean displacement of the tracked free-end particles; not the largest individual particle displacement or a complete oscillation envelope."
+      }
+    },
+    "large-twist": {
+      "case": "large-twist / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/benchmarks/large-twist/neo-hookean/summary.json",
+          "sha256": "ba99fa0e46b326daa5b9951dca6239a95540831b9470f97e986499012918fa7b",
+          "lf_text_sha256": "e3e04c9da0702332989f84d9625f652e4ede7c9eeb774d3e2d3fca77b4c704cb"
+        },
+        {
+          "path": "outputs/benchmarks/large-twist/neo-hookean/diagnostics.csv",
+          "sha256": "61451573ff94103fa67e10be489bfd70650d21b661ee9042b0fd609feb3a1cc8",
+          "lf_text_sha256": "7e1e8fd93817b50190c8d4f771101f7081b3a4a95e835c25545d31e85538e1b0"
+        },
+        {
+          "path": "outputs/benchmarks/large-twist/neo-hookean/observables.csv",
+          "sha256": "fa40127df80a1b4d1c72dd45981bdc897c10dd9fa5b56537d2b9d49040468247",
+          "lf_text_sha256": "4440305c53da0aea2ba793a315cffd10a01d4f148f2aa0e09bafc0e31bcad288"
+        }
+      ],
+      "particles": [
+        119944
+      ],
+      "steps": 560,
+      "duration_s": 0.35000000000000003,
+      "saved_frames": 41,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 39.0,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.8663356548603094,
+          "max_J": 1.190695048574669,
+          "current_volume_m3": {
+            "initial": 0.03900000000000001,
+            "final": 0.03897934519762504,
+            "min": 0.03876912413861441,
+            "min_time_s": 0.2625,
+            "max": 0.03924368373640543,
+            "max_time_s": 0.043750000000000004
+          },
+          "max_speed_m_s": 1.0471170767755773,
+          "mean_vertical_velocity_m_s": {
+            "initial": -1.5846031751711218e-18,
+            "final": 1.177193358817915e-17,
+            "min": -2.7456725016802782e-17,
+            "min_time_s": 0.0525,
+            "max": 2.4098478287668193e-17,
+            "max_time_s": 0.21
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "tracked_displacement_x": {
+          "initial": 0.0,
+          "final": -0.0010054181537013033,
+          "min": -0.00147376676529528,
+          "min_time_s": 0.28875,
+          "max": 0.0,
+          "max_time_s": 0.0
+        },
+        "tracked_displacement_y": {
+          "initial": 0.0,
+          "final": -5.104473676437501e-18,
+          "min": -6.1485705647997175e-18,
+          "min_time_s": 0.11375,
+          "max": 6.960645922414774e-19,
+          "max_time_s": 0.18375
+        },
+        "tracked_displacement_z": {
+          "initial": 0.0,
+          "final": -2.505832532069319e-17,
+          "min": -2.6914497566670462e-17,
+          "min_time_s": 0.32375,
+          "max": 1.6241507152301141e-18,
+          "max_time_s": 0.0175
+        },
+        "tip_rotation_x_rad": {
+          "initial": 0.0,
+          "final": 0.5962058244167631,
+          "min": 0.0,
+          "min_time_s": 0.0,
+          "max": 0.7190983431703327,
+          "max_time_s": 0.245
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "nonzero_net_contact_impulse": false,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            0.004861654457425038,
+            5.209049337706606e-16,
+            -1.42447902432008e-15
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          0.004861654457425038,
+          5.209049337706606e-16,
+          -1.42447902432008e-15
+        ],
+        "reported_boundary_impulse_N_s": [
+          0.004861654457425038,
+          5.209049337706606e-16,
+          -1.42447902432008e-15
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "twist_response": {
+        "maximum_absolute_tip_section_rotation_rad": 0.7190983431703327,
+        "maximum_absolute_tip_section_rotation_deg": 41.20130011851019,
+        "peak_time_s": 0.245,
+        "final_tip_section_rotation_rad": 0.5962058244167631,
+        "largest_saved_angle_increment_rad": 0.04767480535122827,
+        "interpretation": "Principal least-squares yz-plane rotation of the x > 0.72 m particles; section warping and deformation are not separated from rigid rotation."
+      }
+    },
+    "ball-beam": {
+      "case": "ball-beam / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/benchmarks/ball-beam/neo-hookean/summary.json",
+          "sha256": "70ccf899a58ceddf19885fd66655e85449118765eea59688909798c4800d797f",
+          "lf_text_sha256": "23de88b6b11dfde253afb5db21d928d5e2bffe6486001424be15e2834eec3a09"
+        },
+        {
+          "path": "outputs/benchmarks/ball-beam/neo-hookean/diagnostics.csv",
+          "sha256": "30df2c5f5bc5e21d5598ece0a546f1b1f915295dbe45febc99b81c9da8e01e03",
+          "lf_text_sha256": "55ecce4e10b0c15950ba2a8b0403a2ef6c7c5959971ed9f6639261455ef8df7f"
+        },
+        {
+          "path": "outputs/benchmarks/ball-beam/neo-hookean/observables.csv",
+          "sha256": "c64c4d82e870b19a0f5399f7a35a5b28bdab38611f8f1653c5d4df21c61523a4",
+          "lf_text_sha256": "9edfe2345c7bfee2f8f3af8c8ccf7a46c18b6a6841ebe9d4c009275a45812267"
+        }
+      ],
+      "particles": [
+        12893,
+        75690
+      ],
+      "steps": 1240,
+      "duration_s": 0.45,
+      "saved_frames": 41,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 3.351032163829112,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.4499182245138432,
+          "max_J": 1.1606577816534276,
+          "current_volume_m3": {
+            "initial": 0.0041887902047863905,
+            "final": 0.004170107794953039,
+            "min": 0.0038047403148803276,
+            "min_time_s": 0.25875000000000004,
+            "max": 0.004200687368283728,
+            "max_time_s": 0.405
+          },
+          "max_speed_m_s": 2.3064188669044845,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": -0.02730443920990408,
+            "min": -2.147667701050362,
+            "min_time_s": 0.225,
+            "max": 0.854773437498555,
+            "max_time_s": 0.3375
+          },
+          "positive_saved_volume_and_J": true
+        },
+        {
+          "body": 1,
+          "mass_kg": 24.0,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.4627926701652333,
+          "max_J": 1.7915490957878892,
+          "current_volume_m3": {
+            "initial": 0.023999999999999997,
+            "final": 0.025065009696894566,
+            "min": 0.023999999999999997,
+            "min_time_s": 0.0,
+            "max": 0.025342765740858118,
+            "max_time_s": 0.30375
+          },
+          "max_speed_m_s": 1.4598218373457852,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": 0.061763585973925665,
+            "min": -0.5435537887602757,
+            "min_time_s": 0.14625000000000002,
+            "max": 0.33746191224440797,
+            "max_time_s": 0.23625000000000002
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "ball_center_y": {
+          "initial": 0.6,
+          "final": 0.3889570392538159,
+          "min": 0.29769880820069555,
+          "min_time_s": 0.27,
+          "max": 0.6,
+          "max_time_s": 0.0
+        },
+        "ball_lowest_y": {
+          "initial": 0.503448275862069,
+          "final": 0.2943539501854387,
+          "min": 0.20556793423325975,
+          "min_time_s": 0.28125,
+          "max": 0.503448275862069,
+          "max_time_s": 0.0
+        },
+        "beam_lowest_y": {
+          "initial": 0.25333333333333335,
+          "final": 0.13542792790398767,
+          "min": 0.13236442571062626,
+          "min_time_s": 0.28125,
+          "max": 0.25333333333333335,
+          "max_time_s": 0.0
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          -6.4658201595956155e-15,
+          -14.701633433215918,
+          1.1607964232964416e-15
+        ],
+        "nonzero_net_contact_impulse": true,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            -2.0073080083381598e-16,
+            -7.105427357601002e-15,
+            1.0502321761963321e-16
+          ],
+          [
+            1.7953524353412095e-14,
+            122.13195949659014,
+            -3.0931399385872878e-15
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          1.775279355257828e-14,
+          122.13195949659013,
+          -2.9881167209676546e-15
+        ],
+        "reported_boundary_impulse_N_s": [
+          1.775279355257828e-14,
+          122.13195949659014,
+          -2.9881167209676546e-15
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "ball_response": {
+        "minimum_center_height_m": 0.29769880820069555,
+        "minimum_center_time_s": 0.27,
+        "minimum_particle_height_m": 0.20556793423325975,
+        "final_particle_clearance_above_floor_m": 0.1693539501854387,
+        "rebound_observed": true,
+        "first_upward_saved_frame_after_lowest_center_s": 0.28125,
+        "height_recovered_after_lowest_center_m": 0.09125823105312036,
+        "final_mean_vertical_velocity_m_s": -0.02730443920990408
+      }
+    },
+    "floating-block": {
+      "case": "floating-block / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/benchmarks/floating-block/neo-hookean/summary.json",
+          "sha256": "acebb893c7edb9a0ca4ea6da0d21fbd9bffa1f0b99ce5a8a31fc7c242ed1ef9a",
+          "lf_text_sha256": "f5351b393e5a3bbd864f7330a2072bb803eb0155e6bf43db980c5bcfc1462003"
+        },
+        {
+          "path": "outputs/benchmarks/floating-block/neo-hookean/diagnostics.csv",
+          "sha256": "82e1249e2f5f9e165df984e575d6d69996c6b6e8c3ae9c9e92534207c8313e34",
+          "lf_text_sha256": "d0791a9ae9422b9924c13bb55f50fdd98be4cfb3c042b3f1a1ff4774eb310ca2"
+        },
+        {
+          "path": "outputs/benchmarks/floating-block/neo-hookean/observables.csv",
+          "sha256": "17df293ee59677b597ee2b997ea613df381d251b8d2fc0d15a3732868ea28fc3",
+          "lf_text_sha256": "4aea72b6b45ad96692bd23c918362d9fbbda94e67c5514d1620622850689d302"
+        }
+      ],
+      "particles": [
+        359984,
+        24389
+      ],
+      "steps": 3720,
+      "duration_s": 0.5,
+      "saved_frames": 41,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 121.02994253253291,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.9513935606982609,
+          "max_J": 1.027240738729706,
+          "current_volume_m3": {
+            "initial": 0.12004490084055686,
+            "final": 0.12001095396241118,
+            "min": 0.11996176375652971,
+            "min_time_s": 0.15,
+            "max": 0.12004939471069392,
+            "max_time_s": 0.1
+          },
+          "max_speed_m_s": 0.15460379067718033,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": -0.004874985097392353,
+            "min": -0.004874985097392353,
+            "min_time_s": 0.5,
+            "max": 0.00811816933022161,
+            "max_time_s": 0.175
+          },
+          "positive_saved_volume_and_J": true
+        },
+        {
+          "body": 1,
+          "mass_kg": 3.9999999999999973,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.9451725227549317,
+          "max_J": 1.010694071066472,
+          "current_volume_m3": {
+            "initial": 0.007999999999999993,
+            "final": 0.007983047562679191,
+            "min": 0.00798197620859303,
+            "min_time_s": 0.4375,
+            "max": 0.007999999999999993,
+            "max_time_s": 0.0
+          },
+          "max_speed_m_s": 0.1582264768345186,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": 0.011331552431784696,
+            "min": -0.15519194102472067,
+            "min_time_s": 0.2125,
+            "max": 0.011331552431784696,
+            "max_time_s": 0.5
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "floating_center_y": {
+          "initial": 0.5000000000000001,
+          "final": 0.45820602010988143,
+          "min": 0.4577003051165371,
+          "min_time_s": 0.45,
+          "max": 0.5000000000000001,
+          "max_time_s": 0.0
+        },
+        "floating_mean_velocity_y": {
+          "initial": 0.0,
+          "final": 0.011331552431784705,
+          "min": -0.15519194102472056,
+          "min_time_s": 0.2125,
+          "max": 0.011331552431784705,
+          "max_time_s": 0.5
+        },
+        "water_maximum_height": {
+          "initial": 0.4465425531914894,
+          "final": 0.4562939760856674,
+          "min": 0.4465425531914894,
+          "min_time_s": 0.0,
+          "max": 0.46187058228982975,
+          "max_time_s": 0.3
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          -1.53874810514444e-07,
+          19.66532620972713,
+          -3.917016880064603e-06
+        ],
+        "nonzero_net_contact_impulse": true,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            -3.20284282161314e-06,
+            612.7271751656168,
+            -0.00038917316473334034
+          ],
+          [
+            -8.843002793511214e-17,
+            -3.552713678800501e-15,
+            -1.0226144068906443e-16
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          -3.2028428217015697e-06,
+          612.7271751656168,
+          -0.0003891731647334426
+        ],
+        "reported_boundary_impulse_N_s": [
+          -3.2028428217015697e-06,
+          612.7271751656168,
+          -0.0003891731647334426
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "floating_response": {
+        "maximum_downward_heave_m": 0.042299694883463024,
+        "minimum_center_time_s": 0.45,
+        "height_recovered_after_lowest_center_m": 0.0005057149933443417,
+        "final_mean_vertical_velocity_m_s": 0.011331552431784705,
+        "upward_reversal_observed": true,
+        "interpretation": "Release from an initial heave imbalance. The observed reversal is not evidence of a complete oscillation cycle or a settled equilibrium."
+      }
+    },
+    "baffled-tank": {
+      "case": "baffled-tank / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/engineering/baffled-tank/neo-hookean/summary.json",
+          "sha256": "6a2baabee7059955e44fe779eb059b03a3dee599688922039fc34defbb4b1971",
+          "lf_text_sha256": "f4d3bfdc08a4e904b482809152dee80b778a65c1ed74c1949b57f17407f774f4"
+        },
+        {
+          "path": "outputs/engineering/baffled-tank/neo-hookean/diagnostics.csv",
+          "sha256": "39e5d6c2df4a92bd7d9ccc1d6cb31fa6bdce5fc6a56eb4cc79ef55b675d5a5f0",
+          "lf_text_sha256": "8a7e36e0a7279fd66ee23ee7e3ed258bd325473e7fc36f1d049f9dc5dd3924a7"
+        },
+        {
+          "path": "outputs/engineering/baffled-tank/neo-hookean/observables.csv",
+          "sha256": "0eebdc6a0d32df9fcf91841dced54cdba472e4cf03180449537b9164d7a50d3d",
+          "lf_text_sha256": "e38aaa5b928386f84a28708b753d5f21b301b3f0d32c1375decaf65585659543"
+        }
+      ],
+      "particles": [
+        281688,
+        81664
+      ],
+      "steps": 3200,
+      "duration_s": 0.7,
+      "saved_frames": 51,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 93.31053592567024,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.8368956942042513,
+          "max_J": 1.0617528771670162,
+          "current_volume_m3": {
+            "initial": 0.09262152777777777,
+            "final": 0.0924900040127794,
+            "min": 0.09227383631222691,
+            "min_time_s": 0.252,
+            "max": 0.0928731741439505,
+            "max_time_s": 0.41999999999999993
+          },
+          "max_speed_m_s": 2.5683171004370267,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": 0.05698091803503513,
+            "min": -0.06874966264419792,
+            "min_time_s": 0.504,
+            "max": 0.14268578297432347,
+            "max_time_s": 0.294
+          },
+          "positive_saved_volume_and_J": true
+        },
+        {
+          "body": 1,
+          "mass_kg": 29.813645224171545,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.7372385839867874,
+          "max_J": 1.2367377913768864,
+          "current_volume_m3": {
+            "initial": 0.02710331384015594,
+            "final": 0.026549662122451627,
+            "min": 0.026549484808853205,
+            "min_time_s": 0.6439999999999999,
+            "max": 0.02710331384015594,
+            "max_time_s": 0.0
+          },
+          "max_speed_m_s": 2.6267872996287336,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": 0.049079308202519704,
+            "min": -0.14527719328989067,
+            "min_time_s": 0.33599999999999997,
+            "max": 0.059394968633119626,
+            "max_time_s": 0.6579999999999999
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "tank_acceleration_x": {
+          "initial": 0.0,
+          "final": 1.854101966249683,
+          "min": -5.995736835843536,
+          "min_time_s": 0.504,
+          "max": 5.9995262652228964,
+          "max_time_s": 0.16799999999999998
+        },
+        "free_surface_y": {
+          "initial": 0.42159090909090907,
+          "final": 0.706585027827873,
+          "min": 0.42148319936227047,
+          "min_time_s": 0.027999999999999997,
+          "max": 0.7685761621828028,
+          "max_time_s": 0.44799999999999995
+        },
+        "water_center_x": {
+          "initial": 0.5,
+          "final": 0.5372335694686456,
+          "min": 0.44805520827301615,
+          "min_time_s": 0.364,
+          "max": 0.5372335694686456,
+          "max_time_s": 0.7
+        },
+        "maximum_baffle_displacement": {
+          "initial": 0.0,
+          "final": 0.217627233558926,
+          "min": 0.0,
+          "min_time_s": 0.0,
+          "max": 0.22821433239424915,
+          "max_time_s": 0.39199999999999996
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          45.034484437157616,
+          15.165480462588048,
+          0.02646384689057519
+        ],
+        "nonzero_net_contact_impulse": true,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            56.59223489090853,
+            661.2458506635514,
+            0.026308940967627863
+          ],
+          [
+            -38.81157418569555,
+            191.02805437439562,
+            -0.026525194415967072
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          17.78066070521298,
+          852.2739050379471,
+          -0.0002162534483392091
+        ],
+        "reported_boundary_impulse_N_s": [
+          17.78066070521298,
+          852.273905037947,
+          -0.00021625344833920874
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "base_acceleration_check": {
+        "max_observable_acceleration_error_m_s2": 0.0,
+        "reported_applied_impulse_x_N_s": 6.189555587382593,
+        "reconstructed_left_rule_applied_impulse_x_N_s": 6.189555587382576,
+        "reported_minus_reconstructed_impulse_x_N_s": 1.687538997430238e-14,
+        "continuous_prescribed_impulse_x_N_s": 6.164613366467402,
+        "reported_minus_continuous_impulse_x_N_s": 0.024942220915190383
+      }
+    },
+    "unbaffled-tank": {
+      "case": "unbaffled-tank / neo-hookean",
+      "sources": [
+        {
+          "path": "outputs/engineering/unbaffled-tank/neo-hookean/summary.json",
+          "sha256": "9b4c56469d06d5b7f8e7bc23773cf6aa1c95fe2b121c7f8a62741d1a294101a1",
+          "lf_text_sha256": "67bd490472739c46818ae69ee8a4ca2bf7da2207d02a343bff6f167739bceb18"
+        },
+        {
+          "path": "outputs/engineering/unbaffled-tank/neo-hookean/diagnostics.csv",
+          "sha256": "49fd2214ed388768b434fb3c7e3a5ca9005ed3187a7d88d0523d2158b2012b97",
+          "lf_text_sha256": "50a3b67abcbfd819845f96738fa53dffb03aa2a123871a5afa296d4b5e76fd9a"
+        },
+        {
+          "path": "outputs/engineering/unbaffled-tank/neo-hookean/observables.csv",
+          "sha256": "e24d9734cca154d0af5db1836164dbd20b5d122f2d3c5216b9149e3a46175e5f",
+          "lf_text_sha256": "fd7bd71a037c8c601451e60e7de20f7ae34fe8bd77cfaa1ffb80c68f34d0c842"
+        }
+      ],
+      "particles": [
+        342144
+      ],
+      "steps": 3200,
+      "duration_s": 0.7,
+      "saved_frames": 51,
+      "all_saved_numbers_finite": true,
+      "tables_have_matching_times": true,
+      "bodies": [
+        {
+          "body": 0,
+          "mass_kg": 113.34012575197335,
+          "max_relative_mass_drift": 0.0,
+          "min_J": 0.881160267558412,
+          "max_J": 1.0740015109056091,
+          "current_volume_m3": {
+            "initial": 0.11249999999999999,
+            "final": 0.1119804580630508,
+            "min": 0.1118558353700696,
+            "min_time_s": 0.6719999999999999,
+            "max": 0.1128346956072078,
+            "max_time_s": 0.44799999999999995
+          },
+          "max_speed_m_s": 2.3394632171607643,
+          "mean_vertical_velocity_m_s": {
+            "initial": 0.0,
+            "final": 0.29420875815610176,
+            "min": -0.1959735370644826,
+            "min_time_s": 0.5459999999999999,
+            "max": 0.29420875815610176,
+            "max_time_s": 0.7
+          },
+          "positive_saved_volume_and_J": true
+        }
+      ],
+      "observables": {
+        "tank_acceleration_x": {
+          "initial": 0.0,
+          "final": 1.854101966249683,
+          "min": -5.995736835843536,
+          "min_time_s": 0.504,
+          "max": 5.9995262652228964,
+          "max_time_s": 0.16799999999999998
+        },
+        "free_surface_y": {
+          "initial": 0.42159090909090907,
+          "final": 0.6333712716652928,
+          "min": 0.42159090909090907,
+          "min_time_s": 0.0,
+          "max": 0.7047483363159097,
+          "max_time_s": 0.41999999999999993
+        },
+        "water_center_x": {
+          "initial": 0.5000000000000001,
+          "final": 0.5573234138758719,
+          "min": 0.40873593211121995,
+          "min_time_s": 0.41999999999999993,
+          "max": 0.5573234138758719,
+          "max_time_s": 0.7
+        }
+      },
+      "impulse_diagnostics": {
+        "contact_impulse_on_body_1_N_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "nonzero_net_contact_impulse": false,
+        "inferred_support_impulse_by_body_N_s": [
+          [
+            55.4536896522963,
+            811.6523011855455,
+            -0.0008565431226895855
+          ]
+        ],
+        "inferred_support_sum_N_s": [
+          55.4536896522963,
+          811.6523011855455,
+          -0.0008565431226895855
+        ],
+        "reported_boundary_impulse_N_s": [
+          55.4536896522963,
+          811.6523011855455,
+          -0.0008565431226895855
+        ],
+        "interpretation": "Support impulses are residuals of particle momentum, gravity, applied force and the separately accumulated grid contact impulse. They combine every support on each body; this is a diagnostic, not an independent momentum-conservation test."
+      },
+      "base_acceleration_check": {
+        "max_observable_acceleration_error_m_s2": 0.0,
+        "reported_applied_impulse_x_N_s": 5.697702937565266,
+        "reconstructed_left_rule_applied_impulse_x_N_s": 5.697702937565258,
+        "reported_minus_reconstructed_impulse_x_N_s": 7.993605777301127e-15,
+        "continuous_prescribed_impulse_x_N_s": 5.674742748683929,
+        "reported_minus_continuous_impulse_x_N_s": 0.022960188881336663
+      }
+    }
+  },
+  "pending_cases": [],
+  "tank_comparison": {
+    "baffled_water_mass_kg": 93.31053592567024,
+    "unbaffled_water_mass_kg": 113.34012575197335,
+    "baffled_peak_surface_y_m": 0.7685761621828028,
+    "unbaffled_peak_surface_y_m": 0.7047483363159097,
+    "baffled_water_center_x_m": {
+      "initial": 0.5,
+      "final": 0.5372335694686456,
+      "min": 0.44805520827301615,
+      "min_time_s": 0.364,
+      "max": 0.5372335694686456,
+      "max_time_s": 0.7
+    },
+    "unbaffled_water_center_x_m": {
+      "initial": 0.5000000000000001,
+      "final": 0.5573234138758719,
+      "min": 0.40873593211121995,
+      "min_time_s": 0.41999999999999993,
+      "max": 0.5573234138758719,
+      "max_time_s": 0.7
+    },
+    "interpretation": "Descriptive comparison under the same tank acceleration and initial surface elevation. Baffles displace water, so liquid masses differ. No baffle-efficiency or damping conclusion is supported by this pair alone."
+  }
+}

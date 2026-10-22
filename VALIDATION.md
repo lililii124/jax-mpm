@@ -76,6 +76,38 @@ Denser benchmark configurations use three particles per cell per axis.
 The [contact guide](docs/CONTACT.md) distinguishes the geometric sphere problem
 from prescribed Hertz/JKR pressure footprints and describes their verification scope.
 
+| Dynamic response | Recorded result |
+|---|---|
+| Rubber ball, 44,720 particles | Centre reaches y=0.212329 m, then rises 0.239094 m by the final frame |
+| Ball–beam, 88,583 particles | Ball receives 14.701633 N·s upward contact impulse and rebounds from the beam |
+| Large bending, 119,944 particles | Free-end mean displacement reaches 0.138588 m at the end of the recorded interval |
+| Large twist, 119,944 particles | Maximum free-end rotation 0.719098 rad (41.2013°) at 0.245 s |
+| Floating block, 384,373 particles | Maximum downward heave 0.042300 m at 0.45 s; upward motion begins before the final frame |
+
+The ball–beam sphere stays clear of the floor. Its momentum change, gravity
+impulse and separately accumulated contact impulse balance within
+7.11 × 10⁻¹⁵ N·s. Before floor contact, the rubber-ball centre matches the
+semi-implicit discrete free-fall trajectory within 1.50 × 10⁻¹⁵ m.
+The reviewed dynamics and engineering runs have constant recorded mass and positive
+particle volume. The [response review](docs/results/dynamics-review.json) records
+the checks and their scope; `python tools/review_dynamics.py` regenerates it.
+Peak values refer to saved frames, and the large-bending maximum occurs at the
+end of its time window. These checks do not establish spatial convergence.
+
+Dense JC, JH-2 and HJC compression runs each use **195,112 particles**, a 64³
+grid and 140 steps. They retain the material constants, specimen geometry,
+prescribed platen motion and physical duration of the original compression cases.
+Recorded mass is constant, and all 28 arrays in each final state are finite.
+
+| Material | Minimum det(F) | Maximum damage | Maximum plastic strain |
+|---|---:|---:|---:|
+| Johnson–Cook | 0.988342 | 0 | 0.037675 |
+| JH-2 | 0.990355 | 1 | 0.021374 |
+| HJC | 0.968495 | 0.593236 | 0.022248 |
+
+The completed RHT spatial compression contains 24,389 particles. All four
+models also have the material-point and constitutive checks described above.
+
 The completed water-entry run uses **1,327,400 particles** (1,242,216 liquid and
 85,184 solid) on a 72³ grid, with 27 particles per fully filled cell. It advances
 2,400 steps over 0.35 s and saves 61 frames. Minimum det(F) across saved states

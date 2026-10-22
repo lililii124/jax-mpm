@@ -1,0 +1,28 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 3,
+  "frames_rendered": 41,
+  "animation": "simulation.gif",
+  "field": "body",
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0043055555555555555,
+  "camera_position": [
+    1.4057383414699736,
+    1.1330815558006737,
+    1.6863713738898072
+  ],
+  "camera_focal_point": [
+    0.48300505066679034,
+    0.5728506292415982,
+    0.5
+  ],
+  "camera_parallel_scale": 0.3937081453062661,
+  "particles": 119944,
+  "auxiliary_geometry": []
+}

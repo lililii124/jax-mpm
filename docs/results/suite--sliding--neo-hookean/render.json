@@ -1,7 +1,9 @@
 {
   "renderer": "ParaView",
   "version": "(6, 2)",
-  "style_revision": 2,
+  "style_revision": 3,
+  "frames_rendered": 21,
+  "animation": "simulation.gif",
   "field": "body",
   "resolution": [
     1200,
@@ -11,15 +13,16 @@
   "annotations": false,
   "particle_radius": 0.006458333333333333,
   "camera_position": [
-    0.8703916803516505,
-    0.5507735127629215,
-    1.1369321753532833
+    0.8961328585948929,
+    0.5439282346788867,
+    1.1071916555109516
   ],
   "camera_focal_point": [
-    0.375,
-    0.2499999925494194,
-    0.5000000149011612
+    0.4238726820863753,
+    0.25719884179871527,
+    0.5000000000000003
   ],
-  "camera_parallel_scale": 0.22287914770069217,
-  "particles": 16704
+  "camera_parallel_scale": 0.25167707647990983,
+  "particles": 16704,
+  "auxiliary_geometry": []
 }
