@@ -1,0 +1,258 @@
+{
+  "case": "perforated-panel / neo-hookean",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.00028,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.21,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.79,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            0.21
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.79
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 38461.53846153846,
+      "lam": 57692.30769230769,
+      "bulk": 83333.33333333331
+    }
+  ],
+  "steps": 1250,
+  "simulation_time": 0.35,
+  "particles": [
+    97536
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 2.4962841999949887,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 253.99798900002497,
+  "min_J": 0.8698866625361412,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -3.963010231027104e-15,
+    35.12612669784941,
+    -9.430459083102333e-16
+  ],
+  "external_impulse": [
+    0.0,
+    -46.960273798848554,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "central_displacement_y": 0.0,
+      "maximum_displacement": 0.0,
+      "nominal_pressure": 0.0
+    },
+    "final": {
+      "time": 0.35,
+      "external_work_trapezoidal": 11.107711934045344,
+      "boundary_impulse_x": -3.963010231027104e-15,
+      "boundary_impulse_y": 35.12612669784941,
+      "boundary_impulse_z": -9.430459083102333e-16,
+      "central_displacement_y": -0.030200688383850958,
+      "maximum_displacement": 0.03546437355969823,
+      "nominal_pressure": 4.4992793479855726e-29
+    }
+  },
+  "definition": {
+    "purpose": "clamped perforated panel under a smooth pressure pulse",
+    "particles_per_cell_per_axis": 3,
+    "holes": [
+      [
+        0.32,
+        0.32
+      ],
+      [
+        0.32,
+        0.5
+      ],
+      [
+        0.32,
+        0.68
+      ],
+      [
+        0.5,
+        0.32
+      ],
+      [
+        0.5,
+        0.5
+      ],
+      [
+        0.5,
+        0.68
+      ],
+      [
+        0.68,
+        0.32
+      ],
+      [
+        0.68,
+        0.5
+      ],
+      [
+        0.68,
+        0.68
+      ]
+    ],
+    "hole_radius": 0.05,
+    "thickness": 0.08,
+    "loaded_reference_area": 0.39133561016243235,
+    "traction": "fixed negative-y dead load on the reference upper face",
+    "pressure_peak_Pa": 3000.0,
+    "pulse_duration_s": 0.08
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 34.437533694294046,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.5,
+      "com_z": 0.4999999999999999,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.03130684881299458,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.35,
+      "body": 0,
+      "mass": 34.437533694294046,
+      "momentum_x": -3.963010231027104e-15,
+      "momentum_y": -11.834147100999148,
+      "momentum_z": -9.430459083102333e-16,
+      "kinetic_energy": 6.305471078416376,
+      "com_x": 0.4999999999999999,
+      "com_y": 0.49217387524217626,
+      "com_z": 0.4999999999999999,
+      "min_J": 0.9271300884340591,
+      "max_J": 1.0573781485061728,
+      "current_volume": 0.0313688650257295,
+      "max_speed": 1.6942520915618933,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 1.2699984463224752
+    }
+  ]
+}

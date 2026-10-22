@@ -32,12 +32,28 @@ range across the animation. Axes, grids, legends and text overlays are disabled.
 | `scene.pvsm` | Saved ParaView pipeline and camera |
 | `frames/*.png`, `final.png` | ParaView screenshots |
 | `simulation.gif` | Screenshot sequence, assembled without changing the frames |
+| `simulation.mp4`, `video.json` | H.264 encoding and screenshot/video hashes |
 | `vtk_metadata.json`, `render.json` | Export and rendering provenance |
 
 Open `particles.pvd` in ParaView to inspect data. If moving a saved `.pvsm`
 scene, select the new data directory when ParaView asks to locate its files.
 Simulation and rendering are separate: `--no-render` runs the solver without
 ParaView, and the visualization command can be repeated without recomputing.
+
+For a compact video, install `ffmpeg` and encode a complete screenshot sequence:
+
+```bash
+python tools/encode_video.py outputs/suite/dam-break/neo-hookean
+```
+
+This uses the ParaView frames at 20 fps, without rerunning the simulation or
+changing the particle count. The public gallery links these videos from PNG
+previews; full GIFs remain in the output directory.
+
+The sphere-contact scene includes a separate smooth CAD sphere driven by the
+prescribed boundary motion. Its saved animation track follows the output times.
+It is excluded from particle counts and recorded under `auxiliary_geometry`
+in `render.json`. The JKR pressure-footprint example has no geometric indenter.
 
 For a numerical readback check:
 

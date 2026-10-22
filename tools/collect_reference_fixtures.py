@@ -14,6 +14,7 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("tests/data/materials"))
     parser.add_argument("--jh2-source", type=Path, required=True)
     parser.add_argument("--rht-source", type=Path, required=True)
+    parser.add_argument("--hjc-source", type=Path)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     manifest = {
@@ -21,14 +22,20 @@ def main():
         "sources": {},
         "fixtures": [],
     }
-    for model, source in (("jh2", args.jh2_source), ("rht", args.rht_source)):
+    for model, source in (
+        ("jh2", args.jh2_source),
+        ("rht", args.rht_source),
+        ("hjc", args.hjc_source),
+    ):
+        if source is None:
+            continue
         manifest["sources"][model] = {
             "file": source.name,
             "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
         }
     for path in sorted(args.input.glob("*.npz")):
         model = path.stem.split("_")[0]
-        if model not in ("jh2", "rht"):
+        if model not in manifest["sources"]:
             continue
         data = np.load(path)
         reference = data["reference"]
@@ -42,10 +49,22 @@ def main():
             fields = ("plastic_strain", "damage", "bulking", "pressure")
             values = reference[:, [12, 13, 14, 23]]
             dt = 2e-8
-        else:
+        elif model == "rht":
             stress = data["stress"]
             fields = ("alpha", "plastic_strain", "damage", "hardening", "pressure", "energy")
             values = reference[:, [0, 1, 2, 4, 7, 14]]
+            dt = 1e-6
+        else:
+            stress = data["stress"]
+            fields = (
+                "plastic_strain",
+                "damage",
+                "plastic_volume",
+                "max_compression",
+                "compaction",
+                "pressure",
+            )
+            values = reference[:, [18, 10, 6, 15, 16, 12]]
             dt = 1e-6
         target = args.output / path.name
         np.savez_compressed(

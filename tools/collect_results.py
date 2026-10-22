@@ -6,7 +6,16 @@ import json
 from pathlib import Path
 
 
-SOURCES = ("suite", "elastic_cantilever", "compression", "benchmarks", "production", "refinement")
+SOURCES = (
+    "suite",
+    "elastic_cantilever",
+    "compression",
+    "benchmarks",
+    "engineering",
+    "contact-models",
+    "production",
+    "refinement",
+)
 
 
 def collect(root, destination):
@@ -28,6 +37,9 @@ def collect(root, destination):
                 "observables.csv",
                 "render.json",
                 "vtk_metadata.json",
+                "video.json",
+                "jkr_law_cycle.csv",
+                "jkr_law_parameters.json",
             ):
                 original = folder / name
                 if original.exists():

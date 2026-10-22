@@ -1,6 +1,7 @@
 """Run with pvpython to verify exported particle data against the NPZ trajectory."""
 
 import argparse
+import json
 from pathlib import Path
 
 import numpy as np
@@ -12,11 +13,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
+    summary_path = args.output / "summary.json"
+    summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
+
+    def samples(name, archive, indices):
+        path = args.output / f"trajectory_{name}.npy"
+        if summary.get("completed") and path.is_file():
+            mapped = np.load(path, mmap_mode="r")
+            result = mapped[indices]
+            mapped._mmap.close()
+            return result
+        return archive[name][indices]
+
     with np.load(args.output / "trajectory.npz") as data:
         indices = [0, len(data["time"]) - 1]
-        positions = data["x"][indices]
+        positions = samples("x", data, indices)
         fields = {
-            key: data[key] if key == "body" else data[key][indices]
+            key: data[key] if key == "body" else samples(key, data, indices)
             for key in ("speed", "damage", "temperature", "body")
             if key in data
         }

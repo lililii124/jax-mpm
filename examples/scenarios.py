@@ -59,6 +59,10 @@ SCENES = (
     "ball-beam",
     "large-bending",
     "large-twist",
+    "perforated-panel",
+    "cellular-cushion",
+    "baffled-tank",
+    "unbaffled-tank",
 )
 
 
@@ -417,6 +421,10 @@ def setup(scene, *, model="neo-hookean", grid=48, ppc=2):
         raise ValueError(f"unknown scene {scene}")
     if grid < 24:
         raise ValueError("these geometries need grid >= 24")
+    if scene in ("perforated-panel", "cellular-cushion", "baffled-tank", "unbaffled-tank"):
+        from .engineering import setup as engineering_setup
+
+        return engineering_setup(scene, grid, ppc)
     if scene in (
         "elastic-gate",
         "floating-block",

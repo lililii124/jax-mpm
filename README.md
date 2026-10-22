@@ -39,13 +39,15 @@ python -m examples.suite --case elastic-gate --grid 48 --ppc 3 --gif
 python -m examples.suite --case cantilever --model all-elastic
 python -m examples.suite --case compression --model all-plastic
 python -m examples.material_paths --model all
+python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gif
+python -m examples.adhesive_contact --case jkr-footprint --grid 48 --ppc 3 --gif
 ```
 
 The spatial suite defaults to a **48³ grid and 2 particles per cell per axis**
-(up to 8 per cell). Depending on geometry, these cases contain roughly
+(up to 8 per cell). The original 14 cases contain roughly
 17,000–119,000 particles. `--grid`, `--ppc`, and `--dt-factor` control resolution;
 `--frames` changes output frequency while preserving the physical duration.
-`--case all` runs the 20 spatial scenarios with their default materials.
+`--case all` runs the 24 spatial scenarios with their default materials.
 For denser sampling use `--ppc 3` (27 particles per cell). The water-entry case
 at `--grid 72 --ppc 3` contains **1,327,400 particles**.
 
@@ -54,8 +56,11 @@ at `--grid 72 --ppc 3` contains **1,327,400 particles**.
 | Elastic dynamics | Longitudinal wave, cantilever vibration, torsional release, large bending/twist |
 | Prescribed loading | Simple shear, platen compression, pressure-loaded clamped panel |
 | Contact | Head-on collision, oblique collision, frictional sliding, rebound, rubber-ball drop, ball–beam contact |
+| Spherical contact | Prescribed rigid sphere indentation; Hertz and JKR pressure footprints |
 | Fluids | Dam break, sloshing |
 | Fluid–solid interaction | Clamped obstacle, elastic-block water entry, top-clamped gate, floating block |
+| Engineering structures | Perforated panel under a pressure pulse, cellular elastomer cushion under a falling mass |
+| Accelerated tanks | Harmonic base excitation, with and without perforated flexible baffles |
 | Material points | Compression/unload, hydrostatic compression, shear reversal, confined shear |
 
 Each spatial run saves particle trajectories and final states as NPZ, diagnostics
@@ -75,6 +80,8 @@ python -m mpm_jax.visualization outputs/production/water-entry/neo-hookean --gif
 
 Repeat the first command to resume an interrupted run. `status.json` records
 progress; `summary.json` is written after the full duration completes.
+Output histories use file-backed arrays so memory use does not grow with the
+number of saved frames.
 
 The original 2D examples and material-gradient check remain available:
 
@@ -124,6 +131,12 @@ form. `step(..., force=...)` accepts an `(N, dim)` array of particle forces in N
 `coupled_step` advances two bodies on separate grids with balanced normal and
 Coulomb impulses. See `examples/scenarios.py` for complete setups.
 
+`RigidSphereBoundary` adds a prescribed frictionless sphere. Hertz and JKR laws
+are available in `mpm_jax.contact_laws`, with stable-branch derivatives and
+conservative pressure-footprint assignment. The JKR footprint prescribes a load;
+it does not solve self-consistent three-dimensional adhesive contact.
+See [spherical contact](docs/CONTACT.md) for equations and examples.
+
 ## Numerical scope
 
 - Dense background grid on `[0, L]^dim`; 2D particle volumes assume unit thickness.
@@ -148,7 +161,7 @@ python -m pytest -q
 ```
 
 Tests cover transfers, conservation, elasticity, constitutive limits, boundary
-conditions, contact, gradients, and ten supplied material-point reference traces.
+conditions, contact, gradients, and fifteen supplied material-point reference traces.
 [VALIDATION.md](VALIDATION.md) records quantitative checks;
 [the run catalogue](docs/RESULTS.md) lists completed cases.
 GPU execution has not been validated.

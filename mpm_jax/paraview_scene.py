@@ -8,8 +8,12 @@ from pathlib import Path
 import numpy as np
 
 from paraview.simple import (
+    _DisableFirstRenderCameraReset,
     ColorBy,
+    CompositeKeyFrame,
     CreateView,
+    GetAnimationScene,
+    GetAnimationTrack,
     GetColorTransferFunction,
     GetParaViewVersion,
     PVDReader,
@@ -17,6 +21,7 @@ from paraview.simple import (
     SaveScreenshot,
     SaveState,
     Show,
+    Sphere,
     Threshold,
 )
 
@@ -28,10 +33,17 @@ def main():
     parser.add_argument("--resolution", type=int, default=1200)
     parser.add_argument("--final-only", action="store_true")
     args = parser.parse_args()
+    _DisableFirstRenderCameraReset()
     output = args.output.resolve()
     metadata = json.loads((output / "vtk_metadata.json").read_text(encoding="utf-8"))
     reader = PVDReader(FileName=str(output / "particles.pvd"))
     reader.UpdatePipeline()
+    times = list(reader.TimestepValues)
+    scene = GetAnimationScene()
+    scene.UpdateAnimationUsingDataTimeSteps()
+    summary_path = output / "summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
+    sphere_definition = summary.get("definition", {}).get("rigid_sphere")
     view = CreateView("RenderView")
     view.ViewSize = [args.resolution, args.resolution]
     view.OrientationAxesVisibility = 0
@@ -40,7 +52,50 @@ def main():
     view.UseColorPaletteForBackground = 0
     view.Background = [0.965, 0.975, 0.985]
     view.CameraParallelProjection = 1
-    bounds = metadata["bounds"]
+    bounds = list(metadata["bounds"])
+    auxiliary_geometry = []
+    if sphere_definition:
+        center0 = np.asarray(sphere_definition["center"])
+        stroke = np.asarray(sphere_definition["displacement"])
+        radius = sphere_definition["radius"]
+        duration = sphere_definition["duration"]
+        sphere = Sphere(registrationName="Prescribed rigid sphere")
+        sphere.Radius = radius
+        sphere.ThetaResolution = 128
+        sphere.PhiResolution = 96
+        sphere.Center = center0
+        surface = Show(sphere, view)
+        surface.ColorArrayName = ["POINTS", ""]
+        surface.DiffuseColor = [0.56, 0.62, 0.68]
+        surface.Ambient = 0.2
+        surface.Diffuse = 0.8
+        surface.Specular = 0.65
+        surface.SpecularPower = 45
+        phase = np.clip(np.asarray(times) / duration, 0, 1)
+        centers = center0 + 0.5 * (1 - np.cos(2 * np.pi * phase[:, None])) * stroke
+        span = times[-1] - times[0]
+        for axis in range(3):
+            track = GetAnimationTrack("Center", axis, sphere)
+            keys = []
+            for time, position in zip(times, centers):
+                key = CompositeKeyFrame()
+                key.KeyTime = (time - times[0]) / span if span else 0.0
+                key.KeyValues = [float(position[axis])]
+                key.Interpolation = "Ramp"
+                keys.append(key)
+            track.KeyFrames = keys
+            bounds[2 * axis] = min(bounds[2 * axis], center0[axis] + min(0, stroke[axis]) - radius)
+            bounds[2 * axis + 1] = max(
+                bounds[2 * axis + 1], center0[axis] + max(0, stroke[axis]) + radius
+            )
+        auxiliary_geometry.append(
+            {
+                "type": "prescribed_rigid_sphere",
+                "parameters": sphere_definition,
+                "included_in_particle_count": False,
+                "motion": "cosine loading/unloading cycle",
+            }
+        )
     center = [(bounds[2 * i] + bounds[2 * i + 1]) / 2 for i in range(3)]
     length = max(bounds[2 * i + 1] - bounds[2 * i] for i in range(3))
     view.CameraFocalPoint = center
@@ -105,10 +160,10 @@ def main():
         if args.field != "body":
             display.SetScalarBarVisibility(view, False)
         displays.append(display)
-    times = list(reader.TimestepValues)
     indices = [len(times) - 1] if args.final_only else range(len(times))
     (output / "frames").mkdir(exist_ok=True)
     for i in indices:
+        scene.AnimationTime = times[i]
         view.ViewTime = times[i]
         reader.UpdatePipeline(times[i])
         Render(view)
@@ -125,7 +180,9 @@ def main():
     provenance = {
         "renderer": "ParaView",
         "version": str(GetParaViewVersion()),
-        "style_revision": 2,
+        "style_revision": 3,
+        "frames_rendered": len(indices),
+        "animation": None,
         "field": args.field,
         "resolution": [args.resolution] * 2,
         "axes": False,
@@ -135,6 +192,7 @@ def main():
         "camera_focal_point": list(view.CameraFocalPoint),
         "camera_parallel_scale": view.CameraParallelScale,
         "particles": metadata["particles"],
+        "auxiliary_geometry": auxiliary_geometry,
     }
     (output / "render.json").write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
 

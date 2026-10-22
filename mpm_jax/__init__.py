@@ -8,6 +8,13 @@ from .materials import bilinear_plastic, thermal_plastic, blatz_ko
 from .materials import steinberg_guinan
 from .contact import coupled_advance, coupled_step
 from .boundaries import PlaneWall, VelocityBox, fixed_box
+from .contact_laws import (
+    RigidSphereBoundary,
+    hertz_contact,
+    jkr_contact,
+    jkr_history,
+    reduced_modulus,
+)
 
 __all__ = [
     "Config",
@@ -29,6 +36,11 @@ __all__ = [
     "coupled_step",
     "PlaneWall",
     "VelocityBox",
+    "RigidSphereBoundary",
+    "hertz_contact",
+    "jkr_contact",
+    "jkr_history",
+    "reduced_modulus",
     "fixed_box",
     "linear_elastic",
     "neo_hookean",

@@ -35,6 +35,8 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [compression--compression--rht](results/compression--compression--rht/summary.json) | 24,389 | 100 | 3.06102e-05 | 0.975127 | 0.23272 | ParaView |
 | [compression--compression--steinberg-guinan](results/compression--compression--steinberg-guinan/summary.json) | 24,389 | 100 | 7.22002e-05 | 0.987223 | 0 | ParaView |
 | [compression--compression--thermal-plastic](results/compression--compression--thermal-plastic/summary.json) | 24,389 | 100 | 3.747e-05 | 0.982193 | 0 | ParaView |
+| [benchmarks--elastic-gate--neo-hookean](results/benchmarks--elastic-gate--neo-hookean/summary.json) | 357,912 | 2,800 | 0.35 | 0.640114 | 0 | ParaView |
+| [engineering--perforated-panel--neo-hookean](results/engineering--perforated-panel--neo-hookean/summary.json) | 97,536 | 1,250 | 0.35 | 0.869887 | 0 | Pending |
 | [refinement--grid32--wave--neo-hookean](results/refinement--grid32--wave--neo-hookean/summary.json) | 12,288 | 140 | 0.134164 | 0.994836 | 0 | Pending |
 | [refinement--grid64--wave--linear](results/refinement--grid64--wave--linear/summary.json) | 98,304 | 260 | 0.134164 | 0.994796 | 0 | Pending |
 | [refinement--half_dt--wave--neo-hookean](results/refinement--half_dt--wave--neo-hookean/summary.json) | 41,472 | 400 | 0.134164 | 0.994817 | 0 | Pending |

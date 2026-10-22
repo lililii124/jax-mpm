@@ -1,13 +1,23 @@
 """Copy completed ParaView images into the documentation gallery."""
 
 import json
+import csv
+import hashlib
 from pathlib import Path
 import shutil
 
 
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = {
+    "Engineering structures and tanks": [
+        ("perforated-panel", "engineering/perforated-panel/neo-hookean"),
+        ("cellular-cushion", "engineering/cellular-cushion/neo-hookean"),
+        ("baffled-tank", "engineering/baffled-tank/neo-hookean"),
+        ("unbaffled-tank", "engineering/unbaffled-tank/neo-hookean"),
+    ],
     "Dynamics and contact": [
+        ("sphere-contact", "contact-models/sphere-contact"),
+        ("jkr-footprint", "contact-models/jkr-footprint"),
         ("wave", "suite/wave/neo-hookean"),
         ("cantilever", "suite/cantilever/neo-hookean"),
         ("torsion", "suite/torsion/neo-hookean"),
@@ -37,6 +47,11 @@ GROUPS = {
     ],
 }
 ANIMATIONS = {
+    "sphere-contact",
+    "jkr-footprint",
+    "perforated-panel",
+    "cellular-cushion",
+    "baffled-tank",
     "oblique",
     "fsi",
     "elastic-gate",
@@ -44,7 +59,27 @@ ANIMATIONS = {
     "water-entry",
     "ball-beam",
     "large-twist",
+    "dam-break",
 }
+
+
+def preview(folder, name, render):
+    """Select the largest response when a completed animation is available."""
+    columns = {
+        "perforated-panel": "maximum_displacement",
+        "sphere-contact": "nominal_indentation_m",
+        "jkr-footprint": "prescribed_contact_radius_m",
+    }
+    observable = folder / "observables.csv"
+    if name in columns and observable.exists() and render.get("frames_rendered", 0) > 1:
+        with observable.open(newline="", encoding="utf-8") as stream:
+            rows = list(csv.DictReader(stream))
+        if rows and columns[name] in rows[0]:
+            frame = max(range(len(rows)), key=lambda i: abs(float(rows[i][columns[name]])))
+            image = folder / "frames" / f"frame_{frame:05d}.png"
+            if image.exists():
+                return image, frame, float(rows[frame]["time"])
+    return folder / "final.png", None, None
 
 
 def main():
@@ -67,19 +102,30 @@ def main():
             if not all((folder / f).exists() for f in ("summary.json", "render.json", "final.png")):
                 continue
             render = json.loads((folder / "render.json").read_text())
-            if render.get("renderer") != "ParaView" or render.get("style_revision", 0) < 2:
+            if render.get("renderer") != "ParaView" or render.get("style_revision", 0) < 3:
                 continue
             summary = json.loads((folder / "summary.json").read_text())
-            shutil.copy2(folder / "final.png", target / f"{name}.png")
-            animation = name in ANIMATIONS and (folder / "simulation.gif").exists()
+            selected, frame, time = preview(folder, name, render)
+            shutil.copy2(selected, target / f"{name}.png")
+            animation = (
+                name in ANIMATIONS
+                and (folder / "video.json").exists()
+                and (folder / "simulation.mp4").exists()
+            )
             if animation:
-                shutil.copy2(folder / "simulation.gif", target / f"{name}.gif")
+                video = json.loads((folder / "video.json").read_text(encoding="utf-8"))
+                animation = (
+                    video.get("render_sha256")
+                    == hashlib.sha256((folder / "render.json").read_bytes()).hexdigest()
+                )
+            if animation:
+                shutil.copy2(folder / "simulation.mp4", target / f"{name}.mp4")
             count = sum(summary["particles"])
             identifier = "--".join(Path(relative).parts)
-            suffix = "gif" if animation else "png"
+            video_link = f" · [Video](images/{name}.mp4)" if animation else ""
             cells.append(
-                f"![{name}](images/{name}.{suffix})<br>**{name}** · {count:,} particles<br>"
-                f"[Results](results/{identifier}/summary.json)"
+                f"![{name}](images/{name}.png)<br>**{name}** · {count:,} particles<br>"
+                f"[Results](results/{identifier}/summary.json){video_link}"
             )
             manifest.append(
                 {
@@ -90,6 +136,9 @@ def main():
                     "renderer": render["renderer"],
                     "version": render["version"],
                     "animation": animation,
+                    "preview_frame": frame,
+                    "preview_time": time,
+                    "auxiliary_geometry": render.get("auxiliary_geometry", []),
                 }
             )
         if cells:

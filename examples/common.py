@@ -96,7 +96,8 @@ def run(
     warm, *_ = batch(states, 0.0)
     warm[0].x.block_until_ready()
     compile_seconds = perf_counter() - start
-    rows, positions, speeds, damages, temperatures, times, impulses = [], [], [], [], [], [], []
+    del warm
+    rows, times, impulses = [], [], []
     solver_seconds = 0.0
     accumulated_impulse = np.zeros(dim)
     accumulated_external = np.zeros(dim)
@@ -125,12 +126,26 @@ def run(
     ).hexdigest()
     first_frame = 0
     checkpoint_path = output / "checkpoint.json"
-    if resume and checkpoint_path.exists():
-        saved = json.loads(checkpoint_path.read_text(encoding="utf-8"))
-        if saved["signature"] != signature:
-            raise ValueError(
-                "checkpoint belongs to a different case, resolution, material or duration"
-            )
+    saved = (
+        json.loads(checkpoint_path.read_text(encoding="utf-8"))
+        if resume and checkpoint_path.exists()
+        else None
+    )
+    if saved is not None and saved["signature"] != signature:
+        raise ValueError("checkpoint belongs to a different case, resolution, material or duration")
+    count = sum(s.x.shape[0] for s in states)
+    dtype = np.result_type(*(np.asarray(s.x).dtype for s in states))
+
+    def storage(name, shape):
+        return np.lib.format.open_memmap(
+            output / f"trajectory_{name}.npy", mode="w+", dtype=dtype, shape=shape
+        )
+
+    positions = storage("x", (frames + 1, count, dim))
+    speeds = storage("speed", (frames + 1, count))
+    damages = storage("damage", (frames + 1, count))
+    temperatures = storage("temperature", (frames + 1, count))
+    if saved is not None:
         states = tuple(_load_state(output / name) for name in saved["states"])
         rows, observations = saved["rows"], saved["observations"]
         accumulated_impulse = np.asarray(saved["contact_impulse"])
@@ -140,15 +155,14 @@ def run(
         first_frame = saved["frame"] + 1
         for i in range(first_frame):
             with np.load(output / "frames_data" / f"frame_{i:05d}.npz") as data:
-                positions.append(data["x"])
-                speeds.append(data["speed"])
-                damages.append(data["damage"])
-                temperatures.append(data["temperature"])
+                positions[i] = data["x"]
+                speeds[i] = data["speed"]
+                damages[i] = data["damage"]
+                temperatures[i] = data["temperature"]
                 times.append(float(data["time"]))
                 impulses.append(data["contact_impulse"])
         reaction = np.array([observations[-1][f"boundary_impulse_{a}"] for a in "xyz"[:dim]])
         print(f"Resuming {label} at frame {first_frame - 1}/{frames}", flush=True)
-    del warm
     for frame in range(first_frame, frames + 1):
         time = frame * substeps * dt
         if frame:
@@ -173,18 +187,20 @@ def run(
         if observer is not None:
             observation.update(observer(states, time))
         observations.append(observation)
-        positions.append(np.concatenate([np.asarray(s.x) for s in states]))
-        speeds.append(np.concatenate([np.linalg.norm(s.v, axis=1) for s in states]))
-        damages.append(np.concatenate([np.asarray(s.history.damage) for s in states]))
-        temperatures.append(np.concatenate([np.asarray(s.history.temperature) for s in states]))
+        positions[frame] = np.concatenate([np.asarray(s.x) for s in states])
+        speeds[frame] = np.concatenate([np.linalg.norm(s.v, axis=1) for s in states])
+        damages[frame] = np.concatenate([np.asarray(s.history.damage) for s in states])
+        temperatures[frame] = np.concatenate([np.asarray(s.history.temperature) for s in states])
+        for field in (positions, speeds, damages, temperatures):
+            field.flush()
         times.append(time)
         impulses.append(accumulated_impulse.copy())
         _atomic_npz(
             output / "frames_data" / f"frame_{frame:05d}.npz",
-            x=positions[-1],
-            speed=speeds[-1],
-            damage=damages[-1],
-            temperature=temperatures[-1],
+            x=positions[frame],
+            speed=speeds[frame],
+            damage=damages[frame],
+            temperature=temperatures[frame],
             time=time,
             contact_impulse=impulses[-1],
         )
@@ -226,9 +242,6 @@ def run(
                 f"{label}: {frame}/{frames}, t={time:.6g}, Jmin={min(r['min_J'] for r in rows[-len(states):]):.4g}, Dmax={max(r['max_damage'] for r in rows[-len(states):]):.4g}",
                 flush=True,
             )
-    positions, speeds, damages, temperatures = map(
-        np.asarray, (positions, speeds, damages, temperatures)
-    )
     body = np.concatenate([np.full(s.x.shape[0], i) for i, s in enumerate(states)])
     np.savez_compressed(
         output / "trajectory.npz",
@@ -255,6 +268,7 @@ def run(
     summary = {
         "case": label,
         "completed": True,
+        "history_storage": "file-backed arrays",
         "configs": [asdict(c) for c in configs],
         "materials": [
             {k: np.asarray(v).tolist() for k, v in m._asdict().items()} for m in materials

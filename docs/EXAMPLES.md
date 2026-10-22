@@ -26,9 +26,14 @@ grid-scale error. The free surface has zero applied traction.
 | `ball-beam` | Elastic sphere falls onto an elastic beam | Both beam ends clamped; two-body normal contact | Sphere height, beam displacement, contact impulse |
 | `large-bending` | Cantilever with 0.6 m/s initial tip velocity | Clamp x≤0.2 | Large transverse displacement |
 | `large-twist` | Cantilever with amplified initial twist velocity | Clamp x≤0.2 | End rotation and energy |
+| `perforated-panel` | Nine-hole elastic panel; 3 kPa, 0.08 s smooth pressure pulse | Four edges clamped; reference-face dead traction | Central displacement and applied work |
+| `cellular-cushion` | Falling flat mass; two skins joined by sixteen elastic columns | Cushion base clamped; two-body friction coefficient 0.2 | Mass deceleration, cushion displacement, contact impulse |
+| `baffled-tank` | Three perforated elastic baffles and a hydrostatic liquid layer | Slip tank walls; baffle bases clamped; 6 m/s² harmonic base acceleration | Surface elevation and baffle displacement |
+| `unbaffled-tank` | Same tank, liquid height and acceleration without baffles | Slip tank walls | Surface elevation and liquid centre of mass |
 
-Tank tops are included as protective walls. `elastic-gate` and `floating-block`
-use a hydrostatic pressure initialization; the other fluid cases start
+Tank tops are included as protective walls. `elastic-gate`, `floating-block`,
+`baffled-tank` and `unbaffled-tank` use a hydrostatic pressure initialization;
+the other fluid cases start
 unstressed, so their transient includes settling.
 The bulk modulus is 0.2 MPa: these are compressible-flow demonstrations, not
 calibrated water experiments. FSI uses separate grids and nonadhesive contact,
@@ -123,3 +128,35 @@ with the same solver revision: the configuration signature does not hash source
 files. A checkpoint is not an accuracy or convergence certificate.
 
 Rendering can be performed separately after completion; see [RENDERING.md](RENDERING.md).
+
+## Engineering configurations
+
+```bash
+python -m examples.suite --case perforated-panel --grid 48 --ppc 3 --frames 50 --no-render --resume --output outputs/engineering
+python -m examples.suite --case cellular-cushion --grid 48 --ppc 3 --frames 50 --no-render --resume --output outputs/engineering
+python -m examples.suite --case baffled-tank --grid 48 --ppc 3 --frames 50 --no-render --resume --output outputs/engineering
+python -m examples.suite --case unbaffled-tank --grid 48 --ppc 3 --frames 50 --no-render --resume --output outputs/engineering
+```
+
+The perforated panel spans 0.68 × 0.68 m, has thickness 0.08 m and nine
+0.05 m radius through-holes. Its 0.35 s response includes both the pressure
+pulse and free vibration. The nominal traction acts in the fixed negative-y
+direction on the reference upper face; it is not a follower pressure.
+
+The cushion has sixteen 0.04 m radius columns connecting two skins. A separate
+elastic platen falls through a 0.18 m initial gap under gravity. The 0.34 s
+run records platen velocity and pad deformation. It models elastic cushioning;
+there is no strut self-contact or material fracture model in this example.
+
+The tank cases run for 0.7 s under 1.5 Hz horizontal base acceleration with a
+0.1 s smooth ramp. Computation uses the translating tank frame, applying the
+inertial force `-mass * acceleration` to both fluid and structure. The three
+baffles are 0.05 m thick and have rectangular openings. The comparison keeps
+tank dimensions and liquid height fixed; the baffles displace some liquid,
+so the two cases have different liquid masses. Wall pressure and response
+are grid-resolution dependent.
+
+These configurations exercise engineering geometry, loading and observables.
+Their demonstration parameters are not calibrated component designs or certified
+load ratings. Full dimensions, load definitions and material values are written
+into each run's `summary.json`.

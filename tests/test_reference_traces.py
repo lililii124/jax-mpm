@@ -7,7 +7,7 @@ import jax.numpy as jnp
 import numpy as np
 import pytest
 
-from mpm_jax.materials import initial_history, jh2, rht, update_jh2, update_rht
+from mpm_jax.materials import initial_history, jh2, hjc, rht, update_jh2, update_hjc, update_rht
 
 jax.config.update("jax_enable_x64", True)
 DATA = Path(__file__).parent / "data/materials"
@@ -19,7 +19,12 @@ def test_supplied_reference_trace(entry):
     path = DATA / entry["file"]
     assert hashlib.sha256(path.read_bytes()).hexdigest() == entry["sha256"]
     data = np.load(path)
-    p, update = (jh2(), update_jh2) if entry["model"] == "jh2" else (rht(), update_rht)
+    factory, update = {
+        "jh2": (jh2, update_jh2),
+        "hjc": (hjc, update_hjc),
+        "rht": (rht, update_rht),
+    }[entry["model"]]
+    p = factory()
     de = data["increments"]
     strain = np.zeros((len(de), 3, 3))
     strain[:, 0, 0], strain[:, 1, 1], strain[:, 2, 2] = de[:, 0], de[:, 1], de[:, 2]

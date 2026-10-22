@@ -8,9 +8,78 @@
     "rht": {
       "file": "rht_material_mod.F90",
       "sha256": "4ff65d57ef67f2f7ab86944f118c4d7d99b5a98796a82c004e43d8a9e273d0bd"
+    },
+    "hjc": {
+      "file": "umat_hjc_user_tested_after_tension_fix.f",
+      "sha256": "4a8b4f9329e699a433faa06e501811ad740940305b669b3ad276f380de5ccb38"
     }
   },
   "fixtures": [
+    {
+      "file": "hjc_compression_unload.npz",
+      "model": "hjc",
+      "fields": [
+        "plastic_strain",
+        "damage",
+        "plastic_volume",
+        "max_compression",
+        "compaction",
+        "pressure"
+      ],
+      "sha256": "a47cf1c6f9daa0b0e37c12011bd5fc8e95f0acf5b74bec3b387d3f6a37c0286a"
+    },
+    {
+      "file": "hjc_hydro.npz",
+      "model": "hjc",
+      "fields": [
+        "plastic_strain",
+        "damage",
+        "plastic_volume",
+        "max_compression",
+        "compaction",
+        "pressure"
+      ],
+      "sha256": "00b97afab6c0336d4935a7251465a11b33235e3f8f360508efcd9c6f38673f7d"
+    },
+    {
+      "file": "hjc_pore_collapse.npz",
+      "model": "hjc",
+      "fields": [
+        "plastic_strain",
+        "damage",
+        "plastic_volume",
+        "max_compression",
+        "compaction",
+        "pressure"
+      ],
+      "sha256": "f5296c459c1f8524360e1636a6b8f6d990a019b33b230af9b889ea2f48608b8b"
+    },
+    {
+      "file": "hjc_shear_reverse.npz",
+      "model": "hjc",
+      "fields": [
+        "plastic_strain",
+        "damage",
+        "plastic_volume",
+        "max_compression",
+        "compaction",
+        "pressure"
+      ],
+      "sha256": "c8e13890d5f2ee96e15fce947fa7c36b8c145725bb85932addd1c9621b2abf01"
+    },
+    {
+      "file": "hjc_tension_recompression.npz",
+      "model": "hjc",
+      "fields": [
+        "plastic_strain",
+        "damage",
+        "plastic_volume",
+        "max_compression",
+        "compaction",
+        "pressure"
+      ],
+      "sha256": "6a1663f414a23754c093f1c4436953311dbc94586988bf13daf96a88876950d5"
+    },
     {
       "file": "jh2_damage_unload.npz",
       "model": "jh2",

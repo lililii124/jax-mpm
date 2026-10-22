@@ -1,6 +1,7 @@
 """ParaView batch rendering and animation assembly."""
 
 import argparse
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
@@ -29,6 +30,8 @@ def find_pvpython():
 
 
 def render_directory(output, *, gif=False, field="body", resolution=1200, final_only=False):
+    if gif and final_only:
+        raise ValueError("--gif and --final-only are mutually exclusive")
     output = Path(output).resolve()
     pvpython = find_pvpython()
     command = [
@@ -65,7 +68,10 @@ def render_directory(output, *, gif=False, field="body", resolution=1200, final_
     if gif:
         from PIL import Image
 
-        paths = sorted((output / "frames").glob("frame_*.png"))
+        frame_count = json.loads((output / "vtk_metadata.json").read_text(encoding="utf-8"))[
+            "frames"
+        ]
+        paths = [output / "frames" / f"frame_{i:05d}.png" for i in range(frame_count)]
         frames = [Image.open(path).convert("RGB") for path in paths]
         frames[0].save(
             output / "simulation.gif",
@@ -78,27 +84,67 @@ def render_directory(output, *, gif=False, field="body", resolution=1200, final_
         )
         for frame in frames:
             frame.close()
+        record_path = output / "render.json"
+        record = json.loads(record_path.read_text(encoding="utf-8"))
+        record["animation"] = "simulation.gif"
+        record_path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+
+
+@contextmanager
+def trajectory_arrays(output):
+    """Read completed file-backed histories without inflating the whole archive."""
+    output = Path(output)
+    summary_path = output / "summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
+    names = ("x", "speed", "damage", "temperature")
+    mapped = summary.get("completed", False) and all(
+        (output / f"trajectory_{name}.npy").is_file() for name in names
+    )
+    arrays = {}
+    try:
+        with np.load(output / "trajectory.npz") as data:
+            if mapped:
+                arrays.update(
+                    {
+                        name: np.load(output / f"trajectory_{name}.npy", mmap_mode="r")
+                        for name in names
+                    }
+                )
+            else:
+                arrays.update({name: data[name] for name in names if name in data})
+            arrays.update({name: data[name] for name in ("time", "body") if name in data})
+        yield arrays
+    finally:
+        for value in arrays.values():
+            if isinstance(value, np.memmap):
+                value._mmap.close()
+        arrays.clear()
 
 
 def render_trajectory(output, *, gif=False, field="body", resolution=1200, final_only=False):
     output = Path(output)
-    with np.load(output / "trajectory.npz") as data:
-        positions = data["x"]
-        times = data["time"]
-        fields = {
-            key: data[key] for key in ("speed", "damage", "temperature", "body") if key in data
-        }
     summary_path = output / "summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
     config = summary.get("configs", [summary.get("config", {})])[0]
-    dim = config.get("dim", positions.shape[-1])
     spacing = config.get("domain_size", 1.0) / config.get("n_grid", 48)
     spacing /= summary.get("definition", {}).get(
         "particles_per_cell_per_axis", summary.get("particles_per_cell_per_axis", 2)
     )
-    if "body" not in fields:
-        fields["body"] = np.zeros(positions.shape[1], dtype=np.int32)
-    export_series(positions, fields, times, output, spacing=spacing, dim=dim)
+    with trajectory_arrays(output) as data:
+        positions = data["x"]
+        fields = {
+            key: data[key] for key in ("speed", "damage", "temperature", "body") if key in data
+        }
+        if "body" not in fields:
+            fields["body"] = np.zeros(positions.shape[1], dtype=np.int32)
+        export_series(
+            positions,
+            fields,
+            data["time"],
+            output,
+            spacing=spacing,
+            dim=config.get("dim", positions.shape[-1]),
+        )
     del positions, fields
     render_directory(output, gif=gif, field=field, resolution=resolution, final_only=final_only)
 

@@ -1,11 +1,13 @@
 # Verification and executed examples
 
-The Windows CPU test run passes **67 tests** with Python 3.12.13,
-JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1. The suite covers 2D/3D transfers,
+The Windows CPU test run passes **82 tests** with Python 3.12.13 and the
+PyPI release JAX 0.12.0.1. The suite covers 2D/3D transfers,
 constitutive integration, formal boundary conditions, contact, elastic gradients
 and interrupted-run recovery. GPU execution has not been validated.
-The same **67 tests pass with the PyPI release JAX 0.12.0.1** in a separate
-environment. XML reports are saved with the [run records](docs/results/).
+The [test report](docs/results/tests-public.xml) records zero failures, errors
+or skips. An earlier 67-test baseline also passed with the source build
+JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1; its separate
+[report](docs/results/tests-source.xml) is retained.
 
 ## Numerical checks
 
@@ -15,6 +17,8 @@ environment. XML reports are saved with the [run records](docs/results/).
 - Unilateral walls, moving walls, Coulomb slip, component-wise prescribed velocity,
   activation intervals and a fully clamped body under gravity.
 - Balanced two-body impulses, separation without adhesion and applied particle forces.
+- Hertz scaling; independent JKR roots, stable-branch derivatives and attachment
+  history; conservative pressure assignment; rigid-sphere impulse balance.
 - Plastic return limits, loading/unloading, rate dependence, damage and compaction.
 - Invalid deformation/support and constitutive convergence reporting.
 - Checkpoint recovery reproduces uninterrupted trajectories and all history fields
@@ -22,16 +26,19 @@ environment. XML reports are saved with the [run records](docs/results/).
 
 ## Supplied constitutive traces
 
-Ten compact fixtures contain four JH-2 histories (570 increments) and six RHT
-histories (390 increments), generated from the supplied compiled references.
+Fifteen compact fixtures contain four JH-2 histories (570 increments), five HJC
+histories (640 increments), and six RHT histories (390 increments), generated
+from the supplied compiled references.
 Compression, shear reversal, damage, hydrostatic loading and unloading paths
 exercise stress and selected history variables. The [manifest](tests/data/materials/manifest.json)
 records source and fixture hashes; reference binaries are not needed to run the tests.
 
 Stress comparisons use `rtol=2e-7`, `atol=1 Pa`. History tolerances are listed in
 [test_reference_traces.py](tests/test_reference_traces.py). These checks apply to
-the recorded parameter sets and strain paths. HJC currently has analytic and
-internal consistency tests, without an independent compiled-reference replay.
+the recorded parameter sets and strain paths. The HJC comparison includes
+compression/unloading, reversed shear, pore collapse, tension/recompression and
+hydrostatic loading. Its largest absolute stress difference over these paths
+is 2.40 × 10⁻⁵ Pa; all five added regression cases pass.
 
 [Source Final Check eligibility](docs/source_audit.json) and verification of the
 JAX implementation are separate records. Selected source branches are described
@@ -66,6 +73,8 @@ Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
 Denser benchmark configurations use three particles per cell per axis.
+The [contact guide](docs/CONTACT.md) distinguishes the geometric sphere problem
+from prescribed Hertz/JKR pressure footprints and describes their verification scope.
 
 Only completed runs enter the catalogue. A million-particle configuration or a
 partial checkpoint is not counted as a completed result. Runtime measurements
