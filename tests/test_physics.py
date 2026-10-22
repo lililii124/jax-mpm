@@ -129,7 +129,7 @@ def test_jit_matches_eager_on_deformed_block():
     compiled = step(initial, elastic(), config)
     with jax.disable_jit():
         eager = step(initial, elastic(), config)
-    for actual, expected in zip(compiled[:-1], eager[:-1]):
+    for actual, expected in zip(jax.tree.leaves(compiled[:-1]), jax.tree.leaves(eager[:-1])):
         np.testing.assert_allclose(actual, expected, rtol=1e-12, atol=1e-13)
     assert bool(compiled.valid) == bool(eager.valid)
 

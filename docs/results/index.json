@@ -1,0 +1,547 @@
+[
+  {
+    "id": "suite--cantilever--neo-hookean",
+    "case": "cantilever / neo-hookean",
+    "source_directory": "outputs/suite/cantilever/neo-hookean",
+    "particles": 36540,
+    "steps": 240,
+    "simulation_time": 0.15,
+    "min_J": 0.9977220670703797,
+    "max_damage": 0.0,
+    "solver_seconds": 5.912955299994792,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "77f9fd5549090c825c80662f3ff81963ac9c8cbe989a4d3e66d46d06bc7c374f",
+      "diagnostics.csv": "035df24be1b5976a91e26b11facab1e5028fa41bd0bbcfb5ebdb3c9736d1b1b4",
+      "observables.csv": "800eb5f9b883c0d3227d864638d6c3c95e7852c3ed49eab042e5ba1cae77be83",
+      "render.json": "07ff5b6901839b3088dac6861413f5b214e966cae97a7a732b66ba897c39c947",
+      "vtk_metadata.json": "24ffa99876708542b79eac9673d67279b9bd3eeed7d6ae0b97006b21110543cb"
+    }
+  },
+  {
+    "id": "suite--compression--neo-hookean",
+    "case": "compression / neo-hookean",
+    "source_directory": "outputs/suite/compression/neo-hookean",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 0.06363961030678927,
+    "min_J": 0.9856862152301274,
+    "max_damage": 0.0,
+    "solver_seconds": 1.5324672000133432,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "7557baa3f4263f7cf4ad8c71f4c6ae470fb4c16d4fa9cc2f0ad9a8e00e5878ec",
+      "diagnostics.csv": "8bc6614ce475b0efca23f8fd951df04f8e9314d0c1a891245e41a49e300de20b",
+      "observables.csv": "5793a08fe3b4024890d745dcaf464c36de1b40df626314e663bd742bca44cc74",
+      "render.json": "d802947b1460edb38be9dc293f41598ef21c0fbdf2202c9d32b75d607c880f41",
+      "vtk_metadata.json": "14d59ac3100a4a511d42e2d462881b1786e617c71cc42f1bbb0a4550ae5959a7"
+    }
+  },
+  {
+    "id": "suite--dam-break--neo-hookean",
+    "case": "dam-break / neo-hookean",
+    "source_directory": "outputs/suite/dam-break/neo-hookean",
+    "particles": 66096,
+    "steps": 1600,
+    "simulation_time": 0.35,
+    "min_J": 0.7402242266427533,
+    "max_damage": 0.0,
+    "solver_seconds": 89.9951062000182,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "1f1afd26407d27f158d265c92a58b2c6e32165c87ace0f2e718c3abb198ef493",
+      "diagnostics.csv": "3d924f45b694a3f1f177a313f1a4aa428bae2376dbe75ebdf27e98c4be76d4f9",
+      "observables.csv": "c5a5e0194305211cc4640969a4cb5c51922ae188cd295470042ed8c2ab390fa9",
+      "render.json": "09a46d3cf87840559aa9eb92b79bc66886f36752945ea37e17eede80f335d5ce",
+      "vtk_metadata.json": "fb27695ffa45877bc4867965630609fa32cfbc477304f688809d57a5bc57099a"
+    }
+  },
+  {
+    "id": "suite--fsi--neo-hookean",
+    "case": "fsi / neo-hookean",
+    "source_directory": "outputs/suite/fsi/neo-hookean",
+    "particles": 85776,
+    "steps": 1600,
+    "simulation_time": 0.35,
+    "min_J": 0.808813526654789,
+    "max_damage": 0.0,
+    "solver_seconds": 186.44017789997451,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "5faae53ef53b0c02264276102927d0885074c6d28808cf4def2ed215d3635693",
+      "diagnostics.csv": "7f7acfa714fa29e864dee7a8da2c2f1a6138a107ceb1d4773647b1798c8c1cee",
+      "observables.csv": "17e7a279a97dfd50a38cbff67f5e28eed9aa17e21b838eef7ef6e176a749afe9",
+      "render.json": "62ff18a719f679ae4bfbab96e4b328d70c4ab033b37b0e7f61ae0e12bf79b8c2",
+      "vtk_metadata.json": "d38a165ba71e0d385707f6038762e40a2297860068915f88317efbd4ecca291e"
+    }
+  },
+  {
+    "id": "suite--head-on--neo-hookean",
+    "case": "head-on / neo-hookean",
+    "source_directory": "outputs/suite/head-on/neo-hookean",
+    "particles": 38686,
+    "steps": 580,
+    "simulation_time": 0.24,
+    "min_J": 0.8278060007768963,
+    "max_damage": 0.0,
+    "solver_seconds": 18.968964400002733,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "31399bb400f294ce2e610d09794a2dd9d543a1649fe7c8a20bffb4b9bab2dc45",
+      "diagnostics.csv": "fe5a5fa987abfc631afbe337d514d527d926cd4359a992749bfb416c58d1b980",
+      "observables.csv": "9aad41ac4de8f04def7346bfab74975a4f44fb7d85410e7ef3106b56a09e7a5c",
+      "render.json": "a334ec59437bd82581e26dd8fb12e4c27592697bb2ca60c315132be180e84b65",
+      "vtk_metadata.json": "272c7cf0a6261ac1a615e3b8533bd1b450b5852ccf065a08a9c24b7102ae8124"
+    }
+  },
+  {
+    "id": "suite--oblique--neo-hookean",
+    "case": "oblique / neo-hookean",
+    "source_directory": "outputs/suite/oblique/neo-hookean",
+    "particles": 38686,
+    "steps": 580,
+    "simulation_time": 0.24,
+    "min_J": 0.7566363119984512,
+    "max_damage": 0.0,
+    "solver_seconds": 18.043842100014444,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "8ede6180565c21c1931836e99bb0ea8cac231214bf005df1db5e973392eaccaf",
+      "diagnostics.csv": "f919eada56515698aa9c4d4ce47c7d45ed2fc56add74687233b39e5b93ee2f49",
+      "observables.csv": "4391654e450b01bb2787482665d3fc547a7ce6f29d2179d10478ee8743e32845",
+      "render.json": "db5092557a878bce1af6397d6c72a6b1a8dc2a3d14c7662710ece7f7ab66236e",
+      "vtk_metadata.json": "7db07c3ef66ee49a8c7edbb506dbfefe33e7896c8086ac26bfe442dccd0bf08a"
+    }
+  },
+  {
+    "id": "suite--rebound--neo-hookean",
+    "case": "rebound / neo-hookean",
+    "source_directory": "outputs/suite/rebound/neo-hookean",
+    "particles": 24389,
+    "steps": 860,
+    "simulation_time": 0.36,
+    "min_J": 0.5788017858793748,
+    "max_damage": 0.0,
+    "solver_seconds": 14.849750600013067,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "e66ae833c43ae39000a53713fc5fb6f8e8062e098b560dabe4aa006b3fd268d4",
+      "diagnostics.csv": "bb06b125ee90f7af92e53422782724fe158b3a8ac417d8d001f564f9a989fc91",
+      "observables.csv": "2a2a9e6fbf8aba5068df9748fa94ee8368fb0983269e793177b3d2f3e25b40b8",
+      "render.json": "09ef52d41923bfbcc57da2cacaeba75e6e2d1911fe2fdfcf9737ce199419b61a",
+      "vtk_metadata.json": "55e58c751c2d35a9594ee6f4a350e63a8e0bba144c675caef97148ad4cb1ba9f"
+    }
+  },
+  {
+    "id": "suite--shear--neo-hookean",
+    "case": "shear / neo-hookean",
+    "source_directory": "outputs/suite/shear/neo-hookean",
+    "particles": 73008,
+    "steps": 240,
+    "simulation_time": 0.15,
+    "min_J": 0.9781740610576313,
+    "max_damage": 0.0,
+    "solver_seconds": 11.53951719996985,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "e5b0ec1a8af939d00e27002e4dfa032a73fbafe495babda594e25bfcb2979962",
+      "diagnostics.csv": "0ba447c8dcbc771b4120231a9caa646b2e63a356a6942fe2bb12adb6ed82973f",
+      "observables.csv": "0724cbcefd2937e41348b2d8604e931e120e78c5c81f1bdb474401080b230502",
+      "render.json": "302684af82fe177d5bf6639fdd530f13c4cf3f9da467a5711cc405a79a6d2042",
+      "vtk_metadata.json": "31b40118dee7925d316c458930670384c9a704254abd8155f833d26f6f9c65bc"
+    }
+  },
+  {
+    "id": "suite--sliding--neo-hookean",
+    "case": "sliding / neo-hookean",
+    "source_directory": "outputs/suite/sliding/neo-hookean",
+    "particles": 16704,
+    "steps": 600,
+    "simulation_time": 0.25,
+    "min_J": 0.8032040152579268,
+    "max_damage": 0.0,
+    "solver_seconds": 7.0403441000089515,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "fef277a8317771b4084d09df442e4096345fcd1c8cbad73a2dfa2e6ee957230c",
+      "diagnostics.csv": "d52d87447ce8b5afe5acf66f9cf0addf6be77a08acbf9fd79d8b16f58a3096ea",
+      "observables.csv": "5f8491175c15f4c774b65942b8cf1e231def532fc3470d074f7d1e22dcca8d9b",
+      "render.json": "07ce8e41d3e059a3d04f3302c5d1c8fd162e39a0970b18a68f226ff8575b4bc3",
+      "vtk_metadata.json": "6f1feb0025b8fd0b7548a6bb4851b086cd15bc044d8da87084a84c694a2df0a6"
+    }
+  },
+  {
+    "id": "suite--sloshing--neo-hookean",
+    "case": "sloshing / neo-hookean",
+    "source_directory": "outputs/suite/sloshing/neo-hookean",
+    "particles": 82944,
+    "steps": 1600,
+    "simulation_time": 0.35,
+    "min_J": 0.8451499611759044,
+    "max_damage": 0.0,
+    "solver_seconds": 99.03536379997968,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "38de2c760da9a7171ae9b2425b30aca5bc1b5574cd26ef51127cb06f618cabcb",
+      "diagnostics.csv": "f98b2f63fb3413d803837bef9b2c54b557f28f859f7918dfc315f96a9e51cab7",
+      "observables.csv": "6c2414286cba9ace430857f1cd791711b5ef44de8cd50067bdcd177f17242106",
+      "render.json": "9a617ac17da438fdeaff9e0e6364d2f0da93e4c68b4297c3a8c55d8c44fc4244",
+      "vtk_metadata.json": "65365e36fedc0de77d8e309444977fe4c5a54e46d9f74e1da85a02d12e934bd9"
+    }
+  },
+  {
+    "id": "suite--surface-load--neo-hookean",
+    "case": "surface-load / neo-hookean",
+    "source_directory": "outputs/suite/surface-load/neo-hookean",
+    "particles": 33640,
+    "steps": 240,
+    "simulation_time": 0.15,
+    "min_J": 0.993425191622301,
+    "max_damage": 0.0,
+    "solver_seconds": 11.836193999988609,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "54eadcef9fe76dfa4c88c647c5a1d6366a55fbf9db41b90c8e8e35442c324d27",
+      "diagnostics.csv": "2879c29ccd5ac19dca1606e20470d9c5f81f5da2d8b08763edf1a67f95f730f6",
+      "observables.csv": "b1916587a41adf68bb84186554df9db5445f32f3592d006924876019bd70b84a",
+      "render.json": "fe95031b54006d1a3387126f3b568310172a222407ac94b3d2805413a6b1e860",
+      "vtk_metadata.json": "a015c78b42ba4ad2740e3efb7a9c510ae9ecffe844e54b992f5cc2703bc663b8"
+    }
+  },
+  {
+    "id": "suite--torsion--neo-hookean",
+    "case": "torsion / neo-hookean",
+    "source_directory": "outputs/suite/torsion/neo-hookean",
+    "particles": 36540,
+    "steps": 240,
+    "simulation_time": 0.15,
+    "min_J": 0.9929607521512309,
+    "max_damage": 0.0,
+    "solver_seconds": 5.675890600017738,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "97e7c77bceec6e1afe84e1d6be496d7f910eb530057897db3f930297c37842b2",
+      "diagnostics.csv": "fae4ceb8bc0b0d3a8592e2ec3746023fd4e120e2fb54035c85350907426da0ef",
+      "observables.csv": "ff814e6ed8fb54b58d3327b0a12864457b0e693b229c65aeb853e1cf4db70627",
+      "render.json": "290cffdaeac61cbdc712740c274588ab6084c4b0455d82e6f94fff21ba3cd3ac",
+      "vtk_metadata.json": "1dcf8777e31e4f4f6720d42b6570a616c7555b7874b1a38dac9ea20aa24e1225"
+    }
+  },
+  {
+    "id": "suite--water-entry--neo-hookean",
+    "case": "water-entry / neo-hookean",
+    "source_directory": "outputs/suite/water-entry/neo-hookean",
+    "particles": 118592,
+    "steps": 1600,
+    "simulation_time": 0.35,
+    "min_J": 0.8761176437085062,
+    "max_damage": 0.0,
+    "solver_seconds": 197.626712999976,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "0b643fa8e222cc97bdb891a29bd918d7f3b74744c2e9dfaba23d20881fa8a110",
+      "diagnostics.csv": "98b0e24b144f58b27e90a2bd8a46370dacf3987ad0537b1e568cb3e658b13eab",
+      "observables.csv": "61e28811ecf3ef1e82a7a4dc8d688871b128fa78637708eefa9e74b37b9b2d6c",
+      "render.json": "29a4bd8f0efa0bc67243fdd6450d9aa8cae2d13dfddd40d275af97fec342bf65",
+      "vtk_metadata.json": "cad7faadc0212c945dbd43187b891457c2efcb7989836b68f66b5ed9713e73a2"
+    }
+  },
+  {
+    "id": "suite--wave--neo-hookean",
+    "case": "wave / neo-hookean",
+    "source_directory": "outputs/suite/wave/neo-hookean",
+    "particles": 41472,
+    "steps": 200,
+    "simulation_time": 0.1341640786499874,
+    "min_J": 0.9948053939244722,
+    "max_damage": 0.0,
+    "solver_seconds": 6.438480199984042,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "4c02745e80768c2b1ec4a22790cd8b464ea5413b9bab2cce3335b1725de22418",
+      "diagnostics.csv": "3d33799c6eb55e2e3041476a16b31232ef642d643548b7218755f86e1c59a46f",
+      "observables.csv": "face0d02bb1c8a548c4753fd532b598680de35d2cccb5705f68a9a4ec6664008",
+      "render.json": "82b7de6aca2d33b4e1ca277cc6ec5b57272c6e522cfdf2af57e25819679a0b48",
+      "vtk_metadata.json": "97f3ec1a4907c3dede8f155fc9f0882c8e5bd9beeed1bac1a9bdd14201d8414d"
+    }
+  },
+  {
+    "id": "elastic_cantilever--cantilever--blatz-ko",
+    "case": "cantilever / blatz-ko",
+    "source_directory": "outputs/elastic_cantilever/cantilever/blatz-ko",
+    "particles": 36540,
+    "steps": 520,
+    "simulation_time": 0.15,
+    "min_J": 0.999250607768762,
+    "max_damage": 0.0,
+    "solver_seconds": 23.486571300018113,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "830d163b916d65500289fc8fc34a307b711024938b76d1b40f393147f60ddf3e",
+      "diagnostics.csv": "8eea1f3e0c2e4f60e1399a1166d4aed4d6d666a09100552967f48a9653362b6e",
+      "observables.csv": "8aa2fb6753adbff21de2932a6ed4a01715a80bc06de7d43a44775e53a7d8d0d6",
+      "render.json": "290cffdaeac61cbdc712740c274588ab6084c4b0455d82e6f94fff21ba3cd3ac",
+      "vtk_metadata.json": "0a296826aa0e5d02d4a5bc171b197bab691a381bab8085d23aaa5332a2b4c492"
+    }
+  },
+  {
+    "id": "elastic_cantilever--cantilever--linear",
+    "case": "cantilever / linear",
+    "source_directory": "outputs/elastic_cantilever/cantilever/linear",
+    "particles": 36540,
+    "steps": 280,
+    "simulation_time": 0.15,
+    "min_J": 0.9977051645399372,
+    "max_damage": 0.0,
+    "solver_seconds": 10.120688400013023,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "e0846b1336c175713ee938de767d102bc7bbed0e458a381a170060b7de6dee20",
+      "diagnostics.csv": "e012218babd41f07f73372cdc17c343449bd2452a61e11ace336ec32aca033c3",
+      "observables.csv": "14868da660bcc8beeaedc138ce16a438d05c21fd27cca47542d6bb6865469bc4",
+      "render.json": "290cffdaeac61cbdc712740c274588ab6084c4b0455d82e6f94fff21ba3cd3ac",
+      "vtk_metadata.json": "c8296ae5a2187e59ad354ba413da1834ee6aaca8f28d36b75cd95b7c4b333c04"
+    }
+  },
+  {
+    "id": "elastic_cantilever--cantilever--orthotropic",
+    "case": "cantilever / orthotropic",
+    "source_directory": "outputs/elastic_cantilever/cantilever/orthotropic",
+    "particles": 36540,
+    "steps": 440,
+    "simulation_time": 0.15,
+    "min_J": 0.9966032856523476,
+    "max_damage": 0.0,
+    "solver_seconds": 21.318819700027234,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "40d121d7003f8a275ee8b0c6158adbe92fdc047480368ee9976a771f968d046d",
+      "diagnostics.csv": "c808e6b82e0816d066e1ef1cca42cb5627ecea153cd2b26b764b1ce4f63f6885",
+      "observables.csv": "4253d8d9dfe8eda76eef04ee39c73446e2fead082d1ec7a26fe740ffff6d1a7b",
+      "render.json": "82d36fe61f96abe449065984d14b62628ceee15b08a592eadd669875f2b2e122",
+      "vtk_metadata.json": "0b69676b982f5ab378239bbf2788e4827d6a4b907546e024475e7d4bfbedba30"
+    }
+  },
+  {
+    "id": "elastic_cantilever--cantilever--transverse-isotropic",
+    "case": "cantilever / transverse-isotropic",
+    "source_directory": "outputs/elastic_cantilever/cantilever/transverse-isotropic",
+    "particles": 36540,
+    "steps": 460,
+    "simulation_time": 0.15,
+    "min_J": 0.9972101912426233,
+    "max_damage": 0.0,
+    "solver_seconds": 23.03388599997561,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "10221c22e6f41e59a4aa5b5e941c16e34fc2025b1c4e8a35ed1346685636f2d1",
+      "diagnostics.csv": "56690ecc5dd3cb1cf3dc2ea0f382f5a819457b44d6c0a1a3097a8404e50c325d",
+      "observables.csv": "6348ba68efe11036254694e7c410e8eef78ee2e9d7c6dc39ccc931cfaae043c6",
+      "render.json": "1614218b3ca5c364f6a9df1683ad96665807b0e30b43c9edac2a6fa66d71cb05",
+      "vtk_metadata.json": "de21ba2efa64937ad22e9bcb6f5ed0473a07ced214a6cd3c770f1accd0d802c8"
+    }
+  },
+  {
+    "id": "compression--compression--bilinear",
+    "case": "compression / bilinear",
+    "source_directory": "outputs/compression/compression/bilinear",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 5.106298631522221e-05,
+    "min_J": 0.9852555684051135,
+    "max_damage": 0.0,
+    "solver_seconds": 6.317694599958486,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "532bb7d858ee0779c4da3ba918e887796fd09754cd639a90e6fc5a609c97b1a4",
+      "diagnostics.csv": "8f4ad16691c4f7883655955717c1c5dbaae6a83c1bb387af6bf411c3bee26b9c",
+      "observables.csv": "1311302829be9ff99d869e90a5664b0c924288eebaa719777b3c0583078b4c9b",
+      "render.json": "3942ba02f8df41809281a9937e97623477ba983f23501afb1a17913511497a6c",
+      "vtk_metadata.json": "b14aa82184394e3a820874f884703ea59749fec7512a577779547a94ee8a39b3"
+    }
+  },
+  {
+    "id": "compression--compression--hjc",
+    "case": "compression / hjc",
+    "source_directory": "outputs/compression/compression/hjc",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 4.577284444281021e-05,
+    "min_J": 0.9768876004285094,
+    "max_damage": 0.49212785122513375,
+    "solver_seconds": 5.997303000011016,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "125fded2838df8b626ebc47a033874a437c8769a046b2c02d50987ca26488925",
+      "diagnostics.csv": "e7893d4bd45527a2d220a24425f24c97e42c9407b245c4c49a335c408ca2fbf2",
+      "observables.csv": "e7c3a423bc81530753b79ceeebad5c1021e0f30a36421b7005e714b0f3dce22c",
+      "render.json": "c960a5e54198189b1f4458435c0b1cc1f3b4900e5f6c86da45f9003149c10ffb",
+      "vtk_metadata.json": "6aa80d0eb627d5cda694f9a0842e40fbf39631877e2742c600d72bbd7c2f57e2"
+    }
+  },
+  {
+    "id": "compression--compression--isotropic-plastic",
+    "case": "compression / isotropic-plastic",
+    "source_directory": "outputs/compression/compression/isotropic-plastic",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 5.106298631522221e-05,
+    "min_J": 0.9852550338563565,
+    "max_damage": 0.0,
+    "solver_seconds": 5.603868999984115,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "cbddcb46aaec0faf1ec38a5722277368ef0c5dd044c7e7b61e0b7465077dc6e1",
+      "diagnostics.csv": "9859aa31edda90aef5bc51e99efbf2ed6d5d4e4bf4180b6a067e768c100fbfd6",
+      "observables.csv": "74284ab911b931b11f14958be724db21607df70ed0d06f8921f70660d4073bcf",
+      "render.json": "3942ba02f8df41809281a9937e97623477ba983f23501afb1a17913511497a6c",
+      "vtk_metadata.json": "bab507dc003b763883b098c756b46132cce521dae9e5a2460a6bf8a4274637bc"
+    }
+  },
+  {
+    "id": "compression--compression--jh2",
+    "case": "compression / jh2",
+    "source_directory": "outputs/compression/compression/jh2",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 3.789683644799335e-05,
+    "min_J": 0.9889772671050034,
+    "max_damage": 1.0,
+    "solver_seconds": 6.140650400018785,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "bcb89720455565153666fafc7f30a08f972939789981d99a7655a8adf50a4299",
+      "diagnostics.csv": "c3f94701f1bf57342bef099487730eb9677e3ec63d9c6c5378fd4102622e667e",
+      "observables.csv": "beddf8de48c85250d8b37acddd27a25e85d6ecd3a7666dae5c79428f056c7587",
+      "render.json": "dd882adafa5a8d0434f21cf1e32b6a1f2ab6da81de87db0a6aeab60f1fd4334a",
+      "vtk_metadata.json": "c71dcbf97f48b281527070c2fd1da58be707726f16d4cb8bb87f07c664e1f70f"
+    }
+  },
+  {
+    "id": "compression--compression--johnson-cook",
+    "case": "compression / johnson-cook",
+    "source_directory": "outputs/compression/compression/johnson-cook",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 6.88979122619081e-05,
+    "min_J": 0.98642295307822,
+    "max_damage": 0.0,
+    "solver_seconds": 8.795494699981646,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "afc89eeaa6c3f18843dd51184503da90aef41c403ff8f0710c60c3d4f5b5e36e",
+      "diagnostics.csv": "4417e461984f94affcb7af1784c44b751674d65bdd939e9c0a800f01fd0c0a9e",
+      "observables.csv": "510e62434e5937f8dcc03e4d7b36b434de8550a9517797d69acf0dda091b244e",
+      "render.json": "3942ba02f8df41809281a9937e97623477ba983f23501afb1a17913511497a6c",
+      "vtk_metadata.json": "88bddad11a37d1da7ca20bc13349ed8c3a74a4dd7c595d345cea4a8a18aabc97"
+    }
+  },
+  {
+    "id": "compression--compression--rht",
+    "case": "compression / rht",
+    "source_directory": "outputs/compression/compression/rht",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 3.061017156892957e-05,
+    "min_J": 0.9751273797217233,
+    "max_damage": 0.2327204802051291,
+    "solver_seconds": 777.56955439999,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "d6f2ca00fc238cbcfef24cb6e3a937aa26d06052c84712aa2d83b2886d07b12e",
+      "diagnostics.csv": "901db0628a5fdb1814c756342b1f1be4a3d160ae3c2b4ab224f60ebd8c3116c6",
+      "observables.csv": "bc6a26fea11dab74f5e9b81378494bac51e3858a21b59b86afdd8ee2b6dfed82",
+      "render.json": "c960a5e54198189b1f4458435c0b1cc1f3b4900e5f6c86da45f9003149c10ffb",
+      "vtk_metadata.json": "012f63eb4764f287d36b516b9fb48101ad1c28afe63103c77406220143dc5adf"
+    }
+  },
+  {
+    "id": "compression--compression--steinberg-guinan",
+    "case": "compression / steinberg-guinan",
+    "source_directory": "outputs/compression/compression/steinberg-guinan",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 7.220021666954131e-05,
+    "min_J": 0.9872227250171672,
+    "max_damage": 0.0,
+    "solver_seconds": 5.8447990999993635,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "7d1117b662e45a9eb83e5d039e9595c56371d0be396789ed58c8dac75df48dd2",
+      "diagnostics.csv": "3497aa1a79da4280c3db247c087c88597656f7bf092ca2e50b3f4388dfef8d9f",
+      "observables.csv": "51a9adea71f739105d05871783e47ea7c1e3388b418d49c68feda294d875b7b2",
+      "render.json": "b9cfca1d5c8b27f7364f7c88976f73562a59fb8ae70632175746be2dbfd4bf48",
+      "vtk_metadata.json": "37fa0a104b41424479ac1e3b7e4afaedb352e5614bfe4bebe62eef938821e764"
+    }
+  },
+  {
+    "id": "compression--compression--thermal-plastic",
+    "case": "compression / thermal-plastic",
+    "source_directory": "outputs/compression/compression/thermal-plastic",
+    "particles": 24389,
+    "steps": 100,
+    "simulation_time": 3.746998799039039e-05,
+    "min_J": 0.9821930945948354,
+    "max_damage": 0.0,
+    "solver_seconds": 6.079338600029587,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "4485cf98f19f8a768035fb327fcf9a73d4a28c1866da7b45d5b6cfc782ab2d09",
+      "diagnostics.csv": "a1b7209b376debcef7387b5a2e8c0137bb7691788e3aed109cf6ac334222a67e",
+      "observables.csv": "cc59314b802133f23ca5416cbaa8726ce5d796fa220a79778ebad516c502f60e",
+      "render.json": "b17a61ee68e166e1b9e4992a0107163422816133782f68772d3e07a746473bcd",
+      "vtk_metadata.json": "783b920c5e32b418a5d516b503a143eca5ebb9b713ae3f27018e10ba1f8191da"
+    }
+  },
+  {
+    "id": "refinement--grid32--wave--neo-hookean",
+    "case": "wave / neo-hookean",
+    "source_directory": "outputs/refinement/grid32/wave/neo-hookean",
+    "particles": 12288,
+    "steps": 140,
+    "simulation_time": 0.1341640786499874,
+    "min_J": 0.9948361753012094,
+    "max_damage": 0.0,
+    "solver_seconds": 1.2747564999881433,
+    "renderer": null,
+    "sha256": {
+      "summary.json": "58a962e38c1f4aeeac9501cb2dce41591e1f169589689431dae558667a9ea0e6",
+      "diagnostics.csv": "a06a3dda7731f5c36d92eb98489713d3cc695629199eecdbe7f56148a6c7e055",
+      "observables.csv": "a641a2b586b2457ef0c77e11a83f04e71d46ff86062d891190824a5b7004b912"
+    }
+  },
+  {
+    "id": "refinement--grid64--wave--linear",
+    "case": "wave / linear",
+    "source_directory": "outputs/refinement/grid64/wave/linear",
+    "particles": 98304,
+    "steps": 260,
+    "simulation_time": 0.1341640786499874,
+    "min_J": 0.9947958473963843,
+    "max_damage": 0.0,
+    "solver_seconds": 22.887680299958447,
+    "renderer": null,
+    "sha256": {
+      "summary.json": "0461a0f6c1cdf04a306780dfa6737fefa13c01ff0e13bdfabb78d14fba92fccf",
+      "diagnostics.csv": "2b3da1e623c4a41f94dad4bc92b55be230800cecc88808a2016985b999951df4",
+      "observables.csv": "75b9e0cf1918bd427bfceb3c1b3535f03d582280bbc6b3b99045eabcd4d31e5e"
+    }
+  },
+  {
+    "id": "refinement--half_dt--wave--neo-hookean",
+    "case": "wave / neo-hookean",
+    "source_directory": "outputs/refinement/half_dt/wave/neo-hookean",
+    "particles": 41472,
+    "steps": 400,
+    "simulation_time": 0.1341640786499874,
+    "min_J": 0.9948168429810831,
+    "max_damage": 0.0,
+    "solver_seconds": 12.46333660001983,
+    "renderer": null,
+    "sha256": {
+      "summary.json": "df72fcdb7764e3a9120cd347e5f91cdb0a4d5b1cfcedc6574928c92f5bd700ac",
+      "diagnostics.csv": "76f164eb834f092e41c0cca8ca2623f65c8609c2394318d84d92c2d247af0717",
+      "observables.csv": "9f6cc0b891445bb81f3db92411491b8228b39cc461baeb2bb4cbb17d2d0d1874"
+    }
+  }
+]

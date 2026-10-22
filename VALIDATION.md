@@ -1,38 +1,90 @@
-# Validation
+# Verification and executed examples
 
-The reference runs use Python 3.12, JAX 0.12.1.dev20261022, and jaxlib 0.12.0.1
-on a Windows CPU. All 21 tests pass.
+The Windows CPU test run passes **67 tests** with Python 3.12.13,
+JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1. The suite covers 2D/3D transfers,
+constitutive integration, formal boundary conditions, contact, elastic gradients
+and interrupted-run recovery. GPU execution has not been validated.
+The same **67 tests pass with the PyPI release JAX 0.12.0.1** in a separate
+environment. XML reports are saved with the [run records](docs/results/).
 
-A clean installation with the PyPI release JAX 0.12.0.1 also passes all 21
-tests, the dependency check, and a CLI run with GIF output.
+## Numerical checks
 
-## Transfer and constitutive tests
+- Quadratic B-spline partition, first moments and shape gradients.
+- Mass, linear momentum and APIC angular momentum; affine velocity reproduction.
+- Rigid rotations, stress/energy consistency, isotropic limits and rotated anisotropy.
+- Unilateral walls, moving walls, Coulomb slip, component-wise prescribed velocity,
+  activation intervals and a fully clamped body under gravity.
+- Balanced two-body impulses, separation without adhesion and applied particle forces.
+- Plastic return limits, loading/unloading, rate dependence, damage and compaction.
+- Invalid deformation/support and constitutive convergence reporting.
+- Checkpoint recovery reproduces uninterrupted trajectories and all history fields
+  for a plastically deforming body, including an interruption between saved frames.
 
-The suite checks B-spline partition of unity and moments, mass and linear/APIC
-angular momentum conservation, affine velocity reproduction, rigid-rotation
-stress, the elastic energy derivative, free fall, free-slip boundaries,
-and invalid-state detection.
+## Supplied constitutive traces
 
-## Material gradient
+Ten compact fixtures contain four JH-2 histories (570 increments) and six RHT
+histories (390 increments), generated from the supplied compiled references.
+Compression, shear reversal, damage, hydrostatic loading and unloading paths
+exercise stress and selected history variables. The [manifest](tests/data/materials/manifest.json)
+records source and fixture hashes; reference binaries are not needed to run the tests.
 
-For the deformed block in `examples/gradient.py`, after 60 steps:
+Stress comparisons use `rtol=2e-7`, `atol=1 Pa`. History tolerances are listed in
+[test_reference_traces.py](tests/test_reference_traces.py). These checks apply to
+the recorded parameter sets and strain paths. HJC currently has analytic and
+internal consistency tests, without an independent compiled-reference replay.
 
-| Method | Derivative with respect to Young's modulus |
-|---|---:|
-| Automatic differentiation | −4.13625828355 × 10⁻⁹ |
-| Central difference, h = 2 | −4.13625828477 × 10⁻⁹ |
-| Relative error | 2.96 × 10⁻¹⁰ |
+[Source Final Check eligibility](docs/source_audit.json) and verification of the
+JAX implementation are separate records. Selected source branches are described
+in [MATERIALS.md](docs/MATERIALS.md); unsupported branches are not inferred from
+the material number alone.
 
-## Example runs
+## Longitudinal-wave refinement
 
-Both cases use a 48 × 48 grid, dt = 2 × 10⁻⁴, 4,000 steps, and float32.
+A fixed-end rod with transverse rollers starts with its first sinusoidal axial
+velocity mode. The analytic solution uses the same rod length, Young's modulus,
+density and final time (0.134164 s). Each cell has two particles per axis.
+Errors below are RMS errors divided by the corresponding analytical amplitude.
 
-| Case | Particles | Minimum J over saved frames | Final J range |
-|---|---:|---:|---|
-| Elastic block | 841 | 0.28074 | 0.7823–1.3634 |
-| Dam break, K = 2 × 10⁵ | 2,112 | 0.69980 | 0.9294–1.0642 |
+| Grid | Particles | Velocity error | Displacement error |
+|---|---:|---:|---:|
+| 32³ | 12,288 | 0.0274716 | 0.0266309 |
+| 48³ | 41,472 | 0.0174015 | 0.0180035 |
+| 64³ | 98,304 | 0.0127027 | 0.0135669 |
+| 48³, half time step | 41,472 | 0.0167466 | 0.0173536 |
 
-Both runs retain positive deformation determinants and finite particle states.
-The fluid case allows about 30% local compression; these results are numerical
-checks, not a comparison against an incompressible-flow benchmark or experiment.
-GPU execution has not been validated.
+Both errors decrease with grid refinement. Halving the time step at fixed grid
+changes the error less than refining the grid. This study concerns the smooth
+elastic rod; it does not establish convergence of damage, contact or FSI cases.
+Definitions, boundary regions and final metrics are preserved in the
+[run catalogue](docs/RESULTS.md).
+
+## Spatial examples
+
+The catalogue contains the completed dynamics, contact, fluid and FSI runs,
+five elastic beam models, and eight incremental-material compression cases.
+Each record includes its actual particle count, steps, physical time, material
+parameters, boundary regions, determinant range, damage and diagnostic CSVs.
+The original 48³ suite contains approximately 17,000–119,000 particles per case.
+Denser benchmark configurations use three particles per cell per axis.
+
+Only completed runs enter the catalogue. A million-particle configuration or a
+partial checkpoint is not counted as a completed result. Runtime measurements
+exclude compilation, checkpoint I/O and rendering; simultaneous CPU jobs make
+them unsuitable as standalone performance benchmarks.
+
+Images are generated by ParaView 6.2.0 from all exported particles. A VTK reader
+check compares first/last-frame particle counts, coordinates and scalar fields
+against the NPZ trajectories, allowing for float32 visualization storage.
+
+## Limits
+
+Default material constants are demonstration values. Public-example adaptations
+have different discretizations, constitutive laws or geometry and are not
+experimental reproductions. The compressible inviscid liquid and nonadhesive
+contact interface do not provide a viscous, incompressible FSI model.
+
+Positive deformation determinants and finite states do not establish physical
+accuracy. Damage has no fracture-energy regularization, and failed particles
+retain mass and grid participation. Constitutive work is not recoverable elastic
+energy; the outputs do not claim an exact discrete energy balance. Elastic
+gradients are tested, while plasticity/damage maps are not advertised as differentiable.

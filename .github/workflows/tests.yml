@@ -24,4 +24,5 @@ jobs:
       - run: python -m pip install -e ".[test]"
       - run: python -m pytest -q
       - run: python -m examples.gradient
-      - run: python -m mpm_jax --frames 2 --substeps 10 --gif --output outputs/smoke
+      - run: python -m mpm_jax --frames 2 --substeps 10 --no-render --output outputs/smoke
+      - run: python -m examples.suite --case wave --grid 32 --no-render --output outputs/wave

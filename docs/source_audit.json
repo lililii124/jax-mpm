@@ -1,0 +1,97 @@
+{
+  "delivery": "MAT001_296_latest_20261017",
+  "materials": [
+    {
+      "material": "MAT001",
+      "name": "*MAT_ELASTIC / *MAT_ELASTIC_FLUID",
+      "status": "PASS_COMPLEX_1PCT",
+      "source_sha256": "18dfa4a3fa455475daf6ac2b7e307055573d13fd9bb7b73e266657785ab6e8b6",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT002",
+      "name": "*MAT_OPTIONTROPIC_ELASTIC",
+      "status": "PASS_COMPLEX_1PCT",
+      "source_sha256": "1c7bd28b31df78c3eb5905e9f59cf53a0e880f5a5cc710b89be5678cf2d933fb",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT003",
+      "name": "*MAT_PLASTIC_KINEMATIC",
+      "status": "PASS_COMPLEX_FINAL_CHECK_1PCT",
+      "source_sha256": "f8930a90c0a623a30ea25e3774c59a8cd96a92c2b7f6120a8ee88025064c2811",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT004",
+      "name": "*MAT_ELASTIC_PLASTIC_THERMAL",
+      "status": "PASS_COMPLEX_FINAL_CHECK_1PCT",
+      "source_sha256": "95757bd11848a8bc6e297b40af44da90b86b39fd06ff32d71b4b6fee01270129",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT007",
+      "name": "*MAT_BLATZ-KO_RUBBER",
+      "status": "PASS_SCOPED_BRANCH_SINGLE_CELL_AND_COMPLEX_FINAL_CHECK",
+      "source_sha256": "2031ae1704e6e4a607700c55d38431a8eadb8a81dcfe357ad2c45fcaaa49abf1",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT011",
+      "name": "*MAT_STEINBERG / *MAT_STEINBERG_LUND",
+      "status": "PASS_SELECTED_BRANCH_COMPLEX_FINAL_CHECK_1PCT",
+      "source_sha256": "accf980b6929012f06da972ce8c7b66cca7da9574c646b29a5d9b77ab35803cd",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT012",
+      "name": "*MAT_ISOTROPIC_ELASTIC_PLASTIC",
+      "status": "PASS_COMPLEX_FINAL_CHECK_1PCT",
+      "source_sha256": "0e9b8dc24a1eaa4c7e1803d1cce0113eaa649af51b26d9f211533b9b69bbcdaa",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT015",
+      "name": "*MAT_JOHNSON_COOK",
+      "status": "SCOPED_PASS_FIXED_FORM_RECORD_IDENTITY_REVIEWED",
+      "source_sha256": "1d985fcf7a5f886f9b8bf95a929e69bb3035dc637c0cf1283d19e4d48b1baa49",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    },
+    {
+      "material": "MAT111",
+      "name": "*MAT_JOHNSON_HOLMQUIST_CONCRETE",
+      "status": "SCOPED_PASS_CURRENT_SOURCE_HASH_MATCH",
+      "source_sha256": "90e7542f33a46cbc9aedad49207679af05511e8033c8f2f2ce56008105c3425a",
+      "manifest_source_matches": true,
+      "acceptance_source_matches": true,
+      "acceptance_file_matches": true
+    }
+  ],
+  "eligible": [
+    "MAT001",
+    "MAT002",
+    "MAT003",
+    "MAT004",
+    "MAT007",
+    "MAT011",
+    "MAT012",
+    "MAT015",
+    "MAT111"
+  ]
+}

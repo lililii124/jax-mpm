@@ -1,0 +1,188 @@
+{
+  "case": "shear / neo-hookean",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.000625,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            0.28,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.72,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.05,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 8333.333333333334,
+      "lam": 5555.555555555556,
+      "bulk": 11111.111111111111
+    }
+  ],
+  "steps": 240,
+  "simulation_time": 0.15,
+  "particles": [
+    73008
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 0.8878980000008596,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 11.53951719996985,
+  "min_J": 0.9781740610576313,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    3.1910437224294346,
+    0.0010558687999986107,
+    1.60483031177087e-17
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "tracked_displacement_x": 0.0,
+      "tracked_displacement_y": 0.0,
+      "tracked_displacement_z": 0.0
+    },
+    "final": {
+      "time": 0.15,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 3.1910437224294346,
+      "boundary_impulse_y": 0.0010558687999986107,
+      "boundary_impulse_z": 1.60483031177087e-17,
+      "tracked_displacement_x": 0.005591908382482453,
+      "tracked_displacement_y": -1.4804627550301687e-06,
+      "tracked_displacement_z": 4.455612346799952e-19
+    }
+  },
+  "definition": {
+    "geometry": {
+      "lower": [
+        0.3,
+        0.25,
+        0.3
+      ],
+      "upper": [
+        0.7,
+        0.75,
+        0.7
+      ]
+    },
+    "model": "neo-hookean",
+    "particles_per_cell_per_axis": 2,
+    "initial_acoustic_speed": 4.714045207910317,
+    "boundary_method": "grid velocity constraints",
+    "units": "m, s, kg, Pa",
+    "purpose": "shear"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 80.0,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.4999999999999999,
+      "com_y": 0.4999999999999999,
+      "com_z": 0.4999999999999999,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.07999999999999996,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.15,
+      "body": 0,
+      "mass": 80.0,
+      "momentum_x": 3.1910437224294346,
+      "momentum_y": 0.0010558687999986107,
+      "momentum_z": 1.60483031177087e-17,
+      "kinetic_energy": 0.07889586963898101,
+      "com_x": 0.5031844392209158,
+      "com_y": 0.5000042009816781,
+      "com_z": 0.4999999999999999,
+      "min_J": 0.9781740610576313,
+      "max_J": 1.0225127283153885,
+      "current_volume": 0.08000496864083007,
+      "max_speed": 0.057260730631770736,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.05900618463618977
+    }
+  ]
+}

@@ -14,51 +14,17 @@ from .core import Config, advance, elastic, fluid
 from .initialization import block, diagnostics
 
 
-def render(positions, speeds, times, config, output, scene, make_gif):
-    import matplotlib
+def render(positions, speeds, times, config, output, scene, make_gif, field_label="Speed"):
+    from .visualization import render_trajectory
 
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    from matplotlib.animation import FuncAnimation, PillowWriter
-
-    fig, ax = plt.subplots(figsize=(6, 6), layout="constrained")
-    ax.set(
-        xlim=(0, config.domain_size),
-        ylim=(0, config.domain_size),
-        xlabel="x",
-        ylabel="y",
-        aspect="equal",
-    )
-    scatter = ax.scatter(
-        positions[0, :, 0],
-        positions[0, :, 1],
-        c=speeds[0],
-        s=6,
-        cmap="viridis",
-        vmin=0,
-        vmax=max(1e-6, float(speeds.max())),
-    )
-    title = ax.set_title("")
-    fig.colorbar(scatter, ax=ax, label="Speed")
-
-    def update(i):
-        scatter.set_offsets(positions[i])
-        scatter.set_array(speeds[i])
-        title.set_text(f"JAX MLS-MPM | {scene} | t = {times[i]:.3f}")
-        return scatter, title
-
-    update(len(times) - 1)
-    fig.savefig(output / "final.png", dpi=160)
-    if make_gif:
-        animation = FuncAnimation(fig, update, frames=len(times), blit=False)
-        animation.save(output / "simulation.gif", writer=PillowWriter(fps=25))
-    plt.close(fig)
+    render_trajectory(output, gif=make_gif, field="damage" if field_label == "Damage" else "body")
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--scene", choices=("elastic", "dam-break"), default="elastic")
     parser.add_argument("--grid", type=int, default=48, help="cells per side")
+    parser.add_argument("--dim", type=int, choices=(2, 3), default=2)
     parser.add_argument("--frames", type=int, default=80)
     parser.add_argument("--substeps", type=int, default=50)
     parser.add_argument("--dt", type=float, default=2e-4)
@@ -85,12 +51,14 @@ def main(argv=None):
     if args.x64:
         jax.config.update("jax_enable_x64", True)
     kind = "elastic" if args.scene == "elastic" else "fluid"
-    config = Config(n_grid=args.grid, dt=args.dt, material=kind)
+    config = Config(n_grid=args.grid, dt=args.dt, material=kind, dim=args.dim)
     material = elastic(args.young, args.poisson) if kind == "elastic" else fluid(args.bulk)
     if kind == "elastic":
         lower, upper = (0.35, 0.55), (0.65, 0.85)
     else:
         lower, upper = (3 * config.dx, 3 * config.dx), (0.4, 0.72)
+    if args.dim == 3:
+        lower, upper = lower + (0.35,), upper + (0.65,)
     state = block(
         config,
         lower,
@@ -139,7 +107,9 @@ def main(argv=None):
             )
     positions, speeds, times = np.asarray(positions), np.asarray(speeds), np.asarray(times)
     np.savez_compressed(output / "trajectory.npz", x=positions, speed=speeds, time=times)
-    np.savez_compressed(output / "final_state.npz", **state._asdict())
+    arrays = {k: v for k, v in state._asdict().items() if k != "history"}
+    arrays.update({f"history_{k}": v for k, v in state.history._asdict().items()})
+    np.savez_compressed(output / "final_state.npz", **arrays)
     with (output / "diagnostics.csv").open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
         writer.writeheader()

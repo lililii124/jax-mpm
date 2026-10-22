@@ -1,7 +1,13 @@
-"""Differentiable two-dimensional MLS-MPM."""
+"""Material point method in JAX."""
 
 from .core import Config, Material, State, advance, elastic, fluid, step
 from .initialization import block, validate_state
+from .materials import linear_elastic, neo_hookean, orthotropic, transverse_isotropic
+from .materials import hjc, jh2, johnson_cook, rht
+from .materials import bilinear_plastic, thermal_plastic, blatz_ko
+from .materials import steinberg_guinan
+from .contact import coupled_advance, coupled_step
+from .boundaries import PlaneWall, VelocityBox, fixed_box
 
 __all__ = [
     "Config",
@@ -11,6 +17,23 @@ __all__ = [
     "block",
     "elastic",
     "fluid",
+    "hjc",
+    "jh2",
+    "johnson_cook",
+    "rht",
+    "bilinear_plastic",
+    "thermal_plastic",
+    "blatz_ko",
+    "steinberg_guinan",
+    "coupled_advance",
+    "coupled_step",
+    "PlaneWall",
+    "VelocityBox",
+    "fixed_box",
+    "linear_elastic",
+    "neo_hookean",
+    "orthotropic",
+    "transverse_isotropic",
     "step",
     "validate_state",
 ]

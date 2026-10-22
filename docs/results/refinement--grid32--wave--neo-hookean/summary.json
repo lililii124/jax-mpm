@@ -1,0 +1,276 @@
+{
+  "case": "wave / neo-hookean",
+  "configs": [
+    {
+      "n_grid": 32,
+      "dt": 0.0009583148474999099,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "linear",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            true
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.125,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.875,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "stiffness": [
+        [
+          20000.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          20000.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          20000.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          10000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          10000.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          10000.0
+        ]
+      ],
+      "orientation": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "steps": 140,
+  "simulation_time": 0.1341640786499874,
+  "particles": [
+    12288
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 0.39725300000282004,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 1.2747564999881433,
+  "min_J": 0.9948361753012094,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -1.0631308414658873,
+    0.0,
+    0.0
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "velocity_l2_over_initial_amplitude": 0.0,
+      "displacement_l2_over_initial_amplitude": 0.0,
+      "mode_velocity": 0.02
+    },
+    "final": {
+      "time": 0.1341640786499874,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -1.0631308414658873,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "velocity_l2_over_initial_amplitude": 0.027471637469484514,
+      "displacement_l2_over_initial_amplitude": 0.026630935188645,
+      "mode_velocity": -0.015476517899606496
+    }
+  },
+  "definition": {
+    "geometry": {
+      "lower": [
+        0.125,
+        0.375,
+        0.375
+      ],
+      "upper": [
+        0.875,
+        0.625,
+        0.625
+      ]
+    },
+    "model": "linear",
+    "particles_per_cell_per_axis": 2,
+    "initial_acoustic_speed": 4.47213595499958,
+    "boundary_method": "grid velocity constraints",
+    "units": "m, s, kg, Pa",
+    "purpose": "wave"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 46.875,
+      "momentum_x": 0.5969375763492041,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.004687500000000001,
+      "com_x": 0.5,
+      "com_y": 0.5,
+      "com_z": 0.5,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.046875,
+      "max_speed": 0.019989291749527315,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.1341640786499874,
+      "body": 0,
+      "mass": 46.875,
+      "momentum_x": -0.46619326511668335,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.002808175706231289,
+      "com_x": 0.5004271599778983,
+      "com_y": 0.5,
+      "com_z": 0.5,
+      "min_J": 0.99677431601362,
+      "max_J": 1.0032265827721312,
+      "current_volume": 0.0468749902596128,
+      "max_speed": 0.015270076536301698,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.001778399575091156
+    }
+  ]
+}

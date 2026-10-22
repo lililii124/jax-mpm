@@ -1,4 +1,4 @@
-"""Two-dimensional MLS-MPM with quadratic B-splines and APIC transfers.
+"""Two- and three-dimensional MLS-MPM with quadratic B-splines and APIC transfers.
 
 Adapted from Taichi's mpm128.py (Apache-2.0). The JAX implementation uses
 Neo-Hookean stress and updates deformation after G2P. See NOTICE.
@@ -6,23 +6,36 @@ Neo-Hookean stress and updates deformation after G2P. See NOTICE.
 
 from dataclasses import dataclass
 from functools import partial
+from itertools import product
 from math import isfinite
 from typing import NamedTuple
 
 import jax
 import jax.numpy as jnp
 
+from .materials import (
+    History,
+    INCREMENTAL_MODELS,
+    Material,
+    elastic,
+    fluid,
+    kirchhoff_stress,
+    update_history,
+)
+
 
 @dataclass(frozen=True)
 class Config:
-    """Static configuration; n_grid cells give (n_grid + 1)^2 nodes."""
+    """Static configuration; n_grid cells per axis, dim = 2 or 3."""
 
     n_grid: int = 48
     dt: float = 2e-4
     domain_size: float = 1.0
-    gravity: tuple[float, float] = (0.0, -9.81)
+    gravity: tuple[float, ...] | None = None
     boundary_cells: int = 3
     material: str = "elastic"
+    dim: int = 2
+    boundaries: tuple = ()
 
     def __post_init__(self):
         if not isinstance(self.n_grid, int) or self.n_grid < 8:
@@ -36,45 +49,49 @@ class Config:
             or not 0 <= self.boundary_cells < self.n_grid // 2
         ):
             raise ValueError("boundary_cells must be an integer in [0, n_grid//2)")
-        if self.material not in ("elastic", "fluid"):
-            raise ValueError("material must be 'elastic' or 'fluid'")
-        if len(self.gravity) != 2 or not all(isfinite(g) for g in self.gravity):
-            raise ValueError("gravity must contain two finite values")
-        object.__setattr__(self, "gravity", tuple(self.gravity))
+        if (
+            self.material
+            not in (
+                "elastic",
+                "fluid",
+                "neo-hookean",
+                "linear",
+                "orthotropic",
+                "transverse-isotropic",
+                "blatz-ko",
+            )
+            + INCREMENTAL_MODELS
+        ):
+            raise ValueError(f"unknown material: {self.material}")
+        if self.dim not in (2, 3):
+            raise ValueError("dim must be 2 or 3")
+        if self.material in INCREMENTAL_MODELS and self.dim != 3:
+            raise ValueError("incremental plasticity models require dim=3")
+        gravity = (
+            self.gravity if self.gravity is not None else (0.0, -9.81) + (0.0,) * (self.dim - 2)
+        )
+        if len(gravity) != self.dim or not all(isfinite(g) for g in gravity):
+            raise ValueError("gravity must contain dim finite values")
+        object.__setattr__(self, "gravity", tuple(gravity))
+        object.__setattr__(self, "boundaries", tuple(self.boundaries))
+        for boundary in self.boundaries:
+            boundary.validate(self.dim, self.domain_size)
 
     @property
     def dx(self):
         return self.domain_size / self.n_grid
 
 
-class Material(NamedTuple):
-    """Differentiable material parameters, shared by all particles."""
-
-    mu: jax.Array | float
-    lam: jax.Array | float
-    bulk: jax.Array | float
-
-
-def elastic(young=2e4, poisson=0.2):
-    """Plane-strain Lame parameters for young > 0 and -1 < poisson < 0.5."""
-    return Material(
-        young / (2 * (1 + poisson)), young * poisson / ((1 + poisson) * (1 - 2 * poisson)), 0.0
-    )
-
-
-def fluid(bulk=2e5):
-    """Compressible inviscid fluid, W(J)=bulk/2*(J-1)^2."""
-    return Material(0.0, 0.0, bulk)
-
-
 class State(NamedTuple):
-    x: jax.Array  # (particles, 2), current coordinates
-    v: jax.Array  # (particles, 2)
-    F: jax.Array  # (particles, 2, 2), deformation gradient
-    C: jax.Array  # (particles, 2, 2), APIC affine velocity
-    mass: jax.Array  # (particles,), fixed mass
-    volume: jax.Array  # (particles,), reference area, unit thickness
-    valid: jax.Array  # scalar bool; false stays false across time steps
+    x: jax.Array  # (particles, dim)
+    v: jax.Array
+    F: jax.Array  # (particles, dim, dim)
+    C: jax.Array
+    mass: jax.Array
+    volume: jax.Array  # reference volume; unit thickness in 2D
+    history: History
+    time: jax.Array
+    valid: jax.Array
 
 
 class Stencil(NamedTuple):
@@ -82,39 +99,41 @@ class Stencil(NamedTuple):
     weights: jax.Array
     dpos: jax.Array
     valid: jax.Array
+    gradients: jax.Array
 
 
 def stencil(x, config):
-    """Nine-node support; mask invalid indices to prevent wrapping."""
+    """3**dim node support; mask invalid indices to prevent wrapping."""
     q = x / config.dx
     base = jnp.floor(q - 0.5).astype(jnp.int32)
     f = q - base
     w = jnp.stack((0.5 * (1.5 - f) ** 2, 0.75 - (f - 1) ** 2, 0.5 * (f - 0.5) ** 2), axis=1)
-    offsets = jnp.array([(i, j) for i in range(3) for j in range(3)], dtype=jnp.int32)
+    offsets = jnp.array(list(product(range(3), repeat=config.dim)), dtype=jnp.int32)
     nodes = base[:, None, :] + offsets[None, :, :]
     inside = jnp.all((nodes >= 0) & (nodes <= config.n_grid), axis=-1)
-    weights = w[:, offsets[:, 0], 0] * w[:, offsets[:, 1], 1]
+    weights = jnp.prod(w[:, offsets, jnp.arange(config.dim)], axis=-1)
     weights = jnp.where(inside, weights, 0)
     safe = jnp.clip(nodes, 0, config.n_grid)
-    indices = safe[..., 0] * (config.n_grid + 1) + safe[..., 1]
-    return Stencil(indices, weights, (offsets[None] - f[:, None]) * config.dx, jnp.all(inside))
+    strides = (config.n_grid + 1) ** jnp.arange(config.dim - 1, -1, -1)
+    indices = jnp.sum(safe * strides, axis=-1)
+    dw = jnp.stack((f - 1.5, 2 * (1 - f), f - 0.5), axis=1) / config.dx
+    axis_weights = w[:, offsets, jnp.arange(config.dim)]
+    gradients = []
+    for d in range(config.dim):
+        factors = axis_weights.at[..., d].set(dw[:, offsets[:, d], d])
+        gradients.append(jnp.prod(factors, axis=-1))
+    gradients = jnp.where(inside[..., None], jnp.stack(gradients, axis=-1), 0.0)
+    return Stencil(
+        indices, weights, (offsets[None] - f[:, None]) * config.dx, jnp.all(inside), gradients
+    )
 
 
-def kirchhoff_stress(F, material, kind):
-    """Return tau = P F^T = J sigma (reference-volume stress weighting)."""
-    J = jnp.linalg.det(F)
-    eye = jnp.eye(2, dtype=F.dtype)
-    if kind == "fluid":
-        return (material.bulk * J * (J - 1))[:, None, None] * eye
-    B = F @ jnp.swapaxes(F, -1, -2)
-    # step flags inverted F; the floor keeps log defined until validation.
-    logJ = jnp.log(jnp.maximum(J, jnp.finfo(F.dtype).tiny))
-    return material.mu * (B - eye) + material.lam * logJ[:, None, None] * eye
-
-
-def particle_to_grid(state, material, config, support=None):
+def particle_to_grid(state, material, config, support=None, force=None):
     support = stencil(state.x, config) if support is None else support
-    tau = kirchhoff_stress(state.F, material, config.material)
+    if config.material in INCREMENTAL_MODELS:
+        tau = jnp.linalg.det(state.F)[:, None, None] * state.history.stress
+    else:
+        tau = kirchhoff_stress(state.F, material, config.material)
     affine = (
         state.mass[:, None, None] * state.C
         - (4 * config.dt / config.dx**2) * state.volume[:, None, None] * tau
@@ -122,21 +141,23 @@ def particle_to_grid(state, material, config, support=None):
     momentum = state.mass[:, None, None] * state.v[:, None, :] + jnp.einsum(
         "pij,pkj->pki", affine, support.dpos
     )
-    size = (config.n_grid + 1) ** 2
+    if force is not None:
+        momentum = momentum + config.dt * force[:, None, :]
+    size = (config.n_grid + 1) ** config.dim
     grid_mass = (
         jnp.zeros(size, dtype=state.x.dtype)
         .at[support.indices]
         .add(support.weights * state.mass[:, None])
     )
     grid_momentum = (
-        jnp.zeros((size, 2), dtype=state.x.dtype)
+        jnp.zeros((size, config.dim), dtype=state.x.dtype)
         .at[support.indices]
         .add(support.weights[..., None] * momentum)
     )
     return grid_mass, grid_momentum
 
 
-def grid_update(mass, momentum, config):
+def grid_update(mass, momentum, config, time=0.0):
     occupied = mass > 0
     velocity = momentum / jnp.where(occupied, mass, 1)[:, None]
     velocity = jnp.where(
@@ -144,13 +165,21 @@ def grid_update(mass, momentum, config):
         velocity + config.dt * jnp.asarray(config.gravity, dtype=velocity.dtype),
         0,
     )
+    return grid_boundaries(velocity, config, time)
+
+
+def grid_boundaries(velocity, config, time=0.0):
+    if config.boundary_cells or config.boundaries:
+        node = jnp.arange((config.n_grid + 1) ** config.dim)
+        strides = (config.n_grid + 1) ** jnp.arange(config.dim - 1, -1, -1)
+        coordinates = (node[:, None] // strides) % (config.n_grid + 1)
     if config.boundary_cells:
-        node = jnp.arange((config.n_grid + 1) ** 2)
-        coordinates = jnp.stack((node // (config.n_grid + 1), node % (config.n_grid + 1)), axis=-1)
         outward = ((coordinates < config.boundary_cells) & (velocity < 0)) | (
             (coordinates > config.n_grid - config.boundary_cells) & (velocity > 0)
         )
         velocity = jnp.where(outward, 0, velocity)
+    for boundary in config.boundaries:
+        velocity = boundary.apply(velocity, coordinates * config.dx, time)
     return velocity
 
 
@@ -164,19 +193,23 @@ def grid_to_particle(grid_velocity, support, config):
 
 
 @partial(jax.jit, static_argnames=("config",))
-def step(state, material, config):
+def step(state, material, config, force=None):
     """One explicit MLS-MPM step."""
     support = stencil(state.x, config)
-    gm, gp = particle_to_grid(state, material, config, support)
-    gv = grid_update(gm, gp, config)
+    gm, gp = particle_to_grid(state, material, config, support, force)
+    gv = grid_update(gm, gp, config, state.time + config.dt)
+    return particle_update(state, material, config, support, gv)
+
+
+def particle_update(state, material, config, support, gv):
     v, C = grid_to_particle(gv, support, config)
-    F = (jnp.eye(2, dtype=state.x.dtype) + config.dt * C) @ state.F
+    F = (jnp.eye(config.dim, dtype=state.x.dtype) + config.dt * C) @ state.F
     J = jnp.linalg.det(F)
     valid = state.valid & support.valid & jnp.all(J > 0) & jnp.all(jnp.linalg.det(state.F) > 0)
     if config.material == "fluid":
         # Store volume change only; an inviscid fluid carries no shear memory.
-        F = jnp.sqrt(jnp.maximum(J, jnp.finfo(F.dtype).tiny))[:, None, None] * jnp.eye(
-            2, dtype=F.dtype
+        F = jnp.maximum(J, jnp.finfo(F.dtype).tiny)[:, None, None] ** (1 / config.dim) * jnp.eye(
+            config.dim, dtype=F.dtype
         )
     x = state.x + config.dt * v
     # Require the full quadratic support to remain inside the grid.
@@ -188,16 +221,20 @@ def step(state, material, config):
         & jnp.all(jnp.isfinite(F))
         & jnp.all(jnp.isfinite(C))
     )
-    return State(x, v, F, C, state.mass, state.volume, valid)
+    history = state.history
+    if config.material in INCREMENTAL_MODELS:
+        history = update_history(history, F, state.F, config.dt, material, config.material)
+        valid = valid & jnp.all(history.valid)
+    return State(x, v, F, C, state.mass, state.volume, history, state.time + config.dt, valid)
 
 
 @partial(jax.jit, static_argnames=("config", "steps"))
-def advance(state, material, config, steps):
-    """Advance without storing a trajectory; reverse-mode autodiff supported."""
+def advance(state, material, config, steps, force=None):
+    """Advance without storing a trajectory. Elastic branches support reverse-mode AD."""
     if not isinstance(steps, int) or steps < 0:
         raise ValueError("steps must be a nonnegative integer")
 
     def body(carry, _):
-        return step(carry, material, config), None
+        return step(carry, material, config, force), None
 
     return jax.lax.scan(body, state, None, length=steps)[0]

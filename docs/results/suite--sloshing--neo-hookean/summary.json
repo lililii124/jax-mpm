@@ -1,0 +1,187 @@
+{
+  "case": "sloshing / neo-hookean",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.00021874999999999998,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        -9.81,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "fluid",
+      "dim": 3,
+      "boundaries": [
+        {
+          "axis": 0,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 0,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 1,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.125,
+          "side": "lower",
+          "friction": 0.0,
+          "velocity": null
+        },
+        {
+          "axis": 2,
+          "position": 0.875,
+          "side": "upper",
+          "friction": 0.0,
+          "velocity": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 0.0,
+      "lam": 0.0,
+      "bulk": 200000.0
+    }
+  ],
+  "steps": 1600,
+  "simulation_time": 0.35,
+  "particles": [
+    82944
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 5.248871400006465,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 99.03536379997968,
+  "min_J": 0.8451499611759044,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -56.96426255078761,
+    328.40731861535687,
+    -5.602347063907512e-15
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "water_front_x": 0.8697916666666666,
+      "free_surface_y": 0.36979166666666663,
+      "maximum_pressure": 0.0
+    },
+    "final": {
+      "time": 0.35,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -56.96426255078761,
+      "boundary_impulse_y": 328.40731861535687,
+      "boundary_impulse_z": -5.602347063907512e-15,
+      "water_front_x": 0.8718098908761969,
+      "free_surface_y": 0.7441161429258765,
+      "maximum_pressure": 12841.352088606172
+    }
+  },
+  "definition": {
+    "purpose": "sloshing",
+    "tank_lower": [
+      0.125,
+      0.125,
+      0.125
+    ],
+    "tank_upper": [
+      0.875,
+      0.875,
+      0.875
+    ],
+    "liquid_bulk_modulus": 200000.0,
+    "particles_per_cell_per_axis": 2,
+    "interface": "free surface",
+    "initial_hydrostatic_equilibrium": false
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 93.75000000000001,
+      "momentum_x": 46.874999999950845,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 11.71875,
+      "com_x": 0.49999999999999994,
+      "com_y": 0.24999999999999997,
+      "com_z": 0.49999999999999994,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.09375,
+      "max_speed": 0.5,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 229.921875,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.35,
+      "body": 0,
+      "mass": 93.75000000000001,
+      "momentum_x": -10.089262550836764,
+      "momentum_y": 6.516693615356876,
+      "momentum_z": -5.602347063907512e-15,
+      "kinetic_energy": 6.259663919560876,
+      "com_x": 0.5584309915092214,
+      "com_y": 0.2310625327820855,
+      "com_z": 0.49999999999999994,
+      "min_J": 0.9357932395569691,
+      "max_J": 1.0444167383335061,
+      "current_volume": 0.09335180377594433,
+      "max_speed": 1.8674506815419218,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": 212.5053231180243,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.5169249626455418
+    }
+  ]
+}

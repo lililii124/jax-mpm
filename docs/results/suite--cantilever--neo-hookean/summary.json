@@ -1,0 +1,168 @@
+{
+  "case": "cantilever / neo-hookean",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.000625,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.2,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 8333.333333333334,
+      "lam": 5555.555555555556,
+      "bulk": 11111.111111111111
+    }
+  ],
+  "steps": 240,
+  "simulation_time": 0.15,
+  "particles": [
+    36540
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 0.6079850000096485,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 5.912955299994792,
+  "min_J": 0.9977220670703797,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -0.0006628228356250583,
+    -0.005171924959596008,
+    1.1795648474565378e-17
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "tracked_displacement_x": 0.0,
+      "tracked_displacement_y": 0.0,
+      "tracked_displacement_z": 0.0
+    },
+    "final": {
+      "time": 0.15,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -0.0006628228356250583,
+      "boundary_impulse_y": -0.005171924959596008,
+      "boundary_impulse_z": 1.1795648474565378e-17,
+      "tracked_displacement_x": -6.102054538579758e-06,
+      "tracked_displacement_y": 0.003455975861583659,
+      "tracked_displacement_z": 1.794541526872559e-17
+    }
+  },
+  "definition": {
+    "geometry": {
+      "lower": [
+        0.15,
+        0.4,
+        0.35
+      ],
+      "upper": [
+        0.8,
+        0.6,
+        0.65
+      ]
+    },
+    "model": "neo-hookean",
+    "particles_per_cell_per_axis": 2,
+    "initial_acoustic_speed": 4.714045207910317,
+    "boundary_method": "grid velocity constraints",
+    "units": "m, s, kg, Pa",
+    "purpose": "cantilever"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 38.99999999999999,
+      "momentum_x": 0.0,
+      "momentum_y": 0.35997345124115315,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0032392016663126766,
+      "com_x": 0.47500000000000026,
+      "com_y": 0.5000000000000001,
+      "com_z": 0.5000000000000001,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.039,
+      "max_speed": 0.02948634469219788,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.15,
+      "body": 0,
+      "mass": 38.99999999999999,
+      "momentum_x": -0.0006628228356250583,
+      "momentum_y": 0.35480152628155714,
+      "momentum_z": 1.1795648474565378e-17,
+      "kinetic_energy": 0.002772814553715677,
+      "com_x": 0.47499962401837864,
+      "com_y": 0.5013689460285224,
+      "com_z": 0.5000000000000001,
+      "min_J": 0.9979136683071247,
+      "max_J": 1.0021355108283205,
+      "current_volume": 0.039000229503202054,
+      "max_speed": 0.023474549989995926,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0004287497587463483
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "bounds": [
+    0.15515873015873016,
+    0.7956456392672824,
+    0.405,
+    0.5987928710554407,
+    0.35510319212965535,
+    0.6448968078703432
+  ],
+  "dim": 3,
+  "spacing": 0.010416666666666666,
+  "frames": 21,
+  "particles": 36540,
+  "fields": [
+    "speed",
+    "damage",
+    "temperature",
+    "body"
+  ],
+  "visualization_dtype": "float32",
+  "source_dtype": "float64",
+  "field_ranges": {
+    "speed": [
+      0.0,
+      0.02948634469219788
+    ],
+    "damage": [
+      0.0,
+      0.0
+    ],
+    "temperature": [
+      293.15,
+      293.15
+    ],
+    "body": [
+      0.0,
+      0.0
+    ]
+  }
+}

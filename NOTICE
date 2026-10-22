@@ -5,5 +5,8 @@ The MLS-MPM transfer scheme is adapted from Taichi's mpm128.py,
 Copyright Taichi Authors, licensed under the Apache License, Version 2.0.
 https://github.com/taichi-dev/taichi/blob/master/python/taichi/examples/simulation/mpm128.py
 
-The JAX implementation uses batched transfers, Neo-Hookean elasticity,
-end-of-step deformation updates, and explicit validity checks.
+The RHT implementation is adapted from Yu Zheng's rht_material_mod.F90
+(2026-09-24), licensed under AGPL-3.0-or-later. The combined distribution
+is provided under AGPL-3.0-or-later; see LICENSE. The original Apache-2.0
+license is retained in third_party/APACHE-2.0.txt for the earlier solver
+and the Taichi-derived transfer code.

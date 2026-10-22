@@ -1,0 +1,191 @@
+{
+  "case": "compression / isotropic-plastic",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 5.106298631522221e-07,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "bilinear",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            0.35,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.65,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            -29.3754852240759,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 76923076923.07692,
+      "bulk": 166666666666.66666,
+      "yield_stress": 250000000.0,
+      "hardening": 1005025125.6281407,
+      "isotropic_fraction": 1.0,
+      "density": 7800.0
+    }
+  ],
+  "steps": 100,
+  "simulation_time": 5.106298631522221e-05,
+  "particles": [
+    24389
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 1.1261870000016643,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 5.603868999984115,
+  "min_J": 0.9852550338563565,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.01867945031786001,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    1.0994261057106769e-12,
+    -1830.5952584645202,
+    -1.0497297475708933e-12
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "tracked_displacement_x": 0.0,
+      "tracked_displacement_y": 0.0,
+      "tracked_displacement_z": 0.0
+    },
+    "final": {
+      "time": 5.106298631522221e-05,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 1.0994261057106769e-12,
+      "boundary_impulse_y": -1830.5952584645202,
+      "boundary_impulse_z": -1.0497297475708933e-12,
+      "tracked_displacement_x": -3.385171274336939e-18,
+      "tracked_displacement_y": -0.00036682708002114066,
+      "tracked_displacement_z": -4.0782355881635824e-18
+    }
+  },
+  "definition": {
+    "geometry": {
+      "lower": [
+        0.35,
+        0.35,
+        0.35
+      ],
+      "upper": [
+        0.65,
+        0.65,
+        0.65
+      ]
+    },
+    "model": "isotropic-plastic",
+    "particles_per_cell_per_axis": 2,
+    "initial_acoustic_speed": 5875.097044815179,
+    "boundary_method": "grid velocity constraints",
+    "units": "m, s, kg, Pa",
+    "purpose": "prescribed-platen material compression"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 210.60000000000008,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.5,
+      "com_z": 0.5,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.027000000000000003,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 5.106298631522221e-05,
+      "body": 0,
+      "mass": 210.60000000000008,
+      "momentum_x": 1.0994261057106769e-12,
+      "momentum_y": -1830.5952584645202,
+      "momentum_z": -1.0497297475708933e-12,
+      "kinetic_energy": 14459.060002205768,
+      "com_x": 0.5,
+      "com_y": 0.4997886960889028,
+      "com_z": 0.5,
+      "min_J": 0.9852550338563565,
+      "max_J": 1.0037509294527152,
+      "current_volume": 0.02697780067370857,
+      "max_speed": 28.227476985254416,
+      "max_plastic_strain": 0.01867945031786001,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 26758.724890858426,
+      "strain_energy": null
+    }
+  ]
+}

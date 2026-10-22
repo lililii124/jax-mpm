@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jax-mpm"
-version = "0.1.0"
-description = "Differentiable 2D MLS-MPM with JAX"
+version = "0.2.0"
+description = "Two- and three-dimensional material point mechanics in JAX"
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [{name = "Yu Zheng"}]
 requires-python = ">=3.12"
-dependencies = ["jax>=0.12.0,<0.13", "numpy>=2.2", "matplotlib>=3.10", "pillow>=11"]
+dependencies = ["jax>=0.12.0,<0.13", "numpy>=2.2", "pillow>=11"]
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
@@ -24,7 +24,7 @@ jax-mpm = "mpm_jax.cli:main"
 mpm-jax = "mpm_jax.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["mpm_jax*"]
+include = ["mpm_jax*", "examples*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

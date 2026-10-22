@@ -1,0 +1,168 @@
+{
+  "case": "torsion / neo-hookean",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.000625,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.2,
+            1.0,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "mu": 8333.333333333334,
+      "lam": 5555.555555555556,
+      "bulk": 11111.111111111111
+    }
+  ],
+  "steps": 240,
+  "simulation_time": 0.15,
+  "particles": [
+    36540
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.1.dev20261022",
+  "compile_and_warmup_seconds": 0.6592849000007845,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 5.675890600017738,
+  "min_J": 0.9929607521512309,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -0.001264027157140102,
+    -1.64663204946236e-17,
+    -2.4970531285056774e-18
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "tracked_displacement_x": 0.0,
+      "tracked_displacement_y": 0.0,
+      "tracked_displacement_z": 0.0
+    },
+    "final": {
+      "time": 0.15,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -0.001264027157140102,
+      "boundary_impulse_y": -1.64663204946236e-17,
+      "boundary_impulse_z": -2.4970531285056774e-18,
+      "tracked_displacement_x": -2.469417310299378e-06,
+      "tracked_displacement_y": 5.1563159872138196e-18,
+      "tracked_displacement_z": 1.4356332214980472e-19
+    }
+  },
+  "definition": {
+    "geometry": {
+      "lower": [
+        0.15,
+        0.4,
+        0.35
+      ],
+      "upper": [
+        0.8,
+        0.6,
+        0.65
+      ]
+    },
+    "model": "neo-hookean",
+    "particles_per_cell_per_axis": 2,
+    "initial_acoustic_speed": 4.714045207910317,
+    "boundary_method": "grid velocity constraints",
+    "units": "m, s, kg, Pa",
+    "purpose": "torsion"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 38.99999999999999,
+      "momentum_x": 0.0,
+      "momentum_y": 4.706792681302696e-17,
+      "momentum_z": -1.4226087755725425e-16,
+      "kinetic_energy": 0.010382673020566963,
+      "com_x": 0.47500000000000026,
+      "com_y": 0.5000000000000001,
+      "com_z": 0.5000000000000001,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.039,
+      "max_speed": 0.06868638748368261,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 0.15,
+      "body": 0,
+      "mass": 38.99999999999999,
+      "momentum_x": -0.001264027157140102,
+      "momentum_y": 3.060160631840336e-17,
+      "momentum_z": -1.4475793068575993e-16,
+      "kinetic_energy": 0.0033754949368032085,
+      "com_x": 0.474998768322015,
+      "com_y": 0.5000000000000001,
+      "com_z": 0.5000000000000001,
+      "min_J": 0.9929607521512309,
+      "max_J": 1.0071550516704473,
+      "current_volume": 0.03899966941570337,
+      "max_speed": 0.028560244494178575,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.006632067364221364
+    }
+  ]
+}

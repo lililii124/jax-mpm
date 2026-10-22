@@ -1,0 +1,137 @@
+[
+  {
+    "name": "wave",
+    "source": "suite/wave/neo-hookean",
+    "particles": 41472,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "cantilever",
+    "source": "suite/cantilever/neo-hookean",
+    "particles": 36540,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "torsion",
+    "source": "suite/torsion/neo-hookean",
+    "particles": 36540,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "oblique",
+    "source": "suite/oblique/neo-hookean",
+    "particles": 38686,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true
+  },
+  {
+    "name": "sliding",
+    "source": "suite/sliding/neo-hookean",
+    "particles": 16704,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "rebound",
+    "source": "suite/rebound/neo-hookean",
+    "particles": 24389,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "dam-break",
+    "source": "suite/dam-break/neo-hookean",
+    "particles": 66096,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "sloshing",
+    "source": "suite/sloshing/neo-hookean",
+    "particles": 82944,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "fsi",
+    "source": "suite/fsi/neo-hookean",
+    "particles": 85776,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true
+  },
+  {
+    "name": "orthotropic",
+    "source": "elastic_cantilever/cantilever/orthotropic",
+    "particles": 36540,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "transverse-isotropic",
+    "source": "elastic_cantilever/cantilever/transverse-isotropic",
+    "particles": 36540,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "johnson-cook",
+    "source": "compression/compression/johnson-cook",
+    "particles": 24389,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "jh2",
+    "source": "compression/compression/jh2",
+    "particles": 24389,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "hjc",
+    "source": "compression/compression/hjc",
+    "particles": 24389,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  },
+  {
+    "name": "rht",
+    "source": "compression/compression/rht",
+    "particles": 24389,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false
+  }
+]
