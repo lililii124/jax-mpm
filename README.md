@@ -3,9 +3,9 @@
 Two- and three-dimensional material point mechanics in JAX: quadratic B-splines,
 APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
-| Contact | Fluid–solid interaction |
+| Cellular cushioning · 192,180 particles | Water entry · 1,327,400 particles |
 |---|---|
-| ![Oblique contact](docs/images/oblique.png) | ![Fluid–solid interaction](docs/images/fsi.png) |
+| [![Cellular cushioning](docs/images/cellular-cushion.png)](docs/images/cellular-cushion.mp4) | [![Water entry](docs/images/water-entry.png)](docs/images/water-entry.mp4) |
 
 [Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)
 
@@ -36,6 +36,8 @@ python -m examples.suite --list
 python -m examples.suite --case oblique --gif
 python -m examples.suite --case fsi --gif
 python -m examples.suite --case elastic-gate --grid 48 --ppc 3 --gif
+python -m examples.suite --case perforated-panel --grid 48 --ppc 3 --gif
+python -m examples.suite --case cellular-cushion --grid 48 --ppc 3 --gif
 python -m examples.suite --case cantilever --model all-elastic
 python -m examples.suite --case compression --model all-plastic
 python -m examples.material_paths --model all
@@ -50,6 +52,8 @@ The spatial suite defaults to a **48³ grid and 2 particles per cell per axis**
 `--case all` runs the 24 spatial scenarios with their default materials.
 For denser sampling use `--ppc 3` (27 particles per cell). The water-entry case
 at `--grid 72 --ppc 3` contains **1,327,400 particles**.
+Its completed 2,400-step run and full 61-frame ParaView animation are included
+in the [results](docs/RESULTS.md) and [gallery](docs/GALLERY.md).
 
 | Group | Cases |
 |---|---|

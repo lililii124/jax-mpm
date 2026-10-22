@@ -1,12 +1,71 @@
 [
   {
-    "name": "wave",
-    "source": "suite/wave/neo-hookean",
-    "particles": 41472,
+    "name": "perforated-panel",
+    "source": "engineering/perforated-panel/neo-hookean",
+    "particles": 97536,
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": true,
+    "preview_frame": 16,
+    "preview_time": 0.11199999999999999,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "cellular-cushion",
+    "source": "engineering/cellular-cushion/neo-hookean",
+    "particles": 192180,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 34,
+    "preview_time": 0.23120000000000002,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "sphere-contact",
+    "source": "contact-models/sphere-contact",
+    "particles": 386019,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 20,
+    "preview_time": 0.15,
+    "auxiliary_geometry": [
+      {
+        "type": "prescribed_rigid_sphere",
+        "parameters": {
+          "center": [
+            0.5,
+            0.8,
+            0.5
+          ],
+          "radius": 0.3,
+          "displacement": [
+            0.0,
+            -0.04,
+            0.0
+          ],
+          "duration": 0.3
+        },
+        "included_in_particle_count": false,
+        "motion": "cosine loading/unloading cycle"
+      }
+    ]
+  },
+  {
+    "name": "jkr-footprint",
+    "source": "contact-models/jkr-footprint",
+    "particles": 386019,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 20,
+    "preview_time": 0.15,
+    "auxiliary_geometry": []
   },
   {
     "name": "cantilever",
@@ -15,43 +74,10 @@
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
-  },
-  {
-    "name": "torsion",
-    "source": "suite/torsion/neo-hookean",
-    "particles": 36540,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false
-  },
-  {
-    "name": "oblique",
-    "source": "suite/oblique/neo-hookean",
-    "particles": 38686,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true
-  },
-  {
-    "name": "sliding",
-    "source": "suite/sliding/neo-hookean",
-    "particles": 16704,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false
-  },
-  {
-    "name": "rebound",
-    "source": "suite/rebound/neo-hookean",
-    "particles": 24389,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "dam-break",
@@ -60,16 +86,10 @@
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
-  },
-  {
-    "name": "sloshing",
-    "source": "suite/sloshing/neo-hookean",
-    "particles": 82944,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false
+    "animation": true,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "fsi",
@@ -78,7 +98,34 @@
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": true
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "elastic-gate",
+    "source": "benchmarks/elastic-gate/neo-hookean",
+    "particles": 357912,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "water-entry",
+    "source": "production/water-entry/neo-hookean",
+    "particles": 1327400,
+    "field": "body",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 40,
+    "preview_time": 0.2333333333333333,
+    "auxiliary_geometry": []
   },
   {
     "name": "orthotropic",
@@ -87,7 +134,10 @@
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "transverse-isotropic",
@@ -96,7 +146,10 @@
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "johnson-cook",
@@ -105,7 +158,10 @@
     "field": "body",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "jh2",
@@ -114,7 +170,10 @@
     "field": "damage",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "hjc",
@@ -123,7 +182,10 @@
     "field": "damage",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   },
   {
     "name": "rht",
@@ -132,6 +194,9 @@
     "field": "damage",
     "renderer": "ParaView",
     "version": "(6, 2)",
-    "animation": false
+    "animation": false,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": []
   }
 ]
