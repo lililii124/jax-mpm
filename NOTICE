@@ -1,0 +1,9 @@
+jax-mpm
+Copyright 2026 Yu Zheng
+
+The MLS-MPM transfer scheme is adapted from Taichi's mpm128.py,
+Copyright Taichi Authors, licensed under the Apache License, Version 2.0.
+https://github.com/taichi-dev/taichi/blob/master/python/taichi/examples/simulation/mpm128.py
+
+The JAX implementation uses batched transfers, Neo-Hookean elasticity,
+end-of-step deformation updates, and explicit validity checks.

@@ -1,0 +1,17 @@
+.venv/
+.venv312/
+.venv*/
+.wheels/
+.vs/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+outputs/
+jax-main.zip
+.env
+.env.*
+!.env.example
+.local/
+.ruff_cache/
