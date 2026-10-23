@@ -153,8 +153,44 @@ def review(root):
         row["adhesive_minus_nonadhesive_reaction_y_N"] = row["adhesive_reaction_y_N"] - row["nonadhesive_reaction_y_N"]
         table.append(row)
 
+    contrast = None
+    if d0.get("comparison_pair") == "single-sphere-lift-hold-v1":
+        base_active = curve(base, prefix + "compressed_points") + curve(base, prefix + "adhesive_points")
+        adhesion_active = curve(adhesive, prefix + "adhesive_points")
+        reaction0 = curve(base, prefix + "reaction_y_N")
+        reaction1 = curve(adhesive, prefix + "reaction_y_N")
+        uplift_difference = curve(adhesive, "surface_displacement_y_max_m") - curve(base, "surface_displacement_y_max_m")
+        holding = (time >= 0.72 - 1e-12) & (time <= 0.94 + 1e-12)
+        checks["lift_hold_preset_identified"] = d0.get("preset") == d1.get("preset") == "lift-hold"
+        checks["lift_hold_sphere_stationary"] = holding.any() and all(
+            bool(np.max(np.abs(curve(run, prefix + "velocity_" + axis + "_m_per_s")[holding])) < 1e-12)
+            and bool(np.ptp(curve(run, prefix + "center_" + axis + "_m")[holding]) < 1e-12)
+            for run in (base, adhesive) for axis in "xyz"
+        )
+        visible = holding & (base_active == 0) & (np.abs(reaction0) < 1e-8) & (adhesion_active > 0) & (reaction1 < -1e-8) & (uplift_difference >= 0.025)
+        intervals, start = [], None
+        for index, qualifying in enumerate(visible):
+            if qualifying and start is None:
+                start = index
+            if start is not None and (not qualifying or index == len(visible) - 1):
+                last = index if qualifying else index - 1
+                intervals.append({"first_saved_time_s": float(time[start]), "last_saved_time_s": float(time[last]),
+                                  "saved_span_s": float(time[last] - time[start]), "saved_samples": last - start + 1})
+                start = None
+        duration = max((interval["saved_span_s"] for interval in intervals), default=0.0)
+        checks["lift_hold_has_visible_deformation_contrast"] = duration >= 0.10
+        contrast = {
+            "hold_window_s": [0.72, 0.94], "minimum_uplift_difference_m": 0.025,
+            "required_saved_span_s": 0.10, "longest_qualifying_saved_span_s": duration,
+            "qualifying_saved_intervals": intervals,
+            "saved_adhesive_minus_nonadhesive_surface_uplift_m": uplift_difference.tolist(),
+            "maximum_hold_uplift_difference_m": float(uplift_difference[holding].max()) if holding.any() else None,
+            "criterion": "At consecutive saved states in the lift hold, the nonadhesive sphere is force-free with no interacting points, while the adhesive sphere has tensile reaction and at least 25 mm greater surface uplift.",
+            "sampling_scope": "The interval spans qualifying output samples; no unsaved-time or quasi-static-equilibrium claim.",
+        }
+
     return {
-        "passed": True,
+        "passed": all(bool(value) for value in checks.values()),
         "comparison": "matched dynamic indentation and complete withdrawal",
         "checks": {name: bool(value) for name, value in checks.items()},
         "sources": {
@@ -163,6 +199,7 @@ def review(root):
             for index, (role, run) in enumerate(runs.items())
         },
         "metrics": metrics,
+        **({"deformation_contrast": contrast} if contrast is not None else {}),
         "sampled_time_s": time.tolist(),
         "interpretation": (
             "Both runs use the same dynamic MPM body, imposed sphere trajectory, penalty stiffness and time step; only work of adhesion changes. "
@@ -186,6 +223,8 @@ def main():
     result["csv"] = {"filename": csv_path.name, "lf_sha256": source_hash(csv_path), "rows": len(rows)}
     destination.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     print(json.dumps({"passed": result["passed"], "checks": len(result["checks"]), "report": destination.as_posix()}))
+    if not result["passed"]:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

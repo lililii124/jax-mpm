@@ -81,6 +81,7 @@ python -m examples.adhesive_contact --case jkr-footprint --grid 48 --ppc 3 --gif
 python -m examples.material_engineering --case jc-tension --grid 80 --frames 60 --gif
 python -m examples.material_engineering --case concrete-bending --frames 40 --gif
 python -m examples.material_engineering --case ceramic-indentation --frames 40 --gif
+python -m examples.woven_composite --architecture plain --loading warp-tension --resume
 ```
 
 `--grid` and `--ppc` control spatial resolution; the spatial suite also accepts
@@ -102,9 +103,15 @@ and [gallery](docs/GALLERY.md).
 | Accelerated tanks | Harmonic base excitation, with and without perforated flexible baffles |
 | Material points | Compression/unload, hydrostatic compression, shear reversal, confined shear |
 | Material engineering | JC round-bar tension to failure, concrete beam bending, ceramic indentation |
+| Woven composites | Plain, triaxial and 2×2 twill under in-plane tension/shear and transverse compression/bending |
+
+The [woven composite examples](docs/WOVEN_COMPOSITES.md) use bonded elastic
+yarns and matrix with explicit local material axes. They write numerical output
+by default; use the separate ParaView command in the guide to show yarn families.
 
 Each spatial run saves particle trajectories and final states as NPZ, diagnostics
-and observables as CSV, a JSON definition/result summary, and a final image.
+and observables as CSV, and a JSON definition/result summary. Rendering adds
+ParaView images and animations.
 `--gif` adds an animation; `--no-render` skips rendering. ParaView renders
 every particle, with a fixed camera and no axes or annotations. Compressed
 VTK files and a ParaView state accompany the images. Install ParaView and put
@@ -147,6 +154,7 @@ and the interpretation of grip forces, section forces and damage.
 | Metal plasticity | Mixed/isotropic bilinear J2, prescribed-temperature plasticity, Johnson–Cook, selected Steinberg–Guinan branch |
 | Brittle materials | JH-2, HJC, three-surface RHT with p-alpha compaction |
 | Fluid | Compressible inviscid volumetric law |
+| Woven composite | Orthotropic Saint Venant–Kirchhoff yarns in a Neo-Hookean matrix; fully bonded interface |
 
 The incremental models use three-dimensional stress/history tensors. Defaults
 are demonstration parameters. Model conventions, source scopes, and omitted

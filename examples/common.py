@@ -6,6 +6,7 @@ import json
 import hashlib
 import os
 from pathlib import Path
+import platform
 from time import perf_counter
 
 import jax
@@ -17,6 +18,9 @@ from mpm_jax.cli import render
 from mpm_jax.initialization import diagnostics
 from mpm_jax.core import State
 from mpm_jax.materials import History
+from mpm_jax.particle_fields import (
+    array_descriptor, checked_particle_fields, material_metadata,
+)
 
 
 def _atomic_npz(path, **values):
@@ -61,26 +65,35 @@ def run(
     metadata=None,
     render_output=True,
     resume=False,
+    point_fields=None,
 ):
     if frames < 1 or substeps < 1:
         raise ValueError("frames and substeps must be positive")
+    count = sum(s.x.shape[0] for s in states)
+    point_fields = checked_particle_fields(point_fields, count)
+    field_descriptors = {name: array_descriptor(value) for name, value in point_fields.items()}
+    material_records = [material_metadata(material) for material in materials]
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     (output / "frames_data").mkdir(exist_ok=True)
     dim = configs[0].dim
     dt = configs[0].dt
+    spatial_materials = any(config.material == "woven-composite" for config in configs)
+    material_arguments = materials if spatial_materials else ()
 
     @jax.jit
-    def batch(states, time):
+    def batch(states, time, material_arguments):
+        constitutive = material_arguments if spatial_materials else materials
+
         def body(carry, i):
             states, impulse, external_impulse, external_work = carry
             load = tuple(None for _ in states) if forces is None else forces(states, time + i * dt)
             old_states = states
             if len(states) == 1:
-                states = (step(states[0], materials[0], configs[0], load[0]),)
+                states = (step(states[0], constitutive[0], configs[0], load[0]),)
                 change = jnp.zeros(dim, dtype=states[0].x.dtype)
             else:
-                states, change = coupled_step(states, materials, configs, friction, load)
+                states, change = coupled_step(states, constitutive, configs, friction, load)
             for old, new, force in zip(old_states, states, load):
                 if force is not None:
                     external_impulse += dt * jnp.sum(force, axis=0)
@@ -93,7 +106,7 @@ def run(
         )[0]
 
     start = perf_counter()
-    warm, *_ = batch(states, 0.0)
+    warm, *_ = batch(states, 0.0, material_arguments)
     warm[0].x.block_until_ready()
     compile_seconds = perf_counter() - start
     del warm
@@ -109,21 +122,17 @@ def run(
         float(s.mass.sum()) * np.asarray(c.gravity) for s, c in zip(states, configs)
     )
     observations = []
-    signature = hashlib.sha256(
-        json.dumps(
-            {
-                "configs": [asdict(c) for c in configs],
-                "materials": [
-                    {k: np.asarray(v).tolist() for k, v in m._asdict().items()} for m in materials
-                ],
-                "frames": frames,
-                "substeps": substeps,
-                "label": label,
-                "definition": metadata,
-            },
-            sort_keys=True,
-        ).encode()
-    ).hexdigest()
+    signature_data = {
+        "configs": [asdict(c) for c in configs],
+        "materials": material_records,
+        "frames": frames,
+        "substeps": substeps,
+        "label": label,
+        "definition": metadata,
+    }
+    if point_fields:
+        signature_data["particle_fields"] = field_descriptors
+    signature = hashlib.sha256(json.dumps(signature_data, sort_keys=True).encode()).hexdigest()
     first_frame = 0
     checkpoint_path = output / "checkpoint.json"
     saved = (
@@ -133,7 +142,8 @@ def run(
     )
     if saved is not None and saved["signature"] != signature:
         raise ValueError("checkpoint belongs to a different case, resolution, material or duration")
-    count = sum(s.x.shape[0] for s in states)
+    if point_fields:
+        _atomic_npz(output / "particle_fields.npz", **point_fields)
     dtype = np.result_type(*(np.asarray(s.x).dtype for s in states))
 
     def storage(name, shape, array_dtype=None):
@@ -175,7 +185,7 @@ def run(
         time = frame * substeps * dt
         if frame:
             start = perf_counter()
-            states, impulse, external, work = batch(states, time - substeps * dt)
+            states, impulse, external, work = batch(states, time - substeps * dt, material_arguments)
             states[0].x.block_until_ready()
             solver_seconds += perf_counter() - start
             accumulated_impulse += np.asarray(impulse)
@@ -285,14 +295,14 @@ def run(
         "completed": True,
         "history_storage": "file-backed arrays",
         "configs": [asdict(c) for c in configs],
-        "materials": [
-            {k: np.asarray(v).tolist() for k, v in m._asdict().items()} for m in materials
-        ],
+        "materials": material_records,
         "steps": frames * substeps,
         "simulation_time": times[-1],
         "particles": [s.x.shape[0] for s in states],
         "dtype": str(states[0].x.dtype),
         "jax_version": jax.__version__,
+        "numpy_version": np.__version__,
+        "python_version": platform.python_version(),
         "compile_and_warmup_seconds": compile_seconds,
         "devices": [str(d) for d in jax.devices()],
         "solver_seconds": solver_seconds,
@@ -308,6 +318,11 @@ def run(
         "initial": rows[: len(states)],
         "final": rows[-len(states) :],
     }
+    if point_fields:
+        summary["particle_fields"] = {
+            "file": "particle_fields.npz",
+            "fields": field_descriptors,
+        }
 
     def finite_json(value):
         if isinstance(value, dict):

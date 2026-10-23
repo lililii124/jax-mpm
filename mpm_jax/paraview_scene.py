@@ -30,11 +30,27 @@ from paraview.simple import (
 def grip_displacement(definition, time):
     """MovingVelocityBox translation, evaluated without importing the solver."""
     start = definition.get("start", 0.0)
+    if definition.get("motion_kind") == "half-cosine-displacement-hold":
+        duration = definition["loading_duration"]
+        if not np.isfinite(duration) or duration <= 0:
+            raise ValueError("loading_duration must be finite and positive")
+        phase = np.clip((np.asarray(time) - start) / duration, 0.0, 1.0)
+        return np.asarray(definition["displacement"]) * (0.5 * (1 - np.cos(np.pi * phase)))[..., None]
     end = definition.get("end")
     end = np.inf if end is None else end
     ramp = definition.get("ramp_time", 0.0)
     elapsed = np.clip(np.asarray(time) - start, 0.0, end - start)
-    if ramp == 0:
+    if "loading_duration" in definition:
+        duration = definition["loading_duration"]
+        if not np.isfinite(duration) or not 0 < ramp <= duration / 2:
+            raise ValueError("loading_duration requires two positive ramps within the interval")
+        elapsed = np.minimum(elapsed, duration)
+        rising = np.minimum(elapsed, ramp)
+        falling = np.clip(elapsed - (duration - ramp), 0.0, ramp)
+        distance = 0.5 * (rising - ramp / np.pi * np.sin(np.pi * rising / ramp))
+        distance += np.clip(elapsed - ramp, 0.0, duration - 2 * ramp)
+        distance += 0.5 * (falling + ramp / np.pi * np.sin(np.pi * falling / ramp))
+    elif ramp == 0:
         distance = elapsed
     else:
         during_ramp = np.minimum(elapsed, ramp)
@@ -73,7 +89,7 @@ def velocity_patch_fixtures(definition):
         "support_patch_width_m",
         "loading_boundary",
     )
-    if definition.get("purpose") != "concrete-bending" or any(
+    if definition.get("purpose") not in ("concrete-bending", "concrete-bending-large") or any(
         key not in definition for key in required
     ):
         return []
@@ -100,6 +116,8 @@ def velocity_patch_fixtures(definition):
             "role": "loading",
         }
     )
+    if "loading_duration" in loading:
+        fixtures[-1]["loading_duration"] = loading["loading_duration"]
     return fixtures
 
 
@@ -128,6 +146,16 @@ def sphere_display_opacity(requested):
     return float(requested)
 
 
+def focus_camera_bounds(actual, requested):
+    """An explicit detail view may crop the scene but must overlap its geometry."""
+    actual, requested = np.asarray(actual), np.asarray(requested, dtype=float)
+    if requested.shape != (6,) or not np.isfinite(requested).all() or np.any(requested[::2] >= requested[1::2]):
+        raise ValueError("--focus-bounds requires six finite ordered bounds")
+    if np.any(requested[1::2] <= actual[::2]) or np.any(requested[::2] >= actual[1::2]):
+        raise ValueError("--focus-bounds must intersect the actual scene on every axis")
+    return requested.tolist()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("output", type=Path)
@@ -140,16 +168,26 @@ def main():
         metavar=("XMIN", "XMAX", "YMIN", "YMAX", "ZMIN", "ZMAX"),
     )
     parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
+    parser.add_argument("--matrix-opacity", type=float, help="matrix opacity with family_id colors (default: 0.008)")
+    parser.add_argument("--focus-bounds", type=float, nargs=6, help="explicit close-up bounds; geometry outside the view may be cropped")
     args = parser.parse_args()
+    if args.scene_bounds is not None and args.focus_bounds is not None:
+        parser.error("--scene-bounds and --focus-bounds are mutually exclusive")
     try:
         sphere_opacity = sphere_display_opacity(args.sphere_opacity)
+        matrix_opacity = 0.008 if args.matrix_opacity is None else sphere_display_opacity(args.matrix_opacity)
     except ValueError as error:
         parser.error(str(error))
-    if args.color_range is not None and args.field == "body":
-        parser.error("--color-range requires a scalar field, not categorical body colors")
+    if args.color_range is not None and args.field in ("body", "family_id"):
+        parser.error("--color-range requires a scalar field, not categorical colors")
+    if args.matrix_opacity is not None and args.field != "family_id":
+        parser.error("--matrix-opacity requires --field family_id")
     _DisableFirstRenderCameraReset()
     output = args.output.resolve()
     metadata = json.loads((output / "vtk_metadata.json").read_text(encoding="utf-8"))
+    woven_display = args.field == "family_id"
+    if woven_display and not {"phase", "family_id"}.issubset(metadata["fields"]):
+        parser.error("family_id display requires static phase and family_id fields")
     reader = PVDReader(FileName=str(output / "particles.pvd"))
     reader.UpdatePipeline()
     has_failed = reader.PointData["failed"] is not None
@@ -328,6 +366,10 @@ def main():
             "motion": "MovingVelocityBox analytic translation at output times",
             "state_file_interpolation": "linear between output-time keyframes",
         }
+        if "loading_duration" in definition:
+            record["motion"] = "Cosine velocity startup and stopping ramps followed by fixed-position hold"
+        if definition.get("motion_kind") == "half-cosine-displacement-hold":
+            record["motion"] = "Half-cosine prescribed displacement followed by fixed-position hold"
         if kind == "velocity_patch_fixture":
             record[
                 "interpretation"
@@ -344,16 +386,22 @@ def main():
             bounds = enclosing_override(bounds, args.scene_bounds, label="--scene-bounds")
         except ValueError as error:
             parser.error(str(error))
+    elif args.focus_bounds is not None:
+        try:
+            bounds = focus_camera_bounds(bounds, args.focus_bounds)
+        except ValueError as error:
+            parser.error(str(error))
     center = [(bounds[2 * i] + bounds[2 * i + 1]) / 2 for i in range(3)]
     length = max(bounds[2 * i + 1] - bounds[2 * i] for i in range(3))
     view.CameraFocalPoint = center
+    elevation = 1.5 if woven_display else 0.85
     view.CameraPosition = [
         center[0] + 1.4 * length,
-        center[1] + 0.85 * length,
+        center[1] + elevation * length,
         center[2] + 1.8 * length,
     ]
     view.CameraViewUp = [0.0, 1.0, 0.0]
-    direction = np.array([1.4, 0.85, 1.8])
+    direction = np.array([1.4, elevation, 1.8])
     direction /= np.linalg.norm(direction)
     right = np.cross([0.0, 1.0, 0.0], direction)
     right /= np.linalg.norm(right)
@@ -370,7 +418,7 @@ def main():
     spacing = metadata["spacing"] or actual_scene_length / 100
     actual_field_range = metadata["field_ranges"].get(args.field)
     scalar_color_range = None
-    if args.field != "body":
+    if args.field not in ("body", "family_id"):
         lo, hi = metadata["field_ranges"][args.field]
         if args.field in ("speed", "displacement"):
             lo = 0.0
@@ -391,7 +439,35 @@ def main():
     displays = []
     active_sources = []
     debris_sources = []
-    for body in range(count):
+    woven_sources = []
+    if woven_display:
+        family_count = int(metadata["field_ranges"]["family_id"][1]) + 1
+        if family_count < 1 or family_count > len(colors):
+            raise ValueError("woven family_id must use contiguous labels from zero to at most two")
+        selections = [("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)]
+        selections += [("family_id", family, colors[family], 1.0) for family in range(family_count)]
+        for name, value, color, opacity in selections:
+            selected = Threshold(registrationName=f"{name} {value}", Input=reader)
+            selected.Scalars = ["POINTS", name]
+            selected.LowerThreshold = value
+            selected.UpperThreshold = value
+            selected.UpdatePipeline()
+            display = Show(selected, view)
+            display.Representation = "Point Gaussian"
+            display.GaussianRadius = 0.62 * spacing
+            display.ShaderPreset = "Sphere"
+            display.Emissive = 0
+            display.Ambient = 0.3
+            display.Diffuse = 0.7
+            display.Specular = 0.35
+            display.SpecularPower = 35
+            display.Opacity = opacity
+            display.ColorArrayName = ["POINTS", ""]
+            display.DiffuseColor = color
+            display.AmbientColor = color
+            displays.append(display)
+            woven_sources.append(selected)
+    for body in range(0 if woven_display else count):
         selected = Threshold(Input=reader)
         selected.Scalars = ["POINTS", "body"]
         selected.LowerThreshold = body
@@ -465,6 +541,7 @@ def main():
         displays.append(debris)
     indices = [len(times) - 1] if args.final_only else range(len(times))
     displayed_counts = []
+    woven_counts = []
     (output / "frames").mkdir(exist_ok=True)
     for i in indices:
         scene.AnimationTime = times[i]
@@ -475,7 +552,12 @@ def main():
         for sphere, definition in waypoint_sphere_sources:
             sphere.Center = waypoint_sphere_motion(definition, times[i])
         Render(view)
-        if has_failed:
+        if woven_display:
+            counts = [source.GetDataInformation().GetNumberOfPoints() for source in woven_sources]
+            if sum(counts) != metadata["particles"] or any(count == 0 for count in counts):
+                raise RuntimeError("woven phase/family display must partition every particle")
+            woven_counts.append({"time": times[i], "matrix": counts[0], "yarn_families": counts[1:]})
+        if has_failed and not woven_display:
             active_count = sum(
                 source.GetDataInformation().GetNumberOfPoints()
                 for source in active_sources
@@ -508,7 +590,9 @@ def main():
     provenance = {
         "renderer": "ParaView",
         "version": str(GetParaViewVersion()),
-        "style_revision": 7
+        "style_revision": 8
+        if woven_display
+        else 7
         if waypoint_sphere_definitions
         else 6
         if fixture_definitions
@@ -537,12 +621,15 @@ def main():
         "actual_scene_bounds": actual_scene_bounds,
         "actual_body_bounds": metadata["bounds"],
         "camera_bounds": bounds,
-        "camera_bounds_source": "--scene-bounds" if args.scene_bounds is not None else "automatic body and prescribed geometry bounds",
+        "camera_bounds_source": "--focus-bounds" if args.focus_bounds is not None else "--scene-bounds" if args.scene_bounds is not None else "automatic body and prescribed geometry bounds",
+        "view_scope": "explicit detail view; geometry outside the camera view may be cropped" if args.focus_bounds is not None else "complete scene",
         "render_overrides": {
-            "source": "renderer command-line arguments" if args.color_range is not None or args.scene_bounds is not None or args.sphere_opacity is not None else None,
+            "source": "renderer command-line arguments" if args.color_range is not None or args.scene_bounds is not None or args.focus_bounds is not None or args.sphere_opacity is not None or args.matrix_opacity is not None else None,
             "color_range": args.color_range,
             "scene_bounds": args.scene_bounds,
+            "focus_bounds": args.focus_bounds,
             "sphere_opacity": args.sphere_opacity,
+            "matrix_opacity": args.matrix_opacity,
         },
         "camera_position": list(view.CameraPosition),
         "camera_focal_point": list(view.CameraFocalPoint),
@@ -552,7 +639,17 @@ def main():
     }
     if args.field == "displacement":
         provenance["color_field_definition"] = metadata.get("derived_fields", {}).get("displacement")
-    if has_failed:
+    if woven_display:
+        provenance["color_range_source"] = "fixed categorical yarn-family colors"
+        provenance["woven_display"] = {
+            "matrix_opacity": matrix_opacity,
+            "matrix_rgb": [0.72, 0.78, 0.83],
+            "family_rgb": list(colors[:family_count]),
+            "all_particles_retained": True,
+            "displayed_counts": woven_counts,
+            "interpretation": "Translucent matrix and opaque yarn particles; actual positions without displacement scaling",
+        }
+    if has_failed and not woven_display:
         provenance["failure_display"] = {
             "field": "failed",
             "body_failure_modes": failure_modes,

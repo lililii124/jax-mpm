@@ -6,7 +6,7 @@ import hashlib
 from pathlib import Path
 import shutil
 
-from public_runs import homepage_records, is_public_run, is_ready_for_publication
+from public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -38,6 +38,8 @@ GROUPS = {
         ("concrete-bending", "material-engineering/concrete-bending/hjc"),
         ("ceramic-indentation", "material-engineering/ceramic-indentation/jh2"),
     ],
+    "Adhesion comparison": [],
+    "Woven composites": [],
     "Engineering structures and tanks": [
         ("perforated-panel", "engineering/perforated-panel/neo-hookean"),
         ("cellular-cushion", "engineering/cellular-cushion/neo-hookean"),
@@ -91,7 +93,9 @@ GROUPS = {
 ANIMATIONS = {
     "dugdale-array",
     "jc-tension",
+    "jc-necking",
     "concrete-bending",
+    "concrete-bending-large",
     "ceramic-indentation",
     "sphere-contact",
     "jkr-footprint",
@@ -126,20 +130,46 @@ ANIMATIONS = {
 
 def gallery_groups(catalogue):
     groups = {heading: list(entries) for heading, entries in GROUPS.items()}
+    present = {record["id"] for record in catalogue}
+    for heading, entries in groups.items():
+        for index, (name, relative) in enumerate(entries):
+            replacement = HOME_REPLACEMENTS.get(relative.replace("/", "--"))
+            if replacement in present:
+                parts = replacement.split("--")
+                if parts[0] == "material-engineering":
+                    entries[index] = (parts[1], "/".join(parts))
     listed = {relative for entries in groups.values() for _, relative in entries}
     for record in catalogue:
         parts = record["id"].split("--")
-        if parts[0] != "adhesion":
+        if parts[0] == "woven":
+            relative = "/".join(parts)
+            if relative not in listed:
+                groups["Woven composites"].append(("-".join(parts), relative))
+                listed.add(relative)
+            continue
+        if parts[0] not in ("adhesion", "adhesion-visible"):
             continue
         relative = "/".join(parts)
         if relative not in listed:
-            groups["Dynamics and contact"].append(("adhesion-" + "-".join(parts[1:]), relative))
+            heading = "Adhesion comparison" if parts[0] == "adhesion-visible" else "Dynamics and contact"
+            groups[heading].append((parts[0] + "-" + "-".join(parts[1:]), relative))
             listed.add(relative)
+    groups["Adhesion comparison"].sort(key=lambda entry: ("nonadhesive" not in entry[0], entry[0]))
     return groups
 
 
 def preview(folder, name, render):
     """Select the largest response when a completed animation is available."""
+    if folder.parent.name == "adhesion-visible":
+        comparison = json.loads((folder.parent / "adhesion_comparison.json").read_text(encoding="utf-8"))
+        intervals = comparison["deformation_contrast"]["qualifying_saved_intervals"]
+        if comparison.get("passed") is not True or not intervals:
+            raise ValueError("A contact-detail preview requires a passed deformation comparison")
+        interval = max(intervals, key=lambda item: item["saved_span_s"])
+        middle = 0.5 * (interval["first_saved_time_s"] + interval["last_saved_time_s"])
+        times = comparison["sampled_time_s"]
+        frame = min(range(len(times)), key=lambda i: abs(times[i] - middle))
+        return folder / "frames" / f"frame_{frame:05d}.png", frame, float(times[frame])
     if name == "water-entry" and render.get("frames_rendered", 0) > 1:
         frame = round((render["frames_rendered"] - 1) * 2 / 3)
         image = folder / "frames" / f"frame_{frame:05d}.png"
@@ -159,11 +189,14 @@ def preview(folder, name, render):
         "large-bending": "tracked_displacement_y",
         "large-twist": "tip_rotation_x_rad",
         "ceramic-indentation": "nominal_indentation_m",
+        "concrete-bending-large": "midspan_bottom_deflection_m",
     }
     if name.startswith("visible-"):
         columns[name] = (
             "tip_rotation_x_rad" if name == "visible-torsion" else "maximum_displacement_m"
         )
+    if name.startswith("woven-"):
+        columns[name] = "maximum_displacement_m"
     if name.startswith("adhesion-") or folder.parent.name == "adhesion":
         columns[name] = "surface_displacement_y_min_m"
     observable = folder / "observables.csv"
@@ -210,7 +243,7 @@ def main():
             selected, frame, time = preview(folder, name, render)
             copy_if_changed(selected, target / f"{name}.png")
             animation = (
-                (name in ANIMATIONS or relative.startswith("adhesion/"))
+                (name in ANIMATIONS or relative.startswith(("adhesion/", "adhesion-visible/", "woven/")))
                 and (folder / "video.json").exists()
                 and (folder / "simulation.mp4").exists()
             )
@@ -247,10 +280,11 @@ def main():
                 }
             )
         if cells:
-            lines += [f"## {heading}", "", "| | |", "|---|---|"]
-            for i in range(0, len(cells), 2):
-                pair = cells[i : i + 2]
-                lines.append("| " + " | ".join(pair + [""] * (2 - len(pair))) + " |")
+            columns = 3 if heading == "Woven composites" else 2
+            lines += [f"## {heading}", "", "|" + " |" * columns, "|" + "---|" * columns]
+            for i in range(0, len(cells), columns):
+                pair = cells[i : i + columns]
+                lines.append("| " + " | ".join(pair + [""] * (columns - len(pair))) + " |")
             lines.append("")
     (ROOT / "docs/GALLERY.md").write_text("\n".join(lines), encoding="utf-8")
     (target / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

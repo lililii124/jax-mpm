@@ -21,6 +21,8 @@ SOURCES = (
     "engineering",
     "contact-models",
     "adhesion",
+    "adhesion-visible",
+    "woven",
     "production",
     "refinement",
     "visible-motion",
@@ -81,9 +83,11 @@ def collect_wave_comparison(root, destination, records):
     )
 
 
-def collect_adhesion_comparison(root, destination, records):
-    source = root / "outputs/adhesion/adhesion_comparison.json"
+def collect_adhesion_comparison(root, destination, records, family="adhesion"):
+    source = root / "outputs" / family / "adhesion_comparison.json"
     if not source.exists():
+        if family == "adhesion-visible" and any(record["id"].startswith(family + "--") for record in records):
+            raise ValueError("The lift-hold pair requires its completed comparison review")
         return
     report = json.loads(source.read_text(encoding="utf-8"))
     checks = report.get("checks")
@@ -94,6 +98,8 @@ def collect_adhesion_comparison(root, destination, records):
         and all(value is True for value in checks.values())
     ):
         raise ValueError("The adhesion comparison has not passed its review")
+    if family == "adhesion-visible" and checks.get("lift_hold_has_visible_deformation_contrast") is not True:
+        raise ValueError("The lift-hold deformation comparison has not passed")
     sources = report.get("sources")
     roles = {"nonadhesive": "nonadhesive-pull-off", "adhesive": "adhesive-pull-off"}
     if not isinstance(sources, dict) or set(sources) != set(roles):
@@ -102,7 +108,7 @@ def collect_adhesion_comparison(root, destination, records):
     for role, name in roles.items():
         run = sources[role]
         run["source_directory"] = verify_comparison_sources(
-            root, destination, indexed, f"adhesion--{name}", f"adhesion/{name}", run.get("files"),
+            root, destination, indexed, f"{family}--{name}", f"{family}/{name}", run.get("files"),
         )
     table = report.get("csv")
     if not isinstance(table, dict) or table.get("filename") != "adhesion_comparison.csv":
@@ -117,10 +123,11 @@ def collect_adhesion_comparison(root, destination, records):
         raise ValueError("The adhesion comparison CSV contains missing or nonfinite values")
     if [float(row["time_s"]) for row in rows] != report["sampled_time_s"]:
         raise ValueError("The adhesion comparison CSV has a different time schedule")
-    table["filename"] = "adhesion-comparison.csv"
+    public_name = family + "-comparison"
+    table["filename"] = public_name + ".csv"
     report_text = json.dumps(report, indent=2, allow_nan=False) + "\n"
-    write_if_changed(destination / "adhesion-comparison.csv", content)
-    write_if_changed(destination / "adhesion-comparison.json", report_text)
+    write_if_changed(destination / (public_name + ".csv"), content)
+    write_if_changed(destination / (public_name + ".json"), report_text)
 
 
 def write_if_changed(path, content):
@@ -199,6 +206,8 @@ def collect(root, destination):
         collect_wave_comparison(root, destination, records)
     if "adhesion" in SOURCES:
         collect_adhesion_comparison(root, destination, records)
+    if "adhesion-visible" in SOURCES:
+        collect_adhesion_comparison(root, destination, records, "adhesion-visible")
     for source, name in (
         ("contact-models", "contact-review.json"),
         ("benchmarks", "dynamics-review.json"),
@@ -250,6 +259,14 @@ def write_catalogue(records, destination):
             "The [matched adhesion comparison](results/adhesion-comparison.json) and",
             "[response table](results/adhesion-comparison.csv) use the same sphere path",
             "and dynamic body with zero and positive work of adhesion.",
+            "",
+        ]
+    if (destination / "adhesion-visible-comparison.json").exists():
+        lines += [
+            "The [lift-hold adhesion comparison](results/adhesion-visible-comparison.json)",
+            "checks the force-free baseline against a surface still pulled upward by adhesion",
+            "at matching times. Its [response table](results/adhesion-visible-comparison.csv)",
+            "retains the measured deformation difference.",
             "",
         ]
     write_if_changed(destination.parent / "RESULTS.md", "\n".join(lines))

@@ -60,6 +60,7 @@ class Config:
                 "orthotropic",
                 "transverse-isotropic",
                 "blatz-ko",
+                "woven-composite",
             )
             + INCREMENTAL_MODELS
         ):
@@ -70,6 +71,8 @@ class Config:
             raise ValueError("failure_mode must be 'retain' or 'ballistic'")
         if self.material in INCREMENTAL_MODELS and self.dim != 3:
             raise ValueError("incremental plasticity models require dim=3")
+        if self.material == "woven-composite" and self.dim != 3:
+            raise ValueError("woven composites require dim=3")
         gravity = (
             self.gravity if self.gravity is not None else (0.0, -9.81) + (0.0,) * (self.dim - 2)
         )

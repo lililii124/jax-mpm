@@ -3,7 +3,7 @@ import jax.numpy as jnp
 import numpy as np
 import pytest
 
-from examples.brittle_engineering import _damage_observables, setup
+from examples.brittle_engineering import LoadingBox, _damage_observables, setup
 from mpm_jax import step
 from mpm_jax.contact_laws import boundary_reaction
 
@@ -25,7 +25,7 @@ def test_bending_fixtures_allow_axial_slide_and_reach_prescribed_displacement():
     np.testing.assert_allclose(case.states[0].mass.sum(), material.density * 0.3 * 0.06**2)
 
 
-@pytest.mark.parametrize("scene", ["concrete-bending", "ceramic-indentation"])
+@pytest.mark.parametrize("scene", ["concrete-bending", "concrete-bending-large", "ceramic-indentation"])
 def test_boundary_reactions_balance_specimen_momentum(scene):
     case = setup(scene, grid=16, ppc=1, frames=4)
     state, material, config = case.states[0], case.materials[0], case.configs[0]
@@ -63,3 +63,44 @@ def test_rht_uses_same_concrete_geometry_and_conservative_time_step():
     assert case.description["acoustic_CFL"] <= 0.15
     assert len(config.boundaries) == 4
     assert bool(step(state, material, config).valid)
+
+
+def test_loading_box_velocity_is_displacement_derivative_and_stops_smoothly():
+    boundary = LoadingBox((.1, .2, .1), (.2, .25, .2), (0, -40 / 3, 0),
+                          components=(False, True, False), ramp_time=.0003, loading_duration=.0012)
+    boundary.validate(3, .4)
+    for time in (.00015, .0006, .00105):
+        derivative = (boundary.motion(time + 1e-9)[0] - boundary.motion(time - 1e-9)[0]) / 2e-9
+        np.testing.assert_allclose(derivative, boundary.motion(time)[1], rtol=2e-9, atol=1e-9)
+    for time in (0., .0012, .0015):
+        np.testing.assert_array_equal(boundary.motion(time)[1], np.zeros(3))
+    for time in (.0012, .0015):
+        np.testing.assert_allclose(boundary.motion(time)[0], [0, -.012, 0], atol=1e-15)
+    for time in (.0003, .0009, .0012):
+        np.testing.assert_allclose(boundary.motion(time - 1e-10)[1], boundary.motion(time + 1e-10)[1], atol=1e-10)
+
+
+def test_loading_box_holds_the_moved_patch_without_clamping_free_components():
+    boundary = LoadingBox((.1, .2, .1), (.2, .25, .2), (0, -40 / 3, 0),
+                          components=(False, True, False), ramp_time=.0003, loading_duration=.0012)
+    velocity = jnp.array([[1, 2, 3], [4, 5, 6]], dtype=jnp.float32)
+    coordinates = jnp.array([[.15, .195, .15], [.15, .245, .15]], dtype=jnp.float32)
+    observed = jax.jit(boundary.apply)(velocity, coordinates, jnp.asarray(.0015, dtype=jnp.float64))
+    np.testing.assert_array_equal(observed, [[1, 0, 3], [4, 5, 6]])
+    assert observed.dtype == velocity.dtype
+
+
+def test_large_bending_keeps_geometry_and_uses_explicit_strain_floor_profile():
+    original = setup("concrete-bending", grid=16, ppc=1, frames=4)
+    large = setup("concrete-bending-large", grid=16, ppc=1, frames=20)
+    np.testing.assert_array_equal(large.states[0].x, original.states[0].x)
+    np.testing.assert_array_equal(large.states[0].mass, original.states[0].mass)
+    assert original.materials[0].legacy_v3 is True
+    assert large.materials[0].legacy_v3 is False
+    assert large.description["material_profile"] == "strain-floor"
+    assert large.description["hold_duration_s"] == .0003
+    np.testing.assert_allclose(large.duration, .0015, rtol=0, atol=1e-18)
+    assert large.configs[0].failure_mode == "retain"
+    loading = large.configs[0].boundaries[-1]
+    np.testing.assert_allclose(loading.motion(large.duration)[0], [0, -.012, 0], atol=1e-15)
+    np.testing.assert_array_equal(loading.motion(large.duration)[1], np.zeros(3))

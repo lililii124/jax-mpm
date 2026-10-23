@@ -1,6 +1,7 @@
 """Run with pvpython to verify exported particle data against the NPZ trajectory."""
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -14,7 +15,7 @@ def main():
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
     summary_path = args.output / "summary.json"
-    summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
+    summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
 
     def samples(name, archive, indices):
         path = args.output / f"trajectory_{name}.npy"
@@ -30,9 +31,32 @@ def main():
         positions = samples("x", data, indices)
         fields = {
             key: data[key] if key == "body" else samples(key, data, indices)
-            for key in ("speed", "damage", "temperature", "body")
+            for key in ("speed", "damage", "temperature", "body", "failed")
             if key in data
         }
+    static = {"body"}
+    if "particle_fields" in summary:
+        record = summary["particle_fields"]
+        if record["file"] != "particle_fields.npz":
+            raise ValueError("unexpected static particle field filename")
+        with np.load(args.output / record["file"]) as labels:
+            if set(labels.files) != set(record["fields"]):
+                raise ValueError("static particle fields differ from the recorded field set")
+            for key in labels.files:
+                values = np.ascontiguousarray(labels[key])
+                descriptor = {
+                    "shape": list(values.shape), "dtype": str(values.dtype),
+                    "sha256": hashlib.sha256(memoryview(values).cast("B")).hexdigest(),
+                }
+                if descriptor != record["fields"][key]:
+                    raise ValueError(f"static particle field {key} failed its integrity check")
+                fields[key] = values
+                static.add(key)
+    metadata_path = args.output / "vtk_metadata.json"
+    if metadata_path.exists():
+        metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+        if "displacement" in metadata["fields"]:
+            fields["displacement"] = np.linalg.norm(positions - positions[0], axis=-1)
     for sample, i in enumerate(indices):
         reader = vtkXMLPolyDataReader()
         reader.SetFileName(str(args.output / "vtk" / f"particles_{i:05d}.vtp"))
@@ -43,12 +67,14 @@ def main():
         np.testing.assert_allclose(
             points[:, : positions.shape[-1]], positions[sample], rtol=1e-6, atol=1e-7
         )
-        for key in ("speed", "damage", "temperature", "body"):
-            if key in fields:
-                expected = fields[key] if key == "body" else fields[key][sample]
+        for key, values in fields.items():
+            expected = values if key in static else values[sample]
+            actual = vtk_to_numpy(result.GetPointData().GetArray(key))
+            if expected.dtype.kind in "biu":
+                np.testing.assert_array_equal(actual, expected)
+            else:
                 np.testing.assert_allclose(
-                    vtk_to_numpy(result.GetPointData().GetArray(key)),
-                    expected,
+                    actual, expected,
                     rtol=1e-6,
                     atol=1e-7,
                 )

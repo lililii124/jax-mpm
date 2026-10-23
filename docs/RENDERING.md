@@ -46,13 +46,15 @@ shear, torsion and surface loading use displacement magnitude.
 
 ## Controlled visual comparisons
 
-The renderer accepts three optional display controls:
+The renderer accepts these optional display controls:
 
 | Option | Meaning and checks |
 | --- | --- |
 | `--color-range LOW HIGH` | A fixed scalar range. Both values must be finite, `LOW < HIGH`, and the interval must contain the complete saved field range. Categorical `body` colouring does not accept this option. |
 | `--scene-bounds XMIN XMAX YMIN YMAX ZMIN ZMAX` | Bounds used to calculate the camera. Each pair must be finite and increasing; the box must contain all saved particle coordinates and the prescribed CAD motion envelope. |
 | `--sphere-opacity VALUE` | Opacity of the prescribed rigid-sphere CAD only, with `0 < VALUE ≤ 1`; the default is 1. Particle, debris and box displays are unaffected. |
+| `--focus-bounds XMIN XMAX YMIN YMAX ZMIN ZMAX` | An explicit detail view. The finite ordered box must overlap the scene but can crop peripheral geometry. Mutually exclusive with `--scene-bounds`; it never scales particle coordinates. |
+| `--matrix-opacity VALUE` | Matrix opacity with `--field family_id`, with `0 < VALUE ≤ 1`; the default is 0.008. Yarn particles remain opaque. |
 
 For the matched nonadhesive/adhesive pair, derive one displacement upper limit
 from the larger maximum in the two complete `vtk_metadata.json` exports. Use
@@ -61,8 +63,8 @@ and both sphere-path envelopes, including each sphere's radius. Use those same
 values, field, image resolution and sphere opacity for both renders. Preserve
 full precision when passing bounds; an inward-rounded bound is rejected.
 
-The same controls are available as `color_range`, `scene_bounds` and
-`sphere_opacity` keyword arguments to `render_directory` and `render_trajectory`.
+The same controls are available as `color_range`, `scene_bounds`, `focus_bounds`,
+`sphere_opacity` and `matrix_opacity` keyword arguments to `render_directory` and `render_trajectory`.
 They change the display only. For example, the adhesion suite uses translucent
 CAD overlays to keep the deforming surface visible:
 
@@ -81,6 +83,23 @@ from the chosen camera bounds and colour range, with override sources and
 requested values. No coordinate scaling or field clipping is applied. Rigid
 sphere transparency does not alter the contact model, particle positions or
 particle counts.
+
+For a contact close-up, supply the same `--focus-bounds` to both members of a
+controlled pair. `render.json` identifies this as a detail view and retains the
+complete data bounds alongside the camera bounds. Compare the same physical
+output times and use one colour range for both histories. The full VTK datasets
+remain available outside the camera view. When a case records an explicit
+`particle_spacing_m`, that spacing sets marker size, including uniformly seeded
+rods whose requested particle density has been rounded to a symmetric lattice.
+
+Woven examples save static `phase`, `family_id` and `yarn_id` arrays in
+`particle_fields.npz`. The loader checks their shapes, dtypes and SHA-256 hashes
+against the summary before exporting them to every VTK frame. With
+`--field family_id`, the matrix is translucent and the yarn families use fixed
+blue, orange and green colours. Every material particle stays in the scene;
+`render.json` records the per-phase counts and matrix opacity. This is a view of
+the actual yarn and matrix particles, with no displacement scaling. Prescribed
+clamps follow the same half-cosine displacement and hold used by the solver.
 
 | File | Contents |
 |---|---|
@@ -130,6 +149,8 @@ they are not separately solved roller or platen contacts. The loading block
 follows the prescribed analytic translation. Their dimensions, motion and
 interpretation are recorded under `auxiliary_geometry`, and they do not enter
 particle counts.
+The large-displacement bending block also follows the stopping ramp and remains
+at its final prescribed position during the hold.
 
 Gray translucent markers identify failed particles only in bodies configured
 with `failure_mode="ballistic"`. Retain-mode bodies keep their normal body or

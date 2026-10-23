@@ -14,7 +14,7 @@ from .common import run
 from .scenarios import Case
 
 
-SCENES = ("jc-tension", "concrete-bending", "ceramic-indentation")
+SCENES = ("jc-tension", "jc-necking", "concrete-bending", "concrete-bending-large", "ceramic-indentation")
 
 
 def tensile_aluminum():
@@ -190,6 +190,12 @@ def setup(scene, *, grid=64, ppc=3, frames=60, model=None):
         raise ValueError("material engineering cases require grid >= 24")
     if not isinstance(ppc, int) or ppc < 1 or not isinstance(frames, int) or frames < 1:
         raise ValueError("ppc and frames must be positive integers")
+    if scene == "jc-necking":
+        if model not in (None, "johnson-cook"):
+            raise ValueError("jc-necking requires johnson-cook")
+        from .jc_necking import make_case
+
+        return make_case(grid=grid, ppc=ppc, frames=frames)
     if scene == "jc-tension":
         if model not in (None, "johnson-cook"):
             raise ValueError("jc-tension requires johnson-cook")

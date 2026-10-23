@@ -139,6 +139,10 @@ def linear_stress(strain, material):
 
 def kirchhoff_stress(F, material, kind):
     """tau = J sigma; 2D linear elasticity uses plane strain."""
+    if kind == "woven-composite":
+        from .woven import woven_kirchhoff_stress
+
+        return woven_kirchhoff_stress(F, material)
     dim = F.shape[-1]
     J = jnp.linalg.det(F)
     eye = jnp.eye(dim, dtype=F.dtype)

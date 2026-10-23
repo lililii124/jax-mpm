@@ -20,10 +20,20 @@ GROUPS = (
     "Constitutive compression",
     "Wave refinement",
     "Shear-wave comparisons",
+    "Adhesion comparison",
+    "Woven composites",
 )
+WOVEN_ARCHITECTURES = {"plain": "0°/90° plain weave", "triaxial": "0°/±60° weave", "twill-2x2": "2×2 twill"}
+WOVEN_LOADS = {
+    "warp-tension": "Warp tension", "weft-tension": "Transverse in-plane tension",
+    "in-plane-shear": "In-plane shear", "transverse-compression": "Through-thickness compression",
+    "transverse-bending": "Out-of-plane bending",
+}
 TITLES = {
     "jc-tension": "JC round-bar tension",
+    "jc-necking": "JC steel necking",
     "concrete-bending": "HJC concrete bending",
+    "concrete-bending-large": "HJC large-displacement bending",
     "ceramic-indentation": "JH-2 ceramic indentation",
     "cellular-cushion": "Cellular cushioning",
     "perforated-panel": "Perforated panel",
@@ -77,7 +87,11 @@ MATERIALS = {
 def describe(identifier):
     parts = identifier.split("--")
     source = parts[0]
-    scene = parts[-1] if source in ("contact-models", "adhesion") else parts[-2]
+    if source == "woven":
+        return GROUPS[9], f"{WOVEN_ARCHITECTURES[parts[1]]} · {WOVEN_LOADS[parts[2]]}"
+    scene = parts[-1] if source in ("contact-models", "adhesion", "adhesion-visible") else parts[-2]
+    if source == "adhesion-visible":
+        return GROUPS[8], TITLES[scene]
     if source == "adhesion":
         return GROUPS[2], TITLES.get(scene, scene.replace("-", " ").capitalize())
     if source == "visible-motion":
@@ -185,14 +199,22 @@ def main():
         record["source_render_sha256"] = entry.get("source_render_sha256", entry["render_sha256"])
         public.append(record)
     lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
-    for heading, items in groups.items():
+    for heading in (GROUPS[0], GROUPS[8], GROUPS[9], *GROUPS[1:8]):
+        items = groups[heading]
         if not items:
             continue
-        lines += [f"### {heading}", "", "| | | |", "|---|---|---|"]
-        cells = [cell for _, cell in sorted(items)]
-        for start in range(0, len(cells), 3):
-            row = cells[start:start + 3]
-            lines.append("| " + " | ".join(row + [""] * (3 - len(row))) + " |")
+        columns = 2 if heading == GROUPS[8] else 3
+        lines += [f"### {heading}", "", "|" + " |" * columns, "|" + "---|" * columns]
+        ordered = sorted(items, key=lambda item: (not item[0].startswith("Nonadhesive"), item[0])) if heading == GROUPS[8] else sorted(items)
+        if heading == GROUPS[9]:
+            ordered = sorted(items, key=lambda item: (
+                tuple(WOVEN_LOADS.values()).index(item[0].split(" · ")[1]),
+                tuple(WOVEN_ARCHITECTURES.values()).index(item[0].split(" · ")[0]),
+            ))
+        cells = [cell for _, cell in ordered]
+        for start in range(0, len(cells), columns):
+            row = cells[start:start + columns]
+            lines.append("| " + " | ".join(row + [""] * (columns - len(row))) + " |")
         lines.append("")
     lines += [END, ""]
     block = "\n".join(lines)

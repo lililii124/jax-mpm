@@ -28,7 +28,7 @@ stresses, lengths, times, and temperatures use kg/m³, Pa, m, s, and K.
 | Johnson–Cook | Implicit rate-dependent radial return at old temperature, explicit plastic heating, optional D1–D5 failure | Closure differs from the supplied one-step old-rate implementation; examples leave optional failure disabled |
 | Steinberg–Guinan | Pressure/temperature strength, strain hardening cap, linear EOS, work energy | Selected GAMA=F=0 solid branch; no melting/spall; invalid temperatures rejected |
 | JH-2 | Intact/fractured strength, damage, delayed bulking, polynomial EOS, tensile cutoff | Supplied MAT110 revision-7 profile; negative FS unsupported |
-| HJC | Pressure/rate strength, compaction, lagged unloading modulus, damage | Supplied v3 tension-fix profile; EFMIN acts as an activation gate; optional cold-start damage seed is off |
+| HJC | Pressure/rate strength, compaction, lagged unloading modulus, damage | Explicit `legacy-v3` and `strain-floor` profiles; shared discrete EOS; cold-start damage seed is off by default |
 | RHT | Three surfaces, Lode dependence, hardening, damage, p-alpha compaction, energy coupling | Bounded adaptive integration; unsupported/nonconverged returns are marked invalid; no general interior fallback from the supplied core |
 
 Incremental kinematics use the right polar stretch of F_new inverse(F_old),
@@ -36,6 +36,41 @@ its logarithmic strain, and rotation of tensor history. This is the spatial
 integration convention of this package. Material-point replay tests bypass
 that kinematic conversion and therefore do not establish equivalence of an
 entire MPM solver to the source host solver.
+
+### HJC profiles
+
+`hjc()` and `hjc(profile="legacy-v3")` preserve the supplied v3 conventions,
+including the EFMIN activation gate, tensile strength expression and plastic
+strain handling at zero strength. The five supplied HJC reference traces apply
+to this profile and remain unchanged.
+
+`hjc(profile="strain-floor")` selects the strength and damage expressions in
+[Altair Radioss 2025 LAW126, Comments 3–4](https://2025.help.altair.com/2025/hwsolvers/rad/topics/solvers/rad/mat_law126_johnson_holmquist_concrete_starter_r.htm).
+With compression-positive pressure, its fracture strain is
+`max(D1*((P+T)/fc)^D2, minimum_fracture_strain)` and the damage increment is the
+sum of deviatoric and compaction plastic increments divided by that strain.
+Thus EFMIN limits the damage increment at low pressure; it does not disable it.
+At nonpositive pressure the normalized strength is `A*(1+P/T)*(1-D)`.
+The rate multiplier is `1+C*max(log(rate/reference_rate), 0)`. The existing
+compressive pressure-hardening term and compressive strength cap remain.
+Plastic strain still accumulates when the returned equivalent stress is zero.
+
+Both profiles use the existing compaction/EOS integration, old damage for the
+current strength and tensile cutoff, and an explicit damage update afterward.
+The new profile does not establish full Radioss equivalence, strain-rate
+filtering, nonlocal damage regularization or automatic particle deletion.
+At `D=1`, cohesion is lost while compressive confinement can still carry shear
+stress. Damage is a local state variable, not a resolved crack surface.
+The optional `cold_start_damage=True` retains the supplied conditional seed
+in either profile: with `raw=D1*(T/fc)^D2`, initial damage is
+`min(1, 1e-4/raw)` only when `raw > minimum_fracture_strain`, otherwise zero.
+This is a numerical initialization choice outside the cited evolution
+equations, and remains disabled by default.
+
+The profile is stored as the Boolean material field `legacy_v3` for JAX and
+serialization. This changes old checkpoint signatures; resume pre-profile
+checkpoints with the code version that created them. Completed result records
+and their reference data are retained.
 
 ## Final Check source audit
 

@@ -11,6 +11,7 @@ import subprocess
 import numpy as np
 
 from .export import export_series
+from .particle_fields import array_descriptor, checked_particle_fields
 
 
 def _checked_sphere_opacity(value):
@@ -18,6 +19,14 @@ def _checked_sphere_opacity(value):
         return None
     if not np.isfinite(value) or not 0.0 < value <= 1.0:
         raise ValueError("--sphere-opacity must be finite and satisfy 0 < opacity <= 1")
+    return float(value)
+
+
+def _checked_matrix_opacity(value):
+    if value is None:
+        return None
+    if not np.isfinite(value) or not 0.0 < value <= 1.0:
+        raise ValueError("--matrix-opacity must be finite and satisfy 0 < opacity <= 1")
     return float(value)
 
 
@@ -39,11 +48,17 @@ def find_pvpython():
 
 def render_directory(
     output, *, gif=False, field="body", resolution=1200, final_only=False,
-    color_range=None, scene_bounds=None, sphere_opacity=None,
+    color_range=None, scene_bounds=None, sphere_opacity=None, focus_bounds=None,
+    matrix_opacity=None,
 ):
     if gif and final_only:
         raise ValueError("--gif and --final-only are mutually exclusive")
+    if scene_bounds is not None and focus_bounds is not None:
+        raise ValueError("scene_bounds and focus_bounds are mutually exclusive")
     sphere_opacity = _checked_sphere_opacity(sphere_opacity)
+    matrix_opacity = _checked_matrix_opacity(matrix_opacity)
+    if matrix_opacity is not None and field != "family_id":
+        raise ValueError("matrix_opacity requires field='family_id'")
     output = Path(output).resolve()
     pvpython = find_pvpython()
     command = [
@@ -60,8 +75,12 @@ def render_directory(
         command.extend(["--color-range", *(str(value) for value in color_range)])
     if scene_bounds is not None:
         command.extend(["--scene-bounds", *(str(value) for value in scene_bounds)])
+    if focus_bounds is not None:
+        command.extend(["--focus-bounds", *(str(value) for value in focus_bounds)])
     if sphere_opacity is not None:
         command.extend(["--sphere-opacity", str(sphere_opacity)])
+    if matrix_opacity is not None:
+        command.extend(["--matrix-opacity", str(matrix_opacity)])
     if final_only or not gif:
         command.append("--final-only")
     environment = os.environ.copy()
@@ -137,6 +156,20 @@ def trajectory_arrays(output):
                     np.load(failed_file, mmap_mode="r") if mapped and failed_file.is_file()
                     else data["failed"]
                 )
+        if "particle_fields" in summary:
+            record = summary["particle_fields"]
+            if record.get("file") != "particle_fields.npz":
+                raise ValueError("static particle labels must use particle_fields.npz")
+            with np.load(output / record["file"]) as labels:
+                if set(labels.files) != set(record["fields"]):
+                    raise ValueError("static particle labels differ from the recorded fields")
+                fields = checked_particle_fields(
+                    {name: labels[name] for name in labels.files}, arrays["x"].shape[1]
+                )
+            for name, value in fields.items():
+                if array_descriptor(value) != record["fields"][name]:
+                    raise ValueError(f"static particle field {name} failed its integrity check")
+            arrays.update(fields)
         yield arrays
     finally:
         for value in arrays.values():
@@ -147,9 +180,17 @@ def trajectory_arrays(output):
 
 def render_trajectory(
     output, *, gif=False, field="body", resolution=1200, final_only=False,
-    color_range=None, scene_bounds=None, sphere_opacity=None,
+    color_range=None, scene_bounds=None, sphere_opacity=None, focus_bounds=None,
+    matrix_opacity=None,
 ):
+    if gif and final_only:
+        raise ValueError("--gif and --final-only are mutually exclusive")
+    if scene_bounds is not None and focus_bounds is not None:
+        raise ValueError("scene_bounds and focus_bounds are mutually exclusive")
     sphere_opacity = _checked_sphere_opacity(sphere_opacity)
+    matrix_opacity = _checked_matrix_opacity(matrix_opacity)
+    if matrix_opacity is not None and field != "family_id":
+        raise ValueError("matrix_opacity requires field='family_id'")
     output = Path(output)
     summary_path = output / "summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
@@ -158,12 +199,18 @@ def render_trajectory(
     spacing /= summary.get("definition", {}).get(
         "particles_per_cell_per_axis", summary.get("particles_per_cell_per_axis", 2)
     )
+    spacing = summary.get("definition", {}).get("particle_spacing_m", spacing)
+    if not np.isfinite(spacing) or spacing <= 0:
+        raise ValueError("particle display spacing must be finite and positive")
     with trajectory_arrays(output) as data:
         positions = data["x"]
         fields = {
             key: data[key] for key in ("speed", "damage", "temperature", "body", "failed")
             if key in data
         }
+        fields.update({name: data[name] for name in summary.get("particle_fields", {}).get("fields", {})})
+        if field == "family_id" and not {"phase", "family_id"}.issubset(fields):
+            raise ValueError("family_id display requires static phase and family_id fields")
         if "body" not in fields:
             fields["body"] = np.zeros(positions.shape[1], dtype=np.int32)
         export_series(
@@ -179,6 +226,8 @@ def render_trajectory(
     render_directory(
         output, gif=gif, field=field, resolution=resolution, final_only=final_only,
         color_range=color_range, scene_bounds=scene_bounds, sphere_opacity=sphere_opacity,
+        focus_bounds=focus_bounds,
+        matrix_opacity=matrix_opacity,
     )
 
 
@@ -187,7 +236,7 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--gif", action="store_true")
     parser.add_argument(
-        "--field", choices=("body", "speed", "displacement", "damage", "temperature"), default="body"
+        "--field", choices=("body", "speed", "displacement", "damage", "temperature", "phase", "family_id"), default="body"
     )
     parser.add_argument("--resolution", type=int, default=1200)
     parser.add_argument("--final-only", action="store_true")
@@ -197,13 +246,18 @@ def main():
         metavar=("XMIN", "XMAX", "YMIN", "YMAX", "ZMIN", "ZMAX"),
     )
     parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
+    parser.add_argument("--matrix-opacity", type=float, help="matrix opacity when coloring woven yarn families (default: 0.008)")
+    parser.add_argument("--focus-bounds", type=float, nargs=6, help="explicit close-up bounds; may crop geometry outside the view")
     args = parser.parse_args()
+    if args.scene_bounds is not None and args.focus_bounds is not None:
+        parser.error("--scene-bounds and --focus-bounds are mutually exclusive")
     try:
         args.sphere_opacity = _checked_sphere_opacity(args.sphere_opacity)
+        args.matrix_opacity = _checked_matrix_opacity(args.matrix_opacity)
     except ValueError as error:
         parser.error(str(error))
-    if args.color_range is not None and args.field == "body":
-        parser.error("--color-range requires a scalar field, not categorical body colors")
+    if args.color_range is not None and args.field in ("body", "family_id"):
+        parser.error("--color-range requires a scalar field, not categorical colors")
     render_trajectory(
         args.output,
         gif=args.gif,
@@ -213,6 +267,8 @@ def main():
         color_range=args.color_range,
         scene_bounds=args.scene_bounds,
         sphere_opacity=args.sphere_opacity,
+        focus_bounds=args.focus_bounds,
+        matrix_opacity=args.matrix_opacity,
     )
 
 

@@ -27,6 +27,7 @@ from .plastic import (
     update_thermal_plastic,
 )
 from .steinberg import SteinbergGuinan, steinberg_guinan, update_steinberg
+from .woven import WovenElastic, woven_elastic, woven_energy, woven_kirchhoff_stress
 
 
 INCREMENTAL_MODELS = (

@@ -143,6 +143,10 @@ def diagnostics(state, config, material=None):
             power = 1 - 1 / (1 - 2 * material.poisson)
             W = 0.5 * material.shear * (np.sum(F * F, axis=(-2, -1)) - config.dim)
             W -= material.shear / power * (J**power - 1)
+        elif kind == "woven-composite":
+            from .materials import woven_energy
+
+            W = np.asarray(woven_energy(state.F, material))
         else:
             strain = 0.5 * (F + F.swapaxes(-2, -1)) - np.eye(config.dim)
             stress = np.asarray(kirchhoff_stress(state.F, material, kind)) / J[:, None, None]

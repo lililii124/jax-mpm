@@ -45,9 +45,15 @@ def write_vtp(path, points, fields):
         if values.shape[0] != n:
             raise ValueError(f"field {name} does not match the particle count")
         integer = np.issubdtype(values.dtype, np.integer)
-        values = values.astype("<i4" if integer else "<f4")
+        vtk_type, storage_type = "Float32", "<f4"
+        if integer:
+            vtk_type, storage_type = "Int32", "<i4"
+            limits = np.iinfo(np.int32)
+            if values.size and (values.min() < limits.min or values.max() > limits.max):
+                vtk_type, storage_type = ("UInt64", "<u8") if values.dtype.kind == "u" else ("Int64", "<i8")
+        values = values.astype(storage_type)
         components = 1 if values.ndim == 1 else values.shape[1]
-        point_data.append(data_array(name, values, "Int32" if integer else "Float32", components))
+        point_data.append(data_array(name, values, vtk_type, components))
     coordinates = data_array("Position", points, "Float32", 3)
     connectivity = data_array("connectivity", np.arange(n, dtype="<i8"), "Int64")
     offsets = data_array("offsets", np.arange(1, n + 1, dtype="<i8"), "Int64")

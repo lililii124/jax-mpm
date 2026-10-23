@@ -31,6 +31,7 @@ class HJC(NamedTuple):
     K3: float
     density: float
     initial_damage: float
+    legacy_v3: bool = True
 
 
 def hjc(
@@ -56,8 +57,11 @@ def hjc(
     K3=208e9,
     density=2440.0,
     cold_start_damage=False,
+    profile="legacy-v3",
 ):
-    """The supplied HJC v3 EOS/damage profile; cold-start seeding is opt-in."""
+    """Select the supplied v3 profile or strain-floor strength/damage equations."""
+    if profile not in ("legacy-v3", "strain-floor"):
+        raise ValueError("HJC profile must be 'legacy-v3' or 'strain-floor'")
     _positive(
         shear=shear,
         compressive_strength=compressive_strength,
@@ -104,6 +108,7 @@ def hjc(
         K3,
         density,
         initial_damage,
+        profile == "legacy-v3",
     )
 
 
@@ -135,26 +140,45 @@ def update_hjc(old, strain, J, dt, p):
     )
     trial = dev(old.stress) + 2 * p.shear * dev(strain)
     qtrial = equivalent(trial)
-    strength = jnp.where(
+    compressive_strength = (
+        p.A * (1 - old.damage)
+        + p.B * jnp.maximum(pressure / p.compressive_strength, 0.0) ** p.N
+    )
+    legacy_strength = jnp.where(
         pressure < 0,
         p.A * (1 - old.damage - pressure / p.tensile_strength),
-        p.A * (1 - old.damage) + p.B * jnp.maximum(pressure / p.compressive_strength, 0.0) ** p.N,
+        compressive_strength,
     )
     rate = jnp.maximum(equivalent_strain(strain) / dt, 1e-8)
-    strength = jnp.minimum(
-        strength * (1 + p.C * jnp.log(rate / p.reference_rate)), p.maximum_strength
+    log_rate = jnp.log(rate / p.reference_rate)
+    legacy_strength = jnp.minimum(
+        legacy_strength * (1 + p.C * log_rate), p.maximum_strength
     )
+    rate_factor = 1 + p.C * jnp.maximum(log_rate, 0.0)
+    floor_strength = jnp.where(
+        pressure > 0,
+        jnp.minimum(compressive_strength * rate_factor, p.maximum_strength),
+        p.A * (1 + pressure / p.tensile_strength) * (1 - old.damage) * rate_factor,
+    )
+    strength = jnp.where(p.legacy_v3, legacy_strength, floor_strength)
     strength = jnp.maximum(strength, 0.0) * p.compressive_strength
     q = jnp.minimum(qtrial, strength)
-    dep = jnp.where(strength > 0, (qtrial - q) / (3 * p.shear), 0.0)
+    plastic_increment = (qtrial - q) / (3 * p.shear)
+    dep = jnp.where(
+        p.legacy_v3, jnp.where(strength > 0, plastic_increment, 0.0), plastic_increment
+    )
     raw_fracture = (
         p.D1 * jnp.maximum((pressure + p.tensile_strength) / p.compressive_strength, 0.0) ** p.D2
     )
-    damage = jnp.where(
+    legacy_damage = jnp.where(
         raw_fracture > p.minimum_fracture_strain,
         jnp.minimum(1.0, old.damage + (dep + depv) / jnp.maximum(raw_fracture, 1e-30)),
         old.damage,
     )
+    floor_damage = jnp.minimum(
+        1.0, old.damage + (dep + depv) / jnp.maximum(raw_fracture, p.minimum_fracture_strain)
+    )
+    damage = jnp.where(p.legacy_v3, legacy_damage, floor_damage)
     stress = trial * (q / jnp.maximum(qtrial, 1e-30))[..., None, None] - pressure[
         ..., None, None
     ] * jnp.eye(3)

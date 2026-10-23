@@ -111,6 +111,33 @@ grip reaction and stress-based material-section force, together with support-
 separated groups. The completed HJC beam run reaches partial damage without
 material failure; its damage field does not represent a resolved crack.
 
+## Woven composites
+
+The [woven guide](WOVEN_COMPOSITES.md) describes the geometry, material axes and
+model limits. `plain`, `triaxial` and `twill-2x2` each support `warp-tension`,
+`weft-tension`, `in-plane-shear`, `transverse-compression` and
+`transverse-bending`:
+
+```bash
+python -m examples.woven_composite --architecture plain --loading warp-tension --grid 96 --ppc 2 --frames 60 --resume
+python -m examples.woven_composite --architecture all --loading all --resume
+```
+
+The common specimen is 10 × 2 × 10 mm. Opposing 1 mm edge grips prescribe
+2% nominal in-plane tension or 5% shear. Compression moves each face by 25 µm
+in fixed 0.375 mm layers, with tangential sliding; the free thickness is 1.25 mm.
+Bending uses fixed 0.4 mm support widths over an 8 mm span and a 1 mm central
+loading patch displaced by 0.25 mm. All motions rise smoothly and then hold.
+These are dynamic elastic configurations with illustrative properties; no
+completed numerical or convergence result is claimed here.
+
+Output goes to `outputs/woven/<architecture>/<loading>`. Rendering is separate
+by default:
+
+```bash
+python -m mpm_jax.visualization outputs/woven/plain/warp-tension --field family_id --gif
+```
+
 ## Public example adaptations
 
 The [SPHinXsys elastic gate](https://www.sphinxsys.org/html/examples/example2_elasticGate.html)

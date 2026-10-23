@@ -28,24 +28,30 @@ SUITE_CASES = (
 )
 
 
-def make_case(*, grid=48, ppc=3, frames=50, suite_case=None):
+def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
     if suite_case is not None and suite_case not in SUITE_CASES:
         raise ValueError("unknown adhesive suite case")
+    if preset not in ("standard", "lift-hold"):
+        raise ValueError("unknown adhesive preset")
+    paired = suite_case in ("nonadhesive-pull-off", "adhesive-pull-off")
+    if preset == "lift-hold" and not paired:
+        raise ValueError("lift-hold requires a normal pull-off pair case")
+    lift_hold = preset == "lift-hold"
     if grid < 8 or ppc < 1 or frames < 1:
         raise ValueError("grid >= 8, ppc >= 1 and frames >= 1 are required")
-    young, poisson, density = 12000.0, 0.25, 1000.0
+    young, poisson, density = 8000.0 if lift_hold else 12000.0, 0.25, 1000.0
     lower, upper = np.array((0.14, 0.15, 0.14)), np.array((0.86, 0.38, 0.86))
     counts = np.ceil((upper - lower) * grid * ppc).astype(int)
     spacings = (upper - lower) / counts
     surface_area = float(spacings[0] * spacings[2])
     surface_y = float(upper[1] - 0.5 * spacings[1])
     law = DugdaleLaw(
-        work_of_adhesion=0.0 if suite_case == "nonadhesive-pull-off" else 12.0,
+        work_of_adhesion=0.0 if suite_case == "nonadhesive-pull-off" else 72.0 if lift_hold else 12.0,
         interaction_range=0.025,
-        penalty_stiffness=1.2e6,
+        penalty_stiffness=4.8e6 if lift_hold else 1.2e6,
     )
     material = neo_hookean(young, poisson)
-    duration = 0.85
+    duration = 1.30 if lift_hold else 0.85
     wave_speed = float(np.sqrt((material.bulk + 4 * material.mu / 3) / density))
     bulk_dt = 0.15 / grid / wave_speed
     local_mass = density * np.prod(spacings)
@@ -68,11 +74,29 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None):
     surface_indices = jnp.asarray(
         np.flatnonzero(reference[:, 1] == reference[:, 1].max())
     )
-    radius, clearance, indentation, lift = 0.16, 0.045, 0.035, 0.10
+    radius, clearance, indentation, lift = 0.16, 0.045, 0.035, 0.25 if lift_hold else 0.10
     high = surface_y + radius + clearance
     low = surface_y + radius - indentation
     paths = []
-    if suite_case in (None, "three-sphere-array"):
+    if lift_hold:
+        comparison_height = surface_y + radius + 0.055
+        paths.append(
+            SpherePath(
+                radius=radius,
+                times=(0.0, 0.08, 0.28, 0.42, 0.72, 0.94, 1.12, duration),
+                centers=(
+                    (0.5, high, 0.5),
+                    (0.5, high, 0.5),
+                    (0.5, low, 0.5),
+                    (0.5, low, 0.5),
+                    (0.5, comparison_height, 0.5),
+                    (0.5, comparison_height, 0.5),
+                    (0.5, high + lift, 0.5),
+                    (0.5, high + lift, 0.5),
+                ),
+            )
+        )
+    elif suite_case in (None, "three-sphere-array"):
         for x, z, delay, shift in (
             (0.32, 0.28, 0.0, -0.025),
             (0.68, 0.28, 0.10, 0.025),
@@ -268,7 +292,6 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None):
         "geometry_scale": 1.0,
     }
     if suite_case is not None:
-        paired = suite_case in ("nonadhesive-pull-off", "adhesive-pull-off")
         definition.update(
             series="adhesion-suite-v1",
             suite_case=suite_case,
@@ -295,6 +318,28 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None):
             if suite_case == "lateral-release"
             else None,
             explicit_coupling="current MPM surface positions determine gaps and forces each step; their forces update the deformable body on the next explicit step",
+        )
+    if lift_hold:
+        definition.update(
+            preset="lift-hold",
+            comparison_pair="single-sphere-lift-hold-v1",
+            loading_stages_s={
+                "initial_hold_end": 0.08,
+                "indentation_end": 0.28,
+                "hold_or_lateral_sweep_end": 0.42,
+                "comparison_lift_end": 0.72,
+                "comparison_hold_end": 0.94,
+                "pull_off_end": 1.12,
+                "final_hold_end": duration,
+            },
+            comparison_hold_bottom_clearance_m=0.055,
+            comparison_targets={
+                "minimum_contiguous_time_s": 0.10,
+                "minimum_surface_uplift_difference_m": 0.025,
+                "baseline": "zero interacting points and zero sphere reaction",
+                "adhesive": "tensile sphere reaction and higher maximum surface y displacement at the same saved times",
+                "status": "prospective checks; not measured results",
+            },
         )
     return (
         Case((state,), (material,), (config,), duration, definition, forces, observe),

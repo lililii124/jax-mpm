@@ -6,6 +6,7 @@ from .materials import linear_elastic, neo_hookean, orthotropic, transverse_isot
 from .materials import hjc, jh2, johnson_cook, rht
 from .materials import bilinear_plastic, thermal_plastic, blatz_ko
 from .materials import steinberg_guinan
+from .materials import woven_elastic
 from .contact import coupled_advance, coupled_step
 from .boundaries import (
     CyclicVelocityBox, MovingVelocityBox, PlaneWall, RotatingVelocityBox, VelocityBox,
@@ -35,6 +36,7 @@ __all__ = [
     "thermal_plastic",
     "blatz_ko",
     "steinberg_guinan",
+    "woven_elastic",
     "coupled_advance",
     "coupled_step",
     "PlaneWall",
