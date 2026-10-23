@@ -49,6 +49,10 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [visible-motion--wave-grid48--neo-hookean](results/visible-motion--wave-grid48--neo-hookean/summary.json) | 112,752 | 1,850 | 0.969948 | 0.989922 | 0 | ParaView |
 | [visible-motion--wave-grid64--neo-hookean](results/visible-motion--wave-grid64--neo-hookean/summary.json) | 269,568 | 2,450 | 0.969948 | 0.989943 | 0 | ParaView |
 | [visible-motion--wave-half-dt--neo-hookean](results/visible-motion--wave-half-dt--neo-hookean/summary.json) | 112,752 | 3,700 | 0.969948 | 0.9929 | 0 | ParaView |
+| [adhesion--adhesive-pull-off](results/adhesion--adhesive-pull-off/summary.json) | 367,744 | 1,200 | 0.85 | 0.784401 | 0 | ParaView |
+| [adhesion--lateral-release](results/adhesion--lateral-release/summary.json) | 367,744 | 1,200 | 0.85 | 0.768535 | 0 | ParaView |
+| [adhesion--nonadhesive-pull-off](results/adhesion--nonadhesive-pull-off/summary.json) | 367,744 | 1,200 | 0.85 | 0.79432 | 0 | ParaView |
+| [adhesion--three-sphere-array](results/adhesion--three-sphere-array/summary.json) | 367,744 | 1,200 | 0.85 | 0.779705 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)
@@ -57,3 +61,7 @@ describes the separate constitutive and convergence checks.
 The [transverse shear-wave comparison](results/visible-wave-comparison.json)
 compares the new finite-motion runs with one another. The original axial-wave
 analytical checks remain separate in [VALIDATION.md](../VALIDATION.md).
+
+The [matched adhesion comparison](results/adhesion-comparison.json) and
+[response table](results/adhesion-comparison.csv) use the same sphere path
+and dynamic body with zero and positive work of adhesion.

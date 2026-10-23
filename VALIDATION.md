@@ -1,6 +1,6 @@
 # Verification and executed examples
 
-The Windows CPU test run passed **113 tests** with Python 3.12.13 and
+The Windows CPU test run passed **124 tests** with Python 3.12.13 and
 the PyPI release JAX 0.12.0.1. The suite covers 2D/3D transfers,
 constitutive integration, formal boundary conditions, contact, elastic gradients
 and interrupted-run recovery. GPU execution has not been validated.
@@ -117,12 +117,12 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The local output collection contains **56 completed runs**. The public
-[catalogue](docs/RESULTS.md) contains **40 selected runs**, covering dynamics,
+The local output collection contains **60 completed runs**. The public
+[catalogue](docs/RESULTS.md) contains **44 selected runs**, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 32 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 36 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -216,6 +216,36 @@ Windows memory records for [JC](docs/results/material-engineering--jc-tension--j
 cover the solver processes and their descendants; rendering, supervisors and
 unrelated applications are excluded. HJC resumed after one memory-guard stop;
 JC and JH-2 completed in one attempt.
+
+## Dynamic adhesion cases
+
+Four finite-range Dugdale interface cases use the current MPM surface
+coordinates to compute the contact forces: matched nonadhesive and adhesive
+pull-off, lateral release and a three-sphere array. Their independent reviews
+reconstruct the gap forces and moments, compare the saved observations,
+check the resolved interaction range and confirm complete final separation.
+
+| Case | Particles | Steps | Minimum det(F) | Surface y displacement range (m) | Maximum relative mass drift |
+|---|---:|---:|---:|---|---:|
+| [nonadhesive-pull-off](docs/results/adhesion--nonadhesive-pull-off/interpretation.json) | 367,744 | 1,200 | 0.7943203 | -0.03225194 to 0.01010404 | 0 |
+| [adhesive-pull-off](docs/results/adhesion--adhesive-pull-off/interpretation.json) | 367,744 | 1,200 | 0.7844015 | -0.03233594 to 0.01583344 | 0 |
+| [lateral-release](docs/results/adhesion--lateral-release/interpretation.json) | 367,744 | 1,200 | 0.7685348 | -0.03236452 to 0.015107 | 0 |
+| [three-sphere-array](docs/results/adhesion--three-sphere-array/interpretation.json) | 367,744 | 1,200 | 0.7797053 | -0.03243363 to 0.01552029 | 0 |
+
+The [matched comparison](docs/results/adhesion-comparison.json) verifies the
+same initial particle coordinates, material, grid, time step and sphere path.
+Only work of adhesion and its derived traction differ. Its
+[response table](docs/results/adhesion-comparison.csv) preserves the sampled histories.
+
+| Role | Work of adhesion (J/m²) | Minimum withdrawal reaction y (N) | Final minimum gap (m) |
+|---|---:|---:|---:|
+| nonadhesive | 0 | 0 | 0.1419603 |
+| adhesive | 12 | -13.9306 | 0.1424596 |
+
+These are dynamic finite-layer checks with reversible reference-area adhesion
+and finite penalty overlap. Analytical JKR/Maugis limits, irreversible bond
+fracture, tangential friction and mesh convergence have not been established.
+[The adhesion guide](docs/ADHESION_CASES.md) gives the definitions and detailed response measurements.
 
 ## Limits
 

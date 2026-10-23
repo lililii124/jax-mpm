@@ -1,0 +1,54 @@
+{
+  "bounds": [
+    0.13920453807835895,
+    0.8607954619216409,
+    0.15257723836220924,
+    0.3867216846466796,
+    0.1392045380783589,
+    0.8607954619216408
+  ],
+  "dim": 3,
+  "spacing": 0.006944444444444444,
+  "frames": 51,
+  "particles": 367744,
+  "fields": [
+    "speed",
+    "damage",
+    "temperature",
+    "body",
+    "displacement"
+  ],
+  "visualization_dtype": "float32",
+  "source_dtype": "float64",
+  "field_ranges": {
+    "speed": [
+      0.0,
+      0.8019598316184557
+    ],
+    "damage": [
+      0.0,
+      0.0
+    ],
+    "temperature": [
+      293.15,
+      293.15
+    ],
+    "body": [
+      0.0,
+      0.0
+    ],
+    "displacement": [
+      0.0,
+      0.0322528784368097
+    ]
+  },
+  "derived_fields": {
+    "displacement": {
+      "definition": "Euclidean norm of current minus first saved particle position",
+      "units": "m",
+      "reference_time": 0.0,
+      "geometry_scale": 1.0,
+      "evaluation": "one frame at a time, in chunks of at most 65536 particles"
+    }
+  }
+}

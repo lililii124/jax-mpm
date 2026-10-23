@@ -1,0 +1,15 @@
+{
+  "scope": "Sampled resident and private commit of the serial JAX worker process tree during this case, including persistent interpreter allocations and independent review; other applications and ParaView are excluded.",
+  "sampling_interval_seconds": 1,
+  "memory_guard_sampling_interval_seconds": 1,
+  "sampled_peak_tree_private_bytes": 1744347136,
+  "sampled_peak_tree_rss_bytes": 2643697664,
+  "minimum_system_available_commit_gib": 6.571647644042969,
+  "solver_seconds": 314.6167983999767,
+  "guard_initial_start_commit_gib": 9.0,
+  "guard_stop_commit_gib": 4,
+  "guard_tree_private_limit_gib": 3,
+  "guard_scope": "Only the owned worker process tree is stopped; completed frame checkpoints are retained.",
+  "serial_batch_guard_stops": 0,
+  "serial_batch_resume_count": 0
+}

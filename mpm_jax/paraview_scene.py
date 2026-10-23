@@ -103,13 +103,50 @@ def velocity_patch_fixtures(definition):
     return fixtures
 
 
+def enclosing_override(actual, requested, *, label):
+    """Accept finite ordered bounds that contain the complete measured extent."""
+    actual = np.asarray(actual, dtype=float)
+    requested = np.asarray(requested, dtype=float)
+    if (
+        actual.ndim != 1 or actual.size == 0 or actual.size % 2
+        or requested.shape != actual.shape
+        or not np.isfinite(actual).all() or not np.isfinite(requested).all()
+        or np.any(actual[::2] > actual[1::2])
+        or np.any(requested[::2] >= requested[1::2])
+    ):
+        raise ValueError(f"{label} must contain finite, strictly increasing pairs")
+    if np.any(requested[::2] > actual[::2]) or np.any(requested[1::2] < actual[1::2]):
+        raise ValueError(f"{label} must cover the complete actual extent {actual.tolist()}")
+    return requested.tolist()
+
+
+def sphere_display_opacity(requested):
+    if requested is None:
+        return 1.0
+    if not np.isfinite(requested) or not 0.0 < requested <= 1.0:
+        raise ValueError("--sphere-opacity must be finite and satisfy 0 < opacity <= 1")
+    return float(requested)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("output", type=Path)
     parser.add_argument("--field", default="body")
     parser.add_argument("--resolution", type=int, default=1200)
     parser.add_argument("--final-only", action="store_true")
+    parser.add_argument("--color-range", type=float, nargs=2, metavar=("LOW", "HIGH"))
+    parser.add_argument(
+        "--scene-bounds", type=float, nargs=6,
+        metavar=("XMIN", "XMAX", "YMIN", "YMAX", "ZMIN", "ZMAX"),
+    )
+    parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
     args = parser.parse_args()
+    try:
+        sphere_opacity = sphere_display_opacity(args.sphere_opacity)
+    except ValueError as error:
+        parser.error(str(error))
+    if args.color_range is not None and args.field == "body":
+        parser.error("--color-range requires a scalar field, not categorical body colors")
     _DisableFirstRenderCameraReset()
     output = args.output.resolve()
     metadata = json.loads((output / "vtk_metadata.json").read_text(encoding="utf-8"))
@@ -154,6 +191,7 @@ def main():
         sphere.PhiResolution = 96
         sphere.Center = center0
         surface = Show(sphere, view)
+        surface.Opacity = sphere_opacity
         surface.ColorArrayName = ["POINTS", ""]
         surface.DiffuseColor = [0.56, 0.62, 0.68]
         surface.Ambient = 0.2
@@ -183,6 +221,7 @@ def main():
             {
                 "type": "prescribed_rigid_sphere",
                 "parameters": sphere_definition,
+                "display_opacity": sphere_opacity,
                 "included_in_particle_count": False,
                 "motion": "cosine loading/unloading cycle",
             }
@@ -195,6 +234,7 @@ def main():
         sphere.PhiResolution = 96
         sphere.Center = definition["centers"][0]
         surface = Show(sphere, view)
+        surface.Opacity = sphere_opacity
         surface.ColorArrayName = ["POINTS", ""]
         surface.DiffuseColor = [0.59, 0.65, 0.71]
         surface.Ambient = 0.2
@@ -225,6 +265,7 @@ def main():
             {
                 "type": "prescribed_adhesive_rigid_sphere",
                 "parameters": definition,
+                "display_opacity": sphere_opacity,
                 "included_in_particle_count": False,
                 "motion": "SpherePath cosine waypoint interpolation, evaluated at every output time",
                 "state_file_interpolation": "linear between output-time keyframes",
@@ -296,6 +337,13 @@ def main():
                 "depth is clipped to the specimen"
             )
         auxiliary_geometry.append(record)
+    actual_scene_bounds = list(bounds)
+    actual_scene_length = max(bounds[2 * i + 1] - bounds[2 * i] for i in range(3))
+    if args.scene_bounds is not None:
+        try:
+            bounds = enclosing_override(bounds, args.scene_bounds, label="--scene-bounds")
+        except ValueError as error:
+            parser.error(str(error))
     center = [(bounds[2 * i] + bounds[2 * i + 1]) / 2 for i in range(3)]
     length = max(bounds[2 * i + 1] - bounds[2 * i] for i in range(3))
     view.CameraFocalPoint = center
@@ -319,7 +367,8 @@ def main():
     if metadata["dim"] == 2:
         view.CameraPosition = [center[0], center[1], center[2] + 3 * length]
         view.CameraParallelScale = 0.58 * length
-    spacing = metadata["spacing"] or length / 100
+    spacing = metadata["spacing"] or actual_scene_length / 100
+    actual_field_range = metadata["field_ranges"].get(args.field)
     scalar_color_range = None
     if args.field != "body":
         lo, hi = metadata["field_ranges"][args.field]
@@ -328,6 +377,13 @@ def main():
         if hi <= lo:
             hi = lo + 1.0
         scalar_color_range = [lo, hi]
+        if args.color_range is not None:
+            try:
+                scalar_color_range = enclosing_override(
+                    actual_field_range, args.color_range, label="--color-range"
+                )
+            except ValueError as error:
+                parser.error(str(error))
     colors = ([0.045, 0.36, 0.67], [0.94, 0.36, 0.08], [0.32, 0.66, 0.48])
     body_array = reader.PointData["body"]
     count = int(body_array.GetRange()[1]) + 1 if body_array else 1
@@ -464,15 +520,30 @@ def main():
         "frames_rendered": len(indices),
         "animation": None,
         "field": args.field,
+        "actual_field_range": actual_field_range,
         "color_range": scalar_color_range,
+        "color_range_source": "--color-range" if args.color_range is not None else "automatic full-history range",
         "color_range_policy": "fixed over the complete saved time history",
-        "magnitude_color_range_includes_zero": args.field in ("speed", "displacement"),
+        "magnitude_color_range_includes_zero": (
+            args.field in ("speed", "displacement")
+            and scalar_color_range[0] <= 0 <= scalar_color_range[1]
+        ),
         "geometry_scale": 1.0,
         "resolution": [args.resolution] * 2,
         "axes": False,
         "annotations": False,
         "particle_radius": 0.62 * spacing,
-        "scene_bounds": bounds,
+        "scene_bounds": actual_scene_bounds,
+        "actual_scene_bounds": actual_scene_bounds,
+        "actual_body_bounds": metadata["bounds"],
+        "camera_bounds": bounds,
+        "camera_bounds_source": "--scene-bounds" if args.scene_bounds is not None else "automatic body and prescribed geometry bounds",
+        "render_overrides": {
+            "source": "renderer command-line arguments" if args.color_range is not None or args.scene_bounds is not None or args.sphere_opacity is not None else None,
+            "color_range": args.color_range,
+            "scene_bounds": args.scene_bounds,
+            "sphere_opacity": args.sphere_opacity,
+        },
         "camera_position": list(view.CameraPosition),
         "camera_focal_point": list(view.CameraFocalPoint),
         "camera_parallel_scale": view.CameraParallelScale,

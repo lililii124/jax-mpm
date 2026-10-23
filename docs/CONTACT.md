@@ -1,12 +1,13 @@
-# Spherical contact
+# Contact and adhesion
 
-The implementation has three separate uses:
+The implementation has four separate uses:
 
 | Interface | Solves | Example |
 |---|---|---|
 | `hertz_contact`, `jkr_contact`, `jkr_history` | Reduced, axisymmetric elastic contact laws | `jkr_law_cycle.csv` |
 | `RigidSphereBoundary` | Frictionless unilateral contact between a prescribed rigid sphere and an MPM body | `sphere-contact` |
 | `spherical_surface_load` | A prescribed Hertz/JKR pressure footprint applied as particle forces | `hertz-footprint`, `jkr-footprint` |
+| `DugdaleLaw`, `sphere_interaction` | Finite-range adhesive surface forces coupled to the deforming MPM body | `dugdale-array` |
 
 The geometric sphere example uses the MPM body's stiffness to determine its response. The footprint examples prescribe a load from a reduced law; their nominal law displacement is independent of the computed MPM surface displacement. They are not a self-consistent three-dimensional adhesive-contact solution.
 
@@ -60,7 +61,7 @@ contact = jkr_history(delta, radius=0.4,
 
 The functions support JIT and `vmap`. The stable JKR radius uses an implicit custom JVP, checked against finite differences in indentation, radius, modulus and adhesion. Derivatives at attachment, detachment and the branch instability are not smooth sensitivities. Zero adhesion selects Hertz directly.
 
-Maugis–Dugdale is not implemented. It introduces a finite adhesive range and resolves the transition between JKR and DMT; adding a constant attractive force to Hertz would not implement that model. The original formulation is [Maugis (1992)](https://doi.org/10.1016/0021-9797(92)90285-T).
+The full axisymmetric Maugis–Dugdale sphere solution is not implemented. It resolves the contact and adhesive zones and their transition between JKR and DMT; adding a constant attractive force to Hertz would not implement that model. The finite-range interface below uses the Dugdale traction–separation assumption from [Maugis (1992)](https://doi.org/10.1016/0021-9797(92)90285-T), with the deformable body's response computed by MPM.
 
 ## Actual MPM sphere contact
 
@@ -77,7 +78,7 @@ c(t)=c_0+\tfrac12[1-\cos(2\pi s)]d,\qquad
 s=\operatorname{clip}(t/T,0,1).
 \]
 
-`boundary_reaction` replays the next grid update and returns minus the sphere's impulse on the occupied grid divided by the step duration. Earlier boundaries are applied in their configured order. It does not advance the particles. The reported value is a force sample at each output frame, not an integral over all intervening steps; external particle forces are not supported by this diagnostic.
+`boundary_reaction` replays the next grid update and returns minus the selected boundary's impulse on the occupied grid divided by the step duration. Earlier boundaries are applied in their configured order. It does not advance the particles. Optional `force=...` supplies the same particle forces used by `step`. The reported value is a force sample at each output frame, not an integral over all intervening steps.
 
 ```powershell
 python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --frames 40 --no-render --resume
@@ -105,11 +106,63 @@ The particle-count flag checks surface-load sampling. It does not establish stre
 
 The footprint example provides `force_assignment_error_N`, the attachment state, imposed contact radius and computed surface displacement. Its 801-sample `jkr_law_cycle.csv` is the reduced-law loading/unloading curve. No second elastic compliance is added to the MPM equations, and nominal law indentation is not enforced as a geometric constraint.
 
+## Finite-range Dugdale interface
+
+`mpm_jax.adhesion` evaluates contact against the **current** advected surface points. For a sphere with center \(c\), radius \(R\), and a sampling point \(x_i\),
+
+\[
+g_i=|x_i-c|-R,\qquad n_i=\frac{x_i-c}{|x_i-c|},\qquad
+\sigma_0=\frac{w}{h}.
+\]
+
+The potential per reference area and its normal traction are
+
+\[
+\psi(g)=\begin{cases}
+\tfrac12 k g^2-w,&g<0,\\
+\sigma_0 g-w,&0\le g<h,\\
+0,&g\ge h,
+\end{cases}
+\qquad
+t(g)=\begin{cases}
+-kg,&g<0,\\
+-\sigma_0,&0\le g<h,\\
+0,&g\ge h.
+\end{cases}
+\]
+
+Here \(h\) is the interaction range in m, \(k\) is the penalty stiffness in Pa/m, and \(w\) is in J/m². This constant attractive traction over a finite opening is the Dugdale approximation; see [Johnson (1997), §2 and Fig. 1](https://bdml.stanford.edu/twiki/pub/Rise/AdhesionModels/JohnsonAdhesionModel.pdf). The finite penalty permits a measured overlap in compression.
+
+With fixed reference quadrature weights \(A_i^0\), the discrete energy is \(U=\sum_i A_i^0\psi(g_i)\), and \(f_i=A_i^0t(g_i)n_i=-\partial U/\partial x_i\) within each smooth branch. The force on the sphere is \(-\sum_i f_i\). The potential is not differentiable at \(g=0,h\); the implementation selects the right branch there. JAX position and center derivatives are supported. The immutable law is a static JIT argument; its parameters are not advertised as differentiable inputs.
+
+This is a reversible interface with frictionless tangential motion. Opening a reference area from zero gap beyond \(h\) costs \(wA^0\); closing restores that potential energy. There is no irreversible bond damage, cohesive fracture dissipation, or molecular dynamics. The dynamic finite-layer calculation is not an analytical Maugis solution, a JKR/DMT limit verification, or an experimental calibration.
+
+### Three moving indenters
+
+The [adhesion case suite](ADHESION_CASES.md) adds a matched nonadhesive/adhesive pull-off pair and a lateral sweep with oblique release. These use the same gap-based interface and expose an undeformed-surface force diagnostic; the original array entry point below is retained.
+
+```powershell
+python -m examples.adhesive_array --grid 48 --ppc 3 --frames 50 --no-render --resume
+python -m mpm_jax.visualization outputs/adhesion/dugdale-array --gif
+```
+
+The default soft layer occupies 0.72 × 0.23 × 0.72 m, with **367,744 particles** and a fixed base. Its Neo-Hookean parameters are \(E=12\) kPa, \(\nu=0.25\), and \(\rho=1000\) kg/m³; gravity is zero and the other faces are free. Three 0.16 m radius rigid spheres sequentially indent, translate laterally and retract during 0.85 s. Their prescribed cosine waypoint paths are serialized in `definition.rigid_spheres`; ParaView evaluates those same paths for the auxiliary CAD surfaces. The spheres are excluded from the MPM particle count.
+
+The 10,816 top-layer particle centers form the material surface quadrature. Each carries its fixed reference patch area. The initial sampling plane lies half a vertical particle spacing below the nominal top face; this offset is recorded. No deformation-dependent face offset or current-area multiplier is introduced. Surface deformation therefore changes the gap and resulting load without omitted derivatives of those additional geometric quantities. The example covers a top-face contact problem; it does not search all exposed surfaces or support folded-surface self-contact.
+
+The illustrative interface uses \(w=12\) J/m², \(h=0.025\) m and \(k=1.2\times10^6\) Pa/m. Its range spans 3.61 surface-particle spacings at the default resolution. This deliberately resolved, macroscopic range is not a fitted molecular adhesion distance. The time step meets both the bulk wave-speed restriction and \(kA^0\Delta t^2/m\le0.09\); the latter is a local penalty indicator, not a global nonlinear stability proof. Runs with a range below three surface spacings are only smoke tests.
+
+`observables.csv` records every sphere's position, velocity, reaction, reaction moment, compressed and adhesive reference areas, interacting point counts, minimum gap, and potential energy. Maximum overlap is measured both over the sampled surface and over all body particles, so unmodelled contact with an interior or side face can be detected. The base reaction includes the same contact force used in the next P2G step. Force samples use time \(t\); the base boundary is evaluated at \(t+\Delta t\), as recorded in separate columns.
+
+Actuator power is \(-R\cdot\dot c\), where \(R\) is force on the sphere. Together with surface-point power, it satisfies the instantaneous interface potential identity. Sampled powers and the common runner's trapezoidal particle work are diagnostics; they do not establish global MPM energy conservation. A complete pull-off requires tensile reaction during retraction followed by zero interacting points and a final minimum gap beyond the finite interaction range.
+
 ## Checks
 
 `tests/test_contact_laws.py` checks Hertz scaling and stiffness; JKR roots against an independent NumPy quartic eigensolve across three dimensional parameter sets; the two different instability criteria; zero-load contact; separation/reattachment history; the zero-adhesion limit; implicit derivatives; the tensile pressure ring and force/moment balance; the moving sphere's unilateral constraint; and agreement between its grid reaction and the actual particle momentum change.
 
 These checks establish the law and coupling identities. They do not certify the three-dimensional MPM solution against a converged JKR or Maugis reference.
+
+`tests/test_adhesion.py` checks traction against the potential gradient, separation work, the moving-sphere power identity, equal and opposite force and moment, disappearance of interaction beyond the cutoff, MPM force transfer, and the base reaction with external forces. A separate geometric check integrates an undeformed plane with radial Gauss quadrature: for a sphere center height \(c=R+g_0\), \(0<g_0<h\), the exact normal reaction is \(-2\pi\sigma_0c(h-g_0)\), and the adhesive reference area is \(\pi[(R+h)^2-c^2]\). This checks the discrete geometric integration independently of the MPM response. The NumPy motion used by ParaView is compared with the JAX sphere trajectory.
 
 After both full examples finish, summarize their saved CSV files without loading particle trajectories:
 

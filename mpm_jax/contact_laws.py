@@ -200,17 +200,18 @@ class RigidSphereBoundary:
 
 
 @partial(jax.jit, static_argnames=("config", "boundary_index"))
-def boundary_reaction(state, material, config, boundary_index=-1):
+def boundary_reaction(state, material, config, boundary_index=-1, force=None):
     """Force on one prescribed boundary during the next MPM step.
 
     Replays the grid stage and reads the impulse of the selected boundary;
     earlier constraints are included in the same order as grid_boundaries.
-    No particle update is performed. External particle forces are absent.
+    No particle update is performed. Optional particle forces are included in
+    the same P2G stage as step(); the result is the force on the boundary.
     """
     from .core import grid_update, particle_to_grid
 
     index = boundary_index % len(config.boundaries)
-    mass, momentum = particle_to_grid(state, material, config)
+    mass, momentum = particle_to_grid(state, material, config, force=force)
     before = grid_update(
         mass,
         momentum,

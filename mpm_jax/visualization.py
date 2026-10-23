@@ -13,6 +13,14 @@ import numpy as np
 from .export import export_series
 
 
+def _checked_sphere_opacity(value):
+    if value is None:
+        return None
+    if not np.isfinite(value) or not 0.0 < value <= 1.0:
+        raise ValueError("--sphere-opacity must be finite and satisfy 0 < opacity <= 1")
+    return float(value)
+
+
 def find_pvpython():
     configured = os.environ.get("PARAVIEW_PYTHON")
     if configured and Path(configured).is_file():
@@ -29,9 +37,13 @@ def find_pvpython():
     )
 
 
-def render_directory(output, *, gif=False, field="body", resolution=1200, final_only=False):
+def render_directory(
+    output, *, gif=False, field="body", resolution=1200, final_only=False,
+    color_range=None, scene_bounds=None, sphere_opacity=None,
+):
     if gif and final_only:
         raise ValueError("--gif and --final-only are mutually exclusive")
+    sphere_opacity = _checked_sphere_opacity(sphere_opacity)
     output = Path(output).resolve()
     pvpython = find_pvpython()
     command = [
@@ -44,6 +56,12 @@ def render_directory(output, *, gif=False, field="body", resolution=1200, final_
         "--resolution",
         str(resolution),
     ]
+    if color_range is not None:
+        command.extend(["--color-range", *(str(value) for value in color_range)])
+    if scene_bounds is not None:
+        command.extend(["--scene-bounds", *(str(value) for value in scene_bounds)])
+    if sphere_opacity is not None:
+        command.extend(["--sphere-opacity", str(sphere_opacity)])
     if final_only or not gif:
         command.append("--final-only")
     environment = os.environ.copy()
@@ -127,7 +145,11 @@ def trajectory_arrays(output):
         arrays.clear()
 
 
-def render_trajectory(output, *, gif=False, field="body", resolution=1200, final_only=False):
+def render_trajectory(
+    output, *, gif=False, field="body", resolution=1200, final_only=False,
+    color_range=None, scene_bounds=None, sphere_opacity=None,
+):
+    sphere_opacity = _checked_sphere_opacity(sphere_opacity)
     output = Path(output)
     summary_path = output / "summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
@@ -154,7 +176,10 @@ def render_trajectory(output, *, gif=False, field="body", resolution=1200, final
             displacement=field == "displacement",
         )
     del positions, fields
-    render_directory(output, gif=gif, field=field, resolution=resolution, final_only=final_only)
+    render_directory(
+        output, gif=gif, field=field, resolution=resolution, final_only=final_only,
+        color_range=color_range, scene_bounds=scene_bounds, sphere_opacity=sphere_opacity,
+    )
 
 
 def main():
@@ -166,13 +191,28 @@ def main():
     )
     parser.add_argument("--resolution", type=int, default=1200)
     parser.add_argument("--final-only", action="store_true")
+    parser.add_argument("--color-range", type=float, nargs=2, metavar=("LOW", "HIGH"))
+    parser.add_argument(
+        "--scene-bounds", type=float, nargs=6,
+        metavar=("XMIN", "XMAX", "YMIN", "YMAX", "ZMIN", "ZMAX"),
+    )
+    parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
     args = parser.parse_args()
+    try:
+        args.sphere_opacity = _checked_sphere_opacity(args.sphere_opacity)
+    except ValueError as error:
+        parser.error(str(error))
+    if args.color_range is not None and args.field == "body":
+        parser.error("--color-range requires a scalar field, not categorical body colors")
     render_trajectory(
         args.output,
         gif=args.gif,
         field=args.field,
         resolution=args.resolution,
         final_only=args.final_only,
+        color_range=args.color_range,
+        scene_bounds=args.scene_bounds,
+        sphere_opacity=args.sphere_opacity,
     )
 
 

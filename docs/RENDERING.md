@@ -41,8 +41,46 @@ most 65,536 particles, without allocating a whole-history displacement array.
 It only adds a VTK scalar; source trajectories and rendered coordinates stay
 unchanged. Its definition and reference time are stored in `vtk_metadata.json`.
 `render.json` records `geometry_scale=1` and one fixed colour range spanning the
-complete saved history, starting at zero for speed and displacement. Waves and cantilever motion use speed; prescribed
+complete saved history. By default, speed and displacement start at zero. Waves and cantilever motion use speed; prescribed
 shear, torsion and surface loading use displacement magnitude.
+
+## Controlled visual comparisons
+
+The renderer accepts three optional display controls:
+
+| Option | Meaning and checks |
+| --- | --- |
+| `--color-range LOW HIGH` | A fixed scalar range. Both values must be finite, `LOW < HIGH`, and the interval must contain the complete saved field range. Categorical `body` colouring does not accept this option. |
+| `--scene-bounds XMIN XMAX YMIN YMAX ZMIN ZMAX` | Bounds used to calculate the camera. Each pair must be finite and increasing; the box must contain all saved particle coordinates and the prescribed CAD motion envelope. |
+| `--sphere-opacity VALUE` | Opacity of the prescribed rigid-sphere CAD only, with `0 < VALUE ≤ 1`; the default is 1. Particle, debris and box displays are unaffected. |
+
+For the matched nonadhesive/adhesive pair, derive one displacement upper limit
+from the larger maximum in the two complete `vtk_metadata.json` exports. Use
+zero as the lower limit. Form one box enclosing both full-history particle bounds
+and both sphere-path envelopes, including each sphere's radius. Use those same
+values, field, image resolution and sphere opacity for both renders. Preserve
+full precision when passing bounds; an inward-rounded bound is rejected.
+
+The same controls are available as `color_range`, `scene_bounds` and
+`sphere_opacity` keyword arguments to `render_directory` and `render_trajectory`.
+They change the display only. For example, the adhesion suite uses translucent
+CAD overlays to keep the deforming surface visible:
+
+```bash
+python -m mpm_jax.visualization outputs/adhesion/adhesive-pull-off --field displacement --sphere-opacity 0.45 --gif
+```
+
+This command alone uses automatic camera and colour limits. A controlled pair
+also supplies the common `--color-range` and `--scene-bounds` derived above.
+After rendering, compare `color_range`, `camera_bounds`, `camera_position`,
+`camera_focal_point`, `camera_parallel_scale` and `resolution` in both
+`render.json` files. The sphere `display_opacity` entries must also agree.
+
+The records retain the actual field range and particle/CAD bounds separately
+from the chosen camera bounds and colour range, with override sources and
+requested values. No coordinate scaling or field clipping is applied. Rigid
+sphere transparency does not alter the contact model, particle positions or
+particle counts.
 
 | File | Contents |
 |---|---|
@@ -66,8 +104,8 @@ python tools/encode_video.py outputs/suite/dam-break/neo-hookean
 
 This uses the ParaView frames at 20 fps, without rerunning the simulation or
 changing the particle count. The public gallery links these videos from PNG
-previews. The homepage embeds compact looping GIFs for every completed run in
-the results catalogue. Each uses the complete ParaView screenshot sequence;
+previews. The homepage embeds compact looping GIFs selected from completed runs,
+including the reviewed finite-motion replacements. Each uses the complete ParaView screenshot sequence;
 the original six animations also hold their final frame. Full-size GIFs remain
 in the output directory.
 

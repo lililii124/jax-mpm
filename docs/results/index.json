@@ -828,5 +828,93 @@
       "memory.json": "6ff045cd488fe5a59f2a9b0874feee7a1a6c69fe4b2861e786b9a14b9dbfd42b",
       "interpretation.json": "ff404805aebd78424cf7aa4f380237c047d83e3e63126f7b46bcbb4db861b5a0"
     }
+  },
+  {
+    "id": "adhesion--adhesive-pull-off",
+    "case": "adhesive-pull-off",
+    "source_directory": "outputs/adhesion/adhesive-pull-off",
+    "particles": 367744,
+    "steps": 1200,
+    "simulation_time": 0.85,
+    "min_J": 0.7844014992056622,
+    "max_damage": 0.0,
+    "solver_seconds": 305.0462098000862,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "9c655c5b93e50bcbd797d0875e5304664cd1e1cad1b84f4af6011835ffc987f5",
+      "diagnostics.csv": "68fb5b20ab4ee06f19e0a1d0d837cc79418cd727a2913f32e7350350657b527c",
+      "observables.csv": "1c0040c668f30d621e0d89380327ed6c4fbb39551efd3524aa9855203690e5ce",
+      "render.json": "fb64a70255d77fec21419db5aac4b64a849a742124b34d6302dc8ef9f334902a",
+      "vtk_metadata.json": "fc8264b77de819b4081301d0eb39d80be8a5a28f60119203ad7a5c2809c73adb",
+      "video.json": "b2a193e564a68a62470b27bde3f6c9f92d73a6e40f9b7e0e3b71b41a4424b37c",
+      "memory.json": "37d159e222c7452791bdd48a03f85f434b49b1203dc34fddb2ce29f8e75f42ee",
+      "interpretation.json": "eaea652f10ec9fec2b6698a62784a63a7b59bd5b70c5b9542dc4007dc8a88804"
+    }
+  },
+  {
+    "id": "adhesion--lateral-release",
+    "case": "lateral-release",
+    "source_directory": "outputs/adhesion/lateral-release",
+    "particles": 367744,
+    "steps": 1200,
+    "simulation_time": 0.85,
+    "min_J": 0.7685348114103547,
+    "max_damage": 0.0,
+    "solver_seconds": 303.88440299991635,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "818e12e0fafa95fcb294b4abc1b4432c1f937ecac44a1803e55501db28ba03f3",
+      "diagnostics.csv": "3d20786ab1f551b77b7092a01530affc0dbd0b8d2af484a2fd606d20e79e6e5c",
+      "observables.csv": "cf3768b09a3893fe83029deb41963c4851d739684796f449928f664da161297e",
+      "render.json": "c607623d39391829a65e7129d0fdf701ef181ba5e2c09ea0f1592afd4abe3163",
+      "vtk_metadata.json": "d058a724e3dbecbec06a78caec3505c771b7170291621ce9fb3bf337d8284569",
+      "video.json": "7e7991b247dc25b3723e974931e63afcd6346236d1733fab93376e2ad1ae12a4",
+      "memory.json": "daa1a9d0b9c32b3f2f75f4d160e8529eefa92e67aa6132694be2188a54843bc9",
+      "interpretation.json": "bf440b6cc421a7cb0fd512bfbd9cc54839639f5d2388909569e969d71b15a96c"
+    }
+  },
+  {
+    "id": "adhesion--nonadhesive-pull-off",
+    "case": "nonadhesive-pull-off",
+    "source_directory": "outputs/adhesion/nonadhesive-pull-off",
+    "particles": 367744,
+    "steps": 1200,
+    "simulation_time": 0.85,
+    "min_J": 0.7943203341991886,
+    "max_damage": 0.0,
+    "solver_seconds": 314.6167983999767,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "e459aa007a7c458e6c8b5abf88fc8d9fec6a299d6d81c03d0a5852977a6bd3e7",
+      "diagnostics.csv": "9e1699a96d955218341c56e762b4a1691fe0f58241fb5117a776af4e2b1b0f86",
+      "observables.csv": "f4c6157f59ff52336961a337852c00536c6ef1642f5f1e20531a40d78101cd9c",
+      "render.json": "2cb3b790b0b472732678d29d1019412d5ba5a8786abfe2dc9c13d666fa999475",
+      "vtk_metadata.json": "dd229958f3d83216f8f46b669d1c9f9acb7fb17742ff382523b9f2a37b0b684e",
+      "video.json": "9775ce1f73e8be0cf4181730def2e777babd6e75f4683b5bed7b64676b0087d7",
+      "memory.json": "31ed7f404a1aac6fe9430558120e5b924db30cfa7e69d0c5f15367268a05d0f6",
+      "interpretation.json": "dd95280c40b08dcae8a15750ec421e7e71c3401255e716669154cbb24b7775b1"
+    }
+  },
+  {
+    "id": "adhesion--three-sphere-array",
+    "case": "three-sphere-array",
+    "source_directory": "outputs/adhesion/three-sphere-array",
+    "particles": 367744,
+    "steps": 1200,
+    "simulation_time": 0.85,
+    "min_J": 0.7797052924679623,
+    "max_damage": 0.0,
+    "solver_seconds": 302.62163750015316,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "d753d3bafc83bfdb03c25e0f7ea41bcc9f74f257dd71c19ac879931f0888a362",
+      "diagnostics.csv": "0aafdbc3010cab5cd03b4deaf4744228c27d461ad87b72aed5dee849ca927fd2",
+      "observables.csv": "ec9983e2201a9883bb6acfd16c7cb3b927465216083d74c1bc25740652038a89",
+      "render.json": "37af618c664d218cda50da80cc308ad8ec9ef198ed4770ef577b790e214bfa3f",
+      "vtk_metadata.json": "57c05193e0bf2bfa042d64081eb0f51e813b555a1da550d5cfb4dcebf3bf1fa4",
+      "video.json": "1867341a567c0f188e92eb3a17bb3224c60b07755affa3d38b18187fedf3db21",
+      "memory.json": "109497bcf8b8e29c5c9868211d9191051746d39ccaf4b6cd5781b3517bbeeed2",
+      "interpretation.json": "819b66d283c419cbcadf9cfbb11b7e614cdb42ec65ee5255a19473b0ede1a9ed"
+    }
   }
 ]
