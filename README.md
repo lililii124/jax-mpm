@@ -3,9 +3,13 @@
 Two- and three-dimensional material point mechanics in JAX: quadratic B-splines,
 APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
-| Cellular cushioning · 192,180 particles | Water entry · 1,327,400 particles |
+| Cellular cushioning | Water entry |
 |---|---|
-| [![Cellular cushioning](docs/images/cellular-cushion.png)](docs/images/cellular-cushion.mp4) | [![Water entry](docs/images/water-entry.png)](docs/images/water-entry.mp4) |
+| ![Cellular cushioning](docs/images/home/cellular-cushion.gif) | ![Water entry](docs/images/home/water-entry.gif) |
+| **Flexible baffles** | **Large twist** |
+| ![Flexible baffles](docs/images/home/baffled-tank.gif) | ![Large twist](docs/images/home/large-twist.gif) |
+| **Perforated panel** | **Ball–beam contact** |
+| ![Perforated panel](docs/images/home/perforated-panel.gif) | ![Ball–beam contact](docs/images/home/ball-beam.gif) |
 
 [Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)
 
@@ -45,15 +49,11 @@ python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gi
 python -m examples.adhesive_contact --case jkr-footprint --grid 48 --ppc 3 --gif
 ```
 
-The spatial suite defaults to a **48³ grid and 2 particles per cell per axis**
-(up to 8 per cell). The original 14 cases contain roughly
-17,000–119,000 particles. `--grid`, `--ppc`, and `--dt-factor` control resolution;
+`--grid`, `--ppc`, and `--dt-factor` control resolution;
 `--frames` changes output frequency while preserving the physical duration.
-`--case all` runs the 24 spatial scenarios with their default materials.
-For denser sampling use `--ppc 3` (27 particles per cell). The water-entry case
-at `--grid 72 --ppc 3` contains **1,327,400 particles**.
-Its completed 2,400-step run and full 61-frame ParaView animation are included
-in the [results](docs/RESULTS.md) and [gallery](docs/GALLERY.md).
+`--case all` runs the spatial scenarios with their default materials.
+Completed runs and animations are included in the [results](docs/RESULTS.md)
+and [gallery](docs/GALLERY.md).
 
 | Group | Cases |
 |---|---|
