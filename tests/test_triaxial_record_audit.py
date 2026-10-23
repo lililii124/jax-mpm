@@ -30,6 +30,7 @@ def records(tmp_path):
         row = {"time": t, "accepted_steps": 2*i,
                "prescribed_engineering_strain": [0, .01, .02][i],
                "mean_grip_tensile_force_N": i, "peak_step_dynamic_grip_force_N": [0, 1.5, 2.5][i],
+               "peak_step_dynamic_grip_force_time_s": [0, .25, .75][i],
                "first_material_failure_time_s": .75 if i == 2 else "",
                "failed_particles": int(i == 2), "max_damage": i*.5,
                "kinetic_energy_J": .1*i, "kinetic_translational_energy_J": .08*i,
@@ -108,3 +109,25 @@ def test_missing_final_states_cannot_be_called_completed(records):
     result = audit(records)
     assert not result["checks"]["complete_requested_scope"]
     assert not result["checks"]["planned_saved_states"]
+
+
+@pytest.mark.parametrize("field,value,check", [
+    ("peak_dynamic_grip_force_time_s", 0., "peak_event_identity"),
+    ("first_material_failure_time_s", .6, "first_failure_event_identity"),
+])
+def test_summary_event_cannot_move_within_a_valid_saved_interval(records, field, value, check):
+    path = records/"summary.json"
+    summary = json.loads(path.read_text())
+    summary[field] = value
+    path.write_text(json.dumps(summary))
+    assert not audit(records)["checks"][check]
+
+
+def test_forged_csv_peak_time_must_match_the_interval_of_the_increase(records):
+    change_csv(records, "observables.csv", "peak_step_dynamic_grip_force_time_s", .25)
+    path = records/"summary.json"
+    summary = json.loads(path.read_text())
+    summary["peak_dynamic_grip_force_time_s"] = .25
+    path.write_text(json.dumps(summary))
+    result = audit(records)
+    assert not result["checks"]["peak_event_identity"]

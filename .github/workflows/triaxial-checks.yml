@@ -27,12 +27,18 @@ on:
         options: [dense, tube]
         default: dense
         required: true
+      probe_steps:
+        description: Probe length; longer probes reduce first-allocation timing bias
+        type: choice
+        options: ['8', '64', '128']
+        default: '8'
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: triaxial-checks-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ inputs.grid_storage }}
+  group: triaxial-checks-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ inputs.grid_storage }}-${{ inputs.probe_steps }}
   cancel-in-progress: false
 
 jobs:
@@ -60,12 +66,12 @@ jobs:
         run: python -m pip --disable-pip-version-check --timeout 60 --retries 3 install -e . psutil
       - name: Run guarded check
         timeout-minutes: 130
-        run: python tools/run_triaxial_checks.py --preset ${{ inputs.preset }} --law ${{ inputs.law }} --theta ${{ inputs.theta }} --grid-storage ${{ inputs.grid_storage }}
+        run: python tools/run_triaxial_checks.py --preset ${{ inputs.preset }} --law ${{ inputs.law }} --theta ${{ inputs.theta }} --grid-storage ${{ inputs.grid_storage }} --probe-steps ${{ inputs.probe_steps }}
       - name: Preserve check evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: triaxial-check-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ inputs.grid_storage }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: triaxial-check-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ inputs.grid_storage }}-${{ inputs.probe_steps }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/triaxial-delivery/
           include-hidden-files: true
           if-no-files-found: warn

@@ -25,13 +25,13 @@ def source_record():
     return result
 
 
-def run(preset, theta, law, grid_storage="dense"):
+def run(preset, theta, law, grid_storage="dense", probe_steps=8):
     source = source_record()
     engine.save(LOGS / "numerical-source.json", source)
     output = "outputs/triaxial-checks"
     arguments = [sys.executable, "-m", "examples.triaxial_failure", "--theta", str(theta),
                  "--law", law, "--grid-storage", grid_storage, "--output", output]
-    arguments += ["--probe-steps", "8"] if preset == "probe" else ["--smoke", "--frames", "12"]
+    arguments += ["--probe-steps", str(probe_steps)] if preset == "probe" else ["--smoke", "--frames", "12"]
     result = engine.command("solve", arguments, monitor=True)
     summaries = list((ROOT / output).rglob("summary.json"))
     if len(summaries) != 1:
@@ -45,7 +45,7 @@ def run(preset, theta, law, grid_storage="dense"):
         raise ValueError("Grid storage metadata is inconsistent with the requested check")
     if preset == "probe":
         if not (summary.get("probe_complete") is True and summary.get("completed") is False
-                and status.get("probe_complete") is True):
+                and status.get("probe_complete") is True and summary.get("steps") == probe_steps):
             raise ValueError("The memory probe did not complete its requested steps")
     elif not (summary.get("completed") is True and status.get("completed") is True):
         raise ValueError("The coupled dynamics smoke check did not complete")
@@ -58,7 +58,8 @@ def run(preset, theta, law, grid_storage="dense"):
     if source_record() != source:
         raise ValueError("Execution source changed during the check")
     engine.save(LOGS / "check-result.json", {**engine.identity(), "preset": preset, "theta": theta,
-        "law": law, "grid_storage": grid_storage, "layout": layout,
+        "law": law, "grid_storage": grid_storage, "probe_steps": probe_steps if preset == "probe" else 0,
+        "layout": layout,
         "completed": True, "production_eligible": False, "memory": result["memory"],
         "summary_sha256": engine.digest(summaries[0]), "runner_source_sha256": source["runner_source_sha256"]})
 
@@ -98,13 +99,14 @@ def main():
     parser.add_argument("--theta", type=int, choices=range(0, 31, 5), default=0)
     parser.add_argument("--law", choices=("hertz", "jkr"), default="hertz")
     parser.add_argument("--grid-storage", choices=("dense", "tube"), default="dense")
+    parser.add_argument("--probe-steps", type=int, choices=(8, 64, 128), default=8)
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or platform.system() != "Linux":
         parser.error("This check requires the independent Linux Actions runner")
     engine.LOGS = LOGS
     LOGS.mkdir(parents=True, exist_ok=True)
     try:
-        run(args.preset, args.theta, args.law, args.grid_storage)
+        run(args.preset, args.theta, args.law, args.grid_storage, args.probe_steps)
     except BaseException as error:
         engine.save(LOGS / "failure.json", {"completed": False, "error_type": type(error).__name__, "error": str(error)})
         raise

@@ -75,40 +75,59 @@ def loading_motion(instant, stroke, load_time, xp=np):
 
 def packed_grid_plan(geometry, dx, padding_cells, max_nodes):
     bounds = np.asarray([item['reference_tube_bounds_m'] for item in geometry['metadata']['fibres']]).reshape(-1, 3, 2)
-    lower = np.floor(bounds[:, :, 0]/dx).astype(np.int64)-padding_cells
-    upper = np.ceil(bounds[:, :, 1]/dx).astype(np.int64)+padding_cells
+    lower_indices = np.floor(bounds[:, :, 0]/dx)-padding_cells
+    upper_indices = np.ceil(bounds[:, :, 1]/dx)+padding_cells
+    if (not np.isfinite(lower_indices).all() or not np.isfinite(upper_indices).all()
+            or np.any(np.abs(lower_indices) >= 2**30) or np.any(np.abs(upper_indices) >= 2**30)):
+        raise ValueError("Packed grid coordinates exceed the int32 index range")
+    lower = lower_indices.astype(np.int64)
+    upper = upper_indices.astype(np.int64)
     shape = upper-lower+1
-    counts = np.prod(shape, axis=1, dtype=np.int64)
-    nodes = int(counts.sum())
+    if np.any(shape <= 0) or np.any(shape >= 2**30):
+        raise ValueError("Packed grid shape exceeds the int32 index range")
+    counts = [math.prod(row) for row in shape.tolist()]
+    nodes = sum(counts)
     if nodes > max_nodes:
         raise ValueError(f"Packed grids require {nodes} nodes, above max_nodes={max_nodes}")
     return {"origin_m": [0., 0., 0.], "dx_m": dx, "padding_cells": padding_cells,
             "nodes": nodes, "max_nodes": max_nodes, "fibre_lower_indices": lower.tolist(),
-            "fibre_shapes": shape.tolist(), "fibre_node_counts": counts.tolist(),
+            "fibre_shapes": shape.tolist(), "fibre_node_counts": counts,
+            "budget_scope": "max_nodes limits dense AABB addressing, including when grid_storage=tube. It is not an active-node or process-memory limit.",
             "seven_float64_grid_scalars_bytes": nodes*7*8,
             "memory_note": "Seven grid scalars are a storage subtotal, not a peak-memory prediction. Particle stencils, constitutive temporaries, contact search, compiled executables and checkpoints require additional memory."}
 
 
 def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_strain=.02,
               dx=75e-6, padding_cells=6, max_nodes=35_000_000, coverage_skin=.0005,
-              search_window=6, work_of_adhesion=.1, particle_spacing=45e-6, grid_storage='dense'):
+              search_window=6, work_of_adhesion=.1, particle_spacing=45e-6, grid_storage='dense',
+              load_transits=10., dimensions=None, grip_length=None, diameter=235e-6,
+              pitch=.001, crimp=140e-6, clearance=2e-6, young=10e9, poisson=.25,
+              density=1500., tensile_strength=100e6, fracture_energy=100., packing=1.,
+              max_particles=1_000_000):
     """Return a NumPy geometry and a reproducible plan without importing JAX."""
     if theta not in ANGLES or law not in ('hertz', 'jkr'):
         raise ValueError("theta must be 0..30 degrees in five-degree steps; law must be hertz or jkr")
     if grid_storage not in ('dense', 'tube'):
         raise ValueError("grid_storage must be dense or tube")
-    if any(type(value) is not int or value < limit for value, limit in ((frames, 1), (probe_steps, 0), (padding_cells, 2), (search_window, 1), (max_nodes, 1))):
+    if any(type(value) is not int or value < limit for value, limit in ((frames, 1), (probe_steps, 0), (padding_cells, 2), (search_window, 1), (max_nodes, 1), (max_particles, 1))):
         raise ValueError("Frame, step, padding, window and node budgets must be valid integers")
-    if any(not np.isfinite(value) or value <= 0 for value in (dx, max_strain, coverage_skin, particle_spacing)) or not np.isfinite(work_of_adhesion) or work_of_adhesion < 0:
-        raise ValueError("Lengths/strain must be positive; adhesion energy must be nonnegative")
-    dimensions, grip = ((.006, .004), .001) if smoke else ((.024, .016), .003)
-    material = dict(young=10e9, poisson=.25, density=1500., tensile_strength=100e6,
-                    fracture_energy=100., characteristic_length=float(dx))
+    if max_nodes >= 2**31:
+        raise ValueError("max_nodes must be an int32-compatible dense addressing budget")
+    if any(np.ndim(value) != 0 or not np.isfinite(value) or value <= 0 for value in (dx, max_strain, coverage_skin, particle_spacing, load_transits, packing, young, density, tensile_strength, fracture_energy)) or not np.isfinite(work_of_adhesion) or work_of_adhesion < 0:
+        raise ValueError("Lengths, strain, loading transits, sampling density and material scales must be positive; adhesion energy must be nonnegative")
+    if np.ndim(poisson) != 0 or not np.isfinite(poisson) or not -1 < poisson < .5:
+        raise ValueError("poisson must lie strictly between -1 and 0.5")
+    dimensions = np.asarray(dimensions if dimensions is not None else ((.006, .004) if smoke else (.024, .016)), dtype=np.float64)
+    grip = float(grip_length if grip_length is not None else (.001 if smoke else .003))
+    material = dict(young=float(young), poisson=float(poisson), density=float(density),
+                    tensile_strength=float(tensile_strength), fracture_energy=float(fracture_energy),
+                    characteristic_length=float(dx))
     maximum_h = 2*material['young']*material['fracture_energy']/material['tensile_strength']**2
-    if dx >= maximum_h:
+    if not np.isfinite(maximum_h) or dx >= maximum_h:
         raise ValueError("Grid dx violates the crack-band softening-length limit")
-    geometry = make_geometry(theta_deg=-theta, dimensions=dimensions, diameter=235e-6, pitch=.001,
-        crimp=140e-6, clearance=2e-6, particle_spacing=particle_spacing, density=material['density'], grip_length=grip)
+    geometry = make_geometry(theta_deg=-theta, dimensions=dimensions, diameter=diameter, pitch=pitch,
+        crimp=crimp, clearance=clearance, particle_spacing=particle_spacing, packing=packing,
+        density=material['density'], grip_length=grip, max_particles=max_particles)
     grid = packed_grid_plan(geometry, dx, padding_cells, max_nodes)
     grid['storage'] = grid_storage
     if grid_storage == 'tube':
@@ -118,7 +137,7 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
     E, nu, rho = material['young'], material['poisson'], material['density']
     wave_speed = math.sqrt(E*(1-nu)/((1+nu)*(1-2*nu)*rho))
     dt = .15*dx/wave_speed
-    load_time = 10*gauge/wave_speed
+    load_time = load_transits*gauge/wave_speed
     requested_duration = 1.2*load_time
     steps = int(math.ceil(requested_duration/dt-1e-10))
     if probe_steps > steps:
@@ -133,8 +152,21 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
         "planning_environment": {"numpy": np.__version__, "python": platform.python_version()},
         "theta_deg": theta, "theta_definition": "Load direction relative to the reference fibre family. The fixed global X loading axis therefore uses geometry(theta_deg=-theta). No angle-symmetry reduction is assumed.",
         "geometry_theta_deg": -theta, "law": law, "material": material, "geometry": geometry['metadata'],
+        "physical_parameters": {"dimensions_m": dimensions.tolist(), "grip_length_m": grip,
+            "diameter_m": float(diameter), "pitch_m": float(pitch), "crimp_amplitude_m": float(crimp),
+            "clearance_m": float(clearance), "material": dict(material)},
+        "sampling_parameters": {"requested_particle_spacing_m": float(particle_spacing),
+            "packing": float(packing), "max_particles": max_particles,
+            "nominal_sampling_spacing_m": float(particle_spacing/packing**(1/3)),
+            "packing_scope": "Sampling-density multiplier only; not a fibre volume fraction, physical packing change or constitutive characteristic length."},
+        "fracture_length": {"characteristic_length_m": float(dx), "strict_upper_bound_m": maximum_h,
+            "below_upper_bound": bool(dx < maximum_h), "scope": "h=grid dx, independent of particle spacing and sampling packing; h < 2*E*Gf/ft^2."},
         "grid": grid, "particles": len(geometry['x']), "wave_speed_m_per_s": wave_speed,
         "CFL": .15, "dt": dt, "load_time_s": load_time, "requested_duration_s": requested_duration,
+        "load_transits": float(load_transits), "gauge_transit_time_s": gauge/wave_speed,
+        "hold_fraction_of_loading": .2, "requested_hold_time_s": .2*load_time,
+        "requested_hold_transits": .2*float(load_transits),
+        "duration_rounding_seconds": steps*dt-requested_duration,
         "duration_s": steps*dt, "steps": steps, "stop_steps": stop_steps, "probe_steps": probe_steps,
         "frame_steps": frame_steps, "saved_states": len(frame_steps), "max_engineering_strain": max_strain,
         "gauge_length_m": gauge, "total_fixture_extension_m": max_strain*gauge,
@@ -145,7 +177,7 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
         "work_of_adhesion_J_per_m2": work_of_adhesion if law == 'jkr' else 0.,
         "particle_spacing_m": particle_spacing, "sampling_hash": descriptor(geometry['x']),
         "trajectory_estimated_bytes": len(frame_steps)*len(geometry['x'])*(3*8+8+8+4+1),
-        "interpretation": "An explicit dynamic finite coupon with ten gauge-length elastic transit times of loading and a 20% hold. Kinetic/elastic energy ratio is recorded, not assumed negligible. First material failure, dynamic reaction maximum and sampled section-graph connectivity are distinct observations; they do not by themselves define a quasi-static or size-converged failure envelope."}
+        "interpretation": f"An explicit dynamic finite coupon with {load_transits:g} gauge-length elastic transit times of loading and a 20% hold. Kinetic/elastic energy ratio is recorded, not assumed negligible. First material failure, dynamic reaction maximum and sampled section-graph connectivity are distinct observations; they do not by themselves define a quasi-static or size-converged failure envelope."}
     plan['source'] = source_record()
     return geometry, plan
 
@@ -500,19 +532,39 @@ def main():
     parser.add_argument('--smoke', action='store_true')
     parser.add_argument('--frames', type=int, default=60)
     parser.add_argument('--max-strain', type=float, default=.02)
+    parser.add_argument('--load-transits', type=float, default=10., help='Loading time divided by gauge-length elastic transit time; followed by a 20 percent hold')
+    parser.add_argument('--dimensions', type=float, nargs=2, metavar=('LENGTH_M', 'WIDTH_M'), help='Coupon dimensions in X and Z; default 24 by 16 mm, or 6 by 4 mm with --smoke')
+    parser.add_argument('--grip-length', type=float, help='Each reference grip length in metres; default 3 mm, or 1 mm with --smoke')
+    parser.add_argument('--diameter', type=float, default=235e-6, help='Fibre diameter in metres')
+    parser.add_argument('--pitch', type=float, default=.001, help='Weave pitch in metres')
+    parser.add_argument('--crimp', type=float, default=140e-6, help='Centreline crimp amplitude in metres')
+    parser.add_argument('--clearance', type=float, default=2e-6, help='Required reference surface clearance in metres')
+    parser.add_argument('--young', type=float, default=10e9, help='Fibre Young modulus in Pa')
+    parser.add_argument('--poisson', type=float, default=.25)
+    parser.add_argument('--density', type=float, default=1500., help='Fibre mass density in kg/m^3')
+    parser.add_argument('--tensile-strength', type=float, default=100e6, help='Fibre tensile strength in Pa')
+    parser.add_argument('--fracture-energy', type=float, default=100., help='Fibre fracture energy in J/m^2')
     parser.add_argument('--dx', type=float, default=75e-6)
     parser.add_argument('--coverage-skin', type=float, default=.0005)
     parser.add_argument('--search-window', type=int, default=6)
     parser.add_argument('--max-nodes', type=int, default=35_000_000)
+    parser.add_argument('--max-particles', type=int, default=1_000_000, help='Particle sampling budget; never changes the requested spacing automatically')
+    parser.add_argument('--padding-cells', type=int, default=6)
     parser.add_argument('--grid-storage', choices=('dense', 'tube'), default='dense')
     parser.add_argument('--work-of-adhesion', type=float, default=.1)
     parser.add_argument('--particle-spacing', type=float, default=45e-6)
+    parser.add_argument('--packing', type=float, default=1., help='Sampling-density multiplier only, not physical fibre packing or volume fraction')
     parser.add_argument('--output', type=Path, default=Path('outputs/triaxial-failure'))
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     geometry, plan = plan_case(args.theta, law=args.law, smoke=args.smoke, probe_steps=args.probe_steps, frames=args.frames,
         max_strain=args.max_strain, dx=args.dx, coverage_skin=args.coverage_skin, search_window=args.search_window,
-        max_nodes=args.max_nodes, work_of_adhesion=args.work_of_adhesion, particle_spacing=args.particle_spacing, grid_storage=args.grid_storage)
+        max_nodes=args.max_nodes, work_of_adhesion=args.work_of_adhesion, particle_spacing=args.particle_spacing,
+        grid_storage=args.grid_storage, load_transits=args.load_transits, dimensions=args.dimensions,
+        grip_length=args.grip_length, diameter=args.diameter, pitch=args.pitch, crimp=args.crimp,
+        clearance=args.clearance, young=args.young, poisson=args.poisson, density=args.density,
+        tensile_strength=args.tensile_strength, fracture_energy=args.fracture_energy, packing=args.packing,
+        max_particles=args.max_particles, padding_cells=args.padding_cells)
     if args.dry_run:
         print(json.dumps(json_value(plan), indent=2, allow_nan=False))
     else:

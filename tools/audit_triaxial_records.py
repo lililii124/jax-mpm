@@ -91,14 +91,30 @@ def audit(folder):
         and np.max(obs["grip_velocity_error_m_per_s"]) <= 1e-9*plan["wave_speed_m_per_s"])
     peak = obs["peak_step_dynamic_grip_force_N"]
     peak_t = float(summary["peak_dynamic_grip_force_time_s"])
+    recorded_peak_t = obs["peak_step_dynamic_grip_force_time_s"]
+    time_tolerance = plan["dt"]*1e-5
     checks["peak_consistency"] = bool(np.all(np.diff(peak) >= -1e-12) and
         np.isclose(peak[-1], summary["peak_dynamic_grip_force_N"], rtol=1e-10, atol=1e-12) and
         peak[-1]+1e-10 >= np.max(obs["mean_grip_tensile_force_N"]) and 0 <= peak_t <= t[-1])
+    changed_peak = np.diff(peak) > 0
+    checks["peak_event_identity"] = bool(abs(peak_t-recorded_peak_t[-1]) <= time_tolerance and
+        recorded_peak_t[0] == 0 and
+        np.all(np.abs(recorded_peak_t/plan["dt"]-np.rint(recorded_peak_t/plan["dt"])) <= 1e-5) and
+        np.all(recorded_peak_t[1:][changed_peak] > t[:-1][changed_peak]+.5*plan["dt"]) and
+        np.all(recorded_peak_t[1:][changed_peak] <= t[1:][changed_peak]+time_tolerance) and
+        np.all(np.abs(np.diff(recorded_peak_t)[~changed_peak]) <= time_tolerance))
     first = summary.get("first_material_failure_time_s")
     failed = np.flatnonzero(obs["failed_particles"] > 0)
     checks["first_failure_bracket"] = bool((first is None and not len(failed)) or
         (first is not None and len(failed) and failed[0] > 0 and
          t[failed[0]-1] < first <= t[failed[0]]*(1+1e-10)))
+    recorded_first = obs["first_material_failure_time_s"]
+    checks["first_failure_event_identity"] = bool(
+        np.isnan(recorded_first).all() if first is None else len(failed) > 0 and
+        np.isnan(recorded_first[:failed[0]]).all() and
+        np.all(np.isfinite(recorded_first[failed[0]:])) and
+        np.all(np.abs(recorded_first[failed[0]:]-first) <= time_tolerance) and
+        abs(first/plan["dt"]-round(first/plan["dt"])) <= 1e-5)
     geometry = plan["geometry"]
     thickness = 2*geometry["crimp_amplitude_m"]+geometry["diameter_m"]
     area = geometry["dimensions_m"][1]*thickness

@@ -27,6 +27,9 @@ def test_full_plan_has_requested_size_material_length_and_independent_grid_budge
     assert plan['steps'] == 19200 and plan['saved_states'] == 61
     np.testing.assert_allclose(plan['dt']*plan['wave_speed_m_per_s']/plan['grid']['dx_m'], .15, rtol=1e-15)
     assert not plan['production_eligible']
+    assert plan['load_transits'] == 10.
+    assert plan['sampling_parameters']['max_particles'] == 1_000_000
+    assert plan['fracture_length']['below_upper_bound'] is True
 
 
 def test_load_relative_angle_is_negative_weave_rotation():
@@ -61,6 +64,79 @@ def test_probe_keeps_full_loading_physics_but_separate_output_scope():
     assert probe['scope'] == 'smoke-probe' and not probe['production_eligible']
 
 
+@pytest.mark.parametrize('transits', [20., 40.])
+def test_loading_transit_change_keeps_material_geometry_dt_and_total_strain(transits):
+    geometry, original = plan_case(smoke=True)
+    slower_geometry, slower = plan_case(smoke=True, load_transits=transits)
+    np.testing.assert_array_equal(slower_geometry['x'], geometry['x'])
+    for name in ('material', 'geometry', 'dt', 'grid', 'sampling_hash', 'total_fixture_extension_m'):
+        assert slower[name] == original[name]
+    ratio = transits/10
+    assert slower['load_time_s'] == ratio*original['load_time_s']
+    assert slower['requested_duration_s'] == ratio*original['requested_duration_s']
+    assert slower['requested_hold_transits'] == .2*transits
+    assert 0 <= slower['duration_rounding_seconds'] < slower['dt']
+    assert slower['steps'] >= ratio*(original['steps']-1)
+    original_motion = loading_motion(.35*original['load_time_s'], original['total_fixture_extension_m'], original['load_time_s'])
+    slower_motion = loading_motion(.35*slower['load_time_s'], slower['total_fixture_extension_m'], slower['load_time_s'])
+    np.testing.assert_allclose(slower_motion[0], original_motion[0], rtol=1e-14)
+    np.testing.assert_allclose(slower_motion[1]*ratio, original_motion[1], rtol=1e-14)
+
+
+def test_explicit_dimensions_grips_geometry_and_material_override_smoke_defaults():
+    geometry, plan = plan_case(smoke=True, dimensions=(.008, .005), grip_length=.0015,
+        diameter=200e-6, pitch=.001, crimp=140e-6, clearance=25e-6,
+        young=12e9, poisson=.2, density=1600., tensile_strength=80e6, fracture_energy=120.)
+    assert plan['scope'] == 'smoke'
+    assert plan['geometry']['dimensions_m'] == [.008, .005]
+    np.testing.assert_allclose(plan['grip_x_intervals_m'], [[0., .0015], [.0065, .008]], rtol=0, atol=1e-18)
+    assert plan['geometry']['diameter_m'] == 200e-6
+    assert plan['geometry']['clearance_m'] == 25e-6
+    assert plan['material'] == dict(young=12e9, poisson=.2, density=1600., tensile_strength=80e6,
+                                    fracture_energy=120., characteristic_length=75e-6)
+    np.testing.assert_allclose(geometry['mass'], 1600.*geometry['volume'], rtol=0, atol=0)
+    expected_wave_speed = np.sqrt(12e9*.8/(1.2*.6*1600.))
+    np.testing.assert_allclose(plan['wave_speed_m_per_s'], expected_wave_speed, rtol=1e-15)
+    np.testing.assert_allclose(plan['load_time_s'], 10*.005/expected_wave_speed, rtol=1e-15)
+    assert plan['physical_parameters']['material'] == plan['material']
+
+
+def test_sampling_packing_changes_resolution_without_changing_mass_or_fracture_length():
+    geometry, original = plan_case(smoke=True)
+    fine_geometry, fine = plan_case(smoke=True, packing=2.)
+    assert len(fine_geometry['x']) > len(geometry['x'])
+    for name in ('material', 'dt', 'load_time_s', 'fracture_length', 'physical_parameters'):
+        assert fine[name] == original[name]
+    for name in ('reference_volume_m3', 'mass_kg', 'nominal_envelope_solid_fraction'):
+        np.testing.assert_allclose(fine['geometry'][name], original['geometry'][name], rtol=2e-15)
+    assert fine['sampling_parameters']['packing'] == 2.
+    assert fine['geometry']['sampling_density_multiplier'] == 2.
+    assert fine['sampling_parameters']['nominal_sampling_spacing_m'] < original['particle_spacing_m']
+
+
+@pytest.mark.parametrize('arguments', [
+    dict(load_transits=0.), dict(load_transits=float('inf')), dict(poisson=.5),
+    dict(poisson=-1.), dict(young=-1.), dict(density=0.), dict(tensile_strength=0.),
+    dict(fracture_energy=1.), dict(packing=0.), dict(max_particles=0),
+    dict(max_nodes=2**31), dict(dimensions=(.006,)), dict(grip_length=.003),
+])
+def test_parameterized_plan_rejects_invalid_material_protocol_and_budgets(arguments):
+    with pytest.raises(ValueError):
+        plan_case(smoke=True, **arguments)
+
+
+def test_particle_budget_is_enforced_without_coarsening_requested_sampling():
+    with pytest.raises(ValueError, match='max_particles=100'):
+        plan_case(smoke=True, max_particles=100)
+
+
+def test_tube_still_respects_explicit_dense_addressing_budget():
+    _, plan = plan_case(smoke=True, grid_storage='tube')
+    with pytest.raises(ValueError, match='max_nodes'):
+        plan_case(smoke=True, grid_storage='tube', max_nodes=plan['grid']['nodes']-1)
+    assert 'dense AABB' in plan['grid']['budget_scope']
+
+
 def test_half_cosine_grips_preserve_symmetry_and_hold_without_velocity_jump():
     stroke, duration = .00036, .00006
     for t in (0., duration, 1.2*duration):
@@ -85,6 +161,10 @@ def test_packed_plan_counts_only_local_axis_aligned_fields_and_refuses_large_bud
     assert plan['nodes'] == 2*9**3
     with pytest.raises(ValueError, match='max_nodes'):
         packed_grid_plan(geometry, dx=.25, padding_cells=2, max_nodes=1000)
+    with pytest.raises(ValueError, match='int32 index range'):
+        packed_grid_plan(geometry, dx=1e-15, padding_cells=2, max_nodes=1000)
+    with pytest.raises(ValueError, match='max_nodes'):
+        packed_grid_plan(geometry, dx=1e-8, padding_cells=2, max_nodes=1000)
 
 
 @pytest.mark.parametrize('arguments', [dict(theta=32), dict(dx=.0003), dict(max_strain=0.), dict(probe_steps=-1)])
@@ -106,6 +186,27 @@ def test_tube_dry_run_does_not_import_jax_scipy_or_construct_the_active_mask():
     script="import sys,json; from examples.triaxial_failure import plan_case; g,p=plan_case(smoke=True,probe_steps=8,grid_storage='tube'); assert 'jax' not in sys.modules and 'mpm_jax' not in sys.modules and 'scipy' not in sys.modules; print(json.dumps(p['grid']))"
     result=subprocess.run([sys.executable,'-c',script],cwd=root,capture_output=True,text=True,check=True)
     assert json.loads(result.stdout)['planned_active_nodes'] is None
+
+
+def test_parameterized_cli_dry_run_records_resolved_inputs_without_runtime(tmp_path):
+    root = Path(__file__).resolve().parents[1]
+    output = tmp_path/'unused-output'
+    args = [sys.executable, '-m', 'examples.triaxial_failure', '--dry-run', '--smoke',
+            '--grid-storage', 'tube', '--dimensions', '.008', '.005', '--grip-length', '.0015',
+            '--load-transits', '20', '--diameter', '.0002', '--pitch', '.001', '--crimp', '.00014',
+            '--clearance', '.000025', '--young', '12000000000', '--poisson', '.2', '--density', '1600',
+            '--tensile-strength', '80000000', '--fracture-energy', '120', '--packing', '1.2',
+            '--padding-cells', '7', '--max-particles', '200000', '--max-nodes', '10000000', '--output', str(output)]
+    result = subprocess.run(args, cwd=root, capture_output=True, text=True, check=True)
+    plan = json.loads(result.stdout)
+    assert plan['load_transits'] == 20.
+    assert plan['physical_parameters']['dimensions_m'] == [.008, .005]
+    assert plan['material']['young'] == 12e9
+    assert plan['sampling_parameters']['packing'] == 1.2
+    assert plan['sampling_parameters']['max_particles'] == 200000
+    assert plan['grid']['max_nodes'] == 10000000 and plan['grid']['padding_cells'] == 7
+    assert plan['grid']['planned_active_nodes'] is None
+    assert not output.exists()
 
 
 def test_completed_resume_is_read_only_and_source_changes_are_refused(tmp_path):
