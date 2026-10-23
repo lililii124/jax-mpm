@@ -448,20 +448,6 @@
     "source_render_sha256": "3e2f2c7b17c31a5d889fa6ac1370ead1c50dc911103e0ac3303709bbb0d4b254"
   },
   {
-    "id": "woven-preview--plain--warp-tension",
-    "gif_path": "docs/images/home/woven-preview--plain--warp-tension.gif",
-    "gif_sha256": "f2a54856aa12155c4b8c1f96d79567fc76ed4882666249d87361b533438f9db1",
-    "bytes": 1256683,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 61,
-    "gif_frames": 61,
-    "render_sha256": "27fa580d0ebf9c52735053f524cf9ecb975635d036cae5246477bc05cf27ccc9",
-    "source_render_sha256": "27fa580d0ebf9c52735053f524cf9ecb975635d036cae5246477bc05cf27ccc9"
-  },
-  {
     "id": "woven-preview--plain--weft-tension",
     "gif_path": "docs/images/home/woven-preview--plain--weft-tension.gif",
     "gif_sha256": "1b3168b9aa8a06e7e1409319e43da241b76fbcc5e8fc4843a644fae157db2420",
@@ -544,5 +530,19 @@
     "gif_frames": 61,
     "render_sha256": "3b0f4964713ab44b46f98cc6b228a5fd307201a7ca9b4069acb3483c3083514f",
     "source_render_sha256": "3b0f4964713ab44b46f98cc6b228a5fd307201a7ca9b4069acb3483c3083514f"
+  },
+  {
+    "id": "woven--plain--warp-tension",
+    "gif_path": "docs/images/home/woven--plain--warp-tension.gif",
+    "gif_sha256": "7675eec30c2e082fe6ee9a0c1e2528d843c678ad8a1c0dafb3995139eac5a278",
+    "bytes": 823994,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "f67d38cbebdf91abc4e061869cc9edd71c1dacb9364d60be5f5ea9f5e91fe4de",
+    "source_render_sha256": "f67d38cbebdf91abc4e061869cc9edd71c1dacb9364d60be5f5ea9f5e91fe4de"
   }
 ]

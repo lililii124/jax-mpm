@@ -1147,5 +1147,29 @@
       "interpretation.json": "b76bfc7967c0aea09e8b158fdcb2e0b2370eeca9c798dff14336abfe34d37a93",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "woven--plain--warp-tension",
+    "case": "plain/warp-tension / woven-composite",
+    "source_directory": "outputs/woven/plain/warp-tension",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.9919447979845474,
+    "max_damage": 0.0,
+    "solver_seconds": 1202.254274947,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "7b80b85caa548833e7602093276bbacdc22af69b4a034646c81928a6e565999a",
+      "diagnostics.csv": "0a9248e6b5dbe4e9863298ebfaa34a92ffa97914984732a7351dc19918315fba",
+      "observables.csv": "095709d4d49cda2c8bd42c7e72518d92bd0ae41a0f03b039f3e5bc334880fcd2",
+      "render.json": "f67d38cbebdf91abc4e061869cc9edd71c1dacb9364d60be5f5ea9f5e91fe4de",
+      "vtk_metadata.json": "66d04c7a8e0f0bae06b843eb1be901459a823f82eaa342c984d78b87c7330f6e",
+      "video.json": "7d4750966e30990da4b1ae701659c2b8d9292e49a2e41ad8ce71a066a8144191",
+      "memory.json": "5e39ab93f15881ec77dddffc94d0ad7eb0cf8c61f9c4bb77e213ceed56b84e2a",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "931979a8ac3bfcd191ca69ddcdc644259d9d6f820f009f66d905c40b0f1b8a3a",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]

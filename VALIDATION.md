@@ -117,7 +117,7 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **53 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **54 selected completed runs**,
 including five explicitly labelled coarse woven previews, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
@@ -317,6 +317,15 @@ so the two runs have different loading amplitudes and do not form a grid-converg
 The [completed run](docs/results/woven--plain--in-plane-shear/interpretation.json) records 345,600 material points,
 4,140 steps and 61 saved states. Minimum J is 0.952719; maximum saved yarn
 Green-strain norm is 0.054444, below the prescribed 0.1 limit.
+Independent final stored energy, reference section forces and bending moment pass the source-bound review.
+These checks establish numerical admissibility for an illustrative dynamic elastic model;
+the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
+
+## Woven plain · warp tension
+
+The [completed run](docs/results/woven--plain--warp-tension/interpretation.json) records 345,600 material points,
+4,140 steps and 61 saved states. Minimum J is 0.991945; maximum saved yarn
+Green-strain norm is 0.032910, below the prescribed 0.1 limit.
 Independent final stored energy, reference section forces and bending moment pass the source-bound review.
 These checks establish numerical admissibility for an illustrative dynamic elastic model;
 the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
