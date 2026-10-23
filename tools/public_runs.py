@@ -22,6 +22,7 @@ HIDDEN_HOME_IDS = {
 HOME_REPLACEMENTS = {
     "material-engineering--jc-tension--johnson-cook": "material-engineering--jc-necking--johnson-cook",
     "material-engineering--concrete-bending--hjc": "material-engineering--concrete-bending-large--hjc",
+    "material-engineering--concrete-bending-large--hjc": "material-engineering--concrete-bending-symmetric--hjc",
     "material-engineering--ceramic-indentation--jh2": "material-engineering--ceramic-indentation-wide--jh2",
     "adhesion--nonadhesive-pull-off": "adhesion-visible--nonadhesive-pull-off",
     "adhesion--adhesive-pull-off": "adhesion-visible--adhesive-pull-off",
@@ -61,6 +62,7 @@ def is_ready_for_publication(folder, identifier, summary):
     revised_material = canonical in (
         "material-engineering--jc-necking--johnson-cook",
         "material-engineering--concrete-bending-large--hjc",
+        "material-engineering--concrete-bending-symmetric--hjc",
         "material-engineering--ceramic-indentation-wide--jh2",
     )
     if source not in ("adhesion", "adhesion-visible", "visible-motion", "woven") and not revised_material:
@@ -82,7 +84,17 @@ def is_ready_for_publication(folder, identifier, summary):
             content = (folder / name).read_bytes().replace(b"\r\n", b"\n")
             if sources.get(name) != hashlib.sha256(content).hexdigest():
                 return False
-    except (OSError, ValueError, TypeError):
+        if canonical == "material-engineering--concrete-bending-symmetric--hjc":
+            audit_bytes = (folder / "runtime-symmetry.json").read_bytes()
+            audit = json.loads(audit_bytes)
+            reference = review.get("runtime_symmetry_report", {})
+            if not (reference.get("file") == "runtime-symmetry.json"
+                    and reference.get("sha256") == hashlib.sha256(audit_bytes).hexdigest()
+                    and audit.get("passed") is True and audit.get("checks")
+                    and all(value is True for value in audit["checks"].values())
+                    and audit.get("thresholds") == {"maximum_saved_damage_mirror_rms": .01, "maximum_saved_left_right_damaged_fraction_difference": .01}):
+                return False
+    except (OSError, ValueError, TypeError, KeyError, AttributeError):
         return False
     return True
 

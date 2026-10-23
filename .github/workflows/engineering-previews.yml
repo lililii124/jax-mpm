@@ -6,7 +6,7 @@ on:
       preset:
         description: Reviewed engineering cases or the round-bar density diagnostic
         type: choice
-        options: [all, ceramic-wide, hjc-large, adhesion-v2-pair, adhesion-v3-pair, jc-density-diagnostic, jc-necking-formal]
+        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, jc-density-diagnostic, jc-necking-formal]
         default: all
         required: true
 

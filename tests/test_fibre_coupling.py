@@ -1,4 +1,5 @@
 from typing import NamedTuple
+from pathlib import Path
 
 import jax
 import jax.numpy as jnp
@@ -112,7 +113,7 @@ def test_separation_and_jkr_attachment_history_are_distinct_states():
     np.testing.assert_array_equal(fresh_force, 0)
 
 
-def test_search_window_exhaustion_is_a_refusal_not_zero_contact():
+def test_invalid_history_segment_indices_are_a_refusal_not_zero_contact():
     state, data, history, _ = fixture()
     history = history._replace(segments=jnp.zeros_like(history.segments))
     _, updated, metrics = evaluate_contact(state, history, data, law())
@@ -168,3 +169,70 @@ def test_section_membership_and_neighbour_budget_are_validated_before_allocation
     _, _, _, geometry = fixture()
     with pytest.raises(ValueError, match='max_coverage_pairs'):
         build_contact_data(geometry, max_coverage_pairs=1)
+
+
+def remote_basin_fixture():
+    """Two deformed centreline pieces from the rejected step-1601 smoke update."""
+    with np.load(Path(__file__).parent/'data/fibre_contact_remote_minimum.npz') as archive:
+        paths = [archive['first_centres'], archive['second_centres']]
+        local_history = archive['history_local_segments']
+        radius = float(archive['radius'])
+    offsets = 1e-6*np.array([[0., -1., -1.], [0., -1., 1.], [0., 1., -1.], [0., 1., 1.]])
+    particles = [(path[:, None, :]+offsets).reshape(-1, 3) for path in paths]
+    x = np.concatenate(particles)
+    geometry = {'x': x, 'mass': np.ones(len(x)),
+        'fibre_id': np.concatenate([np.full(len(points), i, dtype=np.int32) for i, points in enumerate(particles)]),
+        'metadata': {'cross_section_particles': 4, 'fibres': [
+            {'id': i, 'family_id': i, 'longitudinal_sections': len(path), 'particle_count': 4*len(path), 'radius_m': radius}
+            for i, path in enumerate(paths)]},
+        'contact_candidates': [{'fibre_ids': [0, 1], 'reference_centreline_points_m':
+            [paths[side][local_history[side]].tolist() for side in (0, 1)]}]}
+    data = build_contact_data(geometry, search_window=6, coverage_skin=.0005)
+    state = State(jnp.asarray(x), jnp.ones(len(x)), History(jnp.zeros(len(x), dtype=bool)), jnp.asarray(True))
+    history = initial_contact_history(data)._replace(segments=jnp.array([[local_history[0], len(paths[0])-1+local_history[1]]]))
+    return state, data, history, paths
+
+
+def test_complete_coverage_recovers_a_remote_minimum_without_local_edge_warning():
+    state, data, history, paths = remote_basin_fixture()
+    first = np.arange(93, 106)
+    second = np.arange(9, 22)
+    a, b = np.meshgrid(first, second, indexing='ij')
+    local = np.asarray(closest_segments(jnp.asarray(paths[0][a]), jnp.asarray(paths[0][a+1]),
+                                       jnp.asarray(paths[1][b]), jnp.asarray(paths[1][b+1]))[-1])
+    location = np.unravel_index(np.argmin(local), local.shape)
+    assert (int(a[location]), int(b[location])) == (99, 15)
+    assert 0 < location[0] < len(first)-1 and 0 < location[1] < len(second)-1
+    assert local[location] > .000235
+    force, updated, metrics = jax.jit(evaluate_contact)(state, history, data, law())
+    assert validate_contact(metrics)
+    np.testing.assert_array_equal(updated.segments, [[89, len(paths[0])-1+6]])
+    np.testing.assert_allclose(metrics.gap, [-1.1360697440621938e-8], atol=2e-16, rtol=0)
+    assert bool(metrics.active[0]) and float(metrics.normal_force[0]) > 0
+    assert int(metrics.uncovered_near_pairs) == 0 and not bool(metrics.search_boundary[0])
+    np.testing.assert_allclose(force.sum(0), 0., atol=1e-20)
+    np.testing.assert_allclose(np.cross(state.x, force).sum(0), 0., atol=1e-20)
+
+
+def test_active_attachment_is_not_transferred_to_a_remote_contact_basin():
+    state, data, history, _ = remote_basin_fixture()
+    history = history._replace(law=history.law._replace(active=jnp.array([True])))
+    _, updated, metrics = evaluate_contact(state, history, data, law('jkr'))
+    assert bool(metrics.search_boundary[0])
+    assert not bool(metrics.valid) and not bool(updated.valid)
+    with pytest.raises(ValueError, match='search_boundary'):
+        validate_contact(metrics)
+
+
+def test_a_second_remote_close_region_is_not_collapsed_into_one_contact_history():
+    state, data, history, paths = remote_basin_fixture()
+    first, second, *_ = closest_segments(jnp.asarray(paths[0][99]), jnp.asarray(paths[0][100]),
+                                         jnp.asarray(paths[1][15]), jnp.asarray(paths[1][16]))
+    normal = (second-first)/jnp.linalg.norm(second-first)
+    start = 4*len(paths[0])
+    particles = np.arange(start+4*12, start+4*20)
+    moved = state._replace(x=state.x.at[particles].add(-30e-6*normal))
+    _, updated, metrics = evaluate_contact(moved, history, data, law())
+    assert not bool(metrics.coverage_motion_exceeded)
+    assert int(metrics.uncovered_near_pairs) > 0
+    assert not bool(metrics.valid) and not bool(updated.valid)

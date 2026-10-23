@@ -295,6 +295,8 @@ def complete_engineering_import(folder, identifier, summary):
                  "numerical-source.json", "interpretation.json", "final_state_0.npz", "render.json", "vtk_metadata.json",
                  "video.json", "media-check.json", "vtk_check.json", "particles.pvd", "memory.json", "scene.pvsm",
                  "final.png", "simulation.gif", "simulation.mp4")
+        if identifier == "material-engineering--concrete-bending-symmetric--hjc":
+            names += ("runtime-symmetry.json",)
         return recorded_files_match(folder, receipt["files"], (*names, *(f"frames/frame_{index:05d}.png" for index in range(count))))
     except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return False
@@ -597,6 +599,7 @@ def collect(root, destination):
                 "interpretation.json",
                 "numerical-source.json",
                 "media-check.json",
+                "runtime-symmetry.json",
                 "preview-review.json",
                 "preview-eligibility.json",
                 *JC_CHAIN_FILES,

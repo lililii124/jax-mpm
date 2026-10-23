@@ -243,8 +243,8 @@ def contact_data_summary(data):
         "radius": "Fixed reference circular radii; only small cross-sectional strain is represented.",
         "curvature": "Two projected cylinder curvature tensors; R_eff is the inverse square root of their summed determinant. Orthogonal equal cylinders give R_eff=R, not R/2. This circular replacement is not an exact elliptical JKR solution.",
         "energy": "Normal force is the fixed-curvature indentation derivative. Curvature changes do not include their geometric work term, so global contact-energy conservation is not asserted.",
-        "coverage": "All reference capsules within radii sum plus skin and proximity margin are enumerated. After removing one global proper rigid motion, twice the maximum section displacement must remain within skin; otherwise rebuild before accepting a step. Newly close unseeded or out-of-window pairs are invalid, including same-family pairs.",
-        "limits": "Independent fibres only; no self-contact within one fibre. Physical end-cap contacts, active contact on failed sections, degenerate curvature and exhausted search windows require rejection. The returned validity flag must be checked before accepting forces or new attachment history.",
+        "coverage": "All reference capsules within radii sum plus skin and proximity margin are enumerated and their current closest points are evaluated. Each registered fibre pair also uses the global minimum over that list; an inactive contact can recenter on a closer remote basin. After removing one global proper rigid motion, twice the maximum section displacement must remain within skin; otherwise rebuild before accepting a step. Every currently close segment pair must lie within the window recentered on the selected minimum; unseeded or additional remote close regions remain invalid, including same-family pairs.",
+        "limits": "Independent fibres only; no self-contact within one fibre and one contact history per fibre pair. An active attachment cannot jump beyond its previous search window. Physical end-cap contacts, active contact on failed sections, degenerate curvature, invalid segment history and exhausted unverified local searches require rejection. The returned validity flag must be checked before accepting forces or new attachment history.",
     }
 
 
@@ -277,8 +277,10 @@ def _nonrigid_bound(reference, current):
 def evaluate_contact(state, history, data, law):
     """Return force, updated attachment/search history and explicit validity flags.
 
-    A false metrics.valid requires rejecting the coupled step. No force is
-    silently accepted for an exhausted window or an uncovered close pair.
+    A false metrics.valid requires rejecting the coupled step. The complete
+    coverage list can locate a previously inactive contact outside its local
+    basin; active histories cannot jump to a different basin. No force is
+    silently accepted for an exhausted window or an additional close region.
     Physical end-cap contacts and contacts on failed sections are unsupported.
     """
     centres, section_mass = section_centres(state.x, state.mass, data)
@@ -298,7 +300,31 @@ def evaluate_contact(state, history, data, law):
     selected = jnp.stack((pick(jnp.broadcast_to(left, a.shape[:-1])), pick(jnp.broadcast_to(right, a.shape[:-1]))), axis=-1)
     window_lower, window_upper = ids[:, :, 0], ids[:, :, -1]
     at_edge = ((selected == window_lower) & (window_lower > lo)) | ((selected == window_upper) & (window_upper < hi))
-    boundary = jnp.any(at_edge, axis=-1)
+    near = data.coverage_pairs
+    cover_first, cover_second, cover_wa, cover_wb, cover_distance = closest_segments(
+        centres[data.segments[near[:, 0], 0]], centres[data.segments[near[:, 0], 1]],
+        centres[data.segments[near[:, 1], 0]], centres[data.segments[near[:, 1], 1]])
+    use_global = jnp.zeros(data.pair_count, dtype=bool)
+    if data.pair_count and near.shape[0]:
+        seed = jnp.maximum(data.coverage_seed, 0)
+        registered = data.coverage_seed >= 0
+        minimum = jnp.full(data.pair_count, jnp.inf, dtype=distance.dtype).at[seed].min(
+            jnp.where(registered, cover_distance, jnp.inf))
+        indices = jnp.arange(near.shape[0], dtype=jnp.int32)
+        winner = jnp.full(data.pair_count, near.shape[0], dtype=jnp.int32).at[seed].min(
+            jnp.where(registered & (cover_distance == minimum[seed]), indices, near.shape[0]))
+        available = winner < near.shape[0]
+        winner = jnp.minimum(winner, near.shape[0]-1)
+        use_global = available & (minimum <= distance)
+        first = jnp.where(use_global[:, None], cover_first[winner], first)
+        second = jnp.where(use_global[:, None], cover_second[winner], second)
+        wa, wb = jnp.where(use_global, cover_wa[winner], wa), jnp.where(use_global, cover_wb[winner], wb)
+        distance = jnp.where(use_global, minimum, distance)
+        selected = jnp.where(use_global[:, None], near[winner], selected)
+    relocated = jnp.any((selected < window_lower) | (selected > window_upper), axis=-1)
+    invalid_history = jnp.any((history.segments < lo) | (history.segments > hi), axis=-1)
+    boundary = invalid_history | (history.law.active & relocated) | (jnp.any(at_edge, axis=-1) & ~use_global)
+    audit_lower, audit_upper = jnp.maximum(selected-data.search_window, lo), jnp.minimum(selected+data.search_window, hi)
     directions = centres[data.segments[selected, 1]]-centres[data.segments[selected, 0]]
     lengths = jnp.linalg.norm(directions, axis=-1)
     tangents = directions/jnp.maximum(lengths, 1e-30)[..., None]
@@ -313,14 +339,11 @@ def evaluate_contact(state, history, data, law):
     endpoint_forces = weights[..., None]*signs[None, :, None, None]*pair_force[:, None, None, :]
     section_force = jnp.zeros_like(centres).at[endpoint_sections.reshape(-1)].add(endpoint_forces.reshape(-1, 3))
     forces = section_force[data.particle_section]*state.mass[:, None]/jnp.maximum(section_mass[data.particle_section], 1e-30)[:, None]
-    near = data.coverage_pairs
-    cover_distance = closest_segments(centres[data.segments[near[:, 0], 0]], centres[data.segments[near[:, 0], 1]],
-                                      centres[data.segments[near[:, 1], 0]], centres[data.segments[near[:, 1], 1]])[-1]
     pair_owners = data.segment_fibre[near]
     close = cover_distance <= jnp.sum(data.fibre_radius[pair_owners], axis=-1)+data.proximity_margin
     if data.pair_count:
         seed = jnp.maximum(data.coverage_seed, 0)
-        covered = (data.coverage_seed >= 0) & jnp.all((near >= window_lower[seed]) & (near <= window_upper[seed]), axis=-1)
+        covered = (data.coverage_seed >= 0) & jnp.all((near >= audit_lower[seed]) & (near <= audit_upper[seed]), axis=-1)
     else:
         covered = jnp.zeros(near.shape[0], dtype=bool)
     uncovered = close & ~covered

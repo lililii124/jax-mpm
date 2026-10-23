@@ -61,6 +61,7 @@ jobs:
         with:
           name: triaxial-check-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/triaxial-delivery/
+          include-hidden-files: true
           if-no-files-found: warn
           retention-days: 1
           compression-level: 6

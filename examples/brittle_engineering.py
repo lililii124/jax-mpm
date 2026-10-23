@@ -1,7 +1,7 @@
 """Dynamic concrete bending and ceramic spherical indentation in SI units."""
 
 import argparse
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 
 import jax
@@ -15,7 +15,7 @@ from .scenarios import Case, material_model
 
 
 SCENES = (
-    "concrete-bending", "concrete-bending-large", "ceramic-indentation",
+    "concrete-bending", "concrete-bending-large", "concrete-bending-symmetric", "ceramic-indentation",
     "ceramic-indentation-wide",
 )
 
@@ -323,6 +323,168 @@ def concrete_bending_large(*, grid=80, ppc=3, model="hjc", frames=60,
     )
 
 
+def _symmetric_concrete_boundaries(boundaries, grid, domain):
+    if not isinstance(grid, int) or grid < 12 or grid % 2:
+        raise ValueError("concrete-bending-symmetric requires an even grid >= 12")
+    left, right, _, loading = boundaries
+    rollers = tuple(replace(
+        support,
+        lower=(float(np.nextafter(support.lower[0], -np.inf)), *support.lower[1:]),
+        upper=(float(np.nextafter(support.upper[0], np.inf)), *support.upper[1:]),
+        components=(False, True, False),
+    ) for support in (left, right))
+    center, half_width = domain / 2, domain / grid / 4
+    x_plane = fixed_box(
+        (center - half_width, 0.0, 0.0), (center + half_width, domain, domain),
+        components=(True, False, False),
+    )
+    z_plane = fixed_box(
+        (0.0, 0.0, center - half_width), (domain, domain, center + half_width),
+        components=(False, False, True),
+    )
+    return (
+        *rollers,
+        x_plane, z_plane, loading,
+    )
+
+
+def _concrete_reference_reflections(reference, center):
+    """Pair the reference Cartesian lattice; independent of current deformation."""
+    axes_and_indices = [np.unique(reference[:, axis], return_inverse=True) for axis in range(3)]
+    shape = tuple(len(item[0]) for item in axes_and_indices)
+    coordinates = np.stack([item[1] for item in axes_and_indices])
+    linear = np.ravel_multi_index(coordinates, shape)
+    if np.prod(shape) != len(reference) or len(np.unique(linear)) != len(reference):
+        raise ValueError("concrete reference particles must form a complete Cartesian lattice")
+    lookup = np.empty(len(reference), dtype=np.int64)
+    lookup[linear] = np.arange(len(reference))
+    pairs = {}
+    for axis, name in ((0, "x"), (2, "z")):
+        reflected = coordinates.copy()
+        reflected[axis] = shape[axis] - 1 - reflected[axis]
+        paired = lookup[np.ravel_multi_index(reflected, shape)]
+        expected = reference.copy()
+        expected[:, axis] = 2 * center - expected[:, axis]
+        if not np.allclose(reference[paired], expected, rtol=0, atol=1e-12):
+            raise ValueError("reference particle lattice is not mirror symmetric")
+        pairs[name] = paired
+    return pairs
+
+
+def _concrete_symmetry_observables(current, reference, pairs, center):
+    damage = np.asarray(current.history.damage)
+    volume, mass = np.asarray(current.volume), np.asarray(current.mass)
+    position = np.asarray(current.x)
+    displacement = position - reference
+    tolerance = 32 * np.finfo(reference.dtype).eps * max(1.0, abs(center))
+    left = reference[:, 0] < center - tolerance
+    right = reference[:, 0] > center + tolerance
+    result = {}
+    for name, mask in (("left", left), ("right", right)):
+        result[f"{name}_mean_damage_reference_volume"] = float(np.average(damage[mask], weights=volume[mask]))
+        result[f"{name}_damaged_reference_volume_fraction"] = float(volume[mask & (damage >= .5)].sum() / volume[mask].sum())
+        result[f"{name}_fully_damaged_reference_volume_fraction"] = float(volume[mask & (damage >= 1)].sum() / volume[mask].sum())
+    for axis, name in ((0, "x"), (2, "z")):
+        paired = pairs[name]
+        difference = damage - damage[paired]
+        result[f"damage_mirror_{name}_mae"] = float(np.average(np.abs(difference), weights=volume))
+        result[f"damage_mirror_{name}_rms"] = float(np.sqrt(np.average(difference**2, weights=volume)))
+        result[f"damage_mirror_{name}_max"] = float(np.max(np.abs(difference)))
+        reflected_displacement = displacement[paired].copy()
+        reflected_displacement[:, axis] *= -1
+        result[f"displacement_mirror_{name}_rms_m"] = float(np.sqrt(np.average(
+            np.sum((displacement - reflected_displacement)**2, axis=1), weights=volume
+        )))
+    com = np.average(displacement, axis=0, weights=mass)
+    result.update({f"center_of_mass_displacement_{axis}_m": float(value) for axis, value in zip("xyz", com)})
+    return result
+
+
+def concrete_bending_symmetric(*, grid=64, ppc=3, model="hjc", frames=60):
+    """The 12 mm beam with two rollers and two explicit symmetry planes."""
+    if not isinstance(grid, int) or grid < 12 or grid % 2:
+        raise ValueError("concrete-bending-symmetric requires an even grid >= 12")
+    base = concrete_bending_large(grid=grid, ppc=ppc, model=model, frames=frames)
+    original_config = base.configs[0]
+    boundaries = _symmetric_concrete_boundaries(original_config.boundaries, grid, original_config.domain_size)
+    cfg = replace(original_config, boundaries=boundaries)
+    material, state = base.materials[0], base.states[0]
+    loading = boundaries[-1]
+    center = cfg.domain_size / 2
+    reference = np.asarray(state.x)
+    pairs = _concrete_reference_reflections(reference, center)
+    bottom = np.isclose(reference[:, 1], reference[:, 1].min(), atol=1e-12, rtol=0)
+    midspan = bottom & (np.abs(reference[:, 0] - center) <= max(cfg.dx, .0125))
+    lower, upper = base.description["lower"], base.description["upper"]
+    central_lower = (np.abs(reference[:, 0] - center) <= .025) & (reference[:, 1] <= lower[1] + .01)
+    central_upper = (np.abs(reference[:, 0] - center) <= .025) & (reference[:, 1] >= upper[1] - .01)
+    names = ("left_support", "right_support", "x_symmetry_plane", "z_symmetry_plane", "loading")
+    grid_coordinates = np.arange(grid + 1) * cfg.dx
+    plane_indices = {}
+    for axis, name, boundary in ((0, "x", boundaries[2]), (2, "z", boundaries[3])):
+        selected = np.flatnonzero((grid_coordinates >= boundary.lower[axis]) & (grid_coordinates <= boundary.upper[axis]))
+        if selected.tolist() != [grid // 2]:
+            raise ValueError("a symmetry constraint must select exactly the middle grid plane")
+        plane_indices[name] = selected.tolist()
+    left_indices = np.flatnonzero((grid_coordinates >= boundaries[0].lower[0]) & (grid_coordinates <= boundaries[0].upper[0]))
+    right_indices = np.flatnonzero((grid_coordinates >= boundaries[1].lower[0]) & (grid_coordinates <= boundaries[1].upper[0]))
+    if not left_indices.size or not np.array_equal(left_indices, grid - right_indices[::-1]):
+        raise ValueError("the selected support grid patches must be nonempty mirror pairs")
+    definition = dict(base.description)
+    definition.update({
+        "purpose": "concrete-bending-symmetric",
+        "comparison_baseline_case": "concrete-bending-large",
+        "supports_profile": "mirror-rollers-with-centre-planes",
+        "supports": "both bottom patches constrain y only; x/z sliding is permitted at the supports",
+        "boundary_value_problem": (
+            "full specimen with explicit x=0.2 m normal-velocity and z=0.2 m normal-velocity symmetry constraints; "
+            "a symmetry-constrained dynamic bending problem, not an unconstrained instability experiment"
+        ),
+        "loading_regime": "dynamic three-point bending with two imposed reflection-symmetry planes; inertia and rate effects retained",
+        "boundary_names": list(names),
+        "boundary_definitions": [{key: value for key, value in asdict(boundary).items() if key != "end"} for boundary in boundaries],
+        "support_nominal_bounds_m": {
+            name: {"lower": list(boundary.lower), "upper": list(boundary.upper)}
+            for name, boundary in zip(("left", "right"), original_config.boundaries[:2])
+        },
+        "support_endpoint_selection": "one floating-point ULP outward on each x endpoint; nominal support geometry unchanged",
+        "support_selected_grid_x_indices": {"left": left_indices.tolist(), "right": right_indices.tolist()},
+        "symmetry_plane_coordinates_m": {"x": center, "z": center},
+        "symmetry_plane_selected_indices": plane_indices,
+        "symmetry_plane_selection_half_width_m": .25 * cfg.dx,
+        "symmetry_plane_scope": "one grid node plane per normal direction across the entire background grid; tangential velocities are unconstrained",
+        "symmetry_observation": "reference-lattice reflection pairs; reference-volume-weighted damage differences and mass-weighted displacement of the center of mass",
+        "half_damage_regions": "reference x strictly below/above 0.2 m; any central particle layer is excluded from both half means",
+        "reference_reflection_max_error_m": {
+            name: float(np.max(np.abs(reference[pairs[name]] - reference * (1 - 2 * np.eye(3)[axis]) - 2 * center * np.eye(3)[axis])))
+            for axis, name in ((0, "x"), (2, "z"))
+        },
+    })
+
+    def observe(states, time):
+        current = states[0]
+        result = _damage_observables(current)
+        result.update(_reactions(current, material, cfg, names))
+        result.update(_concrete_symmetry_observables(current, reference, pairs, center))
+        prescribed, velocity = loading.motion(time)
+        displacement_y = np.asarray(current.x)[:, 1] - reference[:, 1]
+        damage, volume = np.asarray(current.history.damage), np.asarray(current.volume)
+        result.update({
+            "boundary_sample_time_s": float(time + cfg.dt),
+            "prescribed_displacement_y_m": float(prescribed[1]),
+            "prescribed_speed_y_m_per_s": float(velocity[1]),
+            "midspan_bottom_deflection_m": float(-displacement_y[midspan].mean()),
+            "maximum_downward_displacement_m": float(-displacement_y.min()),
+            "momentum_y_kg_m_per_s": float(np.sum(np.asarray(current.mass) * np.asarray(current.v)[:, 1])),
+        })
+        for region, mask in (("central_lower", central_lower), ("central_upper", central_upper)):
+            result[f"{region}_max_damage"] = float(damage[mask].max()) if mask.any() else None
+            result[f"{region}_mean_damage"] = float(np.average(damage[mask], weights=volume[mask])) if mask.any() else None
+        return result
+
+    return Case(base.states, base.materials, (cfg,), base.duration, definition, observer=observe)
+
+
 def ceramic_indentation(*, grid=64, ppc=3, model="jh2", frames=40):
     """A backed 100 x 25 x 100 mm tile under a 75 mm radius rigid sphere."""
     if model != "jh2":
@@ -498,6 +660,8 @@ def setup(scene, *, grid=64, ppc=3, model=None, frames=40):
         return concrete_bending(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
     if scene == "concrete-bending-large":
         return concrete_bending_large(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
+    if scene == "concrete-bending-symmetric":
+        return concrete_bending_symmetric(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
     if scene == "ceramic-indentation":
         return ceramic_indentation(grid=grid, ppc=ppc, model=model or "jh2", frames=frames)
     if scene == "ceramic-indentation-wide":

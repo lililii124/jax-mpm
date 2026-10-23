@@ -1,0 +1,26 @@
+{
+  "source_run": 40015872853,
+  "source_attempt": 1,
+  "accepted_step": 1600,
+  "checkpoint_sha256": "6500bcde1c6c389ab76bd207b6a2c6f92cd830ea0925c205962ba81621823774",
+  "source_coupling_sha256": "f52718154234ce25e642b5e34067ac0b1d48c6d41a39be411ee4bc8fa94616b2",
+  "fixture_sha256": "eeaf42621e7dec23218cd92cda1def7edb45bf80c6f365b9fccbd603da6446a5",
+  "fibre_ids": [
+    0,
+    5
+  ],
+  "source_segment_offsets": [
+    0,
+    634
+  ],
+  "scope": "Mass-weighted section centroids from the accepted original checkpoint, before the rejected contact update. Unit tests reconstruct four equal-mass particles around each centroid; no original validity or contact history is changed.",
+  "expected_original_global_closest_segments": [
+    89,
+    640
+  ],
+  "expected_local_closest_segments": [
+    99,
+    649
+  ],
+  "expected_current_gap_m": -1.1360697440621938e-08
+}

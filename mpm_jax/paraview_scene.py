@@ -91,7 +91,7 @@ def velocity_patch_fixtures(definition):
         "support_patch_width_m",
         "loading_boundary",
     )
-    if definition.get("purpose") not in ("concrete-bending", "concrete-bending-large") or any(
+    if definition.get("purpose") not in ("concrete-bending", "concrete-bending-large", "concrete-bending-symmetric") or any(
         key not in definition for key in required
     ):
         return []

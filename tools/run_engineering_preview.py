@@ -28,7 +28,7 @@ ADHESION_PRESETS = {
     "adhesion-v3-pair": ("outputs/adhesion-visible-v3", "lift-hold-v3"),
 }
 PAIR_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
-PRESETS = ("ceramic-wide", "hjc-large", *ADHESION_PRESETS, "jc-density-diagnostic", "jc-necking-formal")
+PRESETS = ("ceramic-wide", "hjc-large", "hjc-symmetric", *ADHESION_PRESETS, "jc-density-diagnostic", "jc-necking-formal")
 digest, save, identity = shared.digest, shared.save, shared.identity
 
 
@@ -46,6 +46,7 @@ def plan(preset):
     scene, model, grid, ppc, frames, particles, duration = {
         "ceramic-wide": ("ceramic-indentation-wide", "jh2", 96, 2, 40, 386420, 3e-4),
         "hjc-large": ("concrete-bending-large", "hjc", 64, 3, 60, 121104, 1.5e-3),
+        "hjc-symmetric": ("concrete-bending-symmetric", "hjc", 64, 3, 60, 121104, 1.5e-3),
         "jc-density-diagnostic": ("jc-necking", "johnson-cook", 64, 2, 60, 33224, 150e-6),
         "jc-necking-formal": ("jc-necking", "johnson-cook", 100, 2, 60, 102320, 150e-6),
     }[preset]
@@ -55,7 +56,8 @@ def plan(preset):
              "grid": grid, "ppc": ppc, "frames": frames, "particles": particles, "duration": duration,
              "field": "damage", "root": root, "folder": f"{root}/{scene}/{model}",
              "arguments": ["--end-time", "150e-6", "--cfl", ".15"] if jc else ["--case", scene, "--model", model],
-             "review": "tools/review_material_engineering.py"}]
+             "review": "tools/review_material_engineering.py",
+             **({"expected_supports_profile": "mirror-rollers-with-centre-planes", "expected_steps": 10500} if preset == "hjc-symmetric" else {})}]
 
 
 def command(name, arguments, *, monitor=False, accepted_codes=(0,)):
@@ -488,6 +490,8 @@ def package(cases, provenance, diagnostic=False):
             payloads["main"] += (destination / "trajectory_index.npz").stat().st_size
         if provenance["preset"] == "jc-necking-formal":
             names += ["constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv", "runner-acceptance.json"]
+        if provenance["preset"] == "hjc-symmetric":
+            names += ["runtime-symmetry.json"]
         for name in names:
             copy_payload(folder / name, Path(case["folder"]) / name, "main")
     if provenance["preset"] in ADHESION_PRESETS:
@@ -556,8 +560,10 @@ def run(preset):
             expected_steps = 37080 if preset == "jc-density-diagnostic" else 57900
             if summary["steps"] != expected_steps or definition["acoustic_CFL_requested"] != .15:
                 raise ValueError("JC preset changed its grid time step or CFL")
-        if preset == "hjc-large" and (definition.get("material_profile") != "strain-floor" or summary["materials"][0].get("legacy_v3") is not False):
+        if preset in ("hjc-large", "hjc-symmetric") and (definition.get("material_profile") != "strain-floor" or summary["materials"][0].get("legacy_v3") is not False):
             raise ValueError("HJC large preset did not use the strain-floor profile")
+        if preset == "hjc-symmetric" and (definition.get("supports_profile") != case["expected_supports_profile"] or summary["steps"] != case["expected_steps"]):
+            raise ValueError("HJC symmetric preset changed its support profile or step count")
         if preset in ADHESION_PRESETS:
             law = definition["adhesion"]
             expected_work = 0. if case["name"] == "nonadhesive-pull-off" else 72.
@@ -574,6 +580,13 @@ def run(preset):
         report["review_source_sha256"] = receipt["review_source_sha256"]
         save(folder / "interpretation.json", report)
         reports.append(report)
+        if preset == "hjc-symmetric":
+            audit_path = folder / "runtime-symmetry.json"
+            audit = json.loads(audit_path.read_text())
+            if (not strict_passed(audit) or audit != report.get("runtime_symmetry")
+                    or report.get("runtime_symmetry_report") != {"file": audit_path.name, "sha256": digest(audit_path)}
+                    or audit.get("review_source_sha256") != receipt["review_source_sha256"]):
+                raise ValueError("Independent HJC runtime symmetry audit failed or is not bound to the review source")
         if preset not in ("jc-density-diagnostic", "jc-necking-formal") and not strict_passed(report):
             raise ValueError(f"Strict numerical review failed for {case['name']}; dependent work and media are not started")
     provenance["strict_review_passed"] = all(strict_passed(report) for report in reports)
@@ -626,7 +639,7 @@ def preserve_failure(preset, error):
     for case in cases:
         folder = ROOT / case["folder"]
         destination = destination_root / "failed-cases" / case["name"]
-        for name in ("summary.json", "status.json", "interpretation.json", "observables.csv", "diagnostics.csv", "memory.json", "numerical-source.json", "jc-density-diagnostic.json", "jc-density-history.csv", "constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv", "runner-acceptance.json"):
+        for name in ("summary.json", "status.json", "interpretation.json", "observables.csv", "diagnostics.csv", "memory.json", "numerical-source.json", "jc-density-diagnostic.json", "jc-density-history.csv", "constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv", "runner-acceptance.json", "runtime-symmetry.json"):
             path = folder / name
             if path.is_file():
                 destination.mkdir(parents=True, exist_ok=True)

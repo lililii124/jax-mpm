@@ -41,6 +41,7 @@ TITLES = {
     "jc-necking": "JC steel necking",
     "concrete-bending": "HJC concrete bending",
     "concrete-bending-large": "HJC large-displacement bending",
+    "concrete-bending-symmetric": "HJC bending with symmetry constraints",
     "ceramic-indentation": "JH-2 ceramic indentation",
     "ceramic-indentation-wide": "JH-2 plate indentation",
     "cellular-cushion": "Cellular cushioning",

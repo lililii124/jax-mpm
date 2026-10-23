@@ -16,6 +16,7 @@ from .scenarios import Case
 
 SCENES = (
     "jc-tension", "jc-necking", "concrete-bending", "concrete-bending-large",
+    "concrete-bending-symmetric",
     "ceramic-indentation", "ceramic-indentation-wide",
 )
 

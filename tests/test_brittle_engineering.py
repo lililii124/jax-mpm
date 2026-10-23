@@ -25,7 +25,7 @@ def test_bending_fixtures_allow_axial_slide_and_reach_prescribed_displacement():
     np.testing.assert_allclose(case.states[0].mass.sum(), material.density * 0.3 * 0.06**2)
 
 
-@pytest.mark.parametrize("scene", ["concrete-bending", "concrete-bending-large", "ceramic-indentation"])
+@pytest.mark.parametrize("scene", ["concrete-bending", "concrete-bending-large", "concrete-bending-symmetric", "ceramic-indentation"])
 def test_boundary_reactions_balance_specimen_momentum(scene):
     case = setup(scene, grid=16, ppc=1, frames=4)
     state, material, config = case.states[0], case.materials[0], case.configs[0]
@@ -132,3 +132,28 @@ def test_large_bending_loader_includes_both_grid64_endpoints():
     assert definition["loading_selected_grid_x_indices"] == selected.tolist()
     np.testing.assert_array_equal(definition["loading_selected_grid_x_coordinates_m"], grid_x[selected])
     assert abs(definition["loading_grid_center_x_m"] - .2) < 1e-16
+
+
+def test_symmetric_bending_reuses_the_large_initial_state_material_and_loading():
+    large = setup("concrete-bending-large", grid=16, ppc=1, frames=4)
+    symmetric = setup("concrete-bending-symmetric", grid=16, ppc=1, frames=4)
+    for original, updated in zip(jax.tree.leaves(large.states), jax.tree.leaves(symmetric.states)):
+        np.testing.assert_array_equal(original, updated)
+    assert large.materials == symmetric.materials
+    assert large.duration == symmetric.duration
+    assert large.configs[0].dt == symmetric.configs[0].dt
+    assert large.configs[0].boundaries[-1] == symmetric.configs[0].boundaries[-1]
+    assert len(large.configs[0].boundaries) == 4
+    assert len(symmetric.configs[0].boundaries) == 5
+    assert symmetric.description["purpose"] == "concrete-bending-symmetric"
+    assert symmetric.description["supports_profile"] == "mirror-rollers-with-centre-planes"
+    assert symmetric.description["symmetry_plane_selected_indices"] == {"x": [8], "z": [8]}
+    assert symmetric.description["loading_revision"] == "centered-grid-patch-v2"
+    assert "supports_profile" not in large.description
+    assert symmetric.description["material_profile"] == "strain-floor"
+    observed = symmetric.observer(symmetric.states, 0.)
+    assert observed["damage_mirror_x_max"] == observed["damage_mirror_z_max"] == 0.
+    assert observed["center_of_mass_displacement_x_m"] == 0.
+    for name in symmetric.description["boundary_names"]:
+        assert f"{name}_reaction_y_N" in observed
+    assert "lateral_anchor_reaction_y_N" not in observed
