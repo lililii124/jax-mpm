@@ -117,7 +117,7 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **49 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **50 selected completed runs**,
 including five explicitly labelled coarse woven previews, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
@@ -274,3 +274,19 @@ Their original reviews remain `passed: false`; the preview gate permits only the
 limits and the compression case's unavailable inner-platen tracking sample.
 Independent elastic energy, reference section force and reference bending-moment checks pass.
 The [preview guide](docs/WOVEN_PREVIEWS.md) links the records and encoding provenance.
+
+## Woven plain-weave bending
+
+The [fine-grid bending run](docs/results/woven--plain--transverse-bending/interpretation.json) uses 345,600 material points,
+4,140 steps and 61 saved states. The grid resolves the yarn minor diameter with three cells.
+Peak centre deflection is 0.271474 mm; minimum J is 0.912105,
+maximum saved yarn Green-strain norm is 0.056529,
+and relative mass drift is zero. Independent final elastic energy, Piola section forces
+and the reference bending moment agree with the recorded observations.
+
+This dynamic, fully bonded elastic example uses illustrative material constants.
+It is not a mesh-convergence or experimental validation result. The thin support and
+loading patches have no full-stencil interior particle samples, so exact particle
+clamping is not asserted. The [source record](docs/results/woven--plain--transverse-bending/numerical-source.json)
+binds the Linux calculation to commit `035897ac34ba3327deadfa6ca839efa75768be3a`.
+The archived coarse run remains available; the homepage now shows the fine-grid animation.

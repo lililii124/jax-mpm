@@ -448,20 +448,6 @@
     "source_render_sha256": "3e2f2c7b17c31a5d889fa6ac1370ead1c50dc911103e0ac3303709bbb0d4b254"
   },
   {
-    "id": "woven-preview--plain--transverse-bending",
-    "gif_path": "docs/images/home/woven-preview--plain--transverse-bending.gif",
-    "gif_sha256": "07750a24346ae03bf0913aa48fd466b1bd0708c0cf0305ccd8fd853d13f4f2fd",
-    "bytes": 1653256,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 61,
-    "gif_frames": 61,
-    "render_sha256": "cafc52ccaf17e2a2399b17b9849b989a82810968015ead4c227d71f682436a7e",
-    "source_render_sha256": "cafc52ccaf17e2a2399b17b9849b989a82810968015ead4c227d71f682436a7e"
-  },
-  {
     "id": "woven-preview--plain--warp-tension",
     "gif_path": "docs/images/home/woven-preview--plain--warp-tension.gif",
     "gif_sha256": "f2a54856aa12155c4b8c1f96d79567fc76ed4882666249d87361b533438f9db1",
@@ -516,5 +502,19 @@
     "gif_frames": 61,
     "render_sha256": "431d7d9e6a97d4c0c4169030b0ce0d4eb46595fb95762956b61506361cf44bfd",
     "source_render_sha256": "431d7d9e6a97d4c0c4169030b0ce0d4eb46595fb95762956b61506361cf44bfd"
+  },
+  {
+    "id": "woven--plain--transverse-bending",
+    "gif_path": "docs/images/home/woven--plain--transverse-bending.gif",
+    "gif_sha256": "aadd170ffa0ce06dc6a818868113d37760a919849ebd6af76eebf35797dba528",
+    "bytes": 1591318,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "d9008b85b9b926aefa30adcd3550ff753705c4ca6a21f1986ef114683866d338",
+    "source_render_sha256": "d9008b85b9b926aefa30adcd3550ff753705c4ca6a21f1986ef114683866d338"
   }
 ]

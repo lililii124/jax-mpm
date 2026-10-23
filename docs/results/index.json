@@ -1051,5 +1051,29 @@
       "preview-eligibility.json": "6cf2571ecbb0bf6a3bbe6d3f5532e99790c08cb9bb04021541ebc832fa4a6ddf"
     },
     "publication_scope": "coarse-preview"
+  },
+  {
+    "id": "woven--plain--transverse-bending",
+    "case": "plain/transverse-bending / woven-composite",
+    "source_directory": "outputs/woven/plain/transverse-bending",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.9121046732808539,
+    "max_damage": 0.0,
+    "solver_seconds": 1430.6393483020004,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "5b76adbddd54f29378a7b160cefb2c957595bbac8187c3f65e8e3f8ac1edd5a3",
+      "diagnostics.csv": "81946994da697b862ea7a082285d6243e5c8f24dc21171d30bc4d2e4b8237169",
+      "observables.csv": "d0f2cb4aca09bf132d425de969a79e18bcd6b8432991523e844a1fee1a53ff7e",
+      "render.json": "d9008b85b9b926aefa30adcd3550ff753705c4ca6a21f1986ef114683866d338",
+      "vtk_metadata.json": "3283954ebff2d38ffa1760c3c13dcb0992ee2384849b079fc929c4536ec2eb2a",
+      "video.json": "ba2082675100e243c73a174d1d29ffca9486a5731d9c5968cd08985b49c441bd",
+      "memory.json": "fe383491ece55bdd90272c3bc2aa4f3f8002a70ce8475ebe1edf94673f56dea8",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "d5995574630bccac8c8c0563a3d07b55f8a70084bc1ca2bed40ce7be30981f25",
+      "numerical-source.json": "d4e71e7e5c8cf6b8cd4e097c0f58aebde772660c2f1c2925aba4675400c9c386"
+    }
   }
 ]

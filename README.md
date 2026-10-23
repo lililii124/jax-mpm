@@ -13,12 +13,18 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 |---|---|---|
 | ![HJC concrete bending](docs/images/home/material-engineering--concrete-bending--hjc.gif)<br>[HJC concrete bending](docs/results/material-engineering--concrete-bending--hjc/summary.json) | ![JC round-bar tension](docs/images/home/material-engineering--jc-tension--johnson-cook.gif)<br>[JC round-bar tension](docs/results/material-engineering--jc-tension--johnson-cook/summary.json) | ![JH-2 ceramic indentation](docs/images/home/material-engineering--ceramic-indentation--jh2.gif)<br>[JH-2 ceramic indentation](docs/results/material-engineering--ceramic-indentation--jh2/summary.json) |
 
+### Woven composites
+
+| | | |
+|---|---|---|
+| ![0°/90° plain weave · Out-of-plane bending](docs/images/home/woven--plain--transverse-bending.gif)<br>[0°/90° plain weave · Out-of-plane bending](docs/results/woven--plain--transverse-bending/summary.json) |  |  |
+
 ### Woven composites · coarse previews
 
 | | | |
 |---|---|---|
 | ![0°/90° plain weave · Warp tension · Coarse preview](docs/images/home/woven-preview--plain--warp-tension.gif)<br>[0°/90° plain weave · Warp tension · Coarse preview](docs/results/woven-preview--plain--warp-tension/summary.json) | ![0°/90° plain weave · Transverse in-plane tension · Coarse preview](docs/images/home/woven-preview--plain--weft-tension.gif)<br>[0°/90° plain weave · Transverse in-plane tension · Coarse preview](docs/results/woven-preview--plain--weft-tension/summary.json) | ![0°/±60° weave · In-plane shear · Coarse preview](docs/images/home/woven-preview--triaxial--in-plane-shear.gif)<br>[0°/±60° weave · In-plane shear · Coarse preview](docs/results/woven-preview--triaxial--in-plane-shear/summary.json) |
-| ![2×2 twill · Through-thickness compression · Coarse preview](docs/images/home/woven-preview--twill-2x2--transverse-compression.gif)<br>[2×2 twill · Through-thickness compression · Coarse preview](docs/results/woven-preview--twill-2x2--transverse-compression/summary.json) | ![0°/90° plain weave · Out-of-plane bending · Coarse preview](docs/images/home/woven-preview--plain--transverse-bending.gif)<br>[0°/90° plain weave · Out-of-plane bending · Coarse preview](docs/results/woven-preview--plain--transverse-bending/summary.json) |  |
+| ![2×2 twill · Through-thickness compression · Coarse preview](docs/images/home/woven-preview--twill-2x2--transverse-compression.gif)<br>[2×2 twill · Through-thickness compression · Coarse preview](docs/results/woven-preview--twill-2x2--transverse-compression/summary.json) |  |  |
 
 ### Structures and tanks
 
