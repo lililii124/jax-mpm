@@ -27,17 +27,27 @@ SUITE_CASES = (
     "three-sphere-array",
 )
 
+LIFT_HOLD_PRESETS = {
+    "lift-hold": {"height": 0.055, "work": 72.0, "revision": None,
+                  "pair": "single-sphere-lift-hold-v1"},
+    "lift-hold-v3": {"height": 0.035, "work": 72.0, "revision": 3,
+                     "pair": "single-sphere-lift-hold-v3"},
+    "lift-hold-v4": {"height": 0.035, "work": 144.0, "revision": 4,
+                     "pair": "single-sphere-lift-hold-v4"},
+}
+
 
 def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
     if suite_case is not None and suite_case not in SUITE_CASES:
         raise ValueError("unknown adhesive suite case")
-    if preset not in ("standard", "lift-hold", "lift-hold-v3"):
+    if preset != "standard" and preset not in LIFT_HOLD_PRESETS:
         raise ValueError("unknown adhesive preset")
     paired = suite_case in ("nonadhesive-pull-off", "adhesive-pull-off")
-    if preset in ("lift-hold", "lift-hold-v3") and not paired:
+    lift_hold = preset in LIFT_HOLD_PRESETS
+    if lift_hold and not paired:
         raise ValueError("lift-hold requires a normal pull-off pair case")
-    lift_hold = preset in ("lift-hold", "lift-hold-v3")
-    hold_clearance = 0.035 if preset == "lift-hold-v3" else 0.055
+    profile = LIFT_HOLD_PRESETS.get(preset)
+    hold_clearance = profile["height"] if lift_hold else 0.055
     if grid < 8 or ppc < 1 or frames < 1:
         raise ValueError("grid >= 8, ppc >= 1 and frames >= 1 are required")
     young, poisson, density = 8000.0 if lift_hold else 12000.0, 0.25, 1000.0
@@ -47,7 +57,7 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
     surface_area = float(spacings[0] * spacings[2])
     surface_y = float(upper[1] - 0.5 * spacings[1])
     law = DugdaleLaw(
-        work_of_adhesion=0.0 if suite_case == "nonadhesive-pull-off" else 72.0 if lift_hold else 12.0,
+        work_of_adhesion=0.0 if suite_case == "nonadhesive-pull-off" else profile["work"] if lift_hold else 12.0,
         interaction_range=0.025,
         penalty_stiffness=4.8e6 if lift_hold else 1.2e6,
     )
@@ -323,7 +333,7 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
     if lift_hold:
         definition.update(
             preset=preset,
-            comparison_pair="single-sphere-lift-hold-v3" if preset == "lift-hold-v3" else "single-sphere-lift-hold-v1",
+            comparison_pair=profile["pair"],
             loading_stages_s={
                 "initial_hold_end": 0.08,
                 "indentation_end": 0.28,
@@ -342,8 +352,8 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
                 "status": "prospective checks; not measured results",
             },
         )
-        if preset == "lift-hold-v3":
-            definition["loading_revision"] = 3
+        if profile["revision"] is not None:
+            definition["loading_revision"] = profile["revision"]
     return (
         Case((state,), (material,), (config,), duration, definition, forces, observe),
         substeps,

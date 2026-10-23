@@ -9,8 +9,9 @@ the [original comparison](results/adhesion-comparison.json).
 The pair uses a softer layer and stronger adhesion, then pauses during
 withdrawal. Profile `v2` keeps the original 55 mm withdrawal hold. Profile
 `v3` changes that height to 35 mm; material constants, time intervals, final
-withdrawal height and acceptance thresholds are unchanged. Each profile has
-its own output directory. The revised path requires a new complete calculation.
+withdrawal height and acceptance thresholds are unchanged. The independent
+`v4` candidate keeps the `v3` path and doubles the adhesive role's work of
+adhesion. Each profile has its own output directory; the defaults remain `v2`.
 
 ## Common specimen and motion
 
@@ -21,16 +22,18 @@ at 25 mm. This revised preset uses a penalty stiffness of 4.8 × 10⁶ Pa/m;
 the original suite retains 1.2 × 10⁶ Pa/m. The local penalty time-step limit
 is unchanged, so the higher stiffness reduces the allowed time step.
 
-Only work of adhesion differs: zero for `nonadhesive-pull-off`, 72 J/m² for
-`adhesive-pull-off`. The latter gives a finite-range attractive traction of
-2880 Pa. The [existing interface assumptions](ADHESION_CASES.md#shared-model)
+Within each matched pair, only work of adhesion differs between the two roles.
+The baseline always uses zero. Profiles `v2` and `v3` use 72 J/m² for the
+adhesive role, giving an attractive traction of 2880 Pa. Candidate `v4` uses
+144 J/m² and 5760 Pa. Its range, penalty stiffness, bulk material and time-step
+controls are unchanged. The [existing interface assumptions](ADHESION_CASES.md#shared-model)
 still apply: reference-area surface quadrature, reversible adhesion, normal
 forces and a finite dynamic layer. These parameters are illustrative.
 
 The sphere centre stays at x = z = 0.5 m. The following heights refer to its
 lowest point relative to the initial sampled material surface. Moving segments
 use the same half-cosine interpolation in both runs. This table is profile `v2`;
-profile `v3` substitutes 35 mm for the three occurrences of 55 mm.
+profiles `v3` and `v4` substitute 35 mm for the three occurrences of 55 mm.
 
 | Time (s) | Sphere motion | Lowest-point height (mm) |
 |---|---|---:|
@@ -49,7 +52,7 @@ checks do not establish that the deforming layer has detached.
 
 At the withdrawal hold, an initially flat surface is outside the interaction
 range. A surface point directly underneath the sphere must rise more than
-30 mm in `v2`, or 10 mm in `v3`, to enter that range. Any remaining adhesive load must therefore result from the
+30 mm in `v2`, or 10 mm in `v3`/`v4`, to enter that range. Any remaining adhesive load must therefore result from the
 computed surface deformation. No prescribed surface motion or displacement
 scale is applied.
 
@@ -67,6 +70,37 @@ Earlier in that same withdrawal, the baseline was already free while the adhesiv
 | 0.676 | 50.307 | −24.280 | 41.151 |
 
 These qualifying samples span only 0.078 s, not the required 0.10 s, and were recorded during motion rather than a hold. At 54.203 mm the next saved state was already detached. The 35 mm `v3` hold was selected near the earlier state with 460 adhesive surface points and a larger tensile resultant; 43.442 mm had only 364 adhesive points. Stopping at this earlier height is a new loading hypothesis, not evidence that the hold criterion will pass. The unchanged final height of 295 mm increases the last segment's peak speed to 2.26893 m/s. The original `v2` failure remains reproducible with `--profile v2`.
+
+## V3 outcome and V4 candidate
+
+The complete `v3` pair in [run 39983773296](https://github.com/lililii124/jax-mpm/actions/runs/39983773296),
+commit `f38bfc8`, passed both individual numerical reviews. The pair comparison
+failed only the unchanged requirement for a 25 mm uplift difference over at
+least 0.10 s. The baseline was force-free throughout the saved hold states.
+
+| Hold time (s) | Adhesive points | Adhesive reaction (N) | Minimum gap (mm) | Simultaneous uplift difference (mm) |
+| --- | ---: | ---: | ---: | ---: |
+| 0.728 | 256 | −34.207 | 2.202 | 31.875 |
+| 0.754 | 148 | −20.051 | 10.901 | 23.211 |
+| 0.780 | 12 | −1.654 | 23.932 | 9.872 |
+| 0.806 | 0 | 0 | 42.244 | 0.568 |
+
+Only the first saved hold state met the complete contrast criterion. The
+adhesive run's maximum saved penetration was 1.465785 mm against the existing
+5.208333 mm limit; its minimum determinant was 0.677599 and recorded mass
+drift was zero. No penetration occurred in the saved hold states. These are
+results of `v3`, not predictions for stronger adhesion.
+
+`v4` tests whether doubling the effective work of adhesion can retain the
+deformed surface at the same 35 mm hold. It changes no waypoint, loading time,
+material parameter, interaction range, compressive penalty stiffness or
+acceptance threshold. The compressive traction branch is unchanged; the
+attractive branch doubles and the potential well becomes deeper. Stronger
+adhesion may alter both deformation and dynamic release, so the original
+overlap, determinant, force balance and final-separation checks must still
+pass. This is an uncalibrated demonstration hypothesis, not a successful
+result or an experimental adhesion value. Original `v2` and `v3` records and
+profiles are retained.
 
 ## Comparison checks
 
@@ -94,11 +128,12 @@ Run the two cases sequentially in the project environment:
 
 ```powershell
 foreach ($case in 'nonadhesive-pull-off', 'adhesive-pull-off') {
-    python -m examples.adhesion_contrast --profile v3 --case $case --grid 48 --ppc 3 --frames 50 --no-render --resume
+    python -m examples.adhesion_contrast --profile v4 --case $case --grid 48 --ppc 3 --frames 50 --no-render --resume
 }
 ```
 
-Profile `v3` writes `outputs/adhesion-visible-v3/<case>`. Omitting `--profile`,
+Profiles `v3` and `v4` write `outputs/adhesion-visible-v3/<case>` and
+`outputs/adhesion-visible-v4/<case>`, respectively. Omitting `--profile`,
 or selecting `v2`, retains `outputs/adhesion-visible/<case>` and the 55 mm hold.
 An explicit `--output` overrides the profile's directory. Default resolution retains
 367,744 material points and 51 saved states. Both roles have identical time

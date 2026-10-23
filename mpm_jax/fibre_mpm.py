@@ -15,7 +15,7 @@ from .materials.isotropic_brittle import (
 
 
 @partial(jax.tree_util.register_dataclass,
-         data_fields=("lower", "shape", "strides", "offsets", "origin"),
+         data_fields=("lower", "shape", "strides", "offsets", "origin", "node_map", "dense_indices"),
          meta_fields=("dx", "node_count", "fibre_count"))
 @dataclass(frozen=True)
 class PackedLayout:
@@ -27,6 +27,8 @@ class PackedLayout:
     dx: float
     node_count: int
     fibre_count: int
+    node_map: jax.Array | None = None
+    dense_indices: jax.Array | None = None
 
 
 @dataclass(frozen=True)
@@ -122,6 +124,49 @@ def build_layout(x, fibre_id, *, dx, padding_cells=6, reference_bounds=None,
                         jnp.asarray(origin), float(dx), total, count)
 
 
+def build_tube_layout(x, fibre_id, *, dx, padding_cells=6, reference_bounds=None,
+                      origin=(0., 0., 0.), max_nodes=30_000_000):
+    """Compress empty nodes; retain a padded tube around every reference stencil.
+
+    The three separable dilations use a Chebyshev radius of ``padding_cells``
+    and are intersected with the same local AABB as ``build_layout``. Missing
+    nodes invalidate a step; the static tube does not silently follow particles.
+    """
+    from scipy.ndimage import maximum_filter1d
+
+    dense = build_layout(x, fibre_id, dx=dx, padding_cells=padding_cells,
+                         reference_bounds=reference_bounds, origin=origin, max_nodes=max_nodes)
+    x, ids = np.asarray(x, dtype=np.float64), np.asarray(fibre_id)
+    lower, shape, offsets = map(np.asarray, (dense.lower, dense.shape, dense.offsets))
+    node_map = np.full(dense.node_count, -1, dtype=np.int32)
+    order = np.argsort(ids, kind='stable')
+    counts = np.bincount(ids, minlength=dense.fibre_count)
+    starts = np.concatenate(([0], np.cumsum(counts)))
+    neighbours = np.array(list(product(range(3), repeat=3)), dtype=np.int64)
+    active_nodes, total = [], 0
+    for fibre in range(dense.fibre_count):
+        selected = order[starts[fibre]:starts[fibre+1]]
+        base = np.floor((x[selected]-np.asarray(origin))/dx-.5).astype(np.int64)-lower[fibre]
+        local = (base[:, None, :]+neighbours).reshape(-1, 3)
+        if np.any(local < 0) or np.any(local >= shape[fibre]):
+            raise ValueError(f"Reference fibre {fibre} has a stencil outside its dense grid")
+        occupied = np.zeros(tuple(shape[fibre]), dtype=bool)
+        occupied[tuple(local.T)] = True
+        for axis in range(3):
+            occupied = maximum_filter1d(occupied, size=2*padding_cells+1, axis=axis, mode='constant', cval=False)
+        if not occupied[tuple(local.T)].all():
+            raise ValueError("Tube dilation lost a reference stencil node")
+        dense_ids = (np.flatnonzero(occupied.ravel())+int(offsets[fibre])).astype(np.int32)
+        node_map[dense_ids] = np.arange(total, total+len(dense_ids), dtype=np.int32)
+        active_nodes.append(dense_ids)
+        total += len(dense_ids)
+    inverse = np.concatenate(active_nodes)
+    if total == 0 or not np.array_equal(node_map[inverse], np.arange(total, dtype=np.int32)):
+        raise ValueError("Tube node mapping is not a complete one-to-one packed layout")
+    return PackedLayout(dense.lower, dense.shape, dense.strides, dense.offsets, dense.origin,
+                        dense.dx, total, dense.fibre_count, jnp.asarray(node_map), jnp.asarray(inverse))
+
+
 def make_state(x, volume, fibre_id, material, layout, *, v=None, F=None, C=None, history=None):
     """Initialize independent histories; the crack-band length is fixed to grid dx."""
     x = np.asarray(x, dtype=np.float64)
@@ -161,6 +206,11 @@ def stencil(x, fibre_id, layout):
     local = nodes-layout.lower[fibre_id, None, :]
     inside = jnp.all((local >= 0) & (local < layout.shape[fibre_id, None, :]), axis=-1)
     indices = layout.offsets[fibre_id, None]+jnp.sum(local*layout.strides[fibre_id, None, :], axis=-1)
+    if layout.node_map is not None:
+        mapped = jnp.take(layout.node_map, jnp.where(inside, indices, layout.node_map.shape[0]),
+                          mode='fill', fill_value=-1)
+        inside = inside & (mapped >= 0)
+        indices = mapped
     indices = jnp.where(inside, indices, layout.node_count)
     weights = jnp.prod(weights_axis[:, offsets, jnp.arange(3)], axis=-1)
     dpos = (offsets-fraction[:, None, :])*layout.dx
@@ -170,6 +220,8 @@ def stencil(x, fibre_id, layout):
 def grid_coordinates(layout, packed_indices):
     """Recover coordinates and fibre IDs for selected packed nodes, without a full grid table."""
     indices = jnp.asarray(packed_indices, dtype=jnp.int32)
+    if layout.dense_indices is not None:
+        indices = jnp.take(layout.dense_indices, indices, mode='fill', fill_value=-1)
     fibres = jnp.searchsorted(layout.offsets, indices, side='right')-1
     local = indices-layout.offsets[fibres]
     nodes = (local[..., None]//layout.strides[fibres]) % layout.shape[fibres]
@@ -260,6 +312,8 @@ def _step(state, material, layout, config, force, force_fn, boundary):
     history, tau = update_brittle(state.history, F, material)
     future_base = jnp.floor((x-layout.origin)/layout.dx-.5).astype(jnp.int32)-layout.lower[state.fibre_id]
     future_inside = jnp.all((future_base >= 0) & (future_base+2 < layout.shape[state.fibre_id]))
+    if layout.node_map is not None:
+        future_inside = future_inside & stencil(x, state.fibre_id, layout).valid
     valid = (state.valid & support.valid & future_inside & result.valid & jnp.all(history.valid)
              & jnp.all(jnp.isfinite(force)) & jnp.all(jnp.isfinite(v)) & jnp.all(jnp.isfinite(C))
              & jnp.all(jnp.isfinite(x)) & jnp.all(jnp.isfinite(F)) & jnp.all(jnp.linalg.det(F) > 0)
@@ -320,6 +374,18 @@ def validate_state(state, layout):
     if not inside.all():
         particle = int(np.flatnonzero(~inside)[0])
         raise FloatingPointError(f"Particle {particle} in fibre {int(ids[particle])} has a quadratic stencil outside its packed grid; enlarge or rebuild the layout")
+    if layout.node_map is not None:
+        node_map = np.asarray(layout.node_map)
+        neighbours = np.array(list(product(range(3), repeat=3)), dtype=np.int64)
+        strides, offsets = np.asarray(layout.strides), np.asarray(layout.offsets)
+        for start in range(0, len(x), 65536):
+            selected = slice(start, start+65536)
+            local = base[selected, None, :]+neighbours
+            dense_ids = offsets[ids[selected], None]+np.sum(local*strides[ids[selected], None, :], axis=-1)
+            missing = np.any(node_map[dense_ids] < 0, axis=1)
+            if missing.any():
+                particle = start+int(np.flatnonzero(missing)[0])
+                raise FloatingPointError(f"Particle {particle} in fibre {int(ids[particle])} has a quadratic stencil outside its active tube; rebuild the layout before further integration")
     if not bool(state.valid) or not np.asarray(state.history.valid).all():
         raise FloatingPointError("Fibre MPM state is invalid; inspect deformation, boundary overlap, material length and applied forces")
     if any(not np.isfinite(np.asarray(value)).all() for value in jax.tree.leaves(state)):

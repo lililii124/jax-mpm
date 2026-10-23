@@ -37,6 +37,19 @@ def test_load_relative_angle_is_negative_weave_rotation():
     assert plan['scope'] == 'smoke'
 
 
+def test_tube_plan_keeps_physics_and_reports_only_the_dense_storage_bound():
+    _,dense=plan_case(smoke=True,probe_steps=8)
+    _,tube=plan_case(smoke=True,probe_steps=8,grid_storage='tube')
+    for key in ('material','geometry','dt','load_time_s','steps','stop_steps','sampling_hash','total_fixture_extension_m'):
+        assert tube[key]==dense[key]
+    assert dense['grid']['storage']=='dense' and tube['grid']['storage']=='tube'
+    assert tube['grid']['nodes']==dense['grid']['nodes']
+    assert tube['grid']['planned_active_nodes'] is None
+    assert tube['grid']['dense_to_active_int32_bytes']==4*dense['grid']['nodes']
+    with pytest.raises(ValueError,match='grid_storage'):
+        plan_case(grid_storage='shared')
+
+
 def test_probe_keeps_full_loading_physics_but_separate_output_scope():
     _, full = plan_case(smoke=True)
     _, probe = plan_case(smoke=True, probe_steps=8)
@@ -86,6 +99,13 @@ def test_dry_run_subprocess_never_imports_jax_or_allocates_a_grid(tmp_path):
     result = subprocess.run([sys.executable, '-c', script], cwd=root, capture_output=True, text=True, check=True)
     record = json.loads(result.stdout)
     assert record['nodes'] > record['points'] > 0
+
+
+def test_tube_dry_run_does_not_import_jax_scipy_or_construct_the_active_mask():
+    root=Path(__file__).resolve().parents[1]
+    script="import sys,json; from examples.triaxial_failure import plan_case; g,p=plan_case(smoke=True,probe_steps=8,grid_storage='tube'); assert 'jax' not in sys.modules and 'mpm_jax' not in sys.modules and 'scipy' not in sys.modules; print(json.dumps(p['grid']))"
+    result=subprocess.run([sys.executable,'-c',script],cwd=root,capture_output=True,text=True,check=True)
+    assert json.loads(result.stdout)['planned_active_nodes'] is None
 
 
 def test_completed_resume_is_read_only_and_source_changes_are_refused(tmp_path):

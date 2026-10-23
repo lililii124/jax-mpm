@@ -57,8 +57,9 @@ def curve(run, field):
 
 def lift_hold_profile(definitions):
     profiles = {
-        "single-sphere-lift-hold-v1": {"preset": "lift-hold", "clearance": .055, "revision": None},
-        "single-sphere-lift-hold-v3": {"preset": "lift-hold-v3", "clearance": .035, "revision": 3},
+        "single-sphere-lift-hold-v1": {"preset": "lift-hold", "clearance": .055, "revision": None, "work": 72.0},
+        "single-sphere-lift-hold-v3": {"preset": "lift-hold-v3", "clearance": .035, "revision": 3, "work": 72.0},
+        "single-sphere-lift-hold-v4": {"preset": "lift-hold-v4", "clearance": .035, "revision": 4, "work": 144.0},
     }
     named = any("lift-hold" in str(item.get(key, "")) for item in definitions for key in ("preset", "comparison_pair"))
     if not named:
@@ -195,6 +196,10 @@ def review(root):
         uplift_difference = curve(adhesive, "surface_displacement_y_max_m") - curve(base, "surface_displacement_y_max_m")
         holding = (time >= 0.72 - 1e-12) & (time <= 0.94 + 1e-12)
         checks["lift_hold_preset_identified"] = d0.get("preset") == d1.get("preset") == profile["preset"]
+        checks["lift_hold_fixed_work_of_adhesion"] = (
+            d0["adhesion"]["work_of_adhesion"] == 0.0
+            and d1["adhesion"]["work_of_adhesion"] == profile["work"]
+        )
         if profile["revision"] is not None:
             checks["lift_hold_loading_revision_identified"] = all(type(item.get("loading_revision")) is int and item["loading_revision"] == profile["revision"] and item.get("comparison_hold_bottom_clearance_m") == profile["clearance"] for item in definitions)
         checks["lift_hold_fixed_physical_path"] = all(lift_hold_path_matches(item, profile) for item in definitions)

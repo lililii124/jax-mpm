@@ -69,3 +69,28 @@ Jacobians, grid and particle sensitivity, and specimen-size sensitivity.
 Only reviewed results receive ParaView animations and public gallery entries.
 The component implementations do not imply that an angular failure envelope
 has already been computed.
+
+Nominal tensile stress uses the rectangular reference envelope area: specimen
+width multiplied by twice the crimp amplitude plus the fibre diameter. This
+includes voids and differs from a sum of fibre cross-sections. The record audit
+reports this area, the per-step dynamic force maximum, prescribed strain at
+that instant, and first-failure and sampled connectivity observations separately:
+
+```powershell
+python tools/audit_triaxial_records.py outputs/triaxial-checks/smoke/theta-00/hertz
+```
+
+This audit checks record identity, time, reactions and impulses, mass, momentum,
+energy decomposition and fixture errors. It does not reconstruct the full
+particle history or replace convergence studies. The completed Hertz smoke
+check has a kinetic-to-elastic energy ratio about 0.65 at its largest saved
+interval-average tensile force; it is a dynamics integration check, not a
+quasi-static strength measurement.
+
+The optional `--grid-storage tube` retains the same reference particles,
+quadratic stencils, grid spacing, material and loading as `dense`. It stores
+only nodes in a padded tube around each fibre. Missing stencil support causes
+an explicit invalid state rather than dropping its mass or force. `plan.json`
+retains the dense allocation upper bound; `layout.json` records the actual
+active-node count and mapping identity. Solver speed and memory require fresh
+same-source probes and are not inferred from the node count alone.

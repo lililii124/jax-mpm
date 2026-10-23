@@ -5,7 +5,7 @@ import pytest
 
 from examples.adhesion_contrast import make_case
 from examples.adhesive_array import make_case as array_case
-from mpm_jax.adhesion import SpherePath
+from mpm_jax.adhesion import DugdaleLaw, SpherePath
 
 jax.config.update("jax_enable_x64", True)
 
@@ -19,6 +19,12 @@ def pair():
 @pytest.fixture(scope="module")
 def pair_v3():
     return tuple(make_case(name, grid=16, ppc=1, frames=50, profile="v3") for name in
+                 ("nonadhesive-pull-off", "adhesive-pull-off"))
+
+
+@pytest.fixture(scope="module")
+def pair_v4():
+    return tuple(make_case(name, grid=16, ppc=1, frames=50, profile="v4") for name in
                  ("nonadhesive-pull-off", "adhesive-pull-off"))
 
 
@@ -161,3 +167,58 @@ def test_v3_matched_pair_differs_only_in_work_and_needs_computed_surface_uplift(
     force = sticky.forces((moved,), .8)[0]
     assert float(jnp.sum(force[:, 1])) > 0
     np.testing.assert_array_equal(force[~top], 0)
+
+
+def test_v4_preserves_v3_path_initial_state_and_numerical_controls(pair_v3, pair_v4):
+    for (old, old_steps), (new, new_steps) in zip(pair_v3, pair_v4):
+        assert old_steps == new_steps
+        assert old.configs == new.configs and old.materials == new.materials
+        for before, after in zip(jax.tree.leaves(old.states), jax.tree.leaves(new.states)):
+            np.testing.assert_array_equal(before, after)
+        a, b = dict(old.description), dict(new.description)
+        assert a.pop("preset") == "lift-hold-v3" and b.pop("preset") == "lift-hold-v4"
+        assert a.pop("loading_revision") == 3 and b.pop("loading_revision") == 4
+        assert a.pop("comparison_pair") == "single-sphere-lift-hold-v3"
+        assert b.pop("comparison_pair") == "single-sphere-lift-hold-v4"
+        assert b["comparison_hold_bottom_clearance_m"] == .035
+        old_law, new_law = dict(a.pop("adhesion")), dict(b.pop("adhesion"))
+        assert new_law.pop("work_of_adhesion") == 2 * old_law.pop("work_of_adhesion")
+        assert old_law == new_law
+        assert b.pop("cohesive_nominal_stress_Pa") == 2 * a.pop("cohesive_nominal_stress_Pa")
+        assert a == b
+
+
+def test_v4_pair_only_changes_work_and_doubles_attraction_at_the_same_deformation(pair_v3, pair_v4):
+    (plain, steps), (sticky, sticky_steps) = pair_v4
+    assert steps == sticky_steps and plain.configs == sticky.configs
+    left, right = dict(plain.description), dict(sticky.description)
+    for name in ("purpose", "suite_case", "comparison_role", "cohesive_nominal_stress_Pa"):
+        left.pop(name)
+        right.pop(name)
+    a, b = dict(left.pop("adhesion")), dict(right.pop("adhesion"))
+    assert a.pop("work_of_adhesion") == 0 and b.pop("work_of_adhesion") == 144
+    assert a == b and left == right
+    assert sticky.description["cohesive_nominal_stress_Pa"] == 5760
+    for case in (plain, sticky):
+        np.testing.assert_array_equal(case.forces(case.states, .8)[0], 0)
+    initial = sticky.states[0]
+    top = initial.x[:, 1] == jnp.max(initial.x[:, 1])
+    moved = initial._replace(x=initial.x.at[:, 1].add(jnp.where(top, .02, 0)))
+    np.testing.assert_array_equal(plain.forces((moved,), .8)[0], 0)
+    force = sticky.forces((moved,), .8)[0]
+    old_force = pair_v3[1][0].forces((moved,), .8)[0]
+    assert float(jnp.sum(force[:, 1])) > 0
+    np.testing.assert_allclose(force, 2 * old_force, rtol=1e-14, atol=1e-12)
+    np.testing.assert_array_equal(force[~top], 0)
+
+
+def test_v4_potential_traction_and_compressive_branch(pair_v3, pair_v4):
+    old = DugdaleLaw(**pair_v3[1][0].description["adhesion"])
+    law = DugdaleLaw(**pair_v4[1][0].description["adhesion"])
+    gaps = jnp.array([-.002, -.0001, .005, .0125, .024, .03])
+    derivative = jax.vmap(jax.grad(law.potential))(gaps)
+    np.testing.assert_allclose(derivative, -law.traction(gaps), rtol=1e-14)
+    np.testing.assert_array_equal(law.traction(gaps[:2]), old.traction(gaps[:2]))
+    np.testing.assert_array_equal(law.traction(gaps[2:5]), 2 * old.traction(gaps[2:5]))
+    assert float(law.potential(law.interaction_range) - law.potential(0.)) == 144
+    np.testing.assert_array_equal(law.traction(gaps[-1:]), 0)

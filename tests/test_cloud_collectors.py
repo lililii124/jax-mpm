@@ -245,6 +245,39 @@ def test_v3_pair_priority_and_atomic_fallback(tmp_path, monkeypatch, invalid_v3)
     assert image.parent == expected[0] / "frames"
 
 
+@pytest.mark.parametrize("problem", [None, "incomplete-v4", "all-failed"])
+def test_v4_priority_is_atomic_and_failed_older_pairs_stay_private(tmp_path, monkeypatch, problem):
+    families = ("adhesion-visible", "adhesion-visible-cloud", "adhesion-visible-v3-cloud", "adhesion-visible-v4-cloud")
+    pairs = [pair_fixture(tmp_path, family, cloud=family != "adhesion-visible") for family in families]
+    if problem == "incomplete-v4":
+        (pairs[-1][1] / "import-receipt.json").unlink()
+    elif problem == "all-failed":
+        for pair in pairs:
+            path = pair[0].parent / "adhesion_comparison.json"
+            report = json.loads(path.read_text())
+            report["passed"] = False
+            report["checks"]["lift_hold_has_visible_deformation_contrast"] = False
+            write(path, report)
+            for folder in pair:
+                receipt_path = folder / "import-receipt.json"
+                if receipt_path.is_file():
+                    receipt = json.loads(receipt_path.read_text())
+                    receipt["comparison_files"][path.name] = {"bytes": path.stat().st_size, "sha256": raw(path)}
+                    write(receipt_path, receipt)
+    prior = {str(path): raw(path) for pair in pairs[:-1]
+             for path in pair[0].parent.rglob("*") if path.is_file()}
+    records = collect(tmp_path, monkeypatch, collect_results.ADHESION_SOURCES)
+    if problem == "all-failed":
+        assert records == []
+    else:
+        expected = pairs[-2] if problem else pairs[-1]
+        assert {item["source_directory"] for item in records} == {folder.relative_to(tmp_path).as_posix() for folder in expected}
+        assert {item["id"] for item in records} == {"adhesion-visible--" + name for name in collect_results.ADHESION_ROLES.values()}
+        entries = collect_gallery.gallery_groups(records)["Adhesion comparison"]
+        assert {relative for _, relative in entries} == {folder.relative_to(tmp_path / "outputs").as_posix() for folder in expected}
+    assert all(raw(Path(path)) == digest for path, digest in prior.items())
+
+
 def jc_fixture(root, *, cut_frame=25, failure_frame=20):
     folder = run_fixture(root, "material-engineering-cloud", "jc-necking/johnson-cook")
     times = np.linspace(0., 150e-6, 61)

@@ -91,10 +91,12 @@ def packed_grid_plan(geometry, dx, padding_cells, max_nodes):
 
 def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_strain=.02,
               dx=75e-6, padding_cells=6, max_nodes=35_000_000, coverage_skin=.0005,
-              search_window=6, work_of_adhesion=.1, particle_spacing=45e-6):
+              search_window=6, work_of_adhesion=.1, particle_spacing=45e-6, grid_storage='dense'):
     """Return a NumPy geometry and a reproducible plan without importing JAX."""
     if theta not in ANGLES or law not in ('hertz', 'jkr'):
         raise ValueError("theta must be 0..30 degrees in five-degree steps; law must be hertz or jkr")
+    if grid_storage not in ('dense', 'tube'):
+        raise ValueError("grid_storage must be dense or tube")
     if any(type(value) is not int or value < limit for value, limit in ((frames, 1), (probe_steps, 0), (padding_cells, 2), (search_window, 1), (max_nodes, 1))):
         raise ValueError("Frame, step, padding, window and node budgets must be valid integers")
     if any(not np.isfinite(value) or value <= 0 for value in (dx, max_strain, coverage_skin, particle_spacing)) or not np.isfinite(work_of_adhesion) or work_of_adhesion < 0:
@@ -108,6 +110,10 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
     geometry = make_geometry(theta_deg=-theta, dimensions=dimensions, diameter=235e-6, pitch=.001,
         crimp=140e-6, clearance=2e-6, particle_spacing=particle_spacing, density=material['density'], grip_length=grip)
     grid = packed_grid_plan(geometry, dx, padding_cells, max_nodes)
+    grid['storage'] = grid_storage
+    if grid_storage == 'tube':
+        grid.update(node_count_scope='Dense AABB upper bound; actual active nodes are constructed and validated at runtime.',
+                    dense_to_active_int32_bytes=grid['nodes']*4, planned_active_nodes=None)
     gauge = dimensions[0]-2*grip
     E, nu, rho = material['young'], material['poisson'], material['density']
     wave_speed = math.sqrt(E*(1-nu)/((1+nu)*(1-2*nu)*rho))
@@ -229,7 +235,7 @@ def run_case(geometry, plan, output, *, resume=False):
 def _run_runtime(geometry, plan, folder, signature, resume):
     import jax
     import jax.numpy as jnp
-    from mpm_jax.fibre_mpm import FibreConfig, FibreState, build_layout, make_state, reference_grips, step_with_diagnostics, stored_energy
+    from mpm_jax.fibre_mpm import FibreConfig, FibreState, build_layout, build_tube_layout, make_state, reference_grips, step_with_diagnostics, stored_energy
     from mpm_jax.fibre_coupling import FibreCouplingHistory, build_contact_data, contact_data_summary, evaluate_contact, initial_contact_history
     from mpm_jax.fibre_contact import FibreContactHistory, fibre_contact_parameters
     from mpm_jax.materials.isotropic_brittle import BrittleHistory, isotropic_brittle
@@ -238,10 +244,23 @@ def _run_runtime(geometry, plan, folder, signature, resume):
     config = FibreConfig(plan['dt'])
     material = isotropic_brittle(**plan['material'])
     bounds = np.asarray([item['reference_tube_bounds_m'] for item in geometry['metadata']['fibres']])
-    layout = build_layout(geometry['x'], geometry['fibre_id'], dx=plan['grid']['dx_m'],
+    storage = plan['grid'].get('storage', 'dense')
+    builder = build_tube_layout if storage == 'tube' else build_layout
+    layout = builder(geometry['x'], geometry['fibre_id'], dx=plan['grid']['dx_m'],
         padding_cells=plan['grid']['padding_cells'], reference_bounds=bounds, max_nodes=plan['grid']['max_nodes'])
-    if layout.node_count != plan['grid']['nodes']:
+    dense_nodes = layout.node_count if layout.node_map is None else layout.node_map.shape[0]
+    if dense_nodes != plan['grid']['nodes']:
         raise ValueError("Allocated layout differs from the pure NumPy grid plan")
+    layout_record = {'storage': storage, 'dx_m': layout.dx, 'fibre_count': layout.fibre_count,
+        'dense_aabb_nodes': dense_nodes, 'active_nodes': layout.node_count,
+        'padding_cells': plan['grid']['padding_cells'],
+        'scope': 'Storage compression only; absent tube support invalidates a step. Material length, physical grid phase and particle discretization are unchanged.'}
+    if layout.node_map is not None:
+        layout_record.update(node_map=descriptor(np.asarray(layout.node_map)), dense_indices=descriptor(np.asarray(layout.dense_indices)),
+            dilation='Three axis-separable maximum filters of width 2*padding+1 on reference quadratic stencil occupancy, intersected with the original dense fibre AABB.')
+    if resume and json.loads((folder/'layout.json').read_text()) != layout_record:
+        raise ValueError("Resume requires the identical validated grid-storage mapping")
+    save_json(folder/'layout.json', layout_record)
     data = build_contact_data(geometry, search_window=plan['search_window'], coverage_skin=plan['coverage_skin_m'])
     contact_law = fibre_contact_parameters(effective_modulus=material.young/(2*(1-material.poisson**2)),
         effective_radius=geometry['metadata']['diameter_m']/2, work_of_adhesion=plan['work_of_adhesion_J_per_m2'], model=plan['law'])
@@ -413,7 +432,7 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             save_json(folder/'summary.json', {"case": f"triaxial-failure/theta-{plan['theta_deg']:02d}/{plan['law']}",
                 "completed": False, "production_eligible": False, "scope": plan['scope'], "particles": [count], "steps": 0,
                 "simulation_time": 0., "solver_seconds": 0., "min_J": 1., "max_damage": 0., "definition": plan,
-                "particle_fields": field_record, "source": plan['source']})
+                "particle_fields": field_record, "source": plan['source'], "layout": layout_record})
         if not bool(initial_metrics.valid):
             raise FloatingPointError("Initial contact coverage/geometry is invalid; inspect status and contact-metrics.json")
         save_json(folder/'contact-model.json', contact_data_summary(data))
@@ -447,7 +466,8 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             "target_simulation_time": plan['duration_s'], "dtype": str(state.x.dtype), "solver_seconds": solver_seconds,
             "compile_and_warmup_seconds": compile_seconds, "jax_version": jax.__version__, "numpy_version": np.__version__, "python_version": platform.python_version(),
             "configs": [{"dim": 3, "dt": config.dt, "domain_size": geometry['metadata']['dimensions_m'][0], "n_grid": int(round(geometry['metadata']['dimensions_m'][0]/layout.dx)),
-                         "grid_type": "independent-packed-rectangular-fibre-fields", "failure_mode": "retain", "gravity": [0., 0., 0.]}],
+                         "grid_type": "independent-tube-sparse-fibre-fields" if storage == 'tube' else "independent-packed-rectangular-fibre-fields",
+                         "grid_storage": storage, "failure_mode": "retain", "gravity": [0., 0., 0.]}],
             "materials": [plan['material']], "definition": {**plan, "particle_spacing_m": plan['particle_spacing_m'], "contact_model": contact_data_summary(data)},
             "particle_fields": field_record, "min_J": min(item['min_J'] for item in diagnostics), "max_damage": max(item['max_damage'] for item in rows),
             "first_material_failure_time_s": float(aggregate[1]) if aggregate[1] >= 0 else None,
@@ -459,7 +479,7 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             "actual_clamp_work_J": float(clamp_work.sum()), "grid_kinetic_correction_J": float(grid_ke_work.sum()),
             "work_scope": "Actual clamp work sums each step's group impulse dotted with the prescribed fixture velocity. Core boundary_work is separately reported as a grid kinetic-energy correction. Dynamic contact curvature work and snap dissipation are not fully represented.",
             "kinetic_energy_scope": "Particle translation plus the quadratic-APIC affine term dx^2/8 times sum(mass*Frobenius_norm(C)^2); both components are also saved separately.",
-            "source": plan['source'], "initial": diagnostics[0], "final": diagnostics[-1], "observables": {"initial": rows[0], "final": rows[-1]}}
+            "source": plan['source'], "layout": layout_record, "initial": diagnostics[0], "final": diagnostics[-1], "observables": {"initial": rows[0], "final": rows[-1]}}
         save_json(folder/'summary.json', summary)
         save_json(folder/'status.json', {"completed": completed, "probe_complete": summary['probe_complete'], "phase": 'completed' if completed else 'probe-complete' if finished else 'failed',
             "frame": len(rows)-1, "frames": saved-1, "steps": int(aggregate[0]), "target_steps": plan['stop_steps'], "signature": signature})
@@ -484,6 +504,7 @@ def main():
     parser.add_argument('--coverage-skin', type=float, default=.0005)
     parser.add_argument('--search-window', type=int, default=6)
     parser.add_argument('--max-nodes', type=int, default=35_000_000)
+    parser.add_argument('--grid-storage', choices=('dense', 'tube'), default='dense')
     parser.add_argument('--work-of-adhesion', type=float, default=.1)
     parser.add_argument('--particle-spacing', type=float, default=45e-6)
     parser.add_argument('--output', type=Path, default=Path('outputs/triaxial-failure'))
@@ -491,7 +512,7 @@ def main():
     args = parser.parse_args()
     geometry, plan = plan_case(args.theta, law=args.law, smoke=args.smoke, probe_steps=args.probe_steps, frames=args.frames,
         max_strain=args.max_strain, dx=args.dx, coverage_skin=args.coverage_skin, search_window=args.search_window,
-        max_nodes=args.max_nodes, work_of_adhesion=args.work_of_adhesion, particle_spacing=args.particle_spacing)
+        max_nodes=args.max_nodes, work_of_adhesion=args.work_of_adhesion, particle_spacing=args.particle_spacing, grid_storage=args.grid_storage)
     if args.dry_run:
         print(json.dumps(json_value(plan), indent=2, allow_nan=False))
     else:

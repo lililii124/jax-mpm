@@ -24,8 +24,9 @@ DELIVERY = ROOT / ".local/engineering-delivery"
 GIB = 1024**3
 LIMIT = 100 * 1024**2
 ADHESION_PRESETS = {
-    "adhesion-v2-pair": ("outputs/adhesion-visible", "lift-hold"),
-    "adhesion-v3-pair": ("outputs/adhesion-visible-v3", "lift-hold-v3"),
+    "adhesion-v2-pair": ("outputs/adhesion-visible", "lift-hold", 72.0),
+    "adhesion-v3-pair": ("outputs/adhesion-visible-v3", "lift-hold-v3", 72.0),
+    "adhesion-v4-pair": ("outputs/adhesion-visible-v4", "lift-hold-v4", 144.0),
 }
 PAIR_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
 PRESETS = ("ceramic-wide", "hjc-large", "hjc-symmetric", *ADHESION_PRESETS, "jc-density-diagnostic", "jc-necking-formal")
@@ -36,11 +37,13 @@ def plan(preset):
     if preset not in PRESETS:
         raise ValueError("Unknown engineering preset")
     if preset in ADHESION_PRESETS:
-        root, expected_preset = ADHESION_PRESETS[preset]
-        profile_args = ["--profile", "v3"] if preset == "adhesion-v3-pair" else []
+        root, expected_preset, work = ADHESION_PRESETS[preset]
+        profile = preset.removeprefix("adhesion-").removesuffix("-pair")
+        profile_args = [] if profile == "v2" else ["--profile", profile]
         return [{"name": name, "module": "examples.adhesion_contrast", "grid": 48, "ppc": 3,
                  "frames": 50, "particles": 367744, "duration": 1.3, "field": "displacement",
                  "root": root, "folder": f"{root}/{name}", "expected_preset": expected_preset,
+                 "expected_work": 0.0 if name == "nonadhesive-pull-off" else work,
                  "arguments": ["--case", name, *profile_args], "review": "tools/review_adhesion.py"}
                 for name in ("nonadhesive-pull-off", "adhesive-pull-off")]
     scene, model, grid, ppc, frames, particles, duration = {
@@ -566,7 +569,7 @@ def run(preset):
             raise ValueError("HJC symmetric preset changed its support profile or step count")
         if preset in ADHESION_PRESETS:
             law = definition["adhesion"]
-            expected_work = 0. if case["name"] == "nonadhesive-pull-off" else 72.
+            expected_work = case["expected_work"]
             if definition.get("preset") != case["expected_preset"] or summary["steps"] != 3700 or definition["young_modulus_Pa"] != 8000 or law != {"work_of_adhesion": expected_work, "interaction_range": .025, "penalty_stiffness": 4.8e6}:
                 raise ValueError("Adhesion preset differs from the fixed profile or law")
         save(folder / "memory.json", {**solve["memory"], "completed": True, "solver_seconds": summary["solver_seconds"], "steps": summary["steps"], "particles": case["particles"]})

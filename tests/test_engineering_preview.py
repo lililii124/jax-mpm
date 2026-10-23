@@ -212,32 +212,48 @@ def test_v3_keeps_v2_inputs_and_output_separate():
         assert new["arguments"] == ["--case", new["name"], "--profile", "v3"]
 
 
+def test_v4_has_a_separate_root_and_fixed_work_without_changing_v3_plan():
+    v3, v4 = [engineering.plan(name) for name in ("adhesion-v3-pair", "adhesion-v4-pair")]
+    for old, new in zip(v3, v4):
+        for key in ("name", "module", "grid", "ppc", "frames", "particles", "duration", "field", "review"):
+            assert old[key] == new[key]
+        assert old["root"] == "outputs/adhesion-visible-v3"
+        assert new["root"] == "outputs/adhesion-visible-v4"
+        assert new["folder"] == new["root"] + "/" + new["name"]
+        assert new["expected_preset"] == "lift-hold-v4"
+        assert new["expected_work"] == 2 * old["expected_work"]
+        assert new["arguments"] == ["--case", new["name"], "--profile", "v4"]
+    assert [case["expected_work"] for case in v4] == [0., 144.]
+
+
+@pytest.mark.parametrize("version", [3, 4])
 @pytest.mark.parametrize("failure", ["individual", "pair", None])
-def test_v3_requires_all_reviews_before_media(tmp_path, monkeypatch, failure):
+def test_versioned_pair_requires_all_reviews_before_media(tmp_path, monkeypatch, failure, version):
     configure(monkeypatch, tmp_path)
     monkeypatch.setattr(importlib.metadata, "version", lambda name: "fixture")
     monkeypatch.setattr(engineering.shutil, "disk_usage", lambda root: type("Disk", (), {"free": 10 * engineering.GIB})())
     source = {"review_sources": {"tools/review_adhesion.py": "a" * 64}}
     monkeypatch.setattr(engineering, "source_record", lambda: source)
-    cases = engineering.plan("adhesion-v3-pair")
+    preset = f"adhesion-v{version}-pair"
+    cases = engineering.plan(preset)
     calls = []
 
     def command(name, arguments, **options):
         calls.append(name)
         if name.startswith("solve-"):
             case = next(case for case in cases if name == "solve-" + case["name"])
-            assert arguments[arguments.index("--profile") + 1] == "v3"
+            assert arguments[arguments.index("--profile") + 1] == f"v{version}"
             assert arguments[arguments.index("--output") + 1] == case["root"]
             folder = tmp_path / case["folder"]
             engineering.save(folder / "summary.json", {
                 "completed": True, "particles": [case["particles"]], "simulation_time": 1.3,
                 "steps": 3700, "solver_seconds": .1, "configs": [{"n_grid": 48, "dt": 1.3 / 3700}],
-                "definition": {"preset": "lift-hold-v3", "particles_per_cell_per_axis": 3,
-                    "young_modulus_Pa": 8000, "adhesion": {"work_of_adhesion": 0. if case["name"].startswith("non") else 72.,
+                "definition": {"preset": f"lift-hold-v{version}", "particles_per_cell_per_axis": 3,
+                    "young_modulus_Pa": 8000, "adhesion": {"work_of_adhesion": case["expected_work"],
                         "interaction_range": .025, "penalty_stiffness": 4.8e6}}})
             engineering.save(folder / "status.json", {"completed": True, "frame": 50, "frames": 50})
         elif name == "review-pair":
-            assert arguments[-1] == "outputs/adhesion-visible-v3"
+            assert arguments[-1] == f"outputs/adhesion-visible-v{version}"
             engineering.save(tmp_path / arguments[-1] / "adhesion_comparison.json",
                              {"passed": failure != "pair", "checks": {"contrast": failure != "pair"}})
         else:
@@ -264,39 +280,41 @@ def test_v3_requires_all_reviews_before_media(tmp_path, monkeypatch, failure):
     monkeypatch.setattr(engineering, "package", lambda *args, **kwargs: calls.append("package"))
     if failure:
         with pytest.raises(ValueError, match="review|comparison"):
-            engineering.run("adhesion-v3-pair")
+            engineering.run(preset)
         assert not {"export", "render", "package"}.intersection(calls)
         if failure == "individual":
             assert "review-pair" not in calls
     else:
-        engineering.run("adhesion-v3-pair")
+        engineering.run(preset)
         assert calls[-4:] == ["export", "render", "render", "package"]
-        assert (tmp_path / "outputs/adhesion-visible-v3/paired-render.json").is_file()
+        assert (tmp_path / f"outputs/adhesion-visible-v{version}/paired-render.json").is_file()
         assert not (tmp_path / "outputs/adhesion-visible").exists()
 
 
-def test_failure_preserves_pair_evidence_and_previous_failures(tmp_path, monkeypatch):
+@pytest.mark.parametrize("version", [3, 4])
+def test_failure_preserves_pair_evidence_and_previous_failures(tmp_path, monkeypatch, version):
     configure(monkeypatch, tmp_path)
-    cases = engineering.plan("adhesion-v3-pair")
+    preset = f"adhesion-v{version}-pair"
+    cases = engineering.plan(preset)
     for case in cases:
         engineering.save(tmp_path / case["folder"] / "interpretation.json", {"passed": False})
     root = tmp_path / cases[0]["root"]
     for name in engineering.PAIR_FILES:
         (root / name).write_text("first failed comparison " + name, encoding="utf-8")
-    engineering.preserve_failure("adhesion-v3-pair", ValueError("first"))
+    engineering.preserve_failure(preset, ValueError("first"))
     original = {path.relative_to(engineering.LOGS): path.read_bytes()
                 for path in engineering.LOGS.rglob("*") if path.is_file()}
-    saved = engineering.LOGS / "failed-comparisons/adhesion-visible-v3"
+    saved = engineering.LOGS / f"failed-comparisons/adhesion-visible-v{version}"
     assert all((saved / name).read_bytes() == (root / name).read_bytes() for name in engineering.PAIR_FILES)
     (root / "adhesion_comparison.json").write_text("second failure", encoding="utf-8")
-    engineering.preserve_failure("adhesion-v3-pair", ValueError("second"))
+    engineering.preserve_failure(preset, ValueError("second"))
     assert all((engineering.LOGS / path).read_bytes() == data for path, data in original.items())
     history = list((engineering.LOGS / "failure-history").iterdir())
     assert len(history) == 1
-    assert (history[0] / "failed-comparisons/adhesion-visible-v3/adhesion_comparison.json").read_text() == "second failure"
+    assert (history[0] / f"failed-comparisons/adhesion-visible-v{version}/adhesion_comparison.json").read_text() == "second failure"
 
 
-@pytest.mark.parametrize("preset", ["adhesion-v2-pair", "adhesion-v3-pair"])
+@pytest.mark.parametrize("preset", ["adhesion-v2-pair", "adhesion-v3-pair", "adhesion-v4-pair"])
 def test_package_uses_the_pair_root(tmp_path, monkeypatch, preset):
     configure(monkeypatch, tmp_path)
     monkeypatch.setattr(engineering.shared, "identity", lambda: {"run_id": "fixture"})

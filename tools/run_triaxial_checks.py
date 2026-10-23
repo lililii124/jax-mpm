@@ -25,12 +25,12 @@ def source_record():
     return result
 
 
-def run(preset, theta, law):
+def run(preset, theta, law, grid_storage="dense"):
     source = source_record()
     engine.save(LOGS / "numerical-source.json", source)
     output = "outputs/triaxial-checks"
     arguments = [sys.executable, "-m", "examples.triaxial_failure", "--theta", str(theta),
-                 "--law", law, "--output", output]
+                 "--law", law, "--grid-storage", grid_storage, "--output", output]
     arguments += ["--probe-steps", "8"] if preset == "probe" else ["--smoke", "--frames", "12"]
     result = engine.command("solve", arguments, monitor=True)
     summaries = list((ROOT / output).rglob("summary.json"))
@@ -40,16 +40,26 @@ def run(preset, theta, law):
     status = json.loads((summaries[0].parent / "status.json").read_text())
     if summary.get("production_eligible") is not False:
         raise ValueError("A probe or smoke test must not be labelled a production envelope")
+    layout = json.loads((summaries[0].parent / "layout.json").read_text())
+    if layout != summary.get("layout") or layout.get("storage") != grid_storage:
+        raise ValueError("Grid storage metadata is inconsistent with the requested check")
     if preset == "probe":
         if not (summary.get("probe_complete") is True and summary.get("completed") is False
                 and status.get("probe_complete") is True):
             raise ValueError("The memory probe did not complete its requested steps")
     elif not (summary.get("completed") is True and status.get("completed") is True):
         raise ValueError("The coupled dynamics smoke check did not complete")
+    engine.command("record-audit", [sys.executable, "tools/audit_triaxial_records.py",
+                                    str(summaries[0].parent)])
+    audit_path = summaries[0].parent / "record-audit.json"
+    audit = json.loads(audit_path.read_text())
+    if audit.get("passed") is not True or audit.get("production_eligible") is not False:
+        raise ValueError("Saved-record consistency audit did not pass")
     if source_record() != source:
         raise ValueError("Execution source changed during the check")
     engine.save(LOGS / "check-result.json", {**engine.identity(), "preset": preset, "theta": theta,
-        "law": law, "completed": True, "production_eligible": False, "memory": result["memory"],
+        "law": law, "grid_storage": grid_storage, "layout": layout,
+        "completed": True, "production_eligible": False, "memory": result["memory"],
         "summary_sha256": engine.digest(summaries[0]), "runner_source_sha256": source["runner_source_sha256"]})
 
 
@@ -87,13 +97,14 @@ def main():
     parser.add_argument("--preset", choices=("probe", "smoke"), required=True)
     parser.add_argument("--theta", type=int, choices=range(0, 31, 5), default=0)
     parser.add_argument("--law", choices=("hertz", "jkr"), default="hertz")
+    parser.add_argument("--grid-storage", choices=("dense", "tube"), default="dense")
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or platform.system() != "Linux":
         parser.error("This check requires the independent Linux Actions runner")
     engine.LOGS = LOGS
     LOGS.mkdir(parents=True, exist_ok=True)
     try:
-        run(args.preset, args.theta, args.law)
+        run(args.preset, args.theta, args.law, args.grid_storage)
     except BaseException as error:
         engine.save(LOGS / "failure.json", {"completed": False, "error_type": type(error).__name__, "error": str(error)})
         raise

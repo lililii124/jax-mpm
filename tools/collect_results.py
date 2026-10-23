@@ -27,6 +27,7 @@ SOURCES = (
     "engineering",
     "contact-models",
     "adhesion",
+    "adhesion-visible-v4-cloud",
     "adhesion-visible-v3-cloud",
     "adhesion-visible-cloud",
     "adhesion-visible",
@@ -39,8 +40,8 @@ SOURCES = (
     "visible-motion",
 )
 WOVEN_PREVIEW_SOURCES = {"woven-previews", "woven-previews-local", "woven-smoke"}
-CLOUD_ALIASES = {"material-engineering-cloud": "material-engineering", "adhesion-visible-cloud": "adhesion-visible", "adhesion-visible-v3-cloud": "adhesion-visible"}
-ADHESION_SOURCES = ("adhesion-visible-v3-cloud", "adhesion-visible-cloud", "adhesion-visible")
+CLOUD_ALIASES = {"material-engineering-cloud": "material-engineering", "adhesion-visible-cloud": "adhesion-visible", "adhesion-visible-v3-cloud": "adhesion-visible", "adhesion-visible-v4-cloud": "adhesion-visible"}
+ADHESION_SOURCES = ("adhesion-visible-v4-cloud", "adhesion-visible-v3-cloud", "adhesion-visible-cloud", "adhesion-visible")
 ADHESION_ROLES = {"nonadhesive": "nonadhesive-pull-off", "adhesive": "adhesive-pull-off"}
 COMPARISON_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
 JC_FORMAL_ID = "material-engineering--jc-necking--johnson-cook"

@@ -7,10 +7,10 @@ from pathlib import Path
 import shutil
 
 try:
-    from .public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
+    from .public_runs import HIDDEN_HOME_IDS, HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
     from .collect_results import ADHESION_SOURCES, canonical_identifier, catalogue_sources
 except ImportError:
-    from public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
+    from public_runs import HIDDEN_HOME_IDS, HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
     from collect_results import ADHESION_SOURCES, canonical_identifier, catalogue_sources
 
 
@@ -102,6 +102,7 @@ ANIMATIONS = {
     "jc-necking",
     "concrete-bending",
     "concrete-bending-large",
+    "concrete-bending-symmetric",
     "ceramic-indentation",
     "ceramic-indentation-wide",
     "sphere-contact",
@@ -140,12 +141,21 @@ def gallery_groups(catalogue):
     groups = {heading: list(entries) for heading, entries in GROUPS.items()}
     present = {record["id"] for record in catalogue}
     for heading, entries in groups.items():
-        for index, (name, relative) in enumerate(entries):
-            replacement = HOME_REPLACEMENTS.get(relative.replace("/", "--"))
-            if replacement in present:
-                parts = replacement.split("--")
-                if parts[0] == "material-engineering":
-                    entries[index] = (parts[1], "/".join(parts))
+        resolved = []
+        for name, relative in entries:
+            identifier = relative.replace("/", "--")
+            visited = {identifier}
+            if identifier.startswith("material-engineering--"):
+                while (replacement := HOME_REPLACEMENTS.get(identifier)) in present:
+                    if replacement in visited:
+                        raise ValueError(f"Cyclic gallery replacement: {replacement}")
+                    visited.add(replacement)
+                    identifier = replacement
+                    parts = identifier.split("--")
+                    name, relative = parts[1], "/".join(parts)
+            if identifier not in HIDDEN_HOME_IDS:
+                resolved.append((name, relative))
+        groups[heading] = resolved
     listed = {relative for entries in groups.values() for _, relative in entries}
     for record in catalogue:
         parts = record["id"].split("--")
@@ -202,6 +212,7 @@ def preview(folder, name, render):
         "ceramic-indentation": "nominal_indentation_m",
         "ceramic-indentation-wide": "nominal_indentation_m",
         "concrete-bending-large": "midspan_bottom_deflection_m",
+        "concrete-bending-symmetric": "midspan_bottom_deflection_m",
     }
     if name.startswith("visible-"):
         columns[name] = (

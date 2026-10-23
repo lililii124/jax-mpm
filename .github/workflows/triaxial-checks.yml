@@ -21,12 +21,18 @@ on:
         options: ['0', '5', '10', '15', '20', '25', '30']
         default: '0'
         required: true
+      grid_storage:
+        description: Independent fibre grid storage
+        type: choice
+        options: [dense, tube]
+        default: dense
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: triaxial-checks-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}
+  group: triaxial-checks-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ inputs.grid_storage }}
   cancel-in-progress: false
 
 jobs:
@@ -54,12 +60,12 @@ jobs:
         run: python -m pip --disable-pip-version-check --timeout 60 --retries 3 install -e . psutil
       - name: Run guarded check
         timeout-minutes: 130
-        run: python tools/run_triaxial_checks.py --preset ${{ inputs.preset }} --law ${{ inputs.law }} --theta ${{ inputs.theta }}
+        run: python tools/run_triaxial_checks.py --preset ${{ inputs.preset }} --law ${{ inputs.law }} --theta ${{ inputs.theta }} --grid-storage ${{ inputs.grid_storage }}
       - name: Preserve check evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: triaxial-check-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: triaxial-check-${{ inputs.preset }}-${{ inputs.law }}-${{ inputs.theta }}-${{ inputs.grid_storage }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: .local/triaxial-delivery/
           include-hidden-files: true
           if-no-files-found: warn
