@@ -1220,5 +1220,29 @@
       "numerical-source.json": "1c7d374b7be16d534b81642bbded59746a6323fcf8ed50a88ea01be9ec6305d3",
       "media-check.json": "12d436da4408002c4da29270accb742af9a5218159de05dd19ebdbb02136816d"
     }
+  },
+  {
+    "id": "woven--triaxial--transverse-compression",
+    "case": "triaxial/transverse-compression / woven-composite",
+    "source_directory": "outputs/woven/triaxial/transverse-compression",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.948868992900563,
+    "max_damage": 0.0,
+    "solver_seconds": 1223.9149792440005,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "506b0c8f0a63cedb4bc7a07f207a1c40066f8f61446fc8c939ae69b28bac8487",
+      "diagnostics.csv": "1f9ba718b914d9d2dbf25235f0b13382e4ecc82b312252ab6e2c86b0f00e69b6",
+      "observables.csv": "068b5d42de0f5416299be84446ee611eddbf8f3ef56525b000f4ea9da716d9fd",
+      "render.json": "9813a859cb56f21afddf4fa28bebe956ea7cda63a7c054551f7acae61227d6c9",
+      "vtk_metadata.json": "fa3573c771940ceec8d78dbdbfa43d8ef75c202cdc816c1a5e0e8ca215bb2d3c",
+      "video.json": "a38496ce0e99dd4cc236c95907bd75d66c02dfba6f0d3bc4080272ec4bdd15c8",
+      "memory.json": "75a18167e74e1a283f1c86bebcb268f5c1652c97ebea7673a9f929b937f159c1",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "90b1ffe383b1d61d5804d8c63813e53bed63abb16a1fdc1a7348f9a3293fdaf0",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]

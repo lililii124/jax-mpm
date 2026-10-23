@@ -1205,5 +1205,72 @@
         "state_file_interpolation": "linear between output-time keyframes"
       }
     ]
+  },
+  {
+    "name": "woven-triaxial-transverse-compression",
+    "source": "woven/triaxial/transverse-compression",
+    "particles": 345600,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 40,
+    "preview_time": 1.2649110640673517e-05,
+    "auxiliary_geometry": [
+      {
+        "type": "prescribed_rigid_grip",
+        "parameters": {
+          "name": "lower_platen",
+          "lower": [
+            0.003,
+            0.00675,
+            0.003
+          ],
+          "upper": [
+            0.013000000000000001,
+            0.007,
+            0.013000000000000001
+          ],
+          "displacement": [
+            0.0,
+            2.5e-05,
+            0.0
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "start": 0.0,
+          "motion_kind": "half-cosine-displacement-hold"
+        },
+        "included_in_particle_count": false,
+        "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+        "state_file_interpolation": "linear between output-time keyframes"
+      },
+      {
+        "type": "prescribed_rigid_grip",
+        "parameters": {
+          "name": "upper_platen",
+          "lower": [
+            0.003,
+            0.009000000000000001,
+            0.003
+          ],
+          "upper": [
+            0.013000000000000001,
+            0.009250000000000001,
+            0.013000000000000001
+          ],
+          "displacement": [
+            0.0,
+            -2.5e-05,
+            0.0
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "start": 0.0,
+          "motion_kind": "half-cosine-displacement-hold"
+        },
+        "included_in_particle_count": false,
+        "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+        "state_file_interpolation": "linear between output-time keyframes"
+      }
+    ]
   }
 ]

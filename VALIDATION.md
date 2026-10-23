@@ -117,12 +117,12 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **56 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **57 selected completed runs**,
 including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 37 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 38 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -348,3 +348,12 @@ The earlier 2 mm legacy-profile run remains archived. This new loading history a
 Coarse woven runs remain in the numerical archive. Their animations are excluded from the homepage and gallery, including cases with no completed fine-grid replacement.
 
 The large-displacement HJC bending animation is temporarily excluded from the homepage and gallery while its damage asymmetry is reviewed. Its numerical record and original media remain archived; the earlier HJC animation is not substituted.
+
+## Woven triaxial · transverse compression
+
+The [completed run](docs/results/woven--triaxial--transverse-compression/interpretation.json) records 345,600 material points,
+4,140 steps and 61 saved states. Minimum J is 0.948869; maximum saved yarn
+Green-strain norm is 0.070886, below the prescribed 0.1 limit.
+Independent final stored energy, reference section forces and bending moment pass the source-bound review.
+These checks establish numerical admissibility for an illustrative dynamic elastic model;
+the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
