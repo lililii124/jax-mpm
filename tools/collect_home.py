@@ -1,0 +1,180 @@
+"""Build the README animation catalogue from completed run records."""
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+BEGIN = "<!-- BEGIN EXAMPLE GIFS -->"
+END = "<!-- END EXAMPLE GIFS -->"
+GROUPS = (
+    "Material engineering",
+    "Structures and tanks",
+    "Dynamics and contact",
+    "Fluids and fluid–solid interaction",
+    "Elasticity and prescribed loading",
+    "Constitutive compression",
+    "Wave refinement",
+)
+TITLES = {
+    "jc-tension": "JC round-bar tension",
+    "concrete-bending": "HJC concrete bending",
+    "ceramic-indentation": "JH-2 ceramic indentation",
+    "cellular-cushion": "Cellular cushioning",
+    "perforated-panel": "Perforated panel",
+    "baffled-tank": "Flexible baffles",
+    "unbaffled-tank": "Unbaffled tank",
+    "large-bending": "Large bending",
+    "large-twist": "Large twist",
+    "head-on": "Head-on contact",
+    "oblique": "Oblique contact",
+    "sliding": "Frictional sliding",
+    "rebound": "Rebound",
+    "rubber-ball": "Rubber-ball drop",
+    "ball-beam": "Ball–beam contact",
+    "sphere-contact": "Spherical indentation",
+    "jkr-footprint": "JKR pressure footprint",
+    "dam-break": "Dam break",
+    "sloshing": "Sloshing",
+    "fsi": "Flow past an elastic obstacle",
+    "elastic-gate": "Elastic gate",
+    "floating-block": "Floating block",
+    "water-entry": "Water entry",
+    "cantilever": "Cantilever",
+    "shear": "Simple shear",
+    "torsion": "Torsional release",
+    "surface-load": "Pressure-loaded panel",
+    "compression": "Compression",
+    "wave": "Longitudinal wave",
+}
+MATERIALS = {
+    "linear": "Linear elastic",
+    "neo-hookean": "Neo-Hookean",
+    "blatz-ko": "Blatz–Ko",
+    "orthotropic": "Orthotropic",
+    "transverse-isotropic": "Transverse isotropic",
+    "bilinear": "Bilinear J2",
+    "isotropic-plastic": "Isotropic J2",
+    "johnson-cook": "Johnson–Cook",
+    "steinberg-guinan": "Steinberg–Guinan",
+    "thermal-plastic": "Thermal plasticity",
+    "hjc": "HJC",
+    "jh2": "JH-2",
+    "rht": "RHT",
+}
+
+
+def describe(identifier):
+    parts = identifier.split("--")
+    source = parts[0]
+    scene = parts[-1] if source == "contact-models" else parts[-2]
+    title = TITLES[scene]
+    if source == "material-engineering":
+        return GROUPS[0], title
+    if source == "engineering" or scene in ("large-bending", "large-twist"):
+        return GROUPS[1], title
+    if source == "contact-models" or scene in (
+        "head-on", "oblique", "sliding", "rebound", "rubber-ball", "ball-beam"
+    ):
+        return GROUPS[2], title
+    if scene in ("dam-break", "sloshing", "fsi", "elastic-gate", "floating-block", "water-entry"):
+        if scene == "water-entry":
+            title += " · refined" if source == "production" else " · reference"
+        return GROUPS[3], title
+    if source in ("compression", "dense-materials"):
+        title = "Compression · " + MATERIALS[parts[-1]]
+        if source == "dense-materials":
+            title += " · refined"
+        return GROUPS[5], title
+    if scene == "wave":
+        variant = {
+            "grid32": "coarse grid", "grid64": "fine grid", "half_dt": "half time step"
+        }.get(parts[1], "reference grid")
+        return GROUPS[6], f"{title} · {variant}"
+    if scene == "cantilever":
+        title += " · " + MATERIALS[parts[-1]]
+    elif scene == "compression":
+        title = "Elastic compression"
+    return GROUPS[4], title
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--audit", type=Path)
+    args = parser.parse_args()
+    root = args.root.resolve()
+    manifest_path = root / "docs/images/home/manifest.json"
+    payload = json.loads((args.audit or manifest_path).read_text(encoding="utf-8"))
+    entries = payload["runs"] if isinstance(payload, dict) else payload
+    index_path = root / "docs/results/index.json"
+    catalogue = json.loads(index_path.read_text(encoding="utf-8"))
+    if isinstance(payload, dict):
+        if not payload.get("completed"):
+            raise ValueError("GIF audit is incomplete")
+        if payload["index_sha256"] != hashlib.sha256(index_path.read_bytes()).hexdigest():
+            raise ValueError("Run catalogue changed after the GIF audit")
+    expected = {record["id"] for record in catalogue}
+    found = [record["id"] for record in entries]
+    if len(found) != len(set(found)) or set(found) != expected:
+        raise ValueError(f"GIF catalogue mismatch: missing={expected - set(found)}, extra={set(found) - expected}")
+    public = []
+    groups = {name: [] for name in GROUPS}
+    paths = set()
+    home = (root / "docs/images/home").resolve()
+    for entry in entries:
+        relative = Path(entry["gif_path"])
+        path = (root / relative).resolve()
+        if relative.is_absolute() or path.parent != home or path.suffix != ".gif":
+            raise ValueError(f"GIF must be in docs/images/home: {relative}")
+        if path in paths:
+            raise ValueError(f"Duplicate GIF path: {relative}")
+        paths.add(path)
+        if path.stat().st_size != entry["bytes"]:
+            raise ValueError(f"GIF size changed: {path}")
+        if hashlib.sha256(path.read_bytes()).hexdigest() != entry["gif_sha256"]:
+            raise ValueError(f"GIF hash changed: {path}")
+        group, title = describe(entry["id"])
+        result = f"docs/results/{entry['id']}/summary.json"
+        render_path = root / f"docs/results/{entry['id']}/render.json"
+        render_hash = hashlib.sha256(render_path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        expected_render_hash = entry.get("render_lf_sha256", entry["render_sha256"])
+        if render_hash != expected_render_hash:
+            raise ValueError(f"Rendering record changed: {render_path}")
+        groups[group].append((title, f"![{title}]({entry['gif_path']})<br>[{title}]({result})"))
+        record = {
+            key: entry[key] for key in (
+                "id", "gif_path", "gif_sha256", "bytes",
+                "dimensions", "source_frames", "gif_frames",
+            )
+        }
+        record["render_sha256"] = render_hash
+        record["source_render_sha256"] = entry.get("source_render_sha256", entry["render_sha256"])
+        public.append(record)
+    lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
+    for heading, items in groups.items():
+        if not items:
+            continue
+        lines += [f"### {heading}", "", "| | | |", "|---|---|---|"]
+        cells = [cell for _, cell in sorted(items)]
+        for start in range(0, len(cells), 3):
+            row = cells[start:start + 3]
+            lines.append("| " + " | ".join(row + [""] * (3 - len(row))) + " |")
+        lines.append("")
+    lines += [END, ""]
+    block = "\n".join(lines)
+    readme_path = root / "README.md"
+    readme = readme_path.read_text(encoding="utf-8")
+    if BEGIN in readme and END in readme:
+        start, stop = readme.index(BEGIN), readme.index(END) + len(END)
+    else:
+        start, stop = readme.index("| Cellular cushioning |"), readme.index("## Installation")
+    readme_path.write_text(readme[:start] + block + "\n" + readme[stop:].lstrip("\n"), encoding="utf-8")
+    manifest_path.write_text(json.dumps(public, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"README: {len(entries)} completed runs with GIFs")
+
+
+if __name__ == "__main__":
+    main()

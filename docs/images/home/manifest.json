@@ -1,0 +1,660 @@
+[
+  {
+    "id": "suite--cantilever--neo-hookean",
+    "gif_path": "docs/images/home/suite--cantilever--neo-hookean.gif",
+    "gif_sha256": "fb4a62f1bd27a6a5c34ea42e4a8d9d0139e72cc797d77d8f0bac8d376f29f6c1",
+    "bytes": 824014,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "df2847dd3cd498ee4f7af469602797cffdc2d6cb5eae0c5d037741faeb41b7a2",
+    "source_render_sha256": "c932341c6d17299c0bf4bcab8271b33ccc19d30adc86c9f82367e8dcd51c18e3"
+  },
+  {
+    "id": "suite--compression--neo-hookean",
+    "gif_path": "docs/images/home/suite--compression--neo-hookean.gif",
+    "gif_sha256": "c062d84a39c2902300a5f64d835689f06f9500823300336799f090aebba00f6c",
+    "bytes": 852456,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "4fdb394ebf9da5720ddc4f6b2173f5cbb225c6948691035c1f0ab711283edef7",
+    "source_render_sha256": "bcf63e4de0353ec8a412e7cc0bd46b288ec4a5177f9fe1f979285d7b0dc58813"
+  },
+  {
+    "id": "suite--dam-break--neo-hookean",
+    "gif_path": "docs/images/home/suite--dam-break--neo-hookean.gif",
+    "gif_sha256": "235268ce6026303934ccca7d49e53214723f945fd53d300e273de0716b535818",
+    "bytes": 1003785,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "0bb957e0756bb1a015589b3069bfccce14f3acd44a7a16701d6f6794fbafed4f",
+    "source_render_sha256": "be23e80727dc231fd7b7716a27ef97f4ca5d53992c2ef357c2732b97828b69fd"
+  },
+  {
+    "id": "suite--fsi--neo-hookean",
+    "gif_path": "docs/images/home/suite--fsi--neo-hookean.gif",
+    "gif_sha256": "82bee9a029a6052501cf0dc06658d6dd2dd9bb6f1147b4e7ea743580b5003031",
+    "bytes": 980892,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "9daa0607c5add52f42a95b946493c4d3693c6576921292bb3ab4720d98c67a1b",
+    "source_render_sha256": "65d3f0c2dd9f323055e11bb4067e11bb906c7ebc55d6ce1506cc80937cb3927b"
+  },
+  {
+    "id": "suite--head-on--neo-hookean",
+    "gif_path": "docs/images/home/suite--head-on--neo-hookean.gif",
+    "gif_sha256": "3c4bdd23b2ef7a11b2f383b033f37be26d928b7cf3b38d36de645f36fe90e9a4",
+    "bytes": 1354982,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "1b8ccf27cb3a349613fb5811031e799a87318df4f5ed534fc77896abfa0323cc",
+    "source_render_sha256": "63402f612c6ad53b516f8bd8c12f72eea7c6039f3bc2bd03753e44c6bb5b8344"
+  },
+  {
+    "id": "suite--oblique--neo-hookean",
+    "gif_path": "docs/images/home/suite--oblique--neo-hookean.gif",
+    "gif_sha256": "267a554fb2a482477dacf88e8b1f2f5bdfd5bd6f0a7839cbb7c77546b7f22adf",
+    "bytes": 1270258,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "05cccc4b3aeb618227cb728c1ea6a04dd5e9b94a7dabdb5b4b789cf910eb3c94",
+    "source_render_sha256": "108e2fb28061094ce3475f313b0953b3c7a352bbd6cd0fe480df2c0a2e85aef5"
+  },
+  {
+    "id": "suite--rebound--neo-hookean",
+    "gif_path": "docs/images/home/suite--rebound--neo-hookean.gif",
+    "gif_sha256": "e25905991acbabc628be1f1a4ce0c8ff69a4cb6a08ccdecc2bd16e85a63a8165",
+    "bytes": 943276,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "90e2047680e7a37f867e743d249fb189ab3adeae351c75f0bc628d2d90997069",
+    "source_render_sha256": "234a76722c437747d14090e40105b578eb6c8da2102c823d0d51f3f9edff05dd"
+  },
+  {
+    "id": "suite--shear--neo-hookean",
+    "gif_path": "docs/images/home/suite--shear--neo-hookean.gif",
+    "gif_sha256": "5e76ecfd2c001f0ce5c6859e15e8ff5b97a4d2976834e0a009dd11de99f54342",
+    "bytes": 1330996,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "32841ef766cb00d6446ee08f97a691a7162ecde33cc914a0ed7f8d4c92873bc8",
+    "source_render_sha256": "045035c366dd920452b8a32a0f6242ce57bd0e7755f21d561b4606f1db6a3094"
+  },
+  {
+    "id": "suite--sliding--neo-hookean",
+    "gif_path": "docs/images/home/suite--sliding--neo-hookean.gif",
+    "gif_sha256": "1f9fbf156a4506fb66dd51e5c41a424fb64c8c798da59537cd0df0194a5a704f",
+    "bytes": 1442768,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "aacfbc1fe2e3a5ac90f5f685452c905b2c5ee3e114205fbac6a8d1bee6ff0853",
+    "source_render_sha256": "2dfc922a2f2958a89089a33b873cd3c2057cf36a22d1914a1269710128b0207e"
+  },
+  {
+    "id": "suite--sloshing--neo-hookean",
+    "gif_path": "docs/images/home/suite--sloshing--neo-hookean.gif",
+    "gif_sha256": "ddf67d5c90a3725b8ca74552e75d50878319111f84b17b09e65fbbd3eea7dbb5",
+    "bytes": 1034461,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "a3110a824568a6d47452a53bb8a86f3aae0f813ad19d9526cfe25e31a6dbef6c",
+    "source_render_sha256": "5df2596224ae9955cf77393f9bea73492f1155fd1afff5cb5e9927037dbfa0ab"
+  },
+  {
+    "id": "suite--surface-load--neo-hookean",
+    "gif_path": "docs/images/home/suite--surface-load--neo-hookean.gif",
+    "gif_sha256": "45c659f458bece2bbee887362fb04093569fd301717ddf4b7d32e9feaae88b9d",
+    "bytes": 258620,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "90b2572616f83fde33aba5342d07cb3e9276dd418ed43ac5f721d217279c6ef2",
+    "source_render_sha256": "cfacf4a8c1abfcbf012164129e67269472cd421d120b23d4a1730322326b62e7"
+  },
+  {
+    "id": "suite--torsion--neo-hookean",
+    "gif_path": "docs/images/home/suite--torsion--neo-hookean.gif",
+    "gif_sha256": "cf23cadf6721bd2596274a99284ee1952b91c1fff3a7cd6824763a4cdb68a21d",
+    "bytes": 931849,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "f8ace9204e27a9f94e7828dbe19b43f0e32823118e04ddd0a1166cf3703db981",
+    "source_render_sha256": "f4413b40d3e9ae4312d5c83aa027bc5e57ffa9669bafdae2249ecdb7d03168a1"
+  },
+  {
+    "id": "suite--water-entry--neo-hookean",
+    "gif_path": "docs/images/home/suite--water-entry--neo-hookean.gif",
+    "gif_sha256": "9209ad95947d97ad0802823ebde9095568c6ad5f802371da1786a6f421a66308",
+    "bytes": 1229806,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "7887cdc72d521ba0665bc02af1f744ac2398f9ce6b4204869099c98b2d9cbf84",
+    "source_render_sha256": "7cd531ad52ea2a00510248eaa639905f990495dad1c4ce15b95ac15226614e3f"
+  },
+  {
+    "id": "suite--wave--neo-hookean",
+    "gif_path": "docs/images/home/suite--wave--neo-hookean.gif",
+    "gif_sha256": "0b1b9b8cb59efca03fd893653d5e310fd29c57d95420ef1c5fd7d6a0f54e5ee9",
+    "bytes": 574379,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "19ad191dfa5b2aef7841e4c5c45ea6ee0aa6345532a40f277c4019499effc460",
+    "source_render_sha256": "b90cc00ae783152401c89bc6876f95ea10124651006c961339af50d775a7dbbb"
+  },
+  {
+    "id": "elastic_cantilever--cantilever--blatz-ko",
+    "gif_path": "docs/images/home/elastic_cantilever--cantilever--blatz-ko.gif",
+    "gif_sha256": "df19e37fe5cc85cac3a0d781eaebc0de6e554cdc56a660253e7d8c17c9aef70b",
+    "bytes": 834481,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "f4f1dc1326b5e64e69b370c56e31afdbd75d31fb69826d291b8b4df85dfa220c",
+    "source_render_sha256": "c0567139112c1bb8be70a6ae16b8ed74aa0c1104ba25393aa253e49f90b6055b"
+  },
+  {
+    "id": "elastic_cantilever--cantilever--linear",
+    "gif_path": "docs/images/home/elastic_cantilever--cantilever--linear.gif",
+    "gif_sha256": "90b237a1777c491f2b83e4ae9930cfe99c44282d16a1d76cd5d5191dae2c45c6",
+    "bytes": 824048,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "76f1b2e2644e89144616efed12a15d6f5ef52eb8439fd93df1b86c0170d2e30c",
+    "source_render_sha256": "5e42f464d093f8848f2b031be4108db1a13a1dd316879cc24612ceaf63e2492d"
+  },
+  {
+    "id": "elastic_cantilever--cantilever--orthotropic",
+    "gif_path": "docs/images/home/elastic_cantilever--cantilever--orthotropic.gif",
+    "gif_sha256": "c5aefdacf685c71fad35dcea2185075393487fa59a7d41b7513df805300e234c",
+    "bytes": 837942,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "092f5ec144738e9d8fb1d6fc07af81362336cd7ef2b4bf8e7671ff10680d923c",
+    "source_render_sha256": "b0477c14f88d79e49097d3eb6ee9fb4b8b78b672e5ac239fd9e26dd044036aca"
+  },
+  {
+    "id": "elastic_cantilever--cantilever--transverse-isotropic",
+    "gif_path": "docs/images/home/elastic_cantilever--cantilever--transverse-isotropic.gif",
+    "gif_sha256": "3ebca7b3794bb0b05eff63c184195ff46921e0ad41b90c75b456027692fa5cab",
+    "bytes": 845879,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "c24b99e970bf7b15d434fe9866796483648f5f34060584d3c9de41730a081cee",
+    "source_render_sha256": "5ecb265196b61105410c0d091c9ea46c68d949ebd80d159d56014ba635fb4db2"
+  },
+  {
+    "id": "compression--compression--bilinear",
+    "gif_path": "docs/images/home/compression--compression--bilinear.gif",
+    "gif_sha256": "e332a9ac91faa6b51946b6677878d955782b8fb3990179241b439ac27011e749",
+    "bytes": 837720,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "8f0a250b882cc820b64dacd341fbb9eb4e7230180b10cc01a354cb77fa4ad2b0",
+    "source_render_sha256": "1be14101611ea2fec2f9e5fa652abd754121d7620992661a086fc23f8cda113a"
+  },
+  {
+    "id": "compression--compression--hjc",
+    "gif_path": "docs/images/home/compression--compression--hjc.gif",
+    "gif_sha256": "45028adbe336101a40e9673fd3a0e6894d314ea6ab72adb934ea5a480d74aa3a",
+    "bytes": 441569,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "c4134b2f8304cedd1a11bb38d2848fb2bac1393ba8de2f7656dec646e2ae5d4c",
+    "source_render_sha256": "c1e6dacdee250cad6c48172103f55fd249662fc31c0a1bf12090abfd1fb864b7"
+  },
+  {
+    "id": "compression--compression--isotropic-plastic",
+    "gif_path": "docs/images/home/compression--compression--isotropic-plastic.gif",
+    "gif_sha256": "5df5683fbd13bee9e15dce2bd8dec73987508100da42764bc168c316aac05320",
+    "bytes": 835913,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "cccd4949fa88f2f8079f518d85b42b8b31bef505f78e12e1e373a5ae20686d69",
+    "source_render_sha256": "ca6ba0de1c0c5a165174e08d586c54101337641217b3b3f170cfc0e46c23846a"
+  },
+  {
+    "id": "compression--compression--jh2",
+    "gif_path": "docs/images/home/compression--compression--jh2.gif",
+    "gif_sha256": "321dec31fea2af103e0d6ec686a1f718d74f5c34209c16e79347e116e5c6a588",
+    "bytes": 571734,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "295b7e62371ad6f7a8026412088f834f9e0164579f8cff0dc7cc717455e00fbc",
+    "source_render_sha256": "93ff4056479907298b5efcd257e13d79d7aa73af38a8eb1a31bf625f2321985c"
+  },
+  {
+    "id": "compression--compression--johnson-cook",
+    "gif_path": "docs/images/home/compression--compression--johnson-cook.gif",
+    "gif_sha256": "5d32cd3e023407924868a561968a97cd93361a7662a1566e7e64d644ca9dfe74",
+    "bytes": 854164,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "97c30fc4097c61f65c0e17ef975f49b76ba97b697200978e3b56d044ba412438",
+    "source_render_sha256": "e2dc8ba0866875ec5750637f079fdb0ad1adeb98fce34794c86fb1f13006dce0"
+  },
+  {
+    "id": "compression--compression--rht",
+    "gif_path": "docs/images/home/compression--compression--rht.gif",
+    "gif_sha256": "2d136d75c8ea1fbdfdd72fcb1be211ac163b9a7336b046094278cec0778b84ec",
+    "bytes": 495803,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "dc6f67f966a92e78585011c6d606dab8d7fd507bc9972284064fa61302ba560b",
+    "source_render_sha256": "184f2ce045e3f5db734531dd13e4dc988afba8268c6324bef8a6d4c6ef32d42b"
+  },
+  {
+    "id": "compression--compression--steinberg-guinan",
+    "gif_path": "docs/images/home/compression--compression--steinberg-guinan.gif",
+    "gif_sha256": "a636ab84371047fad486470d4cee21e1896c5f1b825fec8ff8425e044fd01958",
+    "bytes": 867588,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "62ab3aab3b47cf7323e558ce0d994af9637feb78934bb1bbe8d79aca9519c83c",
+    "source_render_sha256": "d9bb3d2761946fbeb48beb7d231becf56f5ddc7317341fe5c5b1d94def2c469c"
+  },
+  {
+    "id": "compression--compression--thermal-plastic",
+    "gif_path": "docs/images/home/compression--compression--thermal-plastic.gif",
+    "gif_sha256": "e5d3af6a00eaaf9116c39333f7a3d42681efdb5b63fd7a67a53ed9b50a4e7cda",
+    "bytes": 741286,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "61504afe9fefe28e9d426d65935f24e5f16dff17e42eb4da1b80e46613f7ccf3",
+    "source_render_sha256": "8b273157b37115583cf5621043a2bc0ea1236f8f3464b8af2b37200c00c745bc"
+  },
+  {
+    "id": "dense-materials--compression--hjc",
+    "gif_path": "docs/images/home/dense-materials--compression--hjc.gif",
+    "gif_sha256": "2680718e0cae8eed0e0154344078115858b70ef82a78878945502e6d462b112c",
+    "bytes": 593587,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "714b69658f68f1919e16b643e3d42efba6c2ecad44c1e9d5db4eda695e0987f6",
+    "source_render_sha256": "a71192c9eb29e5fdf6de2328f4bd3b5871aa51be5317a43e3773d6f3ac838d6a"
+  },
+  {
+    "id": "dense-materials--compression--jh2",
+    "gif_path": "docs/images/home/dense-materials--compression--jh2.gif",
+    "gif_sha256": "051428ec70e7f576ebff42402bff74b83d56bfed7c48a9a0763cd1a2bbefebfa",
+    "bytes": 882585,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "9a322bac30f73575cd61bb8d9e431384be8718d416e317a0a3d5579471d01040",
+    "source_render_sha256": "5e31934b7ad6e6848178d86113e2b25f9d5ca75efc1c34786509e8a5ea6854fe"
+  },
+  {
+    "id": "dense-materials--compression--johnson-cook",
+    "gif_path": "docs/images/home/dense-materials--compression--johnson-cook.gif",
+    "gif_sha256": "99b802fdc2064b7912e7a506b39c63070dfb4cb2b103402e6f214dbb723d3960",
+    "bytes": 1241096,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "57df98a1e2bbcc4bdd041260d34a93238f0901734b6fea110c759d4219e4d7e7",
+    "source_render_sha256": "297b75e571296af2c82300c41ed1e5697fc8ed4c0d5ab3a34157f342e8b18871"
+  },
+  {
+    "id": "material-engineering--ceramic-indentation--jh2",
+    "gif_path": "docs/images/home/material-engineering--ceramic-indentation--jh2.gif",
+    "gif_sha256": "739244197cd2ec907d6defd5664b0fa1f38e7058061565090d058b9d1ca02bd9",
+    "bytes": 461495,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "a6b2d1428b253a8f399b45da96221948f1da141e2b0dc576f1a6db95883287fd",
+    "source_render_sha256": "35427a336135704a0ac01d5204f95ec95f0a91531a60f07413a37733b181350a"
+  },
+  {
+    "id": "material-engineering--concrete-bending--hjc",
+    "gif_path": "docs/images/home/material-engineering--concrete-bending--hjc.gif",
+    "gif_sha256": "55b90fe431df8ee2cff2753f9598381d3af238e25e6386c700399498ade2072a",
+    "bytes": 795427,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "3189cd4ee44b76923e767c3c23f64a3046cb525e9a95e9bd42b0e950dcd8299b",
+    "source_render_sha256": "e5e540dad6badff6552c0c2c65809917507b26460fd171c71deb982acebddf36"
+  },
+  {
+    "id": "benchmarks--ball-beam--neo-hookean",
+    "gif_path": "docs/images/home/ball-beam.gif",
+    "gif_sha256": "64b850e8b6a75adac6b1ea3dbf06a5949a13fc5016503f9cdbc6920f71c78261",
+    "bytes": 1585864,
+    "dimensions": [
+      480,
+      480
+    ],
+    "source_frames": 41,
+    "gif_frames": 48,
+    "render_sha256": "7f426d328cba1741c0d1041bbce75725872dde8dfe3f28c6a2f0eaabee3fa37d",
+    "source_render_sha256": "569783ced1affb769a1fbba64169a845eddb8c76178b283a8d15fb486247705d"
+  },
+  {
+    "id": "benchmarks--elastic-gate--neo-hookean",
+    "gif_path": "docs/images/home/benchmarks--elastic-gate--neo-hookean.gif",
+    "gif_sha256": "897d32b7081d5d2bee318b840168c9490b9219ff26dd12d740f3337e07d4c4bb",
+    "bytes": 1888209,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "555ce88468bf99cff015f10af297ada9436f31791de06fad2d2d4967402a5d25",
+    "source_render_sha256": "39fd4ba4b3cf2a154b1dcac2a7b32c337e978b63e74fd638a7f1b631cabeda27"
+  },
+  {
+    "id": "benchmarks--floating-block--neo-hookean",
+    "gif_path": "docs/images/home/benchmarks--floating-block--neo-hookean.gif",
+    "gif_sha256": "f6ac1d23c8aa7a95c02f572be289bfc3d0c62f7321a5221f0a225603db8e7f4b",
+    "bytes": 1719393,
+    "dimensions": [
+      360,
+      360
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "e046161fc923a61cb48eb54e175d126400c98fc37ce32d85b573058212d793e8",
+    "source_render_sha256": "a3aa6cc7c7e8d9e90ff0276af69ac33428a521c93b3d976c5ba7e509bd965825"
+  },
+  {
+    "id": "benchmarks--large-bending--neo-hookean",
+    "gif_path": "docs/images/home/benchmarks--large-bending--neo-hookean.gif",
+    "gif_sha256": "c90d7a7be54aad06c35c83b2f8b2dd760cf22b9c2f0736b9984f5b714fed43a9",
+    "bytes": 1813334,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "1bdfe6caf80284b0132f994fd69f2f67c4b7f2026f9c3bff0db2f72c0fa03106",
+    "source_render_sha256": "4dfdcfc385dd630f368802db8369345c57070395250553c842d4c701d23f41e4"
+  },
+  {
+    "id": "benchmarks--large-twist--neo-hookean",
+    "gif_path": "docs/images/home/large-twist.gif",
+    "gif_sha256": "47d0096a6ba833f2f742ac32ce38e8b129bbb7c60d0487087cafceef05dcccba",
+    "bytes": 3048998,
+    "dimensions": [
+      480,
+      480
+    ],
+    "source_frames": 41,
+    "gif_frames": 48,
+    "render_sha256": "d001db7f3669f24b3f00ad372d5ed43a950669888842ba64045d67bda0fe78fa",
+    "source_render_sha256": "8b1436af9096e1b017a862c31852d4bbdaf35b343cd038dfbd126dd76d098b1e"
+  },
+  {
+    "id": "benchmarks--rubber-ball--neo-hookean",
+    "gif_path": "docs/images/home/benchmarks--rubber-ball--neo-hookean.gif",
+    "gif_sha256": "53e24e706f02e05b198fd2bd5eaac3e08122d059288ab3e91ede397945e3b3f7",
+    "bytes": 764562,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "74c4725bec961f4a2039518225ed0305f89932952eb13866d196d2e85c9e7d64",
+    "source_render_sha256": "bb6d3d4d13bd4839d75b2267ea2d5811b97fff4f659bd0d3a2bc5a9967a93762"
+  },
+  {
+    "id": "engineering--baffled-tank--neo-hookean",
+    "gif_path": "docs/images/home/baffled-tank.gif",
+    "gif_sha256": "178d5d4eaf568ea9a27a1e754a04a5e6d94e8d167aaee03ea7c665af75d9d227",
+    "bytes": 5121113,
+    "dimensions": [
+      480,
+      480
+    ],
+    "source_frames": 51,
+    "gif_frames": 58,
+    "render_sha256": "26ef5584cf9891d2ae154e246cbbd1032b630d9898aa6e13ec870f037fbe7fbb",
+    "source_render_sha256": "298669629055e7432fbd764777733db7734a7e4266a4bb54ffb57e65f4bc1f1f"
+  },
+  {
+    "id": "engineering--cellular-cushion--neo-hookean",
+    "gif_path": "docs/images/home/cellular-cushion.gif",
+    "gif_sha256": "7794a06a1dfc9c2fb8989340f2661a010bb732c089f5f88ca75d00e2fb7761ef",
+    "bytes": 4011406,
+    "dimensions": [
+      480,
+      480
+    ],
+    "source_frames": 51,
+    "gif_frames": 58,
+    "render_sha256": "de2e3bd72e6f3090e4a5d7f93c2173292e7b6d605f6a7b27d4e4a0cfa373a116",
+    "source_render_sha256": "39c4dec4b9aab52e9e30ec3fe964d9ea81a3c3f44c1b24816705231c676cf909"
+  },
+  {
+    "id": "engineering--perforated-panel--neo-hookean",
+    "gif_path": "docs/images/home/perforated-panel.gif",
+    "gif_sha256": "279ae8707b835a5a6ad19b19fb21ddfaa3c056bfcce7e3208ab6bc3e91a07d1a",
+    "bytes": 1372735,
+    "dimensions": [
+      480,
+      480
+    ],
+    "source_frames": 51,
+    "gif_frames": 58,
+    "render_sha256": "3899eb56c4663d6b5b577a10361df88b5bdaf58f3cc77b470969b1c52ee5422c",
+    "source_render_sha256": "109ab1d1ecff1e643ae6fa94cb8dfdca10a237980fb3e8c368f73557ca4cc67e"
+  },
+  {
+    "id": "engineering--unbaffled-tank--neo-hookean",
+    "gif_path": "docs/images/home/engineering--unbaffled-tank--neo-hookean.gif",
+    "gif_sha256": "798c2087f75f72416ff49b9b56158c1fdeec72cc70d21a99deb266eb22cd9cc1",
+    "bytes": 2461195,
+    "dimensions": [
+      360,
+      360
+    ],
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "68c2470276cf4b33cbde2533e3462d6d5ab392d3c5346a001806cf1b0850b5ae",
+    "source_render_sha256": "b302a5c21bf63e76254981f8dfa25071585a7ac96f15b90f15c19639d35a3047"
+  },
+  {
+    "id": "contact-models--jkr-footprint",
+    "gif_path": "docs/images/home/contact-models--jkr-footprint.gif",
+    "gif_sha256": "f81ee217cfb4acd7ea30451c5c4a138370f311c85f349edaba0df70e9cad15ca",
+    "bytes": 1844910,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "f0b49e42ba08678f6438161114b859ce91de5526d2e62ccbf2f0847023eebb4f",
+    "source_render_sha256": "8efbdcace0be751ec00455fb589a746cf7912aa616f041f8ca092427c95691b7"
+  },
+  {
+    "id": "contact-models--sphere-contact",
+    "gif_path": "docs/images/home/contact-models--sphere-contact.gif",
+    "gif_sha256": "b647fa06845b767d7f6815ed6f9740fa7741086660aa32947074c9b10070c990",
+    "bytes": 1169151,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "1744898075988b5dabf3474824cbde10e81f6907b7db0dab1b1a0bf0ccd304c9",
+    "source_render_sha256": "1e25824b180e16e8a37dc9e8c844caa79ecaca089c9b54d753b49c0fd36c72cb"
+  },
+  {
+    "id": "production--water-entry--neo-hookean",
+    "gif_path": "docs/images/home/water-entry.gif",
+    "gif_sha256": "8d1266c16f2a8848573478aab40b4f820873f724fe161e85d2840ed07d05698f",
+    "bytes": 5171529,
+    "dimensions": [
+      480,
+      480
+    ],
+    "source_frames": 61,
+    "gif_frames": 68,
+    "render_sha256": "d59cc9fa0944d6fc88e1786ed1199670b0480265e6b12669b3da4155cadaf596",
+    "source_render_sha256": "3f93d3944dadaf4af6da8fb35655d303a498df1ea49c12f53e89e820b9a8b998"
+  },
+  {
+    "id": "refinement--grid32--wave--neo-hookean",
+    "gif_path": "docs/images/home/refinement--grid32--wave--neo-hookean.gif",
+    "gif_sha256": "37b4196849673df014fd830164c0670a3ef8db7b56a30023d82e114c4354a304",
+    "bytes": 466959,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "d3f2b1c9adbe77e3b13d472e35bba0b03611ee3a36ee3e4e6a51bb7e3751c627",
+    "source_render_sha256": "693cb92d6f2a6da0cd731f26ad0eabb10c19080791c13483c010652d18e944f4"
+  },
+  {
+    "id": "refinement--grid64--wave--linear",
+    "gif_path": "docs/images/home/refinement--grid64--wave--linear.gif",
+    "gif_sha256": "b7839f4cbd09a990dc1b416d395c52e151c98541366737ac776d1b3a8b2569dd",
+    "bytes": 674669,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "040ec1748603f8f2c3afdaaaa79a8de0cf2042232386b0715bf5ae1a9d949e58",
+    "source_render_sha256": "55df80c9baa51d3dc5a8b7634f02b4e4f89216c7f685b4624f6114a012e306ef"
+  },
+  {
+    "id": "refinement--half_dt--wave--neo-hookean",
+    "gif_path": "docs/images/home/refinement--half_dt--wave--neo-hookean.gif",
+    "gif_sha256": "a0f3659a3989f34a580807791d70ba4bbf8689c692a83e03e3ebce1c41a52e5d",
+    "bytes": 567474,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 21,
+    "gif_frames": 21,
+    "render_sha256": "e4ffabb81c56b97419254b3dd5d4afaae4c2d649d053a0c1cd3783c3d1901032",
+    "source_render_sha256": "5c8d246aa0fff8581e3d4548ea18e9622f14b39c9636358f608ea6dc04486b21"
+  }
+]

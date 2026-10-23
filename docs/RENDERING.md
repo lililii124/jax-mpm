@@ -48,7 +48,17 @@ python tools/encode_video.py outputs/suite/dam-break/neo-hookean
 
 This uses the ParaView frames at 20 fps, without rerunning the simulation or
 changing the particle count. The public gallery links these videos from PNG
-previews; full GIFs remain in the output directory.
+previews. The homepage embeds compact looping GIFs for every completed run in
+the results catalogue. Each uses the complete ParaView screenshot sequence;
+the original six animations also hold their final frame. Full-size GIFs remain
+in the output directory.
+
+`docs/images/home/manifest.json` records the run IDs, frame counts and GIF hashes.
+Its `render_sha256` checks the corresponding public `render.json` after LF newline
+normalization; `source_render_sha256` records the original output file hash.
+Regenerate the homepage tables from that manifest with
+`python tools/collect_home.py`. Adding runs requires an audited GIF catalogue
+passed with `--audit`.
 
 The sphere-contact scene includes a separate smooth CAD sphere driven by the
 prescribed boundary motion. Its saved animation track follows the output times.

@@ -3,15 +3,64 @@
 Two- and three-dimensional material point mechanics in JAX: quadratic B-splines,
 APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
-| Cellular cushioning | Water entry |
-|---|---|
-| ![Cellular cushioning](docs/images/home/cellular-cushion.gif) | ![Water entry](docs/images/home/water-entry.gif) |
-| **Flexible baffles** | **Large twist** |
-| ![Flexible baffles](docs/images/home/baffled-tank.gif) | ![Large twist](docs/images/home/large-twist.gif) |
-| **Perforated panel** | **Ball–beam contact** |
-| ![Perforated panel](docs/images/home/perforated-panel.gif) | ![Ball–beam contact](docs/images/home/ball-beam.gif) |
+<!-- BEGIN EXAMPLE GIFS -->
 
 [Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)
+
+### Material engineering
+
+| | | |
+|---|---|---|
+| ![HJC concrete bending](docs/images/home/material-engineering--concrete-bending--hjc.gif)<br>[HJC concrete bending](docs/results/material-engineering--concrete-bending--hjc/summary.json) | ![JH-2 ceramic indentation](docs/images/home/material-engineering--ceramic-indentation--jh2.gif)<br>[JH-2 ceramic indentation](docs/results/material-engineering--ceramic-indentation--jh2/summary.json) |  |
+
+### Structures and tanks
+
+| | | |
+|---|---|---|
+| ![Cellular cushioning](docs/images/home/cellular-cushion.gif)<br>[Cellular cushioning](docs/results/engineering--cellular-cushion--neo-hookean/summary.json) | ![Flexible baffles](docs/images/home/baffled-tank.gif)<br>[Flexible baffles](docs/results/engineering--baffled-tank--neo-hookean/summary.json) | ![Large bending](docs/images/home/benchmarks--large-bending--neo-hookean.gif)<br>[Large bending](docs/results/benchmarks--large-bending--neo-hookean/summary.json) |
+| ![Large twist](docs/images/home/large-twist.gif)<br>[Large twist](docs/results/benchmarks--large-twist--neo-hookean/summary.json) | ![Perforated panel](docs/images/home/perforated-panel.gif)<br>[Perforated panel](docs/results/engineering--perforated-panel--neo-hookean/summary.json) | ![Unbaffled tank](docs/images/home/engineering--unbaffled-tank--neo-hookean.gif)<br>[Unbaffled tank](docs/results/engineering--unbaffled-tank--neo-hookean/summary.json) |
+
+### Dynamics and contact
+
+| | | |
+|---|---|---|
+| ![Ball–beam contact](docs/images/home/ball-beam.gif)<br>[Ball–beam contact](docs/results/benchmarks--ball-beam--neo-hookean/summary.json) | ![Frictional sliding](docs/images/home/suite--sliding--neo-hookean.gif)<br>[Frictional sliding](docs/results/suite--sliding--neo-hookean/summary.json) | ![Head-on contact](docs/images/home/suite--head-on--neo-hookean.gif)<br>[Head-on contact](docs/results/suite--head-on--neo-hookean/summary.json) |
+| ![JKR pressure footprint](docs/images/home/contact-models--jkr-footprint.gif)<br>[JKR pressure footprint](docs/results/contact-models--jkr-footprint/summary.json) | ![Oblique contact](docs/images/home/suite--oblique--neo-hookean.gif)<br>[Oblique contact](docs/results/suite--oblique--neo-hookean/summary.json) | ![Rebound](docs/images/home/suite--rebound--neo-hookean.gif)<br>[Rebound](docs/results/suite--rebound--neo-hookean/summary.json) |
+| ![Rubber-ball drop](docs/images/home/benchmarks--rubber-ball--neo-hookean.gif)<br>[Rubber-ball drop](docs/results/benchmarks--rubber-ball--neo-hookean/summary.json) | ![Spherical indentation](docs/images/home/contact-models--sphere-contact.gif)<br>[Spherical indentation](docs/results/contact-models--sphere-contact/summary.json) |  |
+
+### Fluids and fluid–solid interaction
+
+| | | |
+|---|---|---|
+| ![Dam break](docs/images/home/suite--dam-break--neo-hookean.gif)<br>[Dam break](docs/results/suite--dam-break--neo-hookean/summary.json) | ![Elastic gate](docs/images/home/benchmarks--elastic-gate--neo-hookean.gif)<br>[Elastic gate](docs/results/benchmarks--elastic-gate--neo-hookean/summary.json) | ![Floating block](docs/images/home/benchmarks--floating-block--neo-hookean.gif)<br>[Floating block](docs/results/benchmarks--floating-block--neo-hookean/summary.json) |
+| ![Flow past an elastic obstacle](docs/images/home/suite--fsi--neo-hookean.gif)<br>[Flow past an elastic obstacle](docs/results/suite--fsi--neo-hookean/summary.json) | ![Sloshing](docs/images/home/suite--sloshing--neo-hookean.gif)<br>[Sloshing](docs/results/suite--sloshing--neo-hookean/summary.json) | ![Water entry · reference](docs/images/home/suite--water-entry--neo-hookean.gif)<br>[Water entry · reference](docs/results/suite--water-entry--neo-hookean/summary.json) |
+| ![Water entry · refined](docs/images/home/water-entry.gif)<br>[Water entry · refined](docs/results/production--water-entry--neo-hookean/summary.json) |  |  |
+
+### Elasticity and prescribed loading
+
+| | | |
+|---|---|---|
+| ![Cantilever · Blatz–Ko](docs/images/home/elastic_cantilever--cantilever--blatz-ko.gif)<br>[Cantilever · Blatz–Ko](docs/results/elastic_cantilever--cantilever--blatz-ko/summary.json) | ![Cantilever · Linear elastic](docs/images/home/elastic_cantilever--cantilever--linear.gif)<br>[Cantilever · Linear elastic](docs/results/elastic_cantilever--cantilever--linear/summary.json) | ![Cantilever · Neo-Hookean](docs/images/home/suite--cantilever--neo-hookean.gif)<br>[Cantilever · Neo-Hookean](docs/results/suite--cantilever--neo-hookean/summary.json) |
+| ![Cantilever · Orthotropic](docs/images/home/elastic_cantilever--cantilever--orthotropic.gif)<br>[Cantilever · Orthotropic](docs/results/elastic_cantilever--cantilever--orthotropic/summary.json) | ![Cantilever · Transverse isotropic](docs/images/home/elastic_cantilever--cantilever--transverse-isotropic.gif)<br>[Cantilever · Transverse isotropic](docs/results/elastic_cantilever--cantilever--transverse-isotropic/summary.json) | ![Elastic compression](docs/images/home/suite--compression--neo-hookean.gif)<br>[Elastic compression](docs/results/suite--compression--neo-hookean/summary.json) |
+| ![Pressure-loaded panel](docs/images/home/suite--surface-load--neo-hookean.gif)<br>[Pressure-loaded panel](docs/results/suite--surface-load--neo-hookean/summary.json) | ![Simple shear](docs/images/home/suite--shear--neo-hookean.gif)<br>[Simple shear](docs/results/suite--shear--neo-hookean/summary.json) | ![Torsional release](docs/images/home/suite--torsion--neo-hookean.gif)<br>[Torsional release](docs/results/suite--torsion--neo-hookean/summary.json) |
+
+### Constitutive compression
+
+| | | |
+|---|---|---|
+| ![Compression · Bilinear J2](docs/images/home/compression--compression--bilinear.gif)<br>[Compression · Bilinear J2](docs/results/compression--compression--bilinear/summary.json) | ![Compression · HJC](docs/images/home/compression--compression--hjc.gif)<br>[Compression · HJC](docs/results/compression--compression--hjc/summary.json) | ![Compression · HJC · refined](docs/images/home/dense-materials--compression--hjc.gif)<br>[Compression · HJC · refined](docs/results/dense-materials--compression--hjc/summary.json) |
+| ![Compression · Isotropic J2](docs/images/home/compression--compression--isotropic-plastic.gif)<br>[Compression · Isotropic J2](docs/results/compression--compression--isotropic-plastic/summary.json) | ![Compression · JH-2](docs/images/home/compression--compression--jh2.gif)<br>[Compression · JH-2](docs/results/compression--compression--jh2/summary.json) | ![Compression · JH-2 · refined](docs/images/home/dense-materials--compression--jh2.gif)<br>[Compression · JH-2 · refined](docs/results/dense-materials--compression--jh2/summary.json) |
+| ![Compression · Johnson–Cook](docs/images/home/compression--compression--johnson-cook.gif)<br>[Compression · Johnson–Cook](docs/results/compression--compression--johnson-cook/summary.json) | ![Compression · Johnson–Cook · refined](docs/images/home/dense-materials--compression--johnson-cook.gif)<br>[Compression · Johnson–Cook · refined](docs/results/dense-materials--compression--johnson-cook/summary.json) | ![Compression · RHT](docs/images/home/compression--compression--rht.gif)<br>[Compression · RHT](docs/results/compression--compression--rht/summary.json) |
+| ![Compression · Steinberg–Guinan](docs/images/home/compression--compression--steinberg-guinan.gif)<br>[Compression · Steinberg–Guinan](docs/results/compression--compression--steinberg-guinan/summary.json) | ![Compression · Thermal plasticity](docs/images/home/compression--compression--thermal-plastic.gif)<br>[Compression · Thermal plasticity](docs/results/compression--compression--thermal-plastic/summary.json) |  |
+
+### Wave refinement
+
+| | | |
+|---|---|---|
+| ![Longitudinal wave · coarse grid](docs/images/home/refinement--grid32--wave--neo-hookean.gif)<br>[Longitudinal wave · coarse grid](docs/results/refinement--grid32--wave--neo-hookean/summary.json) | ![Longitudinal wave · fine grid](docs/images/home/refinement--grid64--wave--linear.gif)<br>[Longitudinal wave · fine grid](docs/results/refinement--grid64--wave--linear/summary.json) | ![Longitudinal wave · half time step](docs/images/home/refinement--half_dt--wave--neo-hookean.gif)<br>[Longitudinal wave · half time step](docs/results/refinement--half_dt--wave--neo-hookean/summary.json) |
+| ![Longitudinal wave · reference grid](docs/images/home/suite--wave--neo-hookean.gif)<br>[Longitudinal wave · reference grid](docs/results/suite--wave--neo-hookean/summary.json) |  |  |
+
+<!-- END EXAMPLE GIFS -->
 
 ## Installation
 
