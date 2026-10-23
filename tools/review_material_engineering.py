@@ -49,6 +49,29 @@ def extrema(table, key):
     }
 
 
+def hjc_loading_patch(definition, config):
+    dx = config["domain_size"] / config["n_grid"]
+    coordinates = np.arange(config["n_grid"] + 1) * dx
+    boundary = definition["loading_boundary"]
+    selected = np.flatnonzero((coordinates >= boundary["lower"][0]) & (coordinates <= boundary["upper"][0]))
+    revision = definition.get("loading_revision", "legacy-exact-bounds-v1")
+    report = {"revision": revision, "selected_x_indices": selected.tolist(),
+              "selected_x_coordinates_m": coordinates[selected].tolist(),
+              "actual_grid_center_x_m": float(coordinates[selected].mean()) if len(selected) else None}
+    checks = {"recognized_loading_revision": revision in ("legacy-exact-bounds-v1", "centered-grid-patch-v2")}
+    if revision == "centered-grid-patch-v2":
+        nominal = np.array([.1875, .2125])
+        effective = np.array([np.nextafter(nominal[0], -np.inf), np.nextafter(nominal[1], np.inf)])
+        checks.update(
+            specified_nominal_loading_interval=bool(np.array_equal(definition.get("loading_nominal_x_bounds_m"), nominal)),
+            one_ulp_expansion_only=bool(np.array_equal(definition.get("loading_effective_x_bounds_m"), effective) and np.array_equal([boundary["lower"][0], boundary["upper"][0]], effective)),
+            actual_loading_nodes_match_record=bool(np.array_equal(selected, definition.get("loading_selected_grid_x_indices")) and np.array_equal(coordinates[selected], definition.get("loading_selected_grid_x_coordinates_m"))),
+            centered_actual_loading_nodes=bool(len(selected) > 0 and np.array_equal(selected, config["n_grid"] - selected[::-1]) and np.isclose(coordinates[selected].mean(), .2, rtol=0, atol=1e-14)),
+            recorded_loading_center_matches=bool(len(selected) > 0 and np.isclose(definition.get("loading_grid_center_x_m", np.nan), coordinates[selected].mean(), rtol=0, atol=1e-14)),
+        )
+    return checks, report
+
+
 def review(folder, name):
     family = {
         "jc-necking": "jc-tension", "concrete-bending-large": "concrete-bending",
@@ -199,6 +222,9 @@ def review_revision(result, folder, name, summary, observations, diagnostics, st
             check_ceramic_wide(result, definition, config, time, observations, state, positions, damage, summary["materials"][0])
         else:
             reference = positions[0]
+            patch_checks, patch_report = hjc_loading_patch(definition, config)
+            checks.update(patch_checks)
+            result["loading_grid_patch"] = patch_report
             loading = definition["loading_boundary"]
             center_x = 0.5 * (loading["lower"][0] + loading["upper"][0])
             bottom = np.isclose(reference[:, 1], reference[:, 1].min(), atol=1e-12, rtol=0)

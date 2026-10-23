@@ -104,3 +104,31 @@ def test_large_bending_keeps_geometry_and_uses_explicit_strain_floor_profile():
     loading = large.configs[0].boundaries[-1]
     np.testing.assert_allclose(loading.motion(large.duration)[0], [0, -.012, 0], atol=1e-15)
     np.testing.assert_array_equal(loading.motion(large.duration)[1], np.zeros(3))
+
+
+def test_large_bending_loader_includes_both_grid64_endpoints():
+    case = setup("concrete-bending-large", grid=64, ppc=1, frames=4)
+    config, definition = case.configs[0], case.description
+    loading = config.boundaries[-1]
+    grid_x = np.arange(config.n_grid + 1) * config.dx
+    assert grid_x[34] > .2125
+    np.testing.assert_array_equal(
+        [loading.lower[0], loading.upper[0]],
+        [np.nextafter(.1875, -np.inf), np.nextafter(.2125, np.inf)],
+    )
+    coordinates = jnp.asarray(np.column_stack((
+        grid_x, np.full_like(grid_x, (loading.lower[1] + loading.upper[1]) / 2 - .012),
+        np.full_like(grid_x, .2),
+    )))
+    velocity = jnp.broadcast_to(jnp.array([.3, .8, .4]), coordinates.shape)
+    held = np.asarray(jax.jit(loading.apply)(velocity, coordinates, jnp.asarray(case.duration)))
+    selected = np.flatnonzero(held[:, 1] == 0)
+    np.testing.assert_array_equal(selected, [30, 31, 32, 33, 34])
+    np.testing.assert_array_equal(selected, config.n_grid - selected[::-1])
+    np.testing.assert_array_equal(held[:, [0, 2]], np.asarray(velocity)[:, [0, 2]])
+    assert definition["loading_revision"] == "centered-grid-patch-v2"
+    assert definition["loading_nominal_x_bounds_m"] == [.1875, .2125]
+    assert definition["loading_effective_x_bounds_m"] == [loading.lower[0], loading.upper[0]]
+    assert definition["loading_selected_grid_x_indices"] == selected.tolist()
+    np.testing.assert_array_equal(definition["loading_selected_grid_x_coordinates_m"], grid_x[selected])
+    assert abs(definition["loading_grid_center_x_m"] - .2) < 1e-16

@@ -182,9 +182,15 @@ def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
     ramp_time = 0.25 * loading_duration if ramp_time is None else ramp_time
     speed = displacement / (loading_duration - (ramp_time if large else 0.5 * ramp_time))
     loading_type = LoadingBox if large else MovingVelocityBox
+    nominal_loading_x = (0.1875, 0.2125)
+    loading_x = (
+        (float(np.nextafter(nominal_loading_x[0], -np.inf)),
+         float(np.nextafter(nominal_loading_x[1], np.inf)))
+        if large else nominal_loading_x
+    )
     loading = loading_type(
-        (0.1875, upper[1] - 0.5 * dx, 0.0),
-        (0.2125, upper[1] + 2.0 * dx, domain),
+        (loading_x[0], upper[1] - 0.5 * dx, 0.0),
+        (loading_x[1], upper[1] + 2.0 * dx, domain),
         (0.0, -speed, 0.0),
         components=(False, True, False),
         ramp_time=ramp_time,
@@ -236,8 +242,16 @@ def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
         }
     )
     if large:
+        grid_x = np.arange(grid + 1) * dx
+        selected_x = np.flatnonzero((grid_x >= loading.lower[0]) & (grid_x <= loading.upper[0]))
         definition.update({
             "material_profile": profile,
+            "loading_revision": "centered-grid-patch-v2",
+            "loading_nominal_x_bounds_m": list(nominal_loading_x),
+            "loading_effective_x_bounds_m": list(loading_x),
+            "loading_selected_grid_x_indices": selected_x.tolist(),
+            "loading_selected_grid_x_coordinates_m": grid_x[selected_x].tolist(),
+            "loading_grid_center_x_m": float(grid_x[selected_x].mean()) if selected_x.size else None,
             "loading": "central translating y-velocity patch; cosine startup and stopping ramps, then fixed-displacement hold",
             "loading_duration_s": loading_duration,
             "hold_duration_s": hold_duration,
