@@ -6,7 +6,7 @@ on:
       preset:
         description: Reviewed engineering cases or the round-bar density diagnostic
         type: choice
-        options: [all, ceramic-wide, hjc-large, adhesion-v2-pair, adhesion-v3-pair, jc-density-diagnostic]
+        options: [all, ceramic-wide, hjc-large, adhesion-v2-pair, adhesion-v3-pair, jc-density-diagnostic, jc-necking-formal]
         default: all
         required: true
 
@@ -20,7 +20,7 @@ concurrency:
 jobs:
   engineering:
     runs-on: ubuntu-24.04
-    timeout-minutes: 240
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -51,7 +51,7 @@ jobs:
         timeout-minutes: 20
         run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
       - name: Solve and independently review
-        timeout-minutes: 200
+        timeout-minutes: 300
         run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
       - name: Upload reviewed results or the explicitly marked diagnostic
         if: success()

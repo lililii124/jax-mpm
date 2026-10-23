@@ -28,7 +28,7 @@ ADHESION_PRESETS = {
     "adhesion-v3-pair": ("outputs/adhesion-visible-v3", "lift-hold-v3"),
 }
 PAIR_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
-PRESETS = ("ceramic-wide", "hjc-large", *ADHESION_PRESETS, "jc-density-diagnostic")
+PRESETS = ("ceramic-wide", "hjc-large", *ADHESION_PRESETS, "jc-density-diagnostic", "jc-necking-formal")
 digest, save, identity = shared.digest, shared.save, shared.identity
 
 
@@ -47,12 +47,14 @@ def plan(preset):
         "ceramic-wide": ("ceramic-indentation-wide", "jh2", 96, 2, 40, 386420, 3e-4),
         "hjc-large": ("concrete-bending-large", "hjc", 64, 3, 60, 121104, 1.5e-3),
         "jc-density-diagnostic": ("jc-necking", "johnson-cook", 64, 2, 60, 33224, 150e-6),
+        "jc-necking-formal": ("jc-necking", "johnson-cook", 100, 2, 60, 102320, 150e-6),
     }[preset]
     root = "outputs/jc-necking-full-smoke-ppc2" if preset == "jc-density-diagnostic" else "outputs/material-engineering"
-    return [{"name": scene, "module": "examples.jc_necking" if preset == "jc-density-diagnostic" else "examples.material_engineering",
+    jc = preset in ("jc-density-diagnostic", "jc-necking-formal")
+    return [{"name": scene, "module": "examples.jc_necking" if jc else "examples.material_engineering",
              "grid": grid, "ppc": ppc, "frames": frames, "particles": particles, "duration": duration,
              "field": "damage", "root": root, "folder": f"{root}/{scene}/{model}",
-             "arguments": ["--end-time", "150e-6", "--cfl", ".15"] if preset == "jc-density-diagnostic" else ["--case", scene, "--model", model],
+             "arguments": ["--end-time", "150e-6", "--cfl", ".15"] if jc else ["--case", scene, "--model", model],
              "review": "tools/review_material_engineering.py"}]
 
 
@@ -178,11 +180,12 @@ def axial_support_cuts(sorted_x, dx):
     return bases, cuts
 
 
-def jc_diagnostic(folder):
+def jc_diagnostic(folder, *, expected_grid=64, expected_particles=33224, diagnostic=True):
     import numpy as np
 
     summary = json.loads((folder / "summary.json").read_text())
-    review = json.loads((folder / "interpretation.json").read_text())
+    review_name = "interpretation.json" if diagnostic else "constitutive-review.json"
+    review = json.loads((folder / review_name).read_text())
     config = summary["configs"][0]
     dx = config["domain_size"] / config["n_grid"]
     with np.load(folder / "trajectory.npz") as archive:
@@ -192,9 +195,16 @@ def jc_diagnostic(folder):
     records, support_history = [], []
     first_gap, first_failure, first_central_full_failure = None, None, None
     try:
+        if (positions.shape != (61, expected_particles, 3)
+                or damage.shape != positions.shape[:2] or failed.shape != damage.shape
+                or times.shape != (61,) or not np.isfinite(times).all()
+                or times[0] != 0 or not np.all(np.diff(times) > 0)):
+            raise ValueError("Incomplete or inconsistent JC saved arrays")
         initial = np.array(positions[0])
         levels, layers = np.unique(initial[:, 0], return_inverse=True)
         count = np.bincount(layers)
+        if len(levels) < 2:
+            raise ValueError("JC support audit requires multiple reference layers")
         spacing = float(np.diff(levels)[0])
         center_layers = np.abs(levels - .005) <= .51 * spacing
         central_particles = center_layers[layers]
@@ -208,7 +218,12 @@ def jc_diagnostic(folder):
             return np.bincount(layers, weights=squared) / count
 
         initial_radius = radius_squared(initial)
+        if np.any(initial_radius <= 0):
+            raise ValueError("A reference layer has no resolved radial extent")
         for frame, instant in enumerate(times):
+            if (not np.isfinite(positions[frame]).all() or not np.isfinite(damage[frame]).all()
+                    or not np.isin(failed[frame], (0, 1)).all()):
+                raise ValueError("Non-finite coordinates/damage or non-binary failure flags")
             active = np.flatnonzero(~np.asarray(failed[frame], dtype=bool))
             order = active[np.argsort(positions[frame, active, 0])]
             x = positions[frame, order, 0]
@@ -235,19 +250,28 @@ def jc_diagnostic(folder):
                 first_failure = row
             if row["central_active_particles"] == 0 and first_central_full_failure is None:
                 first_central_full_failure = row
-        complete = (summary.get("completed") is True and positions.shape == (61, 33224, 3)
-                    and config["n_grid"] == 64 and np.isclose(times[-1], 150e-6, rtol=1e-12, atol=0))
+        complete = bool(summary.get("completed") is True and positions.shape == (61, expected_particles, 3)
+                        and config["n_grid"] == expected_grid and np.isclose(times[-1], 150e-6, rtol=1e-12, atol=0))
         if not complete:
-            raise ValueError("JC diagnostic did not finish the fixed 64/ppc2 full-duration input")
+            raise ValueError(f"JC support audit did not finish the fixed {expected_grid}/ppc2 full-duration input")
     finally:
         for array in mapped:
             array._mmap.close()
-    result = {"diagnostic_only": True, "production_eligible": False, "completed": complete,
+    if first_gap is None:
+        ordering = "no_saved_support_disconnection"
+    elif first_failure is None or first_gap["time_s"] < first_failure["time_s"]:
+        ordering = "support_disconnection_observed_before_any_material_failure"
+    elif first_gap["time_s"] == first_failure["time_s"]:
+        ordering = "same_saved_interval_unresolved"
+    else:
+        ordering = "material_failure_observed_at_an_earlier_saved_state"
+    result = {"diagnostic_only": bool(diagnostic), "production_eligible": False, "completed": complete,
               "strict_review_passed": strict_passed(review), "failed_checks": [key for key, value in review["checks"].items() if value is not True],
-              "grid": 64, "particles": 33224, "dx_m": dx, "initial_layer_spacing_m": spacing,
+              "grid": expected_grid, "particles": expected_particles, "dx_m": dx, "initial_layer_spacing_m": spacing,
               "effective_particles_per_cell_per_axis": dx / spacing, "diameter_grid_cells": .0016 / dx,
               "first_axial_stencil_disconnection": first_gap, "first_saved_material_failure": first_failure,
               "first_saved_central_full_failure": first_central_full_failure,
+              "failure_disconnection_ordering": ordering,
               "support_disconnection_before_material_failure": first_gap is not None and (first_failure is None or first_gap["time_s"] < first_failure["time_s"]),
               "support_disconnection_before_central_full_failure": first_gap is not None and (first_central_full_failure is None or first_gap["time_s"] < first_central_full_failure["time_s"]),
               "support_disconnection_with_no_failed_material_observed": any(row["axial_support_cuts"] > 0 and row["failed_particles"] == 0 for row in records),
@@ -255,14 +279,44 @@ def jc_diagnostic(folder):
               "saved_positive_axial_support_cuts": support_history,
               "support_reconstruction": "Evaluate the three quadratic x weights from saved float64 positions, retain only strictly positive weights at in-domain nodes, then split the union of active-particle integer node intervals when no node is shared. No 3dx distance shortcut or numerical weight cutoff is used.",
               "interpretation": "An active-particle x-stencil cut is sufficient to prove no shared quadratic grid node across that plane. Its absence does not prove full 3D connectivity. A gap before any material failure is not rupture, even if central material later fails. D is not a crack-opening measurement; ballistic failed mass has no crack-face contact. First times refer to saved states; ordering within one saved interval is unresolved.",
-              "comparison_plan": "Same grid, CFL, duration, grips, geometry and JC parameters as the earlier ppc1 diagnostic; only the initial particle lattice is denser. No forced-fracture parameter adjustment.",
-              "sources": {name: digest(folder / name) for name in ("summary.json", "observables.csv", "diagnostics.csv", "interpretation.json", "final_state_0.npz", "trajectory.npz")}}
-    save(folder / "jc-density-diagnostic.json", result)
-    with (folder / "jc-density-history.csv").open("w", newline="", encoding="utf-8") as stream:
+              "comparison_plan": ("Same grid, CFL, duration, grips, geometry and JC parameters as the earlier ppc1 diagnostic; only the initial particle lattice is denser." if diagnostic else
+                                  "The grid100/ppc2 production run retains the JC constitutive parameters, geometry, grips, CFL and 150 microsecond loading duration; resolution differs from the grid64 diagnostic.") + " No forced-fracture parameter adjustment.",
+              "runner_source_sha256": digest(Path(__file__)),
+              "sources": {name: digest(folder / name) for name in ("summary.json", "observables.csv", "diagnostics.csv", review_name, "final_state_0.npz", "trajectory.npz", "trajectory_x.npy", "trajectory_damage.npy", "trajectory_failed.npy")}}
+    history_name = "jc-density-history.csv" if diagnostic else "jc-support-history.csv"
+    with (folder / history_name).open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=records[0], lineterminator="\n")
         writer.writeheader()
         writer.writerows(records)
+    result["history_csv"] = {"filename": history_name, "sha256": digest(folder / history_name), "rows": len(records)}
+    save(folder / ("jc-density-diagnostic.json" if diagnostic else "jc-support-audit.json"), result)
     return result
+
+
+def accept_jc_support(folder, audit, *, review_source_sha256=None):
+    """Append the support audit after preserving the original constitutive review."""
+    original = json.loads((folder / "constitutive-review.json").read_text())
+    checks = {
+        "constitutive_review_passed": strict_passed(original),
+        "support_audit_complete": audit.get("completed") is True,
+        "no_saved_support_disconnection_before_material_failure": (
+            audit.get("support_disconnection_before_material_failure") is False
+            and audit.get("support_disconnection_with_no_failed_material_observed") is False),
+    }
+    acceptance = {"passed": all(checks.values()), "checks": checks,
+        "scope": "Saved-frame support ordering gate in addition to the independent constitutive review. Coincident first saved failure and disconnection remains unresolved within that interval; it is not evidence that failure preceded disconnection.",
+        "failure_disconnection_ordering": audit["failure_disconnection_ordering"],
+        "runner_source_sha256": digest(Path(__file__)),
+        "sources": {name: digest(folder / name) for name in ("constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv")}}
+    save(folder / "runner-acceptance.json", acceptance)
+    augmented = {**original, "checks": {**original["checks"], **{"runner_"+name: value for name, value in checks.items()}}}
+    augmented["passed"] = all(value is True for value in augmented["checks"].values())
+    if review_source_sha256 is not None:
+        augmented["review_source_sha256"] = review_source_sha256
+    augmented["runner_source_sha256"] = acceptance["runner_source_sha256"]
+    augmented["supplemental_reviews"] = {name: digest(folder / name) for name in ("constitutive-review.json", "jc-support-audit.json", "runner-acceptance.json")}
+    save(folder / "interpretation.json", augmented)
+    return acceptance
 
 
 def pair_focus_check(definition):
@@ -432,6 +486,8 @@ def package(cases, provenance, diagnostic=False):
             with np.load(folder / "trajectory.npz") as archive:
                 np.savez_compressed(destination / "trajectory_index.npz", time=archive["time"], body=archive["body"])
             payloads["main"] += (destination / "trajectory_index.npz").stat().st_size
+        if provenance["preset"] == "jc-necking-formal":
+            names += ["constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv", "runner-acceptance.json"]
         for name in names:
             copy_payload(folder / name, Path(case["folder"]) / name, "main")
     if provenance["preset"] in ADHESION_PRESETS:
@@ -496,8 +552,10 @@ def run(preset):
                 or status.get("completed") is not True or status["frame"] != status["frames"] or status["frames"] != case["frames"]
                 or not np.isclose(config["dt"] * summary["steps"], case["duration"], rtol=1e-12, atol=0)):
             raise ValueError("Solver did not complete the fixed preset")
-        if preset == "jc-density-diagnostic" and (summary["steps"] != 37080 or definition["acoustic_CFL_requested"] != .15):
-            raise ValueError("JC diagnostic changed its grid time step or CFL")
+        if preset in ("jc-density-diagnostic", "jc-necking-formal"):
+            expected_steps = 37080 if preset == "jc-density-diagnostic" else 57900
+            if summary["steps"] != expected_steps or definition["acoustic_CFL_requested"] != .15:
+                raise ValueError("JC preset changed its grid time step or CFL")
         if preset == "hjc-large" and (definition.get("material_profile") != "strain-floor" or summary["materials"][0].get("legacy_v3") is not False):
             raise ValueError("HJC large preset did not use the strain-floor profile")
         if preset in ADHESION_PRESETS:
@@ -510,13 +568,22 @@ def run(preset):
         save(folder / "numerical-source.json", receipt)
         review_args = [str(folder)] if case["review"] == "tools/review_adhesion.py" else ["--root", case["root"], "--case", case["name"]]
         command("review-" + case["name"], [sys.executable, case["review"], *review_args], monitor=True, accepted_codes=(0, 1))
+        if preset == "jc-necking-formal":
+            shutil.copy2(folder / "interpretation.json", folder / "constitutive-review.json")
         report = json.loads((folder / "interpretation.json").read_text())
         report["review_source_sha256"] = receipt["review_source_sha256"]
         save(folder / "interpretation.json", report)
         reports.append(report)
-        if preset != "jc-density-diagnostic" and not strict_passed(report):
+        if preset not in ("jc-density-diagnostic", "jc-necking-formal") and not strict_passed(report):
             raise ValueError(f"Strict numerical review failed for {case['name']}; dependent work and media are not started")
     provenance["strict_review_passed"] = all(strict_passed(report) for report in reports)
+    if preset == "jc-necking-formal":
+        folder = ROOT / cases[0]["folder"]
+        audit = jc_diagnostic(folder, expected_grid=100, expected_particles=102320, diagnostic=False)
+        acceptance = accept_jc_support(folder, audit, review_source_sha256=source["review_sources"][cases[0]["review"]])
+        provenance["strict_review_passed"] = acceptance["passed"]
+        provenance["support_audit"] = {"filename": "jc-support-audit.json", "sha256": digest(folder / "jc-support-audit.json"),
+            "failure_disconnection_ordering": audit["failure_disconnection_ordering"]}
     if preset == "jc-density-diagnostic":
         result = jc_diagnostic(ROOT / cases[0]["folder"])
         provenance.update(completed=True, production_eligible=False, diagnostic_summary={
@@ -559,7 +626,7 @@ def preserve_failure(preset, error):
     for case in cases:
         folder = ROOT / case["folder"]
         destination = destination_root / "failed-cases" / case["name"]
-        for name in ("summary.json", "status.json", "interpretation.json", "observables.csv", "diagnostics.csv", "memory.json", "numerical-source.json", "jc-density-diagnostic.json"):
+        for name in ("summary.json", "status.json", "interpretation.json", "observables.csv", "diagnostics.csv", "memory.json", "numerical-source.json", "jc-density-diagnostic.json", "jc-density-history.csv", "constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv", "runner-acceptance.json"):
             path = folder / name
             if path.is_file():
                 destination.mkdir(parents=True, exist_ok=True)
@@ -571,6 +638,62 @@ def preserve_failure(preset, error):
             if path.is_file():
                 destination.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(path, destination / name)
+    preserve_failure_arrays(cases, destination_root)
+
+
+def preserve_failure_arrays(cases, destination_root):
+    """Keep bounded raw numerical evidence even when report serialization failed."""
+    part_limit = 32 * 1024**2
+    existing_bytes = sum(path.stat().st_size for path in LOGS.rglob('*') if path.is_file())
+    remaining = max(0, LIMIT-262144-existing_bytes)
+    initial_budget = remaining
+    records, part_number, part_bytes = [], 1, 0
+    for name in ("final_state_0.npz", "trajectory.npz"):
+        for case in cases:
+            origin = ROOT / case['folder'] / name
+            if not origin.is_file():
+                continue
+            record = {"source": (Path(case['folder']) / name).as_posix(), "preserved": False}
+            try:
+                length = origin.stat().st_size
+                record.update(bytes=length, sha256=digest(origin))
+                if remaining == 0:
+                    record['reason'] = 'No remaining space in the total failure-evidence budget.'
+                    records.append(record)
+                    continue
+                chunks = []
+                copied = 0
+                with origin.open('rb') as stream:
+                    chunk_index = 0
+                    while copied < length and remaining > 0:
+                        if part_bytes == part_limit:
+                            part_number, part_bytes = part_number+1, 0
+                        block = stream.read(min(part_limit-part_bytes, 8*1024**2, remaining))
+                        if not block:
+                            break
+                        relative = Path('failed-data') / f'part-{part_number:03d}' / case['name'] / f'{name}.chunk-{chunk_index:04d}'
+                        target = destination_root / relative
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        target.write_bytes(block)
+                        chunks.append({"path": relative.as_posix(), "bytes": len(block), "sha256": hashlib.sha256(block).hexdigest()})
+                        part_bytes += len(block)
+                        remaining -= len(block)
+                        copied += len(block)
+                        chunk_index += 1
+                record.update(preserved=copied == length, copied_bytes=copied, chunks=chunks)
+                if copied != length:
+                    record['reason'] = 'Only the leading bytes fit the total failure-evidence budget. These chunks are an incomplete file prefix, not a usable NPZ or a complete trajectory.'
+            except OSError as failure:
+                record['reason'] = repr(failure)
+            records.append(record)
+    save(destination_root / 'failed-data-index.json', {
+        "completed": False, "production_eligible": False, "total_budget_bytes": LIMIT,
+        "preexisting_log_bytes": existing_bytes, "available_numerical_payload_bytes": initial_budget,
+        "budget_already_exceeded_by_existing_records": existing_bytes > LIMIT,
+        "copied_numerical_payload_bytes": initial_budget-remaining, "part_limit_bytes": part_limit,
+        "files": records,
+        "restoration": "Verify every chunk hash and byte count, concatenate chunks in their recorded order, then verify the complete source hash and size. Raw evidence may be incomplete after a solver interruption; a preserved file is not a passed numerical review. All existing failure records are retained.",
+    })
 
 
 def main():
