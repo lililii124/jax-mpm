@@ -1316,5 +1316,29 @@
       "interpretation.json": "3f9a181d9a1ada08c2f6bec2a0c4fb6248ceb99566600d188a8639bda9ef9a95",
       "numerical-source.json": "3b6c7b5904e13dfa57a5d9d952e33fc9ae804e6ae238de665db8723118db340b"
     }
+  },
+  {
+    "id": "woven--twill-2x2--in-plane-shear",
+    "case": "twill-2x2/in-plane-shear / woven-composite",
+    "source_directory": "outputs/woven/twill-2x2/in-plane-shear",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.953872866672024,
+    "max_damage": 0.0,
+    "solver_seconds": 1240.8183520829996,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "4ba704ea948f86c5f4672c0b93f044db5c493427f9715ad9559928c6256fa621",
+      "diagnostics.csv": "303fadefe9f957208d237006b25d731a2c4ea97084aa8f4b7333748d9a62d738",
+      "observables.csv": "66a7bbcca77311af92eb0065de615e893b2d5cd8087205aaf75412e71d1e0d78",
+      "render.json": "324a03cca4c302dff831e77b08bc9ed19f41f53a7c41376512f8b68e54bab7bc",
+      "vtk_metadata.json": "6461b4d9bf3e7b9dc8430436a4636862aa32363ab441877f8711167c696f1d9e",
+      "video.json": "485fb06ba5248288ef765418a864e0dbb1677d01f37f873a2e61ecd8f3750d62",
+      "memory.json": "9c21c1b49f7c52ae9a7235b860dd0c99dea71e3c11668513051819ea4e9544b5",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "a17f8e88fe024f54cde5f8c11c6c55eab41f9ba314ca79802e59ef6e6ff9f7a4",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]
