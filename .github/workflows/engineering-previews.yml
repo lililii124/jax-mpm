@@ -1,0 +1,112 @@
+name: engineering previews
+
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: Reviewed engineering cases or the round-bar density diagnostic
+        type: choice
+        options: [all, ceramic-wide, hjc-large, adhesion-v2-pair, jc-density-diagnostic]
+        default: all
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  cancel-in-progress: false
+
+jobs:
+  engineering:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v2-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OMP_NUM_THREADS: '4'
+      OPENBLAS_NUM_THREADS: '1'
+      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install CPU and rendering dependencies
+        timeout-minutes: 15
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg libosmesa6 libosmesa6-dev libgl1 libglu1-mesa libx11-6 libx11-xcb1 libxcb1 libxcb-cursor0 libxrender1 libxi6 libxkbcommon0 libxkbcommon-x11-0 libsm6 libice6 libxext6
+          python -m pip install -e . psutil
+      - name: Install official ParaView
+        timeout-minutes: 20
+        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
+      - name: Solve and independently review
+        timeout-minutes: 200
+        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
+      - name: Upload reviewed results or the explicitly marked diagnostic
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/engineering-delivery/main/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload separate final state when needed
+        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
+          path: .local/engineering-delivery/final-state/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload second final state when needed
+        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
+          path: .local/engineering-delivery/final-state-2/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload separate media when needed
+        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
+          path: .local/engineering-delivery/media/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload second media package when needed
+        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
+          path: .local/engineering-delivery/media-2/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
+          path: .local/engineering-ci/
+          if-no-files-found: warn
+          retention-days: 1
+          compression-level: 6
