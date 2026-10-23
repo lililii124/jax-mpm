@@ -15,12 +15,17 @@ on:
         options: [initial, shear, remaining, hemisphere]
         default: initial
         required: true
+      case:
+        description: Optional single architecture/loading to retry within the selected preset
+        type: string
+        default: ''
+        required: false
 
 permissions:
   contents: read
 
 concurrency:
-  group: woven-previews-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.batch }}
+  group: woven-previews-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.batch }}-${{ inputs.case || 'batch' }}
   cancel-in-progress: false
 
 jobs:
@@ -37,12 +42,13 @@ jobs:
         env:
           PRESET: ${{ inputs.preset }}
           BATCH: ${{ inputs.batch }}
+          SINGLE_CASE: ${{ inputs.case }}
         run: |
           python - <<'PY'
           import json
           import os
           from tools.run_woven_preview import case_matrix
-          cases = case_matrix(os.environ['PRESET'], os.environ['BATCH'])
+          cases = case_matrix(os.environ['PRESET'], os.environ['BATCH'], os.environ['SINGLE_CASE'])
           with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
               stream.write('cases=' + json.dumps(cases, separators=(',', ':')) + '\n')
           PY
@@ -74,11 +80,8 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
       - name: Install CPU and rendering dependencies
-        timeout-minutes: 15
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg libosmesa6 libosmesa6-dev libgl1 libglu1-mesa libx11-6 libx11-xcb1 libxcb1 libxcb-cursor0 libxrender1 libxi6 libxkbcommon0 libxkbcommon-x11-0 libsm6 libice6 libxext6
-          python -m pip install -e . psutil
+        timeout-minutes: 30
+        run: python tools/install_runner_dependencies.py --log-dir .local/woven-ci
       - name: Install official ParaView
         timeout-minutes: 20
         run: python tools/run_woven_preview.py install

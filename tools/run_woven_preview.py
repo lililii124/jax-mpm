@@ -32,9 +32,14 @@ PV_NAME = f"ParaView-{PV_VERSION}-MPI-Linux-Python3.12-x86_64"
 PV_URL = f"https://www.paraview.org/files/v6.2/{PV_NAME}.tar.gz"
 
 
-def case_matrix(preset, batch):
+def case_matrix(preset, batch, single_case=""):
     if preset not in ("formal", "coarse") or batch not in BATCHES:
         raise ValueError("Unknown woven run preset or batch")
+    if single_case:
+        pair = tuple(single_case.split("/"))
+        if pair not in (COARSE_PAIRS if preset == "coarse" else PAIRS):
+            raise ValueError("Unknown architecture/loading for single-case execution")
+        return [{"architecture": pair[0], "loading": pair[1]}]
     if preset == "coarse":
         if batch != "initial":
             raise ValueError("Only the original five-case coarse preview batch is enabled")

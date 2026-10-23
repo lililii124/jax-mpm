@@ -45,11 +45,8 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
       - name: Install CPU and rendering dependencies
-        timeout-minutes: 15
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg libosmesa6 libosmesa6-dev libgl1 libglu1-mesa libx11-6 libx11-xcb1 libxcb1 libxcb-cursor0 libxrender1 libxi6 libxkbcommon0 libxkbcommon-x11-0 libsm6 libice6 libxext6
-          python -m pip install -e . psutil
+        timeout-minutes: 30
+        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
       - name: Install official ParaView
         timeout-minutes: 20
         run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
