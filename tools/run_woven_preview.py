@@ -17,10 +17,12 @@ import time
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 LOGS = ROOT / ".local/woven-ci"
 DELIVERY = ROOT / ".local/woven-delivery"
 LIMIT = 100 * 1024**2
 PAIRS = {("plain", "transverse-bending"), ("triaxial", "in-plane-shear")}
+COARSE_PAIRS = PAIRS | {("plain", "warp-tension"), ("plain", "weft-tension"), ("twill-2x2", "transverse-compression")}
 PV_VERSION = "6.2.0"
 PV_NAME = f"ParaView-{PV_VERSION}-MPI-Linux-Python3.12-x86_64"
 PV_URL = f"https://www.paraview.org/files/v6.2/{PV_NAME}.tar.gz"
@@ -51,7 +53,7 @@ def identity():
     }
 
 
-def command(name, arguments, *, monitor=False):
+def command(name, arguments, *, monitor=False, accepted_codes=(0,)):
     import psutil
 
     LOGS.mkdir(parents=True, exist_ok=True)
@@ -112,7 +114,7 @@ def command(name, arguments, *, monitor=False):
             if monitor:
                 record["memory"] = memory
             save(LOGS / f"{name}.json", record)
-    if code:
+    if code not in accepted_codes:
         raise subprocess.CalledProcessError(code, arguments)
     return record
 
@@ -165,9 +167,47 @@ def manifest(folder):
     files = {path.relative_to(folder).as_posix(): {"bytes": path.stat().st_size, "sha256": digest(path)}
              for path in sorted(folder.rglob("*")) if path.is_file() and path.name != "delivery-manifest.json"}
     record = {**identity(), "files": files, "total_bytes": sum(item["bytes"] for item in files.values())}
+    provenance = folder / "provenance.json"
+    if provenance.is_file():
+        metadata = json.loads(provenance.read_text())
+        record.update({key: metadata[key] for key in ("preset", "strict_review_passed", "preview_eligible") if key in metadata})
     if record["total_bytes"] > LIMIT:
         raise ValueError(f"Artifact exceeds 100 MiB: {folder}")
     save(folder / "delivery-manifest.json", record)
+
+
+def prepare_coarse_preview(folder, architecture, loading):
+    from tools.public_runs import is_woven_preview_ready
+
+    original = (folder / "interpretation.json").read_bytes()
+    review = json.loads(original)
+    summary = json.loads((folder / "summary.json").read_text())
+    allowed = {"at_least_one_hundred_thousand_particles", "grid_resolves_yarn_height"}
+    if loading == "transverse-compression":
+        allowed.add("required_moving_samples_exist")
+    checks = review.get("checks", {})
+    failed = {name for name, passed in checks.items() if passed is False}
+    required = ("positive_final_stored_elastic_energy", "final_piola_section_forces_match", "final_reference_section_moment_matches")
+    if (review.get("passed") is not False or not failed or not failed <= allowed
+            or any(type(value) is not bool for value in checks.values())
+            or not all(checks.get(name) is True for name in required)):
+        raise ValueError("Coarse preview has an unapproved physical or integrity failure")
+    limitations = ["Coarse grid and particle sampling do not satisfy the production particle-count and yarn-height resolution requirements; no convergence claim."]
+    if "required_moving_samples_exist" in failed:
+        limitations.append("No fully supported interior moving-platen samples exist on this coarse grid; exact particle boundary tracking is not established.")
+    (folder / "preview-review.json").write_bytes(original)
+    names = ("summary.json", "diagnostics.csv", "observables.csv", "interpretation.json", "preview-review.json")
+    eligibility = {"kind": "coarse-woven-preview-v1", "eligible": True,
+                   "review_file": "preview-review.json", "source_review_passed": False,
+                   "allowed_failed_checks": sorted(allowed), "observed_failed_checks": sorted(failed),
+                   "limitations": limitations,
+                   "sources": {name: hashlib.sha256((folder / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for name in names}}
+    save(folder / "preview-eligibility.json", eligibility)
+    if not is_woven_preview_ready(folder, f"woven-preview--{architecture}--{loading}", summary):
+        raise ValueError("The public coarse-preview eligibility gate rejected this run")
+    if (folder / "interpretation.json").read_bytes() != original:
+        raise ValueError("Original numerical review was modified")
+    return eligibility
 
 
 def package(folder, provenance):
@@ -182,11 +222,14 @@ def package(folder, provenance):
              "video.json", "vtk_check.json", "memory.json", "scene.pvsm", "final.png", "simulation.gif", "simulation.mp4")
     for name in names:
         shutil.copy2(folder / name, result / name)
+    if provenance.get("preset") == "coarse":
+        for name in ("preview-review.json", "preview-eligibility.json", "coarse-preview.json"):
+            shutil.copy2(folder / name, result / name)
     shutil.copytree(folder / "frames", result / "frames")
     with np.load(folder / "trajectory.npz") as archive:
         np.savez_compressed(result / "trajectory_index.npz", time=archive["time"], body=archive["body"])
     provenance["trajectory_index"] = {"file": "trajectory_index.npz", "fields": ["time", "body"], "source": "trajectory.npz", "source_sha256": digest(folder / "trajectory.npz"), "source_bytes": (folder / "trajectory.npz").stat().st_size}
-    provenance["omitted_large_data"] = "Full trajectory archives, memory-mapped trajectories and VTK frames remain on the runner; strict numerical review and actual VTK first/last readback ran before packaging. The PVD and scene retain their original references, so they require the omitted VTK series to reopen."
+    provenance["omitted_large_data"] = "Unpackaged trajectory archives, memory-mapped trajectories and VTK frames remain on the runner; numerical review and actual VTK first/last readback ran before packaging. The PVD and scene retain their original references, so they require the omitted VTK series to reopen."
     shutil.copy2(LOGS / "numerical-source.json", main / "numerical-source.json")
     shutil.copy2(LOGS / "paraview-install.json", main / "paraview-install.json")
     save(main / "provenance.json", provenance)
@@ -200,18 +243,33 @@ def package(folder, provenance):
         provenance["separate_final_state_artifact"] = True
         save(main / "provenance.json", provenance)
         manifest(separate)
+    if provenance.get("preset") == "coarse":
+        extra = sorted(folder.glob("trajectory*.np*"))
+        remaining = LIMIT - sum(path.stat().st_size for path in main.rglob("*") if path.is_file()) - 32768
+        included = sum(path.stat().st_size for path in extra) <= remaining
+        if included:
+            for path in extra:
+                shutil.copy2(path, result / path.name)
+        provenance["coarse_trajectory_bundle"] = {
+            "included": included,
+            "files": {path.name: {"bytes": path.stat().st_size, "sha256": digest(path)} for path in extra},
+            "scope": "Original complete archive and saved arrays; included together when the media artifact remains below 100 MiB",
+        }
+        save(main / "provenance.json", provenance)
     manifest(main)
 
 
-def run(architecture, loading):
+def run(architecture, loading, preset="formal"):
     from PIL import Image
 
-    if (architecture, loading) not in PAIRS:
-        raise ValueError("Only the reviewed first two preview cases are enabled")
+    if (architecture, loading) not in (COARSE_PAIRS if preset == "coarse" else PAIRS):
+        raise ValueError("This architecture/loading pair is not enabled for the selected preset")
+    grid, ppc = (48, 1) if preset == "coarse" else (96, 2)
+    output_root = "outputs/woven-smoke" if preset == "coarse" else "outputs/woven"
     source = source_record()
     save(LOGS / "numerical-source.json", source)
-    folder = ROOT / "outputs/woven" / architecture / loading
-    provenance = {**identity(), "parameters": {"architecture": architecture, "loading": loading, "grid": 96, "ppc": 2, "frames": 60},
+    folder = ROOT / output_root / architecture / loading
+    provenance = {**identity(), "preset": preset, "parameters": {"architecture": architecture, "loading": loading, "grid": grid, "ppc": ppc, "frames": 60},
                   "runtime": {"python": sys.version, "platform": platform.platform(), "cpu_count": os.cpu_count(),
                               "packages": {name: importlib.metadata.version(name) for name in ("jax", "jaxlib", "numpy", "pillow", "psutil")}},
                   "disk_free_bytes_before_solve": shutil.disk_usage(ROOT).free, "completed": False}
@@ -219,14 +277,18 @@ def run(architecture, loading):
     if provenance["disk_free_bytes_before_solve"] < 8 * 1024**3:
         raise RuntimeError("Less than 8 GiB free before solving")
     solve = command("solve", [sys.executable, "-m", "examples.woven_composite", "--architecture", architecture,
-                              "--loading", loading, "--grid", "96", "--ppc", "2", "--frames", "60", "--output", "outputs/woven", "--no-render"], monitor=True)
+                              "--loading", loading, "--grid", str(grid), "--ppc", str(ppc), "--frames", "60", "--output", output_root, "--no-render"], monitor=True)
     save(folder / "memory.json", solve["memory"])
-    command("review", [sys.executable, "tools/review_woven.py", str(folder)], monitor=True)
+    command("review", [sys.executable, "tools/review_woven.py", str(folder)], monitor=True,
+            accepted_codes=(0, 1) if preset == "coarse" else (0,))
     review = json.loads((folder / "interpretation.json").read_text())
-    if review.get("passed") is not True or not review.get("checks") or not all(value is True for value in review["checks"].values()):
-        raise ValueError("Strict numerical review did not pass")
-    review["review_source_sha256"] = source["review_source_sha256"]
-    save(folder / "interpretation.json", review)
+    if preset == "coarse":
+        eligibility = prepare_coarse_preview(folder, architecture, loading)
+    else:
+        if review.get("passed") is not True or not review.get("checks") or not all(value is True for value in review["checks"].values()):
+            raise ValueError("Strict numerical review did not pass")
+        review["review_source_sha256"] = source["review_source_sha256"]
+        save(folder / "interpretation.json", review)
     command("render", [sys.executable, "-m", "mpm_jax.visualization", str(folder), "--gif", "--field", "family_id", "--resolution", "1200", "--matrix-opacity", "0.008"], monitor=True)
     command("video", [sys.executable, "tools/encode_video.py", str(folder)])
     command("vtk-check", [os.environ["PARAVIEW_PYTHON"], "--force-offscreen-rendering", "tools/check_vtk.py", str(folder)])
@@ -260,10 +322,24 @@ def run(architecture, loading):
                                     "scope": "actual VTK reader comparisons with original coordinates/scalars and exact static integer fields"})
     if source_record() != source:
         raise ValueError("Source changed during the run")
-    provenance.update(completed=True, strict_review_passed=True, vtk_readback_passed=True,
+    provenance.update(completed=True, strict_review_passed=review["passed"],
+                      preview_eligible=preset == "coarse", vtk_readback_passed=True,
                       review_sha256=digest(folder / "interpretation.json"),
                       solver_seconds=summary["solver_seconds"], render_version=render["version"],
                       disk_free_bytes_after_render=shutil.disk_usage(ROOT).free)
+    if preset == "coarse":
+        save(folder / "coarse-preview.json", {
+            "scope": "Full-duration coarse preview; not production-resolution validation",
+            "production_eligible": False, "original_review_passed": False, "current_review_passed": False,
+            "coarse_preview_authorized": True, "preview_eligible": True,
+            "grid": grid, "particles_per_cell_per_axis": ppc, "frames": 61,
+            "particles_per_frame": vtk["particles"],
+            "failed_production_checks_preserved": eligibility["observed_failed_checks"],
+            "limitations": eligibility["limitations"], "review_tool_sha256": source["review_source_sha256"],
+            "review_sha256": digest(folder / "preview-review.json"),
+            "render_sha256": digest(folder / "render.json"), "gif_sha256": digest(folder / "simulation.gif"),
+            "video_sha256": digest(folder / "simulation.mp4"),
+        })
     save(LOGS / "provenance.json", provenance)
     package(folder, provenance)
 
@@ -271,17 +347,19 @@ def run(architecture, loading):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("install", "run"))
-    parser.add_argument("--architecture", choices=("plain", "triaxial"))
-    parser.add_argument("--loading", choices=("transverse-bending", "in-plane-shear"))
+    parser.add_argument("--preset", choices=("formal", "coarse"), default="formal")
+    parser.add_argument("--architecture", choices=("plain", "triaxial", "twill-2x2"))
+    parser.add_argument("--loading", choices=("warp-tension", "weft-tension", "transverse-bending", "in-plane-shear", "transverse-compression"))
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or platform.system() != "Linux":
         parser.error("This helper only runs on the Linux GitHub Actions runner")
     LOGS.mkdir(parents=True, exist_ok=True)
     try:
-        install() if args.action == "install" else run(args.architecture, args.loading)
+        install() if args.action == "install" else run(args.architecture, args.loading, args.preset)
     except Exception as error:
         save(LOGS / "failure.json", {"error": repr(error), "time_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())})
-        for path in (ROOT / "outputs/woven").glob("*/*/*"):
+        output_root = "outputs/woven-smoke" if args.preset == "coarse" else "outputs/woven"
+        for path in (ROOT / output_root).glob("*/*/*"):
             if path.is_file() and path.name in ("summary.json", "status.json", "interpretation.json", "diagnostics.csv", "observables.csv") and path.stat().st_size < 500_000:
                 shutil.copy2(path, LOGS / path.name)
         raise

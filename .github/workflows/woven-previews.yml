@@ -2,12 +2,19 @@ name: woven previews
 
 on:
   workflow_dispatch:
+    inputs:
+      preset:
+        description: Full resolution runs or explicitly labelled coarse previews
+        type: choice
+        options: [formal, coarse]
+        default: formal
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: woven-previews-${{ github.ref }}
+  group: woven-previews-${{ github.ref }}-${{ inputs.preset }}
   cancel-in-progress: false
 
 jobs:
@@ -16,13 +23,9 @@ jobs:
     timeout-minutes: 180
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: ${{ inputs.preset == 'coarse' && 5 || 2 }}
       matrix:
-        include:
-          - architecture: plain
-            loading: transverse-bending
-          - architecture: triaxial
-            loading: in-plane-shear
+        include: ${{ fromJSON(inputs.preset == 'coarse' && '[{"architecture":"plain","loading":"warp-tension"},{"architecture":"plain","loading":"weft-tension"},{"architecture":"plain","loading":"transverse-bending"},{"architecture":"triaxial","loading":"in-plane-shear"},{"architecture":"twill-2x2","loading":"transverse-compression"}]' || '[{"architecture":"plain","loading":"transverse-bending"},{"architecture":"triaxial","loading":"in-plane-shear"}]') }}
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -52,7 +55,7 @@ jobs:
         run: python tools/run_woven_preview.py install
       - name: Solve, review, render and verify
         timeout-minutes: 140
-        run: python tools/run_woven_preview.py run --architecture ${{ matrix.architecture }} --loading ${{ matrix.loading }}
+        run: python tools/run_woven_preview.py run --preset ${{ inputs.preset }} --architecture ${{ matrix.architecture }} --loading ${{ matrix.loading }}
       - name: Upload reviewed media and records
         if: success()
         uses: actions/upload-artifact@v4
