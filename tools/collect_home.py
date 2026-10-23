@@ -34,6 +34,7 @@ WOVEN_LOADS = {
     "warp-tension": "Warp tension", "weft-tension": "Transverse in-plane tension",
     "in-plane-shear": "In-plane shear", "transverse-compression": "Through-thickness compression",
     "transverse-bending": "Out-of-plane bending",
+    "hemispherical-compression": "Hemispherical compression",
 }
 TITLES = {
     "jc-tension": "JC round-bar tension",
