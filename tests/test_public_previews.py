@@ -107,3 +107,21 @@ def test_fine_result_remains_displayed_beside_its_archived_preview(tmp_path):
     })
     catalogue = [{"id": coarse}, {"id": fine}]
     assert homepage_records(tmp_path, catalogue) == [catalogue[1]]
+
+
+def test_hidden_concrete_bending_does_not_restore_the_previous_exhibit(tmp_path):
+    previous = "material-engineering--concrete-bending--hjc"
+    current = "material-engineering--concrete-bending-large--hjc"
+    for identifier in (previous, current):
+        folder = tmp_path / "docs/results" / identifier
+        folder.mkdir(parents=True)
+        write(folder / "summary.json", {"completed": True})
+        for name in ("diagnostics.csv", "observables.csv"):
+            (folder / name).write_text("time,value\n0,0\n1,1\n", encoding="utf-8")
+        write(folder / "interpretation.json", {
+            "passed": True, "checks": {"independent_review": True},
+            "sources": {name: digest(folder / name) for name in ("summary.json", "diagnostics.csv", "observables.csv")},
+        })
+    catalogue = [{"id": previous}, {"id": current}]
+    assert homepage_records(tmp_path, catalogue) == []
+    assert all((tmp_path / "docs/results" / record["id"] / "interpretation.json").is_file() for record in catalogue)

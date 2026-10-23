@@ -122,7 +122,7 @@ including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 38 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 37 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -346,3 +346,5 @@ The [completed run](docs/results/material-engineering--concrete-bending-large--h
 The earlier 2 mm legacy-profile run remains archived. This new loading history and constitutive profile do not form a convergence comparison with it.
 
 Coarse woven runs remain in the numerical archive. Their animations are excluded from the homepage and gallery, including cases with no completed fine-grid replacement.
+
+The large-displacement HJC bending animation is temporarily excluded from the homepage and gallery while its damage asymmetry is reviewed. Its numerical record and original media remain archived; the earlier HJC animation is not substituted.

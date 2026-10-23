@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 HIDDEN_HOME_IDS = {
+    "material-engineering--concrete-bending-large--hjc",
     "refinement--grid32--wave--neo-hookean",
     "refinement--grid64--wave--linear",
     "refinement--half_dt--wave--neo-hookean",
