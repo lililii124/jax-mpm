@@ -10,6 +10,7 @@ from urllib.parse import quote
 
 from collect_gallery import GROUPS, preview
 from collect_results import SOURCES
+from public_runs import is_public_run
 
 
 def build(root, output):
@@ -20,7 +21,7 @@ def build(root, output):
 
     cards, pending = [], []
     selected = {relative: name for entries in GROUPS.values() for name, relative in entries}
-    completed, largest = 0, 0
+    completed, published, largest = 0, 0, 0
     for source in SOURCES:
         for summary_file in sorted((root / "outputs" / source).rglob("summary.json")):
             folder = summary_file.parent
@@ -28,9 +29,12 @@ def build(root, output):
             if summary.get("completed") is False or not (folder / "trajectory.npz").exists():
                 continue
             completed += 1
+            relative = folder.relative_to(root / "outputs").as_posix()
+            if not is_public_run(relative):
+                continue
+            published += 1
             particles = sum(summary["particles"])
             largest = max(largest, particles)
-            relative = folder.relative_to(root / "outputs").as_posix()
             name = selected.get(relative, str(summary["case"]).split(" / ", 1)[0])
             render_file = folder / "render.json"
             render = (
@@ -94,6 +98,8 @@ def build(root, output):
             except (OSError, json.JSONDecodeError):
                 continue
             label = status_file.parent.relative_to(root / "outputs").as_posix()
+            if not is_public_run(label):
+                continue
             pending.append(
                 f'<li><a href="{link(status_file)}">{html.escape(label)}</a>'
                 f' · 已保存帧 {status.get("frame", "—")}</li>'
@@ -125,7 +131,7 @@ document.querySelectorAll('article').forEach(c=>c.hidden=!((category==='all'||c.
 document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{category=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(c=>c.classList.toggle('active',c===b));filter()});
 search.oninput=filter;
 </script></body></html>"""
-    stats = f"<b>{completed}</b> 个完整运行<br>单例最大 <b>{largest:,}</b> 物质点"
+    stats = f"<b>{published}</b> 个公开运行 · 本地完成 {completed}<br>单例最大 <b>{largest:,}</b> 物质点"
     partial = (
         ("<details><summary>尚未完成的运行（未计入完整记录）</summary><ul>" + "".join(pending) + "</ul></details>")
         if pending
@@ -137,7 +143,7 @@ search.oninput=filter;
         .replace("__PENDING__", partial)
     )
     (output / "index.html").write_text(document, encoding="utf-8")
-    print(f"{output / 'index.html'}: {completed} completed runs, largest {largest:,} particles")
+    print(f"{output / 'index.html'}: {published} public runs from {completed} completed local runs, largest {largest:,} particles")
 
 
 def main():

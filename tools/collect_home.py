@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from public_runs import is_public_run
+
 
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN = "<!-- BEGIN EXAMPLE GIFS -->"
@@ -111,6 +113,8 @@ def main():
     entries = payload["runs"] if isinstance(payload, dict) else payload
     index_path = root / "docs/results/index.json"
     catalogue = json.loads(index_path.read_text(encoding="utf-8"))
+    if any(not is_public_run(record["id"]) for record in catalogue + entries):
+        raise ValueError("GIF catalogue contains a run excluded from public documentation")
     if isinstance(payload, dict):
         if not payload.get("completed"):
             raise ValueError("GIF audit is incomplete")

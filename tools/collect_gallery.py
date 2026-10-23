@@ -6,6 +6,8 @@ import hashlib
 from pathlib import Path
 import shutil
 
+from public_runs import is_public_run
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -140,8 +142,8 @@ def main():
         "# Gallery",
         "",
         "Selected ParaView frames and videos from completed runs. Every material point is rendered.",
-        "Body colours distinguish contacting bodies; the brittle-material compression",
-        "images show damage on a fixed range over time. [Run records](RESULTS.md) contain",
+        "Body colours distinguish contacting bodies; damage colours use a fixed range",
+        "over time. [Run records](RESULTS.md) contain",
         "the parameters and numerical results.",
         "",
     ]
@@ -149,6 +151,8 @@ def main():
     for heading, entries in GROUPS.items():
         cells = []
         for name, relative in entries:
+            if not is_public_run(relative):
+                continue
             folder = ROOT / "outputs" / relative
             if not all((folder / f).exists() for f in ("summary.json", "render.json", "final.png")):
                 continue

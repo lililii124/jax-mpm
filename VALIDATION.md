@@ -73,8 +73,11 @@ Definitions, boundary regions and final metrics are preserved in the
 
 ## Spatial examples
 
-The catalogue contains the completed dynamics, contact, fluid and FSI runs,
-five elastic beam models, and eight incremental-material compression cases.
+The local output collection contains **47 completed runs**. The public
+[catalogue](docs/RESULTS.md) contains **31 selected runs**, covering dynamics,
+contact, engineering structures, fluids and FSI. Basic compression and the
+separate elastic-material cantilever comparisons remain local; their material
+implementations and regression fixtures are retained in the repository.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -99,20 +102,6 @@ particle volume. The [response review](docs/results/dynamics-review.json) record
 the checks and their scope; `python tools/review_dynamics.py` regenerates it.
 Peak values refer to saved frames, and the large-bending maximum occurs at the
 end of its time window. These checks do not establish spatial convergence.
-
-Dense JC, JH-2 and HJC compression runs each use **195,112 particles**, a 64³
-grid and 140 steps. They retain the material constants, specimen geometry,
-prescribed platen motion and physical duration of the original compression cases.
-Recorded mass is constant, and all 28 arrays in each final state are finite.
-
-| Material | Minimum det(F) | Maximum damage | Maximum plastic strain |
-|---|---:|---:|---:|
-| Johnson–Cook | 0.988342 | 0 | 0.037675 |
-| JH-2 | 0.990355 | 1 | 0.021374 |
-| HJC | 0.968495 | 0.593236 | 0.022248 |
-
-The completed RHT spatial compression contains 24,389 particles. All four
-models also have the material-point and constitutive checks described above.
 
 The completed water-entry run uses **1,327,400 particles** (1,242,216 liquid and
 85,184 solid) on a 72³ grid, with 27 particles per fully filled cell. It advances

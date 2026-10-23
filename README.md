@@ -40,18 +40,8 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![Cantilever · Blatz–Ko](docs/images/home/elastic_cantilever--cantilever--blatz-ko.gif)<br>[Cantilever · Blatz–Ko](docs/results/elastic_cantilever--cantilever--blatz-ko/summary.json) | ![Cantilever · Linear elastic](docs/images/home/elastic_cantilever--cantilever--linear.gif)<br>[Cantilever · Linear elastic](docs/results/elastic_cantilever--cantilever--linear/summary.json) | ![Cantilever · Neo-Hookean](docs/images/home/suite--cantilever--neo-hookean.gif)<br>[Cantilever · Neo-Hookean](docs/results/suite--cantilever--neo-hookean/summary.json) |
-| ![Cantilever · Orthotropic](docs/images/home/elastic_cantilever--cantilever--orthotropic.gif)<br>[Cantilever · Orthotropic](docs/results/elastic_cantilever--cantilever--orthotropic/summary.json) | ![Cantilever · Transverse isotropic](docs/images/home/elastic_cantilever--cantilever--transverse-isotropic.gif)<br>[Cantilever · Transverse isotropic](docs/results/elastic_cantilever--cantilever--transverse-isotropic/summary.json) | ![Elastic compression](docs/images/home/suite--compression--neo-hookean.gif)<br>[Elastic compression](docs/results/suite--compression--neo-hookean/summary.json) |
-| ![Pressure-loaded panel](docs/images/home/suite--surface-load--neo-hookean.gif)<br>[Pressure-loaded panel](docs/results/suite--surface-load--neo-hookean/summary.json) | ![Simple shear](docs/images/home/suite--shear--neo-hookean.gif)<br>[Simple shear](docs/results/suite--shear--neo-hookean/summary.json) | ![Torsional release](docs/images/home/suite--torsion--neo-hookean.gif)<br>[Torsional release](docs/results/suite--torsion--neo-hookean/summary.json) |
-
-### Constitutive compression
-
-| | | |
-|---|---|---|
-| ![Compression · Bilinear J2](docs/images/home/compression--compression--bilinear.gif)<br>[Compression · Bilinear J2](docs/results/compression--compression--bilinear/summary.json) | ![Compression · HJC](docs/images/home/compression--compression--hjc.gif)<br>[Compression · HJC](docs/results/compression--compression--hjc/summary.json) | ![Compression · HJC · refined](docs/images/home/dense-materials--compression--hjc.gif)<br>[Compression · HJC · refined](docs/results/dense-materials--compression--hjc/summary.json) |
-| ![Compression · Isotropic J2](docs/images/home/compression--compression--isotropic-plastic.gif)<br>[Compression · Isotropic J2](docs/results/compression--compression--isotropic-plastic/summary.json) | ![Compression · JH-2](docs/images/home/compression--compression--jh2.gif)<br>[Compression · JH-2](docs/results/compression--compression--jh2/summary.json) | ![Compression · JH-2 · refined](docs/images/home/dense-materials--compression--jh2.gif)<br>[Compression · JH-2 · refined](docs/results/dense-materials--compression--jh2/summary.json) |
-| ![Compression · Johnson–Cook](docs/images/home/compression--compression--johnson-cook.gif)<br>[Compression · Johnson–Cook](docs/results/compression--compression--johnson-cook/summary.json) | ![Compression · Johnson–Cook · refined](docs/images/home/dense-materials--compression--johnson-cook.gif)<br>[Compression · Johnson–Cook · refined](docs/results/dense-materials--compression--johnson-cook/summary.json) | ![Compression · RHT](docs/images/home/compression--compression--rht.gif)<br>[Compression · RHT](docs/results/compression--compression--rht/summary.json) |
-| ![Compression · Steinberg–Guinan](docs/images/home/compression--compression--steinberg-guinan.gif)<br>[Compression · Steinberg–Guinan](docs/results/compression--compression--steinberg-guinan/summary.json) | ![Compression · Thermal plasticity](docs/images/home/compression--compression--thermal-plastic.gif)<br>[Compression · Thermal plasticity](docs/results/compression--compression--thermal-plastic/summary.json) |  |
+| ![Cantilever · Neo-Hookean](docs/images/home/suite--cantilever--neo-hookean.gif)<br>[Cantilever · Neo-Hookean](docs/results/suite--cantilever--neo-hookean/summary.json) | ![Pressure-loaded panel](docs/images/home/suite--surface-load--neo-hookean.gif)<br>[Pressure-loaded panel](docs/results/suite--surface-load--neo-hookean/summary.json) | ![Simple shear](docs/images/home/suite--shear--neo-hookean.gif)<br>[Simple shear](docs/results/suite--shear--neo-hookean/summary.json) |
+| ![Torsional release](docs/images/home/suite--torsion--neo-hookean.gif)<br>[Torsional release](docs/results/suite--torsion--neo-hookean/summary.json) |  |  |
 
 ### Wave refinement
 
@@ -91,8 +81,6 @@ python -m examples.suite --case fsi --gif
 python -m examples.suite --case elastic-gate --grid 48 --ppc 3 --gif
 python -m examples.suite --case perforated-panel --grid 48 --ppc 3 --gif
 python -m examples.suite --case cellular-cushion --grid 48 --ppc 3 --gif
-python -m examples.suite --case cantilever --model all-elastic
-python -m examples.suite --case compression --model all-plastic
 python -m examples.material_paths --model all
 python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gif
 python -m examples.adhesive_contact --case jkr-footprint --grid 48 --ppc 3 --gif

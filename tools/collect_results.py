@@ -5,6 +5,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from public_runs import is_public_run
+
 
 SOURCES = (
     "suite",
@@ -29,13 +31,17 @@ def write_if_changed(path, content):
 def collect(root, destination):
     destination.mkdir(parents=True, exist_ok=True)
     records = []
+    completed = 0
     for source in SOURCES:
         for path in sorted((root / "outputs" / source).rglob("summary.json")):
             folder = path.parent
             summary = json.loads(path.read_text(encoding="utf-8"))
             if not (folder / "trajectory.npz").is_file() or summary.get("completed") is False:
                 continue
+            completed += 1
             identifier = "--".join(folder.relative_to(root / "outputs").parts)
+            if not is_public_run(identifier):
+                continue
             target = destination / identifier
             target.mkdir(exist_ok=True)
             hashes = {}
@@ -94,11 +100,16 @@ def collect(root, destination):
         review = root / "outputs" / source / name
         if review.exists():
             write_if_changed(destination / name, review.read_text(encoding="utf-8"))
+    write_catalogue(records, destination)
+    print(f"Collected {len(records)} public runs from {completed} completed local runs in {destination}")
+
+
+def write_catalogue(records, destination):
     write_if_changed(destination / "index.json", json.dumps(records, indent=2) + "\n")
     lines = [
-        "# Completed runs",
+        "# Published runs",
         "",
-        "Each row links to the saved configuration and numerical results. Particle trajectories",
+        "Each row links to a selected completed run's configuration and numerical results. Particle trajectories",
         "and ParaView datasets remain in the local output directory. Solver time excludes",
         "compilation, checkpoint I/O and rendering; these CPU runs shared the host with other jobs.",
         "",
@@ -122,7 +133,6 @@ def collect(root, destination):
         "",
     ]
     write_if_changed(destination.parent / "RESULTS.md", "\n".join(lines))
-    print(f"Collected {len(records)} completed runs in {destination}")
 
 
 def main():
