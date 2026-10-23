@@ -44,13 +44,6 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 | ![Cyclic bending](docs/images/home/visible-motion--cantilever--neo-hookean.gif)<br>[Cyclic bending](docs/results/visible-motion--cantilever--neo-hookean/summary.json) | ![Cyclic torsion](docs/images/home/visible-motion--torsion--neo-hookean.gif)<br>[Cyclic torsion](docs/results/visible-motion--torsion--neo-hookean/summary.json) | ![Large simple shear](docs/images/home/visible-motion--shear--neo-hookean.gif)<br>[Large simple shear](docs/results/visible-motion--shear--neo-hookean/summary.json) |
 | ![Pressure-loaded panel](docs/images/home/visible-motion--surface-load--neo-hookean.gif)<br>[Pressure-loaded panel](docs/results/visible-motion--surface-load--neo-hookean/summary.json) |  |  |
 
-### Shear-wave comparisons
-
-| | | |
-|---|---|---|
-| ![Transverse shear wave · coarse grid](docs/images/home/visible-motion--wave-grid32--neo-hookean.gif)<br>[Transverse shear wave · coarse grid](docs/results/visible-motion--wave-grid32--neo-hookean/summary.json) | ![Transverse shear wave · fine grid](docs/images/home/visible-motion--wave-grid64--neo-hookean.gif)<br>[Transverse shear wave · fine grid](docs/results/visible-motion--wave-grid64--neo-hookean/summary.json) | ![Transverse shear wave · half time step](docs/images/home/visible-motion--wave-half-dt--neo-hookean.gif)<br>[Transverse shear wave · half time step](docs/results/visible-motion--wave-half-dt--neo-hookean/summary.json) |
-| ![Transverse shear wave · reference grid](docs/images/home/visible-motion--wave-grid48--neo-hookean.gif)<br>[Transverse shear wave · reference grid](docs/results/visible-motion--wave-grid48--neo-hookean/summary.json) |  |  |
-
 <!-- END EXAMPLE GIFS -->
 
 ## Installation

@@ -843,53 +843,5 @@
     "preview_frame": 14,
     "preview_time": 0.33599999999999997,
     "auxiliary_geometry": []
-  },
-  {
-    "name": "visible-wave-grid32",
-    "source": "visible-motion/wave-grid32/neo-hookean",
-    "particles": 34560,
-    "field": "speed",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true,
-    "preview_frame": 13,
-    "preview_time": 0.2521865975820285,
-    "auxiliary_geometry": []
-  },
-  {
-    "name": "visible-wave-grid48",
-    "source": "visible-motion/wave-grid48/neo-hookean",
-    "particles": 112752,
-    "field": "speed",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true,
-    "preview_frame": 13,
-    "preview_time": 0.2521865975820285,
-    "auxiliary_geometry": []
-  },
-  {
-    "name": "visible-wave-grid64",
-    "source": "visible-motion/wave-grid64/neo-hookean",
-    "particles": 269568,
-    "field": "speed",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true,
-    "preview_frame": 13,
-    "preview_time": 0.2521865975820285,
-    "auxiliary_geometry": []
-  },
-  {
-    "name": "visible-wave-half-dt",
-    "source": "visible-motion/wave-half-dt/neo-hookean",
-    "particles": 112752,
-    "field": "speed",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true,
-    "preview_frame": 13,
-    "preview_time": 0.2521865975820285,
-    "auxiliary_geometry": []
   }
 ]

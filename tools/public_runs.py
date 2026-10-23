@@ -6,6 +6,18 @@ import json
 from pathlib import Path
 
 
+HIDDEN_HOME_IDS = {
+    "refinement--grid32--wave--neo-hookean",
+    "refinement--grid64--wave--linear",
+    "refinement--half_dt--wave--neo-hookean",
+    "suite--wave--neo-hookean",
+    "visible-motion--wave-grid32--neo-hookean",
+    "visible-motion--wave-grid48--neo-hookean",
+    "visible-motion--wave-grid64--neo-hookean",
+    "visible-motion--wave-half-dt--neo-hookean",
+}
+
+
 HOME_REPLACEMENTS = {
     "suite--wave--neo-hookean": "visible-motion--wave-grid48--neo-hookean",
     "refinement--grid32--wave--neo-hookean": "visible-motion--wave-grid32--neo-hookean",
@@ -68,4 +80,7 @@ def homepage_records(root, catalogue):
             raise ValueError(f"Run has no matching passed review: {identifier}")
     present = set(identifiers)
     replaced = {old for old, new in HOME_REPLACEMENTS.items() if new in present}
-    return [record for record in catalogue if record["id"] not in replaced]
+    return [
+        record for record in catalogue
+        if record["id"] not in replaced and record["id"] not in HIDDEN_HOME_IDS
+    ]

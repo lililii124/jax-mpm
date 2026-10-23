@@ -45,10 +45,3 @@ the parameters and numerical results.
 |---|---|
 | ![visible-cantilever](images/visible-cantilever.png)<br>**visible-cantilever** · 119,944 particles<br>[Results](results/visible-motion--cantilever--neo-hookean/summary.json) · [Video](images/visible-cantilever.mp4) | ![visible-shear](images/visible-shear.png)<br>**visible-shear** · 242,208 particles<br>[Results](results/visible-motion--shear--neo-hookean/summary.json) · [Video](images/visible-shear.mp4) |
 | ![visible-torsion](images/visible-torsion.png)<br>**visible-torsion** · 119,944 particles<br>[Results](results/visible-motion--torsion--neo-hookean/summary.json) · [Video](images/visible-torsion.mp4) | ![visible-surface-load](images/visible-surface-load.png)<br>**visible-surface-load** · 113,535 particles<br>[Results](results/visible-motion--surface-load--neo-hookean/summary.json) · [Video](images/visible-surface-load.mp4) |
-
-## Transverse shear-wave comparisons
-
-| | |
-|---|---|
-| ![visible-wave-grid32](images/visible-wave-grid32.png)<br>**visible-wave-grid32** · 34,560 particles<br>[Results](results/visible-motion--wave-grid32--neo-hookean/summary.json) · [Video](images/visible-wave-grid32.mp4) | ![visible-wave-grid48](images/visible-wave-grid48.png)<br>**visible-wave-grid48** · 112,752 particles<br>[Results](results/visible-motion--wave-grid48--neo-hookean/summary.json) · [Video](images/visible-wave-grid48.mp4) |
-| ![visible-wave-grid64](images/visible-wave-grid64.png)<br>**visible-wave-grid64** · 269,568 particles<br>[Results](results/visible-motion--wave-grid64--neo-hookean/summary.json) · [Video](images/visible-wave-grid64.mp4) | ![visible-wave-half-dt](images/visible-wave-half-dt.png)<br>**visible-wave-half-dt** · 112,752 particles<br>[Results](results/visible-motion--wave-half-dt--neo-hookean/summary.json) · [Video](images/visible-wave-half-dt.mp4) |
