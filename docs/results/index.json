@@ -857,11 +857,14 @@
     "min_J": 0.9948361753012094,
     "max_damage": 0.0,
     "solver_seconds": 1.2747564999881433,
-    "renderer": null,
+    "renderer": "ParaView",
     "sha256": {
       "summary.json": "58a962e38c1f4aeeac9501cb2dce41591e1f169589689431dae558667a9ea0e6",
       "diagnostics.csv": "a06a3dda7731f5c36d92eb98489713d3cc695629199eecdbe7f56148a6c7e055",
-      "observables.csv": "a641a2b586b2457ef0c77e11a83f04e71d46ff86062d891190824a5b7004b912"
+      "observables.csv": "a641a2b586b2457ef0c77e11a83f04e71d46ff86062d891190824a5b7004b912",
+      "render.json": "d3f2b1c9adbe77e3b13d472e35bba0b03611ee3a36ee3e4e6a51bb7e3751c627",
+      "vtk_metadata.json": "78c34e100616be9d88062fce710cc83f53d70d695574ba1deee957eb2f3b48be",
+      "video.json": "5b62eb8901243e86d5c49cf58d517915d786c633ef43fa61da246234cbac3073"
     }
   },
   {
@@ -874,11 +877,14 @@
     "min_J": 0.9947958473963843,
     "max_damage": 0.0,
     "solver_seconds": 22.887680299958447,
-    "renderer": null,
+    "renderer": "ParaView",
     "sha256": {
       "summary.json": "0461a0f6c1cdf04a306780dfa6737fefa13c01ff0e13bdfabb78d14fba92fccf",
       "diagnostics.csv": "2b3da1e623c4a41f94dad4bc92b55be230800cecc88808a2016985b999951df4",
-      "observables.csv": "75b9e0cf1918bd427bfceb3c1b3535f03d582280bbc6b3b99045eabcd4d31e5e"
+      "observables.csv": "75b9e0cf1918bd427bfceb3c1b3535f03d582280bbc6b3b99045eabcd4d31e5e",
+      "render.json": "040ec1748603f8f2c3afdaaaa79a8de0cf2042232386b0715bf5ae1a9d949e58",
+      "vtk_metadata.json": "3091cca9da6d2de05b7dac5e3417d68ae0a7d7004d848796b18e740c4111433e",
+      "video.json": "663bb12204235b382e7b5b2a4ea1ee42fea07ae242f285d3d250eb7165283892"
     }
   },
   {
@@ -891,11 +897,14 @@
     "min_J": 0.9948168429810831,
     "max_damage": 0.0,
     "solver_seconds": 12.46333660001983,
-    "renderer": null,
+    "renderer": "ParaView",
     "sha256": {
       "summary.json": "df72fcdb7764e3a9120cd347e5f91cdb0a4d5b1cfcedc6574928c92f5bd700ac",
       "diagnostics.csv": "76f164eb834f092e41c0cca8ca2623f65c8609c2394318d84d92c2d247af0717",
-      "observables.csv": "9f6cc0b891445bb81f3db92411491b8228b39cc461baeb2bb4cbb17d2d0d1874"
+      "observables.csv": "9f6cc0b891445bb81f3db92411491b8228b39cc461baeb2bb4cbb17d2d0d1874",
+      "render.json": "e4ffabb81c56b97419254b3dd5d4afaae4c2d649d053a0c1cd3783c3d1901032",
+      "vtk_metadata.json": "3ce3a4d5a6251faff030c37e4e55b20b2ddd436bc70b9d47e84db50bb040da81",
+      "video.json": "174c62cd03fd9d163c9f3336724188f3cef5571f5ee4e0efdada26643835d69b"
     }
   }
 ]

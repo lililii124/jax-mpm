@@ -51,9 +51,9 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [contact-models--jkr-footprint](results/contact-models--jkr-footprint/summary.json) | 386,019 | 480 | 0.3 | 0.835082 | 0 | ParaView |
 | [contact-models--sphere-contact](results/contact-models--sphere-contact/summary.json) | 386,019 | 480 | 0.3 | 0.657805 | 0 | ParaView |
 | [production--water-entry--neo-hookean](results/production--water-entry--neo-hookean/summary.json) | 1,327,400 | 2,400 | 0.35 | 0.788163 | 0 | ParaView |
-| [refinement--grid32--wave--neo-hookean](results/refinement--grid32--wave--neo-hookean/summary.json) | 12,288 | 140 | 0.134164 | 0.994836 | 0 | Pending |
-| [refinement--grid64--wave--linear](results/refinement--grid64--wave--linear/summary.json) | 98,304 | 260 | 0.134164 | 0.994796 | 0 | Pending |
-| [refinement--half_dt--wave--neo-hookean](results/refinement--half_dt--wave--neo-hookean/summary.json) | 41,472 | 400 | 0.134164 | 0.994817 | 0 | Pending |
+| [refinement--grid32--wave--neo-hookean](results/refinement--grid32--wave--neo-hookean/summary.json) | 12,288 | 140 | 0.134164 | 0.994836 | 0 | ParaView |
+| [refinement--grid64--wave--linear](results/refinement--grid64--wave--linear/summary.json) | 98,304 | 260 | 0.134164 | 0.994796 | 0 | ParaView |
+| [refinement--half_dt--wave--neo-hookean](results/refinement--half_dt--wave--neo-hookean/summary.json) | 41,472 | 400 | 0.134164 | 0.994817 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)
