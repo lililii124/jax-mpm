@@ -1099,5 +1099,29 @@
       "interpretation.json": "c747d0d1f6f15f6b9c3be5883efa7128a43e3d0ce95755016cdb1f4bcc859df0",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "woven--triaxial--in-plane-shear",
+    "case": "triaxial/in-plane-shear / woven-composite",
+    "source_directory": "outputs/woven/triaxial/in-plane-shear",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.9519674118031878,
+    "max_damage": 0.0,
+    "solver_seconds": 1211.3685207520007,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "c243ebd642474d8f05874302d54a25dfeda1bfdd142046f2d741762e5b36996f",
+      "diagnostics.csv": "6d652c5b398f97924d5e6f6cdd6175928ba304981e5420764df02e93abc2e0f8",
+      "observables.csv": "2eb8b80efb7ec766402b28dbe2c4f8a20fd098c678eeff337238c1c3046e4cc5",
+      "render.json": "eaaa7b13badfe0a1621b10497eb1a5500cadee811b6ba9d336f2bd01b7d1dcb0",
+      "vtk_metadata.json": "9b831dd3ef011a6b944103bddcda78a2f5864f4254f5a616682fa46017c2655b",
+      "video.json": "631deb996c1796a0e226be6f60c9b400afaee1639fbdebe2ce097a319f0a38f9",
+      "memory.json": "71cd3257539e323c6c076e6ded69a49f7017773c38e7a54b14f19665d7a0f0d3",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "76d5fc1e309cb2df30db09643d5076fbeabda5a001afefc5a57ff2fef6f05d02",
+      "numerical-source.json": "67b699b574a996575df45b3320c57e58d569c72ebf55aa727dd63a1a16cee3e1"
+    }
   }
 ]

@@ -476,20 +476,6 @@
     "source_render_sha256": "782d8df60611f0fa183f982742ff6b7ff070f6da50d9585b6009c14771f9e13f"
   },
   {
-    "id": "woven-preview--triaxial--in-plane-shear",
-    "gif_path": "docs/images/home/woven-preview--triaxial--in-plane-shear.gif",
-    "gif_sha256": "972fc0b590d47cad24f8f4b22f5539e38778c253eb781ddbe1048b2c76cac5b5",
-    "bytes": 1168124,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 61,
-    "gif_frames": 61,
-    "render_sha256": "c2043b6cafc6fbc5f310465c0ce6bc90c860f541a1137d328f05f7c1369b7edf",
-    "source_render_sha256": "c2043b6cafc6fbc5f310465c0ce6bc90c860f541a1137d328f05f7c1369b7edf"
-  },
-  {
     "id": "woven-preview--twill-2x2--transverse-compression",
     "gif_path": "docs/images/home/woven-preview--twill-2x2--transverse-compression.gif",
     "gif_sha256": "972d35ddb29e647fd65abc6759e5594a358ced6275b0cddb4f87978790396638",
@@ -530,5 +516,19 @@
     "gif_frames": 61,
     "render_sha256": "a603005bf210d15132b572e6f0d2b2043ab28a5c9f3c771f49d4fe3edf68e8fc",
     "source_render_sha256": "a603005bf210d15132b572e6f0d2b2043ab28a5c9f3c771f49d4fe3edf68e8fc"
+  },
+  {
+    "id": "woven--triaxial--in-plane-shear",
+    "gif_path": "docs/images/home/woven--triaxial--in-plane-shear.gif",
+    "gif_sha256": "302f92d2e981b695bbf52347aee376bae77196e84e6b31180a0d81623272ba05",
+    "bytes": 885604,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "eaaa7b13badfe0a1621b10497eb1a5500cadee811b6ba9d336f2bd01b7d1dcb0",
+    "source_render_sha256": "eaaa7b13badfe0a1621b10497eb1a5500cadee811b6ba9d336f2bd01b7d1dcb0"
   }
 ]
