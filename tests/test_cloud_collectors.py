@@ -221,3 +221,24 @@ def test_catalogue_cannot_route_a_pair_to_different_roots():
 def test_woven_preview_alias_stays_canonical():
     for source in collect_results.WOVEN_PREVIEW_SOURCES:
         assert collect_results.canonical_identifier(f"{source}/plain/transverse-bending") == "woven-preview--plain--transverse-bending"
+
+
+@pytest.mark.parametrize("invalid_v3", [False, True])
+def test_v3_pair_priority_and_atomic_fallback(tmp_path, monkeypatch, invalid_v3):
+    local = pair_fixture(tmp_path, "adhesion-visible", cloud=False)
+    v2 = pair_fixture(tmp_path, "adhesion-visible-cloud")
+    v3 = pair_fixture(tmp_path, "adhesion-visible-v3-cloud")
+    prior = {str(path): raw(path) for folder in (local[0].parent, v2[0].parent)
+             for path in folder.rglob("*") if path.is_file()}
+    if invalid_v3:
+        (v3[1] / "import-receipt.json").unlink()
+    records = collect(tmp_path, monkeypatch, collect_results.ADHESION_SOURCES)
+    expected = v2 if invalid_v3 else v3
+    assert len(records) == 2
+    assert {item["source_directory"] for item in records} == {folder.relative_to(tmp_path).as_posix() for folder in expected}
+    assert {item["id"] for item in records} == {"adhesion-visible--" + name for name in collect_results.ADHESION_ROLES.values()}
+    assert all(raw(Path(path)) == digest for path, digest in prior.items())
+    entries = collect_gallery.gallery_groups(records)["Adhesion comparison"]
+    assert {relative for _, relative in entries} == {folder.relative_to(tmp_path / "outputs").as_posix() for folder in expected}
+    image, _, _ = collect_gallery.preview(expected[0], "adhesion-visible-nonadhesive-pull-off", {"frames_rendered": 2})
+    assert image.parent == expected[0] / "frames"

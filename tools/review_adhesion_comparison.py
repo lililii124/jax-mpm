@@ -55,6 +55,38 @@ def curve(run, field):
     return np.array([row[field] for row in run["rows"]])
 
 
+def lift_hold_profile(definitions):
+    profiles = {
+        "single-sphere-lift-hold-v1": {"preset": "lift-hold", "clearance": .055, "revision": None},
+        "single-sphere-lift-hold-v3": {"preset": "lift-hold-v3", "clearance": .035, "revision": 3},
+    }
+    named = any("lift-hold" in str(item.get(key, "")) for item in definitions for key in ("preset", "comparison_pair"))
+    if not named:
+        return None
+    identifier = definitions[0].get("comparison_pair")
+    if identifier not in profiles or any(item.get("comparison_pair") != identifier for item in definitions):
+        raise ValueError("Unknown or mismatched lift-hold comparison profile")
+    return profiles[identifier]
+
+
+def lift_hold_path_matches(definition, profile):
+    try:
+        path = definition["rigid_spheres"][0]
+        centers, times = np.asarray(path["centers"]), np.asarray(path["times"])
+        target_times = [0., .08, .28, .42, .72, .94, 1.12, 1.3]
+        heights = [.045, .045, -.035, -.035, profile["clearance"], profile["clearance"], .295, .295]
+        if centers.shape != (8, 3) or times.shape != (8,):
+            return False
+        return bool(
+            path["radius"] == .16
+            and np.allclose(times, target_times, rtol=0, atol=1e-12)
+            and np.allclose(centers[:, (0, 2)], .5, rtol=0, atol=1e-12)
+            and np.allclose(centers[:, 1] - path["radius"] - definition["contact_sampling_plane_y_m"], heights, rtol=0, atol=1e-12)
+        )
+    except (KeyError, ValueError, TypeError):
+        return False
+
+
 def review(root):
     root = Path(root)
     runs = {role: read_run(root / name) for role, name in CASES.items()}
@@ -154,14 +186,18 @@ def review(root):
         table.append(row)
 
     contrast = None
-    if d0.get("comparison_pair") == "single-sphere-lift-hold-v1":
+    profile = lift_hold_profile(definitions)
+    if profile is not None:
         base_active = curve(base, prefix + "compressed_points") + curve(base, prefix + "adhesive_points")
         adhesion_active = curve(adhesive, prefix + "adhesive_points")
         reaction0 = curve(base, prefix + "reaction_y_N")
         reaction1 = curve(adhesive, prefix + "reaction_y_N")
         uplift_difference = curve(adhesive, "surface_displacement_y_max_m") - curve(base, "surface_displacement_y_max_m")
         holding = (time >= 0.72 - 1e-12) & (time <= 0.94 + 1e-12)
-        checks["lift_hold_preset_identified"] = d0.get("preset") == d1.get("preset") == "lift-hold"
+        checks["lift_hold_preset_identified"] = d0.get("preset") == d1.get("preset") == profile["preset"]
+        if profile["revision"] is not None:
+            checks["lift_hold_loading_revision_identified"] = all(type(item.get("loading_revision")) is int and item["loading_revision"] == profile["revision"] and item.get("comparison_hold_bottom_clearance_m") == profile["clearance"] for item in definitions)
+        checks["lift_hold_fixed_physical_path"] = all(lift_hold_path_matches(item, profile) for item in definitions)
         checks["lift_hold_sphere_stationary"] = holding.any() and all(
             bool(np.max(np.abs(curve(run, prefix + "velocity_" + axis + "_m_per_s")[holding])) < 1e-12)
             and bool(np.ptp(curve(run, prefix + "center_" + axis + "_m")[holding]) < 1e-12)
@@ -180,6 +216,7 @@ def review(root):
         duration = max((interval["saved_span_s"] for interval in intervals), default=0.0)
         checks["lift_hold_has_visible_deformation_contrast"] = duration >= 0.10
         contrast = {
+            "preset": profile["preset"], "hold_bottom_clearance_m": profile["clearance"],
             "hold_window_s": [0.72, 0.94], "minimum_uplift_difference_m": 0.025,
             "required_saved_span_s": 0.10, "longest_qualifying_saved_span_s": duration,
             "qualifying_saved_intervals": intervals,

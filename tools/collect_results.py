@@ -27,6 +27,7 @@ SOURCES = (
     "engineering",
     "contact-models",
     "adhesion",
+    "adhesion-visible-v3-cloud",
     "adhesion-visible-cloud",
     "adhesion-visible",
     "woven",
@@ -38,7 +39,8 @@ SOURCES = (
     "visible-motion",
 )
 WOVEN_PREVIEW_SOURCES = {"woven-previews", "woven-previews-local", "woven-smoke"}
-CLOUD_ALIASES = {"material-engineering-cloud": "material-engineering", "adhesion-visible-cloud": "adhesion-visible"}
+CLOUD_ALIASES = {"material-engineering-cloud": "material-engineering", "adhesion-visible-cloud": "adhesion-visible", "adhesion-visible-v3-cloud": "adhesion-visible"}
+ADHESION_SOURCES = ("adhesion-visible-v3-cloud", "adhesion-visible-cloud", "adhesion-visible")
 ADHESION_ROLES = {"nonadhesive": "nonadhesive-pull-off", "adhesive": "adhesive-pull-off"}
 COMPARISON_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
 
@@ -234,7 +236,7 @@ def adhesion_comparison_ready(folder, *, cloud=False):
 
 
 def selected_adhesion_source(root):
-    for source in ("adhesion-visible-cloud", "adhesion-visible"):
+    for source in ADHESION_SOURCES:
         if source not in SOURCES:
             continue
         family = root / "outputs" / source
@@ -430,7 +432,7 @@ def collect(root, destination):
     selected = set()
     adhesion_source = selected_adhesion_source(root)
     for source in SOURCES:
-        if source in ("adhesion-visible", "adhesion-visible-cloud") and source != adhesion_source:
+        if source in ADHESION_SOURCES and source != adhesion_source:
             continue
         for path in sorted((root / "outputs" / source).rglob("summary.json")):
             folder = path.parent
@@ -519,7 +521,7 @@ def collect(root, destination):
         collect_wave_comparison(root, destination, records)
     if "adhesion" in SOURCES:
         collect_adhesion_comparison(root, destination, records)
-    if "adhesion-visible" in SOURCES:
+    if any(source in SOURCES for source in ADHESION_SOURCES):
         collect_adhesion_comparison(root, destination, records, "adhesion-visible")
     for source, name in (
         ("contact-models", "contact-review.json"),

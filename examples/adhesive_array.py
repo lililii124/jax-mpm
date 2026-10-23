@@ -31,12 +31,13 @@ SUITE_CASES = (
 def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
     if suite_case is not None and suite_case not in SUITE_CASES:
         raise ValueError("unknown adhesive suite case")
-    if preset not in ("standard", "lift-hold"):
+    if preset not in ("standard", "lift-hold", "lift-hold-v3"):
         raise ValueError("unknown adhesive preset")
     paired = suite_case in ("nonadhesive-pull-off", "adhesive-pull-off")
-    if preset == "lift-hold" and not paired:
+    if preset in ("lift-hold", "lift-hold-v3") and not paired:
         raise ValueError("lift-hold requires a normal pull-off pair case")
-    lift_hold = preset == "lift-hold"
+    lift_hold = preset in ("lift-hold", "lift-hold-v3")
+    hold_clearance = 0.035 if preset == "lift-hold-v3" else 0.055
     if grid < 8 or ppc < 1 or frames < 1:
         raise ValueError("grid >= 8, ppc >= 1 and frames >= 1 are required")
     young, poisson, density = 8000.0 if lift_hold else 12000.0, 0.25, 1000.0
@@ -79,7 +80,7 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
     low = surface_y + radius - indentation
     paths = []
     if lift_hold:
-        comparison_height = surface_y + radius + 0.055
+        comparison_height = surface_y + radius + hold_clearance
         paths.append(
             SpherePath(
                 radius=radius,
@@ -321,8 +322,8 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
         )
     if lift_hold:
         definition.update(
-            preset="lift-hold",
-            comparison_pair="single-sphere-lift-hold-v1",
+            preset=preset,
+            comparison_pair="single-sphere-lift-hold-v3" if preset == "lift-hold-v3" else "single-sphere-lift-hold-v1",
             loading_stages_s={
                 "initial_hold_end": 0.08,
                 "indentation_end": 0.28,
@@ -332,7 +333,7 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
                 "pull_off_end": 1.12,
                 "final_hold_end": duration,
             },
-            comparison_hold_bottom_clearance_m=0.055,
+            comparison_hold_bottom_clearance_m=hold_clearance,
             comparison_targets={
                 "minimum_contiguous_time_s": 0.10,
                 "minimum_surface_uplift_difference_m": 0.025,
@@ -341,6 +342,8 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
                 "status": "prospective checks; not measured results",
             },
         )
+        if preset == "lift-hold-v3":
+            definition["loading_revision"] = 3
     return (
         Case((state,), (material,), (config,), duration, definition, forces, observe),
         substeps,

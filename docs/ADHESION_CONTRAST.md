@@ -6,12 +6,11 @@ paths and output directories. Their completed normal pair reached maximum
 surface uplifts of 10.10 and 15.83 mm; those separate maxima are recorded in
 the [original comparison](results/adhesion-comparison.json).
 
-The new pair uses a softer layer and stronger adhesion, then pauses during
-withdrawal. Its numerical and visual acceptance must be established from new
-calculations. The design targets below are not measured results.
-Earlier coarse trials failed the overlap and final-separation checks; they
-are not accepted comparison results. This revision keeps the same comparison
-hold and acceptance thresholds.
+The pair uses a softer layer and stronger adhesion, then pauses during
+withdrawal. Profile `v2` keeps the original 55 mm withdrawal hold. Profile
+`v3` changes that height to 35 mm; material constants, time intervals, final
+withdrawal height and acceptance thresholds are unchanged. Each profile has
+its own output directory. The revised path requires a new complete calculation.
 
 ## Common specimen and motion
 
@@ -30,7 +29,8 @@ forces and a finite dynamic layer. These parameters are illustrative.
 
 The sphere centre stays at x = z = 0.5 m. The following heights refer to its
 lowest point relative to the initial sampled material surface. Moving segments
-use the same half-cosine interpolation in both runs.
+use the same half-cosine interpolation in both runs. This table is profile `v2`;
+profile `v3` substitutes 35 mm for the three occurrences of 55 mm.
 
 | Time (s) | Sphere motion | Lowest-point height (mm) |
 |---|---|---:|
@@ -42,16 +42,31 @@ use the same half-cosine interpolation in both runs.
 | 0.94–1.12 | Final withdrawal | 55 to 295 |
 | 1.12–1.30 | Final hold | 295 |
 
-The final segment has a peak prescribed speed of 2.09440 m/s and a maximum
+For `v2`, the final segment has a peak prescribed speed of 2.09440 m/s and a maximum
 one-sided acceleration magnitude of 36.5541 m/s². At the default resolution,
 the highest sphere point is 0.991618 m, within the 1 m domain. These kinematic
 checks do not establish that the deforming layer has detached.
 
 At the withdrawal hold, an initially flat surface is outside the interaction
-range. A surface point underneath the sphere must rise at least 30 mm to
-enter that range. Any remaining adhesive load must therefore result from the
+range. A surface point directly underneath the sphere must rise more than
+30 mm in `v2`, or 10 mm in `v3`, to enter that range. Any remaining adhesive load must therefore result from the
 computed surface deformation. No prescribed surface motion or displacement
 scale is applied.
+
+## Why the hold height changed
+
+The complete grid48/ppc3 `v2` pair in [run 39965579277](https://github.com/lililii124/jax-mpm/actions/runs/39965579277), commit `4159bd5`, passed both individual numerical reviews but failed the prescribed hold contrast. At all nine saved hold states from 0.728 to 0.936 s, both spheres were force-free with zero interacting points. The maximum simultaneous surface-uplift difference was 9.596 mm, below 25 mm.
+
+Earlier in that same withdrawal, the baseline was already free while the adhesive sphere remained in tension:
+
+| Time (s) | Sphere bottom height (mm) | Adhesive reaction (N) | Simultaneous uplift difference (mm) |
+| --- | ---: | ---: | ---: |
+| 0.598 | 23.006 | −62.991 | 26.897 |
+| 0.624 | 34.112 | −56.562 | 33.970 |
+| 0.650 | 43.442 | −47.632 | 41.055 |
+| 0.676 | 50.307 | −24.280 | 41.151 |
+
+These qualifying samples span only 0.078 s, not the required 0.10 s, and were recorded during motion rather than a hold. At 54.203 mm the next saved state was already detached. The 35 mm `v3` hold was selected near the earlier state with 460 adhesive surface points and a larger tensile resultant; 43.442 mm had only 364 adhesive points. Stopping at this earlier height is a new loading hypothesis, not evidence that the hold criterion will pass. The unchanged final height of 295 mm increases the last segment's peak speed to 2.26893 m/s. The original `v2` failure remains reproducible with `--profile v2`.
 
 ## Comparison checks
 
@@ -79,11 +94,13 @@ Run the two cases sequentially in the project environment:
 
 ```powershell
 foreach ($case in 'nonadhesive-pull-off', 'adhesive-pull-off') {
-    python -m examples.adhesion_contrast --case $case --grid 48 --ppc 3 --frames 50 --no-render --resume
+    python -m examples.adhesion_contrast --profile v3 --case $case --grid 48 --ppc 3 --frames 50 --no-render --resume
 }
 ```
 
-Outputs go to `outputs/adhesion-visible/<case>`. Default resolution retains
+Profile `v3` writes `outputs/adhesion-visible-v3/<case>`. Omitting `--profile`,
+or selecting `v2`, retains `outputs/adhesion-visible/<case>` and the 55 mm hold.
+An explicit `--output` overrides the profile's directory. Default resolution retains
 367,744 material points and 51 saved states. Both roles have identical time
 steps, limited by the bulk wave speed and `k A0 dt²/m ≤ 0.09`.
 

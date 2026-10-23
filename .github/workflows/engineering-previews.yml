@@ -6,7 +6,7 @@ on:
       preset:
         description: Reviewed engineering cases or the round-bar density diagnostic
         type: choice
-        options: [all, ceramic-wide, hjc-large, adhesion-v2-pair, jc-density-diagnostic]
+        options: [all, ceramic-wide, hjc-large, adhesion-v2-pair, adhesion-v3-pair, jc-density-diagnostic]
         default: all
         required: true
 
@@ -25,7 +25,7 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v2-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'

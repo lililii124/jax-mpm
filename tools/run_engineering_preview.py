@@ -23,18 +23,25 @@ LOGS = ROOT / ".local/engineering-ci"
 DELIVERY = ROOT / ".local/engineering-delivery"
 GIB = 1024**3
 LIMIT = 100 * 1024**2
-PRESETS = ("ceramic-wide", "hjc-large", "adhesion-v2-pair", "jc-density-diagnostic")
+ADHESION_PRESETS = {
+    "adhesion-v2-pair": ("outputs/adhesion-visible", "lift-hold"),
+    "adhesion-v3-pair": ("outputs/adhesion-visible-v3", "lift-hold-v3"),
+}
+PAIR_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
+PRESETS = ("ceramic-wide", "hjc-large", *ADHESION_PRESETS, "jc-density-diagnostic")
 digest, save, identity = shared.digest, shared.save, shared.identity
 
 
 def plan(preset):
     if preset not in PRESETS:
         raise ValueError("Unknown engineering preset")
-    if preset == "adhesion-v2-pair":
+    if preset in ADHESION_PRESETS:
+        root, expected_preset = ADHESION_PRESETS[preset]
+        profile_args = ["--profile", "v3"] if preset == "adhesion-v3-pair" else []
         return [{"name": name, "module": "examples.adhesion_contrast", "grid": 48, "ppc": 3,
                  "frames": 50, "particles": 367744, "duration": 1.3, "field": "displacement",
-                 "root": "outputs/adhesion-visible", "folder": f"outputs/adhesion-visible/{name}",
-                 "arguments": ["--case", name], "review": "tools/review_adhesion.py"}
+                 "root": root, "folder": f"{root}/{name}", "expected_preset": expected_preset,
+                 "arguments": ["--case", name, *profile_args], "review": "tools/review_adhesion.py"}
                 for name in ("nonadhesive-pull-off", "adhesive-pull-off")]
     scene, model, grid, ppc, frames, particles, duration = {
         "ceramic-wide": ("ceramic-indentation-wide", "jh2", 96, 2, 40, 386420, 3e-4),
@@ -427,10 +434,13 @@ def package(cases, provenance, diagnostic=False):
             payloads["main"] += (destination / "trajectory_index.npz").stat().st_size
         for name in names:
             copy_payload(folder / name, Path(case["folder"]) / name, "main")
-    for name in ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json"):
-        origin = ROOT / "outputs/adhesion-visible" / name
-        if provenance["preset"] == "adhesion-v2-pair" and origin.exists():
-            copy_payload(origin, Path("outputs/adhesion-visible") / name, "main")
+    if provenance["preset"] in ADHESION_PRESETS:
+        roots = {case["root"] for case in cases}
+        if len(roots) != 1:
+            raise ValueError("The matched adhesion pair must share one output root")
+        pair_root = Path(roots.pop())
+        for name in PAIR_FILES:
+            copy_payload(ROOT / pair_root / name, pair_root / name, "main")
     shutil.copy2(LOGS / "numerical-source.json", main / "numerical-source.json")
     if not diagnostic:
         shutil.copy2(LOGS / "paraview-install.json", main / "paraview-install.json")
@@ -490,11 +500,11 @@ def run(preset):
             raise ValueError("JC diagnostic changed its grid time step or CFL")
         if preset == "hjc-large" and (definition.get("material_profile") != "strain-floor" or summary["materials"][0].get("legacy_v3") is not False):
             raise ValueError("HJC large preset did not use the strain-floor profile")
-        if preset == "adhesion-v2-pair":
+        if preset in ADHESION_PRESETS:
             law = definition["adhesion"]
             expected_work = 0. if case["name"] == "nonadhesive-pull-off" else 72.
-            if definition.get("preset") != "lift-hold" or definition["young_modulus_Pa"] != 8000 or law != {"work_of_adhesion": expected_work, "interaction_range": .025, "penalty_stiffness": 4.8e6}:
-                raise ValueError("Adhesion preset differs from the fixed v2 law")
+            if definition.get("preset") != case["expected_preset"] or summary["steps"] != 3700 or definition["young_modulus_Pa"] != 8000 or law != {"work_of_adhesion": expected_work, "interaction_range": .025, "penalty_stiffness": 4.8e6}:
+                raise ValueError("Adhesion preset differs from the fixed profile or law")
         save(folder / "memory.json", {**solve["memory"], "completed": True, "solver_seconds": summary["solver_seconds"], "steps": summary["steps"], "particles": case["particles"]})
         receipt = {**source, "review_source_sha256": source["review_sources"][case["review"]]}
         save(folder / "numerical-source.json", receipt)
@@ -519,7 +529,7 @@ def run(preset):
         if not provenance["strict_review_passed"]:
             raise ValueError("A strict numerical review failed; no media will be rendered")
         pair_options = None
-        if preset == "adhesion-v2-pair":
+        if preset in ADHESION_PRESETS:
             command("review-pair", [sys.executable, "tools/review_adhesion_comparison.py", cases[0]["root"]], monitor=True)
             pair = json.loads((ROOT / cases[0]["root"] / "adhesion_comparison.json").read_text())
             if not strict_passed(pair):
@@ -541,12 +551,23 @@ def run(preset):
 
 
 def preserve_failure(preset, error):
-    save(LOGS / "failure.json", {"error": repr(error), "time_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "completed": False})
-    for case in plan(preset):
+    destination_root = LOGS
+    if (LOGS / "failure.json").exists():
+        destination_root = LOGS / "failure-history" / str(time.time_ns())
+    save(destination_root / "failure.json", {"error": repr(error), "time_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "completed": False, "preset": preset})
+    cases = plan(preset)
+    for case in cases:
         folder = ROOT / case["folder"]
-        destination = LOGS / "failed-cases" / case["name"]
+        destination = destination_root / "failed-cases" / case["name"]
         for name in ("summary.json", "status.json", "interpretation.json", "observables.csv", "diagnostics.csv", "memory.json", "numerical-source.json", "jc-density-diagnostic.json"):
             path = folder / name
+            if path.is_file():
+                destination.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(path, destination / name)
+    for relative in sorted({case["root"] for case in cases}):
+        destination = destination_root / "failed-comparisons" / Path(relative).name
+        for name in PAIR_FILES:
+            path = ROOT / relative / name
             if path.is_file():
                 destination.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(path, destination / name)

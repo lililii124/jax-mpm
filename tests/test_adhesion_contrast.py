@@ -16,6 +16,12 @@ def pair():
                  ("nonadhesive-pull-off", "adhesive-pull-off"))
 
 
+@pytest.fixture(scope="module")
+def pair_v3():
+    return tuple(make_case(name, grid=16, ppc=1, frames=50, profile="v3") for name in
+                 ("nonadhesive-pull-off", "adhesive-pull-off"))
+
+
 def test_contrast_pair_changes_only_work_of_adhesion(pair):
     (plain, plain_substeps), (sticky, sticky_substeps) = pair
     assert plain_substeps == sticky_substeps
@@ -105,3 +111,53 @@ def test_contrast_rejects_unpaired_cases():
         array_case(suite_case="three-sphere-array", preset="lift-hold")
     with pytest.raises(ValueError, match="preset"):
         array_case(preset="unknown")
+    with pytest.raises(ValueError, match="profile"):
+        make_case("adhesive-pull-off", profile="unknown")
+
+
+def test_v3_changes_only_two_hold_waypoints_and_keeps_material_and_time_step(pair, pair_v3):
+    for (old, old_steps), (new, new_steps) in zip(pair, pair_v3):
+        assert old_steps == new_steps
+        assert old.configs == new.configs and old.materials == new.materials
+        for before, after in zip(jax.tree.leaves(old.states), jax.tree.leaves(new.states)):
+            np.testing.assert_array_equal(before, after)
+        a, b = old.description, new.description
+        assert a["comparison_targets"] == b["comparison_targets"]
+        assert a["adhesion"] == b["adhesion"]
+        assert a["loading_stages_s"] == b["loading_stages_s"]
+        assert a["preset"] == "lift-hold" and "loading_revision" not in a
+        assert b["preset"] == "lift-hold-v3" and b["loading_revision"] == 3
+        assert b["comparison_pair"] == "single-sphere-lift-hold-v3"
+        assert b["comparison_hold_bottom_clearance_m"] == .035
+        first, second = a["rigid_spheres"][0], b["rigid_spheres"][0]
+        assert first["radius"] == second["radius"] and first["times"] == second["times"]
+        expected = np.asarray(first["centers"]).copy()
+        expected[[4, 5], 1] -= .020
+        np.testing.assert_allclose(second["centers"], expected, atol=1e-15)
+        path = SpherePath(**second)
+        for instant in (.728, .832, .936):
+            center, velocity = path.motion(instant)
+            assert float(center[1] - path.radius - b["contact_sampling_plane_y_m"]) == pytest.approx(.035)
+            np.testing.assert_array_equal(velocity, np.zeros(3))
+        assert second["centers"][-1][1] - second["radius"] - b["contact_sampling_plane_y_m"] == pytest.approx(.295)
+
+
+def test_v3_matched_pair_differs_only_in_work_and_needs_computed_surface_uplift(pair_v3):
+    (plain, plain_steps), (sticky, sticky_steps) = pair_v3
+    assert plain_steps == sticky_steps and plain.configs == sticky.configs
+    left, right = dict(plain.description), dict(sticky.description)
+    for name in ("purpose", "suite_case", "comparison_role", "cohesive_nominal_stress_Pa"):
+        left.pop(name)
+        right.pop(name)
+    a, b = dict(left.pop("adhesion")), dict(right.pop("adhesion"))
+    assert a.pop("work_of_adhesion") == 0 and b.pop("work_of_adhesion") == 72
+    assert a == b and left == right
+    for case in (plain, sticky):
+        np.testing.assert_array_equal(case.forces(case.states, .8)[0], 0)
+    initial = sticky.states[0]
+    top = initial.x[:, 1] == jnp.max(initial.x[:, 1])
+    moved = initial._replace(x=initial.x.at[:, 1].add(jnp.where(top, .02, 0)))
+    np.testing.assert_array_equal(plain.forces((moved,), .8)[0], 0)
+    force = sticky.forces((moved,), .8)[0]
+    assert float(jnp.sum(force[:, 1])) > 0
+    np.testing.assert_array_equal(force[~top], 0)

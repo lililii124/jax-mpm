@@ -8,10 +8,10 @@ import shutil
 
 try:
     from .public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
-    from .collect_results import canonical_identifier, catalogue_sources
+    from .collect_results import ADHESION_SOURCES, canonical_identifier, catalogue_sources
 except ImportError:
     from public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
-    from collect_results import canonical_identifier, catalogue_sources
+    from collect_results import ADHESION_SOURCES, canonical_identifier, catalogue_sources
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -171,7 +171,7 @@ def gallery_groups(catalogue):
 
 def preview(folder, name, render):
     """Select the largest response when a completed animation is available."""
-    if folder.parent.name in ("adhesion-visible", "adhesion-visible-cloud"):
+    if folder.parent.name in ADHESION_SOURCES:
         comparison = json.loads((folder.parent / "adhesion_comparison.json").read_text(encoding="utf-8"))
         intervals = comparison["deformation_contrast"]["qualifying_saved_intervals"]
         if comparison.get("passed") is not True or not intervals:
