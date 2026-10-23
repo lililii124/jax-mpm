@@ -1,0 +1,76 @@
+name: JC particle refinement first segment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jc-refinement-diagnostic-cache
+  cancel-in-progress: false
+
+jobs:
+  first-segment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Bind fixed full plan, source and first-segment cache identity
+        id: prepare
+        run: python tools/run_jc_refinement.py prepare
+      - name: Install CPU numerical dependencies
+        timeout-minutes: 15
+        run: python -m pip install -e . psutil
+      - name: Run to frame 10 of 60 and independently audit the complete prefix
+        id: solve
+        timeout-minutes: 290
+        run: python tools/run_jc_refinement.py run
+      - name: Save lossless latest checkpoint and original prefix files
+        timeout-minutes: 20
+        uses: actions/cache/save@v5
+        with:
+          path: .local/jc-refinement-cache
+          key: ${{ steps.prepare.outputs.cache_key }}
+      - name: Verify that this exact carry key is retrievable
+        id: lookup
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/jc-refinement-cache
+          key: ${{ steps.prepare.outputs.cache_key }}
+          lookup-only: true
+          fail-on-cache-miss: true
+      - name: Confirm saved carry without claiming tested continuation
+        env:
+          CACHE_HIT: ${{ steps.lookup.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.lookup.outputs.cache-matched-key }}
+          RECEIPT_SHA: ${{ steps.solve.outputs.receipt_sha }}
+        run: python tools/run_jc_refinement.py confirm-cache
+      - name: Preserve records or bounded complete diagnostic state on failure
+        if: always()
+        timeout-minutes: 6
+        run: python tools/run_jc_refinement.py package
+      - name: Upload first-segment diagnostics without publication or rendering
+        if: always()
+        timeout-minutes: 9
+        uses: actions/upload-artifact@v4
+        with:
+          name: jc-refinement-first-segment-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/jc-refinement-delivery/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 2
+          compression-level: 0
