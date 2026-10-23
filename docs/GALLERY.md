@@ -9,7 +9,8 @@ the parameters and numerical results.
 
 | | |
 |---|---|
-| ![concrete-bending](images/concrete-bending.png)<br>**concrete-bending** · 121,104 particles<br>[Results](results/material-engineering--concrete-bending--hjc/summary.json) · [Video](images/concrete-bending.mp4) | ![ceramic-indentation](images/ceramic-indentation.png)<br>**ceramic-indentation** · 118,580 particles<br>[Results](results/material-engineering--ceramic-indentation--jh2/summary.json) · [Video](images/ceramic-indentation.mp4) |
+| ![jc-tension](images/jc-tension.png)<br>**jc-tension** · 146,880 particles<br>[Results](results/material-engineering--jc-tension--johnson-cook/summary.json) · [Video](images/jc-tension.mp4) | ![concrete-bending](images/concrete-bending.png)<br>**concrete-bending** · 121,104 particles<br>[Results](results/material-engineering--concrete-bending--hjc/summary.json) · [Video](images/concrete-bending.mp4) |
+| ![ceramic-indentation](images/ceramic-indentation.png)<br>**ceramic-indentation** · 118,580 particles<br>[Results](results/material-engineering--ceramic-indentation--jh2/summary.json) · [Video](images/ceramic-indentation.mp4) |  |
 
 ## Engineering structures and tanks
 

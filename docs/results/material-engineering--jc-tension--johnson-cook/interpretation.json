@@ -1,0 +1,94 @@
+{
+  "case": "jc-tension / johnson-cook",
+  "scope": "Saved-frame diagnostics and final particle state; no mesh-convergence or experimental-calibration claim.",
+  "sources": {
+    "summary.json": "2234fc732dfcaccc5f7321a40eb7b1d7922f2fc13e0d47230ad5dbfdd831c5ad",
+    "diagnostics.csv": "04b9a0400d32ba32c75e1c685115c8cccbc12607ab18139b3001057a36188608",
+    "observables.csv": "c1f4130c8057b408e5f84b65c70aca01ddedff58273d2267683aab199d2c074a"
+  },
+  "checks": {
+    "final_arrays_finite": true,
+    "final_state_valid": true,
+    "positive_particle_mass_and_volume": true,
+    "positive_saved_J": true,
+    "finite_saved_observables": true,
+    "matching_table_times": true,
+    "strictly_increasing_times": true,
+    "full_duration": true,
+    "constant_saved_mass": true,
+    "final_failure_field_matches": true,
+    "failure_is_irreversible": true,
+    "central_reference_section_has_no_active_particles": true,
+    "separated_grid_support": true,
+    "zero_final_central_section_force": true,
+    "section_force_matches_observer": true
+  },
+  "saved_frames": 61,
+  "min_J": 0.9927826357617734,
+  "maximum_relative_mass_drift": 0.0,
+  "failed_mass_fraction": 0.043012674130952236,
+  "observables": {
+    "mean_grip_tensile_force_N": {
+      "min": -88264.5578885588,
+      "min_time_s": 0.000155,
+      "max": 80635.6997470634,
+      "max_time_s": 7.999999999999999e-05,
+      "final": 50249.89925140563
+    },
+    "central_material_section_force_N": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 78399.93651683364,
+      "max_time_s": 0.000115,
+      "final": 0.0
+    },
+    "engineering_strain": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 0.45000000000000007,
+      "max_time_s": 0.0003,
+      "final": 0.45000000000000007
+    },
+    "load_bearing_axial_gap_m": {
+      "min": 0.0004166666666666763,
+      "min_time_s": 0.0,
+      "max": 0.014836606307819605,
+      "max_time_s": 0.0003,
+      "final": 0.014836606307819605
+    },
+    "max_damage": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 1.0,
+      "max_time_s": 0.00015,
+      "final": 1.0
+    }
+  },
+  "separation": {
+    "first_saved_failure_time_s": 0.00015,
+    "support_separation_threshold_m": 0.00375,
+    "active_groups": [
+      {
+        "particles": 70256,
+        "x_min_m": 0.011207794411183403,
+        "x_max_m": 0.04258169684609023
+      },
+      {
+        "particles": 70256,
+        "x_min_m": 0.05741830315390983,
+        "x_max_m": 0.08879220558879343
+      }
+    ],
+    "failed_reference_layer_centres_m": [
+      0.04895833333333333,
+      0.049375,
+      0.049791666666666665,
+      0.05020833333333333,
+      0.050625,
+      0.051041666666666666
+    ],
+    "final_central_section_force_N": 0.0,
+    "interpretation": "Mass remains in noncontacting debris. Grip reactions include vibration of the separated pieces; localization is not fracture-energy regularized."
+  },
+  "passed": true
+}

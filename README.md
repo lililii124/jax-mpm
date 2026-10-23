@@ -11,7 +11,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![HJC concrete bending](docs/images/home/material-engineering--concrete-bending--hjc.gif)<br>[HJC concrete bending](docs/results/material-engineering--concrete-bending--hjc/summary.json) | ![JH-2 ceramic indentation](docs/images/home/material-engineering--ceramic-indentation--jh2.gif)<br>[JH-2 ceramic indentation](docs/results/material-engineering--ceramic-indentation--jh2/summary.json) |  |
+| ![HJC concrete bending](docs/images/home/material-engineering--concrete-bending--hjc.gif)<br>[HJC concrete bending](docs/results/material-engineering--concrete-bending--hjc/summary.json) | ![JC round-bar tension](docs/images/home/material-engineering--jc-tension--johnson-cook.gif)<br>[JC round-bar tension](docs/results/material-engineering--jc-tension--johnson-cook/summary.json) | ![JH-2 ceramic indentation](docs/images/home/material-engineering--ceramic-indentation--jh2.gif)<br>[JH-2 ceramic indentation](docs/results/material-engineering--ceramic-indentation--jh2/summary.json) |
 
 ### Structures and tanks
 

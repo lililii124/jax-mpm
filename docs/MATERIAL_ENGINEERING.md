@@ -134,6 +134,24 @@ group. This conservative axial test excludes shared quadratic support across
 the detected gaps. It does not reconstruct three-dimensional fragment topology
 or establish convergence to a single fracture location.
 
+### Recorded response
+
+The completed 80³-grid run uses 146,880 particles and 10,020 steps over 0.3 ms,
+with 61 saved states. Minimum `det(F)` is 0.992783 and recorded mass is constant.
+The first saved material failure occurs at 150 µs. At the end, six central
+reference layers contain no active particles, and two load-bearing groups are
+separated by a 14.8366 mm axial gap, exceeding the 3.75 mm grid-support threshold.
+Failed material retains 1.26343 g, or 4.30127% of the total mass, as ballistic debris.
+
+The central material-section force reaches 78.3999 kN at the 115 µs saved state
+and is zero at the end. The final mean grip force is still 50.2499 kN because
+the separated portions continue to move and vibrate against their grips; it
+does not indicate force transmission across the failed section.
+The [run record](results/material-engineering--jc-tension--johnson-cook/summary.json)
+and [independent review](results/material-engineering--jc-tension--johnson-cook/interpretation.json)
+preserve these measurements and the separation checks. This single resolution
+does not establish convergence of the localization width or fracture response.
+
 ## HJC dynamic three-point bending
 
 The beam is 300 × 60 × 60 mm along x, y and z in a 400 mm cubic domain.

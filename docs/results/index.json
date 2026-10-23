@@ -277,7 +277,8 @@
       "render.json": "a6b2d1428b253a8f399b45da96221948f1da141e2b0dc576f1a6db95883287fd",
       "vtk_metadata.json": "156e7cefade36a904118db8cee0af2d2f7ee3c76d55d8dac10896396db5eab9e",
       "video.json": "962bc004ca22e0fc0ba84c287b9fecd8de30c21bf9c31a7ce14ef6b5ba14446e",
-      "interpretation.json": "232dd6cb70f09c077538d226950dd30ac2a1ea438cb0c1936619d6165cb89129"
+      "interpretation.json": "232dd6cb70f09c077538d226950dd30ac2a1ea438cb0c1936619d6165cb89129",
+      "memory.json": "4f973eb3ec840a3afed0706b57b9a3364113aae6222955ce59f559fa3d50d8e6"
     }
   },
   {
@@ -298,7 +299,30 @@
       "render.json": "3189cd4ee44b76923e767c3c23f64a3046cb525e9a95e9bd42b0e950dcd8299b",
       "vtk_metadata.json": "860bff56bd32a26dbf44bb551c343e56508cbf639f821d3bd4799070238cdb53",
       "video.json": "2ef151fe33d8cea30373dd3bda40ffdcc65716e20ae5b52aaebf9e8f9956686d",
-      "interpretation.json": "dc271dcd1b314ac22bd442753e4a02ca860ecc28996ef12b21c2c57d033ba0ee"
+      "interpretation.json": "dc271dcd1b314ac22bd442753e4a02ca860ecc28996ef12b21c2c57d033ba0ee",
+      "memory.json": "5095ecbe7e107f91ad6bbfdc77b9284837e5b10664cabfe8aa2c75ea08b584d8"
+    }
+  },
+  {
+    "id": "material-engineering--jc-tension--johnson-cook",
+    "case": "jc-tension / johnson-cook",
+    "source_directory": "outputs/material-engineering/jc-tension/johnson-cook",
+    "particles": 146880,
+    "steps": 10020,
+    "simulation_time": 0.0003,
+    "min_J": 0.9927826357617734,
+    "max_damage": 1.0,
+    "solver_seconds": 5209.299593899952,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "2234fc732dfcaccc5f7321a40eb7b1d7922f2fc13e0d47230ad5dbfdd831c5ad",
+      "diagnostics.csv": "04b9a0400d32ba32c75e1c685115c8cccbc12607ab18139b3001057a36188608",
+      "observables.csv": "c1f4130c8057b408e5f84b65c70aca01ddedff58273d2267683aab199d2c074a",
+      "render.json": "5178386da641318b4d4532c519d5739e63ee1c51e46af224267de204d541ca62",
+      "vtk_metadata.json": "cdfbc2b3219e758c923a922bfdbb7e5df9d06408536ef4ec0d8023f0e7a2f314",
+      "video.json": "6f192907c0e9d19ce984d397e9e4cfb338f119afd2bfdcb3ce1175c5c8b15b2e",
+      "memory.json": "99ed21018e824dd5f28f1036769982199c24afebed1bc73f74c39b1fd0cc3cc3",
+      "interpretation.json": "48604c7d42663119668138b7041cf4d15b54a8476d426e8255c9f753f8cddad8"
     }
   },
   {

@@ -1,0 +1,321 @@
+{
+  "case": "jc-tension / johnson-cook",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 80,
+      "dt": 2.994011976047904e-08,
+      "domain_size": 0.1,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "johnson-cook",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.03,
+            0.1,
+            0.1
+          ],
+          "velocity": [
+            -36.00000000000001,
+            0.0,
+            0.0
+          ],
+          "components": [
+            true,
+            false,
+            false
+          ],
+          "start": 0.0,
+          "end": null,
+          "ramp_time": 9.999999999999999e-05
+        },
+        {
+          "lower": [
+            0.07,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.1,
+            0.1,
+            0.1
+          ],
+          "velocity": [
+            36.00000000000001,
+            0.0,
+            0.0
+          ],
+          "components": [
+            true,
+            false,
+            false
+          ],
+          "start": 0.0,
+          "end": null,
+          "ramp_time": 9.999999999999999e-05
+        }
+      ],
+      "failure_mode": "ballistic"
+    }
+  ],
+  "materials": [
+    {
+      "mu": 27481203007.518795,
+      "bulk": 71666666666.66667,
+      "A": 265000000.0,
+      "B": 426000000.0,
+      "n": 0.34,
+      "C": 0.015,
+      "m": 1.0,
+      "reference_rate": 1.0,
+      "reference_temperature": 298.0,
+      "melt_temperature": 775.15,
+      "heat_capacity": 875.0,
+      "heat_fraction": 0.9,
+      "density": 2770.0,
+      "failure": [
+        0.13,
+        0.13,
+        -1.5,
+        0.011,
+        0.0
+      ],
+      "failure_enabled": true
+    }
+  ],
+  "steps": 10020,
+  "simulation_time": 0.0003,
+  "particles": [
+    146880
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "compile_and_warmup_seconds": 57.87266739999177,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 5209.299593899952,
+  "min_J": 0.9927826357617734,
+  "max_damage": 1.0,
+  "max_plastic_strain": 0.22842860139481727,
+  "max_temperature": 339.48886901105027,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    9.18192107226103e-13,
+    -3.7283796299733335e-17,
+    7.422976872857756e-17
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "prescribed_extension_m": 0.0,
+      "engineering_strain": 0.0,
+      "mean_grip_tensile_force_N": 1.2229943553618665,
+      "nominal_grip_stress_Pa": 6920.7323388205195,
+      "central_material_section_force_N": 0.0,
+      "minimum_absolute_gauge_section_force_N": 0.0,
+      "left_grip_reaction_x_N": 1.2229943553618663,
+      "right_grip_reaction_x_N": -1.2229943553618667,
+      "boundary_sample_time_s": 2.994011976047904e-08,
+      "minimum_gauge_load_bearing_area_ratio": 1.0,
+      "failed_gauge_sections": 0,
+      "load_bearing_axial_gap_m": 0.0004166666666666763,
+      "gap_exceeds_grid_support": false,
+      "support_separated_components": 1,
+      "central_area_ratio_mean": 1.0,
+      "maximum_equivalent_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "failed_mass_kg": 0.0,
+      "failed_reference_volume_fraction": 0.0,
+      "total_mass_error_kg": 0.0,
+      "momentum_x_kg_m_per_s": 0.0
+    },
+    "final": {
+      "time": 0.0003,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 9.18192107226103e-13,
+      "boundary_impulse_y": -3.7283796299733335e-17,
+      "boundary_impulse_z": 7.422976872857756e-17,
+      "prescribed_extension_m": 0.018000000000000006,
+      "engineering_strain": 0.45000000000000007,
+      "mean_grip_tensile_force_N": 50249.89925140563,
+      "nominal_grip_stress_Pa": 284356261.5371,
+      "central_material_section_force_N": 0.0,
+      "minimum_absolute_gauge_section_force_N": 0.0,
+      "left_grip_reaction_x_N": 50249.89925144941,
+      "right_grip_reaction_x_N": -50249.89925136184,
+      "boundary_sample_time_s": 0.00030002994011976047,
+      "minimum_gauge_load_bearing_area_ratio": 0.0,
+      "failed_gauge_sections": 6,
+      "load_bearing_axial_gap_m": 0.014836606307819605,
+      "gap_exceeds_grid_support": true,
+      "support_separated_components": 2,
+      "central_area_ratio_mean": 0.794415183677184,
+      "maximum_equivalent_plastic_strain": 0.22842860139481727,
+      "max_damage": 1.0,
+      "failed_mass_kg": 0.0012634280848864954,
+      "failed_reference_volume_fraction": 0.04301267413095224,
+      "total_mass_error_kg": 0.0,
+      "momentum_x_kg_m_per_s": 9.352608240002867e-13
+    }
+  },
+  "definition": {
+    "purpose": "dynamic tension of a smooth round bar through JC failure and separation",
+    "units": "m, s, kg, N, Pa",
+    "particles_per_cell_per_axis": 3,
+    "material": "AA2024-T351 Johnson-Cook parameters reproduced from FAA Table 6",
+    "material_source": "https://ntlrepository.blob.core.windows.net/lib/17000/17400/17488/PB2001101864.pdf",
+    "material_source_table": "DOT/FAA/AR-00/25, Table 6, printed p.17 (PDF p.29)",
+    "thermal_source": "https://online.kaiseraluminum.com/depot/PublicProductInformation/Document/1022/Kaiser_Aluminum_2024_Rod_and_Bar.pdf",
+    "parameter_assumptions": "nu=0.33, plastic work heat fraction=0.9, constant cp=875 J/(kg K)",
+    "calibration_scope": "published constitutive parameters; specimen, rate and fracture response are an illustration, not a tensile-test calibration; rate exceeds the reported original torsion fit",
+    "triaxiality": "mean tensile stress / von Mises stress; D3=-1.5",
+    "bar_ends_x_m": [
+      0.02,
+      0.08
+    ],
+    "bar_diameter_m": 0.015,
+    "gauge_length_m": 0.04000000000000001,
+    "radial_imperfection_fraction": 0.005,
+    "radial_profile": "R(x)=R0*(1-0.005*exp(-((x-center)/(gauge_length/6))**2))",
+    "imperfection_scope": "smooth geometric imperfection to select a neck; no cut, notch or initial damage",
+    "reference_volume": "particle volumes and masses scaled with the squared radial profile",
+    "grips": "opposed translating axial velocity constraints; transverse velocities unconstrained",
+    "ramp_time_s": 9.999999999999999e-05,
+    "grip_speed_m_per_s": 36.00000000000001,
+    "nominal_strain_rate_plateau_per_s": 1800.0,
+    "final_engineering_strain": 0.45000000000000007,
+    "duration_s": 0.0003,
+    "acoustic_CFL": 0.14977331642824257,
+    "failure_mode": "ballistic",
+    "failure_interpretation": "D=1 removes load carrying capacity and grid participation; mass is retained in noncontacting ballistic debris; no fracture-energy regularization or crack-face contact",
+    "separation_measure": "empty load-bearing material section; sorted active x-coordinate gaps exceeding 3 grid cells conservatively identify groups without shared quadratic support",
+    "reaction_sampling": "next-step grid constraint force on each grip; same dt as integration",
+    "section_force": "sum of sigma * cofactor(F) * e_x times reference volume / reference layer thickness",
+    "rigid_grips": [
+      {
+        "lower": [
+          0.017,
+          0.03900000000000001,
+          0.03900000000000001
+        ],
+        "upper": [
+          0.03,
+          0.061,
+          0.061
+        ],
+        "velocity": [
+          -36.00000000000001,
+          0.0,
+          0.0
+        ],
+        "ramp_time": 9.999999999999999e-05,
+        "start": 0.0,
+        "end": null
+      },
+      {
+        "lower": [
+          0.07,
+          0.03900000000000001,
+          0.03900000000000001
+        ],
+        "upper": [
+          0.083,
+          0.061,
+          0.061
+        ],
+        "velocity": [
+          36.00000000000001,
+          0.0,
+          0.0
+        ],
+        "ramp_time": 9.999999999999999e-05,
+        "start": 0.0,
+        "end": null
+      }
+    ]
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 0.029373390760127682,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.05,
+      "com_y": 0.05000000000000001,
+      "com_z": 0.05000000000000001,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 1.0604112187771726e-05,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 298.0,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "active_particles": 146880,
+      "debris_particles": 0,
+      "active_mass": 0.029373390760127682,
+      "debris_mass": 0.0,
+      "active_current_volume": 1.0604112187771726e-05,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.0003,
+      "body": 0,
+      "mass": 0.029373390760127682,
+      "momentum_x": 9.18192107226103e-13,
+      "momentum_y": -3.7283796299733335e-17,
+      "momentum_z": 7.422976872857756e-17,
+      "kinetic_energy": 25.136666224842987,
+      "com_x": 0.049999999999996644,
+      "com_y": 0.05,
+      "com_z": 0.05000000000000001,
+      "min_J": 0.9930083212204245,
+      "max_J": 1.0092744219909495,
+      "current_volume": 1.061168207863901e-05,
+      "max_speed": 62.24999017994774,
+      "max_plastic_strain": 0.22842860139481727,
+      "max_damage": 1.0,
+      "max_temperature": 339.48886901105027,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 518.4640705313834,
+      "active_particles": 140512,
+      "debris_particles": 6368,
+      "active_mass": 0.028109962675241185,
+      "debris_mass": 0.0012634280848864954,
+      "active_current_volume": 1.0153778534426106e-05,
+      "strain_energy": null
+    }
+  ]
+}

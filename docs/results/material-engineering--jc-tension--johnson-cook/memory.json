@@ -1,0 +1,20 @@
+{
+  "measured_utc": "2026-10-23T04:15:21.397416+00:00",
+  "scope": "solver process and descendants over all attempts; rendering, supervisors, and unrelated applications excluded",
+  "source": "Windows per-process lifetime peak counters and process-tree samples every 2 seconds",
+  "peak_commit_bytes": 1021247488,
+  "peak_working_set_bytes": 1190301696,
+  "sampled_tree_peak_private_bytes": 1023668224,
+  "sampled_tree_peak_rss_bytes": 1190105088,
+  "minimum_system_available_commit_bytes": 6159544320,
+  "memory_guard_stop_threshold_bytes": 4294967296,
+  "memory_guard_stops": 0,
+  "memory_guard_checkpoint_frames": [],
+  "attempts": 1,
+  "checkpoint_resumes": 0,
+  "completed": true,
+  "steps": 10020,
+  "particles": 146880,
+  "solver_seconds": 5209.299593899952,
+  "solver_timing_scope": "cumulative solver timing retained by the completed checkpoint; startup, rendering, and waits excluded"
+}
