@@ -1,0 +1,82 @@
+name: woven previews
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: woven-previews-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - architecture: plain
+            loading: transverse-bending
+          - architecture: triaxial
+            loading: in-plane-shear
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OMP_NUM_THREADS: '4'
+      OPENBLAS_NUM_THREADS: '1'
+      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
+      LIBGL_ALWAYS_SOFTWARE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install CPU and rendering dependencies
+        timeout-minutes: 15
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg libosmesa6 libosmesa6-dev libgl1 libglu1-mesa libx11-6 libx11-xcb1 libxcb1 libxcb-cursor0 libxrender1 libxi6 libxkbcommon0 libxkbcommon-x11-0 libsm6 libice6 libxext6
+          python -m pip install -e . psutil
+      - name: Install official ParaView
+        timeout-minutes: 20
+        run: python tools/run_woven_preview.py install
+      - name: Solve, review, render and verify
+        timeout-minutes: 140
+        run: python tools/run_woven_preview.py run --architecture ${{ matrix.architecture }} --loading ${{ matrix.loading }}
+      - name: Upload reviewed media and records
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-${{ matrix.architecture }}-${{ matrix.loading }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/woven-delivery/main/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload separate final state when needed
+        if: success() && hashFiles('.local/woven-delivery/final-state/delivery-manifest.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-${{ matrix.architecture }}-${{ matrix.loading }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
+          path: .local/woven-delivery/final-state/
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 6
+      - name: Upload diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-${{ matrix.architecture }}-${{ matrix.loading }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
+          path: .local/woven-ci/
+          if-no-files-found: warn
+          retention-days: 1
+          compression-level: 6

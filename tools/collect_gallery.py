@@ -40,6 +40,7 @@ GROUPS = {
     ],
     "Adhesion comparison": [],
     "Woven composites": [],
+    "Woven composites · coarse previews": [],
     "Engineering structures and tanks": [
         ("perforated-panel", "engineering/perforated-panel/neo-hookean"),
         ("cellular-cushion", "engineering/cellular-cushion/neo-hookean"),
@@ -142,10 +143,11 @@ def gallery_groups(catalogue):
     listed = {relative for entries in groups.values() for _, relative in entries}
     for record in catalogue:
         parts = record["id"].split("--")
-        if parts[0] == "woven":
-            relative = "/".join(parts)
+        if parts[0] in ("woven", "woven-preview"):
+            relative = record.get("source_directory", "outputs/" + "/".join(parts)).removeprefix("outputs/")
             if relative not in listed:
-                groups["Woven composites"].append(("-".join(parts), relative))
+                heading = "Woven composites · coarse previews" if parts[0] == "woven-preview" else "Woven composites"
+                groups[heading].append(("-".join(parts), relative))
                 listed.add(relative)
             continue
         if parts[0] not in ("adhesion", "adhesion-visible"):
@@ -218,6 +220,10 @@ def main():
     target.mkdir(exist_ok=True)
     catalogue = json.loads((ROOT / "docs/results/index.json").read_text(encoding="utf-8"))
     selected_ids = {record["id"] for record in homepage_records(ROOT, catalogue)}
+    source_ids = {
+        record.get("source_directory", "outputs/" + record["id"].replace("--", "/")).removeprefix("outputs/"): record["id"]
+        for record in catalogue
+    }
     lines = [
         "# Gallery",
         "",
@@ -231,7 +237,8 @@ def main():
     for heading, entries in gallery_groups(catalogue).items():
         cells = []
         for name, relative in entries:
-            if not is_public_run(relative) or relative.replace("/", "--") not in selected_ids:
+            identifier = source_ids.get(relative, relative.replace("/", "--"))
+            if not is_public_run(identifier) or identifier not in selected_ids:
                 continue
             folder = ROOT / "outputs" / relative
             if not all((folder / f).exists() for f in ("summary.json", "render.json", "final.png")):
@@ -240,12 +247,12 @@ def main():
             if render.get("renderer") != "ParaView" or render.get("style_revision", 0) < 3:
                 continue
             summary = json.loads((folder / "summary.json").read_text())
-            if not is_ready_for_publication(folder, relative, summary):
+            if not is_ready_for_publication(folder, identifier, summary):
                 continue
             selected, frame, time = preview(folder, name, render)
             copy_if_changed(selected, target / f"{name}.png")
             animation = (
-                (name in ANIMATIONS or relative.startswith(("adhesion/", "adhesion-visible/", "woven/")))
+                (name in ANIMATIONS or identifier.startswith(("adhesion--", "adhesion-visible--", "woven--", "woven-preview--")))
                 and (folder / "video.json").exists()
                 and (folder / "simulation.mp4").exists()
             )
@@ -261,10 +268,10 @@ def main():
             if animation:
                 copy_if_changed(folder / "simulation.mp4", target / f"{name}.mp4")
             count = sum(summary["particles"])
-            identifier = "--".join(Path(relative).parts)
             video_link = f" · [Video](images/{name}.mp4)" if animation else ""
+            label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             cells.append(
-                f"![{name}](images/{name}.png)<br>**{name}** · {count:,} particles<br>"
+                f"![{name}](images/{name}.png)<br>**{label}** · {count:,} particles<br>"
                 f"[Results](results/{identifier}/summary.json){video_link}"
             )
             manifest.append(
@@ -282,7 +289,7 @@ def main():
                 }
             )
         if cells:
-            columns = 3 if heading == "Woven composites" else 2
+            columns = 3 if heading.startswith("Woven composites") else 2
             lines += [f"## {heading}", "", "|" + " |" * columns, "|" + "---|" * columns]
             for i in range(0, len(cells), columns):
                 pair = cells[i : i + columns]

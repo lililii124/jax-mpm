@@ -1,6 +1,8 @@
 # Steel round-bar necking
 
-`jc-necking` uses the material constants, circular-arc waist and prescribed loading in [SPHinXsys PR 1127](https://github.com/Xiangyu-Hu/SPHinXsys/pull/1127), pinned to commit `c3c1556ec86f9ebc6f0697149dff052702d20a75`. The PR was open and had no review comments when checked. It is a numerical implementation reference, not experimental validation. The older AA2024 `jc-tension` case and its recorded results remain available as a different problem.
+`jc-necking` uses the material constants, circular-arc waist and prescribed loading in [SPHinXsys PR 1127](https://github.com/Xiangyu-Hu/SPHinXsys/pull/1127), pinned to commit `c3c1556ec86f9ebc6f0697149dff052702d20a75`. It is a numerical implementation reference, not experimental validation. The older AA2024 `jc-tension` case and its recorded results remain available as a different problem.
+
+The pinned example's final damage assertion requires only nonzero maximum damage for runs reaching 60 microseconds. It does not require failed particles or complete fracture at 150 microseconds. See the [original run and acceptance check](https://github.com/lililii124/SPHinXsys/blob/c3c1556ec86f9ebc6f0697149dff052702d20a75/tests/3d_examples/test_3d_johnson_cook_necking/necking.cpp).
 
 ## Geometry and loading
 
@@ -34,6 +36,8 @@ The [PR's constitutive source](https://github.com/lililii124/SPHinXsys/blob/c3c1
 The JAX core is unchanged. Matching constants and loading does not imply identical finite-step stress histories. The material-point test independently solves the JAX return equation and checks its plastic work, temperature and damage, while making the different PR first-step rate convention explicit. Neither solver comparison nor a regression test establishes agreement with a physical tensile test.
 
 Failed particles retain their mass and last velocity, cease participating in grid transfers and carry no stress. Their deformation and material history freeze while positions continue ballistically. Crack-face contact, fracture-energy regularization and a post-initiation softening law are absent. Local failure remains sensitive to the grid and loading history.
+
+The PR's total-Lagrangian formulation retains reference neighbours and [transmits forces between active neighbours](https://github.com/lililii124/SPHinXsys/blob/c3c1556ec86f9ebc6f0697149dff052702d20a75/src/shared/particle_dynamics/solid_dynamics/johnson_cook_dynamics.cpp). The [MPM transfer](../mpm_jax/core.py) instead uses grid support at current particle positions. Stretching can therefore remove shared grid support before damage reaches one; that numerical separation is not constitutive fracture.
 
 ## Discretization and commands
 

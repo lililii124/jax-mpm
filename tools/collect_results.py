@@ -23,6 +23,7 @@ SOURCES = (
     "adhesion",
     "adhesion-visible",
     "woven",
+    "woven-smoke",
     "production",
     "refinement",
     "visible-motion",
@@ -148,6 +149,8 @@ def collect(root, destination):
                 continue
             completed += 1
             identifier = "--".join(folder.relative_to(root / "outputs").parts)
+            if source == "woven-smoke":
+                identifier = "woven-preview--" + identifier.removeprefix("woven-smoke--")
             if not is_ready_for_publication(folder, identifier, summary):
                 continue
             target = destination / identifier
@@ -166,6 +169,9 @@ def collect(root, destination):
                 "memory.json",
                 "vtk_check.json",
                 "interpretation.json",
+                "numerical-source.json",
+                "preview-review.json",
+                "preview-eligibility.json",
             )
             for name in names:
                 original = folder / name
@@ -202,6 +208,8 @@ def collect(root, destination):
                     "sha256": hashes,
                 }
             )
+            if source == "woven-smoke":
+                records[-1]["publication_scope"] = "coarse-preview"
     if "visible-motion" in SOURCES:
         collect_wave_comparison(root, destination, records)
     if "adhesion" in SOURCES:
@@ -235,8 +243,9 @@ def write_catalogue(records, destination):
         "|---|---:|---:|---:|---:|---:|---|",
     ]
     for item in records:
+        label = item["id"] + (" · coarse preview" if item.get("publication_scope") == "coarse-preview" else "")
         lines.append(
-            f"| [{item['id']}](results/{item['id']}/summary.json) | {item['particles']:,} | "
+            f"| [{label}](results/{item['id']}/summary.json) | {item['particles']:,} | "
             f"{item['steps']:,} | {item['simulation_time']:.6g} | {item['min_J']:.6g} | "
             f"{item['max_damage']:.6g} | {item['renderer'] or 'Pending'} |"
         )
@@ -247,6 +256,14 @@ def write_catalogue(records, destination):
         "describes the separate constitutive and convergence checks.",
         "",
     ]
+    if any(item.get("publication_scope") == "coarse-preview" for item in records):
+        lines += [
+            "Rows marked **coarse preview** retain their unsuccessful production-resolution review.",
+            "A separate eligibility record permits visualization with explicit resolution and tracking",
+            "limitations; it does not convert that review into a production pass.",
+            "See [WOVEN_PREVIEWS.md](WOVEN_PREVIEWS.md).",
+            "",
+        ]
     if (destination / "visible-wave-comparison.json").exists():
         lines += [
             "The [transverse shear-wave comparison](results/visible-wave-comparison.json)",

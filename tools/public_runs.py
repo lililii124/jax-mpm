@@ -33,6 +33,11 @@ HOME_REPLACEMENTS = {
     "suite--torsion--neo-hookean": "visible-motion--torsion--neo-hookean",
     "suite--surface-load--neo-hookean": "visible-motion--surface-load--neo-hookean",
 }
+HOME_REPLACEMENTS.update({
+    f"woven-preview--{architecture}--{loading}": f"woven--{architecture}--{loading}"
+    for architecture in ("plain", "triaxial", "twill-2x2")
+    for loading in ("warp-tension", "weft-tension", "in-plane-shear", "transverse-compression", "transverse-bending")
+})
 
 
 def is_public_run(identifier):
@@ -50,6 +55,8 @@ def is_ready_for_publication(folder, identifier, summary):
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
     source = canonical.split("--")[0]
+    if source == "woven-preview":
+        return is_woven_preview_ready(Path(folder), canonical, summary)
     revised_material = canonical in (
         "material-engineering--jc-necking--johnson-cook",
         "material-engineering--concrete-bending-large--hjc",
@@ -75,6 +82,56 @@ def is_ready_for_publication(folder, identifier, summary):
             if sources.get(name) != hashlib.sha256(content).hexdigest():
                 return False
     except (OSError, ValueError, TypeError):
+        return False
+    return True
+
+
+def is_woven_preview_ready(folder, identifier, summary):
+    if summary.get("completed") is not True or identifier not in HOME_REPLACEMENTS:
+        return False
+    try:
+        _, architecture, loading = identifier.split("--")
+        definition = summary["definition"]
+        if (definition["architecture"], definition["loading"]) != (architecture, loading):
+            return False
+        eligibility = json.loads((folder / "preview-eligibility.json").read_text(encoding="utf-8"))
+        review = json.loads((folder / "preview-review.json").read_text(encoding="utf-8"))
+        original = json.loads((folder / "interpretation.json").read_text(encoding="utf-8"))
+        allowed = {"at_least_one_hundred_thousand_particles", "grid_resolves_yarn_height"}
+        if loading == "transverse-compression":
+            allowed.add("required_moving_samples_exist")
+        checks = review["checks"]
+        if not checks or any(type(value) is not bool for value in checks.values()):
+            return False
+        failed = {key for key, value in checks.items() if not value}
+        required = (
+            "positive_final_stored_elastic_energy", "final_piola_section_forces_match",
+            "final_reference_section_moment_matches",
+        )
+        if not (
+            eligibility["kind"] == "coarse-woven-preview-v1"
+            and eligibility["eligible"] is True
+            and eligibility["review_file"] == "preview-review.json"
+            and eligibility["source_review_passed"] is False and review["passed"] is False
+            and original.get("passed") is False
+            and failed and failed <= allowed
+            and set(eligibility["allowed_failed_checks"]) == allowed
+            and set(eligibility["observed_failed_checks"]) == failed
+            and all(checks.get(name) is True for name in required)
+            and isinstance(eligibility["limitations"], list) and eligibility["limitations"]
+        ):
+            return False
+        names = ("summary.json", "diagnostics.csv", "observables.csv", "interpretation.json", "preview-review.json")
+        if set(eligibility["sources"]) != set(names):
+            return False
+        for name in names:
+            content = (folder / name).read_bytes().replace(b"\r\n", b"\n")
+            digest = hashlib.sha256(content).hexdigest()
+            if eligibility["sources"][name] != digest:
+                return False
+            if name in names[:3] and review["sources"].get(name) != digest:
+                return False
+    except (OSError, ValueError, KeyError, TypeError):
         return False
     return True
 

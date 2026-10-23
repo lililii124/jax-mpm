@@ -22,6 +22,7 @@ GROUPS = (
     "Shear-wave comparisons",
     "Adhesion comparison",
     "Woven composites",
+    "Woven composites · coarse previews",
 )
 WOVEN_ARCHITECTURES = {"plain": "0°/90° plain weave", "triaxial": "0°/±60° weave", "twill-2x2": "2×2 twill"}
 WOVEN_LOADS = {
@@ -88,8 +89,9 @@ MATERIALS = {
 def describe(identifier):
     parts = identifier.split("--")
     source = parts[0]
-    if source == "woven":
-        return GROUPS[9], f"{WOVEN_ARCHITECTURES[parts[1]]} · {WOVEN_LOADS[parts[2]]}"
+    if source in ("woven", "woven-preview"):
+        title = f"{WOVEN_ARCHITECTURES[parts[1]]} · {WOVEN_LOADS[parts[2]]}"
+        return (GROUPS[10], title + " · Coarse preview") if source == "woven-preview" else (GROUPS[9], title)
     scene = parts[-1] if source in ("contact-models", "adhesion", "adhesion-visible") else parts[-2]
     if source == "adhesion-visible":
         return GROUPS[8], TITLES[scene]
@@ -200,14 +202,14 @@ def main():
         record["source_render_sha256"] = entry.get("source_render_sha256", entry["render_sha256"])
         public.append(record)
     lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
-    for heading in (GROUPS[0], GROUPS[8], GROUPS[9], *GROUPS[1:8]):
+    for heading in (GROUPS[0], GROUPS[8], GROUPS[9], GROUPS[10], *GROUPS[1:8]):
         items = groups[heading]
         if not items:
             continue
         columns = 2 if heading == GROUPS[8] else 3
         lines += [f"### {heading}", "", "|" + " |" * columns, "|" + "---|" * columns]
         ordered = sorted(items, key=lambda item: (not item[0].startswith("Nonadhesive"), item[0])) if heading == GROUPS[8] else sorted(items)
-        if heading == GROUPS[9]:
+        if heading in (GROUPS[9], GROUPS[10]):
             ordered = sorted(items, key=lambda item: (
                 tuple(WOVEN_LOADS.values()).index(item[0].split(" · ")[1]),
                 tuple(WOVEN_ARCHITECTURES.values()).index(item[0].split(" · ")[0]),
