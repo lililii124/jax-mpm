@@ -17,7 +17,8 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![0°/±60° weave · In-plane shear](docs/images/home/woven--triaxial--in-plane-shear.gif)<br>[0°/±60° weave · In-plane shear](docs/results/woven--triaxial--in-plane-shear/summary.json) | ![0°/90° plain weave · Through-thickness compression](docs/images/home/woven--plain--transverse-compression.gif)<br>[0°/90° plain weave · Through-thickness compression](docs/results/woven--plain--transverse-compression/summary.json) | ![0°/90° plain weave · Out-of-plane bending](docs/images/home/woven--plain--transverse-bending.gif)<br>[0°/90° plain weave · Out-of-plane bending](docs/results/woven--plain--transverse-bending/summary.json) |
+| ![0°/90° plain weave · In-plane shear](docs/images/home/woven--plain--in-plane-shear.gif)<br>[0°/90° plain weave · In-plane shear](docs/results/woven--plain--in-plane-shear/summary.json) | ![0°/±60° weave · In-plane shear](docs/images/home/woven--triaxial--in-plane-shear.gif)<br>[0°/±60° weave · In-plane shear](docs/results/woven--triaxial--in-plane-shear/summary.json) | ![0°/90° plain weave · Through-thickness compression](docs/images/home/woven--plain--transverse-compression.gif)<br>[0°/90° plain weave · Through-thickness compression](docs/results/woven--plain--transverse-compression/summary.json) |
+| ![0°/90° plain weave · Out-of-plane bending](docs/images/home/woven--plain--transverse-bending.gif)<br>[0°/90° plain weave · Out-of-plane bending](docs/results/woven--plain--transverse-bending/summary.json) |  |  |
 
 ### Woven composites · coarse previews
 

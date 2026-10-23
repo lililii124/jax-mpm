@@ -1,0 +1,1170 @@
+{
+  "case": "plain/in-plane-shear / woven-composite",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 96,
+      "dt": 4.583011101693303e-09,
+      "domain_size": 0.016,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "woven-composite",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.016,
+            0.016,
+            0.004
+          ],
+          "displacement": [
+            -0.00015,
+            -0.0,
+            -0.0
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "components": null,
+          "start": 0.0
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.012
+          ],
+          "upper": [
+            0.016,
+            0.016,
+            0.016
+          ],
+          "displacement": [
+            0.00015,
+            0.0,
+            0.0
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "components": null,
+          "start": 0.0
+        }
+      ],
+      "failure_mode": "retain"
+    }
+  ],
+  "materials": [
+    {
+      "matrix_mu": 769230769.2307692,
+      "matrix_lam": 1153846153.8461537,
+      "yarn_stiffness": [
+        [
+          40727272727.27272,
+          1454545454.5454545,
+          1454545454.5454545,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1454545454.5454545,
+          4447552447.552447,
+          1370629370.6293705,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1454545454.5454545,
+          1370629370.6293705,
+          4447552447.552447,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1999999999.9999998,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1999999999.9999998,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1500000000.0
+        ]
+      ],
+      "orientation": {
+        "shape": [
+          345600,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "7ab5b84a16ce5cb995af7b3438e0b3a9dde8eb711e5b1d99ba2e829c4a68a448"
+      },
+      "phase": {
+        "shape": [
+          345600
+        ],
+        "dtype": "uint8",
+        "sha256": "f6fd77a121e7dd8c980d79e6b9c8af11ea3d80d42472b299f5aa785d5a14556c"
+      },
+      "matrix_density": 1100.0,
+      "yarn_density": 1400.0
+    }
+  ],
+  "steps": 4140,
+  "simulation_time": 1.8973665961010275e-05,
+  "particles": [
+    345600
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.15",
+  "compile_and_warmup_seconds": 21.159364442999987,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 1215.1990536219998,
+  "min_J": 0.952718815642413,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    6.43729615902901e-19,
+    3.6870706305506425e-07,
+    3.7689597209355737e-19
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "maximum_displacement_m": 0.0,
+      "rms_displacement_m": 0.0,
+      "center_mean_displacement_y_m": 0.0,
+      "maximum_green_strain_norm": 0.0,
+      "minimum_J": 1.0,
+      "maximum_J": 1.0,
+      "reference_yarn_volume_fraction": 0.10925925925925926,
+      "max_damage": 0.0,
+      "failed_particles": 0,
+      "boundary_sample_time_s": 4.583011101693303e-09,
+      "matrix_strain_energy_J": 0.0,
+      "matrix_maximum_green_strain_norm": 0.0,
+      "yarn_strain_energy_J": 0.0,
+      "yarn_maximum_green_strain_norm": 0.0,
+      "central_x_section_force_x_N": 0.0,
+      "central_x_section_force_y_N": 0.0,
+      "central_x_section_force_z_N": 0.0,
+      "central_x_section_moment_z_Nm": -0.0,
+      "central_y_section_force_x_N": 0.0,
+      "central_y_section_force_y_N": 0.0,
+      "central_y_section_force_z_N": 0.0,
+      "central_z_section_force_x_N": 0.0,
+      "central_z_section_force_y_N": 0.0,
+      "central_z_section_force_z_N": 0.0,
+      "negative_grip_interior_particles": 25920,
+      "negative_grip_interior_current_full_support_particles": 25920,
+      "negative_grip_interior_position_error_m": 0.0,
+      "negative_grip_interior_velocity_error_m_per_s": 0.0,
+      "negative_grip_reaction_x_N": 89.89655161372403,
+      "negative_grip_prescribed_displacement_x_m": -0.0,
+      "negative_grip_prescribed_velocity_x_m_per_s": -0.0,
+      "negative_grip_reaction_y_N": -0.0,
+      "negative_grip_prescribed_displacement_y_m": -0.0,
+      "negative_grip_prescribed_velocity_y_m_per_s": -0.0,
+      "negative_grip_reaction_z_N": -0.0,
+      "negative_grip_prescribed_displacement_z_m": -0.0,
+      "negative_grip_prescribed_velocity_z_m_per_s": -0.0,
+      "positive_grip_interior_particles": 25920,
+      "positive_grip_interior_current_full_support_particles": 25920,
+      "positive_grip_interior_position_error_m": 0.0,
+      "positive_grip_interior_velocity_error_m_per_s": 0.0,
+      "positive_grip_reaction_x_N": -89.89655161372411,
+      "positive_grip_prescribed_displacement_x_m": 0.0,
+      "positive_grip_prescribed_velocity_x_m_per_s": 0.0,
+      "positive_grip_reaction_y_N": -0.0,
+      "positive_grip_prescribed_displacement_y_m": 0.0,
+      "positive_grip_prescribed_velocity_y_m_per_s": 0.0,
+      "positive_grip_reaction_z_N": -0.0,
+      "positive_grip_prescribed_displacement_z_m": 0.0,
+      "positive_grip_prescribed_velocity_z_m_per_s": 0.0
+    },
+    "final": {
+      "time": 1.8973665961010275e-05,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 6.43729615902901e-19,
+      "boundary_impulse_y": 3.6870706305506425e-07,
+      "boundary_impulse_z": 3.7689597209355737e-19,
+      "maximum_displacement_m": 0.00014999998720369688,
+      "rms_displacement_m": 0.00010383676423899762,
+      "center_mean_displacement_y_m": -2.2726895476608258e-07,
+      "maximum_green_strain_norm": 0.07238320962988329,
+      "minimum_J": 0.9551172203261862,
+      "maximum_J": 1.0464421113302105,
+      "reference_yarn_volume_fraction": 0.10925925925925926,
+      "max_damage": 0.0,
+      "failed_particles": 0,
+      "boundary_sample_time_s": 1.8978248972111967e-05,
+      "matrix_strain_energy_J": 0.06283342435301305,
+      "matrix_maximum_green_strain_norm": 0.07238320962988329,
+      "yarn_strain_energy_J": 0.010036931007349616,
+      "yarn_maximum_green_strain_norm": 0.05229388296342314,
+      "central_x_section_force_x_N": 8.554007812886551,
+      "central_x_section_force_y_N": 9.505243814267317e-14,
+      "central_x_section_force_z_N": 500.33248194006853,
+      "central_x_section_moment_z_Nm": 0.0022822594096434815,
+      "central_y_section_force_x_N": 1.6693313398263854e-12,
+      "central_y_section_force_y_N": 4.184784388221891,
+      "central_y_section_force_z_N": 4.3165471197426086e-13,
+      "central_z_section_force_x_N": 429.91877548827694,
+      "central_z_section_force_y_N": -3.197442310920451e-14,
+      "central_z_section_force_z_N": 24.346176459738995,
+      "negative_grip_interior_particles": 25920,
+      "negative_grip_interior_current_full_support_particles": 25920,
+      "negative_grip_interior_position_error_m": 1.2796389842932923e-11,
+      "negative_grip_interior_velocity_error_m_per_s": 0.0,
+      "negative_grip_reaction_x_N": 513.9559858577924,
+      "negative_grip_prescribed_displacement_x_m": -0.00015,
+      "negative_grip_prescribed_velocity_x_m_per_s": -0.0,
+      "negative_grip_reaction_y_N": -0.29855005896999026,
+      "negative_grip_prescribed_displacement_y_m": -0.0,
+      "negative_grip_prescribed_velocity_y_m_per_s": -0.0,
+      "negative_grip_reaction_z_N": 21.681777154190858,
+      "negative_grip_prescribed_displacement_z_m": -0.0,
+      "negative_grip_prescribed_velocity_z_m_per_s": -0.0,
+      "positive_grip_interior_particles": 25920,
+      "positive_grip_interior_current_full_support_particles": 25920,
+      "positive_grip_interior_position_error_m": 1.2796389842932923e-11,
+      "positive_grip_interior_velocity_error_m_per_s": 0.0,
+      "positive_grip_reaction_x_N": -513.9559858577926,
+      "positive_grip_prescribed_displacement_x_m": 0.00015,
+      "positive_grip_prescribed_velocity_x_m_per_s": 0.0,
+      "positive_grip_reaction_y_N": -0.2985500589699195,
+      "positive_grip_prescribed_displacement_y_m": 0.0,
+      "positive_grip_prescribed_velocity_y_m_per_s": 0.0,
+      "positive_grip_reaction_z_N": -21.681777154190396,
+      "positive_grip_prescribed_displacement_z_m": 0.0,
+      "positive_grip_prescribed_velocity_z_m_per_s": 0.0
+    }
+  },
+  "definition": {
+    "purpose": "plain-in-plane-shear",
+    "series": "woven-elastic-v1",
+    "loading_revision": 2,
+    "architecture": "plain",
+    "loading": "in-plane-shear",
+    "model": "woven-composite",
+    "lower": [
+      0.003,
+      0.007,
+      0.003
+    ],
+    "upper": [
+      0.013000000000000001,
+      0.009000000000000001,
+      0.013000000000000001
+    ],
+    "geometry": {
+      "architecture": "plain",
+      "geometry_units": "m",
+      "size_xz_m": [
+        0.01,
+        0.01
+      ],
+      "thickness_m": 0.002,
+      "origin_m": [
+        0.008,
+        0.008,
+        0.008
+      ],
+      "pitch_m": 0.0025,
+      "yarn_width_m": 0.000625,
+      "yarn_height_m": 0.0005,
+      "crossing_gap_m": 0.0005,
+      "matrix_cover_m": 0.00025,
+      "particle_spacing_m": 8.333333333333333e-05,
+      "lattice_counts": [
+        120,
+        24,
+        120
+      ],
+      "particle_count": 345600,
+      "yarn_particles": 37760,
+      "matrix_particles": 307840,
+      "yarn_reference_volume_m3": 2.185185185185185e-08,
+      "matrix_reference_volume_m3": 1.7814814814814815e-07,
+      "yarn_volume_fraction": 0.10925925925925926,
+      "family_reference_volume_m3": {
+        "0": 1.0925925925925926e-08,
+        "1": 1.0925925925925926e-08
+      },
+      "family_angles_deg": [
+        0.0,
+        90.0
+      ],
+      "sampled_yarn_intersections": 0,
+      "unresolved_normal_projections": 0,
+      "phase_definition": "0 matrix, 1 homogenized yarn; no fibre-scale strands or void phase",
+      "orientation_definition": "columns: reference centreline tangent, in-plane transverse, their right-handed cross product",
+      "topology": "alternating one-over-one",
+      "projection_scope": "normal-plane Newton solve; sampled overlap check is not a proof of continuous surface clearance",
+      "crossings": [
+        {
+          "yarns": [
+            3,
+            14
+          ],
+          "above_yarn": 3,
+          "point_xz": [
+            0.005,
+            -0.005
+          ]
+        },
+        {
+          "yarns": [
+            3,
+            15
+          ],
+          "above_yarn": 15,
+          "point_xz": [
+            0.0024999999999999996,
+            -0.005
+          ]
+        },
+        {
+          "yarns": [
+            3,
+            16
+          ],
+          "above_yarn": 3,
+          "point_xz": [
+            -3.061616997868383e-19,
+            -0.005
+          ]
+        },
+        {
+          "yarns": [
+            3,
+            17
+          ],
+          "above_yarn": 17,
+          "point_xz": [
+            -0.0025000000000000005,
+            -0.005
+          ]
+        },
+        {
+          "yarns": [
+            3,
+            18
+          ],
+          "above_yarn": 3,
+          "point_xz": [
+            -0.005,
+            -0.005
+          ]
+        },
+        {
+          "yarns": [
+            4,
+            14
+          ],
+          "above_yarn": 14,
+          "point_xz": [
+            0.005,
+            -0.0025
+          ]
+        },
+        {
+          "yarns": [
+            4,
+            15
+          ],
+          "above_yarn": 4,
+          "point_xz": [
+            0.0025,
+            -0.0025
+          ]
+        },
+        {
+          "yarns": [
+            4,
+            16
+          ],
+          "above_yarn": 16,
+          "point_xz": [
+            -1.5308084989341915e-19,
+            -0.0025
+          ]
+        },
+        {
+          "yarns": [
+            4,
+            17
+          ],
+          "above_yarn": 4,
+          "point_xz": [
+            -0.0025,
+            -0.0025
+          ]
+        },
+        {
+          "yarns": [
+            4,
+            18
+          ],
+          "above_yarn": 18,
+          "point_xz": [
+            -0.005,
+            -0.0025
+          ]
+        },
+        {
+          "yarns": [
+            5,
+            14
+          ],
+          "above_yarn": 5,
+          "point_xz": [
+            0.005,
+            0.0
+          ]
+        },
+        {
+          "yarns": [
+            5,
+            15
+          ],
+          "above_yarn": 15,
+          "point_xz": [
+            0.0025,
+            0.0
+          ]
+        },
+        {
+          "yarns": [
+            5,
+            16
+          ],
+          "above_yarn": 5,
+          "point_xz": [
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "yarns": [
+            5,
+            17
+          ],
+          "above_yarn": 17,
+          "point_xz": [
+            -0.0025,
+            0.0
+          ]
+        },
+        {
+          "yarns": [
+            5,
+            18
+          ],
+          "above_yarn": 5,
+          "point_xz": [
+            -0.005,
+            0.0
+          ]
+        },
+        {
+          "yarns": [
+            6,
+            14
+          ],
+          "above_yarn": 14,
+          "point_xz": [
+            0.005,
+            0.0025
+          ]
+        },
+        {
+          "yarns": [
+            6,
+            15
+          ],
+          "above_yarn": 6,
+          "point_xz": [
+            0.0025,
+            0.0025
+          ]
+        },
+        {
+          "yarns": [
+            6,
+            16
+          ],
+          "above_yarn": 16,
+          "point_xz": [
+            1.5308084989341915e-19,
+            0.0025
+          ]
+        },
+        {
+          "yarns": [
+            6,
+            17
+          ],
+          "above_yarn": 6,
+          "point_xz": [
+            -0.0025,
+            0.0025
+          ]
+        },
+        {
+          "yarns": [
+            6,
+            18
+          ],
+          "above_yarn": 18,
+          "point_xz": [
+            -0.005,
+            0.0025
+          ]
+        },
+        {
+          "yarns": [
+            7,
+            14
+          ],
+          "above_yarn": 7,
+          "point_xz": [
+            0.005,
+            0.005
+          ]
+        },
+        {
+          "yarns": [
+            7,
+            15
+          ],
+          "above_yarn": 15,
+          "point_xz": [
+            0.0025000000000000005,
+            0.005
+          ]
+        },
+        {
+          "yarns": [
+            7,
+            16
+          ],
+          "above_yarn": 7,
+          "point_xz": [
+            3.061616997868383e-19,
+            0.005
+          ]
+        },
+        {
+          "yarns": [
+            7,
+            17
+          ],
+          "above_yarn": 17,
+          "point_xz": [
+            -0.0024999999999999996,
+            0.005
+          ]
+        },
+        {
+          "yarns": [
+            7,
+            18
+          ],
+          "above_yarn": 7,
+          "point_xz": [
+            -0.005,
+            0.005
+          ]
+        }
+      ],
+      "paths": [
+        {
+          "yarn_id": 3,
+          "family_id": 0,
+          "index": -2,
+          "direction_xz": [
+            1.0,
+            0.0
+          ],
+          "offset_m": -0.005,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025000000000000005,
+            -3.061616997868383e-19,
+            0.0024999999999999996,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005
+          ]
+        },
+        {
+          "yarn_id": 4,
+          "family_id": 0,
+          "index": -1,
+          "direction_xz": [
+            1.0,
+            0.0
+          ],
+          "offset_m": -0.0025,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025,
+            -1.5308084989341915e-19,
+            0.0025,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005
+          ]
+        },
+        {
+          "yarn_id": 5,
+          "family_id": 0,
+          "index": 0,
+          "direction_xz": [
+            1.0,
+            0.0
+          ],
+          "offset_m": 0.0,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025,
+            0.0,
+            0.0025,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005
+          ]
+        },
+        {
+          "yarn_id": 6,
+          "family_id": 0,
+          "index": 1,
+          "direction_xz": [
+            1.0,
+            0.0
+          ],
+          "offset_m": 0.0025,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025,
+            1.5308084989341915e-19,
+            0.0025,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005
+          ]
+        },
+        {
+          "yarn_id": 7,
+          "family_id": 0,
+          "index": 2,
+          "direction_xz": [
+            1.0,
+            0.0
+          ],
+          "offset_m": 0.005,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0024999999999999996,
+            3.061616997868383e-19,
+            0.0025000000000000005,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005
+          ]
+        },
+        {
+          "yarn_id": 14,
+          "family_id": 1,
+          "index": -2,
+          "direction_xz": [
+            6.123233995736766e-17,
+            1.0
+          ],
+          "offset_m": -0.005,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0024999999999999996,
+            3.061616997868383e-19,
+            0.0025000000000000005,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005
+          ]
+        },
+        {
+          "yarn_id": 15,
+          "family_id": 1,
+          "index": -1,
+          "direction_xz": [
+            6.123233995736766e-17,
+            1.0
+          ],
+          "offset_m": -0.0025,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025,
+            1.5308084989341915e-19,
+            0.0025,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005
+          ]
+        },
+        {
+          "yarn_id": 16,
+          "family_id": 1,
+          "index": 0,
+          "direction_xz": [
+            6.123233995736766e-17,
+            1.0
+          ],
+          "offset_m": 0.0,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025,
+            0.0,
+            0.0025,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005
+          ]
+        },
+        {
+          "yarn_id": 17,
+          "family_id": 1,
+          "index": 1,
+          "direction_xz": [
+            6.123233995736766e-17,
+            1.0
+          ],
+          "offset_m": 0.0025,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025,
+            -1.5308084989341915e-19,
+            0.0025,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005
+          ]
+        },
+        {
+          "yarn_id": 18,
+          "family_id": 1,
+          "index": 2,
+          "direction_xz": [
+            6.123233995736766e-17,
+            1.0
+          ],
+          "offset_m": 0.005,
+          "knots_m": [
+            -0.01,
+            -0.0075,
+            -0.005,
+            -0.0025000000000000005,
+            -3.061616997868383e-19,
+            0.0024999999999999996,
+            0.005,
+            0.0075,
+            0.01
+          ],
+          "heights_m": [
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005,
+            0.0005,
+            -0.0005
+          ]
+        }
+      ]
+    },
+    "particle_spacing_m": 8.333333333333333e-05,
+    "particles_per_cell_per_axis": 2,
+    "grid_cells_across_yarn_height": 3.0,
+    "grid_cells_across_yarn_width": 3.75,
+    "nominal_grid_resolution_target_met": true,
+    "resolution_scope": "three grid cells across yarn height at grid96; an initial resolved discretization, not a convergence result; extra particles do not replace grid refinement",
+    "material_parameters": {
+      "matrix_young": 2000000000.0,
+      "matrix_poisson": 0.3,
+      "matrix_density": 1100.0,
+      "yarn_young": [
+        40000000000.0,
+        4000000000.0,
+        4000000000.0
+      ],
+      "yarn_poisson": [
+        0.25,
+        0.25,
+        0.3
+      ],
+      "yarn_shear": [
+        1500000000.0,
+        2000000000.0,
+        2000000000.0
+      ],
+      "yarn_density": 1400.0
+    },
+    "units": "m, s, kg, Pa",
+    "geometry_scale": 1.0,
+    "material_scope": "generic illustrative engineering constants; no calibrated fibre/resin grade",
+    "constitutive_scope": "fully bonded single-grid matrix and continuous interlaced yarns; neo-Hookean matrix and orthotropic Saint Venant-Kirchhoff yarns; no debonding, damage, fracture or Z binders",
+    "comparison_scope": "same outer dimensions and engineering constants; architectures have different yarn volume fractions, so differences are not attributed to topology alone",
+    "loading_regime": "dynamic displacement control; not a quasi-static material test",
+    "weft_loading_definition": "global z loading; triaxial families are 0,+60,-60 degrees and have no 90-degree yarn family",
+    "duration_s": 1.8973665961010275e-05,
+    "loading_duration_s": 1.4230249470757707e-05,
+    "hold_duration_s": 4.743416490252568e-06,
+    "motion_law": "u(t)=target*(1-cos(pi*clip(t/loading_duration,0,1)))/2; stationary displacement hold afterwards",
+    "initial_acoustic_speed_bound_m_per_s": 5401.5914897293405,
+    "initial_acoustic_CFL_limit": 0.15,
+    "initial_acoustic_CFL": 0.14853332258544982,
+    "boundary_names": [
+      "negative_grip",
+      "positive_grip"
+    ],
+    "boundary_types": [
+      "SmoothDisplacementBox",
+      "SmoothDisplacementBox"
+    ],
+    "boundaries": [
+      {
+        "lower": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "upper": [
+          0.016,
+          0.016,
+          0.004
+        ],
+        "displacement": [
+          -0.00015,
+          -0.0,
+          -0.0
+        ],
+        "loading_duration": 1.4230249470757707e-05,
+        "components": null,
+        "start": 0.0
+      },
+      {
+        "lower": [
+          0.0,
+          0.0,
+          0.012
+        ],
+        "upper": [
+          0.016,
+          0.016,
+          0.016
+        ],
+        "displacement": [
+          0.00015,
+          0.0,
+          0.0
+        ],
+        "loading_duration": 1.4230249470757707e-05,
+        "components": null,
+        "start": 0.0
+      }
+    ],
+    "rigid_grips": [
+      {
+        "name": "negative_grip",
+        "lower": [
+          0.003,
+          0.0069166666666666664,
+          0.003
+        ],
+        "upper": [
+          0.013000000000000001,
+          0.009083333333333334,
+          0.004
+        ],
+        "displacement": [
+          -0.00015,
+          -0.0,
+          -0.0
+        ],
+        "loading_duration": 1.4230249470757707e-05,
+        "start": 0.0,
+        "motion_kind": "half-cosine-displacement-hold"
+      },
+      {
+        "name": "positive_grip",
+        "lower": [
+          0.003,
+          0.0069166666666666664,
+          0.012
+        ],
+        "upper": [
+          0.013000000000000001,
+          0.009083333333333334,
+          0.013000000000000001
+        ],
+        "displacement": [
+          0.00015,
+          0.0,
+          0.0
+        ],
+        "loading_duration": 1.4230249470757707e-05,
+        "start": 0.0,
+        "motion_kind": "half-cosine-displacement-hold"
+      }
+    ],
+    "loading_definition": {
+      "gauge_length_m": 0.008,
+      "grip_width_m": 0.001,
+      "face_normal_axis": "z",
+      "motion_axis": "x",
+      "stroke_per_grip_m": 0.00015,
+      "nominal_final_strain_or_shear": 0.0375,
+      "constraints": "both edge grips prescribe all velocity components; other faces are traction-free"
+    },
+    "reaction_sampling": "force on each grid fixture in a replay of the next step; sample time=t+dt, includes inertia and earlier constraints",
+    "section_force_measure": "reference central slab quadrature of P=tau*F^-T; sum(P_iA*V0/slab_width), two reference layers on an even lattice",
+    "section_moment_measure": "central x-plane reference moment about z: -sum((Y0-Ycenter)*P_xx*V0/slab_width)",
+    "boundary_tracking_scope": "moving-box samples remain at least 1.5dx from all reference faces, covering every grid phase under exact prescribed translation; static boxes use initial discrete support; current complete support is counted separately; no interior samples means no direct tracking claim"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 0.00022655555555555558,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.007999999999999998,
+      "com_y": 0.007999999999999998,
+      "com_z": 0.007999999999999998,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 2e-07,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 1.8973665961010275e-05,
+      "body": 0,
+      "mass": 0.00022655555555555558,
+      "momentum_x": 6.43729615902901e-19,
+      "momentum_y": 3.6870706305506425e-07,
+      "momentum_z": 3.7689597209355737e-19,
+      "kinetic_energy": 0.0002453601216587608,
+      "com_x": 0.007999999999999998,
+      "com_y": 0.008000002480097775,
+      "com_z": 0.007999999999999998,
+      "min_J": 0.9551172203261862,
+      "max_J": 1.0464421113302105,
+      "current_volume": 2.0001281653232484e-07,
+      "max_speed": 2.8845862942976668,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.07287035536036265
+    }
+  ],
+  "particle_fields": {
+    "file": "particle_fields.npz",
+    "fields": {
+      "family_id": {
+        "shape": [
+          345600
+        ],
+        "dtype": "int8",
+        "sha256": "ba5506d5dd43ddd05b7c29065dcdc77738bccba684f9f981b294df72b599188f"
+      },
+      "phase": {
+        "shape": [
+          345600
+        ],
+        "dtype": "uint8",
+        "sha256": "f6fd77a121e7dd8c980d79e6b9c8af11ea3d80d42472b299f5aa785d5a14556c"
+      },
+      "yarn_id": {
+        "shape": [
+          345600
+        ],
+        "dtype": "int32",
+        "sha256": "979a93d0d7580c9a1f78dbef5e2abd80b73e6c7fafa008684bc06466aff2f2f2"
+      }
+    }
+  }
+}

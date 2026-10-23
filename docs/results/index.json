@@ -1123,5 +1123,29 @@
       "interpretation.json": "76d5fc1e309cb2df30db09643d5076fbeabda5a001afefc5a57ff2fef6f05d02",
       "numerical-source.json": "67b699b574a996575df45b3320c57e58d569c72ebf55aa727dd63a1a16cee3e1"
     }
+  },
+  {
+    "id": "woven--plain--in-plane-shear",
+    "case": "plain/in-plane-shear / woven-composite",
+    "source_directory": "outputs/woven/plain/in-plane-shear",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.952718815642413,
+    "max_damage": 0.0,
+    "solver_seconds": 1215.1990536219998,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "9297a771c935ab67a7efec89e759bcd1d6691adb71704f5493e38f1158e2ec8a",
+      "diagnostics.csv": "2172456e58c02251aa3c95b57720e01653edc8eee0d22cbe77d103c2f9add76c",
+      "observables.csv": "b337b73443e44349c678bcc6fc0dd59869f3b6adbc934b65777b7fbdeb4bf9bc",
+      "render.json": "3b0f4964713ab44b46f98cc6b228a5fd307201a7ca9b4069acb3483c3083514f",
+      "vtk_metadata.json": "d38fb8480a84fbbd8de33b55a8016b055ed04c5ca334dfc12425f83bb4ecda36",
+      "video.json": "b6f1197c2b11b6fac02b4fdc7a6f79fde368dce56af19c722f736e100347e6c2",
+      "memory.json": "32bab1487f6bd3a40285fdd10dcd8c909d41d70fa156093e87fdfb00e22a9c64",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "b76bfc7967c0aea09e8b158fdcb2e0b2370eeca9c798dff14336abfe34d37a93",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]

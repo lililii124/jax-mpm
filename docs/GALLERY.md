@@ -51,6 +51,7 @@ the parameters and numerical results.
 | | | |
 |---|---|---|
 | ![woven-plain-transverse-bending](images/woven-plain-transverse-bending.png)<br>**woven-plain-transverse-bending**<br>[Results](results/woven--plain--transverse-bending/summary.json) · [Video](images/woven-plain-transverse-bending.mp4) | ![woven-plain-transverse-compression](images/woven-plain-transverse-compression.png)<br>**woven-plain-transverse-compression**<br>[Results](results/woven--plain--transverse-compression/summary.json) · [Video](images/woven-plain-transverse-compression.mp4) | ![woven-triaxial-in-plane-shear](images/woven-triaxial-in-plane-shear.png)<br>**woven-triaxial-in-plane-shear**<br>[Results](results/woven--triaxial--in-plane-shear/summary.json) · [Video](images/woven-triaxial-in-plane-shear.mp4) |
+| ![woven-plain-in-plane-shear](images/woven-plain-in-plane-shear.png)<br>**woven-plain-in-plane-shear**<br>[Results](results/woven--plain--in-plane-shear/summary.json) · [Video](images/woven-plain-in-plane-shear.mp4) |  |  |
 
 ## Woven composites · coarse previews
 

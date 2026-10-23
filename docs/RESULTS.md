@@ -61,6 +61,7 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [woven--plain--transverse-bending](results/woven--plain--transverse-bending/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.912105 | 0 | ParaView |
 | [woven--plain--transverse-compression](results/woven--plain--transverse-compression/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.962991 | 0 | ParaView |
 | [woven--triaxial--in-plane-shear](results/woven--triaxial--in-plane-shear/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.951967 | 0 | ParaView |
+| [woven--plain--in-plane-shear](results/woven--plain--in-plane-shear/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.952719 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)
