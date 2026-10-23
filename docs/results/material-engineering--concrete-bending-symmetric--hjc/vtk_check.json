@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "sampled_frames": [
+    0,
+    60
+  ],
+  "particles_per_frame": 121104,
+  "rtol": 1e-06,
+  "atol": 1e-07,
+  "checker_sha256": "96d1617f89ff86ccd38457ecb6d0adeef23e5a1b2f19055d603c2ac442df3162",
+  "scope": "Actual VTK first/last-frame coordinate/scalar readback; complete PVD time sequence matched to the saved trajectory"
+}

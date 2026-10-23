@@ -1533,5 +1533,31 @@
       "numerical-source.json": "06a8b600172d625cd3f71313958496a736e025dfd06bb59a545dae8a46a52a4f",
       "media-check.json": "cdaf5471cad361e38fc93cecd76370254e5398dfa48d546d472eadf0bd736df5"
     }
+  },
+  {
+    "id": "material-engineering--concrete-bending-symmetric--hjc",
+    "case": "concrete-bending-symmetric / hjc",
+    "source_directory": "outputs/material-engineering-cloud/concrete-bending-symmetric/hjc",
+    "particles": 121104,
+    "steps": 10500,
+    "simulation_time": 0.0014999999999999998,
+    "min_J": 0.9854441869564069,
+    "max_damage": 1.0,
+    "solver_seconds": 2297.426513076002,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "10e16e4052b4426ead382394afcd376aca71989e55883cea2bcb08d5d9a04011",
+      "diagnostics.csv": "26b1cd880f83f090cf4f7ff955f8c637a013eaf9760b3953e9e9939698fd1395",
+      "observables.csv": "3046ce587d124a528ee847b90b078b4f406bce285a9d1c0014506dc0566388aa",
+      "render.json": "af34fa0c4459e5405e86de6db1bdc4dc720051d8762311b4be878858b2a8ded0",
+      "vtk_metadata.json": "3543bab37b4de3e6444631a50d5edd8c43e652835c7001575372d8c743120483",
+      "video.json": "3c639b76e410421fadb4e30f9d124497ca768a1fdcc5848671adaec24af4d20d",
+      "memory.json": "386c6a3a871f93250badeb757f52c3ea2d013b1740be702a1de839203861236e",
+      "vtk_check.json": "da13f86731447bd424222c6768b0426ad3070cfd9243d022d9eb998bb8a9d2c4",
+      "interpretation.json": "942aa7ac03ca1c4d9c381b01310b5ae875d04873b84d020da61698236c6644ef",
+      "numerical-source.json": "ee96d833590802463f03431e28b742c3c7cdc38afc791563d13e45bbdf1dacf4",
+      "media-check.json": "2e1f37e7db57ab1b29824ebdf969c78a9cbcf35f38bdc161cc9d94c152b0f49d",
+      "runtime-symmetry.json": "b99a79ddbc561fa9963012a4ca704de83d8bace3cac989d4d845cdf33372acf2"
+    }
   }
 ]

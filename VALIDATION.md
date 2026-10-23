@@ -117,12 +117,12 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **69 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **70 selected completed runs**,
 including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 49 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 50 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -462,3 +462,9 @@ the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain a
 The [completed run](docs/results/material-engineering--ceramic-indentation-wide--jh2/interpretation.json) records 386,420 material points, 6,080 steps and 41 saved states over 300 µs. Actual central-surface indentation reaches 2.3820 mm; maximum particle-centre overlap with the analytical sphere is 0.7768 mm. Minimum det(F) is 0.985168, recorded mass is unchanged and the material failure fraction remains zero. The maximum reference-volume fraction with D ≥ 0.5 is 4.0389%. Damage retains grid participation and does not identify a resolved crack surface or detached fragment.
 
 The original larger-sphere run remains archived. The geometry change is not a mesh-convergence comparison.
+
+## Concrete bending with symmetry constraints
+
+The [completed run](docs/results/material-engineering--concrete-bending-symmetric--hjc/interpretation.json) records 121,104 material points, 10,500 steps and 61 saved states over 1.5 ms. Actual bottom-midspan deflection reaches 16.3894 mm; 20.1843% of the reference volume reaches D ≥ 0.5. Minimum det(F) is 0.985444. The [saved-frame symmetry audit](docs/results/material-engineering--concrete-bending-symmetric--hjc/runtime-symmetry.json) records maximum damage mirror RMS differences of 4.354e-13 in x and 4.144e-13 in z, and a maximum left/right damaged-volume fraction difference of 5.551e-17; all are below the fixed 0.01 limits.
+
+This is a separate boundary-value problem with imposed symmetry planes and two vertical-only supports. It does not establish symmetry of the original pin/roller problem, mesh convergence, or the absence of unconstrained instability. Constitutive damage retains grid participation and does not define resolved cracks or detached fragments.

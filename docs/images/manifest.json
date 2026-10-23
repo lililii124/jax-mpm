@@ -2154,5 +2154,100 @@
         "motion": "cosine loading/unloading cycle"
       }
     ]
+  },
+  {
+    "name": "concrete-bending-symmetric",
+    "source": "material-engineering-cloud/concrete-bending-symmetric/hjc",
+    "particles": 121104,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 60,
+    "preview_time": 0.0014999999999999998,
+    "auxiliary_geometry": [
+      {
+        "type": "velocity_patch_fixture",
+        "parameters": {
+          "lower": [
+            0.065625,
+            0.13125,
+            0.17
+          ],
+          "upper": [
+            0.08437499999999999,
+            0.15,
+            0.23
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "role": "support"
+        },
+        "included_in_particle_count": false,
+        "motion": "MovingVelocityBox analytic translation at output times",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+        "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+      },
+      {
+        "type": "velocity_patch_fixture",
+        "parameters": {
+          "lower": [
+            0.315625,
+            0.13125,
+            0.17
+          ],
+          "upper": [
+            0.33437500000000003,
+            0.15,
+            0.23
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "role": "support"
+        },
+        "included_in_particle_count": false,
+        "motion": "MovingVelocityBox analytic translation at output times",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+        "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+      },
+      {
+        "type": "velocity_patch_fixture",
+        "parameters": {
+          "lower": [
+            0.18749999999999997,
+            0.21,
+            0.17
+          ],
+          "upper": [
+            0.21250000000000002,
+            0.2225,
+            0.23
+          ],
+          "velocity": [
+            0.0,
+            -13.333333333333334,
+            0.0
+          ],
+          "ramp_time": 0.0003,
+          "start": 0.0,
+          "end": null,
+          "role": "loading",
+          "loading_duration": 0.0012
+        },
+        "included_in_particle_count": false,
+        "motion": "Cosine velocity startup and stopping ramps followed by fixed-position hold",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+        "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+      }
+    ]
   }
 ]

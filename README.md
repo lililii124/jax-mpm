@@ -11,7 +11,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![JC round-bar tension](docs/images/home/material-engineering--jc-tension--johnson-cook.gif)<br>[JC round-bar tension](docs/results/material-engineering--jc-tension--johnson-cook/summary.json) | ![JH-2 plate indentation](docs/images/home/material-engineering--ceramic-indentation-wide--jh2.gif)<br>[JH-2 plate indentation](docs/results/material-engineering--ceramic-indentation-wide--jh2/summary.json) |  |
+| ![HJC bending with symmetry constraints](docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif)<br>[HJC bending with symmetry constraints](docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json) | ![JC round-bar tension](docs/images/home/material-engineering--jc-tension--johnson-cook.gif)<br>[JC round-bar tension](docs/results/material-engineering--jc-tension--johnson-cook/summary.json) | ![JH-2 plate indentation](docs/images/home/material-engineering--ceramic-indentation-wide--jh2.gif)<br>[JH-2 plate indentation](docs/results/material-engineering--ceramic-indentation-wide--jh2/summary.json) |
 
 ### Woven composites
 

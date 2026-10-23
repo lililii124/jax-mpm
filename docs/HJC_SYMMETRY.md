@@ -50,3 +50,9 @@ all boundary impulses and specimen momentum. These construction checks do not
 replace a completed numerical run or establish mesh convergence. Constitutive
 damage remains local and unregularized; D = 1 does not imply a resolved crack or
 a separated fragment.
+
+## Recorded run
+
+The [completed run](results/material-engineering--concrete-bending-symmetric--hjc/interpretation.json) records 121,104 material points, 10,500 steps and 61 saved states over 1.5 ms. Actual bottom-midspan deflection reaches 16.3894 mm; 20.1843% of the reference volume reaches D ≥ 0.5. Minimum det(F) is 0.985444. The [saved-frame symmetry audit](results/material-engineering--concrete-bending-symmetric--hjc/runtime-symmetry.json) records maximum damage mirror RMS differences of 4.354e-13 in x and 4.144e-13 in z, and a maximum left/right damaged-volume fraction difference of 5.551e-17; all are below the fixed 0.01 limits.
+
+This is a separate boundary-value problem with imposed symmetry planes and two vertical-only supports. It does not establish symmetry of the original pin/roller problem, mesh convergence, or the absence of unconstrained instability. Constitutive damage retains grid participation and does not define resolved cracks or detached fragments.

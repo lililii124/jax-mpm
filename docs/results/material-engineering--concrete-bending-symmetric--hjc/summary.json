@@ -1,0 +1,691 @@
+{
+  "case": "concrete-bending-symmetric / hjc",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 64,
+      "dt": 1.4285714285714285e-07,
+      "domain_size": 0.4,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "hjc",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.06562499999999999,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.084375,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.31562499999999993,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.3343750000000001,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.19843750000000002,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.2015625,
+            0.4,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            true,
+            false,
+            false
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.19843750000000002
+          ],
+          "upper": [
+            0.4,
+            0.4,
+            0.2015625
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            false,
+            true
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.18749999999999997,
+            0.206875,
+            0.0
+          ],
+          "upper": [
+            0.21250000000000002,
+            0.2225,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            -13.333333333333334,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": null,
+          "ramp_time": 0.0003,
+          "loading_duration": 0.0012
+        }
+      ],
+      "failure_mode": "retain"
+    }
+  ],
+  "materials": [
+    {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0,
+      "legacy_v3": false
+    }
+  ],
+  "steps": 10500,
+  "simulation_time": 0.0014999999999999998,
+  "particles": [
+    121104
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.15",
+  "compile_and_warmup_seconds": 37.14815702999999,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 2297.426513076002,
+  "min_J": 0.9854441869564069,
+  "max_damage": 1.0,
+  "max_plastic_strain": 0.3607909721449967,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    8.46034159884216e-14,
+    -7.5932707688117524,
+    -3.03821334974121e-14
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "max_damage": 0.0,
+      "mean_damage_reference_volume": 0.0,
+      "damaged_reference_volume_m3": 0.0,
+      "damaged_reference_volume_fraction": 0.0,
+      "fully_damaged_reference_volume_fraction": 0.0,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.0,
+      "damaged_region_min_x_m": null,
+      "damaged_region_max_x_m": null,
+      "damaged_region_min_y_m": null,
+      "damaged_region_max_y_m": null,
+      "damaged_region_min_z_m": null,
+      "damaged_region_max_z_m": null,
+      "left_support_reaction_x_N": -0.0,
+      "left_support_reaction_y_N": -0.0,
+      "left_support_reaction_z_N": -0.0,
+      "right_support_reaction_x_N": -0.0,
+      "right_support_reaction_y_N": -0.0,
+      "right_support_reaction_z_N": -0.0,
+      "x_symmetry_plane_reaction_x_N": -0.0,
+      "x_symmetry_plane_reaction_y_N": -0.0,
+      "x_symmetry_plane_reaction_z_N": -0.0,
+      "z_symmetry_plane_reaction_x_N": -0.0,
+      "z_symmetry_plane_reaction_y_N": -0.0,
+      "z_symmetry_plane_reaction_z_N": -0.0,
+      "loading_reaction_x_N": -0.0,
+      "loading_reaction_y_N": 0.32415990242257253,
+      "loading_reaction_z_N": -0.0,
+      "left_mean_damage_reference_volume": 0.0,
+      "left_damaged_reference_volume_fraction": 0.0,
+      "left_fully_damaged_reference_volume_fraction": 0.0,
+      "right_mean_damage_reference_volume": 0.0,
+      "right_damaged_reference_volume_fraction": 0.0,
+      "right_fully_damaged_reference_volume_fraction": 0.0,
+      "damage_mirror_x_mae": 0.0,
+      "damage_mirror_x_rms": 0.0,
+      "damage_mirror_x_max": 0.0,
+      "displacement_mirror_x_rms_m": 0.0,
+      "damage_mirror_z_mae": 0.0,
+      "damage_mirror_z_rms": 0.0,
+      "damage_mirror_z_max": 0.0,
+      "displacement_mirror_z_rms_m": 0.0,
+      "center_of_mass_displacement_x_m": 0.0,
+      "center_of_mass_displacement_y_m": 0.0,
+      "center_of_mass_displacement_z_m": 0.0,
+      "boundary_sample_time_s": 1.4285714285714285e-07,
+      "prescribed_displacement_y_m": -0.0,
+      "prescribed_speed_y_m_per_s": -0.0,
+      "midspan_bottom_deflection_m": -0.0,
+      "maximum_downward_displacement_m": -0.0,
+      "momentum_y_kg_m_per_s": 0.0,
+      "central_lower_max_damage": 0.0,
+      "central_lower_mean_damage": 0.0,
+      "central_upper_max_damage": 0.0,
+      "central_upper_mean_damage": 0.0
+    },
+    "final": {
+      "time": 0.0014999999999999998,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 8.46034159884216e-14,
+      "boundary_impulse_y": -7.5932707688117524,
+      "boundary_impulse_z": -3.03821334974121e-14,
+      "max_damage": 1.0,
+      "mean_damage_reference_volume": 0.2089830392556173,
+      "damaged_reference_volume_m3": 0.0002179904875148633,
+      "damaged_reference_volume_fraction": 0.20184304399524375,
+      "fully_damaged_reference_volume_fraction": 0.18826793499801822,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.3607909721449967,
+      "damaged_region_min_x_m": 0.04989538977719516,
+      "damaged_region_max_x_m": 0.3501046102228049,
+      "damaged_region_min_y_m": 0.1342441949741077,
+      "damaged_region_max_y_m": 0.19620918647672703,
+      "damaged_region_min_z_m": 0.17100834460164346,
+      "damaged_region_max_z_m": 0.2289916553983566,
+      "left_support_reaction_x_N": -0.0,
+      "left_support_reaction_y_N": -1209.2507131484303,
+      "left_support_reaction_z_N": -0.0,
+      "right_support_reaction_x_N": -0.0,
+      "right_support_reaction_y_N": -1209.250713148369,
+      "right_support_reaction_z_N": -0.0,
+      "x_symmetry_plane_reaction_x_N": 2.507766994255589e-10,
+      "x_symmetry_plane_reaction_y_N": -0.0,
+      "x_symmetry_plane_reaction_z_N": -0.0,
+      "z_symmetry_plane_reaction_x_N": -0.0,
+      "z_symmetry_plane_reaction_y_N": -0.0,
+      "z_symmetry_plane_reaction_z_N": 1.6634450019852866e-09,
+      "loading_reaction_x_N": -0.0,
+      "loading_reaction_y_N": -4249.023959867763,
+      "loading_reaction_z_N": -0.0,
+      "left_mean_damage_reference_volume": 0.2089830392556078,
+      "left_damaged_reference_volume_fraction": 0.20184304399524372,
+      "left_fully_damaged_reference_volume_fraction": 0.18826793499801822,
+      "right_mean_damage_reference_volume": 0.20898303925562425,
+      "right_damaged_reference_volume_fraction": 0.20184304399524372,
+      "right_fully_damaged_reference_volume_fraction": 0.18826793499801822,
+      "damage_mirror_x_mae": 9.553009466615693e-14,
+      "damage_mirror_x_rms": 4.35389824867393e-13,
+      "damage_mirror_x_max": 8.47122372249487e-12,
+      "displacement_mirror_x_rms_m": 1.489322722205853e-15,
+      "damage_mirror_z_mae": 8.882750816116869e-14,
+      "damage_mirror_z_rms": 4.1440889587531e-13,
+      "damage_mirror_z_max": 7.408138122041996e-12,
+      "displacement_mirror_z_rms_m": 1.0671857695232024e-16,
+      "center_of_mass_displacement_x_m": 5.1106728864340714e-17,
+      "center_of_mass_displacement_y_m": -0.006372757934008932,
+      "center_of_mass_displacement_z_m": 4.473741754054725e-19,
+      "boundary_sample_time_s": 0.001500142857142857,
+      "prescribed_displacement_y_m": -0.011999999999999999,
+      "prescribed_speed_y_m_per_s": -0.0,
+      "midspan_bottom_deflection_m": 0.01638943299426375,
+      "maximum_downward_displacement_m": 0.0168480025615034,
+      "momentum_y_kg_m_per_s": -7.593270768811736,
+      "central_lower_max_damage": 1.0,
+      "central_lower_mean_damage": 0.9497797548336511,
+      "central_upper_max_damage": 1.0,
+      "central_upper_mean_damage": 1.0
+    }
+  },
+  "definition": {
+    "purpose": "concrete-bending-symmetric",
+    "model": "hjc",
+    "units": "m, s, kg, N, Pa",
+    "parameter_status": "repository constitutive defaults; demonstration geometry and loading, not a calibrated experiment",
+    "material_parameters_SI": {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0,
+      "legacy_v3": false
+    },
+    "particles_per_cell_per_axis": 3,
+    "lower": [
+      0.05,
+      0.15,
+      0.17
+    ],
+    "upper": [
+      0.35,
+      0.21,
+      0.23
+    ],
+    "grid_spacing_m": 0.00625,
+    "duration_s": 0.0014999999999999998,
+    "time_step_s": 1.4285714285714285e-07,
+    "estimated_acoustic_speed_m_per_s": 6554.104374588908,
+    "acoustic_CFL": 0.1498080999906036,
+    "gravity": "omitted for the short dynamic loading interval",
+    "other_faces": "traction-free",
+    "reaction_sampling": "force on each rigid boundary from next-step grid momentum correction; force on specimen has opposite sign",
+    "failure_mode": "retain",
+    "damage_region_threshold": 0.5,
+    "damage_region_geometry": "bounds of current particle centers above the damage threshold",
+    "damage_interpretation": "local constitutive damage and plastic strain; D=1 is not a resolved crack or a separated fragment",
+    "mesh_dependence": "local softening has no fracture-energy regularization; damage widths and post-peak response require refinement studies",
+    "loading_regime": "dynamic three-point bending with two imposed reflection-symmetry planes; inertia and rate effects retained",
+    "support_span_m": 0.25,
+    "support_patch_width_m": 0.01875,
+    "supports": "both bottom patches constrain y only; x/z sliding is permitted at the supports",
+    "support_centers_x_m": [
+      0.075,
+      0.325
+    ],
+    "loading_patch_width_m": 0.025,
+    "loading": "central translating y-velocity patch; cosine startup and stopping ramps, then fixed-displacement hold",
+    "loading_boundary": {
+      "lower": [
+        0.18749999999999997,
+        0.206875,
+        0.0
+      ],
+      "upper": [
+        0.21250000000000002,
+        0.2225,
+        0.4
+      ],
+      "velocity": [
+        0.0,
+        -13.333333333333334,
+        0.0
+      ],
+      "components": [
+        false,
+        true,
+        false
+      ],
+      "start": 0.0,
+      "ramp_time": 0.0003,
+      "loading_duration": 0.0012
+    },
+    "startup_ramp_s": 0.0003,
+    "final_prescribed_displacement_m": 0.012,
+    "plateau_loading_speed_m_per_s": 13.333333333333334,
+    "axial_wave_transits": 32.77052187294454,
+    "support_idealization": "bilateral finite grid patches represent mechanical fixtures; finite patch width affects local stress",
+    "material_profile": "strain-floor",
+    "loading_revision": "centered-grid-patch-v2",
+    "loading_nominal_x_bounds_m": [
+      0.1875,
+      0.2125
+    ],
+    "loading_effective_x_bounds_m": [
+      0.18749999999999997,
+      0.21250000000000002
+    ],
+    "loading_selected_grid_x_indices": [
+      30,
+      31,
+      32,
+      33,
+      34
+    ],
+    "loading_selected_grid_x_coordinates_m": [
+      0.1875,
+      0.19375,
+      0.2,
+      0.20625000000000002,
+      0.21250000000000002
+    ],
+    "loading_grid_center_x_m": 0.2,
+    "loading_duration_s": 0.0012,
+    "hold_duration_s": 0.0003,
+    "stopping_ramp_s": 0.0003,
+    "loading_motion": "cosine velocity ramp up, constant velocity, cosine velocity ramp down, hold",
+    "loading_distance_integral_s": 0.0009,
+    "geometry_scale": 1.0,
+    "comparison_baseline_case": "concrete-bending-large",
+    "supports_profile": "mirror-rollers-with-centre-planes",
+    "boundary_value_problem": "full specimen with explicit x=0.2 m normal-velocity and z=0.2 m normal-velocity symmetry constraints; a symmetry-constrained dynamic bending problem, not an unconstrained instability experiment",
+    "boundary_names": [
+      "left_support",
+      "right_support",
+      "x_symmetry_plane",
+      "z_symmetry_plane",
+      "loading"
+    ],
+    "boundary_definitions": [
+      {
+        "lower": [
+          0.06562499999999999,
+          0.0,
+          0.0
+        ],
+        "upper": [
+          0.084375,
+          0.1515625,
+          0.4
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "components": [
+          false,
+          true,
+          false
+        ],
+        "start": 0.0
+      },
+      {
+        "lower": [
+          0.31562499999999993,
+          0.0,
+          0.0
+        ],
+        "upper": [
+          0.3343750000000001,
+          0.1515625,
+          0.4
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "components": [
+          false,
+          true,
+          false
+        ],
+        "start": 0.0
+      },
+      {
+        "lower": [
+          0.19843750000000002,
+          0.0,
+          0.0
+        ],
+        "upper": [
+          0.2015625,
+          0.4,
+          0.4
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "components": [
+          true,
+          false,
+          false
+        ],
+        "start": 0.0
+      },
+      {
+        "lower": [
+          0.0,
+          0.0,
+          0.19843750000000002
+        ],
+        "upper": [
+          0.4,
+          0.4,
+          0.2015625
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "components": [
+          false,
+          false,
+          true
+        ],
+        "start": 0.0
+      },
+      {
+        "lower": [
+          0.18749999999999997,
+          0.206875,
+          0.0
+        ],
+        "upper": [
+          0.21250000000000002,
+          0.2225,
+          0.4
+        ],
+        "velocity": [
+          0.0,
+          -13.333333333333334,
+          0.0
+        ],
+        "components": [
+          false,
+          true,
+          false
+        ],
+        "start": 0.0,
+        "ramp_time": 0.0003,
+        "loading_duration": 0.0012
+      }
+    ],
+    "support_nominal_bounds_m": {
+      "left": {
+        "lower": [
+          0.065625,
+          0.0,
+          0.0
+        ],
+        "upper": [
+          0.08437499999999999,
+          0.1515625,
+          0.4
+        ]
+      },
+      "right": {
+        "lower": [
+          0.315625,
+          0.0,
+          0.0
+        ],
+        "upper": [
+          0.33437500000000003,
+          0.1515625,
+          0.4
+        ]
+      }
+    },
+    "support_endpoint_selection": "one floating-point ULP outward on each x endpoint; nominal support geometry unchanged",
+    "support_selected_grid_x_indices": {
+      "left": [
+        11,
+        12,
+        13
+      ],
+      "right": [
+        51,
+        52,
+        53
+      ]
+    },
+    "symmetry_plane_coordinates_m": {
+      "x": 0.2,
+      "z": 0.2
+    },
+    "symmetry_plane_selected_indices": {
+      "x": [
+        32
+      ],
+      "z": [
+        32
+      ]
+    },
+    "symmetry_plane_selection_half_width_m": 0.0015625,
+    "symmetry_plane_scope": "one grid node plane per normal direction across the entire background grid; tangential velocities are unconstrained",
+    "symmetry_observation": "reference-lattice reflection pairs; reference-volume-weighted damage differences and mass-weighted displacement of the center of mass",
+    "half_damage_regions": "reference x strictly below/above 0.2 m; any central particle layer is excluded from both half means",
+    "reference_reflection_max_error_m": {
+      "x": 1.1102230246251565e-16,
+      "z": 0.0
+    }
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 2.6351999999999998,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.2,
+      "com_y": 0.18000000000000002,
+      "com_z": 0.20000000000000004,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0010800000000000002,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.0014999999999999998,
+      "body": 0,
+      "mass": 2.6351999999999998,
+      "momentum_x": 8.46034159884216e-14,
+      "momentum_y": -7.5932707688117524,
+      "momentum_z": -3.03821334974121e-14,
+      "kinetic_energy": 30.80881300531145,
+      "com_x": 0.2000000000000001,
+      "com_y": 0.17362724206599103,
+      "com_z": 0.2,
+      "min_J": 0.9992624516387578,
+      "max_J": 1.71307832744538,
+      "current_volume": 0.0011245789485995967,
+      "max_speed": 8.729647964405135,
+      "max_plastic_strain": 0.3607909721449967,
+      "max_damage": 1.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 29.660089007712884,
+      "strain_energy": null
+    }
+  ]
+}
