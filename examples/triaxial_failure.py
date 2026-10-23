@@ -232,7 +232,32 @@ def _graph_observation(x, failed, geometry, data, contact_history, dx, grip_mask
     return connected, cut_count
 
 
-def run_case(geometry, plan, output, *, resume=False):
+def validate_stop_after_frame(stop_after_frame, plan, checkpoint_frame=None):
+    if stop_after_frame is None:
+        return
+    if type(stop_after_frame) is not int or not 0 <= stop_after_frame < plan['saved_states']:
+        raise ValueError("stop_after_frame must be a saved frame index in the unchanged full plan")
+    if checkpoint_frame is not None and stop_after_frame <= checkpoint_frame:
+        raise ValueError("stop_after_frame must be later than the existing checkpoint frame")
+
+
+def open_trajectory_arrays(folder, shapes, dtypes, resume):
+    arrays = {}
+    try:
+        for name, shape in shapes.items():
+            array = np.lib.format.open_memmap(folder/f'trajectory_{name}.npy',
+                mode='r+' if resume else 'w+', dtype=dtypes[name], shape=shape)
+            arrays[name] = array
+            if array.shape != shape or array.dtype != np.dtype(dtypes[name]):
+                raise ValueError(f"Saved trajectory {name} does not match the complete planned shape/dtype")
+        return arrays
+    except BaseException:
+        for array in arrays.values():
+            array._mmap.close()
+        raise
+
+
+def run_case(geometry, plan, output, *, resume=False, stop_after_frame=None):
     """Allocate the independent fields only after planning and resource admission."""
     folder = output_directory(output, plan)
     signature = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()
@@ -246,14 +271,21 @@ def run_case(geometry, plan, output, *, resume=False):
         status = json.loads((folder/'status.json').read_text())
         if status.get('completed') is True or status.get('probe_complete') is True:
             return json.loads((folder/'summary.json').read_text())
+        if status.get('phase') == 'failed':
+            raise ValueError("A failed run is diagnostic evidence, not a planned resumable segment")
+        with np.load(folder/'checkpoint.npz', allow_pickle=False) as checkpoint:
+            if not bool(checkpoint['aggregate'][4]):
+                raise ValueError("A rejected coupled step is not an automatically resumable checkpoint")
+            validate_stop_after_frame(stop_after_frame, plan, int(checkpoint['frame']))
     else:
+        validate_stop_after_frame(stop_after_frame, plan)
         save_json(folder/'plan.json', plan)
     save_json(folder/'status.json', {"completed": False, "phase": "initializing", "signature": signature})
     started = time.monotonic()
     try:
         if source_record() != plan['source']:
             raise ValueError("Numerical source changed after planning")
-        return _run_runtime(geometry, plan, folder, signature, resume)
+        return _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame)
     except BaseException as error:
         save_json(folder/'failure.json', {"completed": False, "production_eligible": False,
             "error_type": type(error).__name__, "error": str(error), "wall_seconds": time.monotonic()-started,
@@ -264,7 +296,8 @@ def run_case(geometry, plan, output, *, resume=False):
         raise
 
 
-def _run_runtime(geometry, plan, folder, signature, resume):
+def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=None):
+    validate_stop_after_frame(stop_after_frame, plan)
     import jax
     import jax.numpy as jnp
     from mpm_jax.fibre_mpm import FibreConfig, FibreState, build_layout, build_tube_layout, make_state, reference_grips, step_with_diagnostics, stored_energy
@@ -308,14 +341,13 @@ def _run_runtime(geometry, plan, folder, signature, resume):
     field_record = {"file": "particle_fields.npz", "fields": {name: descriptor(value) for name, value in fields.items()}}
     shapes = {'x': (saved, count, 3), **{name: (saved, count) for name in ('damage', 'speed', 'temperature', 'failed')}}
     dtypes = {'x': np.float64, 'damage': np.float64, 'speed': np.float64, 'temperature': np.float32, 'failed': np.uint8}
-    arrays = {name: np.lib.format.open_memmap(folder/f'trajectory_{name}.npy', mode='r+' if resume else 'w+', dtype=dtypes[name], shape=shape)
-              for name, shape in shapes.items()}
     rows, diagnostics, times = [], [], []
     total_impulse, clamp_work, grid_ke_work = np.zeros((2, 3)), np.zeros(2), np.zeros(2)
     # [accepted steps, first failure time, peak axial force, peak force time, valid, reason]
     aggregate = np.array([0., -1., -np.inf, 0., 1., 0.])
     last_contact = np.zeros(16)
     compile_seconds, solver_seconds, start_frame = 0., 0., 0
+    initial_momentum = None
     if resume:
         with np.load(folder/'checkpoint.npz', allow_pickle=False) as checkpoint:
             if str(checkpoint['signature']) != signature:
@@ -333,10 +365,18 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             rows, diagnostics, times = tables['observables'], tables['diagnostics'], tables['times']
             start_frame = int(checkpoint['frame'])
             solver_seconds = float(checkpoint['solver_seconds'])
+            if 'initial_momentum' in checkpoint:
+                initial_momentum = checkpoint['initial_momentum'].copy()
         if not bool(aggregate[4]):
             raise ValueError("A rejected coupled step is diagnostic evidence, not an automatically resumable checkpoint")
+        if (not 0 <= start_frame < saved or len(rows) != start_frame+1 or len(diagnostics) != start_frame+1
+                or len(times) != start_frame+1 or int(aggregate[0]) != plan['frame_steps'][start_frame]
+                or float(state.time) != times[-1]):
+            raise ValueError("Checkpoint frame, state and saved tables do not identify the same complete frame")
+        validate_stop_after_frame(stop_after_frame, plan, start_frame)
     expected_mass = float(np.sum(geometry['mass']))
-    initial_momentum = np.sum(np.asarray(state.mass)[:, None]*np.asarray(state.v), axis=0)-np.asarray(state.boundary_impulse)-np.asarray(state.external_impulse)
+    if initial_momentum is None:
+        initial_momentum = np.sum(np.asarray(state.mass)[:, None]*np.asarray(state.v), axis=0)-np.asarray(state.boundary_impulse)-np.asarray(state.external_impulse)
 
     def contact_statistics(metrics):
         minimum_gap = jnp.min(metrics.gap, initial=jnp.inf)
@@ -382,7 +422,8 @@ def _run_runtime(geometry, plan, folder, signature, resume):
         values.update(contact_active=np.asarray(contact.law.active), contact_law_valid=np.asarray(contact.law.valid),
             contact_radius=np.asarray(contact.radius), contact_segments=np.asarray(contact.segments), contact_valid=np.asarray(contact.valid),
             total_impulse=total_impulse, clamp_work=clamp_work, grid_ke_work=grid_ke_work, aggregate=aggregate,
-            last_contact=last_contact, frame=frame, signature=np.array(signature), solver_seconds=solver_seconds,
+            last_contact=last_contact, initial_momentum=initial_momentum,
+            frame=frame, signature=np.array(signature), solver_seconds=solver_seconds,
             jax_version=np.array(jax.__version__),
             tables=np.array(json.dumps(json_value({'observables': rows, 'diagnostics': diagnostics, 'times': times}))))
         save_npz(folder/'checkpoint.npz', **values)
@@ -449,9 +490,15 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             "frames": saved-1, "steps": int(aggregate[0]), "target_steps": plan['stop_steps'], "time": instant,
             "signature": signature, "coupling_valid": bool(aggregate[4])})
 
+    arrays = open_trajectory_arrays(folder, shapes, dtypes, resume)
     try:
+        if resume:
+            for name, expected in (('x', state.x), ('damage', state.history.damage), ('failed', state.history.failed)):
+                if not np.array_equal(arrays[name][start_frame], np.asarray(expected)):
+                    raise ValueError(f"Checkpoint {name} differs from the saved trajectory frame")
         _, initial_contact, initial_metrics = evaluate_contact(state, contact, data, contact_law)
-        last_contact = np.asarray(contact_statistics(initial_metrics))
+        if not resume:
+            last_contact = np.asarray(contact_statistics(initial_metrics))
         metric_fields = ['search_boundary_pairs', 'uncovered_near_pairs', 'same_family_near_pairs', 'coverage_motion_exceeded',
             'maximum_nonrigid_displacement_m', 'minimum_gap_m', 'active_pairs', 'minimum_force_N', 'maximum_force_N', 'failed_section_contacts',
             'unsupported_end_contacts', 'degenerate_pairs', 'force_residual_N', 'torque_residual_Nm', 'potential_J', 'valid']
@@ -468,12 +515,14 @@ def _run_runtime(geometry, plan, folder, signature, resume):
         if not bool(initial_metrics.valid):
             raise FloatingPointError("Initial contact coverage/geometry is invalid; inspect status and contact-metrics.json")
         save_json(folder/'contact-model.json', contact_data_summary(data))
-        save_json(folder/'status.json', {"completed": False, "phase": "compiling", "frame": start_frame, "signature": signature})
-        started = time.monotonic()
-        arguments = (state, contact, jnp.asarray(aggregate), jnp.asarray(total_impulse), jnp.asarray(clamp_work), jnp.asarray(grid_ke_work), jnp.asarray(last_contact), jnp.asarray(1, dtype=jnp.int32))
-        compiled = advance_block.lower(*arguments).compile()
-        compile_seconds = time.monotonic()-started
-        for frame in range(start_frame+1, saved):
+        end_frame = saved-1 if stop_after_frame is None else stop_after_frame
+        if end_frame > start_frame:
+            save_json(folder/'status.json', {"completed": False, "phase": "compiling", "frame": start_frame, "signature": signature})
+            started = time.monotonic()
+            arguments = (state, contact, jnp.asarray(aggregate), jnp.asarray(total_impulse), jnp.asarray(clamp_work), jnp.asarray(grid_ke_work), jnp.asarray(last_contact), jnp.asarray(1, dtype=jnp.int32))
+            compiled = advance_block.lower(*arguments).compile()
+            compile_seconds = time.monotonic()-started
+        for frame in range(start_frame+1, end_frame+1):
             requested = plan['frame_steps'][frame]-int(aggregate[0])
             before_steps, before_impulse = int(aggregate[0]), total_impulse.copy()
             started = time.monotonic()
@@ -489,11 +538,16 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             if not bool(aggregate[4]):
                 break
         finished = bool(aggregate[4]) and int(aggregate[0]) == plan['stop_steps']
+        segment_complete = (not finished and bool(aggregate[4]) and stop_after_frame is not None
+            and len(rows)-1 == stop_after_frame and int(aggregate[0]) == plan['frame_steps'][stop_after_frame])
         if source_record() != plan['source']:
             raise ValueError("Numerical source changed during execution; the run is not eligible for completion")
         completed = finished and not bool(plan['probe_steps'])
+        phase = 'completed' if completed else 'probe-complete' if finished else 'checkpoint-ready' if segment_complete else 'failed'
         summary = {"case": f"triaxial-failure/theta-{plan['theta_deg']:02d}/{plan['law']}", "completed": completed,
             "probe_complete": finished and bool(plan['probe_steps']), "production_eligible": False, "scope": plan['scope'],
+            "segment_complete": segment_complete, "segment_start_frame": start_frame, "segment_end_frame": len(rows)-1,
+            "runtime_stop_after_frame": stop_after_frame, "phase": phase,
             "history_storage": "file-backed arrays", "particles": [count], "steps": int(aggregate[0]), "simulation_time": float(state.time),
             "target_simulation_time": plan['duration_s'], "dtype": str(state.x.dtype), "solver_seconds": solver_seconds,
             "compile_and_warmup_seconds": compile_seconds, "jax_version": jax.__version__, "numpy_version": np.__version__, "python_version": platform.python_version(),
@@ -513,9 +567,12 @@ def _run_runtime(geometry, plan, folder, signature, resume):
             "kinetic_energy_scope": "Particle translation plus the quadratic-APIC affine term dx^2/8 times sum(mass*Frobenius_norm(C)^2); both components are also saved separately.",
             "source": plan['source'], "layout": layout_record, "initial": diagnostics[0], "final": diagnostics[-1], "observables": {"initial": rows[0], "final": rows[-1]}}
         save_json(folder/'summary.json', summary)
-        save_json(folder/'status.json', {"completed": completed, "probe_complete": summary['probe_complete'], "phase": 'completed' if completed else 'probe-complete' if finished else 'failed',
+        save_json(folder/'status.json', {"completed": completed, "probe_complete": summary['probe_complete'],
+            "segment_complete": segment_complete, "segment_start_frame": start_frame, "segment_end_frame": len(rows)-1,
+            "runtime_stop_after_frame": stop_after_frame, "coupling_valid": bool(aggregate[4]),
+            "phase": phase,
             "frame": len(rows)-1, "frames": saved-1, "steps": int(aggregate[0]), "target_steps": plan['stop_steps'], "signature": signature})
-        if not finished:
+        if not finished and not segment_complete:
             raise FloatingPointError(f"Coupled advance refused step {int(aggregate[0])+1}; reason code {int(aggregate[5])}; valid partial state/checkpoint retained")
         return summary
     finally:
@@ -556,6 +613,8 @@ def main():
     parser.add_argument('--packing', type=float, default=1., help='Sampling-density multiplier only, not physical fibre packing or volume fraction')
     parser.add_argument('--output', type=Path, default=Path('outputs/triaxial-failure'))
     parser.add_argument('--resume', action='store_true')
+    parser.add_argument('--stop-after-frame', type=int,
+        help='Pause after this complete saved frame without changing the physical plan; continue with --resume')
     args = parser.parse_args()
     geometry, plan = plan_case(args.theta, law=args.law, smoke=args.smoke, probe_steps=args.probe_steps, frames=args.frames,
         max_strain=args.max_strain, dx=args.dx, coverage_skin=args.coverage_skin, search_window=args.search_window,
@@ -566,9 +625,10 @@ def main():
         tensile_strength=args.tensile_strength, fracture_energy=args.fracture_energy, packing=args.packing,
         max_particles=args.max_particles, padding_cells=args.padding_cells)
     if args.dry_run:
+        validate_stop_after_frame(args.stop_after_frame, plan)
         print(json.dumps(json_value(plan), indent=2, allow_nan=False))
     else:
-        run_case(geometry, plan, args.output, resume=args.resume)
+        run_case(geometry, plan, args.output, resume=args.resume, stop_after_frame=args.stop_after_frame)
 
 
 if __name__ == '__main__':

@@ -6,34 +6,47 @@ import json
 from pathlib import Path
 
 import numpy as np
-from vtkmodules.vtkIOXML import vtkXMLPolyDataReader
-from vtkmodules.util.numpy_support import vtk_to_numpy
+
+
+def trajectory_samples(output, summary):
+    """Read first/last saved fields, including completed mmap-only scalars."""
+    output = Path(output)
+
+    def mapped_field(name):
+        return summary.get("completed") is True and (output / f"trajectory_{name}.npy").is_file()
+
+    def samples(name, archive, indices):
+        if mapped_field(name):
+            mapped = np.load(output / f"trajectory_{name}.npy", mmap_mode="r", allow_pickle=False)
+            try:
+                return mapped[indices]
+            finally:
+                mapped._mmap.close()
+        return archive[name][indices]
+
+    with np.load(output / "trajectory.npz", allow_pickle=False) as data:
+        indices = [0, len(data["time"]) - 1]
+        positions = samples("x", data, indices)
+        fields = {
+            key: samples(key, data, indices)
+            for key in ("speed", "damage", "temperature", "failed")
+            if key in data or mapped_field(key)
+        }
+        if "body" in data:
+            fields["body"] = data["body"]
+    return indices, positions, fields
 
 
 def main():
+    from vtkmodules.vtkIOXML import vtkXMLPolyDataReader
+    from vtkmodules.util.numpy_support import vtk_to_numpy
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
     summary_path = args.output / "summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
-
-    def samples(name, archive, indices):
-        path = args.output / f"trajectory_{name}.npy"
-        if summary.get("completed") and path.is_file():
-            mapped = np.load(path, mmap_mode="r")
-            result = mapped[indices]
-            mapped._mmap.close()
-            return result
-        return archive[name][indices]
-
-    with np.load(args.output / "trajectory.npz") as data:
-        indices = [0, len(data["time"]) - 1]
-        positions = samples("x", data, indices)
-        fields = {
-            key: data[key] if key == "body" else samples(key, data, indices)
-            for key in ("speed", "damage", "temperature", "body", "failed")
-            if key in data
-        }
+    indices, positions, fields = trajectory_samples(args.output, summary)
     static = {"body"}
     if "particle_fields" in summary:
         record = summary["particle_fields"]

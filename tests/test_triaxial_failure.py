@@ -8,8 +8,8 @@ import numpy as np
 import pytest
 
 from examples.triaxial_failure import (
-    _graph_observation, loading_motion, output_directory, packed_grid_plan,
-    plan_case, run_case, save_json,
+    _graph_observation, loading_motion, open_trajectory_arrays, output_directory, packed_grid_plan,
+    plan_case, run_case, save_json, validate_stop_after_frame,
 )
 
 
@@ -243,3 +243,104 @@ def test_section_contact_graph_is_reported_separately_from_axial_support_cuts():
     x[0, 0] = -1.
     # Section adjacency is deliberately labelled approximate, so the sufficient x-cut is separate.
     assert _graph_observation(x, np.zeros(4, bool), geometry, data, history, .1, masks) == (True, 1)
+
+
+@pytest.mark.parametrize('frame', [-1, 5, True, 1.5])
+def test_runtime_segment_stop_rejects_nonframe_values(frame):
+    with pytest.raises(ValueError, match='saved frame index'):
+        validate_stop_after_frame(frame, {'saved_states': 5})
+
+
+def test_runtime_segment_stop_accepts_initial_final_and_default_frames():
+    plan = {'saved_states': 5}
+    for frame in (None, 0, 2, 4):
+        validate_stop_after_frame(frame, plan)
+    for frame in (0, 2):
+        with pytest.raises(ValueError, match='later than'):
+            validate_stop_after_frame(frame, plan, checkpoint_frame=2)
+    validate_stop_after_frame(4, plan, checkpoint_frame=2)
+
+
+def segment_fixture(tmp_path, *, phase='checkpoint-ready', valid=True):
+    plan = {'saved_states': 5, 'scope': 'smoke', 'theta_deg': 0, 'law': 'jkr', 'source': {}}
+    folder = output_directory(tmp_path, plan)
+    save_json(folder/'plan.json', plan)
+    save_json(folder/'status.json', {'completed': False, 'phase': phase, 'frame': 2})
+    np.savez(folder/'checkpoint.npz', frame=2, aggregate=[6., -1., 1., .1, float(valid), 0.])
+    return plan, folder
+
+
+@pytest.mark.parametrize('frame', [0, 2])
+def test_runtime_segment_resume_rejects_earlier_stop_without_touching_checkpoint(tmp_path, frame):
+    plan, folder = segment_fixture(tmp_path)
+    before = {path.name: path.read_bytes() for path in folder.iterdir()}
+    with pytest.raises(ValueError, match='later than'):
+        run_case({}, plan, tmp_path, resume=True, stop_after_frame=frame)
+    assert before == {path.name: path.read_bytes() for path in folder.iterdir()}
+
+
+@pytest.mark.parametrize('phase,valid', [('failed', True), ('checkpoint-ready', False)])
+def test_runtime_segment_cannot_clear_a_failed_run_or_invalid_checkpoint(tmp_path, phase, valid):
+    plan, folder = segment_fixture(tmp_path, phase=phase, valid=valid)
+    before = {path.name: path.read_bytes() for path in folder.iterdir()}
+    with pytest.raises(ValueError, match='diagnostic evidence|rejected coupled step'):
+        run_case({}, plan, tmp_path, resume=True, stop_after_frame=4)
+    assert before == {path.name: path.read_bytes() for path in folder.iterdir()}
+
+
+def test_runtime_segment_option_does_not_enter_plan_or_signature(tmp_path, monkeypatch):
+    from examples import triaxial_failure as example
+
+    plan = {'saved_states': 5, 'scope': 'smoke', 'theta_deg': 0, 'law': 'jkr', 'source': {}}
+    calls = []
+    monkeypatch.setattr(example, 'source_record', lambda: {})
+
+    def runtime(geometry, actual_plan, folder, signature, resume, stop_after_frame):
+        calls.append((signature, stop_after_frame))
+        assert actual_plan == plan
+        assert json.loads((folder/'plan.json').read_text()) == plan
+        return {'segment_complete': stop_after_frame is not None}
+
+    monkeypatch.setattr(example, '_run_runtime', runtime)
+    example.run_case({}, plan, tmp_path/'full')
+    example.run_case({}, plan, tmp_path/'segmented', stop_after_frame=2)
+    assert calls[0][0] == calls[1][0]
+    assert [call[1] for call in calls] == [None, 2]
+
+
+def test_runtime_segment_completed_resume_remains_read_only(tmp_path):
+    plan, folder = segment_fixture(tmp_path)
+    save_json(folder/'status.json', {'completed': True, 'phase': 'completed', 'frame': 4})
+    summary = {'completed': True, 'segment_complete': False}
+    save_json(folder/'summary.json', summary)
+    before = {path.name: path.read_bytes() for path in folder.iterdir()}
+    assert run_case({}, plan, tmp_path, resume=True, stop_after_frame=1) == summary
+    assert before == {path.name: path.read_bytes() for path in folder.iterdir()}
+
+
+@pytest.mark.parametrize('change', ['shape', 'dtype', 'missing'])
+def test_runtime_segment_resume_requires_complete_trajectory_allocations(tmp_path, change):
+    shapes, dtypes = {'x': (5, 2, 3), 'damage': (5, 2)}, {'x': np.float64, 'damage': np.float64}
+    arrays = open_trajectory_arrays(tmp_path, shapes, dtypes, False)
+    for array in arrays.values():
+        array.flush(); array._mmap.close()
+    path = tmp_path/'trajectory_damage.npy'
+    if change == 'missing':
+        path.unlink()
+    else:
+        np.save(path, np.zeros((3, 2) if change == 'shape' else (5, 2),
+                              dtype=np.float32 if change == 'dtype' else np.float64))
+    with pytest.raises((ValueError, FileNotFoundError)):
+        open_trajectory_arrays(tmp_path, shapes, dtypes, True)
+    (tmp_path/'trajectory_x.npy').unlink()
+
+
+def test_runtime_segment_cli_dry_run_keeps_complete_plan(tmp_path):
+    root = Path(__file__).resolve().parents[1]
+    args = [sys.executable, '-m', 'examples.triaxial_failure', '--dry-run', '--smoke',
+            '--frames', '4', '--load-transits', '.03', '--max-strain', '1e-7']
+    full = json.loads(subprocess.run(args, cwd=root, capture_output=True, text=True, check=True).stdout)
+    segmented = json.loads(subprocess.run([*args, '--stop-after-frame', '2'],
+        cwd=root, capture_output=True, text=True, check=True).stdout)
+    assert full == segmented
+    assert full['saved_states'] == 5 and full['probe_steps'] == 0 and full['stop_steps'] == full['steps']
