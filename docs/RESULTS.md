@@ -53,10 +53,20 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [adhesion--lateral-release](results/adhesion--lateral-release/summary.json) | 367,744 | 1,200 | 0.85 | 0.768535 | 0 | ParaView |
 | [adhesion--nonadhesive-pull-off](results/adhesion--nonadhesive-pull-off/summary.json) | 367,744 | 1,200 | 0.85 | 0.79432 | 0 | ParaView |
 | [adhesion--three-sphere-array](results/adhesion--three-sphere-array/summary.json) | 367,744 | 1,200 | 0.85 | 0.779705 | 0 | ParaView |
+| [woven-preview--plain--transverse-bending · coarse preview](results/woven-preview--plain--transverse-bending/summary.json) | 5,400 | 2,100 | 1.89737e-05 | 0.95352 | 0 | ParaView |
+| [woven-preview--plain--warp-tension · coarse preview](results/woven-preview--plain--warp-tension/summary.json) | 5,400 | 2,100 | 1.89737e-05 | 0.996464 | 0 | ParaView |
+| [woven-preview--plain--weft-tension · coarse preview](results/woven-preview--plain--weft-tension/summary.json) | 5,400 | 2,100 | 1.89737e-05 | 0.996464 | 0 | ParaView |
+| [woven-preview--triaxial--in-plane-shear · coarse preview](results/woven-preview--triaxial--in-plane-shear/summary.json) | 5,400 | 2,100 | 1.89737e-05 | 0.963833 | 0 | ParaView |
+| [woven-preview--twill-2x2--transverse-compression · coarse preview](results/woven-preview--twill-2x2--transverse-compression/summary.json) | 5,400 | 2,100 | 1.89737e-05 | 0.967532 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)
 describes the separate constitutive and convergence checks.
+
+Rows marked **coarse preview** retain their unsuccessful production-resolution review.
+A separate eligibility record permits visualization with explicit resolution and tracking
+limitations; it does not convert that review into a production pass.
+See [WOVEN_PREVIEWS.md](WOVEN_PREVIEWS.md).
 
 The [transverse shear-wave comparison](results/visible-wave-comparison.json)
 compares the new finite-motion runs with one another. The original axial-wave

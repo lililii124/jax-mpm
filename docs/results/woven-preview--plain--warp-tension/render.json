@@ -1,0 +1,646 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 8,
+  "frames_rendered": 61,
+  "animation": "simulation.gif",
+  "field": "family_id",
+  "actual_field_range": [
+    -1.0,
+    1.0
+  ],
+  "color_range": null,
+  "color_range_source": "fixed categorical yarn-family colors",
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": false,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.00020666666666666666,
+  "scene_bounds": [
+    0.00292,
+    0.013080000000000001,
+    0.006833333333333334,
+    0.009166666666666668,
+    0.003,
+    0.013000000000000001
+  ],
+  "actual_scene_bounds": [
+    0.00292,
+    0.013080000000000001,
+    0.006833333333333334,
+    0.009166666666666668,
+    0.003,
+    0.013000000000000001
+  ],
+  "actual_body_bounds": [
+    0.003086666693191179,
+    0.012913333306808786,
+    0.0071616162063434284,
+    0.00884126789814368,
+    0.0031665199525419806,
+    0.012833480047506512
+  ],
+  "camera_bounds": [
+    0.00292,
+    0.013080000000000001,
+    0.006833333333333334,
+    0.009166666666666668,
+    0.003,
+    0.013000000000000001
+  ],
+  "camera_bounds_source": "automatic body and prescribed geometry bounds",
+  "view_scope": "complete scene",
+  "render_overrides": {
+    "source": "renderer command-line arguments",
+    "color_range": null,
+    "scene_bounds": null,
+    "focus_bounds": null,
+    "sphere_opacity": null,
+    "matrix_opacity": 0.008
+  },
+  "camera_position": [
+    0.022224,
+    0.023240000000000004,
+    0.026288000000000006
+  ],
+  "camera_focal_point": [
+    0.008,
+    0.008,
+    0.008
+  ],
+  "camera_parallel_scale": 0.007929165811667901,
+  "particles": 5400,
+  "auxiliary_geometry": [
+    {
+      "type": "prescribed_rigid_grip",
+      "parameters": {
+        "name": "negative_grip",
+        "lower": [
+          0.003,
+          0.006833333333333334,
+          0.003
+        ],
+        "upper": [
+          0.004,
+          0.009166666666666668,
+          0.013000000000000001
+        ],
+        "displacement": [
+          -8e-05,
+          -0.0,
+          -0.0
+        ],
+        "loading_duration": 1.4230249470757707e-05,
+        "start": 0.0,
+        "motion_kind": "half-cosine-displacement-hold"
+      },
+      "included_in_particle_count": false,
+      "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+      "state_file_interpolation": "linear between output-time keyframes"
+    },
+    {
+      "type": "prescribed_rigid_grip",
+      "parameters": {
+        "name": "positive_grip",
+        "lower": [
+          0.012,
+          0.006833333333333334,
+          0.003
+        ],
+        "upper": [
+          0.013000000000000001,
+          0.009166666666666668,
+          0.013000000000000001
+        ],
+        "displacement": [
+          8e-05,
+          0.0,
+          0.0
+        ],
+        "loading_duration": 1.4230249470757707e-05,
+        "start": 0.0,
+        "motion_kind": "half-cosine-displacement-hold"
+      },
+      "included_in_particle_count": false,
+      "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+      "state_file_interpolation": "linear between output-time keyframes"
+    }
+  ],
+  "woven_display": {
+    "matrix_opacity": 0.008,
+    "matrix_rgb": [
+      0.72,
+      0.78,
+      0.83
+    ],
+    "family_rgb": [
+      [
+        0.045,
+        0.36,
+        0.67
+      ],
+      [
+        0.94,
+        0.36,
+        0.08
+      ]
+    ],
+    "all_particles_retained": true,
+    "displayed_counts": [
+      {
+        "time": 0.0,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 3.162277660168379e-07,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 6.324555320336758e-07,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 9.486832980505138e-07,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.2649110640673517e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.5811388300841896e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.8973665961010275e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 2.2135943621178654e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 2.5298221281347034e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 2.8460498941515413e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 3.162277660168379e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 3.478505426185217e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 3.794733192202055e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 4.110960958218893e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 4.427188724235731e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 4.743416490252569e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 5.059644256269407e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 5.375872022286245e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 5.6920997883030825e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 6.0083275543199205e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 6.324555320336758e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 6.640783086353596e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 6.957010852370434e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 7.273238618387272e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 7.58946638440411e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 7.905694150420947e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 8.221921916437786e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 8.538149682454625e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 8.854377448471462e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 9.170605214488299e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 9.486832980505138e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 9.803060746521976e-06,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.0119288512538813e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.043551627855565e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.075174404457249e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.1067971810589328e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.1384199576606165e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.1700427342623002e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.2016655108639841e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.233288287465668e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.2649110640673517e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.2965338406690354e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.3281566172707193e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.3597793938724031e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.3914021704740868e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.4230249470757706e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.4546477236774544e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.4862705002791383e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.517893276880822e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.5495160534825057e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.5811388300841894e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.6127616066858735e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.6443843832875572e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.676007159889241e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.707629936490925e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.7392527130926086e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.7708754896942923e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.802498266295976e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.8341210428976598e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.8657438194993438e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      },
+      {
+        "time": 1.8973665961010275e-05,
+        "matrix": 4912,
+        "yarn_families": [
+          244,
+          244
+        ]
+      }
+    ],
+    "interpretation": "Translucent matrix and opaque yarn particles; actual positions without displacement scaling"
+  }
+}

@@ -117,12 +117,12 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The local output collection contains **60 completed runs**. The public
-[catalogue](docs/RESULTS.md) contains **44 selected runs**, covering dynamics,
+The public [catalogue](docs/RESULTS.md) contains **49 selected completed runs**,
+including five explicitly labelled coarse woven previews, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 32 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 37 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -266,3 +266,11 @@ pieces and do not establish force transmission across the failed section.
 Constitutive work is not recoverable elastic energy; the outputs do not claim
 an exact discrete energy balance. Elastic
 gradients are tested, while plasticity/damage maps are not advertised as differentiable.
+
+## Coarse woven previews
+
+Five full-duration coarse woven runs are archived separately from production-resolution verification.
+Their original reviews remain `passed: false`; the preview gate permits only the stated resolution
+limits and the compression case's unavailable inner-platen tracking sample.
+Independent elastic energy, reference section force and reference bending-moment checks pass.
+The [preview guide](docs/WOVEN_PREVIEWS.md) links the records and encoding provenance.

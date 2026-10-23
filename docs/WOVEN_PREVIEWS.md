@@ -23,3 +23,17 @@ Homepage labels identify these runs as **Coarse preview**. A completed, reviewed
 formal run can replace its corresponding preview while retaining the coarse
 numerical archive and historical media. Rendering does not add captions or axes
 to the animation itself.
+
+## Archived previews
+
+These five runs retain all 61 saved states. Each animation uses the original ParaView
+frames and actual geometry. The [gallery transfer record](results/woven-gallery-relay.json)
+binds the compact GIFs to the producer artifacts, source commit and image sequence.
+
+| Weave and loading | Records |
+|---|---|
+| 0°/90° plain weave · Out-of-plane bending | [Review](results/woven-preview--plain--transverse-bending/preview-review.json) · [Preview eligibility](results/woven-preview--plain--transverse-bending/preview-eligibility.json) |
+| 0°/90° plain weave · Warp tension | [Review](results/woven-preview--plain--warp-tension/preview-review.json) · [Preview eligibility](results/woven-preview--plain--warp-tension/preview-eligibility.json) |
+| 0°/90° plain weave · Transverse in-plane tension | [Review](results/woven-preview--plain--weft-tension/preview-review.json) · [Preview eligibility](results/woven-preview--plain--weft-tension/preview-eligibility.json) |
+| 0°/±60° weave · In-plane shear | [Review](results/woven-preview--triaxial--in-plane-shear/preview-review.json) · [Preview eligibility](results/woven-preview--triaxial--in-plane-shear/preview-eligibility.json) |
+| 2×2 twill · Through-thickness compression | [Review](results/woven-preview--twill-2x2--transverse-compression/preview-review.json) · [Preview eligibility](results/woven-preview--twill-2x2--transverse-compression/preview-eligibility.json) |

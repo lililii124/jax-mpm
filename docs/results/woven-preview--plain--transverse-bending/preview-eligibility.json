@@ -1,0 +1,24 @@
+{
+  "kind": "coarse-woven-preview-v1",
+  "eligible": true,
+  "review_file": "preview-review.json",
+  "source_review_passed": false,
+  "allowed_failed_checks": [
+    "at_least_one_hundred_thousand_particles",
+    "grid_resolves_yarn_height"
+  ],
+  "observed_failed_checks": [
+    "at_least_one_hundred_thousand_particles",
+    "grid_resolves_yarn_height"
+  ],
+  "limitations": [
+    "Coarse grid and particle sampling do not satisfy the production particle-count and yarn-height resolution requirements; no convergence claim."
+  ],
+  "sources": {
+    "summary.json": "d1d65e237f06335bebc2ba095ccc44121b360428c1aa3df6f13bfa228def6e67",
+    "diagnostics.csv": "593d623db307874616c00d997de880bee9c5c232db02de64ac4aec29919464b7",
+    "observables.csv": "3b6244bb2ba3a647ce81626f3dead5e6caee840bccf267648e1a72cb48c9b91b",
+    "interpretation.json": "288da168cdd6399da096b565848f9b604716d7ab3bedbd4cb720958e713c9e16",
+    "preview-review.json": "288da168cdd6399da096b565848f9b604716d7ab3bedbd4cb720958e713c9e16"
+  }
+}

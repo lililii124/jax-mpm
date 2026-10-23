@@ -1,0 +1,1693 @@
+{
+  "relay": {
+    "repository": "lililii124/jax-mpm",
+    "commit": "d45920f6f8f9e8074e4a3374919b7859ec0ef585",
+    "run_id": "39957757542",
+    "run_attempt": "1",
+    "tool_sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+    "pillow_version": "13.0.0"
+  },
+  "producer_run_id": 39952807550,
+  "producer_commit": "4c71466cf16445aa36398bf7f7a64a8c78d138c0",
+  "runs": [
+    {
+      "id": "woven-preview--plain--warp-tension",
+      "producer_repository": "lililii124/jax-mpm",
+      "producer_commit": "4c71466cf16445aa36398bf7f7a64a8c78d138c0",
+      "producer_run_id": 39952807550,
+      "producer_run_attempt": 1,
+      "producer_artifact": {
+        "id": 12500863590,
+        "name": "woven-plain-warp-tension-39952807550-1",
+        "size_in_bytes": 60736526,
+        "digest": "sha256:fc7845412a4adf71f0f0cd35b373ee6900c2a544c3e361802c98aaf28d3bc778"
+      },
+      "producer_manifest_sha256": "34b0c57d1e185b73566321479dcec96026a8983b048aa5e1ae256d8982b3fb8c",
+      "relay": {
+        "repository": "lililii124/jax-mpm",
+        "commit": "d45920f6f8f9e8074e4a3374919b7859ec0ef585",
+        "run_id": "39957757542",
+        "run_attempt": "1",
+        "tool_sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+        "pillow_version": "13.0.0"
+      },
+      "gif_path": "outputs/woven-previews/plain/warp-tension/preview.gif",
+      "animation": {
+        "source_frames": 61,
+        "decoded_gif_frames": 61,
+        "dimensions": [
+          400,
+          400
+        ],
+        "source_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "decoded_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "total_duration_ms": 3660,
+        "sha256": "f2a54856aa12155c4b8c1f96d79567fc76ed4882666249d87361b533438f9db1",
+        "bytes": 1256683,
+        "encoding": "Pillow LANCZOS spatial downsampling, one shared 96-color palette, no dithering; original order and playback duration, no generated time frames",
+        "repeated_frames": "Identical quantized frames may merge with their durations added"
+      },
+      "source_png_sequence_sha256": "a3b729c34d81c23efae48548a5e593e477964d7e9b261285d56c771dbf3c839a",
+      "source_png_sequence_hash_definition": "SHA-256 of all 61 PNG byte streams concatenated in frame-number order; matches original video.json frames_sha256",
+      "physical_output_times_s": [
+        0.0,
+        3.162277660168379e-07,
+        6.324555320336758e-07,
+        9.486832980505138e-07,
+        1.2649110640673517e-06,
+        1.5811388300841896e-06,
+        1.8973665961010275e-06,
+        2.2135943621178654e-06,
+        2.5298221281347034e-06,
+        2.8460498941515413e-06,
+        3.162277660168379e-06,
+        3.478505426185217e-06,
+        3.794733192202055e-06,
+        4.110960958218893e-06,
+        4.427188724235731e-06,
+        4.743416490252569e-06,
+        5.059644256269407e-06,
+        5.375872022286245e-06,
+        5.6920997883030825e-06,
+        6.0083275543199205e-06,
+        6.324555320336758e-06,
+        6.640783086353596e-06,
+        6.957010852370434e-06,
+        7.273238618387272e-06,
+        7.58946638440411e-06,
+        7.905694150420947e-06,
+        8.221921916437786e-06,
+        8.538149682454625e-06,
+        8.854377448471462e-06,
+        9.170605214488299e-06,
+        9.486832980505138e-06,
+        9.803060746521976e-06,
+        1.0119288512538813e-05,
+        1.043551627855565e-05,
+        1.075174404457249e-05,
+        1.1067971810589328e-05,
+        1.1384199576606165e-05,
+        1.1700427342623002e-05,
+        1.2016655108639841e-05,
+        1.233288287465668e-05,
+        1.2649110640673517e-05,
+        1.2965338406690354e-05,
+        1.3281566172707193e-05,
+        1.3597793938724031e-05,
+        1.3914021704740868e-05,
+        1.4230249470757706e-05,
+        1.4546477236774544e-05,
+        1.4862705002791383e-05,
+        1.517893276880822e-05,
+        1.5495160534825057e-05,
+        1.5811388300841894e-05,
+        1.6127616066858735e-05,
+        1.6443843832875572e-05,
+        1.676007159889241e-05,
+        1.707629936490925e-05,
+        1.7392527130926086e-05,
+        1.7708754896942923e-05,
+        1.802498266295976e-05,
+        1.8341210428976598e-05,
+        1.8657438194993438e-05,
+        1.8973665961010275e-05
+      ],
+      "selected_pngs": {
+        "initial": {
+          "file": "initial.png",
+          "source_frame": 0,
+          "physical_time_s": 0.0,
+          "source_png_sha256": "a5fa83345e7b4f032c9a20214d8ec191f0f7ea76961b2e381682562b38ed66ef"
+        },
+        "peak": {
+          "file": "peak.png",
+          "source_frame": 45,
+          "physical_time_s": 1.4230249470757706e-05,
+          "source_png_sha256": "4d6709c190c0927ed2aea7f77c19cf30995350c5da7f76634be300dae7c0a057"
+        },
+        "final": {
+          "file": "final.png",
+          "source_frame": 60,
+          "physical_time_s": 1.8973665961010275e-05,
+          "source_png_sha256": "1d8fab2daf0887ea31200d7e0585d1d3053a1c07e597d309ff66dc51551f0f83"
+        }
+      },
+      "peak_metric": "maximum_displacement_m",
+      "peak_selection": "maximum absolute saved observable",
+      "strict_review_passed": false,
+      "preview_eligible": true,
+      "scope": "Transfer and spatial image encoding only. No solver or renderer rerun; preview.gif is a new derivative, not the original simulation.gif bytes. Full numerical artifacts remain separate."
+    },
+    {
+      "id": "woven-preview--plain--weft-tension",
+      "producer_repository": "lililii124/jax-mpm",
+      "producer_commit": "4c71466cf16445aa36398bf7f7a64a8c78d138c0",
+      "producer_run_id": 39952807550,
+      "producer_run_attempt": 1,
+      "producer_artifact": {
+        "id": 12501411848,
+        "name": "woven-plain-weft-tension-39952807550-1",
+        "size_in_bytes": 58775531,
+        "digest": "sha256:ef19f5cfbdd449d9208d5e7eba0e986b7854ce4b2007ffd56077010f260fba52"
+      },
+      "producer_manifest_sha256": "2edc32c29da1bd86dd037b48b82358408ffffbcaf46d128c53be0327874dd1c8",
+      "relay": {
+        "repository": "lililii124/jax-mpm",
+        "commit": "d45920f6f8f9e8074e4a3374919b7859ec0ef585",
+        "run_id": "39957757542",
+        "run_attempt": "1",
+        "tool_sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+        "pillow_version": "13.0.0"
+      },
+      "gif_path": "outputs/woven-previews/plain/weft-tension/preview.gif",
+      "animation": {
+        "source_frames": 61,
+        "decoded_gif_frames": 61,
+        "dimensions": [
+          400,
+          400
+        ],
+        "source_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "decoded_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "total_duration_ms": 3660,
+        "sha256": "1b3168b9aa8a06e7e1409319e43da241b76fbcc5e8fc4843a644fae157db2420",
+        "bytes": 1145706,
+        "encoding": "Pillow LANCZOS spatial downsampling, one shared 96-color palette, no dithering; original order and playback duration, no generated time frames",
+        "repeated_frames": "Identical quantized frames may merge with their durations added"
+      },
+      "source_png_sequence_sha256": "435f5353d649bb5041d3ff3c19594ddba03148519a3c4c705e0cba938b9d6693",
+      "source_png_sequence_hash_definition": "SHA-256 of all 61 PNG byte streams concatenated in frame-number order; matches original video.json frames_sha256",
+      "physical_output_times_s": [
+        0.0,
+        3.162277660168379e-07,
+        6.324555320336758e-07,
+        9.486832980505138e-07,
+        1.2649110640673517e-06,
+        1.5811388300841896e-06,
+        1.8973665961010275e-06,
+        2.2135943621178654e-06,
+        2.5298221281347034e-06,
+        2.8460498941515413e-06,
+        3.162277660168379e-06,
+        3.478505426185217e-06,
+        3.794733192202055e-06,
+        4.110960958218893e-06,
+        4.427188724235731e-06,
+        4.743416490252569e-06,
+        5.059644256269407e-06,
+        5.375872022286245e-06,
+        5.6920997883030825e-06,
+        6.0083275543199205e-06,
+        6.324555320336758e-06,
+        6.640783086353596e-06,
+        6.957010852370434e-06,
+        7.273238618387272e-06,
+        7.58946638440411e-06,
+        7.905694150420947e-06,
+        8.221921916437786e-06,
+        8.538149682454625e-06,
+        8.854377448471462e-06,
+        9.170605214488299e-06,
+        9.486832980505138e-06,
+        9.803060746521976e-06,
+        1.0119288512538813e-05,
+        1.043551627855565e-05,
+        1.075174404457249e-05,
+        1.1067971810589328e-05,
+        1.1384199576606165e-05,
+        1.1700427342623002e-05,
+        1.2016655108639841e-05,
+        1.233288287465668e-05,
+        1.2649110640673517e-05,
+        1.2965338406690354e-05,
+        1.3281566172707193e-05,
+        1.3597793938724031e-05,
+        1.3914021704740868e-05,
+        1.4230249470757706e-05,
+        1.4546477236774544e-05,
+        1.4862705002791383e-05,
+        1.517893276880822e-05,
+        1.5495160534825057e-05,
+        1.5811388300841894e-05,
+        1.6127616066858735e-05,
+        1.6443843832875572e-05,
+        1.676007159889241e-05,
+        1.707629936490925e-05,
+        1.7392527130926086e-05,
+        1.7708754896942923e-05,
+        1.802498266295976e-05,
+        1.8341210428976598e-05,
+        1.8657438194993438e-05,
+        1.8973665961010275e-05
+      ],
+      "selected_pngs": {
+        "initial": {
+          "file": "initial.png",
+          "source_frame": 0,
+          "physical_time_s": 0.0,
+          "source_png_sha256": "d939349fbc2e44e11b0e9ea6bd7812356f9d087301afc83f2dbbc43289c389f9"
+        },
+        "peak": {
+          "file": "peak.png",
+          "source_frame": 45,
+          "physical_time_s": 1.4230249470757706e-05,
+          "source_png_sha256": "6a2059846d16fc1602926eec4b68aef73e02f60edb74da2c840251416f847ad2"
+        },
+        "final": {
+          "file": "final.png",
+          "source_frame": 60,
+          "physical_time_s": 1.8973665961010275e-05,
+          "source_png_sha256": "030894cb2a28810d8c8f87781690face896acc503910764775ffdd223cba7e89"
+        }
+      },
+      "peak_metric": "maximum_displacement_m",
+      "peak_selection": "maximum absolute saved observable",
+      "strict_review_passed": false,
+      "preview_eligible": true,
+      "scope": "Transfer and spatial image encoding only. No solver or renderer rerun; preview.gif is a new derivative, not the original simulation.gif bytes. Full numerical artifacts remain separate."
+    },
+    {
+      "id": "woven-preview--plain--transverse-bending",
+      "producer_repository": "lililii124/jax-mpm",
+      "producer_commit": "4c71466cf16445aa36398bf7f7a64a8c78d138c0",
+      "producer_run_id": 39952807550,
+      "producer_run_attempt": 1,
+      "producer_artifact": {
+        "id": 12500973309,
+        "name": "woven-plain-transverse-bending-39952807550-1",
+        "size_in_bytes": 80784559,
+        "digest": "sha256:da113922d060a655668f585118cf9f49b819abcd13671825ecf29d43236c136d"
+      },
+      "producer_manifest_sha256": "675f82a4da69c9699d747cff9f2634add59802231796922be634d0f47a1ba000",
+      "relay": {
+        "repository": "lililii124/jax-mpm",
+        "commit": "d45920f6f8f9e8074e4a3374919b7859ec0ef585",
+        "run_id": "39957757542",
+        "run_attempt": "1",
+        "tool_sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+        "pillow_version": "13.0.0"
+      },
+      "gif_path": "outputs/woven-previews/plain/transverse-bending/preview.gif",
+      "animation": {
+        "source_frames": 61,
+        "decoded_gif_frames": 61,
+        "dimensions": [
+          400,
+          400
+        ],
+        "source_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "decoded_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "total_duration_ms": 3660,
+        "sha256": "07750a24346ae03bf0913aa48fd466b1bd0708c0cf0305ccd8fd853d13f4f2fd",
+        "bytes": 1653256,
+        "encoding": "Pillow LANCZOS spatial downsampling, one shared 96-color palette, no dithering; original order and playback duration, no generated time frames",
+        "repeated_frames": "Identical quantized frames may merge with their durations added"
+      },
+      "source_png_sequence_sha256": "8c98b6ba0c7f3b4f7aa5ff1a4995b924aad28383c0b980fd4a9816d1ac340104",
+      "source_png_sequence_hash_definition": "SHA-256 of all 61 PNG byte streams concatenated in frame-number order; matches original video.json frames_sha256",
+      "physical_output_times_s": [
+        0.0,
+        3.162277660168379e-07,
+        6.324555320336758e-07,
+        9.486832980505138e-07,
+        1.2649110640673517e-06,
+        1.5811388300841896e-06,
+        1.8973665961010275e-06,
+        2.2135943621178654e-06,
+        2.5298221281347034e-06,
+        2.8460498941515413e-06,
+        3.162277660168379e-06,
+        3.478505426185217e-06,
+        3.794733192202055e-06,
+        4.110960958218893e-06,
+        4.427188724235731e-06,
+        4.743416490252569e-06,
+        5.059644256269407e-06,
+        5.375872022286245e-06,
+        5.6920997883030825e-06,
+        6.0083275543199205e-06,
+        6.324555320336758e-06,
+        6.640783086353596e-06,
+        6.957010852370434e-06,
+        7.273238618387272e-06,
+        7.58946638440411e-06,
+        7.905694150420947e-06,
+        8.221921916437786e-06,
+        8.538149682454625e-06,
+        8.854377448471462e-06,
+        9.170605214488299e-06,
+        9.486832980505138e-06,
+        9.803060746521976e-06,
+        1.0119288512538813e-05,
+        1.043551627855565e-05,
+        1.075174404457249e-05,
+        1.1067971810589328e-05,
+        1.1384199576606165e-05,
+        1.1700427342623002e-05,
+        1.2016655108639841e-05,
+        1.233288287465668e-05,
+        1.2649110640673517e-05,
+        1.2965338406690354e-05,
+        1.3281566172707193e-05,
+        1.3597793938724031e-05,
+        1.3914021704740868e-05,
+        1.4230249470757706e-05,
+        1.4546477236774544e-05,
+        1.4862705002791383e-05,
+        1.517893276880822e-05,
+        1.5495160534825057e-05,
+        1.5811388300841894e-05,
+        1.6127616066858735e-05,
+        1.6443843832875572e-05,
+        1.676007159889241e-05,
+        1.707629936490925e-05,
+        1.7392527130926086e-05,
+        1.7708754896942923e-05,
+        1.802498266295976e-05,
+        1.8341210428976598e-05,
+        1.8657438194993438e-05,
+        1.8973665961010275e-05
+      ],
+      "selected_pngs": {
+        "initial": {
+          "file": "initial.png",
+          "source_frame": 0,
+          "physical_time_s": 0.0,
+          "source_png_sha256": "b9b1e000c07b7c3f2258c98bae9fd5ff538553d33fe80f3428caac7319d143b3"
+        },
+        "peak": {
+          "file": "peak.png",
+          "source_frame": 46,
+          "physical_time_s": 1.4546477236774544e-05,
+          "source_png_sha256": "4e2a2cd30b4b3d681339904f666fec9bea3f854a8214f5b7d5d9b6ece7b30368"
+        },
+        "final": {
+          "file": "final.png",
+          "source_frame": 60,
+          "physical_time_s": 1.8973665961010275e-05,
+          "source_png_sha256": "56fef6fdda36cc1ff1b8c0e0261fc78103713bd6745f19c041c5887dd986f5f9"
+        }
+      },
+      "peak_metric": "center_mean_displacement_y_m",
+      "peak_selection": "maximum absolute saved observable",
+      "strict_review_passed": false,
+      "preview_eligible": true,
+      "scope": "Transfer and spatial image encoding only. No solver or renderer rerun; preview.gif is a new derivative, not the original simulation.gif bytes. Full numerical artifacts remain separate."
+    },
+    {
+      "id": "woven-preview--triaxial--in-plane-shear",
+      "producer_repository": "lililii124/jax-mpm",
+      "producer_commit": "4c71466cf16445aa36398bf7f7a64a8c78d138c0",
+      "producer_run_id": 39952807550,
+      "producer_run_attempt": 1,
+      "producer_artifact": {
+        "id": 12501112579,
+        "name": "woven-triaxial-in-plane-shear-39952807550-1",
+        "size_in_bytes": 59467830,
+        "digest": "sha256:bce228888538d566c73a1dee885557e4ff94e3e0b192f5bbe6e5cd158967fd6b"
+      },
+      "producer_manifest_sha256": "72f80058e4c8b09a02ef6ec5480a6c689f675338eb9d5e7a7062c8216b039f74",
+      "relay": {
+        "repository": "lililii124/jax-mpm",
+        "commit": "d45920f6f8f9e8074e4a3374919b7859ec0ef585",
+        "run_id": "39957757542",
+        "run_attempt": "1",
+        "tool_sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+        "pillow_version": "13.0.0"
+      },
+      "gif_path": "outputs/woven-previews/triaxial/in-plane-shear/preview.gif",
+      "animation": {
+        "source_frames": 61,
+        "decoded_gif_frames": 61,
+        "dimensions": [
+          400,
+          400
+        ],
+        "source_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "decoded_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "total_duration_ms": 3660,
+        "sha256": "972fc0b590d47cad24f8f4b22f5539e38778c253eb781ddbe1048b2c76cac5b5",
+        "bytes": 1168124,
+        "encoding": "Pillow LANCZOS spatial downsampling, one shared 96-color palette, no dithering; original order and playback duration, no generated time frames",
+        "repeated_frames": "Identical quantized frames may merge with their durations added"
+      },
+      "source_png_sequence_sha256": "abcefe963e79d7bd2d6ae27a0dab3a663ff26613a24e66fd521c4129df2a78b2",
+      "source_png_sequence_hash_definition": "SHA-256 of all 61 PNG byte streams concatenated in frame-number order; matches original video.json frames_sha256",
+      "physical_output_times_s": [
+        0.0,
+        3.162277660168379e-07,
+        6.324555320336758e-07,
+        9.486832980505138e-07,
+        1.2649110640673517e-06,
+        1.5811388300841896e-06,
+        1.8973665961010275e-06,
+        2.2135943621178654e-06,
+        2.5298221281347034e-06,
+        2.8460498941515413e-06,
+        3.162277660168379e-06,
+        3.478505426185217e-06,
+        3.794733192202055e-06,
+        4.110960958218893e-06,
+        4.427188724235731e-06,
+        4.743416490252569e-06,
+        5.059644256269407e-06,
+        5.375872022286245e-06,
+        5.6920997883030825e-06,
+        6.0083275543199205e-06,
+        6.324555320336758e-06,
+        6.640783086353596e-06,
+        6.957010852370434e-06,
+        7.273238618387272e-06,
+        7.58946638440411e-06,
+        7.905694150420947e-06,
+        8.221921916437786e-06,
+        8.538149682454625e-06,
+        8.854377448471462e-06,
+        9.170605214488299e-06,
+        9.486832980505138e-06,
+        9.803060746521976e-06,
+        1.0119288512538813e-05,
+        1.043551627855565e-05,
+        1.075174404457249e-05,
+        1.1067971810589328e-05,
+        1.1384199576606165e-05,
+        1.1700427342623002e-05,
+        1.2016655108639841e-05,
+        1.233288287465668e-05,
+        1.2649110640673517e-05,
+        1.2965338406690354e-05,
+        1.3281566172707193e-05,
+        1.3597793938724031e-05,
+        1.3914021704740868e-05,
+        1.4230249470757706e-05,
+        1.4546477236774544e-05,
+        1.4862705002791383e-05,
+        1.517893276880822e-05,
+        1.5495160534825057e-05,
+        1.5811388300841894e-05,
+        1.6127616066858735e-05,
+        1.6443843832875572e-05,
+        1.676007159889241e-05,
+        1.707629936490925e-05,
+        1.7392527130926086e-05,
+        1.7708754896942923e-05,
+        1.802498266295976e-05,
+        1.8341210428976598e-05,
+        1.8657438194993438e-05,
+        1.8973665961010275e-05
+      ],
+      "selected_pngs": {
+        "initial": {
+          "file": "initial.png",
+          "source_frame": 0,
+          "physical_time_s": 0.0,
+          "source_png_sha256": "5178b5bb41623d7d49cae90fb6ae951d20ba00da0c6f6eeea8af1be61ad4879d"
+        },
+        "peak": {
+          "file": "peak.png",
+          "source_frame": 45,
+          "physical_time_s": 1.4230249470757706e-05,
+          "source_png_sha256": "9d5ebc329270500d00f33c3f6455ba7ea6292bab627c4a45176a3517902fcc9e"
+        },
+        "final": {
+          "file": "final.png",
+          "source_frame": 60,
+          "physical_time_s": 1.8973665961010275e-05,
+          "source_png_sha256": "5523ac68994b40c3e1d56d79c470ca50474c98bf589986fcb565a837909e413a"
+        }
+      },
+      "peak_metric": "maximum_displacement_m",
+      "peak_selection": "maximum absolute saved observable",
+      "strict_review_passed": false,
+      "preview_eligible": true,
+      "scope": "Transfer and spatial image encoding only. No solver or renderer rerun; preview.gif is a new derivative, not the original simulation.gif bytes. Full numerical artifacts remain separate."
+    },
+    {
+      "id": "woven-preview--twill-2x2--transverse-compression",
+      "producer_repository": "lililii124/jax-mpm",
+      "producer_commit": "4c71466cf16445aa36398bf7f7a64a8c78d138c0",
+      "producer_run_id": 39952807550,
+      "producer_run_attempt": 1,
+      "producer_artifact": {
+        "id": 12501621424,
+        "name": "woven-twill-2x2-transverse-compression-39952807550-1",
+        "size_in_bytes": 36956461,
+        "digest": "sha256:7f139696ecf6b00b4c0da8d3cfcac0ce7ebccb55e0f908f53a6df55ccff064e0"
+      },
+      "producer_manifest_sha256": "1785dc11dd68d7519d26040729a650cf655d668c600d175d05e06e0bdd3ae4a6",
+      "relay": {
+        "repository": "lililii124/jax-mpm",
+        "commit": "d45920f6f8f9e8074e4a3374919b7859ec0ef585",
+        "run_id": "39957757542",
+        "run_attempt": "1",
+        "tool_sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+        "pillow_version": "13.0.0"
+      },
+      "gif_path": "outputs/woven-previews/twill-2x2/transverse-compression/preview.gif",
+      "animation": {
+        "source_frames": 61,
+        "decoded_gif_frames": 61,
+        "dimensions": [
+          400,
+          400
+        ],
+        "source_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "decoded_frame_durations_ms": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "total_duration_ms": 3660,
+        "sha256": "972d35ddb29e647fd65abc6759e5594a358ced6275b0cddb4f87978790396638",
+        "bytes": 711362,
+        "encoding": "Pillow LANCZOS spatial downsampling, one shared 96-color palette, no dithering; original order and playback duration, no generated time frames",
+        "repeated_frames": "Identical quantized frames may merge with their durations added"
+      },
+      "source_png_sequence_sha256": "b0986ab1aa470d3b6d789c17fbee97e8a087748453eb9e6e937f88915df2bab3",
+      "source_png_sequence_hash_definition": "SHA-256 of all 61 PNG byte streams concatenated in frame-number order; matches original video.json frames_sha256",
+      "physical_output_times_s": [
+        0.0,
+        3.162277660168379e-07,
+        6.324555320336758e-07,
+        9.486832980505138e-07,
+        1.2649110640673517e-06,
+        1.5811388300841896e-06,
+        1.8973665961010275e-06,
+        2.2135943621178654e-06,
+        2.5298221281347034e-06,
+        2.8460498941515413e-06,
+        3.162277660168379e-06,
+        3.478505426185217e-06,
+        3.794733192202055e-06,
+        4.110960958218893e-06,
+        4.427188724235731e-06,
+        4.743416490252569e-06,
+        5.059644256269407e-06,
+        5.375872022286245e-06,
+        5.6920997883030825e-06,
+        6.0083275543199205e-06,
+        6.324555320336758e-06,
+        6.640783086353596e-06,
+        6.957010852370434e-06,
+        7.273238618387272e-06,
+        7.58946638440411e-06,
+        7.905694150420947e-06,
+        8.221921916437786e-06,
+        8.538149682454625e-06,
+        8.854377448471462e-06,
+        9.170605214488299e-06,
+        9.486832980505138e-06,
+        9.803060746521976e-06,
+        1.0119288512538813e-05,
+        1.043551627855565e-05,
+        1.075174404457249e-05,
+        1.1067971810589328e-05,
+        1.1384199576606165e-05,
+        1.1700427342623002e-05,
+        1.2016655108639841e-05,
+        1.233288287465668e-05,
+        1.2649110640673517e-05,
+        1.2965338406690354e-05,
+        1.3281566172707193e-05,
+        1.3597793938724031e-05,
+        1.3914021704740868e-05,
+        1.4230249470757706e-05,
+        1.4546477236774544e-05,
+        1.4862705002791383e-05,
+        1.517893276880822e-05,
+        1.5495160534825057e-05,
+        1.5811388300841894e-05,
+        1.6127616066858735e-05,
+        1.6443843832875572e-05,
+        1.676007159889241e-05,
+        1.707629936490925e-05,
+        1.7392527130926086e-05,
+        1.7708754896942923e-05,
+        1.802498266295976e-05,
+        1.8341210428976598e-05,
+        1.8657438194993438e-05,
+        1.8973665961010275e-05
+      ],
+      "selected_pngs": {
+        "initial": {
+          "file": "initial.png",
+          "source_frame": 0,
+          "physical_time_s": 0.0,
+          "source_png_sha256": "2db672f932c4523603b5edb49b30e25b973c54e6665f8540d5d24b229fbb8eec"
+        },
+        "peak": {
+          "file": "peak.png",
+          "source_frame": 41,
+          "physical_time_s": 1.2965338406690354e-05,
+          "source_png_sha256": "a7dd69d35c0c67a134b54685a50b84bb823f566b63cc8e6a0bc74d13454fdb67"
+        },
+        "final": {
+          "file": "final.png",
+          "source_frame": 60,
+          "physical_time_s": 1.8973665961010275e-05,
+          "source_png_sha256": "6dd68cd717bff888b7e56e62e2c855aab76e46c7f88b4b6322f8d5fc2ea8f1d7"
+        }
+      },
+      "peak_metric": "maximum_displacement_m",
+      "peak_selection": "maximum absolute saved observable",
+      "strict_review_passed": false,
+      "preview_eligible": true,
+      "scope": "Transfer and spatial image encoding only. No solver or renderer rerun; preview.gif is a new derivative, not the original simulation.gif bytes. Full numerical artifacts remain separate."
+    }
+  ],
+  "files": {
+    "outputs/woven-previews/plain/transverse-bending/coarse-preview.json": {
+      "bytes": 1081,
+      "sha256": "82a9db0b5515d06fc085ea81a684b8e0c98a2ba1f6d93d84b7170e8347a4a763"
+    },
+    "outputs/woven-previews/plain/transverse-bending/diagnostics.csv": {
+      "bytes": 19686,
+      "sha256": "aac14a18834768d1ee508c4051227687d08520c11b2cde2623c84fc501e08558"
+    },
+    "outputs/woven-previews/plain/transverse-bending/final.png": {
+      "bytes": 642088,
+      "sha256": "56fef6fdda36cc1ff1b8c0e0261fc78103713bd6745f19c041c5887dd986f5f9"
+    },
+    "outputs/woven-previews/plain/transverse-bending/initial.png": {
+      "bytes": 636978,
+      "sha256": "b9b1e000c07b7c3f2258c98bae9fd5ff538553d33fe80f3428caac7319d143b3"
+    },
+    "outputs/woven-previews/plain/transverse-bending/interpretation.json": {
+      "bytes": 14065,
+      "sha256": "288da168cdd6399da096b565848f9b604716d7ab3bedbd4cb720958e713c9e16"
+    },
+    "outputs/woven-previews/plain/transverse-bending/numerical-source.json": {
+      "bytes": 18767,
+      "sha256": "a84dcfe68040b27da29154dbfd66c4a1a6fe2d7d1d77ed202cc9f7e60023b48f"
+    },
+    "outputs/woven-previews/plain/transverse-bending/observables.csv": {
+      "bytes": 53671,
+      "sha256": "04f75dfa315917cd8398ecaf1172794b05ee6d15d4fba7db7c9f31caacf506b7"
+    },
+    "outputs/woven-previews/plain/transverse-bending/peak.png": {
+      "bytes": 637212,
+      "sha256": "4e2a2cd30b4b3d681339904f666fec9bea3f854a8214f5b7d5d9b6ece7b30368"
+    },
+    "outputs/woven-previews/plain/transverse-bending/preview-eligibility.json": {
+      "bytes": 1011,
+      "sha256": "ee5f7d38feaf7bc3215ebf048f9ed3cc8553430dc008890cdd31f9b6d5bab182"
+    },
+    "outputs/woven-previews/plain/transverse-bending/preview-review.json": {
+      "bytes": 14065,
+      "sha256": "288da168cdd6399da096b565848f9b604716d7ab3bedbd4cb720958e713c9e16"
+    },
+    "outputs/woven-previews/plain/transverse-bending/preview.gif": {
+      "bytes": 1653256,
+      "sha256": "07750a24346ae03bf0913aa48fd466b1bd0708c0cf0305ccd8fd853d13f4f2fd"
+    },
+    "outputs/woven-previews/plain/transverse-bending/producer-delivery-manifest.json": {
+      "bytes": 17125,
+      "sha256": "675f82a4da69c9699d747cff9f2634add59802231796922be634d0f47a1ba000"
+    },
+    "outputs/woven-previews/plain/transverse-bending/producer-provenance.json": {
+      "bytes": 2603,
+      "sha256": "3593f98bea537ed39d1ea8ad4412faa38ed0cb9746a7e6fbab47db68db20200f"
+    },
+    "outputs/woven-previews/plain/transverse-bending/render.json": {
+      "bytes": 13335,
+      "sha256": "cafc52ccaf17e2a2399b17b9849b989a82810968015ead4c227d71f682436a7e"
+    },
+    "outputs/woven-previews/plain/transverse-bending/source.json": {
+      "bytes": 5715,
+      "sha256": "8298b59615048e96225f9336dae7ed2936b87ed149c216e6a65e4e9f4cce3a44"
+    },
+    "outputs/woven-previews/plain/transverse-bending/summary.json": {
+      "bytes": 34406,
+      "sha256": "d1d65e237f06335bebc2ba095ccc44121b360428c1aa3df6f13bfa228def6e67"
+    },
+    "outputs/woven-previews/plain/transverse-bending/video.json": {
+      "bytes": 403,
+      "sha256": "2b2db09b1178f834904cb37ed830f76478773b225a38b5bd471cf84ca5f5d20c"
+    },
+    "outputs/woven-previews/plain/transverse-bending/vtk_check.json": {
+      "bytes": 325,
+      "sha256": "119688aeda04674df94739ab834acc98d07f261953a2d4257d4c38cf01d52ac4"
+    },
+    "outputs/woven-previews/plain/transverse-bending/vtk_metadata.json": {
+      "bytes": 809,
+      "sha256": "83a5bd3d1332b2975ebf22e214b7045188d79d3f21d6e2de4d228fde7fc71bdc"
+    },
+    "outputs/woven-previews/plain/warp-tension/coarse-preview.json": {
+      "bytes": 1081,
+      "sha256": "ea22511c3d95033bc8ec680ccc07ef32ed5f62904682c65a7809aeaf4ad4a6b6"
+    },
+    "outputs/woven-previews/plain/warp-tension/diagnostics.csv": {
+      "bytes": 19796,
+      "sha256": "51379d21731b742c548142055b4bfe5055e11cacf4ab7b0fdea9eaa1606233b6"
+    },
+    "outputs/woven-previews/plain/warp-tension/final.png": {
+      "bytes": 476103,
+      "sha256": "1d8fab2daf0887ea31200d7e0585d1d3053a1c07e597d309ff66dc51551f0f83"
+    },
+    "outputs/woven-previews/plain/warp-tension/initial.png": {
+      "bytes": 470077,
+      "sha256": "a5fa83345e7b4f032c9a20214d8ec191f0f7ea76961b2e381682562b38ed66ef"
+    },
+    "outputs/woven-previews/plain/warp-tension/interpretation.json": {
+      "bytes": 13052,
+      "sha256": "9418fa8812b9aebbfa4e68936f12cc62af41299b128e16902018a7d90e0c45fd"
+    },
+    "outputs/woven-previews/plain/warp-tension/numerical-source.json": {
+      "bytes": 18767,
+      "sha256": "a84dcfe68040b27da29154dbfd66c4a1a6fe2d7d1d77ed202cc9f7e60023b48f"
+    },
+    "outputs/woven-previews/plain/warp-tension/observables.csv": {
+      "bytes": 55318,
+      "sha256": "05de79d2f2723726b176e1eb3380d8f64970dc14a41b5305100809a6fa0894e8"
+    },
+    "outputs/woven-previews/plain/warp-tension/peak.png": {
+      "bytes": 476255,
+      "sha256": "4d6709c190c0927ed2aea7f77c19cf30995350c5da7f76634be300dae7c0a057"
+    },
+    "outputs/woven-previews/plain/warp-tension/preview-eligibility.json": {
+      "bytes": 1011,
+      "sha256": "f644752928b95c99b70073c3d87e32654fdc9b4e3c4eb5618dbdebf1771d7aa2"
+    },
+    "outputs/woven-previews/plain/warp-tension/preview-review.json": {
+      "bytes": 13052,
+      "sha256": "9418fa8812b9aebbfa4e68936f12cc62af41299b128e16902018a7d90e0c45fd"
+    },
+    "outputs/woven-previews/plain/warp-tension/preview.gif": {
+      "bytes": 1256683,
+      "sha256": "f2a54856aa12155c4b8c1f96d79567fc76ed4882666249d87361b533438f9db1"
+    },
+    "outputs/woven-previews/plain/warp-tension/producer-delivery-manifest.json": {
+      "bytes": 16603,
+      "sha256": "34b0c57d1e185b73566321479dcec96026a8983b048aa5e1ae256d8982b3fb8c"
+    },
+    "outputs/woven-previews/plain/warp-tension/producer-provenance.json": {
+      "bytes": 2597,
+      "sha256": "212c539da11a7a229607c74eb8c8741f1fee01ca8352d729505f290d1f118a3f"
+    },
+    "outputs/woven-previews/plain/warp-tension/render.json": {
+      "bytes": 12642,
+      "sha256": "27fa580d0ebf9c52735053f524cf9ecb975635d036cae5246477bc05cf27ccc9"
+    },
+    "outputs/woven-previews/plain/warp-tension/source.json": {
+      "bytes": 5691,
+      "sha256": "c85421ace3c9a635f2ae1fafebe3d86b858bdbcb6e89dd5a1eb86b742a570597"
+    },
+    "outputs/woven-previews/plain/warp-tension/summary.json": {
+      "bytes": 29206,
+      "sha256": "e6bac0a3e489c8a9621f96332bf814ceea13a0726c309f6845776b13c7e39953"
+    },
+    "outputs/woven-previews/plain/warp-tension/video.json": {
+      "bytes": 403,
+      "sha256": "36fb721f63eeebcab08a92e7f25a453eafcb4281c1e2a46bd627c492d6c3a840"
+    },
+    "outputs/woven-previews/plain/warp-tension/vtk_check.json": {
+      "bytes": 325,
+      "sha256": "119688aeda04674df94739ab834acc98d07f261953a2d4257d4c38cf01d52ac4"
+    },
+    "outputs/woven-previews/plain/warp-tension/vtk_metadata.json": {
+      "bytes": 809,
+      "sha256": "f815e0250a8eff8dec7eaef6b2d82ed2c732d4e6adcbbd5deefda96f504c1cad"
+    },
+    "outputs/woven-previews/plain/weft-tension/coarse-preview.json": {
+      "bytes": 1081,
+      "sha256": "7d4b55b2ffb326ebe9ed37c8f721e7a3720fc77de0d10d1673b5a52a780a8e1c"
+    },
+    "outputs/woven-previews/plain/weft-tension/diagnostics.csv": {
+      "bytes": 19801,
+      "sha256": "28c8011ebd29ccf20fc72e14ae954db966c9d0932863d18554a54043cc193d86"
+    },
+    "outputs/woven-previews/plain/weft-tension/final.png": {
+      "bytes": 450589,
+      "sha256": "030894cb2a28810d8c8f87781690face896acc503910764775ffdd223cba7e89"
+    },
+    "outputs/woven-previews/plain/weft-tension/initial.png": {
+      "bytes": 446219,
+      "sha256": "d939349fbc2e44e11b0e9ea6bd7812356f9d087301afc83f2dbbc43289c389f9"
+    },
+    "outputs/woven-previews/plain/weft-tension/interpretation.json": {
+      "bytes": 13113,
+      "sha256": "a73f60a1611649ec65ba8c9d5bbe944b0d221ab7b557a5c78431373853f330d5"
+    },
+    "outputs/woven-previews/plain/weft-tension/numerical-source.json": {
+      "bytes": 18767,
+      "sha256": "a84dcfe68040b27da29154dbfd66c4a1a6fe2d7d1d77ed202cc9f7e60023b48f"
+    },
+    "outputs/woven-previews/plain/weft-tension/observables.csv": {
+      "bytes": 55220,
+      "sha256": "3ea2470aa7841e4ab89f013de34db11757a61ab6c0298cf51e81619d7d225e2a"
+    },
+    "outputs/woven-previews/plain/weft-tension/peak.png": {
+      "bytes": 450184,
+      "sha256": "6a2059846d16fc1602926eec4b68aef73e02f60edb74da2c840251416f847ad2"
+    },
+    "outputs/woven-previews/plain/weft-tension/preview-eligibility.json": {
+      "bytes": 1011,
+      "sha256": "c391ee52ce051854cd49f3af7adb8244c579e815a6516fa11f65a181b1878e53"
+    },
+    "outputs/woven-previews/plain/weft-tension/preview-review.json": {
+      "bytes": 13113,
+      "sha256": "a73f60a1611649ec65ba8c9d5bbe944b0d221ab7b557a5c78431373853f330d5"
+    },
+    "outputs/woven-previews/plain/weft-tension/preview.gif": {
+      "bytes": 1145706,
+      "sha256": "1b3168b9aa8a06e7e1409319e43da241b76fbcc5e8fc4843a644fae157db2420"
+    },
+    "outputs/woven-previews/plain/weft-tension/producer-delivery-manifest.json": {
+      "bytes": 16603,
+      "sha256": "2edc32c29da1bd86dd037b48b82358408ffffbcaf46d128c53be0327874dd1c8"
+    },
+    "outputs/woven-previews/plain/weft-tension/producer-provenance.json": {
+      "bytes": 2597,
+      "sha256": "9a02c7bfbbdb4f8e06104624d1118a2b8eaebad74e96dfb00f8e205e6a9eeb19"
+    },
+    "outputs/woven-previews/plain/weft-tension/render.json": {
+      "bytes": 12639,
+      "sha256": "782d8df60611f0fa183f982742ff6b7ff070f6da50d9585b6009c14771f9e13f"
+    },
+    "outputs/woven-previews/plain/weft-tension/source.json": {
+      "bytes": 5691,
+      "sha256": "e67a3822cb8de38064dc626cdc104c07dc3cbdbbfa9d62b8eb78c49536f10713"
+    },
+    "outputs/woven-previews/plain/weft-tension/summary.json": {
+      "bytes": 29205,
+      "sha256": "c6384887621a0a0e919b0153dee8bbd9fa954d4192f8f549d34cf119de373ecf"
+    },
+    "outputs/woven-previews/plain/weft-tension/video.json": {
+      "bytes": 403,
+      "sha256": "fcfea58c924a100e52b1e2aff0637353315e4ba8cf7d8c38ca49e976f83d2238"
+    },
+    "outputs/woven-previews/plain/weft-tension/vtk_check.json": {
+      "bytes": 325,
+      "sha256": "119688aeda04674df94739ab834acc98d07f261953a2d4257d4c38cf01d52ac4"
+    },
+    "outputs/woven-previews/plain/weft-tension/vtk_metadata.json": {
+      "bytes": 807,
+      "sha256": "eaee5d74110fb4da127226713ec18e29216cb18b0573b4d6c92c55533957895d"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/coarse-preview.json": {
+      "bytes": 1081,
+      "sha256": "c739c6d46147a491d2817b8a887117c8cab5e25acc8a3132ad440280dc634cad"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/diagnostics.csv": {
+      "bytes": 19746,
+      "sha256": "caf20aac3fd341d82764c23faa6d8589634555f10e6fb5a88855f95e35026ef9"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/final.png": {
+      "bytes": 453327,
+      "sha256": "5523ac68994b40c3e1d56d79c470ca50474c98bf589986fcb565a837909e413a"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/initial.png": {
+      "bytes": 456292,
+      "sha256": "5178b5bb41623d7d49cae90fb6ae951d20ba00da0c6f6eeea8af1be61ad4879d"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/interpretation.json": {
+      "bytes": 13094,
+      "sha256": "b0f433228eb3a5ff465088efe5cc0ff442aa46ef35288641f866e23840750674"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/numerical-source.json": {
+      "bytes": 18767,
+      "sha256": "a84dcfe68040b27da29154dbfd66c4a1a6fe2d7d1d77ed202cc9f7e60023b48f"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/observables.csv": {
+      "bytes": 54250,
+      "sha256": "7e037759e56c990317a397bd2c1281e13d3c1bb188cf1d3b8790070377e76095"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/peak.png": {
+      "bytes": 454033,
+      "sha256": "9d5ebc329270500d00f33c3f6455ba7ea6292bab627c4a45176a3517902fcc9e"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/preview-eligibility.json": {
+      "bytes": 1011,
+      "sha256": "f82399513461c634b68c7e7c2a8e3cba99ca855fddeea771a1ad17d3a8849c9f"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/preview-review.json": {
+      "bytes": 13094,
+      "sha256": "b0f433228eb3a5ff465088efe5cc0ff442aa46ef35288641f866e23840750674"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/preview.gif": {
+      "bytes": 1168124,
+      "sha256": "972fc0b590d47cad24f8f4b22f5539e38778c253eb781ddbe1048b2c76cac5b5"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/producer-delivery-manifest.json": {
+      "bytes": 17038,
+      "sha256": "72f80058e4c8b09a02ef6ec5480a6c689f675338eb9d5e7a7062c8216b039f74"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/producer-provenance.json": {
+      "bytes": 2603,
+      "sha256": "90d41ec73d5605e53e8203f9354d70b12b92239fd534ccf4264fb25ff4d11d00"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/render.json": {
+      "bytes": 13614,
+      "sha256": "c2043b6cafc6fbc5f310465c0ce6bc90c860f541a1137d328f05f7c1369b7edf"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/source.json": {
+      "bytes": 5706,
+      "sha256": "15556cd475ec6daff80e9ccbc2739fa0797d8fa68ed566307aa18253a6ebd72c"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/summary.json": {
+      "bytes": 46826,
+      "sha256": "95f6d02efceede53f0ce3be54013559ed1bb863b75adb2eee6dedbb7543d6fee"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/video.json": {
+      "bytes": 403,
+      "sha256": "2d36325fb1f455d0f000780f7909d3193119ce610eca24c2af3f47d1f6205a53"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/vtk_check.json": {
+      "bytes": 325,
+      "sha256": "119688aeda04674df94739ab834acc98d07f261953a2d4257d4c38cf01d52ac4"
+    },
+    "outputs/woven-previews/triaxial/in-plane-shear/vtk_metadata.json": {
+      "bytes": 811,
+      "sha256": "0b48333936bfd01a76a856ff2655a9ec1d774d3306650200d5166120889e55e8"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/coarse-preview.json": {
+      "bytes": 1255,
+      "sha256": "b9f94b3e8206b6b4a612e41363485f4f7accbf9194841c3093ab84d7c2ec6f7c"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/diagnostics.csv": {
+      "bytes": 19855,
+      "sha256": "30b5565cc02357e851f8b881fce5a22862295c804fd5c5ebdfc9bdb71c4cb07c"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/final.png": {
+      "bytes": 201289,
+      "sha256": "6dd68cd717bff888b7e56e62e2c855aab76e46c7f88b4b6322f8d5fc2ea8f1d7"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/initial.png": {
+      "bytes": 202600,
+      "sha256": "2db672f932c4523603b5edb49b30e25b973c54e6665f8540d5d24b229fbb8eec"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/interpretation.json": {
+      "bytes": 12592,
+      "sha256": "84535086209d1d219628564669cfd6b17885a5525c8bbede28715375538d0242"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/numerical-source.json": {
+      "bytes": 18767,
+      "sha256": "a84dcfe68040b27da29154dbfd66c4a1a6fe2d7d1d77ed202cc9f7e60023b48f"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/observables.csv": {
+      "bytes": 45578,
+      "sha256": "befb9180a003e87d21a57bb92b26ac279bae1b5094d6f82a7955885289fdf21b"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/peak.png": {
+      "bytes": 202075,
+      "sha256": "a7dd69d35c0c67a134b54685a50b84bb823f566b63cc8e6a0bc74d13454fdb67"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/preview-eligibility.json": {
+      "bytes": 1222,
+      "sha256": "6cf2571ecbb0bf6a3bbe6d3f5532e99790c08cb9bb04021541ebc832fa4a6ddf"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/preview-review.json": {
+      "bytes": 12592,
+      "sha256": "84535086209d1d219628564669cfd6b17885a5525c8bbede28715375538d0242"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/preview.gif": {
+      "bytes": 711362,
+      "sha256": "972d35ddb29e647fd65abc6759e5594a358ced6275b0cddb4f87978790396638"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/producer-delivery-manifest.json": {
+      "bytes": 17820,
+      "sha256": "1785dc11dd68d7519d26040729a650cf655d668c600d175d05e06e0bdd3ae4a6"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/producer-provenance.json": {
+      "bytes": 2612,
+      "sha256": "65626ab04ba7a1f116e4b0c163d48ba71e197612802290a5038ccfe27c4d71c6"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/render.json": {
+      "bytes": 12597,
+      "sha256": "431d7d9e6a97d4c0c4169030b0ce0d4eb46595fb95762956b61506361cf44bfd"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/source.json": {
+      "bytes": 5732,
+      "sha256": "6aef8d37cedc273076ae77e52096b7f196a432b7fbd4d7416ad0209b2dfc2168"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/summary.json": {
+      "bytes": 29387,
+      "sha256": "89231d79cfd181f2e1027f0c74014784a0c82b659bdffcf2e0ce298660cfb676"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/video.json": {
+      "bytes": 403,
+      "sha256": "7418fb7b502489d8a7992c811fb08e29dd261fb5f6299eb9f7fccc5b57ec03f2"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/vtk_check.json": {
+      "bytes": 325,
+      "sha256": "119688aeda04674df94739ab834acc98d07f261953a2d4257d4c38cf01d52ac4"
+    },
+    "outputs/woven-previews/twill-2x2/transverse-compression/vtk_metadata.json": {
+      "bytes": 810,
+      "sha256": "d9799fffe92c192651dc2a25d1f4c69a2c2a56fe2ae87b6afe108adc2d8d938b"
+    },
+    "source-artifacts.json": {
+      "bytes": 7142,
+      "sha256": "3054216e9ad4ad35ff27ff30c0db975d7c5a8795385754e685e8fa66fed448d8"
+    },
+    "source-run.json": {
+      "bytes": 12249,
+      "sha256": "d896dc8e5fe8439d9c7e1453bbfeaadf5fe9c7f6d747ae1dd7934f6b26c18630"
+    }
+  },
+  "total_file_bytes": 13577555,
+  "download_verification": {
+    "github_artifact_id": 12503620877,
+    "zip_sha256": "e3369b11c9c03ef7d1136b749df1dfe0b1d4eb54eea01af29733789d61569492",
+    "zip_bytes": 12488521,
+    "all_files_verified": true
+  },
+  "public_gifs": {
+    "woven-preview--plain--transverse-bending": {
+      "path": "docs/images/home/woven-preview--plain--transverse-bending.gif",
+      "sha256": "07750a24346ae03bf0913aa48fd466b1bd0708c0cf0305ccd8fd853d13f4f2fd"
+    },
+    "woven-preview--triaxial--in-plane-shear": {
+      "path": "docs/images/home/woven-preview--triaxial--in-plane-shear.gif",
+      "sha256": "972fc0b590d47cad24f8f4b22f5539e38778c253eb781ddbe1048b2c76cac5b5"
+    },
+    "woven-preview--plain--warp-tension": {
+      "path": "docs/images/home/woven-preview--plain--warp-tension.gif",
+      "sha256": "f2a54856aa12155c4b8c1f96d79567fc76ed4882666249d87361b533438f9db1"
+    },
+    "woven-preview--plain--weft-tension": {
+      "path": "docs/images/home/woven-preview--plain--weft-tension.gif",
+      "sha256": "1b3168b9aa8a06e7e1409319e43da241b76fbcc5e8fc4843a644fae157db2420"
+    },
+    "woven-preview--twill-2x2--transverse-compression": {
+      "path": "docs/images/home/woven-preview--twill-2x2--transverse-compression.gif",
+      "sha256": "972d35ddb29e647fd65abc6759e5594a358ced6275b0cddb4f87978790396638"
+    }
+  }
+}
