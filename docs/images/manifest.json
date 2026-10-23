@@ -2047,5 +2047,111 @@
         "state_file_interpolation": "linear between output-time keyframes"
       }
     ]
+  },
+  {
+    "name": "woven-twill-2x2-hemispherical-compression",
+    "source": "woven/twill-2x2/hemispherical-compression",
+    "particles": 345600,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 45,
+    "preview_time": 1.4230249470757706e-05,
+    "auxiliary_geometry": [
+      {
+        "type": "prescribed_rigid_hemisphere",
+        "parameters": {
+          "center": [
+            0.008,
+            0.01025,
+            0.008
+          ],
+          "radius": 0.00125,
+          "displacement": [
+            0.0,
+            -0.0001,
+            0.0
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "start": 0.0,
+          "motion_kind": "half-cosine-displacement-hold",
+          "display_opacity": 0.35
+        },
+        "display_opacity": 0.35,
+        "included_in_particle_count": false,
+        "shape": "closed lower-y hemisphere: curved cap plus flat circular back face",
+        "motion": "half-cosine displacement followed by stationary hold, evaluated at output times",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "initial_mesh_bounds_checks": [
+          {
+            "part": "curved_cap",
+            "initial_bounds": [
+              0.006750000175088644,
+              0.00925000011920929,
+              0.008999999612569809,
+              0.010250000283122063,
+              0.006750000175088644,
+              0.00925000011920929
+            ],
+            "expected_initial_bounds": [
+              0.00675,
+              0.00925,
+              0.009000000000000001,
+              0.01025,
+              0.00675,
+              0.00925
+            ]
+          },
+          {
+            "part": "closing_disk",
+            "initial_bounds": [
+              0.006750000175088644,
+              0.00925000011920929,
+              0.010250000283122063,
+              0.010250000283122063,
+              0.006750000175088644,
+              0.00925000011920929
+            ],
+            "expected_initial_bounds": [
+              0.00675,
+              0.00925,
+              0.01025,
+              0.01025,
+              0.00675,
+              0.00925
+            ]
+          }
+        ]
+      },
+      {
+        "type": "prescribed_rigid_grip",
+        "parameters": {
+          "name": "lower_plate",
+          "lower": [
+            0.003,
+            0.00675,
+            0.003
+          ],
+          "upper": [
+            0.013000000000000001,
+            0.007,
+            0.013000000000000001
+          ],
+          "displacement": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "start": 0.0,
+          "motion_kind": "half-cosine-displacement-hold",
+          "constraint_kind": "frictionless unilateral plane at the top of the displayed support"
+        },
+        "included_in_particle_count": false,
+        "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+        "state_file_interpolation": "linear between output-time keyframes"
+      }
+    ]
   }
 ]

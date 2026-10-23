@@ -1484,5 +1484,29 @@
       "interpretation.json": "0ae2e45c517d79bb55a75eb83e38e9ccc4a797f6b2a992e303452067710ede70",
       "numerical-source.json": "76294ce9c6accf3587c0a99e7b84b85f4f780221391ba3e5553d739a1a0c62c2"
     }
+  },
+  {
+    "id": "woven--twill-2x2--hemispherical-compression",
+    "case": "twill-2x2/hemispherical-compression / woven-composite",
+    "source_directory": "outputs/woven/twill-2x2/hemispherical-compression",
+    "particles": 345600,
+    "steps": 8220,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.8214619839664186,
+    "max_damage": 0.0,
+    "solver_seconds": 6729.507566788001,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "7e034855b805272761b49aa849c49ab954de3b625815f5c23307f7e2cccd8a3d",
+      "diagnostics.csv": "ad8a034f4817a968a22bc55b55264f4e10de223f8f064eaea7a984aa5d5f48d3",
+      "observables.csv": "2298a1095e60de24515890f7d2a1eb4b1c4221c8741a0c357228657c905e4413",
+      "render.json": "ab7128ed3e828913965d5d3cecb64f58143f0c89c0db1267c851932d2846df9d",
+      "vtk_metadata.json": "0f36aec5fb78334bf3feca7721a8fb8ff113f844081714915ec5d657fd0f741f",
+      "video.json": "a40e8a1ca31f8aaa4eab7b2241f8c971308d65ab119fb192f684367b1b4b274e",
+      "memory.json": "68ca9d9b98ad9a9af608acd4ae1a647137e60d32f088bcd8372c4bf45153eee7",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "f7df257f1f5914fd70c530aad46234673b5787bce621e6ec833cc381e9f6ff8a",
+      "numerical-source.json": "0984f6195c7731b71fe298007b270b9e8d81ffd16671f682ccfdb13c7f01f566"
+    }
   }
 ]
