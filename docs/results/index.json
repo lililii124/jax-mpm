@@ -1268,5 +1268,29 @@
       "interpretation.json": "1cbff6b546e86d8486706348921c33f4d8f5d2d798ea2a7b0853b432149afb4d",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "woven--triaxial--weft-tension",
+    "case": "triaxial/weft-tension / woven-composite",
+    "source_directory": "outputs/woven/triaxial/weft-tension",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.995610560346271,
+    "max_damage": 0.0,
+    "solver_seconds": 1205.9483312030004,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "24b085583a8c2d0755ef8b28ad5536115d8e66e2c0a3558371933a99f8edcd61",
+      "diagnostics.csv": "9f7991ed321ed43e07c1fadc761c5d8597f79161fdf0e2da4bed11add804791c",
+      "observables.csv": "89c15227fbf7a07c62034320a8895624cb552b092f7d2c023164ff5d3c8235e3",
+      "render.json": "668300d54d7d48a14a29f1a86119c62a139d69eb05e90c6389e14d75fe0e9827",
+      "vtk_metadata.json": "54992e58aa837c319b471f229d1775d1b68f9f09d39192ea930ff8b9403892da",
+      "video.json": "8705c7585c76a84316c5481cb3b4274f346d5ca026857bf59b750010562b63d2",
+      "memory.json": "dda17b2f1b56eea3eb152c687d5ed115666100d17940050b09b7d557bcf233fe",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "cb35baa50df141c52aa78d706e247f4b20942339fff0547ae1fd39a5f0977213",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]

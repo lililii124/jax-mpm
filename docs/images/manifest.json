@@ -1339,5 +1339,72 @@
         "state_file_interpolation": "linear between output-time keyframes"
       }
     ]
+  },
+  {
+    "name": "woven-triaxial-weft-tension",
+    "source": "woven/triaxial/weft-tension",
+    "particles": 345600,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 45,
+    "preview_time": 1.4230249470757706e-05,
+    "auxiliary_geometry": [
+      {
+        "type": "prescribed_rigid_grip",
+        "parameters": {
+          "name": "negative_grip",
+          "lower": [
+            0.003,
+            0.0069166666666666664,
+            0.003
+          ],
+          "upper": [
+            0.013000000000000001,
+            0.009083333333333334,
+            0.004
+          ],
+          "displacement": [
+            -0.0,
+            -0.0,
+            -8e-05
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "start": 0.0,
+          "motion_kind": "half-cosine-displacement-hold"
+        },
+        "included_in_particle_count": false,
+        "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+        "state_file_interpolation": "linear between output-time keyframes"
+      },
+      {
+        "type": "prescribed_rigid_grip",
+        "parameters": {
+          "name": "positive_grip",
+          "lower": [
+            0.003,
+            0.0069166666666666664,
+            0.012
+          ],
+          "upper": [
+            0.013000000000000001,
+            0.009083333333333334,
+            0.013000000000000001
+          ],
+          "displacement": [
+            0.0,
+            0.0,
+            8e-05
+          ],
+          "loading_duration": 1.4230249470757707e-05,
+          "start": 0.0,
+          "motion_kind": "half-cosine-displacement-hold"
+        },
+        "included_in_particle_count": false,
+        "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
+        "state_file_interpolation": "linear between output-time keyframes"
+      }
+    ]
   }
 ]
