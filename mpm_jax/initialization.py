@@ -4,7 +4,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from .core import Config, State
+from .core import Config, State, particle_activity
 from .materials import initial_history, INCREMENTAL_MODELS
 
 
@@ -88,7 +88,10 @@ def validate_state(state, config):
         raise ValueError("particle mass and reference volume must be positive")
     if np.any(np.linalg.det(F) <= 0):
         raise FloatingPointError("nonpositive deformation determinant")
-    if np.any(x < 0.5 * config.dx) or np.any(x >= config.domain_size - 0.5 * config.dx):
+    active_x = x[np.asarray(particle_activity(state, config))]
+    if np.any(active_x < 0.5 * config.dx) or np.any(
+        active_x >= config.domain_size - 0.5 * config.dx
+    ):
         raise FloatingPointError("particle stencil extends outside the grid")
 
 
@@ -117,6 +120,15 @@ def diagnostics(state, config, material=None):
     }
     result["gravitational_energy"] = float(-np.sum(mass[:, None] * x * config.gravity))
     result["constitutive_work"] = float(np.sum(mass * np.asarray(state.history.work)))
+    if config.failure_mode == "ballistic":
+        active = np.asarray(particle_activity(state, config))
+        result.update(
+            active_particles=int(active.sum()),
+            debris_particles=int((~active).sum()),
+            active_mass=float(mass[active].sum()),
+            debris_mass=float(mass[~active].sum()),
+            active_current_volume=float(np.sum((volume * J)[active])),
+        )
     if material is not None and config.material not in INCREMENTAL_MODELS:
         from .materials import kirchhoff_stress
 

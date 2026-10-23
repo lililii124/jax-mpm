@@ -1,0 +1,48 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 3,
+  "frames_rendered": 41,
+  "animation": "simulation.gif",
+  "field": "damage",
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0008072916666666667,
+  "camera_position": [
+    0.3691404076302992,
+    0.3110351019075748,
+    0.4388948098103847
+  ],
+  "camera_focal_point": [
+    0.125,
+    0.16280699727489314,
+    0.125
+  ],
+  "camera_parallel_scale": 0.1326770795858014,
+  "particles": 118580,
+  "auxiliary_geometry": [
+    {
+      "type": "prescribed_rigid_sphere",
+      "parameters": {
+        "center": [
+          0.125,
+          0.175,
+          0.125
+        ],
+        "radius": 0.075,
+        "displacement": [
+          0.0,
+          -0.004,
+          0.0
+        ],
+        "duration": 0.0003
+      },
+      "included_in_particle_count": false,
+      "motion": "cosine loading/unloading cycle"
+    }
+  ]
+}

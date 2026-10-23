@@ -65,7 +65,7 @@ def build(root, output):
                     links.append(f'<a href="{link(path)}">{label}</a>')
             category = (
                 "engineering"
-                if source == "engineering"
+                if source in ("engineering", "material-engineering")
                 else "contact"
                 if source == "contact-models"
                 or name in ("oblique", "sliding", "rebound", "rubber-ball", "ball-beam")

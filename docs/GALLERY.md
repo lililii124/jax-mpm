@@ -5,6 +5,12 @@ Body colours distinguish contacting bodies; the brittle-material compression
 images show damage on a fixed range over time. [Run records](RESULTS.md) contain
 the parameters and numerical results.
 
+## Material engineering
+
+| | |
+|---|---|
+| ![concrete-bending](images/concrete-bending.png)<br>**concrete-bending** · 121,104 particles<br>[Results](results/material-engineering--concrete-bending--hjc/summary.json) · [Video](images/concrete-bending.mp4) | ![ceramic-indentation](images/ceramic-indentation.png)<br>**ceramic-indentation** · 118,580 particles<br>[Results](results/material-engineering--ceramic-indentation--jh2/summary.json) · [Video](images/ceramic-indentation.mp4) |
+
 ## Engineering structures and tanks
 
 | | |

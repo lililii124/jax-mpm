@@ -1,5 +1,131 @@
 [
   {
+    "name": "concrete-bending",
+    "source": "material-engineering/concrete-bending/hjc",
+    "particles": 121104,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": null,
+    "preview_time": null,
+    "auxiliary_geometry": [
+      {
+        "type": "velocity_patch_fixture",
+        "parameters": {
+          "lower": [
+            0.065625,
+            0.13125,
+            0.17
+          ],
+          "upper": [
+            0.08437499999999999,
+            0.15,
+            0.23
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "role": "support"
+        },
+        "included_in_particle_count": false,
+        "motion": "MovingVelocityBox analytic translation at output times",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+        "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+      },
+      {
+        "type": "velocity_patch_fixture",
+        "parameters": {
+          "lower": [
+            0.315625,
+            0.13125,
+            0.17
+          ],
+          "upper": [
+            0.33437500000000003,
+            0.15,
+            0.23
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "role": "support"
+        },
+        "included_in_particle_count": false,
+        "motion": "MovingVelocityBox analytic translation at output times",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+        "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+      },
+      {
+        "type": "velocity_patch_fixture",
+        "parameters": {
+          "lower": [
+            0.1875,
+            0.21,
+            0.17
+          ],
+          "upper": [
+            0.2125,
+            0.2225,
+            0.23
+          ],
+          "velocity": [
+            0.0,
+            -7.6190476190476195,
+            0.0
+          ],
+          "ramp_time": 7.5e-05,
+          "start": 0.0,
+          "end": null,
+          "role": "loading"
+        },
+        "included_in_particle_count": false,
+        "motion": "MovingVelocityBox analytic translation at output times",
+        "state_file_interpolation": "linear between output-time keyframes",
+        "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+        "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+      }
+    ]
+  },
+  {
+    "name": "ceramic-indentation",
+    "source": "material-engineering/ceramic-indentation/jh2",
+    "particles": 118580,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 20,
+    "preview_time": 0.00015,
+    "auxiliary_geometry": [
+      {
+        "type": "prescribed_rigid_sphere",
+        "parameters": {
+          "center": [
+            0.125,
+            0.175,
+            0.125
+          ],
+          "radius": 0.075,
+          "displacement": [
+            0.0,
+            -0.004,
+            0.0
+          ],
+          "duration": 0.0003
+        },
+        "included_in_particle_count": false,
+        "motion": "cosine loading/unloading cycle"
+      }
+    ]
+  },
+  {
     "name": "perforated-panel",
     "source": "engineering/perforated-panel/neo-hookean",
     "particles": 97536,

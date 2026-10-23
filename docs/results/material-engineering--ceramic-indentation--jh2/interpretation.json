@@ -1,0 +1,56 @@
+{
+  "case": "ceramic-indentation / jh2",
+  "scope": "Saved-frame diagnostics and final particle state; no mesh-convergence or experimental-calibration claim.",
+  "sources": {
+    "summary.json": "8a31d0e2c27e3bc587487e63b5dff44b4f7e2ab84bb6571c3a60a40e72e89fb3",
+    "diagnostics.csv": "67838261826044fdf70700e727ce37841621ec38c7fcd53c49fbd51ba2db32c4",
+    "observables.csv": "2a765fe1555ae703d2c2f43174eac794c80594738cd6765a8b93b2c9752d0811"
+  },
+  "checks": {
+    "final_arrays_finite": true,
+    "final_state_valid": true,
+    "positive_particle_mass_and_volume": true,
+    "positive_saved_J": true,
+    "finite_saved_observables": true,
+    "matching_table_times": true,
+    "strictly_increasing_times": true,
+    "full_duration": true,
+    "constant_saved_mass": true
+  },
+  "saved_frames": 41,
+  "min_J": 0.9851892668090079,
+  "maximum_relative_mass_drift": 0.0,
+  "failed_mass_fraction": 0.0,
+  "observables": {
+    "indenter_reaction_y_N": {
+      "min": -0.0,
+      "min_time_s": 0.00015749999999999998,
+      "max": 644861.7836620304,
+      "max_time_s": 2.9999999999999997e-05,
+      "final": 60.59918473675856
+    },
+    "nominal_indentation_m": {
+      "min": 1.3877787807814457e-17,
+      "min_time_s": 0.0,
+      "max": 0.004000000000000017,
+      "max_time_s": 0.00015,
+      "final": 1.3877787807814457e-17
+    },
+    "max_damage": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 1.0,
+      "max_time_s": 2.2499999999999998e-05,
+      "final": 1.0
+    },
+    "damaged_reference_volume_fraction": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 0.43085680553213007,
+      "max_time_s": 0.000285,
+      "final": 0.43085680553213007
+    }
+  },
+  "interpretation": "Constitutive damage with retained grid participation. D=1 is not a resolved crack surface or a detached fragment.",
+  "passed": true
+}

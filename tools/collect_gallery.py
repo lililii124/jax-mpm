@@ -31,6 +31,11 @@ def compression_source(model):
 
 
 GROUPS = {
+    "Material engineering": [
+        ("jc-tension", "material-engineering/jc-tension/johnson-cook"),
+        ("concrete-bending", "material-engineering/concrete-bending/hjc"),
+        ("ceramic-indentation", "material-engineering/ceramic-indentation/jh2"),
+    ],
     "Engineering structures and tanks": [
         ("perforated-panel", "engineering/perforated-panel/neo-hookean"),
         ("cellular-cushion", "engineering/cellular-cushion/neo-hookean"),
@@ -69,6 +74,9 @@ GROUPS = {
     ],
 }
 ANIMATIONS = {
+    "jc-tension",
+    "concrete-bending",
+    "ceramic-indentation",
     "sphere-contact",
     "jkr-footprint",
     "perforated-panel",
@@ -111,6 +119,7 @@ def preview(folder, name, render):
         "jkr-footprint": "prescribed_contact_radius_m",
         "large-bending": "tracked_displacement_y",
         "large-twist": "tip_rotation_x_rad",
+        "ceramic-indentation": "nominal_indentation_m",
     }
     observable = folder / "observables.csv"
     if name in columns and observable.exists() and render.get("frames_rendered", 0) > 1:
@@ -147,6 +156,8 @@ def main():
             if render.get("renderer") != "ParaView" or render.get("style_revision", 0) < 3:
                 continue
             summary = json.loads((folder / "summary.json").read_text())
+            if summary.get("completed") is False:
+                continue
             selected, frame, time = preview(folder, name, render)
             copy_if_changed(selected, target / f"{name}.png")
             animation = (

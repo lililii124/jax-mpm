@@ -136,15 +136,21 @@ def run(
     count = sum(s.x.shape[0] for s in states)
     dtype = np.result_type(*(np.asarray(s.x).dtype for s in states))
 
-    def storage(name, shape):
+    def storage(name, shape, array_dtype=None):
         return np.lib.format.open_memmap(
-            output / f"trajectory_{name}.npy", mode="w+", dtype=dtype, shape=shape
+            output / f"trajectory_{name}.npy", mode="w+",
+            dtype=dtype if array_dtype is None else array_dtype, shape=shape
         )
 
     positions = storage("x", (frames + 1, count, dim))
     speeds = storage("speed", (frames + 1, count))
     damages = storage("damage", (frames + 1, count))
     temperatures = storage("temperature", (frames + 1, count))
+    failures = (
+        storage("failed", (frames + 1, count), np.uint8)
+        if any(config.failure_mode == "ballistic" for config in configs)
+        else None
+    )
     if saved is not None:
         states = tuple(_load_state(output / name) for name in saved["states"])
         rows, observations = saved["rows"], saved["observations"]
@@ -159,6 +165,8 @@ def run(
                 speeds[i] = data["speed"]
                 damages[i] = data["damage"]
                 temperatures[i] = data["temperature"]
+                if failures is not None:
+                    failures[i] = data["failed"]
                 times.append(float(data["time"]))
                 impulses.append(data["contact_impulse"])
         reaction = np.array([observations[-1][f"boundary_impulse_{a}"] for a in "xyz"[:dim]])
@@ -191,6 +199,11 @@ def run(
         speeds[frame] = np.concatenate([np.linalg.norm(s.v, axis=1) for s in states])
         damages[frame] = np.concatenate([np.asarray(s.history.damage) for s in states])
         temperatures[frame] = np.concatenate([np.asarray(s.history.temperature) for s in states])
+        extra_fields = {}
+        if failures is not None:
+            failures[frame] = np.concatenate([np.asarray(s.history.failed) for s in states])
+            failures.flush()
+            extra_fields["failed"] = failures[frame]
         for field in (positions, speeds, damages, temperatures):
             field.flush()
         times.append(time)
@@ -203,6 +216,7 @@ def run(
             temperature=temperatures[frame],
             time=time,
             contact_impulse=impulses[-1],
+            **extra_fields,
         )
         state_files = []
         for i, state in enumerate(states):
@@ -252,13 +266,14 @@ def run(
         time=times,
         body=body,
         contact_impulse=impulses,
+        **({"failed": failures} if failures is not None else {}),
     )
     for i, state in enumerate(states):
         data = {k: v for k, v in state._asdict().items() if k != "history"}
         data.update({f"history_{k}": v for k, v in state.history._asdict().items()})
         np.savez_compressed(output / f"final_state_{i}.npz", **data)
     with (output / "diagnostics.csv").open("w", newline="", encoding="utf-8") as stream:
-        writer = csv.DictWriter(stream, fieldnames=rows[0].keys())
+        writer = csv.DictWriter(stream, fieldnames=dict.fromkeys(key for row in rows for key in row))
         writer.writeheader()
         writer.writerows(rows)
     with (output / "observables.csv").open("w", newline="", encoding="utf-8") as stream:

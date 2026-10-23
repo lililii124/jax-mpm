@@ -55,6 +55,22 @@ prescribed boundary motion. Its saved animation track follows the output times.
 It is excluded from particle counts and recorded under `auxiliary_geometry`
 in `render.json`. The JKR pressure-footprint example has no geometric indenter.
 
+Round-bar grips and concrete-bending fixtures use separate Box geometry.
+The bending scene derives two supports and a moving loading block from the saved
+velocity-patch definition. Support display height equals the patch width; the
+loading block starts at the nominal top face, and all three boxes are clipped
+to the specimen depth. These boxes represent bilateral velocity constraints;
+they are not separately solved roller or platen contacts. The loading block
+follows the prescribed analytic translation. Their dimensions, motion and
+interpretation are recorded under `auxiliary_geometry`, and they do not enter
+particle counts.
+
+Gray translucent markers identify failed particles only in bodies configured
+with `failure_mode="ballistic"`. Retain-mode bodies keep their normal body or
+scalar colours, including particles whose material history has `failed=True`.
+Missing configuration defaults to retain for display. The original failed field
+remains available in VTK, and `render.json` records active/debris display counts.
+
 For a numerical readback check:
 
 ```bash

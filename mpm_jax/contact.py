@@ -6,7 +6,14 @@ from functools import partial
 import jax
 import jax.numpy as jnp
 
-from .core import grid_boundaries, grid_update, particle_to_grid, particle_update, stencil
+from .core import (
+    grid_boundaries,
+    grid_update,
+    particle_activity,
+    particle_stencil,
+    particle_to_grid,
+    particle_update,
+)
 
 
 def contact_impulse(mass_a, mass_b, velocity_a, velocity_b, normal, friction=0.0):
@@ -45,7 +52,7 @@ def coupled_step(states, materials, configs, friction=0.0, forces=(None, None)):
     ca, cb = configs
     if (ca.n_grid, ca.domain_size, ca.dim, ca.dt) != (cb.n_grid, cb.domain_size, cb.dim, cb.dt):
         raise ValueError("coupled bodies must share grid, dimension, domain and time step")
-    supports = tuple(stencil(s.x, c) for s, c in zip(states, configs))
+    supports = tuple(particle_stencil(s, c) for s, c in zip(states, configs))
     grids = tuple(
         particle_to_grid(s, m, c, support, force)
         for s, m, c, support, force in zip(states, materials, configs, supports, forces)
@@ -57,14 +64,22 @@ def coupled_step(states, materials, configs, friction=0.0, forces=(None, None)):
     ma, mb = grids[0][0], grids[1][0]
     ga, gb = tuple(_mass_gradient(s, support, ma.shape[0]) for s, support in zip(states, supports))
     normal = gb / jnp.where(mb > 0, mb, 1.0)[:, None] - ga / jnp.where(ma > 0, ma, 1.0)[:, None]
-    center = tuple(jnp.sum(s.mass[:, None] * s.x, axis=0) / jnp.sum(s.mass) for s in states)
+    center = []
+    for state, config in zip(states, configs):
+        mass = state.mass
+        if config.failure_mode == "ballistic":
+            mass = jnp.where(particle_activity(state, config), mass, 0.0)
+        total = mass.sum()
+        center.append(jnp.sum(mass[:, None] * state.x, axis=0) / jnp.where(total > 0, total, 1.0))
     normal = jnp.where(
         (jnp.linalg.norm(normal, axis=-1) > 1e-12)[:, None], normal, center[1] - center[0]
     )
     va, vb, impulse = contact_impulse(ma, mb, *velocities, normal, jnp.maximum(friction, 0.0))
     result = tuple(
-        particle_update(s, m, c, support, grid_boundaries(v, c, s.time + c.dt))
-        for s, m, c, support, v in zip(states, materials, configs, supports, (va, vb))
+        particle_update(s, m, c, support, grid_boundaries(v, c, s.time + c.dt), force)
+        for s, m, c, support, v, force in zip(
+            states, materials, configs, supports, (va, vb), forces
+        )
     )
     return result, jnp.sum(impulse, axis=0)
 

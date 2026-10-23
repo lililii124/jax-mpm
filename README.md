@@ -47,11 +47,15 @@ python -m examples.suite --case compression --model all-plastic
 python -m examples.material_paths --model all
 python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gif
 python -m examples.adhesive_contact --case jkr-footprint --grid 48 --ppc 3 --gif
+python -m examples.material_engineering --case jc-tension --grid 80 --frames 60 --gif
+python -m examples.material_engineering --case concrete-bending --frames 40 --gif
+python -m examples.material_engineering --case ceramic-indentation --frames 40 --gif
 ```
 
-`--grid`, `--ppc`, and `--dt-factor` control resolution;
+`--grid` and `--ppc` control spatial resolution; the spatial suite also accepts
+`--dt-factor` to reduce the time step.
 `--frames` changes output frequency while preserving the physical duration.
-`--case all` runs the spatial scenarios with their default materials.
+For `examples.suite`, `--case all` runs the scenarios with their default materials.
 Completed runs and animations are included in the [results](docs/RESULTS.md)
 and [gallery](docs/GALLERY.md).
 
@@ -66,6 +70,7 @@ and [gallery](docs/GALLERY.md).
 | Engineering structures | Perforated panel under a pressure pulse, cellular elastomer cushion under a falling mass |
 | Accelerated tanks | Harmonic base excitation, with and without perforated flexible baffles |
 | Material points | Compression/unload, hydrostatic compression, shear reversal, confined shear |
+| Material engineering | JC round-bar tension to failure, concrete beam bending, ceramic indentation |
 
 Each spatial run saves particle trajectories and final states as NPZ, diagnostics
 and observables as CSV, a JSON definition/result summary, and a final image.
@@ -96,7 +101,9 @@ python -m examples.gradient
 ```
 
 See [the example guide](docs/EXAMPLES.md) for geometry, boundary conditions,
-observables, and refinement commands.
+observables, and refinement commands. The [material engineering guide](docs/MATERIAL_ENGINEERING.md)
+describes the round bar, concrete beam and ceramic tile, their material sources,
+and the interpretation of grip forces, section forces and damage.
 
 ## Materials
 
@@ -131,7 +138,9 @@ validate_state(state, config)
 `PlaneWall` supplies unilateral slip/friction walls, including constant wall
 velocity. `VelocityBox` supplies prescribed velocity components in a physical
 coordinate region with an activation interval. `fixed_box` is its zero-velocity
-form. `step(..., force=...)` accepts an `(N, dim)` array of particle forces in N.
+form. `MovingVelocityBox` translates this region with the integrated prescribed
+velocity and supports a half-cosine startup ramp.
+`step(..., force=...)` accepts an `(N, dim)` array of particle forces in N.
 `coupled_step` advances two bodies on separate grids with balanced normal and
 Coulomb impulses. See `examples/scenarios.py` for complete setups.
 
@@ -150,8 +159,10 @@ See [spherical contact](docs/CONTACT.md) for equations and examples.
 - The fluid is compressible and inviscid. The interface treatment is nonadhesive
   normal contact; there is no incompressible pressure solve, cavitation,
   turbulence model, or thermal conduction.
-- Failed particles retain mass and grid participation. There is no crack-surface
-  reconstruction, particle deletion, or fracture-energy regularization.
+- Failed particles retain mass. The default keeps grid participation; optional
+  [ballistic failure](docs/FAILURE.md) removes their load-carrying capacity and
+  advances them as noncontacting debris. There is no crack-surface reconstruction,
+  fragment recontact, or fracture-energy regularization.
 - Elastic material gradients are tested in 2D and 3D. Plasticity/damage return
   maps and their adaptive loops are not advertised as differentiable.
 - Invalid deformation, missing grid support, nonfinite states, and failed

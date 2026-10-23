@@ -113,6 +113,12 @@ def trajectory_arrays(output):
             else:
                 arrays.update({name: data[name] for name in names if name in data})
             arrays.update({name: data[name] for name in ("time", "body") if name in data})
+            if "failed" in data:
+                failed_file = output / "trajectory_failed.npy"
+                arrays["failed"] = (
+                    np.load(failed_file, mmap_mode="r") if mapped and failed_file.is_file()
+                    else data["failed"]
+                )
         yield arrays
     finally:
         for value in arrays.values():
@@ -133,7 +139,8 @@ def render_trajectory(output, *, gif=False, field="body", resolution=1200, final
     with trajectory_arrays(output) as data:
         positions = data["x"]
         fields = {
-            key: data[key] for key in ("speed", "damage", "temperature", "body") if key in data
+            key: data[key] for key in ("speed", "damage", "temperature", "body", "failed")
+            if key in data
         }
         if "body" not in fields:
             fields["body"] = np.zeros(positions.shape[1], dtype=np.int32)

@@ -92,5 +92,51 @@ class VelocityBox:
         )
 
 
+@dataclass(frozen=True)
+class MovingVelocityBox(VelocityBox):
+    """Translating velocity box with an optional half-cosine startup ramp."""
+
+    ramp_time: float = 0.0
+
+    def validate(self, dim, domain_size):
+        super().validate(dim, domain_size)
+        if not np.isfinite(self.ramp_time) or self.ramp_time < 0:
+            raise ValueError("boundary ramp_time must be finite and nonnegative")
+
+    def motion(self, time):
+        """Return displacement and velocity; motion stops at the activation end."""
+        dtype = jnp.result_type(time, float)
+        time = jnp.asarray(time, dtype=dtype)
+        target = jnp.asarray(self.velocity, dtype=dtype)
+        elapsed = jnp.clip(time - self.start, 0.0, self.end - self.start)
+        active = (time >= self.start) & (time <= self.end)
+        if self.ramp_time == 0:
+            displacement = target * elapsed
+            speed = target
+        else:
+            ramp_elapsed = jnp.minimum(elapsed, self.ramp_time)
+            phase = jnp.pi * ramp_elapsed / self.ramp_time
+            distance = 0.5 * (ramp_elapsed - self.ramp_time / jnp.pi * jnp.sin(phase))
+            distance = distance + jnp.maximum(elapsed - self.ramp_time, 0.0)
+            displacement = target * distance
+            speed = target * (0.5 * (1.0 - jnp.cos(phase)))
+        return displacement, jnp.where(active, speed, jnp.zeros_like(target))
+
+    def apply(self, velocity, coordinates, time):
+        displacement, prescribed = self.motion(time)
+        lower = jnp.asarray(self.lower, dtype=coordinates.dtype) + displacement
+        upper = jnp.asarray(self.upper, dtype=coordinates.dtype) + displacement
+        mask = jnp.all((coordinates >= lower) & (coordinates <= upper), axis=-1)
+        mask = mask & (time >= self.start) & (time <= self.end)
+        components = (
+            jnp.ones(velocity.shape[-1], dtype=bool)
+            if self.components is None
+            else jnp.asarray(self.components, dtype=bool)
+        )
+        return jnp.where(
+            mask[:, None] & components, prescribed.astype(velocity.dtype), velocity
+        )
+
+
 def fixed_box(lower, upper, *, components=None):
     return VelocityBox(tuple(lower), tuple(upper), (0.0,) * len(lower), components)

@@ -38,6 +38,8 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [dense-materials--compression--hjc](results/dense-materials--compression--hjc/summary.json) | 195,112 | 140 | 4.57728e-05 | 0.968495 | 0.593236 | ParaView |
 | [dense-materials--compression--jh2](results/dense-materials--compression--jh2/summary.json) | 195,112 | 140 | 3.78968e-05 | 0.990355 | 1 | ParaView |
 | [dense-materials--compression--johnson-cook](results/dense-materials--compression--johnson-cook/summary.json) | 195,112 | 140 | 6.88979e-05 | 0.988342 | 0 | ParaView |
+| [material-engineering--ceramic-indentation--jh2](results/material-engineering--ceramic-indentation--jh2/summary.json) | 118,580 | 4,080 | 0.0003 | 0.985189 | 1 | ParaView |
+| [material-engineering--concrete-bending--hjc](results/material-engineering--concrete-bending--hjc/summary.json) | 121,104 | 2,120 | 0.0003 | 0.976602 | 0.492205 | ParaView |
 | [benchmarks--ball-beam--neo-hookean](results/benchmarks--ball-beam--neo-hookean/summary.json) | 88,583 | 1,240 | 0.45 | 0.449918 | 0 | ParaView |
 | [benchmarks--elastic-gate--neo-hookean](results/benchmarks--elastic-gate--neo-hookean/summary.json) | 357,912 | 2,800 | 0.35 | 0.640114 | 0 | ParaView |
 | [benchmarks--floating-block--neo-hookean](results/benchmarks--floating-block--neo-hookean/summary.json) | 384,373 | 3,720 | 0.5 | 0.945173 | 0 | ParaView |

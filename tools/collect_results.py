@@ -11,6 +11,7 @@ SOURCES = (
     "elastic_cantilever",
     "compression",
     "dense-materials",
+    "material-engineering",
     "benchmarks",
     "engineering",
     "contact-models",

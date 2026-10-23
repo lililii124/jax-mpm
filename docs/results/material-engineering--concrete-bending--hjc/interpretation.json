@@ -1,0 +1,56 @@
+{
+  "case": "concrete-bending / hjc",
+  "scope": "Saved-frame diagnostics and final particle state; no mesh-convergence or experimental-calibration claim.",
+  "sources": {
+    "summary.json": "41b16db2014dde7e24182f7304c7b7f858acfcc6444b7f772d538420d5148c2d",
+    "diagnostics.csv": "10396ed18f29afff54b593336961ce64372bc0270829e67331ff444ebcba8c85",
+    "observables.csv": "b7cfdd8951d93c5f0eee7ceaedf8c15da4da4eabc665fc2e21f430ed25070a35"
+  },
+  "checks": {
+    "final_arrays_finite": true,
+    "final_state_valid": true,
+    "positive_particle_mass_and_volume": true,
+    "positive_saved_J": true,
+    "finite_saved_observables": true,
+    "matching_table_times": true,
+    "strictly_increasing_times": true,
+    "full_duration": true,
+    "constant_saved_mass": true
+  },
+  "saved_frames": 41,
+  "min_J": 0.9766015270819273,
+  "maximum_relative_mass_drift": 0.0,
+  "failed_mass_fraction": 0.0,
+  "observables": {
+    "loading_reaction_y_N": {
+      "min": 2.3486237977987834,
+      "min_time_s": 0.0,
+      "max": 159776.01434377054,
+      "max_time_s": 8.25e-05,
+      "final": 74295.23825325473
+    },
+    "midspan_bottom_deflection_m": {
+      "min": -1.2886691969752838e-09,
+      "min_time_s": 1.4999999999999999e-05,
+      "max": 0.0022537691694720437,
+      "max_time_s": 0.0003,
+      "final": 0.0022537691694720437
+    },
+    "max_damage": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 0.49220478499130216,
+      "max_time_s": 0.0003,
+      "final": 0.49220478499130216
+    },
+    "damaged_reference_volume_fraction": {
+      "min": 0.0,
+      "min_time_s": 0.0,
+      "max": 0.0,
+      "max_time_s": 0.0,
+      "final": 0.0
+    }
+  },
+  "interpretation": "Constitutive damage with retained grid participation. D=1 is not a resolved crack surface or a detached fragment.",
+  "passed": true
+}

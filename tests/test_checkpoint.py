@@ -9,13 +9,15 @@ from examples.common import run
 from mpm_jax import Config, bilinear_plastic, block
 
 
-def test_resume_preserves_particle_and_material_history(tmp_path):
+@pytest.mark.parametrize("failure_mode", ("retain", "ballistic"))
+def test_resume_preserves_particle_and_material_history(tmp_path, failure_mode):
     jax.config.update("jax_enable_x64", True)
     material = bilinear_plastic(
         young=2e4, poisson=0.2, yield_stress=20.0, tangent=100.0, density=1000.0
     )
     cfg = Config(
-        dim=3, n_grid=12, dt=1e-3, material="bilinear", boundary_cells=0, gravity=(0.0, 0.0, 0.0)
+        dim=3, n_grid=12, dt=1e-3, material="bilinear", boundary_cells=0,
+        gravity=(0.0, 0.0, 0.0), failure_mode=failure_mode,
     )
     state = block(
         cfg,
@@ -27,6 +29,11 @@ def test_resume_preserves_particle_and_material_history(tmp_path):
         dtype=jnp.float64,
     )
     state = state._replace(v=state.v.at[:, 0].set(2 * (state.x[:, 1] - 0.5)))
+    if failure_mode == "ballistic":
+        failed = state.x[:, 0] < 0.4
+        state = state._replace(history=state.history._replace(
+            failed=failed, damage=failed.astype(jnp.float64)
+        ))
 
     def interrupted(states, time):
         if time >= 0.004:
@@ -58,3 +65,7 @@ def test_resume_preserves_particle_and_material_history(tmp_path):
     ) as b:
         np.testing.assert_array_equal(a["time"], b["time"])
         np.testing.assert_allclose(a["x"], b["x"], atol=1e-12)
+        if failure_mode == "ballistic":
+            np.testing.assert_array_equal(a["failed"], b["failed"])
+            np.testing.assert_array_equal(a["failed"][-1], np.asarray(resumed[0].history.failed))
+            assert a["failed"].dtype == np.uint8

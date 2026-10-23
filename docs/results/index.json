@@ -580,6 +580,48 @@
     }
   },
   {
+    "id": "material-engineering--ceramic-indentation--jh2",
+    "case": "ceramic-indentation / jh2",
+    "source_directory": "outputs/material-engineering/ceramic-indentation/jh2",
+    "particles": 118580,
+    "steps": 4080,
+    "simulation_time": 0.0003,
+    "min_J": 0.9851892668090079,
+    "max_damage": 1.0,
+    "solver_seconds": 892.3340819000441,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "8a31d0e2c27e3bc587487e63b5dff44b4f7e2ab84bb6571c3a60a40e72e89fb3",
+      "diagnostics.csv": "67838261826044fdf70700e727ce37841621ec38c7fcd53c49fbd51ba2db32c4",
+      "observables.csv": "2a765fe1555ae703d2c2f43174eac794c80594738cd6765a8b93b2c9752d0811",
+      "render.json": "a6b2d1428b253a8f399b45da96221948f1da141e2b0dc576f1a6db95883287fd",
+      "vtk_metadata.json": "156e7cefade36a904118db8cee0af2d2f7ee3c76d55d8dac10896396db5eab9e",
+      "video.json": "962bc004ca22e0fc0ba84c287b9fecd8de30c21bf9c31a7ce14ef6b5ba14446e",
+      "interpretation.json": "232dd6cb70f09c077538d226950dd30ac2a1ea438cb0c1936619d6165cb89129"
+    }
+  },
+  {
+    "id": "material-engineering--concrete-bending--hjc",
+    "case": "concrete-bending / hjc",
+    "source_directory": "outputs/material-engineering/concrete-bending/hjc",
+    "particles": 121104,
+    "steps": 2120,
+    "simulation_time": 0.0003,
+    "min_J": 0.9766015270819273,
+    "max_damage": 0.49220478499130216,
+    "solver_seconds": 799.7172398998518,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "41b16db2014dde7e24182f7304c7b7f858acfcc6444b7f772d538420d5148c2d",
+      "diagnostics.csv": "10396ed18f29afff54b593336961ce64372bc0270829e67331ff444ebcba8c85",
+      "observables.csv": "b7cfdd8951d93c5f0eee7ceaedf8c15da4da4eabc665fc2e21f430ed25070a35",
+      "render.json": "3189cd4ee44b76923e767c3c23f64a3046cb525e9a95e9bd42b0e950dcd8299b",
+      "vtk_metadata.json": "860bff56bd32a26dbf44bb551c343e56508cbf639f821d3bd4799070238cdb53",
+      "video.json": "2ef151fe33d8cea30373dd3bda40ffdcc65716e20ae5b52aaebf9e8f9956686d",
+      "interpretation.json": "dc271dcd1b314ac22bd442753e4a02ca860ecc28996ef12b21c2c57d033ba0ee"
+    }
+  },
+  {
     "id": "benchmarks--ball-beam--neo-hookean",
     "case": "ball-beam / neo-hookean",
     "source_directory": "outputs/benchmarks/ball-beam/neo-hookean",

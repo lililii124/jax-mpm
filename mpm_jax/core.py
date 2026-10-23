@@ -36,6 +36,7 @@ class Config:
     material: str = "elastic"
     dim: int = 2
     boundaries: tuple = ()
+    failure_mode: str = "retain"
 
     def __post_init__(self):
         if not isinstance(self.n_grid, int) or self.n_grid < 8:
@@ -65,6 +66,8 @@ class Config:
             raise ValueError(f"unknown material: {self.material}")
         if self.dim not in (2, 3):
             raise ValueError("dim must be 2 or 3")
+        if self.failure_mode not in ("retain", "ballistic"):
+            raise ValueError("failure_mode must be 'retain' or 'ballistic'")
         if self.material in INCREMENTAL_MODELS and self.dim != 3:
             raise ValueError("incremental plasticity models require dim=3")
         gravity = (
@@ -102,8 +105,22 @@ class Stencil(NamedTuple):
     gradients: jax.Array
 
 
-def stencil(x, config):
+def particle_activity(state, config):
+    """Particles participating in grid transfers and grid contact."""
+    if config.failure_mode == "ballistic":
+        return ~state.history.failed
+    return jnp.ones(state.mass.shape, dtype=bool)
+
+
+def particle_stencil(state, config):
+    active = particle_activity(state, config) if config.failure_mode == "ballistic" else None
+    return stencil(state.x, config, active)
+
+
+def stencil(x, config, active=None):
     """3**dim node support; mask invalid indices to prevent wrapping."""
+    if active is not None:
+        x = jnp.where(active[:, None], x, 0.5 * config.domain_size)
     q = x / config.dx
     base = jnp.floor(q - 0.5).astype(jnp.int32)
     f = q - base
@@ -123,13 +140,16 @@ def stencil(x, config):
         factors = axis_weights.at[..., d].set(dw[:, offsets[:, d], d])
         gradients.append(jnp.prod(factors, axis=-1))
     gradients = jnp.where(inside[..., None], jnp.stack(gradients, axis=-1), 0.0)
-    return Stencil(
-        indices, weights, (offsets[None] - f[:, None]) * config.dx, jnp.all(inside), gradients
-    )
+    dpos = (offsets[None] - f[:, None]) * config.dx
+    if active is not None:
+        weights = jnp.where(active[:, None], weights, 0.0)
+        gradients = jnp.where(active[:, None, None], gradients, 0.0)
+        dpos = jnp.where(active[:, None, None], dpos, 0.0)
+    return Stencil(indices, weights, dpos, jnp.all(inside), gradients)
 
 
 def particle_to_grid(state, material, config, support=None, force=None):
-    support = stencil(state.x, config) if support is None else support
+    support = particle_stencil(state, config) if support is None else support
     if config.material in INCREMENTAL_MODELS:
         tau = jnp.linalg.det(state.F)[:, None, None] * state.history.stress
     else:
@@ -143,16 +163,18 @@ def particle_to_grid(state, material, config, support=None, force=None):
     )
     if force is not None:
         momentum = momentum + config.dt * force[:, None, :]
+    mass_contribution = support.weights * state.mass[:, None]
+    momentum_contribution = support.weights[..., None] * momentum
+    if config.failure_mode == "ballistic":
+        active = particle_activity(state, config)
+        mass_contribution = jnp.where(active[:, None], mass_contribution, 0.0)
+        momentum_contribution = jnp.where(active[:, None, None], momentum_contribution, 0.0)
     size = (config.n_grid + 1) ** config.dim
-    grid_mass = (
-        jnp.zeros(size, dtype=state.x.dtype)
-        .at[support.indices]
-        .add(support.weights * state.mass[:, None])
-    )
+    grid_mass = jnp.zeros(size, dtype=state.x.dtype).at[support.indices].add(mass_contribution)
     grid_momentum = (
         jnp.zeros((size, config.dim), dtype=state.x.dtype)
         .at[support.indices]
-        .add(support.weights[..., None] * momentum)
+        .add(momentum_contribution)
     )
     return grid_mass, grid_momentum
 
@@ -195,15 +217,23 @@ def grid_to_particle(grid_velocity, support, config):
 @partial(jax.jit, static_argnames=("config",))
 def step(state, material, config, force=None):
     """One explicit MLS-MPM step."""
-    support = stencil(state.x, config)
+    support = particle_stencil(state, config)
     gm, gp = particle_to_grid(state, material, config, support, force)
     gv = grid_update(gm, gp, config, state.time + config.dt)
-    return particle_update(state, material, config, support, gv)
+    return particle_update(state, material, config, support, gv, force)
 
 
-def particle_update(state, material, config, support, gv):
+def particle_update(state, material, config, support, gv, force=None):
     v, C = grid_to_particle(gv, support, config)
     F = (jnp.eye(config.dim, dtype=state.x.dtype) + config.dt * C) @ state.F
+    if config.failure_mode == "ballistic":
+        active = particle_activity(state, config)
+        acceleration = jnp.asarray(config.gravity, dtype=state.v.dtype)
+        if force is not None:
+            acceleration = acceleration + force / state.mass[:, None]
+        v = jnp.where(active[:, None], v, state.v + config.dt * acceleration)
+        C = jnp.where(active[:, None, None], C, 0.0)
+        F = jnp.where(active[:, None, None], F, state.F)
     J = jnp.linalg.det(F)
     valid = state.valid & support.valid & jnp.all(J > 0) & jnp.all(jnp.linalg.det(state.F) > 0)
     if config.material == "fluid":
@@ -211,9 +241,14 @@ def particle_update(state, material, config, support, gv):
         F = jnp.maximum(J, jnp.finfo(F.dtype).tiny)[:, None, None] ** (1 / config.dim) * jnp.eye(
             config.dim, dtype=F.dtype
         )
+        if config.failure_mode == "ballistic":
+            F = jnp.where(active[:, None, None], F, state.F)
     x = state.x + config.dt * v
     # Require the full quadratic support to remain inside the grid.
-    valid = valid & jnp.all((x >= 0.5 * config.dx) & (x < config.domain_size - 0.5 * config.dx))
+    inside = jnp.all((x >= 0.5 * config.dx) & (x < config.domain_size - 0.5 * config.dx), axis=-1)
+    if config.failure_mode == "ballistic":
+        inside = inside | ~active
+    valid = valid & jnp.all(inside)
     valid = (
         valid
         & jnp.all(jnp.isfinite(x))
@@ -224,7 +259,17 @@ def particle_update(state, material, config, support, gv):
     history = state.history
     if config.material in INCREMENTAL_MODELS:
         history = update_history(history, F, state.F, config.dt, material, config.material)
+        if config.failure_mode == "ballistic":
+            history = jax.tree.map(
+                lambda before, after: jnp.where(
+                    active.reshape((-1,) + (1,) * (after.ndim - 1)), after, before
+                ),
+                state.history,
+                history,
+            )
         valid = valid & jnp.all(history.valid)
+    if config.failure_mode == "ballistic":
+        C = jnp.where(history.failed[:, None, None], 0.0, C)
     return State(x, v, F, C, state.mass, state.volume, history, state.time + config.dt, valid)
 
 

@@ -90,6 +90,27 @@ The RHT return map is substantially slower than the simpler models on CPU.
 Use the material-point command for constitutive investigations before launching
 a large spatial run.
 
+## Material engineering cases
+
+The [material engineering guide](MATERIAL_ENGINEERING.md) covers smooth
+AA2024-T351 JC round-bar tension, HJC three-point bending and JH-2 spherical
+indentation, including parameter sources, fixture definitions and reaction/
+damage interpretation. These cases use their own physical dimensions in SI
+units, with a common entry point:
+
+```bash
+python -m examples.material_engineering --case jc-tension --grid 80 --ppc 3 --frames 60 --no-render --resume
+python -m examples.material_engineering --case concrete-bending --model hjc --grid 64 --ppc 3 --frames 40 --no-render --resume
+python -m examples.material_engineering --case ceramic-indentation --model jh2 --grid 64 --ppc 3 --frames 40 --no-render --resume
+```
+
+The bending configuration also accepts `--model rht`; that variant has not
+yet completed a run. These configurations retain inertia and use local
+constitutive damage without fracture-energy regularization. JC records both
+grip reaction and stress-based material-section force, together with support-
+separated groups. The completed HJC beam run reaches partial damage without
+material failure; its damage field does not represent a resolved crack.
+
 ## Public example adaptations
 
 The [SPHinXsys elastic gate](https://www.sphinxsys.org/html/examples/example2_elasticGate.html)

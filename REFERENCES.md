@@ -49,3 +49,27 @@ paths and conventions, not universal equivalence to a commercial material card.
   VTK data, batch rendering and saved visualization states.
 
 Specific adaptations and differences are listed in [EXAMPLES.md](docs/EXAMPLES.md).
+
+## Material engineering examples
+
+- D. R. Lesuer (2000), [*Experimental Investigations of Material Models for
+  Ti-6Al-4V Titanium and 2024-T3 Aluminum*, DOT/FAA/AR-00/25](https://ntlrepository.blob.core.windows.net/lib/17000/17400/17488/PB2001101864.pdf).
+  Table 6, printed p. 17 (PDF p. 29), reproduces the original AA2024-T351 JC
+  strength and failure constants. Equations (1)–(5), printed p. 2 (PDF p. 14),
+  define the law and normalization; printed p. 18 (PDF p. 30) gives the original
+  torsion-fit rate range of 0.088–123 s⁻¹. Table 8's later 2024-T3 fit is separate
+  from the T351 parameter set used here.
+  [Official report record](https://rosap.ntl.bts.gov/view/dot/93874).
+- Kaiser Aluminum, [*Rod & Bar Alloy 2024*, KA-RBH-2024-8.10](https://online.kaiseraluminum.com/depot/PublicProductInformation/Document/1022/Kaiser_Aluminum_2024_Rod_and_Bar.pdf).
+  Typical T4/T351 elastic modulus on p. 1; density, heat capacity and melting
+  interval on p. 2. The example assumes constant heat capacity, Poisson's ratio
+  0.33 and plastic-work heat fraction 0.9.
+- [Abaqus documentation: Johnson-Cook dynamic failure](https://abaqus-docs.mit.edu/2017/English/SIMACAEMATRefMap/simamat-c-johnsoncook.htm).
+  Documents the sign change of the third failure coefficient when using
+  compressive pressure instead of tensile mean stress.
+
+The [material engineering guide](docs/MATERIAL_ENGINEERING.md) identifies which
+values are sourced and which settings are assumptions. Its HJC and JH-2 cases
+use repository constitutive defaults and demonstration loading histories;
+they do not reproduce a calibrated material test. The JC round-bar case reaches
+a nominal plateau rate of 1,800 s⁻¹, above the original torsion-fit range.
