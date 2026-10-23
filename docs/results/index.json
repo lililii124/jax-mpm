@@ -1388,5 +1388,29 @@
       "interpretation.json": "2ddbb6e6a7288a0e97c8f3f8b221288f9941ec96993ff95fdb65809522a3cc13",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "woven--twill-2x2--warp-tension",
+    "case": "twill-2x2/warp-tension / woven-composite",
+    "source_directory": "outputs/woven/twill-2x2/warp-tension",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.9935133083618017,
+    "max_damage": 0.0,
+    "solver_seconds": 1280.3022672680006,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "0d474213d9f5580e780cb6428cdd540dc205bbb150eaef3e471669fef07414a3",
+      "diagnostics.csv": "f59b914dd3bafcc43aa86feb8ce5961329fe4383c844cef1996b57f55eac46cc",
+      "observables.csv": "91964cb607c29416af5d94740df8c7c541d72bd0588abe32a97ad6d6541fba74",
+      "render.json": "7a806d6977ae9b2a4902cdf153dc81d52b069a74d0337b792c2994b0dc84a535",
+      "vtk_metadata.json": "42fee45df89261e56ba36faa3beb4f57fba372da621e82f9e61b1efc1a9c1f1b",
+      "video.json": "6a3984659b230da63161d0a8d55b2e67b9cba3ac64355659895c864e8d87bda6",
+      "memory.json": "ee7d7a6423b2b009f956f99579cc64721aa0918cbfbd1860872140ef79572a4a",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "3a09b044f785dcd988eae4a6a4b23a5cd4b64fd919081f83f159ae5cd9a289f2",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]
