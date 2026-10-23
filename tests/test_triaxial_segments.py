@@ -195,22 +195,6 @@ def test_complete_final_state_is_not_only_partial_ready(tmp_path):
     assert result['full_review_passed'] is False
 
 
-def test_table_parity_checks_contact_flags_and_numerical_values():
-    segments.compare_tables([{'force': '1.0', 'active': 'True'}], [{'force': '1.00000000001', 'active': 'True'}])
-    with pytest.raises(ValueError):
-        segments.compare_tables([{'force': '1.0', 'active': 'True'}], [{'force': '1.0', 'active': 'False'}])
-    with pytest.raises(ValueError):
-        segments.compare_tables({'radius': [1.]}, {'radius': [1.1]})
-
-
-@pytest.mark.parametrize('scale', [1e-14, 1e-16, 1e-30])
-def test_tiny_impulse_and_work_cannot_disappear_under_absolute_tolerance(scale):
-    with pytest.raises(AssertionError):
-        segments.compare_numeric(np.array([scale]), np.array([0.]))
-    with pytest.raises(ValueError):
-        segments.compare_tables({'actual_work_J': scale}, {'actual_work_J': 0.})
-
-
 def test_resume_worker_loads_original_geometry_without_resampling(tmp_path, monkeypatch):
     from examples import triaxial_failure as driver
     cache = tmp_path/'cache'
@@ -259,63 +243,12 @@ def test_layout_and_coverage_drift_rejected_without_replacing_original(tmp_path)
         segments.verify_layout_record(path, 'grid', {}, allow_create=False)
 
 
-def parity_folder(folder):
-    folder.mkdir()
-    segments.save(folder/'plan.json', {'steps': 13, 'saved_states': 5})
-    rows = [{'time': float(i), 'impulse': i*1e-14, 'work': i*1e-16, 'active': True} for i in range(5)]
-    tables = {'observables': rows, 'diagnostics': rows, 'times': list(map(float, range(5)))}
-    values = {'frame': np.array(4), 'state_x': np.ones((2, 3)),
-        'contact_active': np.array([True]), 'contact_radius': np.array([1e-8]),
-        'clamp_work': np.array([1e-16, 1e-16]), 'total_impulse': np.ones((2, 3))*1e-14,
-        'solver_seconds': np.array(2.), 'tables': np.array(json.dumps(tables))}
-    np.savez(folder/'checkpoint.npz', **values)
-    np.savez(folder/'final_state_0.npz', x=np.ones((2, 3)), failed=np.zeros(2, dtype=bool))
-    np.savez(folder/'particle_fields.npz', yarn_id=np.array([0, 1]))
-    np.savez(folder/'trajectory.npz', time=np.arange(5.), failed=np.zeros((5, 2), dtype=np.uint8))
-    for name in ('observables.csv', 'diagnostics.csv'):
-        with (folder/name).open('w', newline='') as stream:
-            import csv
-            writer = csv.DictWriter(stream, fieldnames=rows[0])
-            writer.writeheader(); writer.writerows(rows)
-    segments.save(folder/'contact-metrics.json', {'fields': ['force'], 'values': [1e-12]})
-    for name in ('x', 'damage', 'failed', 'speed', 'temperature'):
-        np.save(folder/f'trajectory_{name}.npy', np.ones((5, 2, 3) if name == 'x' else (5, 2)))
-
-
-def test_actual_complete_tiny_archive_comparison_ignores_only_solver_timing(tmp_path):
-    left, right = tmp_path/'left', tmp_path/'right'
-    parity_folder(left); parity_folder(right)
-    with np.load(right/'checkpoint.npz', allow_pickle=False) as archive:
-        values = {key: archive[key] for key in archive.files}
-    values['solver_seconds'] = np.array(9.)
-    np.savez(right/'checkpoint.npz', **values)
-    report = segments.tiny_parity(left, right)
-    assert report['passed'] is True
-    assert report['float_atol'] == 0.
-    assert len(report['segmented_input_sha256']) >= 11
-    assert report['segmented_input_sha256']['checkpoint.npz'] != report['unsegmented_input_sha256']['checkpoint.npz']
-
-
-@pytest.mark.parametrize('field', ['contact_radius', 'clamp_work', 'total_impulse', 'contact_active'])
-def test_tiny_state_comparison_rejects_lost_contact_or_small_accumulated_quantities(tmp_path, field):
-    left, right = tmp_path/'left', tmp_path/'right'
-    parity_folder(left); parity_folder(right)
-    with np.load(right/'checkpoint.npz', allow_pickle=False) as archive:
-        values = {key: archive[key] for key in archive.files}
-    values[field] = np.zeros_like(values[field])
-    np.savez(right/'checkpoint.npz', **values)
-    with pytest.raises(AssertionError):
-        segments.tiny_parity(left, right)
-
-
-def test_tiny_comparison_checks_every_saved_history_frame(tmp_path):
-    left, right = tmp_path/'left', tmp_path/'right'
-    parity_folder(left); parity_folder(right)
-    data = np.load(right/'trajectory_damage.npy')
-    data[2, 0] = .2
-    np.save(right/'trajectory_damage.npy', data)
-    with pytest.raises(AssertionError):
-        segments.tiny_parity(left, right)
+def test_tiny_wrapper_returns_all_missing_inputs_without_claiming_admission(tmp_path):
+    report = segments.tiny_parity(tmp_path/'missing-left', tmp_path/'missing-right')
+    assert report['passed'] is False
+    assert report['production_eligible'] is False
+    assert len(report['errors']) > 1
+    assert report['schema'] == 'triaxial-tiny-cross-cpu-parity-v1'
 
 
 def test_memory_guard_is_explicit_for_every_new_child_command():

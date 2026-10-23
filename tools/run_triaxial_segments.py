@@ -1,7 +1,6 @@
 """Three exact-cache numerical segments and a separate review/render job."""
 
 import argparse
-import csv
 import hashlib
 import importlib.metadata
 import json
@@ -532,95 +531,9 @@ def run(context):
     emit(receipt_sha=receipt_sha, cache_key=context['cache_key'])
 
 
-def compare_numeric(left, right, *, atol=0., rtol=2e-10):
-    import numpy as np
-    left, right = np.asarray(left), np.asarray(right)
-    if left.shape != right.shape or left.dtype != right.dtype:
-        raise ValueError('Numerical parity shape/dtype mismatch')
-    if left.dtype.kind in 'fc':
-        np.testing.assert_allclose(left, right, atol=atol, rtol=rtol, equal_nan=False)
-    else:
-        np.testing.assert_array_equal(left, right)
-
-
 def tiny_parity(segmented, reference):
-    import numpy as np
-    segmented, reference = Path(segmented), Path(reference)
-    if read_json(segmented/'plan.json') != read_json(reference/'plan.json'):
-        raise ValueError('Tiny reference has a different physical plan')
-    compared = []
-    for name in ('checkpoint.npz', 'final_state_0.npz', 'particle_fields.npz', 'trajectory.npz'):
-        with np.load(segmented/name, allow_pickle=False) as left, np.load(reference/name, allow_pickle=False) as right:
-            if set(left.files) != set(right.files):
-                raise ValueError('Tiny state archive field mismatch')
-            for key in left.files:
-                if name == 'checkpoint.npz' and key == 'solver_seconds':
-                    continue
-                if key == 'tables':
-                    # The same tables are independently compared as CSV and index below.
-                    if json.loads(str(left[key])) != json.loads(str(right[key])):
-                        a, b = json.loads(str(left[key])), json.loads(str(right[key]))
-                        compare_tables(a, b)
-                else:
-                    try:
-                        compare_numeric(left[key], right[key])
-                    except AssertionError as error:
-                        raise AssertionError(f'Tiny parity {name}:{key}: {error}') from error
-                compared.append(f'{name}:{key}')
-    for name in ('observables.csv', 'diagnostics.csv'):
-        with (segmented/name).open(newline='') as a, (reference/name).open(newline='') as b:
-            compare_tables(list(csv.DictReader(a)), list(csv.DictReader(b)), _path=name)
-        compared.append(name)
-    compare_tables(read_json(segmented/'contact-metrics.json'), read_json(reference/'contact-metrics.json'))
-    compared.append('contact-metrics.json')
-    for name in ('x', 'damage', 'failed', 'speed', 'temperature'):
-        left = np.load(segmented/f'trajectory_{name}.npy', mmap_mode='r', allow_pickle=False)
-        right = np.load(reference/f'trajectory_{name}.npy', mmap_mode='r', allow_pickle=False)
-        try:
-            if left.shape != right.shape or left.dtype != right.dtype:
-                raise ValueError('Tiny mmap shape/dtype mismatch')
-            for frame in range(len(left)):
-                try:
-                    compare_numeric(left[frame], right[frame])
-                except AssertionError as error:
-                    raise AssertionError(f'Tiny parity trajectory_{name}.npy frame {frame}: {error}') from error
-        finally:
-            left._mmap.close(); right._mmap.close()
-        compared.append(f'trajectory_{name}.npy:all-frames')
-    return {'passed': True, 'production_eligible': False, 'checks': {'same_plan': True,
-        'complete_state_and_contact_history': True, 'all_csv_values': True, 'all_saved_mmap_history': True},
-        'compared': compared, 'ignored_fields': ['checkpoint.npz:solver_seconds'],
-        'float_atol': 0., 'float_rtol': 2e-10,
-        'segmented_input_sha256': {path.name: digest(path) for path in sorted(segmented.iterdir())
-            if path.is_file() and path.suffix in ('.npz', '.npy', '.csv')},
-        'unsegmented_input_sha256': {path.name: digest(path) for path in sorted(reference.iterdir())
-            if path.is_file() and path.suffix in ('.npz', '.npy', '.csv')},
-        'scope': 'Real cross-job tiny continuation versus a fresh unsegmented same-source solve. This is numerical admission, not a production result or a strict cross-CPU bitwise promise.'}
-
-
-def compare_tables(left, right, *, _path='table'):
-    if isinstance(left, dict):
-        if not isinstance(right, dict) or left.keys() != right.keys():
-            raise ValueError(f'{_path}: table columns differ')
-        for key in left:
-            compare_tables(left[key], right[key], _path=f'{_path}.{key}')
-    elif isinstance(left, list):
-        if not isinstance(right, list) or len(left) != len(right):
-            raise ValueError(f'{_path}: table lengths differ')
-        for index, (a, b) in enumerate(zip(left, right)):
-            compare_tables(a, b, _path=f'{_path}[{index}]')
-    elif left is None or isinstance(left, bool):
-        if left != right or type(left) is not type(right):
-            raise ValueError(f'{_path}: table flag differs')
-    else:
-        try:
-            a, b = float(left), float(right)
-        except (TypeError, ValueError):
-            if left != right:
-                raise ValueError(f'{_path}: table text differs')
-        else:
-            if not math.isfinite(a) or not math.isfinite(b) or not math.isclose(a, b, rel_tol=2e-10, abs_tol=0.):
-                raise ValueError(f'{_path}: numerical values differ ({a:.17g}, {b:.17g})')
+    from tools.triaxial_parity import compare_runs
+    return compare_runs(segmented, reference)
 
 
 def finalize(context):
@@ -655,24 +568,45 @@ def finalize(context):
         parity = tiny_parity(destination, reference)
         save(destination/'continuation-parity.json', parity)
         save(LOGS/'continuation-parity.json', parity)
-    for index, name in enumerate(study.REVIEW_FILES):
-        engine.command(f'segment-review-{index}', limited(context, [sys.executable, name, str(destination)], 10), monitor=True, accepted_codes=(0, 1))
+    targets = [('segmented', destination)]
+    if req['mode'] == 'tiny':
+        targets.append(('reference', reference))
+    for label, target in targets:
+        for index, name in enumerate(study.REVIEW_FILES):
+            engine.command(f'{label}-review-{index}', limited(context, [sys.executable, name, str(target)], 10), monitor=True, accepted_codes=(0, 1))
     if req['mode'] == 'formal':
         report = study.acceptance(destination, req['case'], source, plan, study.source_record() == source)
     else:
         record, state = [read_json(destination/name) for name in ('record-audit.json', 'state-review.json')]
+        reference_record, reference_state = [read_json(reference/name) for name in ('record-audit.json', 'state-review.json')]
         checks = {'tiny_scope': plan['scope'] == 'smoke' and plan['saved_states'] == 5 and plan['load_transits'] == .03,
-            'continuation_parity': parity['passed'] is True,
+            'continuation_parity': parity.get('passed') is True and not parity.get('errors')
+                and bool(parity.get('metrics')) and all(item.get('passed') is True for item in parity['metrics']),
+            'comparison_policy_source': parity.get('review_source_sha256') == source['files']['tools/triaxial_parity.py'],
+            'comparison_policy_schema': parity.get('schema') == 'triaxial-tiny-cross-cpu-parity-v1',
+            'comparison_inputs': study.inputs_match(destination, parity.get('input_sha256', {}).get('segmented', {}))
+                and study.inputs_match(reference, parity.get('input_sha256', {}).get('reference', {})),
             'source_unchanged': study.source_record() == source,
             'record_review': study.strict_review(record), 'state_review': study.strict_review(state),
             'full_saved_history_checked': state.get('full_history_checked') is True,
             'record_inputs': study.RECORD_INPUTS.issubset(record.get('input_sha256', {})) and study.inputs_match(destination, record.get('input_sha256', {})),
             'state_inputs': study.STATE_INPUTS.issubset(state.get('input_sha256', {})) and study.inputs_match(destination, state.get('input_sha256', {})),
             'review_sources': record.get('auditor_sha256') == source['review_sources'][study.REVIEW_FILES[0]] and state.get('review_source_sha256') == source['review_sources'][study.REVIEW_FILES[1]],
-            'producer_source': plan['source'] == record.get('source') == state.get('producer_source')}
+            'producer_source': plan['source'] == record.get('source') == state.get('producer_source'),
+            'reference_record_review': study.strict_review(reference_record),
+            'reference_state_review': study.strict_review(reference_state),
+            'reference_full_saved_history_checked': reference_state.get('full_history_checked') is True,
+            'reference_record_inputs': study.RECORD_INPUTS.issubset(reference_record.get('input_sha256', {}))
+                and study.inputs_match(reference, reference_record.get('input_sha256', {})),
+            'reference_state_inputs': study.STATE_INPUTS.issubset(reference_state.get('input_sha256', {}))
+                and study.inputs_match(reference, reference_state.get('input_sha256', {})),
+            'reference_review_sources': reference_record.get('auditor_sha256') == source['review_sources'][study.REVIEW_FILES[0]]
+                and reference_state.get('review_source_sha256') == source['review_sources'][study.REVIEW_FILES[1]],
+            'reference_producer_source': plan['source'] == reference_record.get('source') == reference_state.get('producer_source')}
         report = {'passed': all(checks.values()), 'checks': checks, 'production_eligible': False,
             'media_created': False, 'scope': 'Tiny cache/continuation admission only; no production or homepage eligibility.',
-            'input_sha256': {name: digest(destination/name) for name in ('plan.json', 'summary.json', 'status.json', 'record-audit.json', 'state-review.json', 'continuation-parity.json')}}
+            'input_sha256': {name: digest(destination/name) for name in ('plan.json', 'summary.json', 'status.json', 'record-audit.json', 'state-review.json', 'continuation-parity.json')},
+            'reference_review_sha256': {name: digest(reference/name) for name in ('record-audit.json', 'state-review.json')}}
     save(destination/'runner-acceptance.json', report)
     if not study.strict_review(report):
         raise ValueError('Final numerical review rejected this case')

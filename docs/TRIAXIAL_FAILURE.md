@@ -70,6 +70,20 @@ Only reviewed results receive ParaView animations and public gallery entries.
 The component implementations do not imply that an angular failure envelope
 has already been computed.
 
+Cross-job continuation retains the original reference geometry, full particle
+history, contact history and accumulated fixture quantities. Planned stops do
+not shorten the physical target. A separate final job reviews the completed
+history and renders it with ParaView.
+
+The small continuation comparison uses a fixed relative tolerance of 2e-10
+on quantities grouped by physical units. Position errors use grid spacing;
+near-identity stress and driving-strain comparisons also include binary64
+roundoff budgets scaled by elastic stiffness and stretch. These are engineering
+budgets, not certified eigensolver error bounds. Discrete states, event times
+and static labels remain exact. Both sequences must independently pass record
+and full saved-history reviews. This small test remains undamaged with inactive
+contact; it does not establish active JKR snap or crack continuation accuracy.
+
 Nominal tensile stress uses the rectangular reference envelope area: specimen
 width multiplied by twice the crimp amplitude plus the fibre diameter. This
 includes voids and differs from a sum of fibre cross-sections. The record audit
