@@ -66,7 +66,7 @@ The loading series uses warp and transverse in-plane tension, in-plane shear, th
 
 ## Prescribed loading series
 
-All 15 combinations use a half-cosine displacement over 14.230249 µs, followed by a fixed-displacement hold to 18.973666 µs. These are dynamic loading paths, not quasi-static measurements. The nominal grid96 calculation uses 4,140 steps and 60 output intervals; the initial acoustic bound is approximately 5,401.59 m/s.
+The five fixture loadings give 15 combinations. They use a half-cosine displacement over 14.230249 µs, followed by a fixed-displacement hold to 18.973666 µs. These are dynamic loading paths, not quasi-static measurements. The nominal grid96 calculation uses 4,140 steps and 60 output intervals; the initial acoustic bound is approximately 5,401.59 m/s. The separate hemisphere loading adds three contact cases.
 
 | Loading | Constraints and final displacement |
 | --- | --- |
@@ -81,13 +81,13 @@ Moving-grip tracking uses reference points at least 1.5 grid cells inside each f
 The earlier triaxial shear run with ±0.2 mm strokes reached a maximum yarn Green-strain norm of 0.115448, above the declared 0.1 elastic-range limit. That failed record is retained. Revision 2 reduces the prescribed stroke; it must pass the same strain limit in a new complete run. The reviewer interprets archived records without a revision as the original ±0.2 mm path.
 
 ```powershell
-python -m examples.woven_composite --architecture all --loading all --grid 96 --ppc 2 --frames 60 --resume
+python -m examples.woven_composite --architecture all --loading all --frames 60 --resume
 python -m mpm_jax.visualization outputs/woven/plain/transverse-bending --field family_id --gif
 ```
 
-The first command writes numerical output without starting ParaView. Each architecture can be selected as `plain`, `triaxial` or `twill-2x2`; each loading can be selected separately using the names in the table. The commands specify the cases and do not imply that all runs have already completed.
+The first command writes numerical output without starting ParaView. Each architecture can be selected as `plain`, `triaxial` or `twill-2x2`; each loading can be selected separately. Without explicit resolution options, the CLI uses grid192/ppc1 for hemisphere contact and grid96/ppc2 for the other loadings, including when `--loading all` is selected. Explicit `--grid` and `--ppc` values override these defaults and permit separate preliminary calculations. These commands do not imply that all runs have already completed.
 
-Run one case, or the fifteen cases sequentially:
+Run one case, or all eighteen paths sequentially:
 
 ```bash
 python -m examples.woven_composite --architecture plain --loading warp-tension
@@ -109,6 +109,24 @@ a 1.25 mm free thickness. Bending uses 0.4 mm support patches over an 8 mm span;
 the left support fixes x/y, the right support permits axial sliding, and a small
 left patch removes lateral rigid motion. These are prescribed grid velocity
 regions, not separately solved contact bodies.
+
+## Hemispherical compression
+
+`hemispherical-compression` adds a frictionless rigid lower hemisphere above the specimen and a frictionless unilateral plane at its bottom face. The hemisphere has diameter 2.5 mm, one quarter of the 10 mm specimen width, and radius 1.25 mm. Its initial centre is (8, 10.25, 8) mm, so the lower pole touches the nominal upper face. It moves down by 0.1 mm using the same half-cosine loading time and then holds. The flat circular back face closes the tool. Side faces and in-plane motion remain free; no top-face velocity patch or artificial lateral anchor is applied.
+
+The contact update removes inward relative normal velocity only at grid nodes inside the moving tool. Tangential slip and separation remain free. The curved cap and closing disk have distinct outward normals; at their rim, motion leaving either face is permitted. This is a prescribed rigid-tool contact discretization, not a second deformable body or a Hertz solution.
+
+```bash
+python -m examples.woven_composite --architecture plain --loading hemispherical-compression --grid 192 --ppc 1 --frames 60 --output outputs/woven-hemisphere
+python tools/review_woven.py outputs/woven-hemisphere/plain/hemispherical-compression
+python -m mpm_jax.visualization outputs/woven-hemisphere/plain/hemispherical-compression --field family_id --gif
+```
+
+Grid192/ppc1 keeps the 0.0833333 mm point spacing and the same phase assignment as grid96/ppc2 while halving the grid spacing. The nominal scale `sqrt(R*indentation)` spans 4.24 grid cells; grid96 spans only 2.12 and is a separate preliminary calculation. This scale controls a resolution gate, not a measured contact area or a convergence claim. The material-strain limit remains 0.1.
+
+Recorded quantities include tool and lower-support reaction, fixed-reference central top-surface settlement, mass-weighted horizontal drift, and particle-centre overlap with each boundary. The top-surface region is the initial upper particle layer within 0.25 mm of the specimen centre. A 1.5-cell overlap alarm detects gross interpenetration; it is not a contact-accuracy tolerance. Reactions are next-step grid diagnostics, and a nonzero lateral response must be interpreted with the actual yarn arrangement. The independent review requires compressive reactions, downward settlement and clearance from the tool's flat back face.
+
+ParaView displays the actual closed lower hemisphere with opacity 0.35 and the lower support plate. These auxiliary shapes are not material points; all particle positions and phase labels remain visible without displacement amplification. The original flat-platen `transverse-compression` remains available as a separate loading path.
 
 ## Sources and scope
 

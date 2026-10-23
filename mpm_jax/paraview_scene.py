@@ -13,6 +13,7 @@ from paraview.simple import (
     ColorBy,
     CompositeKeyFrame,
     CreateView,
+    Disk,
     GetAnimationScene,
     GetAnimationTrack,
     GetColorTransferFunction,
@@ -24,6 +25,7 @@ from paraview.simple import (
     Show,
     Sphere,
     Threshold,
+    Transform,
 )
 
 
@@ -201,6 +203,7 @@ def main():
         else {}
     )
     sphere_definition = summary.get("definition", {}).get("rigid_sphere")
+    hemisphere_definition = summary.get("definition", {}).get("rigid_hemisphere")
     waypoint_sphere_definitions = (
         summary.get("definition", {}).get("rigid_spheres") or []
     )
@@ -218,6 +221,64 @@ def main():
     auxiliary_geometry = []
     grip_sources = []
     waypoint_sphere_sources = []
+    hemisphere_sources = []
+    if hemisphere_definition:
+        definition = hemisphere_definition
+        center0 = np.asarray(definition["center"], dtype=float)
+        radius = float(definition["radius"])
+        if center0.shape != (3,) or not np.isfinite(center0).all() or not np.isfinite(radius) or radius <= 0:
+            raise ValueError("hemisphere requires a finite center and positive radius")
+        opacity = sphere_display_opacity(definition.get("display_opacity", .35)) if args.sphere_opacity is None else sphere_opacity
+        cap = Sphere(registrationName="Rigid hemisphere curved cap")
+        cap.Center = [0., 0., 0.]
+        cap.Radius, cap.StartPhi, cap.EndPhi = radius, 90., 180.
+        cap.ThetaResolution, cap.PhiResolution = 128, 64
+        disk = Disk(registrationName="Rigid hemisphere closing disk")
+        disk.InnerRadius, disk.OuterRadius = 0., radius
+        disk.CircumferentialResolution, disk.RadialResolution = 128, 1
+        centers = center0 + grip_displacement(definition, times)
+        span = times[-1] - times[0]
+        mesh_records = []
+        for source, curved in ((cap, True), (disk, False)):
+            posed = Transform(registrationName="Prescribed lower hemisphere", Input=source)
+            posed.Transform = "Transform"
+            posed.Transform.Rotate = [-90., 0., 0.]
+            posed.Transform.Translate = center0
+            posed.UpdatePipeline()
+            actual = list(posed.GetDataInformation().GetBounds())
+            expected = [center0[0] - radius, center0[0] + radius, center0[1] - (radius if curved else 0), center0[1], center0[2] - radius, center0[2] + radius]
+            if not np.allclose(actual, expected, rtol=0, atol=1e-6 * radius):
+                raise RuntimeError("rendered hemisphere cap/disk bounds do not match the prescribed contact geometry")
+            mesh_records.append({"part": "curved_cap" if curved else "closing_disk", "initial_bounds": actual, "expected_initial_bounds": expected})
+            surface = Show(posed, view)
+            surface.Opacity = opacity
+            surface.ColorArrayName = ["POINTS", ""]
+            surface.DiffuseColor = [.58, .64, .70]
+            surface.Ambient, surface.Diffuse = .25, .75
+            surface.Specular, surface.SpecularPower = .65, 45
+            for axis in range(3):
+                track = GetAnimationTrack("Translate", axis, posed.Transform)
+                keys = []
+                for instant, position in zip(times, centers):
+                    key = CompositeKeyFrame()
+                    key.KeyTime = (instant - times[0]) / span if span else 0.
+                    key.KeyValues, key.Interpolation = [float(position[axis])], "Ramp"
+                    keys.append(key)
+                track.KeyFrames = keys
+            hemisphere_sources.append((posed, center0, definition))
+        ends = np.array((center0, center0 + np.asarray(definition["displacement"])))
+        minimum, maximum = ends.min(axis=0) - radius, ends.max(axis=0) + [radius, 0., radius]
+        for axis in range(3):
+            bounds[2 * axis] = min(bounds[2 * axis], minimum[axis])
+            bounds[2 * axis + 1] = max(bounds[2 * axis + 1], maximum[axis])
+        auxiliary_geometry.append({
+            "type": "prescribed_rigid_hemisphere", "parameters": definition,
+            "display_opacity": opacity, "included_in_particle_count": False,
+            "shape": "closed lower-y hemisphere: curved cap plus flat circular back face",
+            "motion": "half-cosine displacement followed by stationary hold, evaluated at output times",
+            "state_file_interpolation": "linear between output-time keyframes",
+            "initial_mesh_bounds_checks": mesh_records,
+        })
     if sphere_definition:
         center0 = np.asarray(sphere_definition["center"])
         stroke = np.asarray(sphere_definition["displacement"])
@@ -551,6 +612,8 @@ def main():
             grip.Center = center0 + grip_displacement(definition, times[i])
         for sphere, definition in waypoint_sphere_sources:
             sphere.Center = waypoint_sphere_motion(definition, times[i])
+        for posed, center0, definition in hemisphere_sources:
+            posed.Transform.Translate = center0 + grip_displacement(definition, times[i])
         Render(view)
         if woven_display:
             counts = [source.GetDataInformation().GetNumberOfPoints() for source in woven_sources]

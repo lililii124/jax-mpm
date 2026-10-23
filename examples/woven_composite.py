@@ -1,4 +1,4 @@
-"""Bonded woven composites under five prescribed dynamic loading paths."""
+"""Bonded woven composites under prescribed dynamic loading and contact."""
 
 import argparse
 from dataclasses import asdict, dataclass, field
@@ -9,6 +9,7 @@ import jax.numpy as jnp
 import numpy as np
 
 from mpm_jax import Config, State, VelocityBox, fixed_box
+from mpm_jax.boundaries import PlaneWall
 from mpm_jax.contact_laws import boundary_reaction
 from mpm_jax.materials import initial_history
 from mpm_jax.materials.woven import (
@@ -17,11 +18,12 @@ from mpm_jax.materials.woven import (
 from .common import run
 from .scenarios import Case
 from .woven_geometry import ARCHITECTURES, sample_weave
+from .woven_hemisphere import RigidHemisphereBoundary
 
 
 LOADS = (
     "warp-tension", "weft-tension", "in-plane-shear",
-    "transverse-compression", "transverse-bending",
+    "transverse-compression", "transverse-bending", "hemispherical-compression",
 )
 DOMAIN = 0.016
 ORIGIN = (0.008, 0.008, 0.008)
@@ -88,7 +90,7 @@ def specimen_bounds():
 
 
 def loading_boundaries(loading, dx):
-    """Bilateral grid fixtures; compression faces permit in-plane sliding."""
+    """Prescribed grid fixtures or frictionless unilateral contact geometry."""
     if loading not in LOADS:
         raise ValueError(f"loading must be one of {LOADS}")
     lower, upper = specimen_bounds()
@@ -133,6 +135,27 @@ def loading_boundaries(loading, dx):
             "nominal_final_free_height_strain": -0.00005 / (THICKNESS - 2 * depth),
             "constraints": "opposing y-velocity face patches; x/z slide freely; zero initial velocity and no horizontal forcing",
         }
+    elif loading == "hemispherical-compression":
+        radius, stroke = SIZE[0] / 8, 0.0001
+        boundaries = (
+            PlaneWall(axis=1, position=float(lower[1]), side="lower", friction=0.0),
+            RigidHemisphereBoundary(
+                (ORIGIN[0], float(upper[1] + radius), ORIGIN[2]), radius,
+                (0.0, -stroke, 0.0), LOADING_TIME,
+            ),
+        )
+        names = ("lower_plate", "hemisphere")
+        description = {
+            "indenter_shape": "closed lower hemisphere: curved cap and flat disk at center y",
+            "indenter_radius_m": radius, "diameter_to_specimen_width_ratio": 0.25,
+            "final_indentation_m": stroke, "support_plane_y_m": float(lower[1]),
+            "nominal_contact_radius_m": float(np.sqrt(radius * stroke)),
+            "nominal_contact_radius_cells": float(np.sqrt(radius * stroke) / dx),
+            "contact_radius_scope": "sqrt(R*indentation) is a geometric resolution estimate, not the measured contact radius or a Hertz solution",
+            "center_top_roi_radius_m": 0.00025,
+            "center_top_roi_definition": "fixed reference top particle layer within radius 0.25 mm of the specimen center in x/z",
+            "constraints": "lower frictionless unilateral plane; upper frictionless unilateral closed hemisphere; no imposed top-face velocity or lateral clamp",
+        }
     else:
         left, right = lower[0] + grip_width, upper[0] - grip_width
         support_half_width = 0.0002
@@ -158,6 +181,8 @@ def loading_boundaries(loading, dx):
 
 
 def _support_inside(reference, dx, boundary):
+    if isinstance(boundary, (PlaneWall, RigidHemisphereBoundary)):
+        return np.zeros(len(reference), dtype=bool)
     if isinstance(boundary, SmoothDisplacementBox):
         return np.all(
             (reference >= np.asarray(boundary.lower) + 1.5 * dx)
@@ -170,6 +195,14 @@ def _support_inside(reference, dx, boundary):
 
 def rigid_grips(loading, boundaries, names, dx):
     lower, upper = specimen_bounds()
+    if loading == "hemispherical-compression":
+        return [{
+            "name": "lower_plate", "lower": [lower[0], lower[1] - .00025, lower[2]],
+            "upper": [upper[0], lower[1], upper[2]], "displacement": [0., 0., 0.],
+            "loading_duration": LOADING_TIME, "start": 0.,
+            "motion_kind": "half-cosine-displacement-hold",
+            "constraint_kind": "frictionless unilateral plane at the top of the displayed support",
+        }]
     fixtures = []
     for boundary, name in zip(boundaries, names):
         if name == "lateral_anchor":
@@ -236,6 +269,7 @@ def make_case(architecture="plain", loading="warp-tension", *, grid=96, ppc=2, f
     sections = [np.abs(reference[:, axis] - ORIGIN[axis]) <= 0.51 * spacing for axis in range(3)]
     section_widths = [len(np.unique(reference[mask, axis])) * spacing for axis, mask in enumerate(sections)]
     center = (np.abs(reference[:, 0] - ORIGIN[0]) <= 0.0005) & (np.abs(reference[:, 2] - ORIGIN[2]) <= 0.0005)
+    top_center = (reference[:, 1] == reference[:, 1].max()) & (np.linalg.norm(reference[:, (0, 2)] - np.asarray(ORIGIN)[[0, 2]], axis=1) <= .00025)
 
     def observe(states, time):
         current = states[0]
@@ -273,6 +307,25 @@ def make_case(architecture="plain", loading="warp-tension", *, grid=96, ppc=2, f
                 ))
         for index, (boundary, name, selected) in enumerate(zip(boundaries, names, interior)):
             force = np.asarray(boundary_reaction(current, material, config, boundary_index=index))
+            if isinstance(boundary, (PlaneWall, RigidHemisphereBoundary)):
+                for axis, label in enumerate("xyz"):
+                    values[f"{name}_reaction_{label}_N"] = float(force[axis])
+                if isinstance(boundary, PlaneWall):
+                    values["lower_plate_maximum_particle_overlap_m"] = float(max(boundary.position - x[:, 1].min(), 0.0))
+                else:
+                    tool_center, tool_speed = (np.asarray(value) for value in boundary.motion(time))
+                    gap = np.asarray(boundary.signed_distance(current.x, time))
+                    values["hemisphere_minimum_particle_gap_m"] = float(gap.min())
+                    values["hemisphere_maximum_particle_overlap_m"] = float(max(-gap.min(), 0.0))
+                    values["hemisphere_particle_centers_inside"] = int(np.count_nonzero(gap < 0))
+                    values["hemisphere_flat_face_clearance_m"] = float(tool_center[1] - x[:, 1].max())
+                    values["hemisphere_center_top_roi_particles"] = int(top_center.sum())
+                    values["hemisphere_center_top_mean_displacement_y_m"] = float(displacement[top_center, 1].mean()) if top_center.any() else None
+                    values["hemisphere_center_top_maximum_downward_displacement_m"] = float(max(-displacement[top_center, 1].min(), 0.0)) if top_center.any() else None
+                    for axis, label in enumerate("xyz"):
+                        values[f"hemisphere_center_{label}_m"] = float(tool_center[axis])
+                        values[f"hemisphere_prescribed_velocity_{label}_m_per_s"] = float(tool_speed[axis])
+                continue
             target, speed_at_time = boundary.motion(time) if hasattr(boundary, "motion") else (np.zeros(3), np.zeros(3))
             components = np.ones(3, dtype=bool) if boundary.components is None else np.asarray(boundary.components)
             target, speed_at_time = np.asarray(target), np.asarray(speed_at_time)
@@ -290,6 +343,13 @@ def make_case(architecture="plain", loading="warp-tension", *, grid=96, ppc=2, f
                 values[f"{name}_reaction_{label}_N"] = float(force[axis])
                 values[f"{name}_prescribed_displacement_{label}_m"] = float(target[axis])
                 values[f"{name}_prescribed_velocity_{label}_m_per_s"] = float(speed_at_time[axis])
+        if loading == "hemispherical-compression":
+            weights = np.asarray(current.mass)
+            com_change = np.sum(weights[:, None] * displacement, axis=0) / weights.sum()
+            for axis, label in enumerate("xyz"):
+                values[f"center_of_mass_displacement_{label}_m"] = float(com_change[axis])
+                values[f"net_boundary_reaction_{label}_N"] = sum(values[f"{name}_reaction_{label}_N"] for name in names)
+            values["horizontal_center_of_mass_displacement_m"] = float(np.linalg.norm(com_change[[0, 2]]))
         return values
 
     lower, upper = specimen_bounds()
@@ -324,15 +384,31 @@ def make_case(architecture="plain", loading="warp-tension", *, grid=96, ppc=2, f
         "boundary_tracking_scope": "moving-box samples remain at least 1.5dx from all reference faces, covering every grid phase under exact prescribed translation; static boxes use initial discrete support; current complete support is counted separately; no interior samples means no direct tracking claim",
     }
     fields = {name: getattr(sample, name) for name in ("phase", "yarn_id", "family_id")}
+    if loading == "hemispherical-compression":
+        description["rigid_hemisphere"] = {
+            **asdict(boundaries[-1]), "motion_kind": "half-cosine-displacement-hold",
+            "display_opacity": 0.35,
+        }
+        description["boundary_tracking_scope"] = "unilateral grid contact, no exact particle-clamping claim; saved particle-center overlap is a resolution alarm, not a contact accuracy or area measure"
+        description["horizontal_motion_scope"] = "free sides and frictionless support; no artificial horizontal anchor; report mass-weighted center-of-mass drift and next-step net tool reaction without assuming zero coupling for every yarn architecture"
+        description["resolution_scope"] = "formal grid192/ppc1 retains the grid96/ppc2 particle spacing while refining the background grid; nominal contact radius must span at least four grid cells; not a convergence result"
     return WovenCase((state,), (material,), (config,), DURATION, description, observer=observe, point_fields=fields), substeps
+
+
+def loading_resolution(loading, grid=None, ppc=None):
+    """Choose CLI defaults without changing explicit resolution requests."""
+    if loading not in LOADS:
+        raise ValueError("unknown woven loading")
+    default_grid, default_ppc = (192, 1) if loading == "hemispherical-compression" else (96, 2)
+    return default_grid if grid is None else grid, default_ppc if ppc is None else ppc
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--architecture", choices=(*ARCHITECTURES, "all"), default="plain")
     parser.add_argument("--loading", choices=(*LOADS, "all"), default="warp-tension")
-    parser.add_argument("--grid", type=int, default=96)
-    parser.add_argument("--ppc", type=int, default=2)
+    parser.add_argument("--grid", type=int, help="grid cells per side (default: hemisphere 192, other loads 96)")
+    parser.add_argument("--ppc", type=int, help="points per cell direction (default: hemisphere 1, other loads 2)")
     parser.add_argument("--frames", type=int, default=60)
     parser.add_argument("--output", type=Path, default=Path("outputs/woven"))
     rendering = parser.add_mutually_exclusive_group()
@@ -349,7 +425,8 @@ def main():
     loadings = LOADS if args.loading == "all" else (args.loading,)
     for architecture in architectures:
         for loading in loadings:
-            case, substeps = make_case(architecture, loading, grid=args.grid, ppc=args.ppc, frames=args.frames)
+            grid, ppc = loading_resolution(loading, args.grid, args.ppc)
+            case, substeps = make_case(architecture, loading, grid=grid, ppc=ppc, frames=args.frames)
             print(f"{architecture}/{loading}: {len(case.states[0].x)} points, {args.frames * substeps} steps, t={case.duration:.9g}s", flush=True)
             run(
                 case.states, case.materials, case.configs, frames=args.frames, substeps=substeps,

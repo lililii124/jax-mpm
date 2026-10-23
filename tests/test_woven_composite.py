@@ -5,7 +5,8 @@ import pytest
 
 from examples.woven_composite import (
     ARCHITECTURES, DOMAIN, DURATION, LOADING_TIME, LOADS, MATERIAL,
-    SmoothDisplacementBox, _support_inside, loading_boundaries, make_case, rigid_grips, specimen_bounds,
+    SmoothDisplacementBox, _support_inside, loading_boundaries, loading_resolution,
+    make_case, rigid_grips, specimen_bounds,
 )
 
 jax.config.update("jax_enable_x64", True)
@@ -108,7 +109,25 @@ def test_shear_and_tension_use_distinct_physical_loading_directions():
     np.testing.assert_allclose(shear[1].displacement, [0.00015, 0, 0])
     assert definition["nominal_final_strain_or_shear"] == pytest.approx(0.0375)
     assert shear[1].lower[2] == weft[1].lower[2]
-    assert len(ARCHITECTURES) * len(LOADS) == 15
+    assert len(ARCHITECTURES) * len(LOADS) == 18
+
+
+def test_hemisphere_is_local_unilateral_geometry_with_sliding_plane_support():
+    boundaries, names, definition = loading_boundaries("hemispherical-compression", DOMAIN / 192)
+    wall, tool = boundaries
+    assert names == ("lower_plate", "hemisphere")
+    assert type(wall).__name__ == "PlaneWall" and wall.friction == 0
+    assert wall.axis == 1 and wall.side == "lower"
+    assert type(tool).__name__ == "RigidHemisphereBoundary"
+    lower, upper = specimen_bounds()
+    assert 2 * tool.radius / (upper[0] - lower[0]) == pytest.approx(.25)
+    assert tool.center[1] - tool.radius == pytest.approx(upper[1])
+    np.testing.assert_allclose(tool.motion(DURATION)[0], np.asarray(tool.center) + [0, -.0001, 0])
+    assert definition["nominal_contact_radius_cells"] >= 4
+    assert loading_boundaries("hemispherical-compression", DOMAIN / 96)[2]["nominal_contact_radius_cells"] < 4
+    for boundary in boundaries:
+        boundary.validate(3, DOMAIN)
+        assert not _support_inside(np.asarray([[.008, .008, .008]]), DOMAIN / 192, boundary).any()
 
 
 def test_moving_grip_samples_stay_inside_at_every_translated_grid_phase():
@@ -131,3 +150,14 @@ def test_invalid_lattice_spacing_cannot_silently_change_specimen_dimensions():
         make_case("plain", "warp-tension", grid=50, ppc=1, frames=4)
     with pytest.raises(ValueError, match="unknown"):
         make_case("plain", "axial-compression")
+
+
+def test_cli_resolution_defaults_follow_loading_and_preserve_explicit_values():
+    for loading in LOADS:
+        assert loading_resolution(loading) == ((192, 1) if loading == "hemispherical-compression" else (96, 2))
+        assert loading_resolution(loading, 48, 1) == (48, 1)
+    assert loading_resolution("hemispherical-compression", 96, 2) == (96, 2)
+    assert loading_resolution("hemispherical-compression", grid=144) == (144, 1)
+    assert loading_resolution("warp-tension", ppc=3) == (96, 3)
+    with pytest.raises(ValueError, match="unknown"):
+        loading_resolution("unknown")

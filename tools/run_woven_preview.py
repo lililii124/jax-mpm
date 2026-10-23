@@ -22,11 +22,11 @@ LOGS = ROOT / ".local/woven-ci"
 DELIVERY = ROOT / ".local/woven-delivery"
 LIMIT = 100 * 1024**2
 ARCHITECTURES = ("plain", "triaxial", "twill-2x2")
-LOADINGS = ("warp-tension", "weft-tension", "in-plane-shear", "transverse-compression", "transverse-bending")
+LOADINGS = ("warp-tension", "weft-tension", "in-plane-shear", "transverse-compression", "transverse-bending", "hemispherical-compression")
 INITIAL_PAIRS = {("plain", "transverse-bending"), ("triaxial", "in-plane-shear")}
 PAIRS = {(architecture, loading) for architecture in ARCHITECTURES for loading in LOADINGS}
 COARSE_PAIRS = INITIAL_PAIRS | {("plain", "warp-tension"), ("plain", "weft-tension"), ("twill-2x2", "transverse-compression")}
-BATCHES = ("initial", "shear", "remaining")
+BATCHES = ("initial", "shear", "remaining", "hemisphere")
 PV_VERSION = "6.2.0"
 PV_NAME = f"ParaView-{PV_VERSION}-MPI-Linux-Python3.12-x86_64"
 PV_URL = f"https://www.paraview.org/files/v6.2/{PV_NAME}.tar.gz"
@@ -43,8 +43,10 @@ def case_matrix(preset, batch):
         pairs = INITIAL_PAIRS
     elif batch == "shear":
         pairs = {("triaxial", "in-plane-shear")}
+    elif batch == "remaining":
+        pairs = {pair for pair in PAIRS - INITIAL_PAIRS if pair[1] != "hemispherical-compression"}
     else:
-        pairs = PAIRS - INITIAL_PAIRS
+        pairs = {pair for pair in PAIRS if pair[1] == "hemispherical-compression"}
     return [{"architecture": architecture, "loading": loading} for architecture, loading in sorted(pairs)]
 
 
@@ -284,7 +286,7 @@ def run(architecture, loading, preset="formal"):
 
     if (architecture, loading) not in (COARSE_PAIRS if preset == "coarse" else PAIRS):
         raise ValueError("This architecture/loading pair is not enabled for the selected preset")
-    grid, ppc = (48, 1) if preset == "coarse" else (96, 2)
+    grid, ppc = (48, 1) if preset == "coarse" else ((192, 1) if loading == "hemispherical-compression" else (96, 2))
     output_root = "outputs/woven-smoke" if preset == "coarse" else "outputs/woven"
     source = source_record()
     save(LOGS / "numerical-source.json", source)

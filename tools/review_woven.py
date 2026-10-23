@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from examples.woven_geometry import ARCHITECTURES, sample_weave
 
 
-LOADS = ("warp-tension", "weft-tension", "in-plane-shear", "transverse-compression", "transverse-bending")
+LOADS = ("warp-tension", "weft-tension", "in-plane-shear", "transverse-compression", "transverse-bending", "hemispherical-compression")
 DOMAIN = 0.016
 ORIGIN = np.full(3, 0.008)
 LOWER = np.array((0.003, 0.007, 0.003))
@@ -101,6 +101,12 @@ def expected_boundaries(loading, dx, loading_revision=1):
             moving((0.0075, UPPER[1] - 0.5 * dx, 0), (0.0085, DOMAIN, DOMAIN), (0, -0.00025, 0), [False, True, False]),
         ]
         names = ["left_support", "right_support", "lateral_anchor", "loading_patch"]
+    elif loading == "hemispherical-compression":
+        definitions = [
+            {"axis": 1, "position": float(LOWER[1]), "side": "lower", "friction": 0.0, "velocity": None},
+            {"center": [0.008, 0.01025, 0.008], "radius": 0.00125, "displacement": [0., -0.0001, 0.], "loading_duration": LOAD_TIME, "start": 0.0},
+        ]
+        return definitions, ["lower_plate", "hemisphere"], ["PlaneWall", "RigidHemisphereBoundary"]
     else:
         raise ValueError("unknown woven loading")
     types = ["SmoothDisplacementBox" if "displacement" in boundary else "VelocityBox" for boundary in definitions]
@@ -169,10 +175,39 @@ def section_resultants(F, tau, reference, volume, masks, widths):
 
 
 def support_mask(reference, dx, boundary):
+    if "radius" in boundary or "axis" in boundary:
+        return np.zeros(len(reference), dtype=bool)
     if "displacement" in boundary:
         return np.all((reference >= np.asarray(boundary["lower"]) + 1.5 * dx) & (reference <= np.asarray(boundary["upper"]) - 1.5 * dx), axis=1)
     lower_node = np.floor(reference / dx - 0.5) * dx
     return np.all((lower_node >= np.asarray(boundary["lower"]) - 1e-14) & (lower_node + 2 * dx <= np.asarray(boundary["upper"]) + 1e-14), axis=1)
+
+
+def hemisphere_metrics(reference, current, instant, definition):
+    """Independent closed-cap distance and fixed reference top-surface ROI."""
+    translation, speed = motion(instant, definition)
+    center = np.asarray(definition["center"]) + translation
+    radial = current - center
+    distance = np.linalg.norm(radial, axis=1)
+    rho = np.linalg.norm(radial[:, (0, 2)], axis=1)
+    radius = definition["radius"]
+    gap = np.where(radial[:, 1] <= 0, np.maximum(distance - radius, radial[:, 1]), np.hypot(np.maximum(rho - radius, 0), radial[:, 1]))
+    selected = (reference[:, 1] == reference[:, 1].max()) & (np.linalg.norm(reference[:, (0, 2)] - ORIGIN[[0, 2]], axis=1) <= .00025)
+    change_y = current[selected, 1] - reference[selected, 1]
+    result = {
+        "hemisphere_minimum_particle_gap_m": float(gap.min()),
+        "hemisphere_maximum_particle_overlap_m": float(max(-gap.min(), 0.)),
+        "hemisphere_particle_centers_inside": int(np.count_nonzero(gap < 0)),
+        "hemisphere_flat_face_clearance_m": float(center[1] - current[:, 1].max()),
+        "hemisphere_center_top_roi_particles": int(selected.sum()),
+        "hemisphere_center_top_mean_displacement_y_m": float(change_y.mean()) if len(change_y) else None,
+        "hemisphere_center_top_maximum_downward_displacement_m": float(max(-change_y.min(), 0.)) if len(change_y) else None,
+        "lower_plate_maximum_particle_overlap_m": float(max(LOWER[1] - current[:, 1].min(), 0.)),
+    }
+    for axis, label in enumerate("xyz"):
+        result[f"hemisphere_center_{label}_m"] = float(center[axis])
+        result[f"hemisphere_prescribed_velocity_{label}_m_per_s"] = float(speed[axis])
+    return result
 
 
 class Comparisons:
@@ -235,6 +270,20 @@ def review(folder):
         "small_saved_yarn_strain": max(row["yarn_maximum_green_strain_norm"] for row in rows) <= YARN_STRAIN_LIMIT,
         "positive_saved_J": min(row["min_J"] for row in diagnostics) > 0,
     }
+    if loading == "hemispherical-compression":
+        sphere, load = boundaries[-1], definition["loading_definition"]
+        checks["closed_hemisphere_display_matches_contact"] = equivalent_record(
+            definition.get("rigid_hemisphere"), {**sphere, "motion_kind": "half-cosine-displacement-hold", "display_opacity": .35},
+        )
+        expected_load = {
+            "indenter_radius_m": .00125, "diameter_to_specimen_width_ratio": .25,
+            "final_indentation_m": .0001, "support_plane_y_m": float(LOWER[1]),
+            "nominal_contact_radius_m": float(np.sqrt(.00125 * .0001)),
+            "nominal_contact_radius_cells": float(np.sqrt(.00125 * .0001) / dx),
+            "center_top_roi_radius_m": .00025,
+        }
+        checks["specified_hemisphere_size_path_and_roi"] = all(equivalent_record(load.get(key), value) for key, value in expected_load.items())
+        checks["nominal_contact_radius_at_least_four_grid_cells"] = np.sqrt(.00125 * .0001) / dx >= 4
     geometry = definition["geometry"]
     geometry_expected = {
         "size_xz_m": [0.010, 0.010], "pitch_m": 0.0025,
@@ -338,6 +387,7 @@ def review(folder):
     mapped = []
     boundary_report = {name: {"samples": 0, "maximum_position_error_m": 0., "maximum_reported_velocity_error_m_per_s": 0., "full_support_at_all_saved_frames": True} for name in names}
     closure, central_deflection, final_grip_motion = [], [], {}
+    hemisphere_history = []
     finite_fields, zero_damage = True, True
     checks.update(constrained_positions_within_time_step_error=True, constrained_reported_velocities_match=True, constrained_final_velocities_independent=True, required_moving_samples_exist=True, required_moving_samples_keep_complete_support=True)
     try:
@@ -370,7 +420,19 @@ def review(folder):
             comparisons.add("maximum_J_table", row["maximum_J"], diagnostic["max_J"])
             comparisons.add("boundary_sample_time_s", row["boundary_sample_time_s"], instant + config["dt"], atol=1e-14)
             comparisons.add("sum_phase_strain_energies", row["matrix_strain_energy_J"] + row["yarn_strain_energy_J"], diagnostic["strain_energy"], atol=1e-10)
+            if loading == "hemispherical-compression":
+                measured = hemisphere_metrics(reference, current, instant, boundaries[-1])
+                com_change = np.sum(state["mass"][:, None] * change, axis=0) / state["mass"].sum()
+                for axis, label in enumerate("xyz"):
+                    measured[f"center_of_mass_displacement_{label}_m"] = float(com_change[axis])
+                    comparisons.add(f"net_boundary_reaction_{label}_N", row[f"net_boundary_reaction_{label}_N"], sum(row[f"{name}_reaction_{label}_N"] for name in names), atol=1e-8)
+                measured["horizontal_center_of_mass_displacement_m"] = float(np.linalg.norm(com_change[[0, 2]]))
+                hemisphere_history.append({"time": float(instant), **measured})
+                for key, value in measured.items():
+                    comparisons.add(key, row[key], value, atol=1e-10 if "velocity" in key else 1e-12)
             for boundary, name, selected in zip(boundaries, names, masks):
+                if "radius" in boundary or "axis" in boundary:
+                    continue
                 target, velocity = motion(instant, boundary)
                 components = np.ones(3, dtype=bool) if boundary["components"] is None else np.asarray(boundary["components"], dtype=bool)
                 selected_count = int(selected.sum())
@@ -429,6 +491,14 @@ def review(folder):
             checks[f"{name}_actual_final_target_reached"] = name in final_grip_motion and bool(np.all(np.abs(np.asarray(final_grip_motion[name]) - target) <= limit))
     elif loading == "transverse-compression":
         checks["actual_reference_surface_closure"] = bool(1e-6 < closure[-1] < 1e-4)
+    elif loading == "hemispherical-compression":
+        checks["nonempty_fixed_center_top_roi"] = all(row["hemisphere_center_top_roi_particles"] > 0 for row in hemisphere_history)
+        checks["actual_center_top_settlement_at_least_twenty_five_um"] = checks["nonempty_fixed_center_top_roi"] and max(-row["hemisphere_center_top_mean_displacement_y_m"] for row in hemisphere_history) >= .000025
+        checks["hemisphere_particle_overlap_below_grid_alarm"] = max(row["hemisphere_maximum_particle_overlap_m"] for row in hemisphere_history) <= 1.5 * dx
+        checks["support_particle_overlap_below_grid_alarm"] = max(row["lower_plate_maximum_particle_overlap_m"] for row in hemisphere_history) <= 1.5 * dx
+        checks["body_stays_below_flat_back_face"] = min(row["hemisphere_flat_face_clearance_m"] for row in hemisphere_history) > 0
+        checks["positive_compressive_indenter_reaction"] = max(row["hemisphere_reaction_y_N"] for row in rows) > 0 and min(row["hemisphere_reaction_y_N"] for row in rows) >= -1e-8
+        checks["unilateral_lower_support_reaction"] = min(row["lower_plate_reaction_y_N"] for row in rows) < 0 and max(row["lower_plate_reaction_y_N"] for row in rows) <= 1e-8
     else:
         checks["actual_center_deflection_at_least_point_one_mm"] = bool(max(central_deflection) >= 1e-4)
     checks["independent_observables_match"] = all(comparisons.matches.values())
@@ -454,7 +524,7 @@ def review(folder):
             "measure": "P=tau*F^-T integrated over reference slabs; moment uses reference Y, not a current-configuration angular-momentum balance",
         },
         "boundary_tracking": boundary_report,
-        "response": {"saved_reference_surface_closure_m": closure, "saved_center_deflection_m": central_deflection, "final_grip_mean_displacement_m": final_grip_motion},
+        "response": {"saved_reference_surface_closure_m": closure, "saved_center_deflection_m": central_deflection, "final_grip_mean_displacement_m": final_grip_motion, "hemisphere_history": hemisphere_history},
         "maximum_observable_reconstruction_error": comparisons.errors,
         "scope": "NumPy reconstruction of initial geometry, per-particle labels and reference axes, saved coordinate motion and final elastic state. Saved strain-history limits use observer records; only final strain and energy are independently reconstructed because intermediate deformation gradients are not archived.",
         "interpretation": "Fully bonded elastic yarn and matrix under dynamic prescribed loading; no Z binders, debonding, damage, calibration or convergence claim. Yarn volume fractions differ between architectures. Thin support/loading patches with no full-stencil particle samples have no exact particle-clamping claim. Fixture reactions are next-step diagnostics, not a quasi-static material curve.",

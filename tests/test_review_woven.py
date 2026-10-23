@@ -6,7 +6,7 @@ import pytest
 from tools.review_woven import (
     Comparisons, END_TIME, LOAD_TIME, array_descriptor, elastic_response,
     equivalent_record, expected_boundaries, motion, stiffness_from_constants, support_mask,
-    positive_stored_energy, section_layout, section_resultants,
+    positive_stored_energy, section_layout, section_resultants, hemisphere_metrics,
 )
 
 
@@ -112,6 +112,26 @@ def test_raw_field_hash_binds_dtype_shape_and_changed_labels():
     assert original != array_descriptor(labels.reshape(2, 2))
     labels[1] = 0
     assert original != array_descriptor(labels)
+
+
+def test_independent_hemisphere_roi_distance_and_stationary_hold():
+    boundaries, names, types = expected_boundaries("hemispherical-compression", .016 / 192)
+    assert names == ["lower_plate", "hemisphere"]
+    assert types == ["PlaneWall", "RigidHemisphereBoundary"]
+    tool = boundaries[-1]
+    reference = np.array([[.008, .009, .008], [.008, .007, .008], [.012, .009, .012]])
+    current = reference.copy()
+    current[0, 1] -= .00005
+    measured = hemisphere_metrics(reference, current, END_TIME, tool)
+    assert measured["hemisphere_center_top_roi_particles"] == 1
+    assert measured["hemisphere_center_top_mean_displacement_y_m"] == pytest.approx(-.00005)
+    assert measured["hemisphere_center_y_m"] == pytest.approx(.01015)
+    assert measured["hemisphere_maximum_particle_overlap_m"] == pytest.approx(.00005)
+    assert measured["hemisphere_particle_centers_inside"] == 1
+    assert measured["lower_plate_maximum_particle_overlap_m"] == 0
+    assert measured["hemisphere_prescribed_velocity_y_m_per_s"] == 0
+    np.testing.assert_array_equal(support_mask(reference, .016 / 192, boundaries[0]), np.zeros(3, dtype=bool))
+    np.testing.assert_array_equal(support_mask(reference, .016 / 192, tool), np.zeros(3, dtype=bool))
 
 
 def test_comparison_never_accepts_missing_values_nan_or_changed_constraints():
