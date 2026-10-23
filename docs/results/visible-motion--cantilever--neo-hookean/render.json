@@ -1,0 +1,43 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 3,
+  "frames_rendered": 51,
+  "animation": "simulation.gif",
+  "field": "speed",
+  "color_range": [
+    0.0,
+    0.34409252273867524
+  ],
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": true,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0043055555555555555,
+  "scene_bounds": [
+    0.15345744680851064,
+    0.8082590706319023,
+    0.3989801377099978,
+    0.7164384621020197,
+    0.35039672406420563,
+    0.6496032759357948
+  ],
+  "camera_position": [
+    1.3975805320729546,
+    1.1142906801558916,
+    1.6786429228821051
+  ],
+  "camera_focal_point": [
+    0.4808582587202065,
+    0.5577092999060087,
+    0.5000000000000002
+  ],
+  "camera_parallel_scale": 0.39231593392899083,
+  "particles": 119944,
+  "auxiliary_geometry": []
+}

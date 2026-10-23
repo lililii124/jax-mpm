@@ -6,7 +6,7 @@ import hashlib
 from pathlib import Path
 import shutil
 
-from public_runs import is_public_run
+from public_runs import homepage_records, is_public_run, is_ready_for_publication
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,6 +45,7 @@ GROUPS = {
         ("unbaffled-tank", "engineering/unbaffled-tank/neo-hookean"),
     ],
     "Dynamics and contact": [
+        ("dugdale-array", "adhesion/dugdale-array"),
         ("sphere-contact", "contact-models/sphere-contact"),
         ("jkr-footprint", "contact-models/jkr-footprint"),
         ("wave", "suite/wave/neo-hookean"),
@@ -66,6 +67,18 @@ GROUPS = {
         ("floating-block", "benchmarks/floating-block/neo-hookean"),
         ("water-entry", "production/water-entry/neo-hookean"),
     ],
+    "Finite deformation and prescribed loading": [
+        ("visible-cantilever", "visible-motion/cantilever/neo-hookean"),
+        ("visible-shear", "visible-motion/shear/neo-hookean"),
+        ("visible-torsion", "visible-motion/torsion/neo-hookean"),
+        ("visible-surface-load", "visible-motion/surface-load/neo-hookean"),
+    ],
+    "Transverse shear-wave comparisons": [
+        ("visible-wave-grid32", "visible-motion/wave-grid32/neo-hookean"),
+        ("visible-wave-grid48", "visible-motion/wave-grid48/neo-hookean"),
+        ("visible-wave-grid64", "visible-motion/wave-grid64/neo-hookean"),
+        ("visible-wave-half-dt", "visible-motion/wave-half-dt/neo-hookean"),
+    ],
     "Constitutive examples": [
         ("orthotropic", "elastic_cantilever/cantilever/orthotropic"),
         ("transverse-isotropic", "elastic_cantilever/cantilever/transverse-isotropic"),
@@ -76,6 +89,7 @@ GROUPS = {
     ],
 }
 ANIMATIONS = {
+    "dugdale-array",
     "jc-tension",
     "concrete-bending",
     "ceramic-indentation",
@@ -99,7 +113,29 @@ ANIMATIONS = {
     "jh2",
     "hjc",
     "rht",
+    "visible-cantilever",
+    "visible-shear",
+    "visible-torsion",
+    "visible-surface-load",
+    "visible-wave-grid32",
+    "visible-wave-grid48",
+    "visible-wave-grid64",
+    "visible-wave-half-dt",
 }
+
+
+def gallery_groups(catalogue):
+    groups = {heading: list(entries) for heading, entries in GROUPS.items()}
+    listed = {relative for entries in groups.values() for _, relative in entries}
+    for record in catalogue:
+        parts = record["id"].split("--")
+        if parts[0] != "adhesion":
+            continue
+        relative = "/".join(parts)
+        if relative not in listed:
+            groups["Dynamics and contact"].append(("adhesion-" + "-".join(parts[1:]), relative))
+            listed.add(relative)
+    return groups
 
 
 def preview(folder, name, render):
@@ -114,6 +150,7 @@ def preview(folder, name, render):
             if frame < len(rows):
                 return image, frame, float(rows[frame]["time"])
     columns = {
+        "dugdale-array": "surface_displacement_y_min_m",
         "perforated-panel": "maximum_displacement",
         "cellular-cushion": "cushion_upper_displacement_y",
         "baffled-tank": "maximum_baffle_displacement",
@@ -123,6 +160,12 @@ def preview(folder, name, render):
         "large-twist": "tip_rotation_x_rad",
         "ceramic-indentation": "nominal_indentation_m",
     }
+    if name.startswith("visible-"):
+        columns[name] = (
+            "tip_rotation_x_rad" if name == "visible-torsion" else "maximum_displacement_m"
+        )
+    if name.startswith("adhesion-") or folder.parent.name == "adhesion":
+        columns[name] = "surface_displacement_y_min_m"
     observable = folder / "observables.csv"
     if name in columns and observable.exists() and render.get("frames_rendered", 0) > 1:
         with observable.open(newline="", encoding="utf-8") as stream:
@@ -138,6 +181,8 @@ def preview(folder, name, render):
 def main():
     target = ROOT / "docs/images"
     target.mkdir(exist_ok=True)
+    catalogue = json.loads((ROOT / "docs/results/index.json").read_text(encoding="utf-8"))
+    selected_ids = {record["id"] for record in homepage_records(ROOT, catalogue)}
     lines = [
         "# Gallery",
         "",
@@ -148,10 +193,10 @@ def main():
         "",
     ]
     manifest = []
-    for heading, entries in GROUPS.items():
+    for heading, entries in gallery_groups(catalogue).items():
         cells = []
         for name, relative in entries:
-            if not is_public_run(relative):
+            if not is_public_run(relative) or relative.replace("/", "--") not in selected_ids:
                 continue
             folder = ROOT / "outputs" / relative
             if not all((folder / f).exists() for f in ("summary.json", "render.json", "final.png")):
@@ -160,12 +205,12 @@ def main():
             if render.get("renderer") != "ParaView" or render.get("style_revision", 0) < 3:
                 continue
             summary = json.loads((folder / "summary.json").read_text())
-            if summary.get("completed") is False:
+            if not is_ready_for_publication(folder, relative, summary):
                 continue
             selected, frame, time = preview(folder, name, render)
             copy_if_changed(selected, target / f"{name}.png")
             animation = (
-                name in ANIMATIONS
+                (name in ANIMATIONS or relative.startswith("adhesion/"))
                 and (folder / "video.json").exists()
                 and (folder / "simulation.mp4").exists()
             )
@@ -174,6 +219,9 @@ def main():
                 animation = (
                     video.get("render_sha256")
                     == hashlib.sha256((folder / "render.json").read_bytes()).hexdigest()
+                    and video.get("bytes") == (folder / "simulation.mp4").stat().st_size
+                    and video.get("sha256")
+                    == hashlib.sha256((folder / "simulation.mp4").read_bytes()).hexdigest()
                 )
             if animation:
                 copy_if_changed(folder / "simulation.mp4", target / f"{name}.mp4")

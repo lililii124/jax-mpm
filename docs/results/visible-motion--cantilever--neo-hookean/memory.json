@@ -1,0 +1,16 @@
+{
+  "scope": "Sampled resident and private commit of the serial JAX worker process tree during this case, including persistent interpreter allocations; other applications and ParaView are excluded.",
+  "sampling_interval_seconds": 5,
+  "memory_guard_sampling_interval_seconds": 1,
+  "sampled_peak_tree_private_bytes": 642572288,
+  "sampled_peak_tree_rss_bytes": 673574912,
+  "minimum_system_available_commit_gib": 9.358161926269531,
+  "solver_seconds": 222.9501591999724,
+  "guard_initial_start_commit_gib": 9.0,
+  "guard_stop_commit_gib": 4,
+  "guard_scope": "Only the owned worker process tree is stopped; completed frame checkpoints are retained.",
+  "serial_batch_guard_stops": 0,
+  "serial_batch_resume_count": 0,
+  "monitoring_recovery": "Previous monitor process exited after Windows denied replacement of its JSON report; numerical worker continued.",
+  "backup_guard_scope": "Independent one-second memory-only loop with shared-memory heartbeat; disk reports are written by a separate thread every 30 seconds."
+}

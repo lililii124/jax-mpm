@@ -41,7 +41,19 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [refinement--grid32--wave--neo-hookean](results/refinement--grid32--wave--neo-hookean/summary.json) | 12,288 | 140 | 0.134164 | 0.994836 | 0 | ParaView |
 | [refinement--grid64--wave--linear](results/refinement--grid64--wave--linear/summary.json) | 98,304 | 260 | 0.134164 | 0.994796 | 0 | ParaView |
 | [refinement--half_dt--wave--neo-hookean](results/refinement--half_dt--wave--neo-hookean/summary.json) | 41,472 | 400 | 0.134164 | 0.994817 | 0 | ParaView |
+| [visible-motion--cantilever--neo-hookean](results/visible-motion--cantilever--neo-hookean/summary.json) | 119,944 | 2,650 | 1.4 | 0.775989 | 0 | ParaView |
+| [visible-motion--shear--neo-hookean](results/visible-motion--shear--neo-hookean/summary.json) | 242,208 | 800 | 0.4 | 0.60651 | 0 | ParaView |
+| [visible-motion--surface-load--neo-hookean](results/visible-motion--surface-load--neo-hookean/summary.json) | 113,535 | 2,300 | 1.2 | 0.68971 | 0 | ParaView |
+| [visible-motion--torsion--neo-hookean](results/visible-motion--torsion--neo-hookean/summary.json) | 119,944 | 2,300 | 1.2 | 0.775237 | 0 | ParaView |
+| [visible-motion--wave-grid32--neo-hookean](results/visible-motion--wave-grid32--neo-hookean/summary.json) | 34,560 | 1,250 | 0.969948 | 0.992756 | 0 | ParaView |
+| [visible-motion--wave-grid48--neo-hookean](results/visible-motion--wave-grid48--neo-hookean/summary.json) | 112,752 | 1,850 | 0.969948 | 0.989922 | 0 | ParaView |
+| [visible-motion--wave-grid64--neo-hookean](results/visible-motion--wave-grid64--neo-hookean/summary.json) | 269,568 | 2,450 | 0.969948 | 0.989943 | 0 | ParaView |
+| [visible-motion--wave-half-dt--neo-hookean](results/visible-motion--wave-half-dt--neo-hookean/summary.json) | 112,752 | 3,700 | 0.969948 | 0.9929 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)
 describes the separate constitutive and convergence checks.
+
+The [transverse shear-wave comparison](results/visible-wave-comparison.json)
+compares the new finite-motion runs with one another. The original axial-wave
+analytical checks remain separate in [VALIDATION.md](../VALIDATION.md).

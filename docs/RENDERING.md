@@ -26,6 +26,24 @@ particle spheres. Blue/orange distinguish bodies; scalar colours retain one
 range across the animation. Axes, grids, legends and text overlays are disabled.
 `render.json` records the renderer version, field, camera and particle count.
 
+For small motions, choose a physical scalar that remains visible without
+enlarging the geometry:
+
+```bash
+python -m mpm_jax.visualization outputs/suite/wave/neo-hookean --field speed --gif
+python -m mpm_jax.visualization outputs/suite/surface-load/neo-hookean --field displacement --gif
+```
+
+`speed` shows the saved velocity magnitude in m/s. `displacement` is
+`norm(x(t) - x(0))` in m for each material particle, using the first saved frame
+as reference. The exporter calculates it one frame at a time in chunks of at
+most 65,536 particles, without allocating a whole-history displacement array.
+It only adds a VTK scalar; source trajectories and rendered coordinates stay
+unchanged. Its definition and reference time are stored in `vtk_metadata.json`.
+`render.json` records `geometry_scale=1` and one fixed colour range spanning the
+complete saved history, starting at zero for speed and displacement. Waves and cantilever motion use speed; prescribed
+shear, torsion and surface loading use displacement magnitude.
+
 | File | Contents |
 |---|---|
 | `particles.pvd`, `vtk/*.vtp` | Time series and all particle fields |

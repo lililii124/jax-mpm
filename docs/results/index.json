@@ -652,5 +652,181 @@
       "vtk_metadata.json": "3ce3a4d5a6251faff030c37e4e55b20b2ddd436bc70b9d47e84db50bb040da81",
       "video.json": "174c62cd03fd9d163c9f3336724188f3cef5571f5ee4e0efdada26643835d69b"
     }
+  },
+  {
+    "id": "visible-motion--cantilever--neo-hookean",
+    "case": "cantilever / neo-hookean",
+    "source_directory": "outputs/visible-motion/cantilever/neo-hookean",
+    "particles": 119944,
+    "steps": 2650,
+    "simulation_time": 1.4000000000000001,
+    "min_J": 0.7759888811769464,
+    "max_damage": 0.0,
+    "solver_seconds": 222.9501591999724,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "aade877bff9a534ddad2780fbdf57c546a05f15db10aeb755448d5564eab20ff",
+      "diagnostics.csv": "e41699aff62a86aaef26aee5a1a22bc2e59af42f624063c520ecb757ea3e240b",
+      "observables.csv": "e85bfefa30e92a0bf92ff33e7eb0d7c9d18bd4dbb00e75002f8b98417560e656",
+      "render.json": "273991388839307510fd35646b73cd6b52a45379910e0a40be6cbe0bfdb70dfa",
+      "vtk_metadata.json": "4e8fbd0a48c678348ab26c62fda77ed501899ba6e856e96b3cdc341d8d97ed4b",
+      "video.json": "ccf2f8e5c7e87ce711d9a81420ffab2c95dfe89f89369d7f18b42cc507baa5cf",
+      "memory.json": "e2adb9586fe21baf2a6512946586c7ac4236779d189448faeaa7b55fc55855c0",
+      "interpretation.json": "04e357a1ffa1b58af4e064815b303d31daca6ef86453f6df242c1be78d61e214"
+    }
+  },
+  {
+    "id": "visible-motion--shear--neo-hookean",
+    "case": "shear / neo-hookean",
+    "source_directory": "outputs/visible-motion/shear/neo-hookean",
+    "particles": 242208,
+    "steps": 800,
+    "simulation_time": 0.4,
+    "min_J": 0.6065100764375376,
+    "max_damage": 0.0,
+    "solver_seconds": 131.04946430012933,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "854398e3a344aa7db6d451ce23ee254720f00b655facf2c2f0449bc376c7ce57",
+      "diagnostics.csv": "df8ce60a003064f3269c4f88b9769cfb12eb1ea777625465127392aebfffa874",
+      "observables.csv": "5d6f94799a2a1d6698a58ae4a6a1a3665aa295c11f2eb9c662650b01287c7cb2",
+      "render.json": "7a79efa49f3f093cf5286d45f2453ab3b86794b6743a413fda10627c5816072b",
+      "vtk_metadata.json": "39280ffca417f1ca69b94c95394d984318cbd407caa11edc49462484149c96d2",
+      "video.json": "f20439bb11944f8e1aed403ae92c7f5957dc3bfa2a402d7d5db40987a157a105",
+      "memory.json": "c588935e9e428c210b64d36d9763b1541a619e5d664d79e2c757d2e9de882504",
+      "interpretation.json": "6a9b61bc70ca32efa36c8ca662920084819bfa250845180a4e45e2ef4f1e7ed3"
+    }
+  },
+  {
+    "id": "visible-motion--surface-load--neo-hookean",
+    "case": "surface-load / neo-hookean",
+    "source_directory": "outputs/visible-motion/surface-load/neo-hookean",
+    "particles": 113535,
+    "steps": 2300,
+    "simulation_time": 1.2,
+    "min_J": 0.6897097565760215,
+    "max_damage": 0.0,
+    "solver_seconds": 183.71909289987525,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "07b01c027f413a8dc8de0549d967eddecc0729be119cf8a0dfc2679cbb368c84",
+      "diagnostics.csv": "828a45b668672cadb579a60c55eb9864055131d3197d18175778deb6f7ad0a70",
+      "observables.csv": "b8bd9103216691383c99d67ab10e7a1ac3ce5a27adf5ea74c77bee2d91ee9479",
+      "render.json": "c32cbb46eb730d6ab73c176e3564342108252cef8b036c29fb9349fa8d0bf162",
+      "vtk_metadata.json": "8ec95b0db5202d6c75ad4eb1ebb6987012bd47a9fdb209a84d6387ab61862166",
+      "video.json": "3e624d5ec50d2e52d406e810588fab3d690128dcb57992bac7d1ea1414a5dc7f",
+      "memory.json": "86caf7beed3ad0b88fd1267bdd317c837da02877549016f3d1237bd0f6d3d0d2",
+      "interpretation.json": "8e3cd75f958d30fa9c16abe3f69a82146982061e24884d82f24babf6555bde09"
+    }
+  },
+  {
+    "id": "visible-motion--torsion--neo-hookean",
+    "case": "torsion / neo-hookean",
+    "source_directory": "outputs/visible-motion/torsion/neo-hookean",
+    "particles": 119944,
+    "steps": 2300,
+    "simulation_time": 1.2,
+    "min_J": 0.7752374068400412,
+    "max_damage": 0.0,
+    "solver_seconds": 191.72499749987037,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "496b36df744df5fec7dbfdabe3e5796beffd73f8486ae0efb042c05c9a5e9dfb",
+      "diagnostics.csv": "28c164a13bb9d34ba59e8455332069b762d71dbba5a652e4f1a450ec97d97264",
+      "observables.csv": "45f7fdb1856dc8a2a96471ce4f3c03976b3bf3aa97fe9de9f57d5a83091dbc91",
+      "render.json": "6d733024187695c8caf88dce58d33116ba15a4f477a861a31d8fe1c4278b34ad",
+      "vtk_metadata.json": "e9d74dd16a3da1007b39ddd49c6ad1606ce3eecd60d668ffc817df73349a8688",
+      "video.json": "b756a8428087943d4724fce4c301740bb1f2538ad599f3defee777b6db4decf4",
+      "memory.json": "23cf172fa75e75f34dfbbe4822edd5d4bb71409ca39a3fb2e9f18ff88695237d",
+      "interpretation.json": "17cd30743e7470fa6bbe0aafccb7c4fd4a3a62c8886472595452a925003b72a6"
+    }
+  },
+  {
+    "id": "visible-motion--wave-grid32--neo-hookean",
+    "case": "wave-grid32 / neo-hookean",
+    "source_directory": "outputs/visible-motion/wave-grid32/neo-hookean",
+    "particles": 34560,
+    "steps": 1250,
+    "simulation_time": 0.9699484522385712,
+    "min_J": 0.9927558032662684,
+    "max_damage": 0.0,
+    "solver_seconds": 29.05528090003645,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "48d7425f34f5d0e37073786e5fac7260de9a63f8be6922f9f09a589672330bd1",
+      "diagnostics.csv": "454f518dc17602ba1af2e6d899bf3c8b7ac3d84a773081c5836fcb2e20d05ff5",
+      "observables.csv": "32342bb311b33427bda33289c7a3e7c25047a98c00389e6457ae790ba54eba0f",
+      "render.json": "6f13ff9b2147e88fd0775c77385cfd48fd6ddb569ee079e619638c9889aa21d4",
+      "vtk_metadata.json": "b822470805d82fcb512cc8a32b257c75b3b03f7844c738d84a572defc64bba38",
+      "video.json": "8ca4ea45f4b01ea83f1db7934122900fb8f5251564e626f053ef20b0ffe18850",
+      "memory.json": "51e26bdda5f32f6929c82a4c74a3cc3be9bbfb4c83bde8b2a4016e66f356a1ab",
+      "interpretation.json": "8a771f71f4a4ef7c1aa285f3ba5d5247e7792b7d9767e11130b090ab61591b3e"
+    }
+  },
+  {
+    "id": "visible-motion--wave-grid48--neo-hookean",
+    "case": "wave-grid48 / neo-hookean",
+    "source_directory": "outputs/visible-motion/wave-grid48/neo-hookean",
+    "particles": 112752,
+    "steps": 1850,
+    "simulation_time": 0.9699484522385712,
+    "min_J": 0.9899221667459084,
+    "max_damage": 0.0,
+    "solver_seconds": 146.1687637999712,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "573071239da7b2ee3fdf66a8c65a66f556d19d555443e02067db7e740707bbc3",
+      "diagnostics.csv": "ef58602c38536bdf0cd755cb011c0a6f770e1c50f59c4e640285c656e58b16d8",
+      "observables.csv": "2e2fe7be37ced707318a8639db1276af6412bffb1770f1e97659095833d5e806",
+      "render.json": "29b8e7d39b19fca0ece5b574282e41e9bcee25c72e2838a39f358b6134bbb92d",
+      "vtk_metadata.json": "298f8969dae32be1788f5f467c0bfa62b083b32fadf318cc3b69dcda5a82c52e",
+      "video.json": "6fdad11c4de27ae7d244cced296b9aed92b0b45bb8d3c1029cff6d120820f7e3",
+      "memory.json": "11fb4aa4756f0faf7298d2c55d05ac94f70d0a913aed59e6345d8e676e8b7f41",
+      "interpretation.json": "35e8ef2157edd3f84b1cff99266bbc4fc27827713afdd9534257a6344166774d"
+    }
+  },
+  {
+    "id": "visible-motion--wave-grid64--neo-hookean",
+    "case": "wave-grid64 / neo-hookean",
+    "source_directory": "outputs/visible-motion/wave-grid64/neo-hookean",
+    "particles": 269568,
+    "steps": 2450,
+    "simulation_time": 0.9699484522385712,
+    "min_J": 0.989943082282225,
+    "max_damage": 0.0,
+    "solver_seconds": 455.90740269990056,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "736613f38ec295b1275289e44f7d4566268bdbf46c3f39f3f740532f000dabf9",
+      "diagnostics.csv": "1c930f66b8f9b23117fa1a8dea1e25ed7a31136173c8ccfa226375c9705cc6be",
+      "observables.csv": "6c25d3e3c022054f0583cbd4a66d1efb80512b13cfc83590bc0610000c76dbf0",
+      "render.json": "57988f54a923a80344baaaecf6b94dd1b08294026e356014a5d8da34f37532d4",
+      "vtk_metadata.json": "ee5ea6268e68f0a57e5a51e5d831aca7f5d42014cacba49e19e8e735018353df",
+      "video.json": "2a6dd9b51b95bb1c38512b939f3fe8e032cf4f1529568fc9aed7a72ccfba0e2c",
+      "memory.json": "988a4b3ba4c8b3f0406337dd73b71a4fc3e77919949aa8f92f1e2ca7e5e9b6e9",
+      "interpretation.json": "93a0a7c2e8ef3f1a690204635a80415ceadab3cb5c60ec39230e2033b2fd8a41"
+    }
+  },
+  {
+    "id": "visible-motion--wave-half-dt--neo-hookean",
+    "case": "wave-half-dt / neo-hookean",
+    "source_directory": "outputs/visible-motion/wave-half-dt/neo-hookean",
+    "particles": 112752,
+    "steps": 3700,
+    "simulation_time": 0.9699484522385712,
+    "min_J": 0.9929002382126457,
+    "max_damage": 0.0,
+    "solver_seconds": 282.3326653998811,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "ec05cf104116b3c60cc07b9620b20683c29e1f9669e8810274307a0a5d9f1e83",
+      "diagnostics.csv": "cff9af8db0a8ef07eef315c7986b9951151b1ad876ab3609a12c3030d84d9389",
+      "observables.csv": "09ca00dc04d39f1e09e8136aac3f51087a87b119bc90f927482408b96b44ba77",
+      "render.json": "f9368f4dda907f8ce4a1e8c6a81f0d7e2ade52c3cd2a33599c1f6c9d943e8059",
+      "vtk_metadata.json": "d1549a384b6e42da2c4b284481858241efa84dc63973a57231b095fbc0a32428",
+      "video.json": "8baab5b8e39892f2406623b1de2be4633585f1d8ace4d9378fc584415f30a506",
+      "memory.json": "6ff045cd488fe5a59f2a9b0874feee7a1a6c69fe4b2861e786b9a14b9dbfd42b",
+      "interpretation.json": "ff404805aebd78424cf7aa4f380237c047d83e3e63126f7b46bcbb4db861b5a0"
+    }
   }
 ]

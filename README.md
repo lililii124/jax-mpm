@@ -40,15 +40,15 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![Cantilever · Neo-Hookean](docs/images/home/suite--cantilever--neo-hookean.gif)<br>[Cantilever · Neo-Hookean](docs/results/suite--cantilever--neo-hookean/summary.json) | ![Pressure-loaded panel](docs/images/home/suite--surface-load--neo-hookean.gif)<br>[Pressure-loaded panel](docs/results/suite--surface-load--neo-hookean/summary.json) | ![Simple shear](docs/images/home/suite--shear--neo-hookean.gif)<br>[Simple shear](docs/results/suite--shear--neo-hookean/summary.json) |
-| ![Torsional release](docs/images/home/suite--torsion--neo-hookean.gif)<br>[Torsional release](docs/results/suite--torsion--neo-hookean/summary.json) |  |  |
+| ![Cyclic bending](docs/images/home/visible-motion--cantilever--neo-hookean.gif)<br>[Cyclic bending](docs/results/visible-motion--cantilever--neo-hookean/summary.json) | ![Cyclic torsion](docs/images/home/visible-motion--torsion--neo-hookean.gif)<br>[Cyclic torsion](docs/results/visible-motion--torsion--neo-hookean/summary.json) | ![Large simple shear](docs/images/home/visible-motion--shear--neo-hookean.gif)<br>[Large simple shear](docs/results/visible-motion--shear--neo-hookean/summary.json) |
+| ![Pressure-loaded panel](docs/images/home/visible-motion--surface-load--neo-hookean.gif)<br>[Pressure-loaded panel](docs/results/visible-motion--surface-load--neo-hookean/summary.json) |  |  |
 
-### Wave refinement
+### Shear-wave comparisons
 
 | | | |
 |---|---|---|
-| ![Longitudinal wave · coarse grid](docs/images/home/refinement--grid32--wave--neo-hookean.gif)<br>[Longitudinal wave · coarse grid](docs/results/refinement--grid32--wave--neo-hookean/summary.json) | ![Longitudinal wave · fine grid](docs/images/home/refinement--grid64--wave--linear.gif)<br>[Longitudinal wave · fine grid](docs/results/refinement--grid64--wave--linear/summary.json) | ![Longitudinal wave · half time step](docs/images/home/refinement--half_dt--wave--neo-hookean.gif)<br>[Longitudinal wave · half time step](docs/results/refinement--half_dt--wave--neo-hookean/summary.json) |
-| ![Longitudinal wave · reference grid](docs/images/home/suite--wave--neo-hookean.gif)<br>[Longitudinal wave · reference grid](docs/results/suite--wave--neo-hookean/summary.json) |  |  |
+| ![Transverse shear wave · coarse grid](docs/images/home/visible-motion--wave-grid32--neo-hookean.gif)<br>[Transverse shear wave · coarse grid](docs/results/visible-motion--wave-grid32--neo-hookean/summary.json) | ![Transverse shear wave · fine grid](docs/images/home/visible-motion--wave-grid64--neo-hookean.gif)<br>[Transverse shear wave · fine grid](docs/results/visible-motion--wave-grid64--neo-hookean/summary.json) | ![Transverse shear wave · half time step](docs/images/home/visible-motion--wave-half-dt--neo-hookean.gif)<br>[Transverse shear wave · half time step](docs/results/visible-motion--wave-half-dt--neo-hookean/summary.json) |
+| ![Transverse shear wave · reference grid](docs/images/home/visible-motion--wave-grid48--neo-hookean.gif)<br>[Transverse shear wave · reference grid](docs/results/visible-motion--wave-grid48--neo-hookean/summary.json) |  |  |
 
 <!-- END EXAMPLE GIFS -->
 
@@ -138,7 +138,9 @@ python -m examples.gradient
 ```
 
 See [the example guide](docs/EXAMPLES.md) for geometry, boundary conditions,
-observables, and refinement commands. The [material engineering guide](docs/MATERIAL_ENGINEERING.md)
+observables, and refinement commands. The [finite-motion guide](docs/VISIBLE_MOTION.md)
+gives the loading cycles and shear-wave comparisons shown above.
+The [material engineering guide](docs/MATERIAL_ENGINEERING.md)
 describes the round bar, concrete beam and ceramic tile, their material sources,
 and the interpretation of grip forces, section forces and damage.
 

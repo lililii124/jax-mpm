@@ -283,42 +283,6 @@
     "auxiliary_geometry": []
   },
   {
-    "name": "wave",
-    "source": "suite/wave/neo-hookean",
-    "particles": 41472,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false,
-    "preview_frame": null,
-    "preview_time": null,
-    "auxiliary_geometry": []
-  },
-  {
-    "name": "cantilever",
-    "source": "suite/cantilever/neo-hookean",
-    "particles": 36540,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false,
-    "preview_frame": null,
-    "preview_time": null,
-    "auxiliary_geometry": []
-  },
-  {
-    "name": "torsion",
-    "source": "suite/torsion/neo-hookean",
-    "particles": 36540,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": false,
-    "preview_frame": null,
-    "preview_time": null,
-    "auxiliary_geometry": []
-  },
-  {
     "name": "oblique",
     "source": "suite/oblique/neo-hookean",
     "particles": 38686,
@@ -472,6 +436,102 @@
     "animation": true,
     "preview_frame": 40,
     "preview_time": 0.2333333333333333,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-cantilever",
+    "source": "visible-motion/cantilever/neo-hookean",
+    "particles": 119944,
+    "field": "speed",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 22,
+    "preview_time": 0.616,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-shear",
+    "source": "visible-motion/shear/neo-hookean",
+    "particles": 242208,
+    "field": "displacement",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 50,
+    "preview_time": 0.4,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-torsion",
+    "source": "visible-motion/torsion/neo-hookean",
+    "particles": 119944,
+    "field": "displacement",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 21,
+    "preview_time": 0.504,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-surface-load",
+    "source": "visible-motion/surface-load/neo-hookean",
+    "particles": 113535,
+    "field": "displacement",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 14,
+    "preview_time": 0.33599999999999997,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-wave-grid32",
+    "source": "visible-motion/wave-grid32/neo-hookean",
+    "particles": 34560,
+    "field": "speed",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 13,
+    "preview_time": 0.2521865975820285,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-wave-grid48",
+    "source": "visible-motion/wave-grid48/neo-hookean",
+    "particles": 112752,
+    "field": "speed",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 13,
+    "preview_time": 0.2521865975820285,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-wave-grid64",
+    "source": "visible-motion/wave-grid64/neo-hookean",
+    "particles": 269568,
+    "field": "speed",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 13,
+    "preview_time": 0.2521865975820285,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "visible-wave-half-dt",
+    "source": "visible-motion/wave-half-dt/neo-hookean",
+    "particles": 112752,
+    "field": "speed",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 13,
+    "preview_time": 0.2521865975820285,
     "auxiliary_geometry": []
   }
 ]

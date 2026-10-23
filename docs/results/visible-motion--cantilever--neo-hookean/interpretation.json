@@ -1,0 +1,62 @@
+{
+  "case": "cantilever / neo-hookean",
+  "scope": "Independent NumPy reconstruction of saved positions, imposed loading and response observables; sampled-frame checks, not experimental validation or an inherited axial-wave accuracy result.",
+  "sources": {
+    "summary.json": "aade877bff9a534ddad2780fbdf57c546a05f15db10aeb755448d5564eab20ff",
+    "observables.csv": "e85bfefa30e92a0bf92ff33e7eb0d7c9d18bd4dbb00e75002f8b98417560e656",
+    "diagnostics.csv": "e41699aff62a86aaef26aee5a1a22bc2e59af42f624063c520ecb757ea3e240b"
+  },
+  "checks": {
+    "initial_frame_at_zero_time": true,
+    "complete_output_frame_count": true,
+    "completion_status_matches": true,
+    "full_duration": true,
+    "time_step_count_matches_duration": true,
+    "matching_table_times": true,
+    "uniform_increasing_times": true,
+    "finite_tables": true,
+    "finite_saved_arrays": true,
+    "valid_final_state": true,
+    "final_positions_match_saved_trajectory": true,
+    "positive_mass_volume_and_J": true,
+    "constant_saved_mass": true,
+    "sampled_anchor_exists": true,
+    "sampled_anchor_matches_definition": true,
+    "sampled_anchor_stays_fixed": true,
+    "sampled_anchor_has_zero_velocity": true,
+    "independent_observables_match": true,
+    "geometry_is_unscaled": true,
+    "visible_tip_bending": true,
+    "tip_follows_prescribed_cycle": true,
+    "complete_loading_and_return_cycle": true
+  },
+  "passed": true,
+  "saved_frames": 51,
+  "min_J": 0.7759888811769464,
+  "maximum_relative_mass_drift": 0.0,
+  "peak_displacement_m": 0.12175841163553472,
+  "response": {
+    "quantity": "tip y displacement",
+    "units": "m",
+    "minimum": -8.855423311791253e-08,
+    "minimum_time_s": 1.204,
+    "maximum": 0.11988673796408857,
+    "maximum_time_s": 0.588,
+    "final": -8.855423311791253e-08
+  },
+  "maximum_observable_reconstruction_error": {
+    "maximum_displacement_m": 0.0,
+    "rms_displacement_m": 0.0,
+    "sample_min_J": 0.0,
+    "sample_max_J": 0.0,
+    "anchor_max_displacement_m": 0.0,
+    "anchor_max_speed_m_per_s": 0.0,
+    "tip_mean_displacement_x_m": 0.0,
+    "tip_mean_displacement_y_m": 0.0,
+    "tip_mean_displacement_z_m": 0.0,
+    "tip_max_displacement_m": 0.0,
+    "target_grip_displacement_y_m": 0.0,
+    "tip_displacement_tracking_error_y_m": 0.0
+  },
+  "interpretation": "Displacements and rotations come from the numerical trajectory at physical scale. Visibility thresholds were selected before the production runs."
+}

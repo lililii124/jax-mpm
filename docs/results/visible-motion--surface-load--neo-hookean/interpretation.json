@@ -1,0 +1,60 @@
+{
+  "case": "surface-load / neo-hookean",
+  "scope": "Independent NumPy reconstruction of saved positions, imposed loading and response observables; sampled-frame checks, not experimental validation or an inherited axial-wave accuracy result.",
+  "sources": {
+    "summary.json": "07b01c027f413a8dc8de0549d967eddecc0729be119cf8a0dfc2679cbb368c84",
+    "observables.csv": "b8bd9103216691383c99d67ab10e7a1ac3ce5a27adf5ea74c77bee2d91ee9479",
+    "diagnostics.csv": "828a45b668672cadb579a60c55eb9864055131d3197d18175778deb6f7ad0a70"
+  },
+  "checks": {
+    "initial_frame_at_zero_time": true,
+    "complete_output_frame_count": true,
+    "completion_status_matches": true,
+    "full_duration": true,
+    "time_step_count_matches_duration": true,
+    "matching_table_times": true,
+    "uniform_increasing_times": true,
+    "finite_tables": true,
+    "finite_saved_arrays": true,
+    "valid_final_state": true,
+    "final_positions_match_saved_trajectory": true,
+    "positive_mass_volume_and_J": true,
+    "constant_saved_mass": true,
+    "sampled_anchor_exists": true,
+    "sampled_anchor_matches_definition": true,
+    "sampled_anchor_stays_fixed": true,
+    "sampled_anchor_has_zero_velocity": true,
+    "independent_observables_match": true,
+    "geometry_is_unscaled": true,
+    "visible_plate_deflection": true,
+    "complete_pressure_unloading": true
+  },
+  "passed": true,
+  "saved_frames": 51,
+  "min_J": 0.6897097565760215,
+  "maximum_relative_mass_drift": 0.0,
+  "peak_displacement_m": 0.11704882088037327,
+  "response": {
+    "quantity": "plate center y displacement",
+    "units": "m",
+    "minimum": -0.1086130813188599,
+    "minimum_time_s": 0.33599999999999997,
+    "maximum": 0.07503471667119233,
+    "maximum_time_s": 0.9359999999999999,
+    "final": -0.05893589815358421
+  },
+  "maximum_observable_reconstruction_error": {
+    "maximum_displacement_m": 0.0,
+    "rms_displacement_m": 0.0,
+    "sample_min_J": 0.0,
+    "sample_max_J": 0.0,
+    "anchor_max_displacement_m": 0.0,
+    "anchor_max_speed_m_per_s": 0.0,
+    "center_mean_displacement_y_m": 0.0,
+    "center_min_displacement_y_m": 0.0,
+    "surface_pressure_Pa": 2.2737367544323206e-13,
+    "prescribed_surface_force_y_N": 1.7053025658242404e-13,
+    "surface_force_assignment_error_N": 1.1368683772161603e-13
+  },
+  "interpretation": "Displacements and rotations come from the numerical trajectory at physical scale. Visibility thresholds were selected before the production runs."
+}

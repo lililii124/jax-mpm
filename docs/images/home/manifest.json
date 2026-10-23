@@ -1,19 +1,5 @@
 [
   {
-    "id": "suite--cantilever--neo-hookean",
-    "gif_path": "docs/images/home/suite--cantilever--neo-hookean.gif",
-    "gif_sha256": "fb4a62f1bd27a6a5c34ea42e4a8d9d0139e72cc797d77d8f0bac8d376f29f6c1",
-    "bytes": 824014,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "df2847dd3cd498ee4f7af469602797cffdc2d6cb5eae0c5d037741faeb41b7a2",
-    "source_render_sha256": "c932341c6d17299c0bf4bcab8271b33ccc19d30adc86c9f82367e8dcd51c18e3"
-  },
-  {
     "id": "suite--dam-break--neo-hookean",
     "gif_path": "docs/images/home/suite--dam-break--neo-hookean.gif",
     "gif_sha256": "235268ce6026303934ccca7d49e53214723f945fd53d300e273de0716b535818",
@@ -84,20 +70,6 @@
     "source_render_sha256": "234a76722c437747d14090e40105b578eb6c8da2102c823d0d51f3f9edff05dd"
   },
   {
-    "id": "suite--shear--neo-hookean",
-    "gif_path": "docs/images/home/suite--shear--neo-hookean.gif",
-    "gif_sha256": "5e76ecfd2c001f0ce5c6859e15e8ff5b97a4d2976834e0a009dd11de99f54342",
-    "bytes": 1330996,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "32841ef766cb00d6446ee08f97a691a7162ecde33cc914a0ed7f8d4c92873bc8",
-    "source_render_sha256": "045035c366dd920452b8a32a0f6242ce57bd0e7755f21d561b4606f1db6a3094"
-  },
-  {
     "id": "suite--sliding--neo-hookean",
     "gif_path": "docs/images/home/suite--sliding--neo-hookean.gif",
     "gif_sha256": "1f9fbf156a4506fb66dd51e5c41a424fb64c8c798da59537cd0df0194a5a704f",
@@ -126,34 +98,6 @@
     "source_render_sha256": "5df2596224ae9955cf77393f9bea73492f1155fd1afff5cb5e9927037dbfa0ab"
   },
   {
-    "id": "suite--surface-load--neo-hookean",
-    "gif_path": "docs/images/home/suite--surface-load--neo-hookean.gif",
-    "gif_sha256": "45c659f458bece2bbee887362fb04093569fd301717ddf4b7d32e9feaae88b9d",
-    "bytes": 258620,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "90b2572616f83fde33aba5342d07cb3e9276dd418ed43ac5f721d217279c6ef2",
-    "source_render_sha256": "cfacf4a8c1abfcbf012164129e67269472cd421d120b23d4a1730322326b62e7"
-  },
-  {
-    "id": "suite--torsion--neo-hookean",
-    "gif_path": "docs/images/home/suite--torsion--neo-hookean.gif",
-    "gif_sha256": "cf23cadf6721bd2596274a99284ee1952b91c1fff3a7cd6824763a4cdb68a21d",
-    "bytes": 931849,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "f8ace9204e27a9f94e7828dbe19b43f0e32823118e04ddd0a1166cf3703db981",
-    "source_render_sha256": "f4413b40d3e9ae4312d5c83aa027bc5e57ffa9669bafdae2249ecdb7d03168a1"
-  },
-  {
     "id": "suite--water-entry--neo-hookean",
     "gif_path": "docs/images/home/suite--water-entry--neo-hookean.gif",
     "gif_sha256": "9209ad95947d97ad0802823ebde9095568c6ad5f802371da1786a6f421a66308",
@@ -166,20 +110,6 @@
     "gif_frames": 21,
     "render_sha256": "7887cdc72d521ba0665bc02af1f744ac2398f9ce6b4204869099c98b2d9cbf84",
     "source_render_sha256": "7cd531ad52ea2a00510248eaa639905f990495dad1c4ce15b95ac15226614e3f"
-  },
-  {
-    "id": "suite--wave--neo-hookean",
-    "gif_path": "docs/images/home/suite--wave--neo-hookean.gif",
-    "gif_sha256": "0b1b9b8cb59efca03fd893653d5e310fd29c57d95420ef1c5fd7d6a0f54e5ee9",
-    "bytes": 574379,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "19ad191dfa5b2aef7841e4c5c45ea6ee0aa6345532a40f277c4019499effc460",
-    "source_render_sha256": "b90cc00ae783152401c89bc6876f95ea10124651006c961339af50d775a7dbbb"
   },
   {
     "id": "material-engineering--ceramic-indentation--jh2",
@@ -208,6 +138,20 @@
     "gif_frames": 41,
     "render_sha256": "3189cd4ee44b76923e767c3c23f64a3046cb525e9a95e9bd42b0e950dcd8299b",
     "source_render_sha256": "e5e540dad6badff6552c0c2c65809917507b26460fd171c71deb982acebddf36"
+  },
+  {
+    "id": "material-engineering--jc-tension--johnson-cook",
+    "gif_path": "docs/images/home/material-engineering--jc-tension--johnson-cook.gif",
+    "gif_sha256": "33ac2a1fa7600da668081c07af98cef408e9d777bfa3839ad7e901912a81b053",
+    "bytes": 599907,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "5178386da641318b4d4532c519d5739e63ee1c51e46af224267de204d541ca62",
+    "source_render_sha256": "844576330ba1b125bacb00818cf6081d91cb50e40dbbb7c354b039e6c8015976"
   },
   {
     "id": "benchmarks--ball-beam--neo-hookean",
@@ -392,59 +336,115 @@
     "source_render_sha256": "3f93d3944dadaf4af6da8fb35655d303a498df1ea49c12f53e89e820b9a8b998"
   },
   {
-    "id": "refinement--grid32--wave--neo-hookean",
-    "gif_path": "docs/images/home/refinement--grid32--wave--neo-hookean.gif",
-    "gif_sha256": "37b4196849673df014fd830164c0670a3ef8db7b56a30023d82e114c4354a304",
-    "bytes": 466959,
+    "id": "visible-motion--cantilever--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--cantilever--neo-hookean.gif",
+    "gif_sha256": "b7ae7ca21d7fa92b473922890dbe2a484535cb3c085297adfcd7e898470b96fc",
+    "bytes": 1612012,
     "dimensions": [
       400,
       400
     ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "d3f2b1c9adbe77e3b13d472e35bba0b03611ee3a36ee3e4e6a51bb7e3751c627",
-    "source_render_sha256": "693cb92d6f2a6da0cd731f26ad0eabb10c19080791c13483c010652d18e944f4"
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "273991388839307510fd35646b73cd6b52a45379910e0a40be6cbe0bfdb70dfa",
+    "source_render_sha256": "fbd5ea52a09050475f8900d222e2d81e519affd8b1ac9fc87b612024c3dd925c"
   },
   {
-    "id": "refinement--grid64--wave--linear",
-    "gif_path": "docs/images/home/refinement--grid64--wave--linear.gif",
-    "gif_sha256": "b7839f4cbd09a990dc1b416d395c52e151c98541366737ac776d1b3a8b2569dd",
-    "bytes": 674669,
+    "id": "visible-motion--shear--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--shear--neo-hookean.gif",
+    "gif_sha256": "6d58900c208d865870316eda9d977d98e01b6fad13c5bc5bcd95347089560fad",
+    "bytes": 2074258,
     "dimensions": [
       400,
       400
     ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "040ec1748603f8f2c3afdaaaa79a8de0cf2042232386b0715bf5ae1a9d949e58",
-    "source_render_sha256": "55df80c9baa51d3dc5a8b7634f02b4e4f89216c7f685b4624f6114a012e306ef"
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "7a79efa49f3f093cf5286d45f2453ab3b86794b6743a413fda10627c5816072b",
+    "source_render_sha256": "a7d991bf3854d3b04d4716fc2d5a7bd8525814e81b8d4be0dbe2803c58bffc30"
   },
   {
-    "id": "refinement--half_dt--wave--neo-hookean",
-    "gif_path": "docs/images/home/refinement--half_dt--wave--neo-hookean.gif",
-    "gif_sha256": "a0f3659a3989f34a580807791d70ba4bbf8689c692a83e03e3ebce1c41a52e5d",
-    "bytes": 567474,
+    "id": "visible-motion--surface-load--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--surface-load--neo-hookean.gif",
+    "gif_sha256": "eb34ed8376b2d828fc0584afee09a2bb48ed8247b4fb102b9717ce60ba93bd1a",
+    "bytes": 617988,
     "dimensions": [
       400,
       400
     ],
-    "source_frames": 21,
-    "gif_frames": 21,
-    "render_sha256": "e4ffabb81c56b97419254b3dd5d4afaae4c2d649d053a0c1cd3783c3d1901032",
-    "source_render_sha256": "5c8d246aa0fff8581e3d4548ea18e9622f14b39c9636358f608ea6dc04486b21"
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "c32cbb46eb730d6ab73c176e3564342108252cef8b036c29fb9349fa8d0bf162",
+    "source_render_sha256": "6b89d4ef21adbdb0212c8ef94d90d42b462fa3c61894dd9fcb9b537a0e790776"
   },
   {
-    "id": "material-engineering--jc-tension--johnson-cook",
-    "gif_path": "docs/images/home/material-engineering--jc-tension--johnson-cook.gif",
-    "gif_sha256": "33ac2a1fa7600da668081c07af98cef408e9d777bfa3839ad7e901912a81b053",
-    "bytes": 599907,
+    "id": "visible-motion--torsion--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--torsion--neo-hookean.gif",
+    "gif_sha256": "9ce66c1be5963561588d5a508bf0f7a5b579ea6ee708c316930e608def1b253d",
+    "bytes": 1633687,
     "dimensions": [
       400,
       400
     ],
-    "source_frames": 61,
-    "gif_frames": 61,
-    "render_sha256": "5178386da641318b4d4532c519d5739e63ee1c51e46af224267de204d541ca62",
-    "source_render_sha256": "844576330ba1b125bacb00818cf6081d91cb50e40dbbb7c354b039e6c8015976"
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "6d733024187695c8caf88dce58d33116ba15a4f477a861a31d8fe1c4278b34ad",
+    "source_render_sha256": "fde54b544c498cd09d8e08ba04a1863863b127964f2a4c510a8f253170ce1c96"
+  },
+  {
+    "id": "visible-motion--wave-grid32--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--wave-grid32--neo-hookean.gif",
+    "gif_sha256": "f7cd35def1b98db938ed4de4b37a22a7320e653c3d7774ebf35b2c7095781d23",
+    "bytes": 1642073,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "6f13ff9b2147e88fd0775c77385cfd48fd6ddb569ee079e619638c9889aa21d4",
+    "source_render_sha256": "a6300be3960ce17c03697654424ac92f4f1bbb2a34ec653426cf604410572b49"
+  },
+  {
+    "id": "visible-motion--wave-grid48--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--wave-grid48--neo-hookean.gif",
+    "gif_sha256": "7ff9c7da53d7cf4c6e3cd9c3f8f8a3395bba160a23f3a40186706e27683ebf8c",
+    "bytes": 1640573,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "29b8e7d39b19fca0ece5b574282e41e9bcee25c72e2838a39f358b6134bbb92d",
+    "source_render_sha256": "60e6dbbcd0b8c7b298df5386f0faacfa45125b0269afdcd5a50dec6f9de0c7ea"
+  },
+  {
+    "id": "visible-motion--wave-grid64--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--wave-grid64--neo-hookean.gif",
+    "gif_sha256": "e157125a04436faf25e1f0efd353a574d01f225aee1f36b8b918c3c09cf81702",
+    "bytes": 1453418,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "57988f54a923a80344baaaecf6b94dd1b08294026e356014a5d8da34f37532d4",
+    "source_render_sha256": "53de7ed9328877bf92cb10adee84d3becb8915b19a977e20404b14a40a7e84f0"
+  },
+  {
+    "id": "visible-motion--wave-half-dt--neo-hookean",
+    "gif_path": "docs/images/home/visible-motion--wave-half-dt--neo-hookean.gif",
+    "gif_sha256": "d3638c2ec56eb86d13a8862eac217936ca5881610d09dfe796e211ed6e823abb",
+    "bytes": 1641854,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 51,
+    "gif_frames": 51,
+    "render_sha256": "f9368f4dda907f8ce4a1e8c6a81f0d7e2ade52c3cd2a33599c1f6c9d943e8059",
+    "source_render_sha256": "49d8daf51d3d036c62777e9b8635695f680b6ef6a8c8cd6663437e53619d6518"
   }
 ]

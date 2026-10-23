@@ -151,6 +151,7 @@ def render_trajectory(output, *, gif=False, field="body", resolution=1200, final
             output,
             spacing=spacing,
             dim=config.get("dim", positions.shape[-1]),
+            displacement=field == "displacement",
         )
     del positions, fields
     render_directory(output, gif=gif, field=field, resolution=resolution, final_only=final_only)
@@ -161,7 +162,7 @@ def main():
     parser.add_argument("output", type=Path)
     parser.add_argument("--gif", action="store_true")
     parser.add_argument(
-        "--field", choices=("body", "speed", "damage", "temperature"), default="body"
+        "--field", choices=("body", "speed", "displacement", "damage", "temperature"), default="body"
     )
     parser.add_argument("--resolution", type=int, default=1200)
     parser.add_argument("--final-only", action="store_true")

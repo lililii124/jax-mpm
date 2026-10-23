@@ -1,11 +1,12 @@
 # Verification and executed examples
 
-The Windows CPU test run passed **102 tests** with Python 3.12.13 and
+The Windows CPU test run passed **113 tests** with Python 3.12.13 and
 the PyPI release JAX 0.12.0.1. The suite covers 2D/3D transfers,
 constitutive integration, formal boundary conditions, contact, elastic gradients
 and interrupted-run recovery. GPU execution has not been validated.
 The [test report](docs/results/tests-public.xml) records zero failures, errors
-or skips. An earlier 67-test baseline also passed with the source build
+or skips. This report uses the isolated source snapshot selected for the release.
+An earlier 67-test baseline also passed with the source build
 JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1; its separate
 [report](docs/results/tests-source.xml) is retained.
 
@@ -16,7 +17,7 @@ JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1; its separate
 - Rigid rotations, stress/energy consistency, isotropic limits and rotated anisotropy.
 - Unilateral walls, moving walls, Coulomb slip, component-wise prescribed velocity,
   activation intervals, translating regions with half-cosine startup and a fully
-  clamped body under gravity.
+  clamped body under gravity; cyclic translation and rotation with prescribed round trips.
 - Balanced two-body impulses, separation without adhesion and applied particle forces.
 - Hertz scaling; independent JKR roots, stable-branch derivatives and attachment
   history; conservative pressure assignment; rigid-sphere impulse balance.
@@ -71,13 +72,57 @@ elastic rod; it does not establish convergence of damage, contact or FSI cases.
 Definitions, boundary regions and final metrics are preserved in the
 [run catalogue](docs/RESULTS.md).
 
+## Finite transverse shear-wave comparison
+
+The new transverse-wave runs use the same Neo-Hookean material, geometry,
+initial transverse velocity, component constraints and particle density.
+Their 51 saved states span 0.969948452 s;
+the comparison uses mean tip-y displacement at matching output times without
+temporal interpolation. [The comparison record](docs/results/visible-wave-comparison.json)
+checks the individual reviews and their source hashes.
+
+| Run | Grid | Time step (s) | Steps | Minimum tip y (m) | Maximum tip y (m) |
+|---|---:|---:|---:|---:|---:|
+| wave-grid32 | 32³ | 0.000775958762 | 1,250 | -0.09203337 | 0.09241899 |
+| wave-grid48 | 48³ | 0.000524296461 | 1,850 | -0.09207041 | 0.09220094 |
+| wave-grid64 | 64³ | 0.000395897327 | 2,450 | -0.09206383 | 0.09212111 |
+| wave-half-dt | 48³ | 0.00026214823 | 3,700 | -0.09187538 | 0.09214416 |
+
+| Pair | RMS difference (m) | Maximum absolute difference (m) |
+|---|---:|---:|
+| wave-grid32 − wave-grid64 | 0.00609678 | 0.0147161 |
+| wave-grid48 − wave-grid64 | 0.002087797 | 0.004954009 |
+| wave-half-dt − wave-grid48 | 0.0001498382 | 0.0003374825 |
+
+The actual half-step/reference-step ratio is 0.5;
+integer step counts preserve the common output schedule. The grid64 history
+is a numerical comparator. These differences quantify sensitivity to grid
+and time step; convergence order and experimental agreement have not been established.
+The longitudinal-wave table above retains its original small-motion problem
+and analytical reference. Its error values do not apply to these new runs.
+
+### Prescribed finite deformation
+
+| Case | Tracked response | Minimum | Maximum | Final | Unit | Minimum det(F) |
+|---|---|---:|---:|---:|---|---:|
+| Cyclic bending | tip y displacement | -8.855423e-08 | 0.1198867 | -8.855423e-08 | m | 0.7759889 |
+| Simple shear | top x displacement | 0 | 0.1797375 | 0.1797375 | m | 0.6065101 |
+| Cyclic torsion | tip rotation about x | -9.378083e-07 | 1.570512 | -9.378083e-07 | rad | 0.7752374 |
+| Pressure-loaded panel | plate center y displacement | -0.1086131 | 0.07503472 | -0.0589359 | m | 0.6897098 |
+
+The saved coordinates use physical geometry at scale 1. The independent
+reviews reconstruct displacement and rotation, check fixed-region motion,
+prescribed loading, positive determinants and constant recorded mass.
+[Boundary definitions and commands](docs/VISIBLE_MOTION.md) describe the new cases.
+
 ## Spatial examples
 
-The local output collection contains **48 completed runs**. The public
-[catalogue](docs/RESULTS.md) contains **32 selected runs**, covering dynamics,
+The local output collection contains **56 completed runs**. The public
+[catalogue](docs/RESULTS.md) contains **40 selected runs**, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
+The homepage shows 32 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.

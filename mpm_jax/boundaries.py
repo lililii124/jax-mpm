@@ -138,5 +138,102 @@ class MovingVelocityBox(VelocityBox):
         )
 
 
+def _cycle(time, start, period):
+    elapsed = jnp.asarray(time, dtype=jnp.result_type(time, float)) - start
+    phase = jnp.clip(elapsed / period, 0.0, 1.0)
+    value = 0.5 * (1.0 - jnp.cos(2.0 * jnp.pi * phase))
+    rate = jnp.pi / period * jnp.sin(2.0 * jnp.pi * phase)
+    return value, jnp.where((elapsed > 0) & (elapsed < period), rate, 0.0)
+
+
+def _validate_cycle(start, period):
+    if not np.isfinite(start) or start < 0:
+        raise ValueError("cycle start must be finite and nonnegative")
+    if not np.isfinite(period) or period <= 0:
+        raise ValueError("cycle period must be finite and positive")
+
+
+@dataclass(frozen=True)
+class CyclicVelocityBox:
+    """Translate to a prescribed displacement and back, then hold at rest."""
+
+    lower: tuple[float, ...]
+    upper: tuple[float, ...]
+    displacement: tuple[float, ...]
+    period: float
+    components: tuple[bool, ...] | None = None
+    start: float = 0.0
+
+    def validate(self, dim, domain_size):
+        VelocityBox(
+            self.lower, self.upper, self.displacement, self.components
+        ).validate(dim, domain_size)
+        _validate_cycle(self.start, self.period)
+
+    def motion(self, time):
+        value, rate = _cycle(time, self.start, self.period)
+        target = jnp.asarray(self.displacement, dtype=value.dtype)
+        return value * target, rate * target
+
+    def apply(self, velocity, coordinates, time):
+        displacement, speed = self.motion(time)
+        reference = coordinates - displacement.astype(coordinates.dtype)
+        inside = jnp.all(
+            (reference >= jnp.asarray(self.lower))
+            & (reference <= jnp.asarray(self.upper)), axis=-1
+        ) & (time >= self.start)
+        components = (
+            jnp.ones(velocity.shape[-1], dtype=bool)
+            if self.components is None else jnp.asarray(self.components, dtype=bool)
+        )
+        return jnp.where(inside[:, None] & components, speed.astype(velocity.dtype), velocity)
+
+
+@dataclass(frozen=True)
+class RotatingVelocityBox:
+    """Rotate a reference box to an angle and back, then hold at rest."""
+
+    lower: tuple[float, float, float]
+    upper: tuple[float, float, float]
+    center: tuple[float, float, float]
+    axis: int
+    angle: float
+    period: float
+    start: float = 0.0
+
+    def validate(self, dim, domain_size):
+        if dim != 3:
+            raise ValueError("rotating velocity boxes require three dimensions")
+        VelocityBox(self.lower, self.upper, (0.0,) * 3).validate(dim, domain_size)
+        if len(self.center) != 3 or not np.all(np.isfinite(self.center)):
+            raise ValueError("rotation center must contain three finite coordinates")
+        if not isinstance(self.axis, (int, np.integer)) or self.axis not in range(3):
+            raise ValueError("rotation axis must be 0, 1 or 2")
+        if not np.isfinite(self.angle):
+            raise ValueError("rotation angle must be finite")
+        _validate_cycle(self.start, self.period)
+
+    def rotation(self, time):
+        value, rate = _cycle(time, self.start, self.period)
+        return self.angle * value, self.angle * rate
+
+    def apply(self, velocity, coordinates, time):
+        angle, speed = self.rotation(time)
+        axis = jnp.eye(3, dtype=coordinates.dtype)[self.axis]
+        center = jnp.asarray(self.center, dtype=coordinates.dtype)
+        radial = coordinates - center
+        cosine, sine = jnp.cos(angle), jnp.sin(angle)
+        reference = (
+            center + cosine * radial - sine * jnp.cross(axis, radial)
+            + (1.0 - cosine) * (radial @ axis)[:, None] * axis
+        )
+        inside = jnp.all(
+            (reference >= jnp.asarray(self.lower))
+            & (reference <= jnp.asarray(self.upper)), axis=-1
+        ) & (time >= self.start)
+        prescribed = speed * jnp.cross(axis, radial)
+        return jnp.where(inside[:, None], prescribed.astype(velocity.dtype), velocity)
+
+
 def fixed_box(lower, upper, *, components=None):
     return VelocityBox(tuple(lower), tuple(upper), (0.0,) * len(lower), components)

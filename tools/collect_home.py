@@ -5,7 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from public_runs import is_public_run
+from public_runs import homepage_records, is_public_run, is_ready_for_publication
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +19,7 @@ GROUPS = (
     "Elasticity and prescribed loading",
     "Constitutive compression",
     "Wave refinement",
+    "Shear-wave comparisons",
 )
 TITLES = {
     "jc-tension": "JC round-bar tension",
@@ -38,6 +39,11 @@ TITLES = {
     "ball-beam": "Ball–beam contact",
     "sphere-contact": "Spherical indentation",
     "jkr-footprint": "JKR pressure footprint",
+    "dugdale-array": "Dugdale adhesive array",
+    "nonadhesive-pull-off": "Nonadhesive pull-off",
+    "adhesive-pull-off": "Adhesive pull-off",
+    "lateral-release": "Lateral release",
+    "three-sphere-array": "Three-sphere array",
     "dam-break": "Dam break",
     "sloshing": "Sloshing",
     "fsi": "Flow past an elastic obstacle",
@@ -71,13 +77,31 @@ MATERIALS = {
 def describe(identifier):
     parts = identifier.split("--")
     source = parts[0]
-    scene = parts[-1] if source == "contact-models" else parts[-2]
+    scene = parts[-1] if source in ("contact-models", "adhesion") else parts[-2]
+    if source == "adhesion":
+        return GROUPS[2], TITLES.get(scene, scene.replace("-", " ").capitalize())
+    if source == "visible-motion":
+        if scene.startswith("wave-"):
+            variant = {
+                "wave-grid32": "coarse grid",
+                "wave-grid48": "reference grid",
+                "wave-grid64": "fine grid",
+                "wave-half-dt": "half time step",
+            }.get(scene, scene.removeprefix("wave-"))
+            return GROUPS[7], f"Transverse shear wave · {variant}"
+        title = {
+            "cantilever": "Cyclic bending",
+            "shear": "Large simple shear",
+            "torsion": "Cyclic torsion",
+            "surface-load": "Pressure-loaded panel",
+        }[scene]
+        return GROUPS[4], title
     title = TITLES[scene]
     if source == "material-engineering":
         return GROUPS[0], title
     if source == "engineering" or scene in ("large-bending", "large-twist"):
         return GROUPS[1], title
-    if source == "contact-models" or scene in (
+    if source in ("contact-models", "adhesion") or scene in (
         "head-on", "oblique", "sliding", "rebound", "rubber-ball", "ball-beam"
     ):
         return GROUPS[2], title
@@ -120,7 +144,7 @@ def main():
             raise ValueError("GIF audit is incomplete")
         if payload["index_sha256"] != hashlib.sha256(index_path.read_bytes()).hexdigest():
             raise ValueError("Run catalogue changed after the GIF audit")
-    expected = {record["id"] for record in catalogue}
+    expected = {record["id"] for record in homepage_records(root, catalogue)}
     found = [record["id"] for record in entries]
     if len(found) != len(set(found)) or set(found) != expected:
         raise ValueError(f"GIF catalogue mismatch: missing={expected - set(found)}, extra={set(found) - expected}")
@@ -142,6 +166,9 @@ def main():
             raise ValueError(f"GIF hash changed: {path}")
         group, title = describe(entry["id"])
         result = f"docs/results/{entry['id']}/summary.json"
+        summary = json.loads((root / result).read_text(encoding="utf-8"))
+        if not is_ready_for_publication((root / result).parent, entry["id"], summary):
+            raise ValueError(f"Run has no matching passed review: {entry['id']}")
         render_path = root / f"docs/results/{entry['id']}/render.json"
         render_hash = hashlib.sha256(render_path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
         expected_render_hash = entry.get("render_lf_sha256", entry["render_sha256"])

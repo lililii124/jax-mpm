@@ -24,11 +24,10 @@ the parameters and numerical results.
 | | |
 |---|---|
 | ![sphere-contact](images/sphere-contact.png)<br>**sphere-contact** · 386,019 particles<br>[Results](results/contact-models--sphere-contact/summary.json) · [Video](images/sphere-contact.mp4) | ![jkr-footprint](images/jkr-footprint.png)<br>**jkr-footprint** · 386,019 particles<br>[Results](results/contact-models--jkr-footprint/summary.json) · [Video](images/jkr-footprint.mp4) |
-| ![wave](images/wave.png)<br>**wave** · 41,472 particles<br>[Results](results/suite--wave--neo-hookean/summary.json) | ![cantilever](images/cantilever.png)<br>**cantilever** · 36,540 particles<br>[Results](results/suite--cantilever--neo-hookean/summary.json) |
-| ![torsion](images/torsion.png)<br>**torsion** · 36,540 particles<br>[Results](results/suite--torsion--neo-hookean/summary.json) | ![oblique](images/oblique.png)<br>**oblique** · 38,686 particles<br>[Results](results/suite--oblique--neo-hookean/summary.json) · [Video](images/oblique.mp4) |
-| ![sliding](images/sliding.png)<br>**sliding** · 16,704 particles<br>[Results](results/suite--sliding--neo-hookean/summary.json) | ![rebound](images/rebound.png)<br>**rebound** · 24,389 particles<br>[Results](results/suite--rebound--neo-hookean/summary.json) |
-| ![rubber-ball](images/rubber-ball.png)<br>**rubber-ball** · 44,720 particles<br>[Results](results/benchmarks--rubber-ball--neo-hookean/summary.json) · [Video](images/rubber-ball.mp4) | ![ball-beam](images/ball-beam.png)<br>**ball-beam** · 88,583 particles<br>[Results](results/benchmarks--ball-beam--neo-hookean/summary.json) · [Video](images/ball-beam.mp4) |
-| ![large-bending](images/large-bending.png)<br>**large-bending** · 119,944 particles<br>[Results](results/benchmarks--large-bending--neo-hookean/summary.json) · [Video](images/large-bending.mp4) | ![large-twist](images/large-twist.png)<br>**large-twist** · 119,944 particles<br>[Results](results/benchmarks--large-twist--neo-hookean/summary.json) · [Video](images/large-twist.mp4) |
+| ![oblique](images/oblique.png)<br>**oblique** · 38,686 particles<br>[Results](results/suite--oblique--neo-hookean/summary.json) · [Video](images/oblique.mp4) | ![sliding](images/sliding.png)<br>**sliding** · 16,704 particles<br>[Results](results/suite--sliding--neo-hookean/summary.json) |
+| ![rebound](images/rebound.png)<br>**rebound** · 24,389 particles<br>[Results](results/suite--rebound--neo-hookean/summary.json) | ![rubber-ball](images/rubber-ball.png)<br>**rubber-ball** · 44,720 particles<br>[Results](results/benchmarks--rubber-ball--neo-hookean/summary.json) · [Video](images/rubber-ball.mp4) |
+| ![ball-beam](images/ball-beam.png)<br>**ball-beam** · 88,583 particles<br>[Results](results/benchmarks--ball-beam--neo-hookean/summary.json) · [Video](images/ball-beam.mp4) | ![large-bending](images/large-bending.png)<br>**large-bending** · 119,944 particles<br>[Results](results/benchmarks--large-bending--neo-hookean/summary.json) · [Video](images/large-bending.mp4) |
+| ![large-twist](images/large-twist.png)<br>**large-twist** · 119,944 particles<br>[Results](results/benchmarks--large-twist--neo-hookean/summary.json) · [Video](images/large-twist.mp4) |  |
 
 ## Fluids and fluid–solid interaction
 
@@ -37,3 +36,17 @@ the parameters and numerical results.
 | ![dam-break](images/dam-break.png)<br>**dam-break** · 66,096 particles<br>[Results](results/suite--dam-break--neo-hookean/summary.json) · [Video](images/dam-break.mp4) | ![sloshing](images/sloshing.png)<br>**sloshing** · 82,944 particles<br>[Results](results/suite--sloshing--neo-hookean/summary.json) |
 | ![fsi](images/fsi.png)<br>**fsi** · 85,776 particles<br>[Results](results/suite--fsi--neo-hookean/summary.json) · [Video](images/fsi.mp4) | ![elastic-gate](images/elastic-gate.png)<br>**elastic-gate** · 357,912 particles<br>[Results](results/benchmarks--elastic-gate--neo-hookean/summary.json) · [Video](images/elastic-gate.mp4) |
 | ![floating-block](images/floating-block.png)<br>**floating-block** · 384,373 particles<br>[Results](results/benchmarks--floating-block--neo-hookean/summary.json) · [Video](images/floating-block.mp4) | ![water-entry](images/water-entry.png)<br>**water-entry** · 1,327,400 particles<br>[Results](results/production--water-entry--neo-hookean/summary.json) · [Video](images/water-entry.mp4) |
+
+## Finite deformation and prescribed loading
+
+| | |
+|---|---|
+| ![visible-cantilever](images/visible-cantilever.png)<br>**visible-cantilever** · 119,944 particles<br>[Results](results/visible-motion--cantilever--neo-hookean/summary.json) · [Video](images/visible-cantilever.mp4) | ![visible-shear](images/visible-shear.png)<br>**visible-shear** · 242,208 particles<br>[Results](results/visible-motion--shear--neo-hookean/summary.json) · [Video](images/visible-shear.mp4) |
+| ![visible-torsion](images/visible-torsion.png)<br>**visible-torsion** · 119,944 particles<br>[Results](results/visible-motion--torsion--neo-hookean/summary.json) · [Video](images/visible-torsion.mp4) | ![visible-surface-load](images/visible-surface-load.png)<br>**visible-surface-load** · 113,535 particles<br>[Results](results/visible-motion--surface-load--neo-hookean/summary.json) · [Video](images/visible-surface-load.mp4) |
+
+## Transverse shear-wave comparisons
+
+| | |
+|---|---|
+| ![visible-wave-grid32](images/visible-wave-grid32.png)<br>**visible-wave-grid32** · 34,560 particles<br>[Results](results/visible-motion--wave-grid32--neo-hookean/summary.json) · [Video](images/visible-wave-grid32.mp4) | ![visible-wave-grid48](images/visible-wave-grid48.png)<br>**visible-wave-grid48** · 112,752 particles<br>[Results](results/visible-motion--wave-grid48--neo-hookean/summary.json) · [Video](images/visible-wave-grid48.mp4) |
+| ![visible-wave-grid64](images/visible-wave-grid64.png)<br>**visible-wave-grid64** · 269,568 particles<br>[Results](results/visible-motion--wave-grid64--neo-hookean/summary.json) · [Video](images/visible-wave-grid64.mp4) | ![visible-wave-half-dt](images/visible-wave-half-dt.png)<br>**visible-wave-half-dt** · 112,752 particles<br>[Results](results/visible-motion--wave-half-dt--neo-hookean/summary.json) · [Video](images/visible-wave-half-dt.mp4) |

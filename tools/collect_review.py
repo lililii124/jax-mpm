@@ -8,9 +8,9 @@ import os
 from pathlib import Path
 from urllib.parse import quote
 
-from collect_gallery import GROUPS, preview
+from collect_gallery import gallery_groups, preview
 from collect_results import SOURCES
-from public_runs import is_public_run
+from public_runs import HOME_REPLACEMENTS, is_public_run, is_ready_for_publication
 
 
 def build(root, output):
@@ -20,7 +20,12 @@ def build(root, output):
         return quote(Path(os.path.relpath(path, output)).as_posix(), safe="/.")
 
     cards, pending = [], []
-    selected = {relative: name for entries in GROUPS.values() for name, relative in entries}
+    catalogue_path = root / "docs/results/index.json"
+    catalogue = json.loads(catalogue_path.read_text(encoding="utf-8")) if catalogue_path.exists() else []
+    selected = {
+        relative: name
+        for entries in gallery_groups(catalogue).values() for name, relative in entries
+    }
     completed, published, largest = 0, 0, 0
     for source in SOURCES:
         for summary_file in sorted((root / "outputs" / source).rglob("summary.json")):
@@ -30,7 +35,7 @@ def build(root, output):
                 continue
             completed += 1
             relative = folder.relative_to(root / "outputs").as_posix()
-            if not is_public_run(relative):
+            if not is_ready_for_publication(folder, relative, summary):
                 continue
             published += 1
             particles = sum(summary["particles"])
@@ -71,7 +76,7 @@ def build(root, output):
                 "engineering"
                 if source in ("engineering", "material-engineering")
                 else "contact"
-                if source == "contact-models"
+                if source in ("contact-models", "adhesion")
                 or name in ("oblique", "sliding", "rebound", "rubber-ball", "ball-beam")
                 else "fluid"
                 if name
@@ -80,11 +85,19 @@ def build(root, output):
                 if source in ("elastic_cantilever", "compression", "dense-materials")
                 else "dynamics"
             )
+            scope = (
+                "有限变形 · 原始几何尺度"
+                if source == "visible-motion"
+                else "小运动数值参考 · 原始验证记录"
+                if relative.replace("/", "--") in HOME_REPLACEMENTS
+                else ""
+            )
+            scope_label = f'<p class="path">{scope}</p>' if scope else ""
             cards.append(
                 (
                     particles,
                     f'<article data-category="{category}" data-name="{html.escape(relative)}">'
-                    f'{thumbnail}<div class="body"><p class="path">{html.escape(relative)}</p>'
+                    f'{thumbnail}<div class="body"><p class="path">{html.escape(relative)}</p>{scope_label}'
                     f'<h2>{html.escape(name)}</h2><p class="metrics"><b>{particles:,}</b> 物质点 · '
                     f'{summary["steps"]:,} 步 · {summary["simulation_time"]:.4g} s</p>'
                     f'<nav>{"".join(links)}</nav></div></article>',

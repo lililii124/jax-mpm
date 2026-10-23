@@ -1,0 +1,50 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 3,
+  "frames_rendered": 51,
+  "animation": "simulation.gif",
+  "field": "displacement",
+  "color_range": [
+    0.0,
+    0.24840037962906386
+  ],
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": true,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0043055555555555555,
+  "scene_bounds": [
+    0.15345744680851064,
+    0.7965425531914894,
+    0.3240936562794973,
+    0.6759063437205023,
+    0.3238723357583898,
+    0.6761276642416092
+  ],
+  "camera_position": [
+    1.3753191489361702,
+    1.0466223404255317,
+    1.6575531914893613
+  ],
+  "camera_focal_point": [
+    0.475,
+    0.4999999999999998,
+    0.4999999999999995
+  ],
+  "camera_parallel_scale": 0.4053753240140702,
+  "particles": 119944,
+  "auxiliary_geometry": [],
+  "color_field_definition": {
+    "definition": "Euclidean norm of current minus first saved particle position",
+    "units": "m",
+    "reference_time": 0.0,
+    "geometry_scale": 1.0,
+    "evaluation": "one frame at a time, in chunks of at most 65536 particles"
+  }
+}

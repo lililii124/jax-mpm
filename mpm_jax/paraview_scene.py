@@ -38,9 +38,21 @@ def grip_displacement(definition, time):
         distance = elapsed
     else:
         during_ramp = np.minimum(elapsed, ramp)
-        distance = 0.5 * (during_ramp - ramp / np.pi * np.sin(np.pi * during_ramp / ramp))
+        distance = 0.5 * (
+            during_ramp - ramp / np.pi * np.sin(np.pi * during_ramp / ramp)
+        )
         distance += np.maximum(elapsed - ramp, 0.0)
     return np.asarray(definition["velocity"]) * np.asarray(distance)[..., None]
+
+
+def waypoint_sphere_motion(definition, time):
+    """SpherePath position evaluated independently of JAX."""
+    times, centers = np.asarray(definition["times"]), np.asarray(definition["centers"])
+    phase = np.clip(
+        (np.asarray(time)[..., None] - times[:-1]) / np.diff(times), 0.0, 1.0
+    )
+    scale = 0.5 * (1.0 - np.cos(np.pi * phase))
+    return centers[0] + np.sum(scale[..., None] * np.diff(centers, axis=0), axis=-2)
 
 
 def body_failure_modes(summary, count):
@@ -54,8 +66,16 @@ def body_failure_modes(summary, count):
 
 
 def velocity_patch_fixtures(definition):
-    required = ("lower", "upper", "support_centers_x_m", "support_patch_width_m", "loading_boundary")
-    if definition.get("purpose") != "concrete-bending" or any(key not in definition for key in required):
+    required = (
+        "lower",
+        "upper",
+        "support_centers_x_m",
+        "support_patch_width_m",
+        "loading_boundary",
+    )
+    if definition.get("purpose") != "concrete-bending" or any(
+        key not in definition for key in required
+    ):
         return []
     lower, upper = definition["lower"], definition["upper"]
     width = definition["support_patch_width_m"]
@@ -100,8 +120,15 @@ def main():
     scene = GetAnimationScene()
     scene.UpdateAnimationUsingDataTimeSteps()
     summary_path = output / "summary.json"
-    summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
+    summary = (
+        json.loads(summary_path.read_text(encoding="utf-8"))
+        if summary_path.exists()
+        else {}
+    )
     sphere_definition = summary.get("definition", {}).get("rigid_sphere")
+    waypoint_sphere_definitions = (
+        summary.get("definition", {}).get("rigid_spheres") or []
+    )
     grip_definitions = summary.get("definition", {}).get("rigid_grips") or []
     fixture_definitions = velocity_patch_fixtures(summary.get("definition", {}))
     view = CreateView("RenderView")
@@ -115,6 +142,7 @@ def main():
     bounds = list(metadata["bounds"])
     auxiliary_geometry = []
     grip_sources = []
+    waypoint_sphere_sources = []
     if sphere_definition:
         center0 = np.asarray(sphere_definition["center"])
         stroke = np.asarray(sphere_definition["displacement"])
@@ -145,7 +173,9 @@ def main():
                 key.Interpolation = "Ramp"
                 keys.append(key)
             track.KeyFrames = keys
-            bounds[2 * axis] = min(bounds[2 * axis], center0[axis] + min(0, stroke[axis]) - radius)
+            bounds[2 * axis] = min(
+                bounds[2 * axis], center0[axis] + min(0, stroke[axis]) - radius
+            )
             bounds[2 * axis + 1] = max(
                 bounds[2 * axis + 1], center0[axis] + max(0, stroke[axis]) + radius
             )
@@ -157,18 +187,68 @@ def main():
                 "motion": "cosine loading/unloading cycle",
             }
         )
+    for index, definition in enumerate(waypoint_sphere_definitions):
+        sphere = Sphere(registrationName=f"Adhesive rigid sphere {index + 1}")
+        radius = definition["radius"]
+        sphere.Radius = radius
+        sphere.ThetaResolution = 128
+        sphere.PhiResolution = 96
+        sphere.Center = definition["centers"][0]
+        surface = Show(sphere, view)
+        surface.ColorArrayName = ["POINTS", ""]
+        surface.DiffuseColor = [0.59, 0.65, 0.71]
+        surface.Ambient = 0.2
+        surface.Diffuse = 0.8
+        surface.Specular = 0.65
+        surface.SpecularPower = 45
+        centers = waypoint_sphere_motion(definition, times)
+        all_centers = np.asarray(definition["centers"])
+        span = times[-1] - times[0]
+        for axis in range(3):
+            track = GetAnimationTrack("Center", axis, sphere)
+            keys = []
+            for time, position in zip(times, centers):
+                key = CompositeKeyFrame()
+                key.KeyTime = (time - times[0]) / span if span else 0.0
+                key.KeyValues = [float(position[axis])]
+                key.Interpolation = "Ramp"
+                keys.append(key)
+            track.KeyFrames = keys
+            bounds[2 * axis] = min(
+                bounds[2 * axis], all_centers[:, axis].min() - radius
+            )
+            bounds[2 * axis + 1] = max(
+                bounds[2 * axis + 1], all_centers[:, axis].max() + radius
+            )
+        waypoint_sphere_sources.append((sphere, definition))
+        auxiliary_geometry.append(
+            {
+                "type": "prescribed_adhesive_rigid_sphere",
+                "parameters": definition,
+                "included_in_particle_count": False,
+                "motion": "SpherePath cosine waypoint interpolation, evaluated at every output time",
+                "state_file_interpolation": "linear between output-time keyframes",
+                "interpretation": "Prescribed contact geometry; the deformable layer alone is represented by MPM particles",
+            }
+        )
     boxes = [
         (f"Prescribed rigid grip {index + 1}", "prescribed_rigid_grip", definition)
         for index, definition in enumerate(grip_definitions)
     ]
     boxes += [
-        (f"Velocity patch {definition['role']} {index + 1}", "velocity_patch_fixture", definition)
+        (
+            f"Velocity patch {definition['role']} {index + 1}",
+            "velocity_patch_fixture",
+            definition,
+        )
         for index, definition in enumerate(fixture_definitions)
     ]
     for name, kind, definition in boxes:
         lower, upper = np.asarray(definition["lower"]), np.asarray(definition["upper"])
         if lower.shape != (3,) or upper.shape != (3,) or np.any(upper <= lower):
-            raise ValueError("auxiliary boxes require positive three-dimensional extents")
+            raise ValueError(
+                "auxiliary boxes require positive three-dimensional extents"
+            )
         center0 = 0.5 * (lower + upper)
         grip = Box(registrationName=name)
         grip.Center = center0
@@ -193,7 +273,9 @@ def main():
                 key.Interpolation = "Ramp"
                 keys.append(key)
             track.KeyFrames = keys
-            bounds[2 * axis] = min(bounds[2 * axis], lower[axis] + translations[:, axis].min())
+            bounds[2 * axis] = min(
+                bounds[2 * axis], lower[axis] + translations[:, axis].min()
+            )
             bounds[2 * axis + 1] = max(
                 bounds[2 * axis + 1], upper[axis] + translations[:, axis].max()
             )
@@ -206,7 +288,9 @@ def main():
             "state_file_interpolation": "linear between output-time keyframes",
         }
         if kind == "velocity_patch_fixture":
-            record["interpretation"] = "Bilateral velocity-patch representation; no separately solved contact"
+            record[
+                "interpretation"
+            ] = "Bilateral velocity-patch representation; no separately solved contact"
             record["display_geometry"] = (
                 "Support height equals patch width; loading block starts at nominal top face; "
                 "depth is clipped to the specimen"
@@ -226,12 +310,24 @@ def main():
     right = np.cross([0.0, 1.0, 0.0], direction)
     right /= np.linalg.norm(right)
     upward = np.cross(direction, right)
-    corners = np.array(list(product(*[(bounds[2 * i], bounds[2 * i + 1]) for i in range(3)])))
-    view.CameraParallelScale = 0.56 * max(np.ptp(corners @ right), np.ptp(corners @ upward))
+    corners = np.array(
+        list(product(*[(bounds[2 * i], bounds[2 * i + 1]) for i in range(3)]))
+    )
+    view.CameraParallelScale = 0.56 * max(
+        np.ptp(corners @ right), np.ptp(corners @ upward)
+    )
     if metadata["dim"] == 2:
         view.CameraPosition = [center[0], center[1], center[2] + 3 * length]
         view.CameraParallelScale = 0.58 * length
     spacing = metadata["spacing"] or length / 100
+    scalar_color_range = None
+    if args.field != "body":
+        lo, hi = metadata["field_ranges"][args.field]
+        if args.field in ("speed", "displacement"):
+            lo = 0.0
+        if hi <= lo:
+            hi = lo + 1.0
+        scalar_color_range = [lo, hi]
     colors = ([0.045, 0.36, 0.67], [0.94, 0.36, 0.08], [0.32, 0.66, 0.48])
     body_array = reader.PointData["body"]
     count = int(body_array.GetRange()[1]) + 1 if body_array else 1
@@ -246,13 +342,17 @@ def main():
         selected.UpperThreshold = body
         selected.UpdatePipeline()
         if has_failed and failure_modes[body] == "ballistic":
-            failed = Threshold(registrationName=f"Ballistic debris in body {body}", Input=selected)
+            failed = Threshold(
+                registrationName=f"Ballistic debris in body {body}", Input=selected
+            )
             failed.Scalars = ["POINTS", "failed"]
             failed.LowerThreshold = 1
             failed.UpperThreshold = 255
             failed.UpdatePipeline()
             debris_sources.append(failed)
-            active = Threshold(registrationName=f"Active particles in body {body}", Input=selected)
+            active = Threshold(
+                registrationName=f"Active particles in body {body}", Input=selected
+            )
             active.Scalars = ["POINTS", "failed"]
             active.LowerThreshold = 0
             active.UpperThreshold = 0
@@ -274,9 +374,7 @@ def main():
         if args.field != "body":
             ColorBy(display, ("POINTS", args.field))
             lut = GetColorTransferFunction(args.field)
-            lo, hi = metadata["field_ranges"][args.field]
-            if hi <= lo:
-                hi = lo + 1.0
+            lo, hi = scalar_color_range
             palette = [
                 (0.0, 0.267, 0.005, 0.329),
                 (0.25, 0.230, 0.322, 0.546),
@@ -285,7 +383,9 @@ def main():
                 (1.0, 0.993, 0.906, 0.144),
             ]
             lut.RGBPoints = [
-                value for t, r, g, b in palette for value in (lo + t * (hi - lo), r, g, b)
+                value
+                for t, r, g, b in palette
+                for value in (lo + t * (hi - lo), r, g, b)
             ]
             lut.ColorSpace = "RGB"
             lut.RescaleTransferFunction(lo, hi)
@@ -316,13 +416,17 @@ def main():
         reader.UpdatePipeline(times[i])
         for grip, center0, definition in grip_sources:
             grip.Center = center0 + grip_displacement(definition, times[i])
+        for sphere, definition in waypoint_sphere_sources:
+            sphere.Center = waypoint_sphere_motion(definition, times[i])
         Render(view)
         if has_failed:
             active_count = sum(
-                source.GetDataInformation().GetNumberOfPoints() for source in active_sources
+                source.GetDataInformation().GetNumberOfPoints()
+                for source in active_sources
             )
             debris_count = sum(
-                source.GetDataInformation().GetNumberOfPoints() for source in debris_sources
+                source.GetDataInformation().GetNumberOfPoints()
+                for source in debris_sources
             )
             if active_count + debris_count != metadata["particles"]:
                 raise RuntimeError("failure display did not retain every particle")
@@ -339,17 +443,31 @@ def main():
             ImageResolution=[args.resolution] * 2,
         )
         if i == len(times) - 1:
-            SaveScreenshot(str(output / "final.png"), view, ImageResolution=[args.resolution] * 2)
+            SaveScreenshot(
+                str(output / "final.png"), view, ImageResolution=[args.resolution] * 2
+            )
         if i % 10 == 0 or i == len(times) - 1:
             print(f"ParaView: frame {i + 1}/{len(times)}", flush=True)
     SaveState(str(output / "scene.pvsm"))
     provenance = {
         "renderer": "ParaView",
         "version": str(GetParaViewVersion()),
-        "style_revision": 6 if fixture_definitions else 5 if has_failed else 4 if grip_definitions else 3,
+        "style_revision": 7
+        if waypoint_sphere_definitions
+        else 6
+        if fixture_definitions
+        else 5
+        if has_failed
+        else 4
+        if grip_definitions
+        else 3,
         "frames_rendered": len(indices),
         "animation": None,
         "field": args.field,
+        "color_range": scalar_color_range,
+        "color_range_policy": "fixed over the complete saved time history",
+        "magnitude_color_range_includes_zero": args.field in ("speed", "displacement"),
+        "geometry_scale": 1.0,
         "resolution": [args.resolution] * 2,
         "axes": False,
         "annotations": False,
@@ -361,6 +479,8 @@ def main():
         "particles": metadata["particles"],
         "auxiliary_geometry": auxiliary_geometry,
     }
+    if args.field == "displacement":
+        provenance["color_field_definition"] = metadata.get("derived_fields", {}).get("displacement")
     if has_failed:
         provenance["failure_display"] = {
             "field": "failed",
@@ -376,7 +496,9 @@ def main():
             "displayed_counts": displayed_counts,
             "interpretation": "Non-load-bearing particle markers, not resolved fragment surfaces",
         }
-    (output / "render.json").write_text(json.dumps(provenance, indent=2) + "\n", encoding="utf-8")
+    (output / "render.json").write_text(
+        json.dumps(provenance, indent=2) + "\n", encoding="utf-8"
+    )
 
 
 if __name__ == "__main__":

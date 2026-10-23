@@ -1,0 +1,58 @@
+{
+  "case": "shear / neo-hookean",
+  "scope": "Independent NumPy reconstruction of saved positions, imposed loading and response observables; sampled-frame checks, not experimental validation or an inherited axial-wave accuracy result.",
+  "sources": {
+    "summary.json": "854398e3a344aa7db6d451ce23ee254720f00b655facf2c2f0449bc376c7ce57",
+    "observables.csv": "5d6f94799a2a1d6698a58ae4a6a1a3665aa295c11f2eb9c662650b01287c7cb2",
+    "diagnostics.csv": "df8ce60a003064f3269c4f88b9769cfb12eb1ea777625465127392aebfffa874"
+  },
+  "checks": {
+    "initial_frame_at_zero_time": true,
+    "complete_output_frame_count": true,
+    "completion_status_matches": true,
+    "full_duration": true,
+    "time_step_count_matches_duration": true,
+    "matching_table_times": true,
+    "uniform_increasing_times": true,
+    "finite_tables": true,
+    "finite_saved_arrays": true,
+    "valid_final_state": true,
+    "final_positions_match_saved_trajectory": true,
+    "positive_mass_volume_and_J": true,
+    "constant_saved_mass": true,
+    "sampled_anchor_exists": true,
+    "sampled_anchor_matches_definition": true,
+    "sampled_anchor_stays_fixed": true,
+    "sampled_anchor_has_zero_velocity": true,
+    "independent_observables_match": true,
+    "geometry_is_unscaled": true,
+    "visible_top_shear_displacement": true,
+    "top_follows_prescribed_translation": true
+  },
+  "passed": true,
+  "saved_frames": 51,
+  "min_J": 0.6065100764375376,
+  "maximum_relative_mass_drift": 0.0,
+  "peak_displacement_m": 0.18012499999998238,
+  "response": {
+    "quantity": "top x displacement",
+    "units": "m",
+    "minimum": 0.0,
+    "minimum_time_s": 0.0,
+    "maximum": 0.17973752383784453,
+    "maximum_time_s": 0.4,
+    "final": 0.17973752383784453
+  },
+  "maximum_observable_reconstruction_error": {
+    "maximum_displacement_m": 0.0,
+    "rms_displacement_m": 0.0,
+    "sample_min_J": 0.0,
+    "sample_max_J": 0.0,
+    "anchor_max_displacement_m": 0.0,
+    "anchor_max_speed_m_per_s": 0.0,
+    "target_top_displacement_x_m": 0.0,
+    "top_mean_displacement_x_m": 0.0,
+    "nominal_engineering_shear": 0.0
+  },
+  "interpretation": "Displacements and rotations come from the numerical trajectory at physical scale. Visibility thresholds were selected before the production runs."
+}

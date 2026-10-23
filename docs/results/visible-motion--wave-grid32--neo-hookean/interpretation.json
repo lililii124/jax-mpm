@@ -1,0 +1,63 @@
+{
+  "case": "wave-grid32 / neo-hookean",
+  "scope": "Independent NumPy reconstruction of saved positions, imposed loading and response observables; sampled-frame checks, not experimental validation or an inherited axial-wave accuracy result.",
+  "sources": {
+    "summary.json": "48d7425f34f5d0e37073786e5fac7260de9a63f8be6922f9f09a589672330bd1",
+    "observables.csv": "32342bb311b33427bda33289c7a3e7c25047a98c00389e6457ae790ba54eba0f",
+    "diagnostics.csv": "454f518dc17602ba1af2e6d899bf3c8b7ac3d84a773081c5836fcb2e20d05ff5"
+  },
+  "checks": {
+    "final_transverse_guides_hold": true,
+    "initial_frame_at_zero_time": true,
+    "complete_output_frame_count": true,
+    "completion_status_matches": true,
+    "full_duration": true,
+    "time_step_count_matches_duration": true,
+    "matching_table_times": true,
+    "uniform_increasing_times": true,
+    "finite_tables": true,
+    "finite_saved_arrays": true,
+    "valid_final_state": true,
+    "final_positions_match_saved_trajectory": true,
+    "positive_mass_volume_and_J": true,
+    "constant_saved_mass": true,
+    "sampled_anchor_exists": true,
+    "sampled_anchor_matches_definition": true,
+    "sampled_anchor_stays_fixed": true,
+    "sampled_anchor_has_zero_velocity": true,
+    "independent_observables_match": true,
+    "geometry_is_unscaled": true,
+    "visible_positive_and_negative_tip_motion": true,
+    "transverse_guides_hold_all_saved_positions": true,
+    "reported_transverse_guide_velocities_zero": true,
+    "complete_nominal_wave_period": true
+  },
+  "passed": true,
+  "saved_frames": 51,
+  "min_J": 0.9927558032662684,
+  "maximum_relative_mass_drift": 0.0,
+  "peak_displacement_m": 0.09271982435375709,
+  "response": {
+    "quantity": "tip y displacement",
+    "units": "m",
+    "minimum": -0.09203336713601735,
+    "minimum_time_s": 0.7565597927460855,
+    "maximum": 0.09241898569990029,
+    "maximum_time_s": 0.2521865975820285,
+    "final": -0.01931814373834572
+  },
+  "maximum_observable_reconstruction_error": {
+    "maximum_displacement_m": 0.0,
+    "rms_displacement_m": 0.0,
+    "sample_min_J": 0.0,
+    "sample_max_J": 0.0,
+    "anchor_max_displacement_m": 0.0,
+    "anchor_max_speed_m_per_s": 0.0,
+    "tip_mean_displacement_x_m": 0.0,
+    "tip_mean_displacement_y_m": 0.0,
+    "tip_mean_displacement_z_m": 0.0,
+    "tip_max_displacement_m": 0.0,
+    "constrained_xz_max_displacement_m": 0.0
+  },
+  "interpretation": "Displacements and rotations come from the numerical trajectory at physical scale. Visibility thresholds were selected before the production runs."
+}

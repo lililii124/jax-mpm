@@ -4,7 +4,8 @@ import numpy as np
 import pytest
 
 from mpm_jax import (
-    Config, MovingVelocityBox, PlaneWall, VelocityBox, advance, block, elastic, fixed_box,
+    Config, CyclicVelocityBox, MovingVelocityBox, PlaneWall, RotatingVelocityBox,
+    VelocityBox, advance, block, elastic, fixed_box,
 )
 
 jax.config.update("jax_enable_x64", True)
@@ -103,3 +104,99 @@ def test_moving_box_rejects_invalid_ramp_time(ramp_time):
     bc = MovingVelocityBox((0.0,) * 3, (0.2,) * 3, (1.0, 0.0, 0.0), ramp_time=ramp_time)
     with pytest.raises(ValueError, match="ramp_time"):
         bc.validate(3, 1.0)
+
+
+def test_cyclic_translation_returns_to_rest_and_integrates_velocity():
+    bc = CyclicVelocityBox(
+        (0.0,) * 3, (0.2,) * 3, (0.1, -0.2, 0.0), period=2.0, start=0.5
+    )
+    times = jnp.array([0.0, 0.5, 1.5, 2.5, 3.0])
+    displacement, velocity = jax.jit(jax.vmap(bc.motion))(times)
+    np.testing.assert_allclose(displacement, [[0, 0, 0], [0, 0, 0],
+                                             [0.1, -0.2, 0], [0, 0, 0], [0, 0, 0]], atol=1e-15)
+    np.testing.assert_allclose(velocity, 0, atol=1e-15)
+    for time in (0.75, 1.1, 1.9, 2.2, 3.0):
+        np.testing.assert_allclose(
+            jax.jacfwd(lambda t: bc.motion(t)[0])(time), bc.motion(time)[1], atol=1e-14
+        )
+    samples = np.linspace(0.5, 1.5, 1001)
+    velocities = np.asarray(jax.vmap(bc.motion)(jnp.asarray(samples))[1])
+    np.testing.assert_allclose(np.trapezoid(velocities, samples, axis=0), bc.displacement, rtol=1e-6)
+
+
+def test_cyclic_box_follows_position_and_keeps_unselected_components_free():
+    bc = CyclicVelocityBox(
+        (0.0, 0.2, 0.2), (0.1, 0.4, 0.4), (0.4, 0.0, 0.0), period=2.0,
+        components=(True, False, False), start=0.1,
+    )
+    points = jnp.array([[0.05, 0.3, 0.3], [0.25, 0.3, 0.3]])
+    velocity = jnp.ones((2, 3))
+    apply = jax.jit(bc.apply)
+    np.testing.assert_array_equal(apply(velocity, points, 0.0), velocity)
+    np.testing.assert_allclose(apply(velocity, points, 0.6), [[1, 1, 1], [0.2 * np.pi, 1, 1]])
+    np.testing.assert_allclose(apply(velocity, points, 2.2), [[0, 1, 1], [1, 1, 1]])
+
+
+@pytest.mark.parametrize("axis", [0, 1, 2])
+def test_rotating_box_tracks_reference_region_and_imposes_rigid_velocity(axis):
+    permutation = np.roll(np.arange(3), axis)
+    permute = lambda values: tuple(np.asarray(values)[permutation])
+    bc = RotatingVelocityBox(
+        permute((0.7, 0.7, 0.45)), permute((0.9, 0.8, 0.55)), permute((0.0, 0.5, 0.5)),
+        axis=axis, angle=np.pi / 2, period=2.0,
+    )
+    bc.validate(3, 1.0)
+    radius = 0.25 / np.sqrt(2)
+    points = jnp.array([[0.8, 0.5 + radius, 0.5 + radius], [0.8, 0.75, 0.5]])[:, permutation]
+    velocity = jnp.ones((2, 3))
+    result = jax.jit(bc.apply)(velocity, points, 0.5)
+    angular_speed = np.pi**2 / 4
+    expected = np.array([[0, -angular_speed * radius, angular_speed * radius], [1, 1, 1]])
+    np.testing.assert_allclose(result, expected[:, permutation], atol=1e-14)
+    np.testing.assert_allclose(jnp.dot(result[0], points[0] - jnp.array(bc.center)), 0, atol=1e-15)
+    position = lambda t: jnp.array([
+        0.8, 0.5 + 0.25 * jnp.cos(bc.rotation(t)[0]),
+        0.5 + 0.25 * jnp.sin(bc.rotation(t)[0]),
+    ])[permutation]
+    for time in (0.3, 0.7, 1.3, 1.7):
+        current = position(time)
+        np.testing.assert_allclose(
+            bc.apply(jnp.ones((1, 3)), current[None, :], time)[0],
+            jax.jacfwd(position)(time), atol=1e-14,
+        )
+    np.testing.assert_allclose(bc.rotation(1.0), [np.pi / 2, 0], atol=1e-15)
+    np.testing.assert_allclose(bc.rotation(2.5), [0, 0], atol=1e-15)
+
+
+def test_cyclic_boundaries_preserve_float32_velocity_with_float64_time():
+    boundaries = (
+        CyclicVelocityBox((0.0,) * 3, (1.0,) * 3, (0.1, 0.0, 0.0), period=1.0),
+        RotatingVelocityBox((0.0,) * 3, (1.0,) * 3, (0.5,) * 3, 0, 1.0, 1.0),
+    )
+    points = jnp.array([[0.5, 0.6, 0.7]], dtype=jnp.float32)
+    velocity = jnp.ones_like(points)
+    for boundary in boundaries:
+        result = jax.jit(boundary.apply)(velocity, points, jnp.asarray(0.25, dtype=jnp.float64))
+        assert result.dtype == jnp.float32
+
+
+@pytest.mark.parametrize("period", [0.0, -1.0, np.nan, np.inf])
+def test_cyclic_boundaries_reject_invalid_period(period):
+    cases = (
+        CyclicVelocityBox((0.0,) * 3, (1.0,) * 3, (0.1, 0.0, 0.0), period=period),
+        RotatingVelocityBox((0.0,) * 3, (1.0,) * 3, (0.5,) * 3, 0, 1.0, period),
+    )
+    for boundary in cases:
+        with pytest.raises(ValueError, match="period"):
+            boundary.validate(3, 1.0)
+
+
+def test_rotating_box_rejects_unsupported_dimensions_and_axis():
+    from dataclasses import replace
+
+    bc = RotatingVelocityBox((0.0,) * 3, (1.0,) * 3, (0.5,) * 3, 0, 1.0, 1.0)
+    with pytest.raises(ValueError, match="three dimensions"):
+        bc.validate(2, 1.0)
+    for axis in (-1, 3, 0.5):
+        with pytest.raises(ValueError, match="axis"):
+            replace(bc, axis=axis).validate(3, 1.0)

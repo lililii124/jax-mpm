@@ -65,16 +65,36 @@ def write_vtp(path, points, fields):
         stream.write(b"</AppendedData>\n</VTKFile>\n")
 
 
-def export_series(positions, fields, times, output, *, spacing=None, dim=3):
+def displacement_magnitude(positions, reference, *, chunk_size=65536):
+    """One frame of |x(t)-x(0)|, without a whole-history difference array."""
+    if positions.shape != reference.shape or positions.ndim != 2 or chunk_size < 1:
+        raise ValueError("matching (particles, dimensions) arrays and a positive chunk size are required")
+    magnitude = np.empty(len(positions), dtype=np.float64)
+    for first in range(0, len(positions), chunk_size):
+        last = min(first + chunk_size, len(positions))
+        change = np.asarray(positions[first:last], dtype=np.float64) - reference[first:last]
+        magnitude[first:last] = np.linalg.norm(change, axis=-1)
+    return magnitude
+
+
+def export_series(positions, fields, times, output, *, spacing=None, dim=3, displacement=False):
     output = Path(output)
     vtk = output / "vtk"
     vtk.mkdir(parents=True, exist_ok=True)
     datasets = []
+    displacement_range = [float("inf"), -float("inf")]
+    if displacement and "displacement" in fields:
+        raise ValueError("displacement is derived from positions; do not also supply it as a field")
     for i, time in enumerate(times):
         current = {
             name: values[i] if np.ndim(values) > 1 and np.shape(values)[0] == len(times) else values
             for name, values in fields.items()
         }
+        if displacement:
+            magnitude = displacement_magnitude(positions[i], positions[0])
+            current["displacement"] = magnitude
+            displacement_range[0] = min(displacement_range[0], float(magnitude.min()))
+            displacement_range[1] = max(displacement_range[1], float(magnitude.max()))
         name = f"particles_{i:05d}.vtp"
         write_vtp(vtk / name, positions[i], current)
         datasets.append(
@@ -102,6 +122,18 @@ def export_series(positions, fields, times, output, *, spacing=None, dim=3):
             key: [float(np.min(value)), float(np.max(value))] for key, value in fields.items()
         },
     }
+    if displacement:
+        metadata["fields"].append("displacement")
+        metadata["field_ranges"]["displacement"] = displacement_range
+        metadata["derived_fields"] = {
+            "displacement": {
+                "definition": "Euclidean norm of current minus first saved particle position",
+                "units": "m",
+                "reference_time": float(times[0]),
+                "geometry_scale": 1.0,
+                "evaluation": "one frame at a time, in chunks of at most 65536 particles",
+            }
+        }
     (output / "vtk_metadata.json").write_text(
         json.dumps(metadata, indent=2) + "\n", encoding="utf-8"
     )
