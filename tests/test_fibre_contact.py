@@ -79,7 +79,8 @@ def test_jkr_stable_root_matches_independent_quartic():
 def test_jkr_attachment_hysteresis_and_displacement_threshold():
     p = parameters()
     _, dc = jkr_critical_state(p)
-    path = jnp.array([2*dc, .5*dc, 0, -dc, .5*dc, dc, .5*dc, 0])
+    separated = dc * (1 + 1e-10)
+    path = jnp.array([2*dc, .5*dc, 0, -dc, .5*dc, separated, .5*dc, 0])
 
     def advance(old, delta):
         new, response = update_fibre_contact(old, delta, p)
@@ -91,6 +92,23 @@ def test_jkr_attachment_hysteresis_and_displacement_threshold():
     np.testing.assert_array_equal(response.snap_out, [False, False, False, False, False, True, False, False])
     np.testing.assert_array_equal(np.asarray(response.normal_force)[[0, 1, 5, 6]], 0)
     assert float(response.normal_force[4]) < 0
+
+
+def test_eager_jit_critical_endpoint_uses_the_evaluated_threshold(capsys):
+    p = parameters()
+    _, eager_dc = jkr_critical_state(p)
+    delta = jnp.array([eager_dc * (1 + 1e-10), eager_dc, eager_dc * (1 - 1e-10)])
+    old = initial_fibre_contact_history(delta.shape, active=True)
+    _, response = jax.jit(lambda values: update_fibre_contact(old, values, p))(delta)
+    actual_dc = np.asarray(response.critical_indentation)
+    np.testing.assert_allclose(actual_dc, float(eager_dc), rtol=64*np.finfo(float).eps, atol=0)
+    np.testing.assert_array_equal(response.active, np.asarray(delta) > actual_dc)
+    assert not bool(response.active[0])
+    assert bool(response.active[-1])
+    offset_ulps = (float(eager_dc) - float(actual_dc[1])) / abs(np.spacing(float(eager_dc)))
+    with capsys.disabled():
+        print(f"\nJKR critical endpoint: eager={float(eager_dc):.17g}, "
+              f"jit={float(actual_dc[1]):.17g}, difference={offset_ulps:g} ULP")
 
 
 def test_threshold_constants_and_zero_indentation_adhesion():

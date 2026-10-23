@@ -48,6 +48,13 @@ even when an attached equilibrium also exists there. There is no attraction
 between previously separated surfaces at a finite range. `W=0` returns the
 same outputs as Hertz, including its history transitions.
 
+The comparison uses the threshold computed in that update and returned as
+`critical_indentation`. Separately evaluated eager and JIT thresholds may
+differ by floating-point rounding. A path intended to cross the instability
+must cross it, rather than rely on bitwise equality to a threshold evaluated
+in a different compiled expression. No distance tolerance or shifted physical
+detachment threshold is applied.
+
 This is displacement control. The often quoted load-controlled JKR pull-off
 force `-3*pi*W*R/2` is not the detachment rule here. At zero indentation the
 attached branch has `a^3=2*pi*W*R^2/E*` and `F=-4*pi*W*R/3`; approaching the
