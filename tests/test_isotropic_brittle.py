@@ -94,7 +94,10 @@ def test_unloading_reloading_has_fixed_damage_and_zero_closed_cycle_work():
                               np.linspace(0, .04, 41)[1:]))
     _, (history, nominal) = history_path(strains, p)
     np.testing.assert_allclose(history.kappa[80:], .04, rtol=1e-13)
-    np.testing.assert_allclose(history.damage[80:], history.damage[80], rtol=1e-13)
+    np.testing.assert_allclose(
+        history.damage[80:], np.broadcast_to(history.damage[80], history.damage[80:].shape),
+        rtol=1e-13,
+    )
     expected = (1 - float(history.damage[80, 0])) * p.young * strains[80:]
     np.testing.assert_allclose(nominal[80:], expected, rtol=1e-12, atol=3e-6)
     np.testing.assert_allclose(np.trapezoid(np.asarray(nominal)[80:], strains[80:]), 0, atol=1e-7)
