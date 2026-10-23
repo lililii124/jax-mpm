@@ -43,6 +43,9 @@ CLOUD_ALIASES = {"material-engineering-cloud": "material-engineering", "adhesion
 ADHESION_SOURCES = ("adhesion-visible-v3-cloud", "adhesion-visible-cloud", "adhesion-visible")
 ADHESION_ROLES = {"nonadhesive": "nonadhesive-pull-off", "adhesive": "adhesive-pull-off"}
 COMPARISON_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
+JC_FORMAL_ID = "material-engineering--jc-necking--johnson-cook"
+JC_CHAIN_FILES = ("constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv", "runner-acceptance.json")
+JC_ARRAY_FILES = {"trajectory.npz", "trajectory_x.npy", "trajectory_damage.npy", "trajectory_failed.npy"}
 
 
 def canonical_identifier(relative):
@@ -86,6 +89,121 @@ def recorded_files_match(folder, files, names):
         if record["bytes"] != path.stat().st_size or record["sha256"] != raw_digest(path):
             return False
     return True
+
+
+def complete_jc_support_chain(folder, summary, receipt, source, augmented):
+    """Verify the imported runner audit; omitted arrays are not recomputed here."""
+    import numpy as np
+
+    try:
+        original, audit, acceptance = [json.loads((folder / name).read_text(encoding="utf-8"))
+                                       for name in (JC_CHAIN_FILES[0], JC_CHAIN_FILES[1], JC_CHAIN_FILES[3])]
+        passed = lambda report: (report.get("passed") is True and isinstance(report.get("checks"), dict)
+                                 and bool(report["checks"]) and all(value is True for value in report["checks"].values()))
+        runner_hash = source["files"]["tools/run_engineering_preview.py"]
+        reviewer_hash = source["files"]["tools/review_material_engineering.py"]
+        if not (receipt.get("preset") == "jc-necking-formal" and summary["particles"] == [102320]
+                and summary["steps"] == 57900 and summary["configs"][0]["n_grid"] == 100
+                and math.isclose(summary["simulation_time"], 150e-6, rel_tol=1e-12, abs_tol=0)
+                and passed(original) and passed(acceptance) and passed(augmented)
+                and original.get("review_source_sha256", reviewer_hash) == reviewer_hash
+                and augmented["review_source_sha256"] == reviewer_hash
+                and audit["runner_source_sha256"] == acceptance["runner_source_sha256"] == augmented["runner_source_sha256"] == runner_hash
+                and audit.get("completed") is True and audit.get("diagnostic_only") is False
+                and audit.get("strict_review_passed") is True and audit["failed_checks"] == []
+                and audit["grid"] == 100 and audit["particles"] == 102320
+                and recorded_files_match(folder, receipt["files"], JC_CHAIN_FILES)):
+            return False
+        core = {"summary.json", "diagnostics.csv", "observables.csv"}
+        if set(original["sources"]) != core or augmented["sources"] != original["sources"]:
+            return False
+        if any(augmented.get(key) != value for key, value in original.items() if key != "checks"):
+            return False
+        for name in core:
+            if original["sources"][name] != hashlib.sha256((folder / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest():
+                return False
+        audit_files = core | JC_ARRAY_FILES | {"constitutive-review.json", "final_state_0.npz"}
+        if set(audit["sources"]) != audit_files:
+            return False
+        missing = {name for name in JC_ARRAY_FILES if not (folder / name).is_file()}
+        proof = receipt["source_evidence"]["jc_support_audit"]
+        if not (proof.get("verified") is True and proof.get("basis") == "verified-actions-artifact"
+                and proof["audit_sha256"] == raw_digest(folder / "jc-support-audit.json")
+                and proof["runner_source_sha256"] == runner_hash
+                and proof["array_hash_verification"] == "recorded-by-runner-not-recomputed-after-import"
+                and proof["unavailable_array_hashes"] == {name: audit["sources"][name] for name in missing}):
+            return False
+        artifacts = [item for item in receipt["artifacts"] if item["id"] == proof["artifact_id"] and item["part"] == "main"]
+        if len(artifacts) != 1 or not (artifacts[0]["zip_sha256"] == proof["artifact_zip_sha256"]
+                and artifacts[0]["github_digest"] == "sha256:" + proof["artifact_zip_sha256"]):
+            return False
+        for name, expected in audit["sources"].items():
+            if not (isinstance(expected, str) and len(expected) == 64 and all(c in "0123456789abcdef" for c in expected)):
+                return False
+            if name not in missing and raw_digest(folder / name) != expected:
+                return False
+        csv_record = audit["history_csv"]
+        if csv_record["filename"] != "jc-support-history.csv" or csv_record["sha256"] != raw_digest(folder / "jc-support-history.csv"):
+            return False
+        with (folder / "jc-support-history.csv").open(encoding="utf-8", newline="") as stream:
+            table = list(csv.DictReader(stream))
+        with np.load(folder / "trajectory_index.npz", allow_pickle=False) as data:
+            times = np.asarray(data["time"])
+        history, cut_history = audit["saved_history"], audit["saved_positive_axial_support_cuts"]
+        if not (len(table) == len(history) == len(cut_history) == csv_record["rows"] == len(times) == 61
+                and times[0] == 0 and bool(np.isfinite(times).all()) and bool((np.diff(times) > 0).all())
+                and math.isclose(times[-1], 150e-6, rel_tol=1e-12, abs_tol=0)):
+            return False
+        row_names = {"frame", "time_s", "failed_particles", "maximum_damage", "maximum_axial_gap_m", "axial_support_cuts",
+                     "positive_axial_support_components", "central_active_particles", "central_geometric_rms_radius_ratio"}
+        for index, (row, text, cuts) in enumerate(zip(history, table, cut_history)):
+            if not (set(row) == set(text) == row_names and row["frame"] == cuts["frame"] == index
+                    and row["time_s"] == cuts["time_s"] == times[index]
+                    and all(type(value) in (int, float) and math.isfinite(value) and float(text[key]) == value for key, value in row.items())
+                    and len(cuts["cuts"]) == row["axial_support_cuts"]
+                    and row["positive_axial_support_components"] == row["axial_support_cuts"] + int(row["failed_particles"] < 102320)):
+                return False
+            for key in ("frame", "failed_particles", "axial_support_cuts", "positive_axial_support_components", "central_active_particles"):
+                if type(row[key]) is not int or not 0 <= row[key] <= 102320:
+                    return False
+            for cut in cuts["cuts"]:
+                left, right = cut["positive_x_node_intervals"]
+                if not (len(left) == len(right) == 2 and all(type(node) is int and 0 <= node <= 100 for node in (*left, *right))
+                        and left[0] <= left[1] < right[0] <= right[1]
+                        and math.isfinite(cut["gap_m"]) and cut["gap_m"] > 0):
+                    return False
+        first_cut = next((row for row in history if row["axial_support_cuts"]), None)
+        first_failure = next((row for row in history if row["failed_particles"]), None)
+        first_central = next((row for row in history if row["central_active_particles"] == 0), None)
+        expected_cut = None if first_cut is None else {**first_cut, "cuts": cut_history[first_cut["frame"]]["cuts"]}
+        before = first_cut is not None and (first_failure is None or first_cut["frame"] < first_failure["frame"])
+        before_central = first_cut is not None and (first_central is None or first_cut["frame"] < first_central["frame"])
+        without_failed = any(row["axial_support_cuts"] and row["failed_particles"] == 0 for row in history)
+        ordering = ("no_saved_support_disconnection" if first_cut is None else
+                    "support_disconnection_observed_before_any_material_failure" if before else
+                    "same_saved_interval_unresolved" if first_cut["frame"] == first_failure["frame"] else
+                    "material_failure_observed_at_an_earlier_saved_state")
+        if not (audit["first_axial_stencil_disconnection"] == expected_cut and audit["first_saved_material_failure"] == first_failure
+                and audit["first_saved_central_full_failure"] == first_central
+                and audit["support_disconnection_before_material_failure"] is before
+                and audit["support_disconnection_before_central_full_failure"] is before_central
+                and audit["support_disconnection_with_no_failed_material_observed"] is without_failed
+                and before is False and without_failed is False
+                and audit["failure_disconnection_ordering"] == acceptance["failure_disconnection_ordering"] == ordering):
+            return False
+        expected_checks = {"constitutive_review_passed": True, "support_audit_complete": True,
+                           "no_saved_support_disconnection_before_material_failure": True}
+        expected_augmented = {**original["checks"], **{"runner_" + key: value for key, value in expected_checks.items()}}
+        if acceptance["checks"] != expected_checks or augmented["checks"] != expected_augmented:
+            return False
+        names = {"constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv"}
+        if acceptance["sources"] != {name: raw_digest(folder / name) for name in names}:
+            return False
+        if augmented["supplemental_reviews"] != {name: raw_digest(folder / name) for name in (JC_CHAIN_FILES[0], JC_CHAIN_FILES[1], JC_CHAIN_FILES[3])}:
+            return False
+        return True
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, IndexError, OverflowError, zipfile.BadZipFile):
+        return False
 
 
 def complete_engineering_media(folder, summary):
@@ -160,6 +278,8 @@ def complete_engineering_import(folder, identifier, summary):
                 and verification["checked_source_files"] == len(source["files"])
                 and verification["fingerprint"] == source["fingerprint"] == fingerprint
                 and verification["review_source_sha256"] == source["review_source_sha256"] == review.get("review_source_sha256") == expected_hash):
+            return False
+        if identifier == JC_FORMAL_ID and not complete_jc_support_chain(folder, summary, receipt, source, review):
             return False
         if not complete_engineering_media(folder, summary):
             return False
@@ -479,11 +599,12 @@ def collect(root, destination):
                 "media-check.json",
                 "preview-review.json",
                 "preview-eligibility.json",
+                *JC_CHAIN_FILES,
             )
             for name in names:
                 original = folder / name
                 if original.exists():
-                    content = original.read_text(encoding="utf-8").encode("utf-8")
+                    content = original.read_bytes() if name in JC_CHAIN_FILES else original.read_text(encoding="utf-8").encode("utf-8")
                     if name == "vtk_check.json":
                         verification = json.loads(content)
                         if "command" in verification:
@@ -495,6 +616,19 @@ def collect(root, destination):
                         content = (json.dumps(verification, indent=2) + "\n").encode("utf-8")
                     write_if_changed(target / name, content)
                     hashes[name] = hashlib.sha256(content).hexdigest()
+            if source in CLOUD_ALIASES and identifier == JC_FORMAL_ID:
+                receipt = json.loads((folder / "import-receipt.json").read_text(encoding="utf-8"))
+                proof = receipt["source_evidence"]["jc_support_audit"]
+                artifact = next(item for item in receipt["artifacts"] if item["id"] == proof["artifact_id"])
+                evidence = {key: receipt[key] for key in ("verified", "repository", "commit", "tree", "run_id", "run_attempt", "preset")}
+                evidence.update(source_evidence=receipt["source_evidence"],
+                    source_verification=receipt["source_verification"],
+                    import_receipt_sha256=raw_digest(folder / "import-receipt.json"),
+                    artifact={key: artifact[key] for key in ("id", "name", "part", "github_digest", "zip_sha256")},
+                    scope="The imported artifact and its recorded runner audit were verified. Missing trajectory arrays were not independently reconstructed or recomputed during import.")
+                content = (json.dumps(evidence, indent=2, allow_nan=False) + "\n").encode()
+                write_if_changed(target / "source-evidence.json", content)
+                hashes["source-evidence.json"] = hashlib.sha256(content).hexdigest()
             render = (
                 json.loads((folder / "render.json").read_text())
                 if (folder / "render.json").exists()

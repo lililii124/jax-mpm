@@ -1,4 +1,5 @@
 import hashlib
+import csv
 import json
 from pathlib import Path
 import shutil
@@ -242,3 +243,174 @@ def test_v3_pair_priority_and_atomic_fallback(tmp_path, monkeypatch, invalid_v3)
     assert {relative for _, relative in entries} == {folder.relative_to(tmp_path / "outputs").as_posix() for folder in expected}
     image, _, _ = collect_gallery.preview(expected[0], "adhesion-visible-nonadhesive-pull-off", {"frames_rendered": 2})
     assert image.parent == expected[0] / "frames"
+
+
+def jc_fixture(root, *, cut_frame=25, failure_frame=20):
+    folder = run_fixture(root, "material-engineering-cloud", "jc-necking/johnson-cook")
+    times = np.linspace(0., 150e-6, 61)
+    summary = json.loads((folder / "summary.json").read_text())
+    summary.update(particles=[102320], steps=57900, simulation_time=150e-6,
+                   configs=[{"n_grid": 100, "domain_size": .01, "dt": 150e-6 / 57900}])
+    write(folder / "summary.json", summary)
+    write(folder / "status.json", {"completed": True, "frame": 60, "frames": 60})
+    for name in ("observables.csv", "diagnostics.csv"):
+        (folder / name).write_text("time,value\n" + "".join(f"{time:.17g},0\n" for time in times))
+    np.savez(folder / "trajectory_index.npz", time=times, body=np.zeros(102320, dtype=np.int32))
+    source = json.loads((folder / "numerical-source.json").read_text())
+    source["files"]["tools/run_engineering_preview.py"] = "d" * 64
+    source["fingerprint"] = hashlib.sha256(json.dumps(source["files"], sort_keys=True).encode()).hexdigest()
+    write(folder / "numerical-source.json", source)
+    original = {"passed": True, "checks": {"physical_check": True},
+                "sources": {name: lf(folder / name) for name in ("summary.json", "diagnostics.csv", "observables.csv")}}
+    write(folder / "constitutive-review.json", original)
+    history, cuts = [], []
+    detail = {"gap_m": .0005, "current_edge_x_m": [.0048, .0053], "initial_edge_x_m": [.0049, .0051],
+              "base_nodes_x": [47, 52], "positive_x_node_intervals": [[47, 49], [52, 54]], "edge_damage": [.5, .5]}
+    for frame, time in enumerate(times):
+        disconnected = frame >= cut_frame
+        history.append({"frame": frame, "time_s": float(time), "failed_particles": 16 if frame >= failure_frame else 0,
+            "maximum_damage": 1. if frame >= failure_frame else .1, "maximum_axial_gap_m": .0005,
+            "axial_support_cuts": int(disconnected), "positive_axial_support_components": 1 + int(disconnected),
+            "central_active_particles": 0 if frame >= 30 else 16, "central_geometric_rms_radius_ratio": .8})
+        cuts.append({"frame": frame, "time_s": float(time), "cuts": [detail] if disconnected else []})
+    with (folder / "jc-support-history.csv").open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=history[0], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(history)
+    sources = {name: raw(folder / name) for name in ("summary.json", "diagnostics.csv", "observables.csv", "constitutive-review.json", "final_state_0.npz")}
+    sources.update({name: hashlib.sha256(("synthetic omitted array " + name).encode()).hexdigest() for name in collect_results.JC_ARRAY_FILES})
+    ordering = ("support_disconnection_observed_before_any_material_failure" if cut_frame < failure_frame else
+                "same_saved_interval_unresolved" if cut_frame == failure_frame else "material_failure_observed_at_an_earlier_saved_state")
+    audit = {"completed": True, "diagnostic_only": False, "production_eligible": False, "strict_review_passed": True,
+        "failed_checks": [], "grid": 100, "particles": 102320, "runner_source_sha256": "d" * 64, "sources": sources,
+        "history_csv": {"filename": "jc-support-history.csv", "sha256": raw(folder / "jc-support-history.csv"), "rows": 61},
+        "saved_history": history, "saved_positive_axial_support_cuts": cuts,
+        "first_axial_stencil_disconnection": {**history[cut_frame], "cuts": [detail]},
+        "first_saved_material_failure": history[failure_frame], "first_saved_central_full_failure": history[30],
+        "support_disconnection_before_material_failure": cut_frame < failure_frame,
+        "support_disconnection_before_central_full_failure": cut_frame < 30,
+        "support_disconnection_with_no_failed_material_observed": cut_frame < failure_frame,
+        "failure_disconnection_ordering": ordering}
+    write(folder / "jc-support-audit.json", audit)
+    checks = {"constitutive_review_passed": True, "support_audit_complete": True,
+              "no_saved_support_disconnection_before_material_failure": True}
+    acceptance = {"passed": True, "checks": checks, "runner_source_sha256": "d" * 64,
+        "failure_disconnection_ordering": ordering,
+        "sources": {name: raw(folder / name) for name in ("constitutive-review.json", "jc-support-audit.json", "jc-support-history.csv")}}
+    write(folder / "runner-acceptance.json", acceptance)
+    augmented = {**original, "checks": {**original["checks"], **{"runner_" + key: value for key, value in checks.items()}},
+        "review_source_sha256": "b" * 64, "runner_source_sha256": "d" * 64,
+        "supplemental_reviews": {name: raw(folder / name) for name in ("constitutive-review.json", "jc-support-audit.json", "runner-acceptance.json")}}
+    write(folder / "interpretation.json", augmented)
+    render = json.loads((folder / "render.json").read_text())
+    render.update(frames_rendered=61, particles=102320)
+    write(folder / "render.json", render)
+    write(folder / "vtk_metadata.json", {"frames": 61, "particles": 102320})
+    write(folder / "vtk_check.json", {"passed": True, "sampled_frames": [0, 60], "particles_per_frame": 102320, "checker_sha256": "c" * 64})
+    (folder / "particles.pvd").write_text('<VTKFile><Collection>' + ''.join(f'<DataSet timestep="{time:.17g}"/>' for time in times) + '</Collection></VTKFile>')
+    joined, pngs = hashlib.sha256(), {}
+    for frame in range(61):
+        path = folder / "frames" / f"frame_{frame:05d}.png"
+        path.write_bytes(f"synthetic frame {frame}".encode())
+        pngs[path.name] = raw(path)
+        joined.update(path.read_bytes())
+    video = {"frames": 61, "frames_sha256": joined.hexdigest(), "render_sha256": raw(folder / "render.json"),
+             "bytes": (folder / "simulation.mp4").stat().st_size, "sha256": raw(folder / "simulation.mp4")}
+    write(folder / "video.json", video)
+    write(folder / "media-check.json", {"passed": True, "original_png_frames": 61, "png_sha256": pngs,
+        "gif": {"encoded_frames": 61, "original_png_frames": 61, "total_duration_ms": 3660, "expected_duration_ms": 3660},
+        "render_sha256": video["render_sha256"], "video_sha256": video["sha256"]})
+    receipt = json.loads((folder / "import-receipt.json").read_text())
+    receipt["preset"] = "jc-necking-formal"
+    receipt["source_verification"].update(checked_source_files=4, fingerprint=source["fingerprint"])
+    receipt["artifacts"] = [{"id": 123, "name": "synthetic-engineering-main", "part": "main", "zip_sha256": "e" * 64,
+                              "github_digest": "sha256:" + "e" * 64, "directory": "private/unpublished"}]
+    receipt["source_evidence"] = {"jc_support_audit": {"verified": True, "basis": "verified-actions-artifact",
+        "audit_sha256": raw(folder / "jc-support-audit.json"), "runner_source_sha256": "d" * 64,
+        "artifact_id": 123, "artifact_zip_sha256": "e" * 64,
+        "array_hash_verification": "recorded-by-runner-not-recomputed-after-import",
+        "unavailable_array_hashes": {name: sources[name] for name in collect_results.JC_ARRAY_FILES}}}
+    write(folder / "import-receipt.json", receipt)
+    refresh_receipt(folder)
+    return folder
+
+
+def jc_ready(folder):
+    return collect_results.complete_engineering_import(folder, collect_results.JC_FORMAL_ID, json.loads((folder / "summary.json").read_text()))
+
+
+@pytest.mark.parametrize("cut_frame", [20, 25])
+def test_jc_chain_accepts_verified_later_or_unresolved_same_frame_ordering(tmp_path, monkeypatch, cut_frame):
+    folder = jc_fixture(tmp_path, cut_frame=cut_frame)
+    assert jc_ready(folder)
+    records = collect(tmp_path, monkeypatch, ("material-engineering-cloud",))
+    assert len(records) == 1 and records[0]["id"] == collect_results.JC_FORMAL_ID
+    target = tmp_path / "docs/results" / collect_results.JC_FORMAL_ID
+    for name in collect_results.JC_CHAIN_FILES:
+        assert (target / name).read_bytes() == (folder / name).read_bytes()
+        assert records[0]["sha256"][name] == raw(folder / name)
+    evidence = json.loads((target / "source-evidence.json").read_text())
+    assert "directory" not in evidence["artifact"]
+    assert "not independently" in evidence["scope"]
+    assert evidence["source_evidence"]["jc_support_audit"]["array_hash_verification"] == "recorded-by-runner-not-recomputed-after-import"
+
+
+@pytest.mark.parametrize("name", collect_results.JC_CHAIN_FILES)
+def test_jc_chain_missing_file_is_not_production(tmp_path, name):
+    folder = jc_fixture(tmp_path)
+    (folder / name).unlink()
+    refresh_receipt(folder)
+    assert not jc_ready(folder)
+
+
+def test_jc_chain_rejects_unfailed_disconnection_even_with_passed_review_flags(tmp_path):
+    folder = jc_fixture(tmp_path, cut_frame=10, failure_frame=20)
+    assert not jc_ready(folder)
+
+
+@pytest.mark.parametrize("problem", ["original-false", "original-source", "original-reviewer", "audit-cycle", "audit-runner",
+    "audit-data", "acceptance-false", "acceptance-cycle", "supplemental", "csv-incomplete", "missing-proof",
+    "false-recomputation-claim", "wrong-artifact", "diagnostic-preset", "dishonest-ordering"])
+def test_jc_chain_rejects_tampering_after_receipt_refresh(tmp_path, problem):
+    folder = jc_fixture(tmp_path)
+    filename = ("constitutive-review.json" if problem.startswith("original") else
+                "runner-acceptance.json" if problem.startswith("acceptance") else
+                "interpretation.json" if problem == "supplemental" else
+                "import-receipt.json" if problem in ("missing-proof", "false-recomputation-claim", "wrong-artifact", "diagnostic-preset") else "jc-support-audit.json")
+    document = json.loads((folder / filename).read_text())
+    if problem == "original-false": document["checks"]["physical_check"] = False
+    elif problem == "original-source": document["sources"]["summary.json"] = "f" * 64
+    elif problem == "original-reviewer": document["review_source_sha256"] = "f" * 64
+    elif problem in ("audit-cycle", "acceptance-cycle"): document["sources"]["interpretation.json"] = raw(folder / "interpretation.json")
+    elif problem == "audit-runner": document["runner_source_sha256"] = "f" * 64
+    elif problem == "audit-data": document["sources"]["final_state_0.npz"] = "f" * 64
+    elif problem == "acceptance-false": document["checks"]["support_audit_complete"] = False
+    elif problem == "supplemental": document["supplemental_reviews"]["jc-support-audit.json"] = "f" * 64
+    elif problem == "csv-incomplete":
+        path = folder / "jc-support-history.csv"
+        path.write_text('\n'.join(path.read_text().splitlines()[:-1]) + '\n')
+        document["history_csv"]["sha256"] = raw(path)
+    elif problem == "missing-proof": document.pop("source_evidence")
+    elif problem == "false-recomputation-claim": document["source_evidence"]["jc_support_audit"]["array_hash_verification"] = "independently-recomputed"
+    elif problem == "wrong-artifact": document["source_evidence"]["jc_support_audit"]["artifact_zip_sha256"] = "f" * 64
+    elif problem == "diagnostic-preset": document["preset"] = "jc-density-diagnostic"
+    elif problem == "dishonest-ordering": document["failure_disconnection_ordering"] = "same_saved_interval_unresolved"
+    write(folder / filename, document)
+    # Refresh transport-level hashes so malformed semantic chains remain the cause of rejection.
+    receipt = json.loads((folder / "import-receipt.json").read_text())
+    if "source_evidence" in receipt:
+        receipt["source_evidence"]["jc_support_audit"]["audit_sha256"] = raw(folder / "jc-support-audit.json")
+    write(folder / "import-receipt.json", receipt)
+    refresh_receipt(folder)
+    assert not jc_ready(folder)
+
+
+@pytest.mark.parametrize("matches", [False, True])
+def test_jc_locally_available_array_is_actually_hashed(tmp_path, matches):
+    folder = jc_fixture(tmp_path)
+    (folder / "trajectory_failed.npy").write_bytes(b"synthetic omitted array trajectory_failed.npy" if matches else b"changed array")
+    receipt = json.loads((folder / "import-receipt.json").read_text())
+    receipt["source_evidence"]["jc_support_audit"]["unavailable_array_hashes"].pop("trajectory_failed.npy")
+    write(folder / "import-receipt.json", receipt)
+    refresh_receipt(folder)
+    assert jc_ready(folder) is matches
