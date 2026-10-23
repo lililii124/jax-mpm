@@ -117,7 +117,7 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **70 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **72 selected completed runs**,
 including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
@@ -468,3 +468,9 @@ The original larger-sphere run remains archived. The geometry change is not a me
 The [completed run](docs/results/material-engineering--concrete-bending-symmetric--hjc/interpretation.json) records 121,104 material points, 10,500 steps and 61 saved states over 1.5 ms. Actual bottom-midspan deflection reaches 16.3894 mm; 20.1843% of the reference volume reaches D ≥ 0.5. Minimum det(F) is 0.985444. The [saved-frame symmetry audit](docs/results/material-engineering--concrete-bending-symmetric--hjc/runtime-symmetry.json) records maximum damage mirror RMS differences of 4.354e-13 in x and 4.144e-13 in z, and a maximum left/right damaged-volume fraction difference of 5.551e-17; all are below the fixed 0.01 limits.
 
 This is a separate boundary-value problem with imposed symmetry planes and two vertical-only supports. It does not establish symmetry of the original pin/roller problem, mesh convergence, or the absence of unconstrained instability. Constitutive damage retains grid participation and does not define resolved cracks or detached fragments.
+
+## Adhesion during a withdrawal hold
+
+The [completed v4 comparison](docs/results/adhesion-visible-comparison.json) records two matched runs of 3,700 steps over 1.3 s. At all nine saved hold states from 0.728 to 0.936 s, the baseline has no interacting points and zero sphere reaction, while the adhesive sphere remains in tension. The simultaneous surface-uplift difference is 41.486–47.475 mm across a saved span of 0.208 s, exceeding the unchanged 25 mm and 0.10 s requirements. Both spheres are fully separated at the end; the adhesive final minimum gap is 276.197 mm. The minimum sampled adhesive retraction reaction is -158.781 N.
+
+These are dynamic finite-layer results from the finite-range Dugdale surface-traction model. The intervals are bounded by saved states, not continuous-time detachment measurements or equilibrium solutions. Both movies use the same displacement range, contact-detail camera and physical geometry. The crop includes the complete sphere and contact region during the hold; outer layer edges and part of the fully withdrawn sphere may lie outside the view. The original pair and the failed v2/v3 comparisons are retained; this result does not constitute an analytical JKR or Maugis half-space validation.

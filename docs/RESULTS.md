@@ -79,6 +79,8 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [woven--twill-2x2--hemispherical-compression](results/woven--twill-2x2--hemispherical-compression/summary.json) | 345,600 | 8,220 | 1.89737e-05 | 0.821462 | 0 | ParaView |
 | [material-engineering--ceramic-indentation-wide--jh2](results/material-engineering--ceramic-indentation-wide--jh2/summary.json) | 386,420 | 6,080 | 0.0003 | 0.985168 | 1 | ParaView |
 | [material-engineering--concrete-bending-symmetric--hjc](results/material-engineering--concrete-bending-symmetric--hjc/summary.json) | 121,104 | 10,500 | 0.0015 | 0.985444 | 1 | ParaView |
+| [adhesion-visible--adhesive-pull-off](results/adhesion-visible--adhesive-pull-off/summary.json) | 367,744 | 3,700 | 1.3 | 0.546498 | 0 | ParaView |
+| [adhesion-visible--nonadhesive-pull-off](results/adhesion-visible--nonadhesive-pull-off/summary.json) | 367,744 | 3,700 | 1.3 | 0.763119 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)
@@ -96,3 +98,8 @@ analytical checks remain separate in [VALIDATION.md](../VALIDATION.md).
 The [matched adhesion comparison](results/adhesion-comparison.json) and
 [response table](results/adhesion-comparison.csv) use the same sphere path
 and dynamic body with zero and positive work of adhesion.
+
+The [lift-hold adhesion comparison](results/adhesion-visible-comparison.json)
+checks the force-free baseline against a surface still pulled upward by adhesion
+at matching times. Its [response table](results/adhesion-visible-comparison.csv)
+retains the measured deformation difference.

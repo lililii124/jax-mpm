@@ -1,0 +1,17 @@
+{
+  "scope": "command process tree; one-second RSS/USS samples; shared RSS can be counted more than once",
+  "peak_tree_rss_bytes": 3322658816,
+  "peak_tree_uss_bytes": 3303260160,
+  "samples": 1068,
+  "minimum_system_available_bytes": 13226213376,
+  "system_total_bytes": 16766414848,
+  "start_system_available_bytes": 6442450944,
+  "stop_system_available_bytes": 2147483648,
+  "stop_tree_uss_bytes": 12884901888,
+  "stopped_for_memory": false,
+  "stop_reason": null,
+  "completed": true,
+  "solver_seconds": 997.4751087450006,
+  "steps": 3700,
+  "particles": 367744
+}

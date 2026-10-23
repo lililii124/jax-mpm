@@ -1,0 +1,377 @@
+{
+  "case": "adhesive-pull-off",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 48,
+      "dt": 0.00035135135135135135,
+      "domain_size": 1.0,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "neo-hookean",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            1.0,
+            0.15,
+            1.0
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ],
+      "failure_mode": "retain"
+    }
+  ],
+  "materials": [
+    {
+      "mu": 3200.0,
+      "lam": 3200.0,
+      "bulk": 5333.333333333333
+    }
+  ],
+  "steps": 3700,
+  "simulation_time": 1.3,
+  "particles": [
+    367744
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.15",
+  "compile_and_warmup_seconds": 20.823818426000116,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 997.4751087450006,
+  "min_J": 0.5464978728927813,
+  "max_damage": 0.0,
+  "max_plastic_strain": 0.0,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    5.269387395689415e-14,
+    -79.61093064182049,
+    4.531954202852032e-14
+  ],
+  "external_impulse": [
+    -7.07590131851735e-14,
+    84.30867489699895,
+    -6.706244749180101e-14
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "force_sample_time_s": 0.0,
+      "base_boundary_sample_time_s": 0.00035135135135135135,
+      "surface_reference_area_m2": 0.5183999999999999,
+      "contact_potential_J": 0.0,
+      "penalty_potential_J": 0.0,
+      "adhesive_potential_J": 0.0,
+      "surface_displacement_y_min_m": -5.551115123125783e-17,
+      "surface_displacement_y_max_m": -5.551115123125783e-17,
+      "force_balance_error_N": 0.0,
+      "particle_contact_power_W": 0.0,
+      "sphere_0_center_x_m": 0.5,
+      "sphere_0_velocity_x_m_per_s": 0.0,
+      "sphere_0_reaction_x_N": -0.0,
+      "sphere_0_reaction_moment_x_Nm": -0.0,
+      "sphere_0_undeformed_surface_reaction_x_N": -0.0,
+      "sphere_0_center_y_m": 0.5816176470588236,
+      "sphere_0_velocity_y_m_per_s": 0.0,
+      "sphere_0_reaction_y_N": -0.0,
+      "sphere_0_reaction_moment_y_Nm": -0.0,
+      "sphere_0_undeformed_surface_reaction_y_N": -0.0,
+      "sphere_0_center_z_m": 0.5,
+      "sphere_0_velocity_z_m_per_s": 0.0,
+      "sphere_0_reaction_z_N": -0.0,
+      "sphere_0_reaction_moment_z_Nm": -0.0,
+      "sphere_0_undeformed_surface_reaction_z_N": -0.0,
+      "sphere_0_contact_reference_area_m2": 0.0,
+      "sphere_0_adhesive_reference_area_m2": 0.0,
+      "sphere_0_compressed_points": 0,
+      "sphere_0_adhesive_points": 0,
+      "sphere_0_min_gap_m": 0.045058441662472026,
+      "sphere_0_max_penetration_m": 0.0,
+      "sphere_0_max_bulk_penetration_m": 0.0,
+      "sphere_0_potential_J": 0.0,
+      "sphere_0_deformation_feedback_force_difference_N": 0.0,
+      "sphere_0_actuator_power_W": -0.0,
+      "base_force_on_body_x_N": 0.0,
+      "sphere_total_reaction_x_N": 0.0,
+      "base_force_on_body_y_N": 0.0,
+      "sphere_total_reaction_y_N": 0.0,
+      "base_force_on_body_z_N": 0.0,
+      "sphere_total_reaction_z_N": 0.0,
+      "actuator_power_W": 0.0,
+      "moment_balance_error_Nm": 0.0
+    },
+    "final": {
+      "time": 1.3,
+      "external_work_trapezoidal": 14.323680406890736,
+      "boundary_impulse_x": 5.269387395689415e-14,
+      "boundary_impulse_y": -79.61093064182049,
+      "boundary_impulse_z": 4.531954202852032e-14,
+      "force_sample_time_s": 1.3,
+      "base_boundary_sample_time_s": 1.3003513513513514,
+      "surface_reference_area_m2": 0.5183999999999999,
+      "contact_potential_J": 0.0,
+      "penalty_potential_J": 0.0,
+      "adhesive_potential_J": 0.0,
+      "surface_displacement_y_min_m": -0.0038143601681786543,
+      "surface_displacement_y_max_m": 0.01919695639600799,
+      "force_balance_error_N": 0.0,
+      "particle_contact_power_W": 0.0,
+      "sphere_0_center_x_m": 0.5,
+      "sphere_0_velocity_x_m_per_s": 0.0,
+      "sphere_0_reaction_x_N": -0.0,
+      "sphere_0_reaction_moment_x_Nm": -0.0,
+      "sphere_0_undeformed_surface_reaction_x_N": -0.0,
+      "sphere_0_center_y_m": 0.8316176470588236,
+      "sphere_0_velocity_y_m_per_s": 0.0,
+      "sphere_0_reaction_y_N": -0.0,
+      "sphere_0_reaction_moment_y_Nm": -0.0,
+      "sphere_0_undeformed_surface_reaction_y_N": -0.0,
+      "sphere_0_center_z_m": 0.5,
+      "sphere_0_velocity_z_m_per_s": 0.0,
+      "sphere_0_reaction_z_N": -0.0,
+      "sphere_0_reaction_moment_z_Nm": -0.0,
+      "sphere_0_undeformed_surface_reaction_z_N": -0.0,
+      "sphere_0_contact_reference_area_m2": 0.0,
+      "sphere_0_adhesive_reference_area_m2": 0.0,
+      "sphere_0_compressed_points": 0,
+      "sphere_0_adhesive_points": 0,
+      "sphere_0_min_gap_m": 0.27619728108888675,
+      "sphere_0_max_penetration_m": 0.0,
+      "sphere_0_max_bulk_penetration_m": 0.0,
+      "sphere_0_potential_J": 0.0,
+      "sphere_0_deformation_feedback_force_difference_N": 0.0,
+      "sphere_0_actuator_power_W": -0.0,
+      "base_force_on_body_x_N": -2.518017845514027e-13,
+      "sphere_total_reaction_x_N": 0.0,
+      "base_force_on_body_y_N": -165.8104105979346,
+      "sphere_total_reaction_y_N": 0.0,
+      "base_force_on_body_z_N": -2.1955058971276915e-13,
+      "sphere_total_reaction_z_N": 0.0,
+      "actuator_power_W": 0.0,
+      "moment_balance_error_Nm": 0.0
+    }
+  },
+  "definition": {
+    "purpose": "adhesive-pull-off",
+    "contact": "Dugdale finite-range nominal adhesion with penalty repulsion; explicit MPM coupling",
+    "theory_scope": "MD-type interface law; no analytical Maugis sphere solution or experimental calibration",
+    "sources": [
+      "https://doi.org/10.1016/0021-9797(92)90285-T",
+      "https://bdml.stanford.edu/twiki/pub/Rise/AdhesionModels/JohnsonAdhesionModel.pdf",
+      "https://doi.org/10.1016/j.triboint.2017.04.001"
+    ],
+    "lower": [
+      0.14,
+      0.15,
+      0.14
+    ],
+    "upper": [
+      0.86,
+      0.38,
+      0.86
+    ],
+    "young_modulus_Pa": 8000.0,
+    "poisson_ratio": 0.25,
+    "density_kg_per_m3": 1000.0,
+    "particles_per_cell_per_axis": 3,
+    "particle_counts_per_axis": [
+      104,
+      34,
+      104
+    ],
+    "particle_spacings_m": [
+      0.006923076923076922,
+      0.006764705882352942,
+      0.006923076923076922
+    ],
+    "surface_particles": 10816,
+    "contact_sampling_plane_y_m": 0.37661764705882356,
+    "sampling_plane_offset_below_nominal_top_m": 0.003382352941176471,
+    "surface_quadrature": "top-layer particle centers, advected by MPM; fixed reference area weights; no F-dependent surface offset",
+    "reference_area_per_surface_point_m2": 4.792899408284023e-05,
+    "adhesion": {
+      "work_of_adhesion": 144.0,
+      "interaction_range": 0.025,
+      "penalty_stiffness": 4800000.0
+    },
+    "cohesive_nominal_stress_Pa": 5760.0,
+    "adhesive_range_per_surface_spacing": 3.6111111111111116,
+    "penalty_step_number_max": 0.08759424524406897,
+    "penalty_stability_indicator": "k*A0*dt^2/m <= 0.09; local contact indicator, not a nonlinear global stability proof",
+    "base": "all velocity components fixed at grid nodes y <= 0.15 m",
+    "other_faces": "traction-free",
+    "gravity": "zero",
+    "tangential_contact": "frictionless",
+    "rigid_spheres": [
+      {
+        "radius": 0.16,
+        "times": [
+          0.0,
+          0.08,
+          0.28,
+          0.42,
+          0.72,
+          0.94,
+          1.12,
+          1.3
+        ],
+        "centers": [
+          [
+            0.5,
+            0.5816176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.5816176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.5016176470588235,
+            0.5
+          ],
+          [
+            0.5,
+            0.5016176470588235,
+            0.5
+          ],
+          [
+            0.5,
+            0.5716176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.5716176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.8316176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.8316176470588236,
+            0.5
+          ]
+        ]
+      }
+    ],
+    "rigid_sphere_separation_lower_bound_m": null,
+    "rigid_sphere_surface_clearance_lower_bound_m": null,
+    "rigid_sphere_motion": "sum of cosine-interpolated waypoint increments; exact prescribed positions at output times",
+    "reaction_sampling": "sphere forces at output time; base next-step grid impulse includes the same external contact force",
+    "deformation_feedback_reference": "same law and sphere position evaluated on the initial undeformed surface; diagnostic only, never applied to particles",
+    "energy_interpretation": "reversible surface potential; no irreversible bond damage or claimed fracture dissipation",
+    "resolution_interpretation": "finite interaction range deliberately resolved; coarse runs with range/spacing < 3 are smoke tests only",
+    "geometry_scale": 1.0,
+    "series": "adhesion-suite-v1",
+    "suite_case": "adhesive-pull-off",
+    "comparison_pair": "single-sphere-lift-hold-v4",
+    "comparison_role": "adhesive",
+    "comparison_variable": "work_of_adhesion",
+    "comparison_scope": "paired runs share initial state, grid, time step, stiffness, sphere geometry and path; only work of adhesion changes",
+    "loading_stages_s": {
+      "initial_hold_end": 0.08,
+      "indentation_end": 0.28,
+      "hold_or_lateral_sweep_end": 0.42,
+      "comparison_lift_end": 0.72,
+      "comparison_hold_end": 0.94,
+      "pull_off_end": 1.12,
+      "final_hold_end": 1.3
+    },
+    "lateral_loading": null,
+    "explicit_coupling": "current MPM surface positions determine gaps and forces each step; their forces update the deformable body on the next explicit step",
+    "preset": "lift-hold-v4",
+    "comparison_hold_bottom_clearance_m": 0.035,
+    "comparison_targets": {
+      "minimum_contiguous_time_s": 0.1,
+      "minimum_surface_uplift_difference_m": 0.025,
+      "baseline": "zero interacting points and zero sphere reaction",
+      "adhesive": "tensile sphere reaction and higher maximum surface y displacement at the same saved times",
+      "status": "prospective checks; not measured results"
+    },
+    "loading_revision": 4
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 119.232,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.5,
+      "com_y": 0.26499999999999996,
+      "com_z": 0.4999999999999999,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.11923199999999998,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    }
+  ],
+  "final": [
+    {
+      "time": 1.3,
+      "body": 0,
+      "mass": 119.232,
+      "momentum_x": -1.8065139228279348e-14,
+      "momentum_y": 4.697744255178463,
+      "momentum_z": -2.1742905463280685e-14,
+      "kinetic_energy": 0.5033450807329649,
+      "com_x": 0.4999999999999999,
+      "com_y": 0.2694926664918175,
+      "com_z": 0.4999999999999999,
+      "min_J": 0.9158971446820994,
+      "max_J": 1.1047866889685232,
+      "current_volume": 0.12214748531459452,
+      "max_speed": 0.19426660429561826,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 1.4359889425841024
+    }
+  ]
+}

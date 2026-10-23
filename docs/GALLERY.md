@@ -27,8 +27,7 @@ the parameters and numerical results.
 | ![oblique](images/oblique.png)<br>**oblique** · 38,686 particles<br>[Results](results/suite--oblique--neo-hookean/summary.json) · [Video](images/oblique.mp4) | ![sliding](images/sliding.png)<br>**sliding** · 16,704 particles<br>[Results](results/suite--sliding--neo-hookean/summary.json) |
 | ![rebound](images/rebound.png)<br>**rebound** · 24,389 particles<br>[Results](results/suite--rebound--neo-hookean/summary.json) | ![rubber-ball](images/rubber-ball.png)<br>**rubber-ball** · 44,720 particles<br>[Results](results/benchmarks--rubber-ball--neo-hookean/summary.json) · [Video](images/rubber-ball.mp4) |
 | ![ball-beam](images/ball-beam.png)<br>**ball-beam** · 88,583 particles<br>[Results](results/benchmarks--ball-beam--neo-hookean/summary.json) · [Video](images/ball-beam.mp4) | ![large-bending](images/large-bending.png)<br>**large-bending** · 119,944 particles<br>[Results](results/benchmarks--large-bending--neo-hookean/summary.json) · [Video](images/large-bending.mp4) |
-| ![large-twist](images/large-twist.png)<br>**large-twist** · 119,944 particles<br>[Results](results/benchmarks--large-twist--neo-hookean/summary.json) · [Video](images/large-twist.mp4) | ![adhesion-adhesive-pull-off](images/adhesion-adhesive-pull-off.png)<br>**adhesion-adhesive-pull-off** · 367,744 particles<br>[Results](results/adhesion--adhesive-pull-off/summary.json) · [Video](images/adhesion-adhesive-pull-off.mp4) |
-| ![adhesion-lateral-release](images/adhesion-lateral-release.png)<br>**adhesion-lateral-release** · 367,744 particles<br>[Results](results/adhesion--lateral-release/summary.json) · [Video](images/adhesion-lateral-release.mp4) | ![adhesion-nonadhesive-pull-off](images/adhesion-nonadhesive-pull-off.png)<br>**adhesion-nonadhesive-pull-off** · 367,744 particles<br>[Results](results/adhesion--nonadhesive-pull-off/summary.json) · [Video](images/adhesion-nonadhesive-pull-off.mp4) |
+| ![large-twist](images/large-twist.png)<br>**large-twist** · 119,944 particles<br>[Results](results/benchmarks--large-twist--neo-hookean/summary.json) · [Video](images/large-twist.mp4) | ![adhesion-lateral-release](images/adhesion-lateral-release.png)<br>**adhesion-lateral-release** · 367,744 particles<br>[Results](results/adhesion--lateral-release/summary.json) · [Video](images/adhesion-lateral-release.mp4) |
 | ![adhesion-three-sphere-array](images/adhesion-three-sphere-array.png)<br>**adhesion-three-sphere-array** · 367,744 particles<br>[Results](results/adhesion--three-sphere-array/summary.json) · [Video](images/adhesion-three-sphere-array.mp4) |  |
 
 ## Fluids and fluid–solid interaction
@@ -62,3 +61,11 @@ the parameters and numerical results.
 ![Concrete bending with symmetry constraints](images/concrete-bending-symmetric.png)
 
 [Results](results/material-engineering--concrete-bending-symmetric--hjc/summary.json) · [Symmetry audit](results/material-engineering--concrete-bending-symmetric--hjc/runtime-symmetry.json) · [Video](images/concrete-bending-symmetric.mp4)
+
+## Adhesion comparison
+
+Matched contact views at the same withdrawal-hold time; physical geometry is unchanged.
+
+| | |
+|---|---|
+| ![Nonadhesive pull-off](images/adhesion-visible-nonadhesive-pull-off.png)<br>**Nonadhesive pull-off**<br>[Results](results/adhesion-visible--nonadhesive-pull-off/summary.json) · [Video](images/adhesion-visible-nonadhesive-pull-off.mp4) | ![Adhesive pull-off](images/adhesion-visible-adhesive-pull-off.png)<br>**Adhesive pull-off**<br>[Results](results/adhesion-visible--adhesive-pull-off/summary.json) · [Video](images/adhesion-visible-adhesive-pull-off.mp4) |

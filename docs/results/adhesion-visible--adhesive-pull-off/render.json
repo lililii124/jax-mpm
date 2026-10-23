@@ -1,0 +1,163 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 7,
+  "frames_rendered": 51,
+  "animation": "simulation.gif",
+  "field": "displacement",
+  "actual_field_range": [
+    0.0,
+    0.07772661828919937
+  ],
+  "color_range": [
+    0.0,
+    0.07772661828919937
+  ],
+  "color_range_source": "--color-range",
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": true,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0043055555555555555,
+  "scene_bounds": [
+    0.13557132193606475,
+    0.8644286780639349,
+    0.15198728733180084,
+    0.9916176470588236,
+    0.1355713219360645,
+    0.864428678063935
+  ],
+  "actual_scene_bounds": [
+    0.13557132193606475,
+    0.8644286780639349,
+    0.15198728733180084,
+    0.9916176470588236,
+    0.1355713219360645,
+    0.864428678063935
+  ],
+  "actual_body_bounds": [
+    0.13557132193606475,
+    0.8644286780639349,
+    0.15198728733180084,
+    0.45433949362896703,
+    0.1355713219360645,
+    0.864428678063935
+  ],
+  "camera_bounds": [
+    0.22,
+    0.78,
+    0.13,
+    0.82,
+    0.22,
+    0.78
+  ],
+  "camera_bounds_source": "--focus-bounds",
+  "view_scope": "explicit detail view; geometry outside the camera view may be cropped",
+  "render_overrides": {
+    "source": "renderer command-line arguments",
+    "color_range": [
+      0.0,
+      0.07772661828919937
+    ],
+    "scene_bounds": null,
+    "focus_bounds": [
+      0.22,
+      0.78,
+      0.13,
+      0.82,
+      0.22,
+      0.78
+    ],
+    "sphere_opacity": 0.45,
+    "matrix_opacity": null
+  },
+  "camera_position": [
+    1.4659999999999997,
+    1.0614999999999999,
+    1.742
+  ],
+  "camera_focal_point": [
+    0.5,
+    0.475,
+    0.5
+  ],
+  "camera_parallel_scale": 0.5157707339611712,
+  "particles": 367744,
+  "auxiliary_geometry": [
+    {
+      "type": "prescribed_adhesive_rigid_sphere",
+      "parameters": {
+        "radius": 0.16,
+        "times": [
+          0.0,
+          0.08,
+          0.28,
+          0.42,
+          0.72,
+          0.94,
+          1.12,
+          1.3
+        ],
+        "centers": [
+          [
+            0.5,
+            0.5816176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.5816176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.5016176470588235,
+            0.5
+          ],
+          [
+            0.5,
+            0.5016176470588235,
+            0.5
+          ],
+          [
+            0.5,
+            0.5716176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.5716176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.8316176470588236,
+            0.5
+          ],
+          [
+            0.5,
+            0.8316176470588236,
+            0.5
+          ]
+        ]
+      },
+      "display_opacity": 0.45,
+      "included_in_particle_count": false,
+      "motion": "SpherePath cosine waypoint interpolation, evaluated at every output time",
+      "state_file_interpolation": "linear between output-time keyframes",
+      "interpretation": "Prescribed contact geometry; the deformable layer alone is represented by MPM particles"
+    }
+  ],
+  "color_field_definition": {
+    "definition": "Euclidean norm of current minus first saved particle position",
+    "units": "m",
+    "reference_time": 0.0,
+    "geometry_scale": 1.0,
+    "evaluation": "one frame at a time, in chunks of at most 65536 particles"
+  }
+}

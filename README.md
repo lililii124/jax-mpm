@@ -13,6 +13,12 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 |---|---|---|
 | ![HJC bending with symmetry constraints](docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif)<br>[HJC bending with symmetry constraints](docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json) | ![JC round-bar tension](docs/images/home/material-engineering--jc-tension--johnson-cook.gif)<br>[JC round-bar tension](docs/results/material-engineering--jc-tension--johnson-cook/summary.json) | ![JH-2 plate indentation](docs/images/home/material-engineering--ceramic-indentation-wide--jh2.gif)<br>[JH-2 plate indentation](docs/results/material-engineering--ceramic-indentation-wide--jh2/summary.json) |
 
+### Adhesion comparison
+
+| | |
+|---|---|
+| ![Nonadhesive pull-off](docs/images/home/adhesion-visible--nonadhesive-pull-off.gif)<br>[Nonadhesive pull-off](docs/results/adhesion-visible--nonadhesive-pull-off/summary.json) | ![Adhesive pull-off](docs/images/home/adhesion-visible--adhesive-pull-off.gif)<br>[Adhesive pull-off](docs/results/adhesion-visible--adhesive-pull-off/summary.json) |
+
 ### Woven composites
 
 | | | |
@@ -35,10 +41,10 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![Adhesive pull-off](docs/images/home/adhesion--adhesive-pull-off.gif)<br>[Adhesive pull-off](docs/results/adhesion--adhesive-pull-off/summary.json) | ![Ball–beam contact](docs/images/home/ball-beam.gif)<br>[Ball–beam contact](docs/results/benchmarks--ball-beam--neo-hookean/summary.json) | ![Frictional sliding](docs/images/home/suite--sliding--neo-hookean.gif)<br>[Frictional sliding](docs/results/suite--sliding--neo-hookean/summary.json) |
-| ![Head-on contact](docs/images/home/suite--head-on--neo-hookean.gif)<br>[Head-on contact](docs/results/suite--head-on--neo-hookean/summary.json) | ![JKR pressure footprint](docs/images/home/contact-models--jkr-footprint.gif)<br>[JKR pressure footprint](docs/results/contact-models--jkr-footprint/summary.json) | ![Lateral release](docs/images/home/adhesion--lateral-release.gif)<br>[Lateral release](docs/results/adhesion--lateral-release/summary.json) |
-| ![Nonadhesive pull-off](docs/images/home/adhesion--nonadhesive-pull-off.gif)<br>[Nonadhesive pull-off](docs/results/adhesion--nonadhesive-pull-off/summary.json) | ![Oblique contact](docs/images/home/suite--oblique--neo-hookean.gif)<br>[Oblique contact](docs/results/suite--oblique--neo-hookean/summary.json) | ![Rebound](docs/images/home/suite--rebound--neo-hookean.gif)<br>[Rebound](docs/results/suite--rebound--neo-hookean/summary.json) |
-| ![Rubber-ball drop](docs/images/home/benchmarks--rubber-ball--neo-hookean.gif)<br>[Rubber-ball drop](docs/results/benchmarks--rubber-ball--neo-hookean/summary.json) | ![Spherical indentation](docs/images/home/contact-models--sphere-contact.gif)<br>[Spherical indentation](docs/results/contact-models--sphere-contact/summary.json) | ![Three-sphere array](docs/images/home/adhesion--three-sphere-array.gif)<br>[Three-sphere array](docs/results/adhesion--three-sphere-array/summary.json) |
+| ![Ball–beam contact](docs/images/home/ball-beam.gif)<br>[Ball–beam contact](docs/results/benchmarks--ball-beam--neo-hookean/summary.json) | ![Frictional sliding](docs/images/home/suite--sliding--neo-hookean.gif)<br>[Frictional sliding](docs/results/suite--sliding--neo-hookean/summary.json) | ![Head-on contact](docs/images/home/suite--head-on--neo-hookean.gif)<br>[Head-on contact](docs/results/suite--head-on--neo-hookean/summary.json) |
+| ![JKR pressure footprint](docs/images/home/contact-models--jkr-footprint.gif)<br>[JKR pressure footprint](docs/results/contact-models--jkr-footprint/summary.json) | ![Lateral release](docs/images/home/adhesion--lateral-release.gif)<br>[Lateral release](docs/results/adhesion--lateral-release/summary.json) | ![Oblique contact](docs/images/home/suite--oblique--neo-hookean.gif)<br>[Oblique contact](docs/results/suite--oblique--neo-hookean/summary.json) |
+| ![Rebound](docs/images/home/suite--rebound--neo-hookean.gif)<br>[Rebound](docs/results/suite--rebound--neo-hookean/summary.json) | ![Rubber-ball drop](docs/images/home/benchmarks--rubber-ball--neo-hookean.gif)<br>[Rubber-ball drop](docs/results/benchmarks--rubber-ball--neo-hookean/summary.json) | ![Spherical indentation](docs/images/home/contact-models--sphere-contact.gif)<br>[Spherical indentation](docs/results/contact-models--sphere-contact/summary.json) |
+| ![Three-sphere array](docs/images/home/adhesion--three-sphere-array.gif)<br>[Three-sphere array](docs/results/adhesion--three-sphere-array/summary.json) |  |  |
 
 ### Fluids and fluid–solid interaction
 

@@ -10,7 +10,7 @@ The pair uses a softer layer and stronger adhesion, then pauses during
 withdrawal. Profile `v2` keeps the original 55 mm withdrawal hold. Profile
 `v3` changes that height to 35 mm; material constants, time intervals, final
 withdrawal height and acceptance thresholds are unchanged. The independent
-`v4` candidate keeps the `v3` path and doubles the adhesive role's work of
+`v4` profile keeps the `v3` path and doubles the adhesive role's work of
 adhesion. Each profile has its own output directory; the defaults remain `v2`.
 
 ## Common specimen and motion
@@ -24,7 +24,7 @@ is unchanged, so the higher stiffness reduces the allowed time step.
 
 Within each matched pair, only work of adhesion differs between the two roles.
 The baseline always uses zero. Profiles `v2` and `v3` use 72 J/m² for the
-adhesive role, giving an attractive traction of 2880 Pa. Candidate `v4` uses
+adhesive role, giving an attractive traction of 2880 Pa. Profile `v4` uses
 144 J/m² and 5760 Pa. Its range, penalty stiffness, bulk material and time-step
 controls are unchanged. The [existing interface assumptions](ADHESION_CASES.md#shared-model)
 still apply: reference-area surface quadrature, reversible adhesion, normal
@@ -71,7 +71,7 @@ Earlier in that same withdrawal, the baseline was already free while the adhesiv
 
 These qualifying samples span only 0.078 s, not the required 0.10 s, and were recorded during motion rather than a hold. At 54.203 mm the next saved state was already detached. The 35 mm `v3` hold was selected near the earlier state with 460 adhesive surface points and a larger tensile resultant; 43.442 mm had only 364 adhesive points. Stopping at this earlier height is a new loading hypothesis, not evidence that the hold criterion will pass. The unchanged final height of 295 mm increases the last segment's peak speed to 2.26893 m/s. The original `v2` failure remains reproducible with `--profile v2`.
 
-## V3 outcome and V4 candidate
+## V3 outcome and V4 configuration
 
 The complete `v3` pair in [run 39983773296](https://github.com/lililii124/jax-mpm/actions/runs/39983773296),
 commit `f38bfc8`, passed both individual numerical reviews. The pair comparison
@@ -98,9 +98,8 @@ acceptance threshold. The compressive traction branch is unchanged; the
 attractive branch doubles and the potential well becomes deeper. Stronger
 adhesion may alter both deformation and dynamic release, so the original
 overlap, determinant, force balance and final-separation checks must still
-pass. This is an uncalibrated demonstration hypothesis, not a successful
-result or an experimental adhesion value. Original `v2` and `v3` records and
-profiles are retained.
+pass. The parameters remain uncalibrated demonstration values. The completed `v4`
+result is recorded below; original `v2` and `v3` records and profiles are retained.
 
 ## Comparison checks
 
@@ -143,3 +142,9 @@ A preliminary `--grid 32 --ppc 2` run is only a smoke test: its interaction
 range does not span three surface spacings. Use the formal resolution for the
 resolved-range checks. Neither constructing the case nor passing its unit
 tests establishes that the target contrast has been achieved.
+
+## Recorded V4 result
+
+The [completed v4 comparison](results/adhesion-visible-comparison.json) records two matched runs of 3,700 steps over 1.3 s. At all nine saved hold states from 0.728 to 0.936 s, the baseline has no interacting points and zero sphere reaction, while the adhesive sphere remains in tension. The simultaneous surface-uplift difference is 41.486–47.475 mm across a saved span of 0.208 s, exceeding the unchanged 25 mm and 0.10 s requirements. Both spheres are fully separated at the end; the adhesive final minimum gap is 276.197 mm. The minimum sampled adhesive retraction reaction is -158.781 N.
+
+These are dynamic finite-layer results from the finite-range Dugdale surface-traction model. The intervals are bounded by saved states, not continuous-time detachment measurements or equilibrium solutions. Both movies use the same displacement range, contact-detail camera and physical geometry. The crop includes the complete sphere and contact region during the hold; outer layer edges and part of the fully withdrawn sphere may lie outside the view. The original pair and the failed v2/v3 comparisons are retained; this result does not constitute an analytical JKR or Maugis half-space validation.

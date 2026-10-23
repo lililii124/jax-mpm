@@ -1559,5 +1559,55 @@
       "media-check.json": "2e1f37e7db57ab1b29824ebdf969c78a9cbcf35f38bdc161cc9d94c152b0f49d",
       "runtime-symmetry.json": "b99a79ddbc561fa9963012a4ca704de83d8bace3cac989d4d845cdf33372acf2"
     }
+  },
+  {
+    "id": "adhesion-visible--adhesive-pull-off",
+    "case": "adhesive-pull-off",
+    "source_directory": "outputs/adhesion-visible-v4-cloud/adhesive-pull-off",
+    "particles": 367744,
+    "steps": 3700,
+    "simulation_time": 1.3,
+    "min_J": 0.5464978728927813,
+    "max_damage": 0.0,
+    "solver_seconds": 997.4751087450006,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "678982513893c7bff9427827d6edb314e14e391066ed3a02daa8547e3daacb43",
+      "diagnostics.csv": "794d2384014a3740ae3d6c1f7b5459b03416333b4d7c33c28c59a84e73242e08",
+      "observables.csv": "17ef16fd9dccc1b7d6057c38ea3b40be6b3a0865ace059679bf38529cc81d324",
+      "render.json": "adf3ae27e99a24e2dd92079fad59620c255174be20ec0b585d9677cb23d140f2",
+      "vtk_metadata.json": "c6c9e50411cd13cbb25b52a06967c14a4668c26d1159dfe8573e2d56be821fc5",
+      "video.json": "a11df6156c5c523cb5dd65ba51940d036b060a95d2b9ea858e2963cadebdb3f0",
+      "memory.json": "fbd7aa1f4c47c98833ea93f556726e5626f6ab7b6d5e2417fef4a445e263f59f",
+      "vtk_check.json": "af2da3be747d86e0c15578d7adb1c2a0b96813f6ccd66530c6bd6a4d05f33161",
+      "interpretation.json": "87f9c459fc15ddc15fdbd50a5f4eab27e8781528a5690b9f3abede70e2226e2c",
+      "numerical-source.json": "683478039ed99bbd8128b6356b42481a9ead32840a04aef182fd32ea8a5f3c40",
+      "media-check.json": "4b248ab26786edaf508df879dac396c11f1bc26106bd2d64a07cfbf806f90a2b"
+    }
+  },
+  {
+    "id": "adhesion-visible--nonadhesive-pull-off",
+    "case": "nonadhesive-pull-off",
+    "source_directory": "outputs/adhesion-visible-v4-cloud/nonadhesive-pull-off",
+    "particles": 367744,
+    "steps": 3700,
+    "simulation_time": 1.3,
+    "min_J": 0.7631191521969177,
+    "max_damage": 0.0,
+    "solver_seconds": 1007.2888687400005,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "430c537d3c766e842a9bbddd58c77558bc1bdfc854f396bae7d6d48e6f68813d",
+      "diagnostics.csv": "6f8349825802a0bc20149e29ff8eec0244dd62c718100aa83748e7bd4a190387",
+      "observables.csv": "f5b6b28138acc4c6340839f804d4483f4516027d530f82821872805708e3166a",
+      "render.json": "da3efeb2ab5cc4d7956b9603d0a9bce235fee2cf7b6a1617f44a3ae11169cb8e",
+      "vtk_metadata.json": "b226a83ca99d70a3365e08db79a7b1123b5b05dd895afd3a49efdf8888b489f2",
+      "video.json": "730d72300385a93a5eb82996cc55ad7fbcef8521951c7195dd208fcc2216af02",
+      "memory.json": "89ebe71842117c6432b99e04d57d53ce0ca54334d6bb4f828011058c6cb68c66",
+      "vtk_check.json": "af2da3be747d86e0c15578d7adb1c2a0b96813f6ccd66530c6bd6a4d05f33161",
+      "interpretation.json": "a82b932c54d7c456728c76eaf570711d1eb6f4fc465b05e8915daa33f611b59d",
+      "numerical-source.json": "683478039ed99bbd8128b6356b42481a9ead32840a04aef182fd32ea8a5f3c40",
+      "media-check.json": "2017d19f3c217b8747e154b3646728c25f849757eec2b9e7ecabb202d178b6a7"
+    }
   }
 ]
