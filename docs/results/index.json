@@ -1171,5 +1171,29 @@
       "interpretation.json": "931979a8ac3bfcd191ca69ddcdc644259d9d6f820f009f66d905c40b0f1b8a3a",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "woven--triaxial--transverse-bending",
+    "case": "triaxial/transverse-bending / woven-composite",
+    "source_directory": "outputs/woven/triaxial/transverse-bending",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.9118388943108924,
+    "max_damage": 0.0,
+    "solver_seconds": 1026.0567759559995,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "87368e28f481c3143a00f9f06df7130c1830e31ff98965265bf9273db0f27e18",
+      "diagnostics.csv": "6a19d621c8cb777bcb98cbee503290697e8e17d35678a57a3a83d24e8e26cbb8",
+      "observables.csv": "c486232780469d7280cc7862dc5a221984c5e1da4acbfc045b47b1d05d7696f2",
+      "render.json": "30fe5a948432148755f53ba0fbebedf3ed597df9df5f815811a3a10264e5cdd1",
+      "vtk_metadata.json": "a0375e10b47ecf58f5f204054d800f8697ba56c2cfd7a2efe0381b19c2038f02",
+      "video.json": "6d7a52017123465d29e0eb8cc22772fd5aa74b7004d5b654d3475fce078aea0e",
+      "memory.json": "ad1ea510b2524a9f3b3abc3bd28fe71ce83f7917be62d55d409073d528d6c782",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "c4f9d9c4ed405be23cc8d3bd643b6482b5ae2fffcd9443e866a394e8e7228bb4",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]
