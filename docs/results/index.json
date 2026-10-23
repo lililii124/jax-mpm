@@ -1075,5 +1075,29 @@
       "interpretation.json": "d5995574630bccac8c8c0563a3d07b55f8a70084bc1ca2bed40ce7be30981f25",
       "numerical-source.json": "d4e71e7e5c8cf6b8cd4e097c0f58aebde772660c2f1c2925aba4675400c9c386"
     }
+  },
+  {
+    "id": "woven--plain--transverse-compression",
+    "case": "plain/transverse-compression / woven-composite",
+    "source_directory": "outputs/woven/plain/transverse-compression",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.9629911582444618,
+    "max_damage": 0.0,
+    "solver_seconds": 1208.4369171660005,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "e2484e896916aa0c1d17e2a10c88240cb467aed74fce63069ced1ed74ecada72",
+      "diagnostics.csv": "6a125580da81d5e74583aef43bb37df6f59bd9ced54d8635068dc17039bb1a89",
+      "observables.csv": "1ce46ec4ea80b69353ec8b336fe2535f7f03fe8c390bfbf591fea4915527a4a1",
+      "render.json": "a603005bf210d15132b572e6f0d2b2043ab28a5c9f3c771f49d4fe3edf68e8fc",
+      "vtk_metadata.json": "06c64c5735639446597e642d8e78b07014b0252df941b16cbc2e8b556169f484",
+      "video.json": "255f45db65bed2a70731e8db3237b8e11e6017c4ff1ab99d7c4fa96146e3a379",
+      "memory.json": "8ccf9fa624f53035d35b1c91577462d0223517631f91090a4b1559c2c8e17759",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "c747d0d1f6f15f6b9c3be5883efa7128a43e3d0ce95755016cdb1f4bcc859df0",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]

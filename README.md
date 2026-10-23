@@ -17,7 +17,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 | | | |
 |---|---|---|
-| ![0°/90° plain weave · Out-of-plane bending](docs/images/home/woven--plain--transverse-bending.gif)<br>[0°/90° plain weave · Out-of-plane bending](docs/results/woven--plain--transverse-bending/summary.json) |  |  |
+| ![0°/90° plain weave · Through-thickness compression](docs/images/home/woven--plain--transverse-compression.gif)<br>[0°/90° plain weave · Through-thickness compression](docs/results/woven--plain--transverse-compression/summary.json) | ![0°/90° plain weave · Out-of-plane bending](docs/images/home/woven--plain--transverse-bending.gif)<br>[0°/90° plain weave · Out-of-plane bending](docs/results/woven--plain--transverse-bending/summary.json) |  |
 
 ### Woven composites · coarse previews
 

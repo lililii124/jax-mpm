@@ -117,12 +117,12 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **50 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **51 selected completed runs**,
 including five explicitly labelled coarse woven previews, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 37 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 38 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -290,3 +290,12 @@ loading patches have no full-stencil interior particle samples, so exact particl
 clamping is not asserted. The [source record](docs/results/woven--plain--transverse-bending/numerical-source.json)
 binds the Linux calculation to commit `035897ac34ba3327deadfa6ca839efa75768be3a`.
 The archived coarse run remains available; the homepage now shows the fine-grid animation.
+
+## Woven plain · transverse compression
+
+The [completed run](docs/results/woven--plain--transverse-compression/interpretation.json) records 345,600 material points,
+4,140 steps and 61 saved states. Minimum J is 0.962991; maximum saved yarn
+Green-strain norm is 0.052852, below the prescribed 0.1 limit.
+Independent final stored energy, reference section forces and bending moment pass the source-bound review.
+These checks establish numerical admissibility for an illustrative dynamic elastic model;
+the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
