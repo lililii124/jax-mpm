@@ -31,7 +31,7 @@ def build(root, output):
             particles = sum(summary["particles"])
             largest = max(largest, particles)
             relative = folder.relative_to(root / "outputs").as_posix()
-            name = selected.get(relative, str(summary["case"]))
+            name = selected.get(relative, str(summary["case"]).split(" / ", 1)[0])
             render_file = folder / "render.json"
             render = (
                 json.loads(render_file.read_text(encoding="utf-8")) if render_file.exists() else {}
