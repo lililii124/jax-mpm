@@ -117,12 +117,12 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **65 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **66 selected completed runs**,
 including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 46 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 47 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -426,6 +426,15 @@ the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain a
 The [completed run](docs/results/woven--twill-2x2--weft-tension/interpretation.json) records 345,600 material points,
 4,140 steps and 61 saved states. Minimum J is 0.993513; maximum saved yarn
 Green-strain norm is 0.040967, below the prescribed 0.1 limit.
+Independent final stored energy, reference section forces and bending moment pass the source-bound review.
+These checks establish numerical admissibility for an illustrative dynamic elastic model;
+the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
+
+## Woven triaxial · hemispherical compression
+
+The [completed run](docs/results/woven--triaxial--hemispherical-compression/interpretation.json) records 345,600 material points,
+8,220 steps and 61 saved states. Minimum J is 0.804986; maximum saved yarn
+Green-strain norm is 0.065472, below the prescribed 0.1 limit.
 Independent final stored energy, reference section forces and bending moment pass the source-bound review.
 These checks establish numerical admissibility for an illustrative dynamic elastic model;
 the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.

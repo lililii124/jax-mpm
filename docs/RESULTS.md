@@ -74,6 +74,7 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [woven--twill-2x2--transverse-bending](results/woven--twill-2x2--transverse-bending/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.898379 | 0 | ParaView |
 | [woven--twill-2x2--warp-tension](results/woven--twill-2x2--warp-tension/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.993513 | 0 | ParaView |
 | [woven--twill-2x2--weft-tension](results/woven--twill-2x2--weft-tension/summary.json) | 345,600 | 4,140 | 1.89737e-05 | 0.993513 | 0 | ParaView |
+| [woven--triaxial--hemispherical-compression](results/woven--triaxial--hemispherical-compression/summary.json) | 345,600 | 8,220 | 1.89737e-05 | 0.804986 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)

@@ -1436,5 +1436,29 @@
       "interpretation.json": "ed790ac650b2833869d26e21a37a1f437974e2f75542b063f7cad6d1bfdf624b",
       "numerical-source.json": "2ca2cfc93fad766ac474985600c1edb29d61bd21a21213cb3dfc4d9af80dcf5b"
     }
+  },
+  {
+    "id": "woven--triaxial--hemispherical-compression",
+    "case": "triaxial/hemispherical-compression / woven-composite",
+    "source_directory": "outputs/woven/triaxial/hemispherical-compression",
+    "particles": 345600,
+    "steps": 8220,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.8049857190817415,
+    "max_damage": 0.0,
+    "solver_seconds": 6589.851433931,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "3cd61430c6b1770389a347186f20eac4dfe55851c5d5b53992e1d37f55618028",
+      "diagnostics.csv": "2d6ed5744eadf95d39680377789bfc6ba36fca1bbccdb4aee01408b16352bb81",
+      "observables.csv": "9dc7582ef551a8ae8a731d6790ab94a1bacd1b0c9e9c9c75cd3b0086ea68b616",
+      "render.json": "a6692a6008c01eb99e7bceeee68d573f6a416dd7a7b0f740da68ec82589750f1",
+      "vtk_metadata.json": "204b554ccae398edeeba94df2f7f9f019f40f638ad3fb827b354ada340e0dac8",
+      "video.json": "968e4642acf2fe55a419e2962819b599b029f587d22083d49596b495a232dadc",
+      "memory.json": "bff5c67a5e8e4b1ddfee29eb2338dcb53e50889e19a768bc5f5b22577c12f51a",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "b242b17cda50503c2022c1c095cc023a579c4917fe3cc37e1901ccb0418e03fa",
+      "numerical-source.json": "0984f6195c7731b71fe298007b270b9e8d81ffd16671f682ccfdb13c7f01f566"
+    }
   }
 ]
