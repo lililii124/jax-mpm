@@ -90,6 +90,21 @@ def test_conservative_grip_sample_survives_translated_grid_phases():
         assert np.all(lower_node + 2 * dx <= np.asarray(boundary["upper"]) + translation + 1e-14)
 
 
+def test_shear_revision_preserves_archived_load_and_rejects_unknown_versions():
+    old, names, types = expected_boundaries("in-plane-shear", .016 / 96)
+    revised, new_names, new_types = expected_boundaries("in-plane-shear", .016 / 96, 2)
+    np.testing.assert_allclose(old[1]["displacement"], [.0002, 0, 0])
+    np.testing.assert_allclose(revised[1]["displacement"], [.00015, 0, 0])
+    assert names == new_names and types == new_types
+    for first, second in zip(old, revised):
+        assert {k: v for k, v in first.items() if k != "displacement"} == {k: v for k, v in second.items() if k != "displacement"}
+    for revision in (0, 3, True, 2.0):
+        with pytest.raises(ValueError, match="revision"):
+            expected_boundaries("in-plane-shear", .016 / 96, revision)
+    with pytest.raises(ValueError, match="revision"):
+        expected_boundaries("warp-tension", .016 / 96, 2)
+
+
 def test_raw_field_hash_binds_dtype_shape_and_changed_labels():
     labels = np.array([0, 1, 1, 0], dtype=np.uint8)
     original = array_descriptor(labels)

@@ -1,4 +1,4 @@
-"""Run the fixed woven preview pair on GitHub's CPU runners."""
+"""Run reviewed woven load cases on GitHub's CPU runners."""
 
 import argparse
 from collections import deque
@@ -21,11 +21,31 @@ sys.path.insert(0, str(ROOT))
 LOGS = ROOT / ".local/woven-ci"
 DELIVERY = ROOT / ".local/woven-delivery"
 LIMIT = 100 * 1024**2
-PAIRS = {("plain", "transverse-bending"), ("triaxial", "in-plane-shear")}
-COARSE_PAIRS = PAIRS | {("plain", "warp-tension"), ("plain", "weft-tension"), ("twill-2x2", "transverse-compression")}
+ARCHITECTURES = ("plain", "triaxial", "twill-2x2")
+LOADINGS = ("warp-tension", "weft-tension", "in-plane-shear", "transverse-compression", "transverse-bending")
+INITIAL_PAIRS = {("plain", "transverse-bending"), ("triaxial", "in-plane-shear")}
+PAIRS = {(architecture, loading) for architecture in ARCHITECTURES for loading in LOADINGS}
+COARSE_PAIRS = INITIAL_PAIRS | {("plain", "warp-tension"), ("plain", "weft-tension"), ("twill-2x2", "transverse-compression")}
+BATCHES = ("initial", "shear", "remaining")
 PV_VERSION = "6.2.0"
 PV_NAME = f"ParaView-{PV_VERSION}-MPI-Linux-Python3.12-x86_64"
 PV_URL = f"https://www.paraview.org/files/v6.2/{PV_NAME}.tar.gz"
+
+
+def case_matrix(preset, batch):
+    if preset not in ("formal", "coarse") or batch not in BATCHES:
+        raise ValueError("Unknown woven run preset or batch")
+    if preset == "coarse":
+        if batch != "initial":
+            raise ValueError("Only the original five-case coarse preview batch is enabled")
+        pairs = COARSE_PAIRS
+    elif batch == "initial":
+        pairs = INITIAL_PAIRS
+    elif batch == "shear":
+        pairs = {("triaxial", "in-plane-shear")}
+    else:
+        pairs = PAIRS - INITIAL_PAIRS
+    return [{"architecture": architecture, "loading": loading} for architecture, loading in sorted(pairs)]
 
 
 def digest(path):
@@ -348,8 +368,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("install", "run"))
     parser.add_argument("--preset", choices=("formal", "coarse"), default="formal")
-    parser.add_argument("--architecture", choices=("plain", "triaxial", "twill-2x2"))
-    parser.add_argument("--loading", choices=("warp-tension", "weft-tension", "transverse-bending", "in-plane-shear", "transverse-compression"))
+    parser.add_argument("--architecture", choices=ARCHITECTURES)
+    parser.add_argument("--loading", choices=LOADINGS)
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or platform.system() != "Linux":
         parser.error("This helper only runs on the Linux GitHub Actions runner")

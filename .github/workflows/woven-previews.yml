@@ -9,23 +9,52 @@ on:
         options: [formal, coarse]
         default: formal
         required: true
+      batch:
+        description: Initial cases, revised shear, or remaining original load cases
+        type: choice
+        options: [initial, shear, remaining]
+        default: initial
+        required: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: woven-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: woven-previews-${{ github.ref }}-${{ inputs.preset }}-${{ inputs.batch }}
   cancel-in-progress: false
 
 jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      cases: ${{ steps.matrix.outputs.cases }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - id: matrix
+        env:
+          PRESET: ${{ inputs.preset }}
+          BATCH: ${{ inputs.batch }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from tools.run_woven_preview import case_matrix
+          cases = case_matrix(os.environ['PRESET'], os.environ['BATCH'])
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as stream:
+              stream.write('cases=' + json.dumps(cases, separators=(',', ':')) + '\n')
+          PY
   preview:
+    needs: plan
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     strategy:
       fail-fast: false
       max-parallel: ${{ inputs.preset == 'coarse' && 5 || 2 }}
       matrix:
-        include: ${{ fromJSON(inputs.preset == 'coarse' && '[{"architecture":"plain","loading":"warp-tension"},{"architecture":"plain","loading":"weft-tension"},{"architecture":"plain","loading":"transverse-bending"},{"architecture":"triaxial","loading":"in-plane-shear"},{"architecture":"twill-2x2","loading":"transverse-compression"}]' || '[{"architecture":"plain","loading":"transverse-bending"},{"architecture":"triaxial","loading":"in-plane-shear"}]') }}
+        include: ${{ fromJSON(needs.plan.outputs.cases) }}
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'

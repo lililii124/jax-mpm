@@ -72,11 +72,13 @@ All 15 combinations use a half-cosine displacement over 14.230249 µs, followed 
 | --- | --- |
 | `warp-tension` | Two 1 mm x-end grips move by ±80 µm in x; 8 mm free gauge length and 2% nominal extension. All grip velocity components are prescribed. |
 | `weft-tension` | The same arrangement on z ends, moving by ±80 µm in z. In the triaxial model this means global z loading, not loading a 90° yarn family. |
-| `in-plane-shear` | Two z-end grips move by ±0.2 mm in x, giving 5% nominal shear over the 8 mm free span. |
+| `in-plane-shear` | Two z-end grips move by ±0.15 mm in x, giving 3.75% nominal shear over the 8 mm free span (`loading_revision=2`). |
 | `transverse-compression` | Opposed y-face patches move inward by 25 µm each and allow x/z sliding. The fixed physical patch depth is 0.375 mm per face: the full-thickness strain is −2.5%, and the 1.25 mm free region has −4% nominal strain. |
 | `transverse-bending` | Bottom supports at x=4 and 12 mm, each 0.4 mm wide. The left fixes x/y, the right fixes y, and a local left-midwidth patch fixes z. A 1 mm central top patch moves down by 0.25 mm. These bilateral velocity patches are fixture idealizations. |
 
 Moving-grip tracking uses reference points at least 1.5 grid cells inside each face and checks their actual complete support at every output. Thin bending patches may have no such interior particle; their loading is checked through grid reactions and the actual specimen deflection instead of claiming an exact particle displacement.
+
+The earlier triaxial shear run with ±0.2 mm strokes reached a maximum yarn Green-strain norm of 0.115448, above the declared 0.1 elastic-range limit. That failed record is retained. Revision 2 reduces the prescribed stroke; it must pass the same strain limit in a new complete run. The reviewer interprets archived records without a revision as the original ±0.2 mm path.
 
 ```powershell
 python -m examples.woven_composite --architecture all --loading all --grid 96 --ppc 2 --frames 60 --resume

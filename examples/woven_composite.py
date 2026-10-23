@@ -96,7 +96,7 @@ def loading_boundaries(loading, dx):
     if loading in ("warp-tension", "weft-tension", "in-plane-shear"):
         face_axis = 0 if loading == "warp-tension" else 2
         motion_axis = 0 if loading != "weft-tension" else 2
-        stroke = 0.0002 if loading == "in-plane-shear" else 0.00008
+        stroke = 0.00015 if loading == "in-plane-shear" else 0.00008
         low_upper, high_lower = np.full(3, DOMAIN), np.zeros(3)
         low_upper[face_axis] = lower[face_axis] + grip_width
         high_lower[face_axis] = upper[face_axis] - grip_width
@@ -295,6 +295,7 @@ def make_case(architecture="plain", loading="warp-tension", *, grid=96, ppc=2, f
     lower, upper = specimen_bounds()
     description = {
         "purpose": f"{architecture}-{loading}", "series": "woven-elastic-v1",
+        "loading_revision": 2 if loading == "in-plane-shear" else 1,
         "architecture": architecture, "loading": loading, "model": "woven-composite",
         "lower": lower.tolist(), "upper": upper.tolist(), "geometry": sample.metadata,
         "particle_spacing_m": spacing, "particles_per_cell_per_axis": ppc,

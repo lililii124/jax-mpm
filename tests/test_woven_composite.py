@@ -102,10 +102,11 @@ def test_sampled_phases_define_mass_and_orientation_without_damage(architecture)
 def test_shear_and_tension_use_distinct_physical_loading_directions():
     warp, _, _ = loading_boundaries("warp-tension", DOMAIN / 96)
     weft, _, _ = loading_boundaries("weft-tension", DOMAIN / 96)
-    shear, _, _ = loading_boundaries("in-plane-shear", DOMAIN / 96)
+    shear, _, definition = loading_boundaries("in-plane-shear", DOMAIN / 96)
     np.testing.assert_allclose(warp[1].displacement, [0.00008, 0, 0])
     np.testing.assert_allclose(weft[1].displacement, [0, 0, 0.00008])
-    np.testing.assert_allclose(shear[1].displacement, [0.0002, 0, 0])
+    np.testing.assert_allclose(shear[1].displacement, [0.00015, 0, 0])
+    assert definition["nominal_final_strain_or_shear"] == pytest.approx(0.0375)
     assert shear[1].lower[2] == weft[1].lower[2]
     assert len(ARCHITECTURES) * len(LOADS) == 15
 

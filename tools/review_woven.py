@@ -69,7 +69,9 @@ def motion(time, boundary):
     return distance, velocity
 
 
-def expected_boundaries(loading, dx):
+def expected_boundaries(loading, dx, loading_revision=1):
+    if type(loading_revision) is not int or loading_revision not in (1, 2) or (loading_revision == 2 and loading != "in-plane-shear"):
+        raise ValueError("unknown woven loading revision")
     def moving(lower, upper, displacement, components=None):
         return {"lower": list(lower), "upper": list(upper), "displacement": list(displacement), "loading_duration": LOAD_TIME, "components": components, "start": 0.0}
 
@@ -79,7 +81,7 @@ def expected_boundaries(loading, dx):
     if loading in LOADS[:3]:
         face_axis = 0 if loading == "warp-tension" else 2
         direction_axis = 2 if loading == "weft-tension" else 0
-        stroke = 0.0002 if loading == "in-plane-shear" else 0.00008
+        stroke = (0.00015 if loading_revision == 2 else 0.0002) if loading == "in-plane-shear" else 0.00008
         high_low, low_high = np.zeros(3), np.full(3, DOMAIN)
         high_low[face_axis], low_high[face_axis] = UPPER[face_axis] - 0.001, LOWER[face_axis] + 0.001
         target = np.eye(3)[direction_axis] * stroke
@@ -208,7 +210,7 @@ def review(folder):
     if not isinstance(frames, int) or frames < 1:
         raise ValueError("status.frames must be a positive integer")
     dx = config["domain_size"] / config["n_grid"]
-    boundaries, names, types = expected_boundaries(loading, dx)
+    boundaries, names, types = expected_boundaries(loading, dx, definition.get("loading_revision", 1))
     comparisons = Comparisons()
     checks = {
         "completed_numerical_run": summary.get("completed") is True and status.get("completed") is True,
