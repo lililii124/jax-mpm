@@ -7,8 +7,13 @@ import io
 import json
 import math
 from pathlib import Path
+import xml.etree.ElementTree as ET
+import zipfile
 
-from public_runs import is_ready_for_publication
+try:
+    from .public_runs import is_ready_for_publication
+except ImportError:
+    from public_runs import is_ready_for_publication
 
 
 SOURCES = (
@@ -16,11 +21,13 @@ SOURCES = (
     "elastic_cantilever",
     "compression",
     "dense-materials",
+    "material-engineering-cloud",
     "material-engineering",
     "benchmarks",
     "engineering",
     "contact-models",
     "adhesion",
+    "adhesion-visible-cloud",
     "adhesion-visible",
     "woven",
     "woven-previews",
@@ -31,6 +38,224 @@ SOURCES = (
     "visible-motion",
 )
 WOVEN_PREVIEW_SOURCES = {"woven-previews", "woven-previews-local", "woven-smoke"}
+CLOUD_ALIASES = {"material-engineering-cloud": "material-engineering", "adhesion-visible-cloud": "adhesion-visible"}
+ADHESION_ROLES = {"nonadhesive": "nonadhesive-pull-off", "adhesive": "adhesive-pull-off"}
+COMPARISON_FILES = ("adhesion_comparison.json", "adhesion_comparison.csv", "paired-render.json")
+
+
+def canonical_identifier(relative):
+    parts = Path(str(relative).replace("\\", "/")).parts
+    if not parts or Path(*parts).is_absolute() or any(part in (".", "..") for part in parts):
+        raise ValueError("Result source must be a relative output directory")
+    source = "woven-preview" if parts[0] in WOVEN_PREVIEW_SOURCES else CLOUD_ALIASES.get(parts[0], parts[0])
+    return "--".join((source, *parts[1:]))
+
+
+def catalogue_sources(records):
+    result = {}
+    pair_roots = set()
+    for record in records:
+        identifier = record["id"]
+        directory = record.get("source_directory", "outputs/" + identifier.replace("--", "/"))
+        if not directory.startswith("outputs/"):
+            raise ValueError(f"Result source is outside outputs: {identifier}")
+        relative = directory.removeprefix("outputs/")
+        if canonical_identifier(relative) != identifier or identifier in result:
+            raise ValueError(f"Result source or identifier is inconsistent: {identifier}")
+        result[identifier] = relative
+        if identifier in {"adhesion-visible--" + name for name in ADHESION_ROLES.values()}:
+            pair_roots.add(Path(relative).parent.as_posix())
+    if len(pair_roots) > 1:
+        raise ValueError("The adhesion pair cannot mix source directories")
+    return result
+
+
+def raw_digest(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024**2), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def recorded_files_match(folder, files, names):
+    for name in names:
+        record, path = files[name], folder / name
+        if record["bytes"] != path.stat().st_size or record["sha256"] != raw_digest(path):
+            return False
+    return True
+
+
+def complete_engineering_media(folder, summary):
+    import numpy as np
+
+    try:
+        render, metadata, video, audit, vtk, status = [json.loads((folder / name).read_text(encoding="utf-8")) for name in (
+            "render.json", "vtk_metadata.json", "video.json", "media-check.json", "vtk_check.json", "status.json")]
+        count, particles = metadata["frames"], sum(summary["particles"])
+        if not (type(count) is int and count > 1 and count == render["frames_rendered"] == video["frames"]
+                and status.get("completed") is True and status["frame"] == status["frames"] == count - 1
+                and render["particles"] == metadata["particles"] == particles
+                and render["renderer"] == "ParaView" and render["axes"] is False
+                and render["annotations"] is False and render["geometry_scale"] == 1
+                and render["animation"] == "simulation.gif" and audit.get("passed") is True
+                and audit["original_png_frames"] == count and vtk.get("passed") is True
+                and vtk["sampled_frames"] == [0, count - 1] and vtk["particles_per_frame"] == particles):
+            return False
+        expected = [f"frame_{index:05d}.png" for index in range(count)]
+        frames = sorted((folder / "frames").glob("frame_*.png"))
+        if [path.name for path in frames] != expected or set(audit["png_sha256"]) != set(expected):
+            return False
+        frame_digest = hashlib.sha256()
+        for path in frames:
+            content = path.read_bytes()
+            if hashlib.sha256(content).hexdigest() != audit["png_sha256"][path.name]:
+                return False
+            frame_digest.update(content)
+        gif = audit["gif"]
+        if not (0 < gif["encoded_frames"] <= count and gif["original_png_frames"] == count
+                and gif["total_duration_ms"] == gif["expected_duration_ms"] == 60 * count):
+            return False
+        render_hash, video_hash = raw_digest(folder / "render.json"), raw_digest(folder / "simulation.mp4")
+        if not (video["frames_sha256"] == frame_digest.hexdigest()
+                and video["render_sha256"] == audit["render_sha256"] == render_hash
+                and video["sha256"] == audit["video_sha256"] == video_hash
+                and video["bytes"] == (folder / "simulation.mp4").stat().st_size):
+            return False
+        archive = folder / ("trajectory_index.npz" if (folder / "trajectory_index.npz").is_file() else "trajectory.npz")
+        with np.load(archive, allow_pickle=False) as data:
+            times = np.asarray(data["time"])
+            body = np.asarray(data["body"])
+        pvd = [float(item.attrib["timestep"]) for item in ET.parse(folder / "particles.pvd").getroot().findall(".//DataSet")]
+        with (folder / "observables.csv").open(encoding="utf-8", newline="") as stream:
+            observed_times = [float(row["time"]) for row in csv.DictReader(stream)]
+        return (len(times) == len(observed_times) == count and body.shape == (particles,)
+                and bool(np.isfinite(times).all()) and bool(np.array_equal(times, pvd))
+                and bool(np.allclose(times, observed_times, rtol=1e-12, atol=0)))
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, EOFError, ET.ParseError, zipfile.BadZipFile):
+        return False
+
+
+def complete_engineering_import(folder, identifier, summary):
+    try:
+        if summary.get("completed") is not True or not complete_artifact_import(folder) or not is_ready_for_publication(folder, identifier, summary):
+            return False
+        receipt, source, review = [json.loads((folder / name).read_text(encoding="utf-8")) for name in (
+            "import-receipt.json", "numerical-source.json", "interpretation.json")]
+        checks = review.get("checks")
+        if review.get("passed") is not True or not checks or not all(value is True for value in checks.values()):
+            return False
+        verification = receipt["source_verification"]
+        for name in ("repository", "commit", "tree", "run_id", "run_attempt"):
+            proof_key = "attempt" if name == "run_attempt" else name
+            value = source.get(name)
+            if value in (None, "") or str(receipt.get(name)) != str(value) or str(verification.get(proof_key)) != str(value):
+                return False
+        reviewer = "tools/review_adhesion.py" if identifier.startswith("adhesion-visible--") else "tools/review_material_engineering.py"
+        expected_hash = source["files"][reviewer]
+        fingerprint = hashlib.sha256(json.dumps(source["files"], sort_keys=True).encode()).hexdigest()
+        if not (verification.get("source_kind") == "github-actions"
+                and verification["checked_source_files"] == len(source["files"])
+                and verification["fingerprint"] == source["fingerprint"] == fingerprint
+                and verification["review_source_sha256"] == source["review_source_sha256"] == review.get("review_source_sha256") == expected_hash):
+            return False
+        if not complete_engineering_media(folder, summary):
+            return False
+        vtk = json.loads((folder / "vtk_check.json").read_text(encoding="utf-8"))
+        if vtk.get("checker_sha256") != source["files"].get("tools/check_vtk.py"):
+            return False
+        render = json.loads((folder / "render.json").read_text(encoding="utf-8"))
+        count = render["frames_rendered"]
+        field = "displacement" if identifier.startswith("adhesion-visible--") else "damage"
+        if render["field"] != field:
+            return False
+        names = ("trajectory_index.npz", "summary.json", "diagnostics.csv", "observables.csv", "status.json",
+                 "numerical-source.json", "interpretation.json", "final_state_0.npz", "render.json", "vtk_metadata.json",
+                 "video.json", "media-check.json", "vtk_check.json", "particles.pvd", "memory.json", "scene.pvsm",
+                 "final.png", "simulation.gif", "simulation.mp4")
+        return recorded_files_match(folder, receipt["files"], (*names, *(f"frames/frame_{index:05d}.png" for index in range(count))))
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return False
+
+
+def adhesion_comparison_ready(folder, *, cloud=False):
+    try:
+        report = json.loads((folder / "adhesion_comparison.json").read_text(encoding="utf-8"))
+        checks = report.get("checks")
+        if not (report.get("passed") is True and checks and all(value is True for value in checks.values())
+                and checks.get("lift_hold_has_visible_deformation_contrast") is True and set(report["sources"]) == set(ADHESION_ROLES)):
+            return False
+        identity = None
+        renders, metadata = [], []
+        for role, name in ADHESION_ROLES.items():
+            current = folder / name
+            hashes = report["sources"][role]["files"]
+            expected = {"summary.json", "diagnostics.csv", "observables.csv", "interpretation.json", "status.json"}
+            if set(hashes) != expected:
+                return False
+            for filename in expected:
+                if hashes[filename] != hashlib.sha256((current / filename).read_bytes().replace(b"\r\n", b"\n")).hexdigest():
+                    return False
+            if cloud:
+                receipt = json.loads((current / "import-receipt.json").read_text(encoding="utf-8"))
+                current_identity = tuple(str(receipt[key]) for key in ("repository", "commit", "tree", "run_id", "run_attempt"))
+                if identity is not None and identity != current_identity:
+                    return False
+                identity = current_identity
+                if set(receipt["comparison_files"]) != set(COMPARISON_FILES) or not recorded_files_match(folder, receipt["comparison_files"], COMPARISON_FILES):
+                    return False
+                renders.append(json.loads((current / "render.json").read_text(encoding="utf-8")))
+                metadata.append(json.loads((current / "vtk_metadata.json").read_text(encoding="utf-8")))
+        table = report["csv"]
+        if table["filename"] != "adhesion_comparison.csv":
+            return False
+        content = (folder / table["filename"]).read_text(encoding="utf-8")
+        rows = list(csv.DictReader(io.StringIO(content)))
+        if not (hashlib.sha256(content.encode()).hexdigest() == table["lf_sha256"]
+                and len(rows) == table["rows"] == len(report["sampled_time_s"]) and rows
+                and all(math.isfinite(float(value)) for row in rows for value in row.values())
+                and [float(row["time_s"]) for row in rows] == report["sampled_time_s"]):
+            return False
+        if cloud:
+            pair = json.loads((folder / "paired-render.json").read_text(encoding="utf-8"))
+            for key in ("camera_position", "camera_focal_point", "camera_parallel_scale", "color_range"):
+                if renders[0][key] != renders[1][key]:
+                    return False
+            expected_range = [0., max(item["field_ranges"]["displacement"][1] for item in metadata)]
+            if pair["color_range"] != expected_range or renders[0]["color_range"] != expected_range:
+                return False
+            if pair.get("renderer_argument") == "--focus-bounds" and any(
+                render.get("camera_bounds") != pair["scene_bounds"] or render.get("render_overrides", {}).get("focus_bounds") != pair["scene_bounds"] for render in renders
+            ):
+                return False
+        return True
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return False
+
+
+def selected_adhesion_source(root):
+    for source in ("adhesion-visible-cloud", "adhesion-visible"):
+        if source not in SOURCES:
+            continue
+        family = root / "outputs" / source
+        ready = True
+        for name in ADHESION_ROLES.values():
+            folder = family / name
+            try:
+                summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
+            except (OSError, ValueError, TypeError):
+                ready = False
+                break
+            identifier = "adhesion-visible--" + name
+            if source in CLOUD_ALIASES:
+                ready = complete_engineering_import(folder, identifier, summary)
+            else:
+                ready = ((folder / "trajectory.npz").is_file() or complete_artifact_import(folder)) and is_ready_for_publication(folder, identifier, summary)
+            if not ready:
+                break
+        if ready and adhesion_comparison_ready(family, cloud=source in CLOUD_ALIASES):
+            return source
+    return None
 
 
 def complete_artifact_import(folder):
@@ -47,7 +272,7 @@ def complete_artifact_import(folder):
         for name in names:
             if receipt["files"][name]["sha256"] != hashlib.sha256((folder / name).read_bytes()).hexdigest():
                 return False
-    except (OSError, ValueError, KeyError, TypeError):
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return False
     return True
 
@@ -134,7 +359,20 @@ def collect_wave_comparison(root, destination, records):
 
 
 def collect_adhesion_comparison(root, destination, records, family="adhesion"):
-    source = root / "outputs" / family / "adhesion_comparison.json"
+    indexed = {record["id"]: record for record in records}
+    source_family = family
+    if family == "adhesion-visible":
+        pair_ids = [family + "--" + name for name in ADHESION_ROLES.values()]
+        if not any(identifier in indexed for identifier in pair_ids):
+            return
+        if not all(identifier in indexed for identifier in pair_ids):
+            raise ValueError("The lift-hold pair must be collected together")
+        paths = catalogue_sources(records)
+        parents = {Path(paths[identifier]).parent.as_posix() for identifier in pair_ids}
+        if len(parents) != 1:
+            raise ValueError("The lift-hold pair cannot mix source roots")
+        source_family = parents.pop()
+    source = root / "outputs" / source_family / "adhesion_comparison.json"
     if not source.exists():
         if family == "adhesion-visible" and any(record["id"].startswith(family + "--") for record in records):
             raise ValueError("The lift-hold pair requires its completed comparison review")
@@ -154,11 +392,10 @@ def collect_adhesion_comparison(root, destination, records, family="adhesion"):
     roles = {"nonadhesive": "nonadhesive-pull-off", "adhesive": "adhesive-pull-off"}
     if not isinstance(sources, dict) or set(sources) != set(roles):
         raise ValueError("The adhesion comparison must contain the matched pair")
-    indexed = {record["id"]: record for record in records}
     for role, name in roles.items():
         run = sources[role]
         run["source_directory"] = verify_comparison_sources(
-            root, destination, indexed, f"{family}--{name}", f"{family}/{name}", run.get("files"),
+            root, destination, indexed, f"{family}--{name}", f"{source_family}/{name}", run.get("files"),
         )
     table = report.get("csv")
     if not isinstance(table, dict) or table.get("filename") != "adhesion_comparison.csv":
@@ -191,17 +428,28 @@ def collect(root, destination):
     records = []
     completed = 0
     selected = set()
+    adhesion_source = selected_adhesion_source(root)
     for source in SOURCES:
+        if source in ("adhesion-visible", "adhesion-visible-cloud") and source != adhesion_source:
+            continue
         for path in sorted((root / "outputs" / source).rglob("summary.json")):
             folder = path.parent
-            summary = json.loads(path.read_text(encoding="utf-8"))
+            if source in CLOUD_ALIASES and not (folder / "import-receipt.json").is_file():
+                continue
+            try:
+                summary = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, ValueError, TypeError):
+                if source in CLOUD_ALIASES:
+                    continue
+                raise
+            identifier = canonical_identifier(folder.relative_to(root / "outputs"))
             has_trajectory = (folder / "trajectory.npz").is_file() or complete_artifact_import(folder)
+            if source in CLOUD_ALIASES and not complete_engineering_import(folder, identifier, summary):
+                continue
             if not has_trajectory or summary.get("completed") is False:
                 continue
             completed += 1
-            identifier = "--".join(folder.relative_to(root / "outputs").parts)
             if source in WOVEN_PREVIEW_SOURCES:
-                identifier = "woven-preview--" + identifier.removeprefix(source + "--")
                 if not complete_preview_media(folder):
                     continue
             if identifier in selected:
@@ -226,6 +474,7 @@ def collect(root, destination):
                 "vtk_check.json",
                 "interpretation.json",
                 "numerical-source.json",
+                "media-check.json",
                 "preview-review.json",
                 "preview-eligibility.json",
             )

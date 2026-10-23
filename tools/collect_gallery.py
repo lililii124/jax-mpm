@@ -6,7 +6,12 @@ import hashlib
 from pathlib import Path
 import shutil
 
-from public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
+try:
+    from .public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
+    from .collect_results import canonical_identifier, catalogue_sources
+except ImportError:
+    from public_runs import HOME_REPLACEMENTS, homepage_records, is_public_run, is_ready_for_publication
+    from collect_results import canonical_identifier, catalogue_sources
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -131,6 +136,7 @@ ANIMATIONS = {
 
 
 def gallery_groups(catalogue):
+    sources = catalogue_sources(catalogue)
     groups = {heading: list(entries) for heading, entries in GROUPS.items()}
     present = {record["id"] for record in catalogue}
     for heading, entries in groups.items():
@@ -158,12 +164,14 @@ def gallery_groups(catalogue):
             groups[heading].append((parts[0] + "-" + "-".join(parts[1:]), relative))
             listed.add(relative)
     groups["Adhesion comparison"].sort(key=lambda entry: ("nonadhesive" not in entry[0], entry[0]))
+    for heading, entries in groups.items():
+        groups[heading] = [(name, sources.get(canonical_identifier(relative), relative)) for name, relative in entries]
     return groups
 
 
 def preview(folder, name, render):
     """Select the largest response when a completed animation is available."""
-    if folder.parent.name == "adhesion-visible":
+    if folder.parent.name in ("adhesion-visible", "adhesion-visible-cloud"):
         comparison = json.loads((folder.parent / "adhesion_comparison.json").read_text(encoding="utf-8"))
         intervals = comparison["deformation_contrast"]["qualifying_saved_intervals"]
         if comparison.get("passed") is not True or not intervals:

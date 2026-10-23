@@ -5,7 +5,12 @@ import hashlib
 import json
 from pathlib import Path
 
-from public_runs import homepage_records, is_public_run, is_ready_for_publication
+try:
+    from .public_runs import homepage_records, is_public_run, is_ready_for_publication
+    from .collect_results import CLOUD_ALIASES, catalogue_sources
+except ImportError:
+    from public_runs import homepage_records, is_public_run, is_ready_for_publication
+    from collect_results import CLOUD_ALIASES, catalogue_sources
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -154,6 +159,7 @@ def main():
     entries = payload["runs"] if isinstance(payload, dict) else payload
     index_path = root / "docs/results/index.json"
     catalogue = json.loads(index_path.read_text(encoding="utf-8"))
+    sources = catalogue_sources(catalogue)
     if any(not is_public_run(record["id"]) for record in catalogue + entries):
         raise ValueError("GIF catalogue contains a run excluded from public documentation")
     if isinstance(payload, dict):
@@ -200,6 +206,12 @@ def main():
         }
         record["render_sha256"] = render_hash
         record["source_render_sha256"] = entry.get("source_render_sha256", entry["render_sha256"])
+        relative_source = sources[entry["id"]]
+        if relative_source.split("/")[0] in CLOUD_ALIASES:
+            directory = "outputs/" + relative_source
+            if entry.get("source_directory", directory) != directory:
+                raise ValueError(f"GIF source differs from the selected cloud result: {entry['id']}")
+            record["source_directory"] = directory
         public.append(record)
     lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
     for heading in (GROUPS[0], GROUPS[8], GROUPS[9], GROUPS[10], *GROUPS[1:8]):
