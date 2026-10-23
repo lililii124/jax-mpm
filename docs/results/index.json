@@ -1508,5 +1508,30 @@
       "interpretation.json": "f7df257f1f5914fd70c530aad46234673b5787bce621e6ec833cc381e9f6ff8a",
       "numerical-source.json": "0984f6195c7731b71fe298007b270b9e8d81ffd16671f682ccfdb13c7f01f566"
     }
+  },
+  {
+    "id": "material-engineering--ceramic-indentation-wide--jh2",
+    "case": "ceramic-indentation-wide / jh2",
+    "source_directory": "outputs/material-engineering-cloud/ceramic-indentation-wide/jh2",
+    "particles": 386420,
+    "steps": 6080,
+    "simulation_time": 0.0003,
+    "min_J": 0.985168183503939,
+    "max_damage": 1.0,
+    "solver_seconds": 5421.854152856001,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "f13626aefee53c7db7eff25ef48366a46018fe56641a70d4db4bca673415977b",
+      "diagnostics.csv": "d789df5ad6dfa5985f73c0a573557b31013f80e7a1bec9ab64d21358c95e0567",
+      "observables.csv": "70f6f212d744e3f164e36ccfeae6fc748cb67d3818648a0f9b873c7674ba7c68",
+      "render.json": "79c1f8a8f0fd5ab0613d7b1100050bd5911f425a2acf8a933ef80d807b203217",
+      "vtk_metadata.json": "fcc4c4eb9fa11107ed7e493df17246d062b8f593faeb73647e0fc05a4f60de62",
+      "video.json": "04fcd42589740fd95418bdea96f4cd3bc9b4fc241d2b3ee90c59c4f237a173ef",
+      "memory.json": "75c659cc0cadacd1fb186c29190e6f535e0ef00df21739c28c38766fef4edc14",
+      "vtk_check.json": "60f5d021fc01b2748c713fe5d74e7449b1aca76f2a28c567e71f96fd385a1462",
+      "interpretation.json": "f5451ecc6da68122c43ca17f1fbb4a5fc3b7b95cb36d4fb5cc7e1f426c4ebaee",
+      "numerical-source.json": "06a8b600172d625cd3f71313958496a736e025dfd06bb59a545dae8a46a52a4f",
+      "media-check.json": "cdaf5471cad361e38fc93cecd76370254e5398dfa48d546d472eadf0bd736df5"
+    }
   }
 ]

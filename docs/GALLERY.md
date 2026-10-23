@@ -10,7 +10,7 @@ the parameters and numerical results.
 | | |
 |---|---|
 | ![jc-tension](images/jc-tension.png)<br>**jc-tension** · 146,880 particles<br>[Results](results/material-engineering--jc-tension--johnson-cook/summary.json) · [Video](images/jc-tension.mp4) | |
-| ![ceramic-indentation](images/ceramic-indentation.png)<br>**ceramic-indentation** · 118,580 particles<br>[Results](results/material-engineering--ceramic-indentation--jh2/summary.json) · [Video](images/ceramic-indentation.mp4) |  |
+| ![ceramic-indentation-wide](images/ceramic-indentation-wide.png)<br>**ceramic-indentation-wide** · 386,420 particles<br>[Results](results/material-engineering--ceramic-indentation-wide--jh2/summary.json) · [Video](images/ceramic-indentation-wide.mp4) |  |
 
 ## Engineering structures and tanks
 

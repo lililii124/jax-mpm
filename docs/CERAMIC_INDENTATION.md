@@ -41,3 +41,9 @@ python -m mpm_jax.visualization outputs/material-engineering/ceramic-indentation
 ```
 
 The first command writes the complete 300 µs cycle. ParaView renders actual particle coordinates without displacement amplification, axes or annotations. Sphere opacity changes only the auxiliary rigid geometry's display. See [rendering](RENDERING.md), [material scopes](MATERIALS.md) and the [material engineering guide](MATERIAL_ENGINEERING.md).
+
+## Recorded run
+
+The [completed run](results/material-engineering--ceramic-indentation-wide--jh2/interpretation.json) records 386,420 material points, 6,080 steps and 41 saved states over 300 µs. Actual central-surface indentation reaches 2.3820 mm; maximum particle-centre overlap with the analytical sphere is 0.7768 mm. Minimum det(F) is 0.985168, recorded mass is unchanged and the material failure fraction remains zero. The maximum reference-volume fraction with D ≥ 0.5 is 4.0389%. Damage retains grid participation and does not identify a resolved crack surface or detached fragment.
+
+The nominal 4 mm stroke reaches its maximum at 150 µs and returns to zero at 300 µs. The final central surface retains about 2.33 mm downward displacement. The independent review recomputes regional displacement, damage and overlap from particle coordinates; this dynamic loading does not establish experimental calibration or contact-area accuracy.

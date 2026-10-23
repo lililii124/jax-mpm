@@ -65,38 +65,6 @@
     ]
   },
   {
-    "name": "ceramic-indentation",
-    "source": "material-engineering/ceramic-indentation/jh2",
-    "particles": 118580,
-    "field": "damage",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true,
-    "preview_frame": 20,
-    "preview_time": 0.00015,
-    "auxiliary_geometry": [
-      {
-        "type": "prescribed_rigid_sphere",
-        "parameters": {
-          "center": [
-            0.125,
-            0.175,
-            0.125
-          ],
-          "radius": 0.075,
-          "displacement": [
-            0.0,
-            -0.004,
-            0.0
-          ],
-          "duration": 0.0003
-        },
-        "included_in_particle_count": false,
-        "motion": "cosine loading/unloading cycle"
-      }
-    ]
-  },
-  {
     "name": "perforated-panel",
     "source": "engineering/perforated-panel/neo-hookean",
     "particles": 97536,
@@ -2151,6 +2119,39 @@
         "included_in_particle_count": false,
         "motion": "Half-cosine prescribed displacement followed by fixed-position hold",
         "state_file_interpolation": "linear between output-time keyframes"
+      }
+    ]
+  },
+  {
+    "name": "ceramic-indentation-wide",
+    "source": "material-engineering-cloud/ceramic-indentation-wide/jh2",
+    "particles": 386420,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": true,
+    "preview_frame": 20,
+    "preview_time": 0.00015,
+    "auxiliary_geometry": [
+      {
+        "type": "prescribed_rigid_sphere",
+        "parameters": {
+          "center": [
+            0.125,
+            0.1375,
+            0.125
+          ],
+          "radius": 0.0375,
+          "displacement": [
+            0.0,
+            -0.004,
+            0.0
+          ],
+          "duration": 0.0003
+        },
+        "display_opacity": 0.45,
+        "included_in_particle_count": false,
+        "motion": "cosine loading/unloading cycle"
       }
     ]
   }

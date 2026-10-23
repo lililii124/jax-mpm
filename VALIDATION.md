@@ -117,7 +117,7 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **68 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **69 selected completed runs**,
 including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
@@ -456,3 +456,9 @@ Green-strain norm is 0.068442, below the prescribed 0.1 limit.
 Independent final stored energy, reference section forces and bending moment pass the source-bound review.
 These checks establish numerical admissibility for an illustrative dynamic elastic model;
 the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
+
+## Wide ceramic spherical indentation
+
+The [completed run](docs/results/material-engineering--ceramic-indentation-wide--jh2/interpretation.json) records 386,420 material points, 6,080 steps and 41 saved states over 300 µs. Actual central-surface indentation reaches 2.3820 mm; maximum particle-centre overlap with the analytical sphere is 0.7768 mm. Minimum det(F) is 0.985168, recorded mass is unchanged and the material failure fraction remains zero. The maximum reference-volume fraction with D ≥ 0.5 is 4.0389%. Damage retains grid participation and does not identify a resolved crack surface or detached fragment.
+
+The original larger-sphere run remains archived. The geometry change is not a mesh-convergence comparison.

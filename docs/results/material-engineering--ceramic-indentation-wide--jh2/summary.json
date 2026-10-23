@@ -1,0 +1,344 @@
+{
+  "case": "ceramic-indentation-wide / jh2",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 96,
+      "dt": 4.934210526315789e-08,
+      "domain_size": 0.25,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "jh2",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.25,
+            0.075,
+            0.25
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "center": [
+            0.125,
+            0.1375,
+            0.125
+          ],
+          "radius": 0.0375,
+          "displacement": [
+            0.0,
+            -0.004,
+            0.0
+          ],
+          "duration": 0.0003
+        }
+      ],
+      "failure_mode": "retain"
+    }
+  ],
+  "materials": [
+    {
+      "shear": 20000000000.0,
+      "A": 0.79,
+      "B": 0.3,
+      "C": 0.007,
+      "M": 0.6,
+      "N": 0.6,
+      "reference_rate": 1.0,
+      "tensile_strength": 100000000.0,
+      "maximum_fractured_strength": 1.0,
+      "hel": 2600000000.0,
+      "pressure_hel": 1600000000.0,
+      "bulking_fraction": 0.5,
+      "D1": 0.01,
+      "D2": 0.5,
+      "K1": 130000000000.0,
+      "K2": 0.0,
+      "K3": 0.0,
+      "failure_strain": 0.0,
+      "density": 2500.0
+    }
+  ],
+  "steps": 6080,
+  "simulation_time": 0.0003,
+  "particles": [
+    386420
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.15",
+  "compile_and_warmup_seconds": 119.91035629800001,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 5421.854152856001,
+  "min_J": 0.985168183503939,
+  "max_damage": 1.0,
+  "max_plastic_strain": 0.8891552975532254,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    7.768686503568223e-06,
+    0.010294564534936998,
+    -3.453611921127017e-05
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "max_damage": 0.0,
+      "mean_damage_reference_volume": 0.0,
+      "damaged_reference_volume_m3": 0.0,
+      "damaged_reference_volume_fraction": 0.0,
+      "fully_damaged_reference_volume_fraction": 0.0,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.0,
+      "damaged_region_min_x_m": null,
+      "damaged_region_max_x_m": null,
+      "damaged_region_min_y_m": null,
+      "damaged_region_max_y_m": null,
+      "damaged_region_min_z_m": null,
+      "damaged_region_max_z_m": null,
+      "backing_reaction_x_N": -0.0,
+      "backing_reaction_y_N": -0.0,
+      "backing_reaction_z_N": -0.0,
+      "indenter_reaction_x_N": 4.291633599421789e-14,
+      "indenter_reaction_y_N": 204.86476736114162,
+      "indenter_reaction_z_N": 4.2588604582818524e-14,
+      "boundary_sample_time_s": 4.934210526315789e-08,
+      "nominal_indentation_m": 0.0,
+      "indenter_speed_y_m_per_s": -0.0,
+      "central_surface_displacement_y_m": 0.0,
+      "maximum_downward_displacement_m": -0.0,
+      "momentum_y_kg_m_per_s": 0.0,
+      "central_surface_max_damage": 0.0,
+      "local_surface_displacement_y_m": 0.0,
+      "local_region_maximum_downward_displacement_m": -0.0,
+      "local_region_max_damage": 0.0,
+      "local_region_mean_damage_reference_volume": 0.0,
+      "local_region_damaged_reference_volume_m3": 0.0,
+      "indenter_particle_overlap_max_m": 0.0,
+      "indenter_surface_particle_overlap_max_m": 0.0,
+      "particle_centers_inside_indenter": 0
+    },
+    "final": {
+      "time": 0.0003,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 7.768686503568223e-06,
+      "boundary_impulse_y": 0.010294564534936998,
+      "boundary_impulse_z": -3.453611921127017e-05,
+      "max_damage": 1.0,
+      "mean_damage_reference_volume": 0.040598908674421584,
+      "damaged_reference_volume_m3": 3.27148439521764e-05,
+      "damaged_reference_volume_fraction": 0.040388696237254794,
+      "fully_damaged_reference_volume_fraction": 0.03852802649966357,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.8891552975532254,
+      "damaged_region_min_x_m": 0.09132830721000378,
+      "damaged_region_max_x_m": 0.15867170054382848,
+      "damaged_region_min_y_m": 0.07561675646412341,
+      "damaged_region_max_y_m": 0.10078383283147553,
+      "damaged_region_min_z_m": 0.09132829699572559,
+      "damaged_region_max_z_m": 0.15867170135241487,
+      "backing_reaction_x_N": -6.235991401992226,
+      "backing_reaction_y_N": -61.718075670662266,
+      "backing_reaction_z_N": -2.411096262650891,
+      "indenter_reaction_x_N": 0.003233213315357756,
+      "indenter_reaction_y_N": 0.017595829806810216,
+      "indenter_reaction_z_N": 0.0026285186838802712,
+      "boundary_sample_time_s": 0.00030004934210526316,
+      "nominal_indentation_m": 0.0,
+      "indenter_speed_y_m_per_s": -0.0,
+      "central_surface_displacement_y_m": -0.002328619423709832,
+      "maximum_downward_displacement_m": 0.002558994375357823,
+      "momentum_y_kg_m_per_s": 0.010294564534937038,
+      "central_surface_max_damage": 1.0,
+      "local_surface_displacement_y_m": 0.00038544146887955404,
+      "local_region_maximum_downward_displacement_m": 0.002558994375357823,
+      "local_region_max_damage": 1.0,
+      "local_region_mean_damage_reference_volume": 0.4305357315206141,
+      "local_region_damaged_reference_volume_m3": 3.0264427307075212e-05,
+      "indenter_particle_overlap_max_m": 0.0,
+      "indenter_surface_particle_overlap_max_m": 0.0,
+      "particle_centers_inside_indenter": 0
+    }
+  },
+  "definition": {
+    "purpose": "ceramic-indentation-wide",
+    "model": "jh2",
+    "units": "m, s, kg, N, Pa",
+    "parameter_status": "repository constitutive defaults; demonstration geometry and loading, not a calibrated experiment",
+    "material_parameters_SI": {
+      "shear": 20000000000.0,
+      "A": 0.79,
+      "B": 0.3,
+      "C": 0.007,
+      "M": 0.6,
+      "N": 0.6,
+      "reference_rate": 1.0,
+      "tensile_strength": 100000000.0,
+      "maximum_fractured_strength": 1.0,
+      "hel": 2600000000.0,
+      "pressure_hel": 1600000000.0,
+      "bulking_fraction": 0.5,
+      "D1": 0.01,
+      "D2": 0.5,
+      "K1": 130000000000.0,
+      "K2": 0.0,
+      "K3": 0.0,
+      "failure_strain": 0.0,
+      "density": 2500.0
+    },
+    "particles_per_cell_per_axis": 2,
+    "lower": [
+      0.035,
+      0.075,
+      0.035
+    ],
+    "upper": [
+      0.215,
+      0.1,
+      0.215
+    ],
+    "grid_spacing_m": 0.0026041666666666665,
+    "duration_s": 0.0003,
+    "time_step_s": 4.934210526315789e-08,
+    "estimated_acoustic_speed_m_per_s": 7916.228058025278,
+    "acoustic_CFL": 0.14999168952047895,
+    "gravity": "omitted for the short dynamic loading interval",
+    "other_faces": "traction-free",
+    "reaction_sampling": "force on each rigid boundary from next-step grid momentum correction; force on specimen has opposite sign",
+    "failure_mode": "retain",
+    "damage_region_threshold": 0.5,
+    "damage_region_geometry": "bounds of current particle centers above the damage threshold",
+    "damage_interpretation": "local constitutive damage and plastic strain; D=1 is not a resolved crack or a separated fragment",
+    "mesh_dependence": "local softening has no fracture-energy regularization; damage widths and post-peak response require refinement studies",
+    "loading_regime": "dynamic loading/unloading spherical indentation; no penetration target or fracture calibration",
+    "contact": "frictionless unilateral grid-node rigid sphere",
+    "base": "all velocity components fixed at y <= 0.075 m; ideal rigid bonded backing",
+    "rigid_sphere": {
+      "center": [
+        0.125,
+        0.1375,
+        0.125
+      ],
+      "radius": 0.0375,
+      "displacement": [
+        0.0,
+        -0.004,
+        0.0
+      ],
+      "duration": 0.0003
+    },
+    "rigid_sphere_motion": "center + displacement * (1-cos(2*pi*clip(t/duration,0,1)))/2",
+    "maximum_nominal_indentation_m": 0.004,
+    "peak_indenter_speed_m_per_s": 41.88790204786392,
+    "nominal_contact_radius_m": 0.01224744871391589,
+    "nominal_contact_radius_in_grid_cells": 4.703020306143702,
+    "contact_radius_interpretation": "sqrt(R*delta) is a resolution estimate, not an elastic Hertz validation of damaged ceramic",
+    "sphere_diameter_to_plate_width_ratio": 0.4166666666666667,
+    "plate_thickness_in_grid_cells": 9.600000000000003,
+    "nominal_contact_radius_to_plate_half_width_ratio": 0.13608276348795434,
+    "particle_counts_per_axis": [
+      139,
+      20,
+      139
+    ],
+    "particle_spacings_m": [
+      0.0012949640287769784,
+      0.0012500000000000005,
+      0.0012949640287769784
+    ],
+    "particle_spacing_m": 0.0012500000000000005,
+    "particle_sampling": "regular rectangular lattice with per-axis spacing adjusted to preserve exact specimen volume",
+    "central_surface_radius_m": 0.004,
+    "local_region_radius_m": 0.03,
+    "observation_regions": "fixed reference x/z cylinders about (0.125,0.125); central surface is the uppermost reference particle layer",
+    "central_surface_particles": 29,
+    "local_region_particles": 33700,
+    "local_surface_particles": 1685,
+    "particle_overlap_interpretation": "geometric overlap of particle centers with the rigid sphere; grid-node contact does not enforce an exact particle-surface constraint",
+    "thickness_wave_transits": 94.9947366963033,
+    "geometry_scale": 1.0,
+    "geometry_comparison": "wider tile and smaller rigid sphere than ceramic-indentation; original case remains separately reproducible"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 2.0250000000000012,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.12499999999999994,
+      "com_y": 0.08749999999999997,
+      "com_z": 0.12499999999999994,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0008100000000000004,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.0003,
+      "body": 0,
+      "mass": 2.0250000000000012,
+      "momentum_x": 7.768686503568223e-06,
+      "momentum_y": 0.010294564534936998,
+      "momentum_z": -3.453611921127017e-05,
+      "kinetic_energy": 0.001289922621604083,
+      "com_x": 0.12499998825053281,
+      "com_y": 0.0875038513609768,
+      "com_z": 0.12499999491658367,
+      "min_J": 0.9990727074773131,
+      "max_J": 1.0950807976561028,
+      "current_volume": 0.0008102440078000938,
+      "max_speed": 0.22847461674453362,
+      "max_plastic_strain": 0.8891552975532254,
+      "max_damage": 1.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 387.0495931411124,
+      "strain_energy": null
+    }
+  ]
+}

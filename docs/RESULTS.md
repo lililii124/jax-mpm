@@ -77,6 +77,7 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [woven--triaxial--hemispherical-compression](results/woven--triaxial--hemispherical-compression/summary.json) | 345,600 | 8,220 | 1.89737e-05 | 0.804986 | 0 | ParaView |
 | [woven--plain--hemispherical-compression](results/woven--plain--hemispherical-compression/summary.json) | 345,600 | 8,220 | 1.89737e-05 | 0.81763 | 0 | ParaView |
 | [woven--twill-2x2--hemispherical-compression](results/woven--twill-2x2--hemispherical-compression/summary.json) | 345,600 | 8,220 | 1.89737e-05 | 0.821462 | 0 | ParaView |
+| [material-engineering--ceramic-indentation-wide--jh2](results/material-engineering--ceramic-indentation-wide--jh2/summary.json) | 386,420 | 6,080 | 0.0003 | 0.985168 | 1 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)

@@ -112,20 +112,6 @@
     "source_render_sha256": "7cd531ad52ea2a00510248eaa639905f990495dad1c4ce15b95ac15226614e3f"
   },
   {
-    "id": "material-engineering--ceramic-indentation--jh2",
-    "gif_path": "docs/images/home/material-engineering--ceramic-indentation--jh2.gif",
-    "gif_sha256": "739244197cd2ec907d6defd5664b0fa1f38e7058061565090d058b9d1ca02bd9",
-    "bytes": 461495,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 41,
-    "gif_frames": 41,
-    "render_sha256": "a6b2d1428b253a8f399b45da96221948f1da141e2b0dc576f1a6db95883287fd",
-    "source_render_sha256": "35427a336135704a0ac01d5204f95ec95f0a91531a60f07413a37733b181350a"
-  },
-  {
     "id": "material-engineering--jc-tension--johnson-cook",
     "gif_path": "docs/images/home/material-engineering--jc-tension--johnson-cook.gif",
     "gif_sha256": "33ac2a1fa7600da668081c07af98cef408e9d777bfa3839ad7e901912a81b053",
@@ -684,5 +670,20 @@
     "gif_frames": 61,
     "render_sha256": "ab7128ed3e828913965d5d3cecb64f58143f0c89c0db1267c851932d2846df9d",
     "source_render_sha256": "ab7128ed3e828913965d5d3cecb64f58143f0c89c0db1267c851932d2846df9d"
+  },
+  {
+    "id": "material-engineering--ceramic-indentation-wide--jh2",
+    "gif_path": "docs/images/home/material-engineering--ceramic-indentation-wide--jh2.gif",
+    "gif_sha256": "e02b2bd458c122b72cbb4d88718cd3da2e472c500314dff9e12e4ed48f217530",
+    "bytes": 373515,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 41,
+    "gif_frames": 41,
+    "render_sha256": "79c1f8a8f0fd5ab0613d7b1100050bd5911f425a2acf8a933ef80d807b203217",
+    "source_render_sha256": "79c1f8a8f0fd5ab0613d7b1100050bd5911f425a2acf8a933ef80d807b203217",
+    "source_directory": "outputs/material-engineering-cloud/ceramic-indentation-wide/jh2"
   }
 ]

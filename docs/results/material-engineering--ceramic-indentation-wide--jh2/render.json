@@ -1,0 +1,103 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 3,
+  "frames_rendered": 41,
+  "animation": "simulation.gif",
+  "field": "damage",
+  "actual_field_range": [
+    0.0,
+    1.0
+  ],
+  "color_range": [
+    0.0,
+    1.0
+  ],
+  "color_range_source": "automatic full-history range",
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": false,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0007750000000000003,
+  "scene_bounds": [
+    0.035635375314603465,
+    0.21436460366297685,
+    0.07558954704823632,
+    0.17500000000000002,
+    0.035635395698546776,
+    0.21436460905945454
+  ],
+  "actual_scene_bounds": [
+    0.035635375314603465,
+    0.21436460366297685,
+    0.07558954704823632,
+    0.17500000000000002,
+    0.035635395698546776,
+    0.21436460905945454
+  ],
+  "actual_body_bounds": [
+    0.035635375314603465,
+    0.21436460366297685,
+    0.07558954704823632,
+    0.10078383283147553,
+    0.035635395698546776,
+    0.21436460905945454
+  ],
+  "camera_bounds": [
+    0.035635375314603465,
+    0.21436460366297685,
+    0.07558954704823632,
+    0.17500000000000002,
+    0.035635395698546776,
+    0.21436460905945454
+  ],
+  "camera_bounds_source": "automatic body and prescribed geometry bounds",
+  "view_scope": "complete scene",
+  "render_overrides": {
+    "source": "renderer command-line arguments",
+    "color_range": null,
+    "scene_bounds": null,
+    "focus_bounds": null,
+    "sphere_opacity": 0.45,
+    "matrix_opacity": null
+  },
+  "camera_position": [
+    0.3752209091765129,
+    0.2772146176202356,
+    0.4467126134060728
+  ],
+  "camera_focal_point": [
+    0.12499998948879015,
+    0.12529477352411816,
+    0.12500000237900066
+  ],
+  "camera_parallel_scale": 0.14045328394192655,
+  "particles": 386420,
+  "auxiliary_geometry": [
+    {
+      "type": "prescribed_rigid_sphere",
+      "parameters": {
+        "center": [
+          0.125,
+          0.1375,
+          0.125
+        ],
+        "radius": 0.0375,
+        "displacement": [
+          0.0,
+          -0.004,
+          0.0
+        ],
+        "duration": 0.0003
+      },
+      "display_opacity": 0.45,
+      "included_in_particle_count": false,
+      "motion": "cosine loading/unloading cycle"
+    }
+  ]
+}
