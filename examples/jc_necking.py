@@ -330,6 +330,7 @@ def main():
     parser.add_argument("--no-render", action="store_true")
     parser.add_argument("--gif", action="store_true")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--stop-after-frame", type=int, help="Save a valid continuation checkpoint without shortening the physical target")
     args = parser.parse_args()
     jax.config.update("jax_enable_x64", True)
     try:
@@ -356,6 +357,7 @@ def main():
         render_output=not args.no_render,
         gif=args.gif,
         resume=args.resume,
+        stop_after_frame=args.stop_after_frame,
     )
 
 

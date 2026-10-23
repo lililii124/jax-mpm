@@ -396,6 +396,7 @@ def test_cache_confirmation_cannot_accept_partial_key_hit(tmp_path, monkeypatch)
 def test_finalization_job_uses_existing_last_key_and_never_advances_or_seals(tmp_path, monkeypatch):
     import argparse
     req = segments.request()
+    monkeypatch.setattr(segments, 'ROOT', tmp_path)
     monkeypatch.setattr(segments, 'CACHE', tmp_path/'cache')
     monkeypatch.setattr(segments, 'LOGS', tmp_path/'logs')
     monkeypatch.setattr(segments, 'CONTEXT', tmp_path/'logs/job.json')

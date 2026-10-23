@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: Tiny verifies cross-job continuation; formal requires separate approval after that check
+        description: Formal runs after the continuation check passes
         type: choice
         options: [tiny, formal]
         default: tiny

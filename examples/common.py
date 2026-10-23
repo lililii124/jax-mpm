@@ -66,9 +66,12 @@ def run(
     render_output=True,
     resume=False,
     point_fields=None,
+    stop_after_frame=None,
 ):
     if frames < 1 or substeps < 1:
         raise ValueError("frames and substeps must be positive")
+    if stop_after_frame is not None and (type(stop_after_frame) is not int or not 0 < stop_after_frame <= frames):
+        raise ValueError("stop_after_frame must be an integer between 1 and the full frame count")
     count = sum(s.x.shape[0] for s in states)
     point_fields = checked_particle_fields(point_fields, count)
     field_descriptors = {name: array_descriptor(value) for name, value in point_fields.items()}
@@ -142,6 +145,19 @@ def run(
     )
     if saved is not None and saved["signature"] != signature:
         raise ValueError("checkpoint belongs to a different case, resolution, material or duration")
+    if saved is not None and stop_after_frame is not None and saved["frame"] < frames and stop_after_frame <= saved["frame"]:
+        raise ValueError("A continuation endpoint must follow the saved checkpoint frame")
+    restored = tuple(_load_state(output / name) for name in saved["states"]) if saved is not None else None
+    if restored is not None and not _valid_checkpoint_states(restored):
+        raise ValueError("An invalid numerical state cannot be resumed")
+    if restored is not None and (len(restored) != len(states) or any(
+        old.x.shape != reference.x.shape or not np.array_equal(old.mass, reference.mass)
+        or not np.array_equal(old.volume, reference.volume) for old, reference in zip(restored, states)
+    )):
+        raise ValueError("Checkpoint particle shapes, mass or reference volume differ from the requested case")
+    if restored is not None:
+        _validate_resume_prefix(output, saved, restored, frames, substeps, dt,
+                                any(config.failure_mode == "ballistic" for config in configs))
     if point_fields:
         _atomic_npz(output / "particle_fields.npz", **point_fields)
     dtype = np.result_type(*(np.asarray(s.x).dtype for s in states))
@@ -162,7 +178,7 @@ def run(
         else None
     )
     if saved is not None:
-        states = tuple(_load_state(output / name) for name in saved["states"])
+        states = restored
         rows, observations = saved["rows"], saved["observations"]
         accumulated_impulse = np.asarray(saved["contact_impulse"])
         accumulated_external = np.asarray(saved["external_impulse"])
@@ -266,6 +282,27 @@ def run(
                 f"{label}: {frame}/{frames}, t={time:.6g}, Jmin={min(r['min_J'] for r in rows[-len(states):]):.4g}, Dmax={max(r['max_damage'] for r in rows[-len(states):]):.4g}",
                 flush=True,
             )
+        if stop_after_frame == frame and frame < frames:
+            valid = _valid_checkpoint_states(states)
+            segment = {
+                "case": label, "completed": False, "segment_complete": valid,
+                "phase": "checkpoint-ready" if valid else "failed",
+                "signature": signature, "frame": frame, "frames": frames,
+                "steps_completed": frame * substeps, "target_steps": frames * substeps,
+                "time": time, "target_time": frames * substeps * dt,
+                "particles": [s.x.shape[0] for s in states],
+                "checkpoint": checkpoint_path.name,
+                "scope": "Planned saved-frame continuation; the full physical protocol is incomplete.",
+            }
+            _atomic_json(output / "status.json", segment)
+            _atomic_json(output / "segment.json", segment)
+            _atomic_json(output / "summary.json", segment)
+            for field in (positions, speeds, damages, temperatures, failures):
+                if field is not None:
+                    field._mmap.close()
+            if not valid:
+                raise FloatingPointError("Planned stop reached an invalid state; no resumable segment accepted")
+            return states, segment
     body = np.concatenate([np.full(s.x.shape[0], i) for i, s in enumerate(states)])
     np.savez_compressed(
         output / "trajectory.npz",
@@ -364,3 +401,83 @@ def run(
             field_label=field,
         )
     return states, summary
+
+
+def _valid_checkpoint_states(states):
+    for state in states:
+        shape = state.x.shape
+        if len(shape) != 2 or shape[0] < 1 or shape[1] not in (2, 3):
+            return False
+        count, dim = shape
+        if (state.v.shape != shape or state.F.shape != (count, dim, dim) or state.C.shape != (count, dim, dim)
+                or state.mass.shape != (count,) or state.volume.shape != (count,)):
+            return False
+        if not bool(state.valid) or not bool(np.asarray(state.history.valid).all()):
+            return False
+        values = [value for key, value in state._asdict().items() if key != "history"]
+        values.extend(state.history)
+        if not all(np.isfinite(np.asarray(value)).all() for value in values):
+            return False
+        if not np.all(np.linalg.det(np.asarray(state.F)) > 0):
+            return False
+        if not np.all(np.asarray(state.mass) > 0) or not np.all(np.asarray(state.volume) > 0):
+            return False
+    return True
+
+
+def _validate_resume_prefix(output, saved, states, frames, substeps, dt, ballistic):
+    frame = saved["frame"]
+    if type(frame) is not int or not 0 <= frame <= frames:
+        raise ValueError("Checkpoint frame is outside the physical plan")
+    expected_times = np.arange(frame + 1) * substeps * dt
+    tolerance = max(dt * 1e-5, 1e-15)
+    if len(saved["rows"]) != (frame + 1) * len(states) or len(saved["observations"]) != frame + 1:
+        raise ValueError("Checkpoint tables do not cover the saved prefix")
+    for index, row in enumerate(saved["rows"]):
+        if row["body"] != index % len(states) or not np.isclose(
+            row["time"], expected_times[index // len(states)], rtol=0, atol=tolerance
+        ):
+            raise ValueError("Checkpoint diagnostic time or body differs from the saved prefix")
+    if not np.allclose([row["time"] for row in saved["observations"]], expected_times, rtol=0, atol=tolerance):
+        raise ValueError("Checkpoint observation time differs from the saved prefix")
+    for state in states:
+        clock = np.asarray(state.time)
+        epsilon = np.finfo(clock.dtype).eps if clock.dtype.kind == "f" else np.finfo(float).eps
+        accumulated = frame * substeps * epsilon
+        clock_error = (2 * accumulated / (1 - accumulated) * abs(expected_times[-1])
+                       if accumulated < 1 else 0.)
+        if accumulated >= 1 or not np.isclose(float(clock), expected_times[-1], rtol=0,
+                                             atol=max(tolerance, clock_error)):
+            raise ValueError("Checkpoint state time differs from the saved frame")
+    count, dim = sum(len(state.x) for state in states), states[0].x.shape[1]
+    shapes = {"x": (count, dim), "speed": (count,), "damage": (count,),
+              "temperature": (count,), "time": (), "contact_impulse": (dim,)}
+    if ballistic:
+        shapes["failed"] = (count,)
+    for index, expected_time in enumerate(expected_times):
+        path = output / "frames_data" / f"frame_{index:05d}.npz"
+        with np.load(path, allow_pickle=False) as data:
+            if set(data.files) != set(shapes):
+                raise ValueError("Checkpoint history fields do not match the requested run")
+            for name, shape in shapes.items():
+                value = data[name]
+                if value.shape != shape or not np.isfinite(value).all():
+                    raise ValueError("Checkpoint history contains malformed or nonfinite arrays")
+            if not np.isclose(float(data["time"]), expected_time, rtol=0, atol=tolerance):
+                raise ValueError("Checkpoint history time differs from its saved frame")
+            if not np.all((data["damage"] >= 0) & (data["damage"] <= 1)):
+                raise ValueError("Checkpoint history damage is outside [0,1]")
+            if ballistic and not np.all((data["failed"] == 0) | (data["failed"] == 1)):
+                raise ValueError("Checkpoint history failure flags are not binary")
+            if index == frame:
+                for name, expected in (
+                    ("x", np.concatenate([np.asarray(state.x) for state in states])),
+                    ("damage", np.concatenate([np.asarray(state.history.damage) for state in states])),
+                    ("temperature", np.concatenate([np.asarray(state.history.temperature) for state in states])),
+                ):
+                    if not np.array_equal(data[name], expected):
+                        raise ValueError("Checkpoint state and last saved history frame differ")
+                if ballistic and not np.array_equal(data["failed"], np.concatenate(
+                    [np.asarray(state.history.failed) for state in states]
+                )):
+                    raise ValueError("Checkpoint state and last failure history frame differ")
