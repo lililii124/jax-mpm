@@ -1364,5 +1364,29 @@
       "interpretation.json": "818db20cd57631aef6313c49ee0959b6aab314e142e67330871ec35e06d39ae1",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "woven--twill-2x2--transverse-bending",
+    "case": "twill-2x2/transverse-bending / woven-composite",
+    "source_directory": "outputs/woven/twill-2x2/transverse-bending",
+    "particles": 345600,
+    "steps": 4140,
+    "simulation_time": 1.8973665961010275e-05,
+    "min_J": 0.8983794881747326,
+    "max_damage": 0.0,
+    "solver_seconds": 1319.8721245249994,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "5bbb0fe9d7748cc0e0108d428c369d90e1d1abdae01b39a46c461223997bc4f3",
+      "diagnostics.csv": "5bb8b622a5f6f34f0f998860a97255541c7daf8cd30c2f2d79328373717c098d",
+      "observables.csv": "50773e406943cc55b235e2b5837dd9e44315df777e4c3917685d3457cda1013b",
+      "render.json": "978510828fd8abec59b9df63b646801a131a1ac16ccb2b521e727d5e1dfc3f31",
+      "vtk_metadata.json": "b0345f5a7eee971bb007f341cfb2cc85f92977f07265e674312a430166ba2ac3",
+      "video.json": "be8d46f3dbfccc8063462bde9693fff6474cfd3848dace726d4ee11920791b65",
+      "memory.json": "60704497c4ae93bc0dc6e97caf1634b258740de096b4c5ee610bab66aa72180e",
+      "vtk_check.json": "1fd14de3e2e30c06b480e852142581ba7c299374d0150a5a07f673d793789692",
+      "interpretation.json": "2ddbb6e6a7288a0e97c8f3f8b221288f9941ec96993ff95fdb65809522a3cc13",
+      "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
+    }
   }
 ]
