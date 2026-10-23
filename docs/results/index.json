@@ -1195,5 +1195,30 @@
       "interpretation.json": "c4f9d9c4ed405be23cc8d3bd643b6482b5ae2fffcd9443e866a394e8e7228bb4",
       "numerical-source.json": "e7e30054ce8907d1d019bb10545fc5de43ed6615c25ee3885469e315d90a0981"
     }
+  },
+  {
+    "id": "material-engineering--concrete-bending-large--hjc",
+    "case": "concrete-bending-large / hjc",
+    "source_directory": "outputs/material-engineering-cloud/concrete-bending-large/hjc",
+    "particles": 121104,
+    "steps": 10500,
+    "simulation_time": 0.0014999999999999998,
+    "min_J": 0.965608538525312,
+    "max_damage": 1.0,
+    "solver_seconds": 2918.7084500129995,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "c8257dbf4ecb2d0654be9829e6e712b6c079ad587aa2a7b7e9d2484142ba8895",
+      "diagnostics.csv": "7b01892ffb3c74809d112514109a3a66c35853a28f5ec8a6d36defe0d11cbdeb",
+      "observables.csv": "45b6954191c0c182cc30838a8e5032fbac3e5236b3903a50a0eff110e9bc2a79",
+      "render.json": "26eb7946e3bf96a4c38e23b84229a107e0f343ab9a9f5e1e544090fb40d8c893",
+      "vtk_metadata.json": "b38bf921148aaac3d35c95080379973c4bcac0fae24859e2872cc0886d0b9cd6",
+      "video.json": "3a7ceb75bce59f207f62d31d5c782a65097fa8e51cf0e9e51d5d1ebb44331da8",
+      "memory.json": "70989c3d49bc134ed3472f83b6370de152885ec24d54a1be7ea85cfb5e4cc650",
+      "vtk_check.json": "da13f86731447bd424222c6768b0426ad3070cfd9243d022d9eb998bb8a9d2c4",
+      "interpretation.json": "97b8342578d64f713e92cf088ba186bd70591e7c97f6952425135a054fb50181",
+      "numerical-source.json": "1c7d374b7be16d534b81642bbded59746a6323fcf8ed50a88ea01be9ec6305d3",
+      "media-check.json": "12d436da4408002c4da29270accb742af9a5218159de05dd19ebdbb02136816d"
+    }
   }
 ]

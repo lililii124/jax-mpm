@@ -1,0 +1,415 @@
+{
+  "case": "concrete-bending-large / hjc",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 64,
+      "dt": 1.4285714285714285e-07,
+      "domain_size": 0.4,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "hjc",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.065625,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.08437499999999999,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            true,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.315625,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.33437500000000003,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.065625,
+            0.0,
+            0.1965625
+          ],
+          "upper": [
+            0.08437499999999999,
+            0.1515625,
+            0.20343750000000002
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            false,
+            true
+          ],
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.1875,
+            0.206875,
+            0.0
+          ],
+          "upper": [
+            0.2125,
+            0.2225,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            -13.333333333333334,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": null,
+          "ramp_time": 0.0003,
+          "loading_duration": 0.0012
+        }
+      ],
+      "failure_mode": "retain"
+    }
+  ],
+  "materials": [
+    {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0,
+      "legacy_v3": false
+    }
+  ],
+  "steps": 10500,
+  "simulation_time": 0.0014999999999999998,
+  "particles": [
+    121104
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.15",
+  "compile_and_warmup_seconds": 46.96542606999998,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 2918.7084500129995,
+  "min_J": 0.965608538525312,
+  "max_damage": 1.0,
+  "max_plastic_strain": 0.36812138035538405,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    15.830141802387502,
+    -8.390893366915886,
+    -7.456153263873034e-14
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "max_damage": 0.0,
+      "mean_damage_reference_volume": 0.0,
+      "damaged_reference_volume_m3": 0.0,
+      "damaged_reference_volume_fraction": 0.0,
+      "fully_damaged_reference_volume_fraction": 0.0,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.0,
+      "damaged_region_min_x_m": null,
+      "damaged_region_max_x_m": null,
+      "damaged_region_min_y_m": null,
+      "damaged_region_max_y_m": null,
+      "damaged_region_min_z_m": null,
+      "damaged_region_max_z_m": null,
+      "left_support_reaction_x_N": -0.0,
+      "left_support_reaction_y_N": -0.0,
+      "left_support_reaction_z_N": -0.0,
+      "right_support_reaction_x_N": -0.0,
+      "right_support_reaction_y_N": -0.0,
+      "right_support_reaction_z_N": -0.0,
+      "lateral_anchor_reaction_x_N": -0.0,
+      "lateral_anchor_reaction_y_N": -0.0,
+      "lateral_anchor_reaction_z_N": -0.0,
+      "loading_reaction_x_N": -0.0,
+      "loading_reaction_y_N": 0.2593279219380581,
+      "loading_reaction_z_N": -0.0,
+      "boundary_sample_time_s": 1.4285714285714285e-07,
+      "prescribed_displacement_y_m": -0.0,
+      "prescribed_speed_y_m_per_s": -0.0,
+      "midspan_bottom_deflection_m": -0.0,
+      "maximum_downward_displacement_m": -0.0,
+      "momentum_y_kg_m_per_s": 0.0,
+      "central_lower_max_damage": 0.0,
+      "central_lower_mean_damage": 0.0,
+      "central_upper_max_damage": 0.0,
+      "central_upper_mean_damage": 0.0
+    },
+    "final": {
+      "time": 0.0014999999999999998,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 15.830141802387502,
+      "boundary_impulse_y": -8.390893366915886,
+      "boundary_impulse_z": -7.456153263873034e-14,
+      "max_damage": 1.0,
+      "mean_damage_reference_volume": 0.23215496823952642,
+      "damaged_reference_volume_m3": 0.0002315279429250892,
+      "damaged_reference_volume_fraction": 0.2143777249306381,
+      "fully_damaged_reference_volume_fraction": 0.2010916237283657,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.36812138035538405,
+      "damaged_region_min_x_m": 0.053913550256994146,
+      "damaged_region_max_x_m": 0.35658317333476736,
+      "damaged_region_min_y_m": 0.1342501722015805,
+      "damaged_region_max_y_m": 0.19650219788781012,
+      "damaged_region_min_z_m": 0.17084948609989264,
+      "damaged_region_max_z_m": 0.22915051390010738,
+      "left_support_reaction_x_N": 3531.5017253344645,
+      "left_support_reaction_y_N": -211.67064765109626,
+      "left_support_reaction_z_N": -0.0,
+      "right_support_reaction_x_N": -0.0,
+      "right_support_reaction_y_N": -2014.8017249827662,
+      "right_support_reaction_z_N": -0.0,
+      "lateral_anchor_reaction_x_N": -0.0,
+      "lateral_anchor_reaction_y_N": -0.0,
+      "lateral_anchor_reaction_z_N": 1.735403516843744e-11,
+      "loading_reaction_x_N": -0.0,
+      "loading_reaction_y_N": -4050.307824063996,
+      "loading_reaction_z_N": -0.0,
+      "boundary_sample_time_s": 0.001500142857142857,
+      "prescribed_displacement_y_m": -0.011999999999999999,
+      "prescribed_speed_y_m_per_s": -0.0,
+      "midspan_bottom_deflection_m": 0.016352498332511404,
+      "maximum_downward_displacement_m": 0.01687562488129596,
+      "momentum_y_kg_m_per_s": -8.390893366916204,
+      "central_lower_max_damage": 1.0,
+      "central_lower_mean_damage": 0.937330020909942,
+      "central_upper_max_damage": 1.0,
+      "central_upper_mean_damage": 0.998142251970914
+    }
+  },
+  "definition": {
+    "purpose": "concrete-bending-large",
+    "model": "hjc",
+    "units": "m, s, kg, N, Pa",
+    "parameter_status": "repository constitutive defaults; demonstration geometry and loading, not a calibrated experiment",
+    "material_parameters_SI": {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0,
+      "legacy_v3": false
+    },
+    "particles_per_cell_per_axis": 3,
+    "lower": [
+      0.05,
+      0.15,
+      0.17
+    ],
+    "upper": [
+      0.35,
+      0.21,
+      0.23
+    ],
+    "grid_spacing_m": 0.00625,
+    "duration_s": 0.0014999999999999998,
+    "time_step_s": 1.4285714285714285e-07,
+    "estimated_acoustic_speed_m_per_s": 6554.104374588908,
+    "acoustic_CFL": 0.1498080999906036,
+    "gravity": "omitted for the short dynamic loading interval",
+    "other_faces": "traction-free",
+    "reaction_sampling": "force on each rigid boundary from next-step grid momentum correction; force on specimen has opposite sign",
+    "failure_mode": "retain",
+    "damage_region_threshold": 0.5,
+    "damage_region_geometry": "bounds of current particle centers above the damage threshold",
+    "damage_interpretation": "local constitutive damage and plastic strain; D=1 is not a resolved crack or a separated fragment",
+    "mesh_dependence": "local softening has no fracture-energy regularization; damage widths and post-peak response require refinement studies",
+    "loading_regime": "dynamic three-point bending; inertia and constitutive rate effects retained",
+    "support_span_m": 0.25,
+    "support_patch_width_m": 0.01875,
+    "supports": "left patch fixes x/y; right patch fixes y and permits axial sliding; a small left mid-width patch fixes z",
+    "support_centers_x_m": [
+      0.075,
+      0.325
+    ],
+    "loading_patch_width_m": 0.025,
+    "loading": "central translating y-velocity patch; cosine startup and stopping ramps, then fixed-displacement hold",
+    "loading_boundary": {
+      "lower": [
+        0.1875,
+        0.206875,
+        0.0
+      ],
+      "upper": [
+        0.2125,
+        0.2225,
+        0.4
+      ],
+      "velocity": [
+        0.0,
+        -13.333333333333334,
+        0.0
+      ],
+      "components": [
+        false,
+        true,
+        false
+      ],
+      "start": 0.0,
+      "ramp_time": 0.0003,
+      "loading_duration": 0.0012
+    },
+    "startup_ramp_s": 0.0003,
+    "final_prescribed_displacement_m": 0.012,
+    "plateau_loading_speed_m_per_s": 13.333333333333334,
+    "axial_wave_transits": 32.77052187294454,
+    "support_idealization": "bilateral finite grid patches represent mechanical fixtures; finite patch width affects local stress",
+    "material_profile": "strain-floor",
+    "loading_duration_s": 0.0012,
+    "hold_duration_s": 0.0003,
+    "stopping_ramp_s": 0.0003,
+    "loading_motion": "cosine velocity ramp up, constant velocity, cosine velocity ramp down, hold",
+    "loading_distance_integral_s": 0.0009,
+    "geometry_scale": 1.0
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 2.6351999999999998,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.2,
+      "com_y": 0.18000000000000002,
+      "com_z": 0.20000000000000004,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0010800000000000002,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.0014999999999999998,
+      "body": 0,
+      "mass": 2.6351999999999998,
+      "momentum_x": 15.830141802387502,
+      "momentum_y": -8.390893366915886,
+      "momentum_z": -7.456153263873034e-14,
+      "kinetic_energy": 91.02664068717164,
+      "com_x": 0.20827986618174374,
+      "com_y": 0.1735222170974637,
+      "com_z": 0.2,
+      "min_J": 0.9939843338541765,
+      "max_J": 1.7256817811447518,
+      "current_volume": 0.001124999053687627,
+      "max_speed": 14.454078524236543,
+      "max_plastic_strain": 0.36812138035538405,
+      "max_damage": 1.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 69.26774945179248,
+      "strain_energy": null
+    }
+  ]
+}

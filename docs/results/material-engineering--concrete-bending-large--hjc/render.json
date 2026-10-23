@@ -1,0 +1,165 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 6,
+  "frames_rendered": 61,
+  "animation": "simulation.gif",
+  "field": "damage",
+  "actual_field_range": [
+    0.0,
+    1.0
+  ],
+  "color_range": [
+    0.0,
+    1.0
+  ],
+  "color_range_source": "automatic full-history range",
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": false,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0012916666666666667,
+  "scene_bounds": [
+    0.05064254311543657,
+    0.36481347868651504,
+    0.13125,
+    0.2225,
+    0.17,
+    0.23
+  ],
+  "actual_scene_bounds": [
+    0.05064254311543657,
+    0.36481347868651504,
+    0.13125,
+    0.2225,
+    0.17,
+    0.23
+  ],
+  "actual_body_bounds": [
+    0.05064254311543657,
+    0.36481347868651504,
+    0.1342501722015805,
+    0.21392235651777577,
+    0.1708135997379187,
+    0.2291864002620813
+  ],
+  "camera_bounds": [
+    0.05064254311543657,
+    0.36481347868651504,
+    0.13125,
+    0.2225,
+    0.17,
+    0.23
+  ],
+  "camera_bounds_source": "automatic body and prescribed geometry bounds",
+  "view_scope": "complete scene",
+  "render_overrides": {
+    "source": null,
+    "color_range": null,
+    "scene_bounds": null,
+    "focus_bounds": null,
+    "sphere_opacity": null,
+    "matrix_opacity": null
+  },
+  "camera_position": [
+    0.6475673207004856,
+    0.44392029523541665,
+    0.7655076840279413
+  ],
+  "camera_focal_point": [
+    0.2077280109009758,
+    0.176875,
+    0.2
+  ],
+  "camera_parallel_scale": 0.15950365840590777,
+  "particles": 121104,
+  "auxiliary_geometry": [
+    {
+      "type": "velocity_patch_fixture",
+      "parameters": {
+        "lower": [
+          0.065625,
+          0.13125,
+          0.17
+        ],
+        "upper": [
+          0.08437499999999999,
+          0.15,
+          0.23
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "role": "support"
+      },
+      "included_in_particle_count": false,
+      "motion": "MovingVelocityBox analytic translation at output times",
+      "state_file_interpolation": "linear between output-time keyframes",
+      "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+      "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+    },
+    {
+      "type": "velocity_patch_fixture",
+      "parameters": {
+        "lower": [
+          0.315625,
+          0.13125,
+          0.17
+        ],
+        "upper": [
+          0.33437500000000003,
+          0.15,
+          0.23
+        ],
+        "velocity": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "role": "support"
+      },
+      "included_in_particle_count": false,
+      "motion": "MovingVelocityBox analytic translation at output times",
+      "state_file_interpolation": "linear between output-time keyframes",
+      "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+      "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+    },
+    {
+      "type": "velocity_patch_fixture",
+      "parameters": {
+        "lower": [
+          0.1875,
+          0.21,
+          0.17
+        ],
+        "upper": [
+          0.2125,
+          0.2225,
+          0.23
+        ],
+        "velocity": [
+          0.0,
+          -13.333333333333334,
+          0.0
+        ],
+        "ramp_time": 0.0003,
+        "start": 0.0,
+        "end": null,
+        "role": "loading",
+        "loading_duration": 0.0012
+      },
+      "included_in_particle_count": false,
+      "motion": "Cosine velocity startup and stopping ramps followed by fixed-position hold",
+      "state_file_interpolation": "linear between output-time keyframes",
+      "interpretation": "Bilateral velocity-patch representation; no separately solved contact",
+      "display_geometry": "Support height equals patch width; loading block starts at nominal top face; depth is clipped to the specimen"
+    }
+  ]
+}

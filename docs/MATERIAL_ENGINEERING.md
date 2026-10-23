@@ -181,6 +181,17 @@ No particle reaches the material failure flag or the `D ≥ 0.5` reporting
 threshold. This run records deformation and partial damage, with no demonstrated
 beam fracture.
 
+
+### Large-displacement strain-floor profile
+
+`concrete-bending-large` uses the same beam and supports with an explicit `strain-floor` HJC profile. Half-cosine velocity ramps accelerate and decelerate the moving patch over 0.3 ms each, with 0.6 ms at constant speed between them. This prescribes a 12 mm stroke over 1.2 ms, followed by a 0.3 ms hold. The original `concrete-bending` recipe and its default legacy profile remain reproducible.
+
+```bash
+python -m examples.material_engineering --case concrete-bending-large --model hjc --grid 64 --ppc 3 --frames 60 --no-render
+```
+
+The [completed run](results/material-engineering--concrete-bending-large--hjc/interpretation.json) uses 121,104 material points, 10,500 steps and 61 saved states over 1.5 ms. Actual midspan bottom deflection reaches 16.3525 mm; 21.4378% of the reference volume reaches D ≥ 0.5. Minimum det(F) is 0.965609, recorded mass is unchanged and no particle carries a material failure flag. The strain-floor profile retains compressive response and grid participation: D=1 is constitutive damage, not a resolved crack surface or a detached fragment. The actual deflection can exceed the imposed stroke during dynamic motion. These observations do not establish experimental calibration or mesh convergence.
+
 RHT can use the same geometry and boundaries:
 
 ```bash

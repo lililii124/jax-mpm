@@ -117,7 +117,7 @@ prescribed loading, positive determinants and constant recorded mass.
 
 ## Spatial examples
 
-The public [catalogue](docs/RESULTS.md) contains **55 selected completed runs**,
+The public [catalogue](docs/RESULTS.md) contains **56 selected completed runs**,
 including five explicitly labelled coarse woven previews, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
@@ -338,3 +338,9 @@ Green-strain norm is 0.071721, below the prescribed 0.1 limit.
 Independent final stored energy, reference section forces and bending moment pass the source-bound review.
 These checks establish numerical admissibility for an illustrative dynamic elastic model;
 the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain applicable.
+
+## HJC large-displacement bending
+
+The [completed run](docs/results/material-engineering--concrete-bending-large--hjc/interpretation.json) uses 121,104 material points, 10,500 steps and 61 saved states over 1.5 ms. Actual midspan bottom deflection reaches 16.3525 mm; 21.4378% of the reference volume reaches D ≥ 0.5. Minimum det(F) is 0.965609, recorded mass is unchanged and no particle carries a material failure flag. The strain-floor profile retains compressive response and grid participation: D=1 is constitutive damage, not a resolved crack surface or a detached fragment.
+
+The earlier 2 mm legacy-profile run remains archived. This new loading history and constitutive profile do not form a convergence comparison with it.

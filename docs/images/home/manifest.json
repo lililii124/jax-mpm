@@ -126,20 +126,6 @@
     "source_render_sha256": "35427a336135704a0ac01d5204f95ec95f0a91531a60f07413a37733b181350a"
   },
   {
-    "id": "material-engineering--concrete-bending--hjc",
-    "gif_path": "docs/images/home/material-engineering--concrete-bending--hjc.gif",
-    "gif_sha256": "55b90fe431df8ee2cff2753f9598381d3af238e25e6386c700399498ade2072a",
-    "bytes": 795427,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 41,
-    "gif_frames": 41,
-    "render_sha256": "3189cd4ee44b76923e767c3c23f64a3046cb525e9a95e9bd42b0e950dcd8299b",
-    "source_render_sha256": "e5e540dad6badff6552c0c2c65809917507b26460fd171c71deb982acebddf36"
-  },
-  {
     "id": "material-engineering--jc-tension--johnson-cook",
     "gif_path": "docs/images/home/material-engineering--jc-tension--johnson-cook.gif",
     "gif_sha256": "33ac2a1fa7600da668081c07af98cef408e9d777bfa3839ad7e901912a81b053",
@@ -558,5 +544,20 @@
     "gif_frames": 61,
     "render_sha256": "30fe5a948432148755f53ba0fbebedf3ed597df9df5f815811a3a10264e5cdd1",
     "source_render_sha256": "30fe5a948432148755f53ba0fbebedf3ed597df9df5f815811a3a10264e5cdd1"
+  },
+  {
+    "id": "material-engineering--concrete-bending-large--hjc",
+    "gif_path": "docs/images/home/material-engineering--concrete-bending-large--hjc.gif",
+    "gif_sha256": "ce6547226ee615f011396054369310b635803475b41c797ba3df514776819576",
+    "bytes": 1535361,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "26eb7946e3bf96a4c38e23b84229a107e0f343ab9a9f5e1e544090fb40d8c893",
+    "source_render_sha256": "26eb7946e3bf96a4c38e23b84229a107e0f343ab9a9f5e1e544090fb40d8c893",
+    "source_directory": "outputs/material-engineering-cloud/concrete-bending-large/hjc"
   }
 ]
