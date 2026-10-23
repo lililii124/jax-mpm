@@ -184,4 +184,5 @@ def homepage_records(root, catalogue):
     return [
         record for record in catalogue
         if record["id"] not in replaced and record["id"] not in HIDDEN_HOME_IDS
+        and not record["id"].startswith("woven-preview--")
     ]

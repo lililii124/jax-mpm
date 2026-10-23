@@ -1,4 +1,4 @@
-# Coarse woven previews
+# Archived coarse woven runs
 
 The `woven-preview` entries show completed dynamic calculations on a coarse grid.
 They use the same geometry, materials and prescribed loading as the
@@ -19,10 +19,9 @@ support remains inside each moving platen. Its eligibility record retains
 is unavailable. The prescribed grid boundary and measured surface closure remain
 separate checks. A preview does not establish exact particle clamping.
 
-Homepage labels identify these runs as **Coarse preview**. A completed, reviewed
-formal run can replace its corresponding preview while retaining the coarse
-numerical archive and historical media. Rendering does not add captions or axes
-to the animation itself.
+These runs are excluded from the homepage and gallery. Their numerical records
+and historical media remain archived; completed, reviewed fine-grid runs are
+displayed separately. The original animations contain no captions or axes.
 
 ## Archived previews
 

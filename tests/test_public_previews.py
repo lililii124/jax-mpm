@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from tools.public_runs import is_ready_for_publication
+from tools.public_runs import homepage_records, is_ready_for_publication
 
 
 def write(path, value):
@@ -77,3 +77,33 @@ def test_original_report_status_cannot_be_relabelled(tmp_path):
     eligibility["sources"]["interpretation.json"] = digest(tmp_path / "interpretation.json")
     write(tmp_path / "preview-eligibility.json", eligibility)
     assert not is_ready_for_publication(tmp_path, identifier, summary)
+
+
+@pytest.mark.parametrize("loading", ["weft-tension", "transverse-compression"])
+def test_archived_previews_are_hidden_without_a_fine_replacement(tmp_path, loading):
+    identifier = f"woven-preview--plain--{loading}"
+    folder = tmp_path / "docs/results" / identifier
+    folder.mkdir(parents=True)
+    summary, _ = preview(folder, loading)
+    before = {path.name: path.read_bytes() for path in folder.iterdir()}
+    assert is_ready_for_publication(folder, identifier, summary)
+    assert homepage_records(tmp_path, [{"id": identifier}]) == []
+    assert before == {path.name: path.read_bytes() for path in folder.iterdir()}
+
+
+def test_fine_result_remains_displayed_beside_its_archived_preview(tmp_path):
+    coarse = "woven-preview--plain--transverse-bending"
+    fine = coarse.replace("woven-preview", "woven", 1)
+    folder = tmp_path / "docs/results" / coarse
+    folder.mkdir(parents=True)
+    preview(folder)
+    refined = folder.with_name(fine)
+    refined.mkdir()
+    for name in ("summary.json", "diagnostics.csv", "observables.csv"):
+        (refined / name).write_bytes((folder / name).read_bytes())
+    write(refined / "interpretation.json", {
+        "passed": True, "checks": {"independent_review": True},
+        "sources": {name: digest(refined / name) for name in ("summary.json", "diagnostics.csv", "observables.csv")},
+    })
+    catalogue = [{"id": coarse}, {"id": fine}]
+    assert homepage_records(tmp_path, catalogue) == [catalogue[1]]

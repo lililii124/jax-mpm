@@ -118,11 +118,11 @@ prescribed loading, positive determinants and constant recorded mass.
 ## Spatial examples
 
 The public [catalogue](docs/RESULTS.md) contains **56 selected completed runs**,
-including five explicitly labelled coarse woven previews, covering dynamics,
+including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 40 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 38 animations; the eight original small-motion records remain in the numerical catalogue.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -344,3 +344,5 @@ the [model scope](docs/WOVEN_COMPOSITES.md) and convergence limitations remain a
 The [completed run](docs/results/material-engineering--concrete-bending-large--hjc/interpretation.json) uses 121,104 material points, 10,500 steps and 61 saved states over 1.5 ms. Actual midspan bottom deflection reaches 16.3525 mm; 21.4378% of the reference volume reaches D ≥ 0.5. Minimum det(F) is 0.965609, recorded mass is unchanged and no particle carries a material failure flag. The strain-floor profile retains compressive response and grid participation: D=1 is constitutive damage, not a resolved crack surface or a detached fragment.
 
 The earlier 2 mm legacy-profile run remains archived. This new loading history and constitutive profile do not form a convergence comparison with it.
+
+Coarse woven runs remain in the numerical archive. Their animations are excluded from the homepage and gallery, including cases with no completed fine-grid replacement.
