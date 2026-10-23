@@ -126,3 +126,18 @@ def test_extra_loading_and_changed_jh2_material_cannot_pass(indentation_record):
     definition["material_parameters_SI"]["A"] = .1
     result = inspect_record(indentation_record)
     assert not result["checks"]["unchanged_jh2_parameters"]
+
+
+def test_annular_damage_does_not_require_failure_of_the_compressed_centre(indentation_record):
+    observations, reference, damage = indentation_record[3], indentation_record[5][0], indentation_record[6]
+    top = reference[:, 1] == reference[:, 1].max()
+    radial2 = (reference[:, 0] - .125)**2 + (reference[:, 2] - .125)**2
+    central = top & (radial2 <= .004**2)
+    annulus = np.flatnonzero(top & (radial2 >= .005**2) & (radial2 <= .009**2))
+    assert len(annulus) >= central.sum()
+    damage[1:, central] = 0.
+    damage[1:, annulus[:central.sum()]] = .8
+    for row in observations[1:]:
+        row["central_surface_max_damage"] = 0.
+    result = inspect_record(indentation_record)
+    assert all(result["checks"].values()), {key: value for key, value in result["checks"].items() if not value}

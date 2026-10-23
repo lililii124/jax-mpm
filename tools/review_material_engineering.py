@@ -341,7 +341,7 @@ def check_ceramic_wide(result, definition, config, time, observations, state, po
     central_depth = -min(curves["central_surface_displacement_y_m"])
     checks.update(
         actual_central_indentation_at_least_one_mm=central_depth >= .001,
-        damaged_material_under_indenter=max(curves["central_surface_max_damage"]) >= .5,
+        visible_local_damage=max(curves["local_region_max_damage"]) >= .5,
         nonzero_local_damaged_volume=max(curves["local_region_damaged_reference_volume_m3"]) > 0,
         positive_compressive_indenter_reaction=max(row["indenter_reaction_y_N"] for row in observations) > 0,
         particle_sphere_overlap_within_grid_support=peak_overlap <= 1.5 * dx,
