@@ -23,11 +23,60 @@ SOURCES = (
     "adhesion",
     "adhesion-visible",
     "woven",
+    "woven-previews",
+    "woven-previews-local",
     "woven-smoke",
     "production",
     "refinement",
     "visible-motion",
 )
+WOVEN_PREVIEW_SOURCES = {"woven-previews", "woven-previews-local", "woven-smoke"}
+
+
+def complete_artifact_import(folder):
+    """A small trajectory index must belong to a fully verified Actions import."""
+    try:
+        receipt = json.loads((folder / "import-receipt.json").read_text(encoding="utf-8"))
+        source = json.loads((folder / "numerical-source.json").read_text(encoding="utf-8"))
+        if not (receipt.get("verified") is True and source.get("source_kind") == "github-actions"
+                and receipt.get("commit") == source.get("commit")
+                and str(receipt.get("run_id")) == str(source.get("run_id"))
+                and str(receipt.get("run_attempt")) == str(source.get("run_attempt"))):
+            return False
+        names = ("trajectory_index.npz", "summary.json", "diagnostics.csv", "observables.csv", "numerical-source.json")
+        for name in names:
+            if receipt["files"][name]["sha256"] != hashlib.sha256((folder / name).read_bytes()).hexdigest():
+                return False
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+    return True
+
+
+def complete_preview_media(folder):
+    try:
+        render, metadata, video = [json.loads((folder / name).read_text(encoding="utf-8"))
+                                   for name in ("render.json", "vtk_metadata.json", "video.json")]
+        count = metadata["frames"]
+        if not (count > 1 and count == render["frames_rendered"] == video["frames"]
+                and render["particles"] == metadata["particles"]
+                and render["renderer"] == "ParaView" and render["field"] == "family_id"
+                and render["axes"] is False and render["annotations"] is False
+                and render["geometry_scale"] == 1):
+            return False
+        frames = sorted((folder / "frames").glob("frame_*.png"))
+        if [path.name for path in frames] != [f"frame_{i:05d}.png" for i in range(count)]:
+            return False
+        digest = hashlib.sha256()
+        for path in frames:
+            with path.open("rb") as stream:
+                for block in iter(lambda: stream.read(1024**2), b""):
+                    digest.update(block)
+        return (video["frames_sha256"] == digest.hexdigest()
+                and video["render_sha256"] == hashlib.sha256((folder / "render.json").read_bytes()).hexdigest()
+                and video["bytes"] == (folder / "simulation.mp4").stat().st_size
+                and video["sha256"] == hashlib.sha256((folder / "simulation.mp4").read_bytes()).hexdigest())
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
 
 
 def verify_comparison_sources(root, destination, indexed, identifier, relative, hashes):
@@ -141,18 +190,25 @@ def collect(root, destination):
     destination.mkdir(parents=True, exist_ok=True)
     records = []
     completed = 0
+    selected = set()
     for source in SOURCES:
         for path in sorted((root / "outputs" / source).rglob("summary.json")):
             folder = path.parent
             summary = json.loads(path.read_text(encoding="utf-8"))
-            if not (folder / "trajectory.npz").is_file() or summary.get("completed") is False:
+            has_trajectory = (folder / "trajectory.npz").is_file() or complete_artifact_import(folder)
+            if not has_trajectory or summary.get("completed") is False:
                 continue
             completed += 1
             identifier = "--".join(folder.relative_to(root / "outputs").parts)
-            if source == "woven-smoke":
-                identifier = "woven-preview--" + identifier.removeprefix("woven-smoke--")
+            if source in WOVEN_PREVIEW_SOURCES:
+                identifier = "woven-preview--" + identifier.removeprefix(source + "--")
+                if not complete_preview_media(folder):
+                    continue
+            if identifier in selected:
+                continue
             if not is_ready_for_publication(folder, identifier, summary):
                 continue
+            selected.add(identifier)
             target = destination / identifier
             target.mkdir(exist_ok=True)
             hashes = {}
@@ -208,7 +264,7 @@ def collect(root, destination):
                     "sha256": hashes,
                 }
             )
-            if source == "woven-smoke":
+            if source in WOVEN_PREVIEW_SOURCES:
                 records[-1]["publication_scope"] = "coarse-preview"
     if "visible-motion" in SOURCES:
         collect_wave_comparison(root, destination, records)
