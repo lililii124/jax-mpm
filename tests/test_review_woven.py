@@ -6,6 +6,7 @@ import pytest
 from tools.review_woven import (
     Comparisons, END_TIME, LOAD_TIME, array_descriptor, elastic_response,
     equivalent_record, expected_boundaries, motion, stiffness_from_constants, support_mask,
+    positive_stored_energy, section_layout, section_resultants,
 )
 
 
@@ -107,3 +108,64 @@ def test_comparison_never_accepts_missing_values_nan_or_changed_constraints():
     json.dumps(comparison.errors, allow_nan=False)
     assert not equivalent_record({"components": [True, True, True]}, {"components": [True, False, True]})
     assert not equivalent_record({"target": .00008}, {"target": .0008})
+
+
+def test_displaced_points_with_identity_F_cannot_pass_stored_energy_gate():
+    reference = np.array([[.0075, .008, .008], [.0085, .008, .008]])
+    displaced = reference.copy()
+    displaced[:, 0] += [-.00008, .00008]
+    assert np.linalg.norm(displaced - reference) > 0
+    F = np.broadcast_to(np.eye(3), (2, 3, 3)).copy()
+    axes = F.copy()
+    phase = np.array([0, 1])
+    W, _, _ = elastic_response(F, axes, phase, material())
+    assert not positive_stored_energy(float(np.sum(W * 1e-9)))
+    F[:, 0, 0] = 1.02
+    W, _, _ = elastic_response(F, axes, phase, material())
+    assert positive_stored_energy(float(np.sum(W * 1e-9)))
+    assert not positive_stored_energy(np.inf)
+    assert not positive_stored_energy(np.nan)
+    assert not positive_stored_energy(-1.)
+
+
+@pytest.mark.parametrize("counts", [(4, 6, 8), (3, 5, 7)])
+def test_section_resultants_recover_constant_piola_traction_in_chunks(counts):
+    spacing = .001
+    axes = [.008 + (np.arange(count) - (count - 1) / 2) * spacing for count in counts]
+    reference = np.stack(np.meshgrid(*axes, indexing="ij"), axis=-1).reshape(-1, 3)
+    n = len(reference)
+    F = np.broadcast_to(np.array([[1.02, .03, 0], [0, .99, .01], [0, 0, 1.01]]), (n, 3, 3))
+    second_piola = np.diag([5e6, 3e6, 2e6])
+    tau = F @ second_piola @ F.swapaxes(-1, -2)
+    masks, widths = section_layout(reference, spacing)
+    np.testing.assert_allclose(widths, [2 * spacing] * 3 if counts[0] % 2 == 0 else [spacing] * 3)
+    force, moment = np.zeros((3, 3)), 0.
+    for start in range(0, n, 7):
+        end = min(start + 7, n)
+        partial, partial_moment = section_resultants(F[start:end], tau[start:end], reference[start:end],
+            np.full(end - start, spacing**3), [mask[start:end] for mask in masks], widths)
+        force += partial
+        moment += partial_moment
+    expected_piola = F[0] @ second_piola
+    dimensions = np.asarray(counts) * spacing
+    expected_force = np.stack([expected_piola[:, axis] * np.prod(np.delete(dimensions, axis)) for axis in range(3)])
+    np.testing.assert_allclose(force, expected_force, rtol=1e-13, atol=1e-10)
+    assert abs(moment) < 1e-12
+
+
+def test_section_resultants_reference_bending_moment_has_correct_sign_and_scale():
+    spacing = .001
+    counts = (4, 6, 8)
+    axes = [.008 + (np.arange(count) - (count - 1) / 2) * spacing for count in counts]
+    reference = np.stack(np.meshgrid(*axes, indexing="ij"), axis=-1).reshape(-1, 3)
+    n = len(reference)
+    F = np.broadcast_to(np.eye(3), (n, 3, 3))
+    tau = np.zeros((n, 3, 3))
+    stress_gradient = 2e9
+    tau[:, 0, 0] = stress_gradient * (reference[:, 1] - .008)
+    masks, widths = section_layout(reference, spacing)
+    force, moment = section_resultants(F, tau, reference, np.full(n, spacing**3), masks, widths)
+    expected = -stress_gradient * counts[2] * spacing**2 * np.sum((axes[1] - .008)**2)
+    np.testing.assert_allclose(force, 0, atol=1e-10)
+    np.testing.assert_allclose(moment, expected, rtol=1e-13)
+    assert moment < 0

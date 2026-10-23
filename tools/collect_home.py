@@ -35,6 +35,7 @@ TITLES = {
     "concrete-bending": "HJC concrete bending",
     "concrete-bending-large": "HJC large-displacement bending",
     "ceramic-indentation": "JH-2 ceramic indentation",
+    "ceramic-indentation-wide": "JH-2 plate indentation",
     "cellular-cushion": "Cellular cushioning",
     "perforated-panel": "Perforated panel",
     "baffled-tank": "Flexible baffles",

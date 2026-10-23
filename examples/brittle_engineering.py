@@ -14,7 +14,10 @@ from .common import run
 from .scenarios import Case, material_model
 
 
-SCENES = ("concrete-bending", "concrete-bending-large", "ceramic-indentation")
+SCENES = (
+    "concrete-bending", "concrete-bending-large", "ceramic-indentation",
+    "ceramic-indentation-wide",
+)
 
 
 @dataclass(frozen=True)
@@ -376,6 +379,102 @@ def ceramic_indentation(*, grid=64, ppc=3, model="jh2", frames=40):
     return Case((state,), (material,), (cfg,), duration, definition, observer=observe)
 
 
+def ceramic_indentation_wide(*, grid=96, ppc=2, model="jh2", frames=40):
+    """A backed 180 x 25 x 180 mm tile and a 37.5 mm radius rigid sphere."""
+    if model != "jh2":
+        raise ValueError("ceramic-indentation-wide requires model='jh2'")
+    domain, duration, indentation = 0.25, 3e-4, 0.004
+    lower, upper = (0.035, 0.075, 0.035), (0.215, 0.1, 0.215)
+    fixed_base = fixed_box((0.0, 0.0, 0.0), (domain, lower[1], domain))
+    sphere = RigidSphereBoundary(
+        (0.125, 0.1375, 0.125), 0.0375, (0.0, -indentation, 0.0), duration
+    )
+    material, density, cfg, wave_speed = _config(
+        model, grid, domain, duration, frames, (fixed_base, sphere)
+    )
+    state = block(
+        cfg, lower, upper, particles_per_cell=ppc, density=density,
+        material=material, dtype=jnp.float64,
+    )
+    reference = np.asarray(state.x)
+    lengths = np.asarray(upper) - lower
+    counts = np.ceil(lengths / cfg.dx * ppc).astype(int)
+    spacing = lengths / counts
+    top = np.isclose(reference[:, 1], reference[:, 1].max(), atol=1e-12, rtol=0)
+    radial2 = (reference[:, 0] - 0.125)**2 + (reference[:, 2] - 0.125)**2
+    central_radius, region_radius = 0.004, 0.030
+    central_surface = top & (radial2 <= central_radius**2)
+    local_region = radial2 <= region_radius**2
+    local_surface = top & local_region
+    if not central_surface.any():
+        raise ValueError("grid/ppc is too coarse to sample the fixed 4 mm central surface region")
+    nominal_radius = float(np.sqrt(sphere.radius * indentation))
+    definition = _definition(
+        "ceramic-indentation-wide", model, material, cfg, ppc,
+        lower, upper, duration, wave_speed,
+    )
+    definition.update({
+        "loading_regime": "dynamic loading/unloading spherical indentation; no penetration target or fracture calibration",
+        "contact": "frictionless unilateral grid-node rigid sphere",
+        "base": "all velocity components fixed at y <= 0.075 m; ideal rigid bonded backing",
+        "rigid_sphere": asdict(sphere),
+        "rigid_sphere_motion": "center + displacement * (1-cos(2*pi*clip(t/duration,0,1)))/2",
+        "maximum_nominal_indentation_m": indentation,
+        "peak_indenter_speed_m_per_s": float(np.pi * indentation / duration),
+        "nominal_contact_radius_m": nominal_radius,
+        "nominal_contact_radius_in_grid_cells": nominal_radius / cfg.dx,
+        "contact_radius_interpretation": "sqrt(R*delta) is a resolution estimate, not an elastic Hertz validation of damaged ceramic",
+        "sphere_diameter_to_plate_width_ratio": 2 * sphere.radius / lengths[0],
+        "plate_thickness_in_grid_cells": lengths[1] / cfg.dx,
+        "nominal_contact_radius_to_plate_half_width_ratio": nominal_radius / (lengths[0] / 2),
+        "particle_counts_per_axis": counts.tolist(),
+        "particle_spacings_m": spacing.tolist(),
+        "particle_spacing_m": float(spacing.min()),
+        "particle_sampling": "regular rectangular lattice with per-axis spacing adjusted to preserve exact specimen volume",
+        "central_surface_radius_m": central_radius,
+        "local_region_radius_m": region_radius,
+        "observation_regions": "fixed reference x/z cylinders about (0.125,0.125); central surface is the uppermost reference particle layer",
+        "central_surface_particles": int(central_surface.sum()),
+        "local_region_particles": int(local_region.sum()),
+        "local_surface_particles": int(local_surface.sum()),
+        "particle_overlap_interpretation": "geometric overlap of particle centers with the rigid sphere; grid-node contact does not enforce an exact particle-surface constraint",
+        "thickness_wave_transits": float(duration * wave_speed / lengths[1]),
+        "geometry_scale": 1.0,
+        "geometry_comparison": "wider tile and smaller rigid sphere than ceramic-indentation; original case remains separately reproducible",
+    })
+
+    def observe(states, time):
+        current = states[0]
+        result = _damage_observables(current)
+        result.update(_reactions(current, material, cfg, ("backing", "indenter")))
+        center, velocity = sphere.motion(time)
+        positions = np.asarray(current.x)
+        displacement_y = positions[:, 1] - reference[:, 1]
+        damage = np.asarray(current.history.damage)
+        volume = np.asarray(current.volume)
+        overlap = np.maximum(sphere.radius - np.linalg.norm(positions - np.asarray(center), axis=1), 0.0)
+        result.update({
+            "boundary_sample_time_s": float(time + cfg.dt),
+            "nominal_indentation_m": float(upper[1] - (center[1] - sphere.radius)),
+            "indenter_speed_y_m_per_s": float(velocity[1]),
+            "central_surface_displacement_y_m": float(displacement_y[central_surface].mean()),
+            "maximum_downward_displacement_m": float(-displacement_y.min()),
+            "momentum_y_kg_m_per_s": float(np.sum(np.asarray(current.mass) * np.asarray(current.v)[:, 1])),
+            "central_surface_max_damage": float(damage[central_surface].max()),
+            "local_surface_displacement_y_m": float(displacement_y[local_surface].mean()),
+            "local_region_maximum_downward_displacement_m": float(-displacement_y[local_region].min()),
+            "local_region_max_damage": float(damage[local_region].max()),
+            "local_region_mean_damage_reference_volume": float(np.dot(volume[local_region], damage[local_region]) / volume[local_region].sum()),
+            "local_region_damaged_reference_volume_m3": float(volume[local_region & (damage >= 0.5)].sum()),
+            "indenter_particle_overlap_max_m": float(overlap.max()),
+            "indenter_surface_particle_overlap_max_m": float(overlap[top].max()),
+            "particle_centers_inside_indenter": int(np.count_nonzero(overlap > 0)),
+        })
+        return result
+
+    return Case((state,), (material,), (cfg,), duration, definition, observer=observe)
+
+
 def setup(scene, *, grid=64, ppc=3, model=None, frames=40):
     if not isinstance(grid, int) or grid < 12:
         raise ValueError("brittle engineering examples require grid >= 12")
@@ -387,6 +486,8 @@ def setup(scene, *, grid=64, ppc=3, model=None, frames=40):
         return concrete_bending_large(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
     if scene == "ceramic-indentation":
         return ceramic_indentation(grid=grid, ppc=ppc, model=model or "jh2", frames=frames)
+    if scene == "ceramic-indentation-wide":
+        return ceramic_indentation_wide(grid=grid, ppc=ppc, model=model or "jh2", frames=frames)
     raise ValueError(f"unknown brittle engineering case: {scene}")
 
 

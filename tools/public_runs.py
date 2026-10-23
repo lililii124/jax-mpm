@@ -21,6 +21,7 @@ HIDDEN_HOME_IDS = {
 HOME_REPLACEMENTS = {
     "material-engineering--jc-tension--johnson-cook": "material-engineering--jc-necking--johnson-cook",
     "material-engineering--concrete-bending--hjc": "material-engineering--concrete-bending-large--hjc",
+    "material-engineering--ceramic-indentation--jh2": "material-engineering--ceramic-indentation-wide--jh2",
     "adhesion--nonadhesive-pull-off": "adhesion-visible--nonadhesive-pull-off",
     "adhesion--adhesive-pull-off": "adhesion-visible--adhesive-pull-off",
     "suite--wave--neo-hookean": "visible-motion--wave-grid48--neo-hookean",
@@ -52,6 +53,7 @@ def is_ready_for_publication(folder, identifier, summary):
     revised_material = canonical in (
         "material-engineering--jc-necking--johnson-cook",
         "material-engineering--concrete-bending-large--hjc",
+        "material-engineering--ceramic-indentation-wide--jh2",
     )
     if source not in ("adhesion", "adhesion-visible", "visible-motion", "woven") and not revised_material:
         return True

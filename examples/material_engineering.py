@@ -14,7 +14,10 @@ from .common import run
 from .scenarios import Case
 
 
-SCENES = ("jc-tension", "jc-necking", "concrete-bending", "concrete-bending-large", "ceramic-indentation")
+SCENES = (
+    "jc-tension", "jc-necking", "concrete-bending", "concrete-bending-large",
+    "ceramic-indentation", "ceramic-indentation-wide",
+)
 
 
 def tensile_aluminum():

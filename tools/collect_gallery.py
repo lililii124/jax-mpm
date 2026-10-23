@@ -97,6 +97,7 @@ ANIMATIONS = {
     "concrete-bending",
     "concrete-bending-large",
     "ceramic-indentation",
+    "ceramic-indentation-wide",
     "sphere-contact",
     "jkr-footprint",
     "perforated-panel",
@@ -189,6 +190,7 @@ def preview(folder, name, render):
         "large-bending": "tracked_displacement_y",
         "large-twist": "tip_rotation_x_rad",
         "ceramic-indentation": "nominal_indentation_m",
+        "ceramic-indentation-wide": "nominal_indentation_m",
         "concrete-bending-large": "midspan_bottom_deflection_m",
     }
     if name.startswith("visible-"):

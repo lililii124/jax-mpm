@@ -141,6 +141,31 @@ def elastic_response(F, orientation, phase, material):
     return np.where(phase == 1, yarn_energy, matrix_energy), np.sqrt(np.sum(green**2, axis=(-1, -2))), np.where((phase == 1)[:, None, None], yarn_stress, matrix_stress)
 
 
+def positive_stored_energy(total):
+    return bool(np.isfinite(total) and total > 0)
+
+
+def section_layout(reference, spacing):
+    masks = [np.abs(reference[:, axis] - ORIGIN[axis]) <= 0.51 * spacing for axis in range(3)]
+    widths = np.array([len(np.unique(reference[selected, axis])) * spacing for axis, selected in enumerate(masks)])
+    if not np.isfinite(widths).all() or np.any(widths <= 0):
+        raise ValueError("each central reference section must contain particle layers")
+    return masks, widths
+
+
+def section_resultants(F, tau, reference, volume, masks, widths):
+    """One chunk's reference-plane forces and reference moment about z."""
+    piola = tau @ np.linalg.inv(F).swapaxes(-1, -2)
+    force = np.zeros((3, 3))
+    moment_z = 0.0
+    for axis, selected in enumerate(masks):
+        weighted = piola[selected, :, axis] * (volume[selected] / widths[axis])[:, None]
+        force[axis] = weighted.sum(axis=0)
+        if axis == 0:
+            moment_z = -float(np.sum((reference[selected, 1] - ORIGIN[1]) * weighted[:, 0]))
+    return force, moment_z
+
+
 def support_mask(reference, dx, boundary):
     if "displacement" in boundary:
         return np.all((reference >= np.asarray(boundary["lower"]) + 1.5 * dx) & (reference <= np.asarray(boundary["upper"]) - 1.5 * dx), axis=1)
@@ -272,16 +297,37 @@ def review(folder):
     checks["constant_saved_mass_matches_state"] = bool(np.allclose(saved_mass, state["mass"].sum(), rtol=1e-13, atol=0))
     checks["positive_final_J"] = bool(np.all(np.linalg.det(state["F"]) > 0))
     energy, strain_norm = np.empty(count), np.empty(count)
+    sections, widths = section_layout(sample.positions, geometry["particle_spacing_m"])
+    section_forces, reference_moment_z = np.zeros((3, 3)), 0.0
     for start in range(0, count, 16384):
         end = min(start + 16384, count)
-        energy[start:end], strain_norm[start:end], _ = elastic_response(state["F"][start:end], orientation[start:end], sample.phase[start:end], material)
+        energy[start:end], strain_norm[start:end], tau = elastic_response(state["F"][start:end], orientation[start:end], sample.phase[start:end], material)
+        force, moment = section_resultants(
+            state["F"][start:end], tau, sample.positions[start:end], state["volume"][start:end],
+            [selected[start:end] for selected in sections], widths,
+        )
+        section_forces += force
+        reference_moment_z += moment
+    del tau
+    total_energy = float(np.sum(energy * state["volume"]))
+    checks["positive_final_stored_elastic_energy"] = positive_stored_energy(total_energy)
     checks["small_final_yarn_strain_independent"] = float(strain_norm[sample.phase == 1].max()) <= YARN_STRAIN_LIMIT
     comparisons.add("final_maximum_green_strain_norm", rows[-1]["maximum_green_strain_norm"], strain_norm.max())
     for phase, name in ((0, "matrix"), (1, "yarn")):
         selected = sample.phase == phase
         comparisons.add(f"final_{name}_maximum_green_strain_norm", rows[-1][f"{name}_maximum_green_strain_norm"], strain_norm[selected].max())
         comparisons.add(f"final_{name}_strain_energy_J", rows[-1][f"{name}_strain_energy_J"], np.sum(energy[selected] * state["volume"][selected]), atol=1e-10)
-    comparisons.add("final_total_strain_energy_J", diagnostics[-1]["strain_energy"], np.sum(energy * state["volume"]), atol=1e-10)
+    comparisons.add("final_total_strain_energy_J", diagnostics[-1]["strain_energy"], total_energy, atol=1e-10)
+    force_checks = []
+    for axis, normal in enumerate("xyz"):
+        for component, direction in enumerate("xyz"):
+            key = f"central_{normal}_section_force_{direction}_N"
+            comparisons.add("final_" + key, rows[-1][key], section_forces[axis, component], atol=1e-8)
+            force_checks.append(comparisons.matches["final_" + key])
+    moment_key = "central_x_section_moment_z_Nm"
+    comparisons.add("final_" + moment_key, rows[-1][moment_key], reference_moment_z, atol=1e-11)
+    checks["final_piola_section_forces_match"] = all(force_checks)
+    checks["final_reference_section_moment_matches"] = comparisons.matches["final_" + moment_key]
     comparisons.add("final_kinetic_energy_J", diagnostics[-1]["kinetic_energy"], np.sum(state["mass"][:, None] * state["v"]**2) / 2, atol=1e-10)
     comparisons.add("final_minimum_J", diagnostics[-1]["min_J"], np.linalg.det(state["F"]).min())
     comparisons.add("final_maximum_J", diagnostics[-1]["max_J"], np.linalg.det(state["F"]).max())
@@ -399,7 +445,12 @@ def review(folder):
         "final_independent_yarn_maximum_green_strain_norm": float(strain_norm[sample.phase == 1].max()),
         "maximum_saved_yarn_green_strain_norm": max(row["yarn_maximum_green_strain_norm"] for row in rows),
         "maximum_allowed_yarn_green_strain_norm": YARN_STRAIN_LIMIT,
-        "final_independent_strain_energy_J": float(np.sum(energy * state["volume"])),
+        "final_independent_strain_energy_J": total_energy,
+        "final_reference_section_resultants": {
+            "force_N": {normal: section_forces[axis].tolist() for axis, normal in enumerate("xyz")},
+            "x_section_moment_z_Nm": reference_moment_z,
+            "measure": "P=tau*F^-T integrated over reference slabs; moment uses reference Y, not a current-configuration angular-momentum balance",
+        },
         "boundary_tracking": boundary_report,
         "response": {"saved_reference_surface_closure_m": closure, "saved_center_deflection_m": central_deflection, "final_grip_mean_displacement_m": final_grip_motion},
         "maximum_observable_reconstruction_error": comparisons.errors,

@@ -192,6 +192,10 @@ completed. Its constitutive integration is substantially more expensive on CPU.
 
 ## JH-2 spherical indentation
 
+The [wide-tile variant](CERAMIC_INDENTATION.md) uses a 180 mm tile and a
+37.5 mm sphere radius. The geometry and completed measurements below describe
+the original `ceramic-indentation` case.
+
 A 100 × 25 × 100 mm tile lies on a bonded rigid backing in a 250 mm cubic
 domain. The backing fixes all velocity components at `y ≤ 75 mm`. A rigid
 sphere of radius 75 mm starts tangent to the upper face at `y = 100 mm`, with

@@ -15,6 +15,15 @@ CASES = {
     "concrete-bending": "hjc",
     "concrete-bending-large": "hjc",
     "ceramic-indentation": "jh2",
+    "ceramic-indentation-wide": "jh2",
+}
+
+CERAMIC_PARAMETERS = {
+    "shear": 20e9, "A": .79, "B": .3, "C": .007, "M": .6, "N": .6,
+    "reference_rate": 1., "tensile_strength": 100e6, "maximum_fractured_strength": 1.,
+    "hel": 2.6e9, "pressure_hel": 1.6e9, "bulking_fraction": .5,
+    "D1": .01, "D2": .5, "K1": 130e9, "K2": 0., "K3": 0.,
+    "failure_strain": 0., "density": 2500.,
 }
 
 
@@ -41,7 +50,10 @@ def extrema(table, key):
 
 
 def review(folder, name):
-    family = {"jc-necking": "jc-tension", "concrete-bending-large": "concrete-bending"}.get(name, name)
+    family = {
+        "jc-necking": "jc-tension", "concrete-bending-large": "concrete-bending",
+        "ceramic-indentation-wide": "ceramic-indentation",
+    }.get(name, name)
     summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
     if not summary.get("completed"):
         raise ValueError(f"Incomplete run: {folder}")
@@ -58,6 +70,7 @@ def review(folder, name):
             (state["mass"] > 0).all() and (state["volume"] > 0).all()
         ),
         "positive_saved_J": all(row["min_J"] > 0 for row in diagnostics),
+        "positive_final_J": bool((np.linalg.det(state["F"]) > 0).all()),
         "finite_saved_observables": all(
             value is None or np.isfinite(value)
             for row in observations + diagnostics for value in row.values()
@@ -66,6 +79,7 @@ def review(folder, name):
         "strictly_increasing_times": bool((np.diff(time) > 0).all()),
         "full_duration": bool(np.isclose(time[-1], summary["simulation_time"], rtol=1e-12)),
         "constant_saved_mass": bool(np.allclose(mass, mass[0], rtol=1e-13, atol=0)),
+        "saved_mass_matches_final_state": bool(np.allclose(mass, state["mass"].sum(), rtol=1e-13, atol=0)),
     }
     columns = {
         "jc-tension": (
@@ -143,7 +157,7 @@ def review(folder, name):
         result["interpretation"] = (
             "Constitutive damage with retained grid participation. D=1 is not a resolved crack surface or a detached fragment."
         )
-    if name in ("jc-necking", "concrete-bending-large"):
+    if name in ("jc-necking", "concrete-bending-large", "ceramic-indentation-wide"):
         review_revision(result, folder, name, summary, observations, diagnostics, state)
     result["passed"] = all(bool(value) for value in checks.values())
     result["checks"] = {key: bool(value) for key, value in checks.items()}
@@ -181,6 +195,8 @@ def review_revision(result, folder, name, summary, observations, diagnostics, st
         if name == "jc-necking":
             mapped.append(np.load(folder / "trajectory_failed.npy", mmap_mode="r"))
             check_necking(result, definition, config, time, observations, state, positions, mapped[-1])
+        elif name == "ceramic-indentation-wide":
+            check_ceramic_wide(result, definition, config, time, observations, state, positions, damage, summary["materials"][0])
         else:
             reference = positions[0]
             loading = definition["loading_boundary"]
@@ -215,6 +231,136 @@ def review_revision(result, folder, name, summary, observations, diagnostics, st
     finally:
         for value in mapped:
             value._mmap.close()
+
+
+def check_ceramic_wide(result, definition, config, time, observations, state, positions, damage, material):
+    checks = result["checks"]
+    lower = np.array((0.035, 0.075, 0.035))
+    upper = np.array((0.215, 0.100, 0.215))
+    lengths = upper - lower
+    dx = config["domain_size"] / config["n_grid"]
+    radius, stroke, duration = 0.0375, 0.004, 0.0003
+    initial_center = np.array((0.125, 0.1375, 0.125))
+    displacement = np.array((0.0, -stroke, 0.0))
+    counts = np.ceil(lengths / dx * definition["particles_per_cell_per_axis"]).astype(int)
+    spacings = lengths / counts
+    reference, volume = positions[0], state["volume"]
+    top = np.isclose(reference[:, 1], reference[:, 1].max(), rtol=0, atol=1e-12)
+    radial2 = (reference[:, 0] - 0.125)**2 + (reference[:, 2] - 0.125)**2
+    central = top & (radial2 <= 0.004**2)
+    local = radial2 <= 0.030**2
+    surface = top & local
+    if not central.any() or not local.any() or not surface.any():
+        raise ValueError("The fixed ceramic observation regions contain no particles")
+
+    def same(actual, expected, *, atol=1e-13):
+        return bool(np.allclose(actual, expected, rtol=1e-11, atol=atol))
+
+    sphere = config["boundaries"][1]
+    backing = config["boundaries"][0]
+    expected_sphere = {
+        "center": initial_center, "radius": radius,
+        "displacement": displacement, "duration": duration,
+    }
+    lattice_ok = len(reference) == int(np.prod(counts))
+    for axis in range(3):
+        levels = np.unique(reference[:, axis])
+        expected = lower[axis] + (np.arange(counts[axis]) + 0.5) * spacings[axis]
+        lattice_ok &= levels.shape == expected.shape and same(levels, expected)
+    lattice_ok &= len(np.unique(reference, axis=0)) == len(reference)
+    checks.update(
+        specified_wide_plate=same(definition["lower"], lower) and same(definition["upper"], upper),
+        specified_domain_and_no_added_loading=bool(
+            same(config["domain_size"], .25) and config["dim"] == 3
+            and same(config["gravity"], (0, 0, 0)) and config["boundary_cells"] == 0
+            and len(config["boundaries"]) == 2
+        ),
+        unchanged_jh2_parameters=all(
+            key in material and key in definition["material_parameters_SI"]
+            and same(material[key], value) and same(definition["material_parameters_SI"][key], value)
+            for key, value in CERAMIC_PARAMETERS.items()
+        ),
+        specified_smaller_sphere=all(same(sphere[key], value) and same(definition["rigid_sphere"][key], value) for key, value in expected_sphere.items()),
+        full_loading_unloading_cycle=same(time[-1], duration),
+        ideal_bonded_backing=bool(
+            same(backing["lower"], (0, 0, 0)) and same(backing["upper"], (.25, .075, .25))
+            and same(backing["velocity"], (0, 0, 0)) and backing["components"] is None
+            and backing["start"] == 0 and backing["end"] is None
+        ),
+        jh2_retained_participation=config["material"] == "jh2" and config["failure_mode"] == "retain",
+        unscaled_geometry=definition["geometry_scale"] == 1.0,
+        correct_regular_reference_lattice=bool(lattice_ok),
+        reference_volume_matches_plate=same(volume.sum(), np.prod(lengths), atol=1e-16),
+        uniform_reference_cell_volumes=same(volume, np.prod(spacings), atol=1e-20),
+        mass_matches_material_density=same(state["mass"], volume * definition["material_parameters_SI"]["density"], atol=1e-18),
+        correct_particle_spacing_metadata=same(definition["particle_spacings_m"], spacings) and same(definition["particle_spacing_m"], spacings.min()),
+        correct_particle_counts=np.array_equal(definition["particle_counts_per_axis"], counts),
+        fixed_physical_observation_regions=same(definition["central_surface_radius_m"], .004) and same(definition["local_region_radius_m"], .030),
+        correct_region_population=bool(
+            definition["central_surface_particles"] == central.sum()
+            and definition["local_region_particles"] == local.sum()
+            and definition["local_surface_particles"] == surface.sum()
+        ),
+        resolved_plate_thickness=lengths[1] / dx >= 8,
+        resolved_nominal_contact_radius=np.sqrt(radius * stroke) / dx >= 4,
+        geometry_resolution_metadata=bool(
+            same(definition["sphere_diameter_to_plate_width_ratio"], 2 * radius / lengths[0])
+            and same(definition["plate_thickness_in_grid_cells"], lengths[1] / dx)
+            and same(definition["nominal_contact_radius_m"], np.sqrt(radius * stroke))
+            and same(definition["nominal_contact_radius_in_grid_cells"], np.sqrt(radius * stroke) / dx)
+            and same(definition["nominal_contact_radius_to_plate_half_width_ratio"], np.sqrt(radius * stroke) / (lengths[0] / 2))
+            and same(definition["maximum_nominal_indentation_m"], stroke)
+        ),
+    )
+    curves = {name: [] for name in (
+        "nominal_indentation_m", "indenter_speed_y_m_per_s", "central_surface_displacement_y_m",
+        "maximum_downward_displacement_m", "central_surface_max_damage", "local_surface_displacement_y_m",
+        "local_region_maximum_downward_displacement_m", "local_region_max_damage",
+        "local_region_mean_damage_reference_volume", "local_region_damaged_reference_volume_m3",
+        "indenter_particle_overlap_max_m", "indenter_surface_particle_overlap_max_m",
+        "particle_centers_inside_indenter", "damaged_reference_volume_fraction",
+    )}
+    for instant, x, d in zip(time, positions, damage):
+        fraction = np.clip(instant / duration, 0.0, 1.0)
+        center = initial_center + displacement * (1 - np.cos(2 * np.pi * fraction)) / 2
+        speed = displacement[1] * np.pi / duration * np.sin(2 * np.pi * fraction)
+        dy = x[:, 1] - reference[:, 1]
+        overlap = np.maximum(radius - np.linalg.norm(x - center, axis=1), 0.0)
+        values = (
+            upper[1] - (center[1] - radius), speed, dy[central].mean(), -dy.min(),
+            d[central].max(), dy[surface].mean(), -dy[local].min(), d[local].max(),
+            np.dot(volume[local], d[local]) / volume[local].sum(), volume[local & (d >= .5)].sum(),
+            overlap.max(), overlap[top].max(), np.count_nonzero(overlap > 0),
+            volume[d >= .5].sum() / volume.sum(),
+        )
+        for name, value in zip(curves, values):
+            curves[name].append(float(value))
+    for name, values in curves.items():
+        checks[f"reconstructed_{name}"] = same(values, [row[name] for row in observations])
+    peak_overlap = max(curves["indenter_particle_overlap_max_m"])
+    central_depth = -min(curves["central_surface_displacement_y_m"])
+    checks.update(
+        actual_central_indentation_at_least_one_mm=central_depth >= .001,
+        damaged_material_under_indenter=max(curves["central_surface_max_damage"]) >= .5,
+        nonzero_local_damaged_volume=max(curves["local_region_damaged_reference_volume_m3"]) > 0,
+        positive_compressive_indenter_reaction=max(row["indenter_reaction_y_N"] for row in observations) > 0,
+        particle_sphere_overlap_within_grid_support=peak_overlap <= 1.5 * dx,
+        reaction_sample_times=same([row["boundary_sample_time_s"] for row in observations], time + config["dt"]),
+    )
+    result["ceramic_indentation"] = {
+        "sphere_diameter_m": 2 * radius,
+        "plate_dimensions_m": lengths.tolist(),
+        "maximum_actual_central_indentation_m": float(central_depth),
+        "maximum_particle_center_overlap_m": float(peak_overlap),
+        "overlap_guard_m": 1.5 * dx,
+        "saved_curves": curves,
+        "interpretation": (
+            "Dynamic prescribed spherical indentation with bonded backing and retained JH-2 material. "
+            "Damage and displacement are measured in fixed reference regions. Particle-center overlap "
+            "is a grid-contact diagnostic, not contact area; 1.5 grid cells is a support-scale alarm, "
+            "not a surface-accuracy tolerance or a Hertz validation."
+        ),
+    }
 
 
 def check_necking(result, definition, config, time, observations, state, positions, failures):
