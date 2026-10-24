@@ -1,4 +1,4 @@
-"""Secondary read-only impact detail; exact original JH2 f60 raw and v2 proof."""
+"""Secondary read-only transparent impact overview; exact original JH2 f60 raw and v2 proof."""
 import argparse
 import os
 from pathlib import Path
@@ -14,10 +14,10 @@ base.TEMPLATE = '.github/workflows/ceramic-detail-media.yml'
 base.TEMPLATE_NAME = 'feature ceramic read-only detail media'
 base.FEATURE_REF = 'refs/heads/work/ceramic-fragmentation-prefix'
 base.EXTRA_SOURCES = ('tools/render_ceramic_detail.py',)
-base.EXPECTED_SCOPE = 'explicit detail view; geometry outside the camera view may be cropped'
+base.EXPECTED_SCOPE = 'complete scene'
 DELIVERY = c.ROOT / '.local/ceramic-detail-delivery'
-FOCUS = [.080, .170, .065, .130, .080, .170]
-OPACITY = .25
+SCENE_BOUNDS = [.030, .220, .060, .180, .030, .220]
+OPACITY = .08
 LIMIT = 100_000_000
 
 
@@ -27,7 +27,7 @@ def render():
     subprocess.run([sys.executable, '-m', 'mpm_jax.visualization', str(base.OUT/'result'),
         '--gif', '--field', 'damage', '--color-range', '0', '1', '--resolution', '1200',
         '--debris-style', 'highlight', '--sphere-opacity', str(OPACITY),
-        '--focus-bounds', *map(str, FOCUS)], cwd=c.ROOT, check=True, timeout=4200)
+        '--scene-bounds', *map(str, SCENE_BOUNDS)], cwd=c.ROOT, check=True, timeout=4200)
     install = c.read(base.OUT/'paraview-install.json')
     if c.digest(install['pvpython']) != install['executable_sha256']:
         raise ValueError('ParaView executable changed')
@@ -39,18 +39,22 @@ def render():
 def audit():
     base.audit()
     record = c.read(base.OUT/'result/render.json')
-    if (record['camera_bounds'] != FOCUS
+    if (record['camera_bounds'] != SCENE_BOUNDS
             or record['render_overrides']['sphere_opacity'] != OPACITY
-            or record['render_overrides']['focus_bounds'] != FOCUS
-            or record['camera_bounds_source'] != '--focus-bounds'):
-        raise ValueError('Detail camera or transparency differs')
+            or record['render_overrides']['scene_bounds'] != SCENE_BOUNDS
+            or record['camera_bounds_source'] != '--scene-bounds'):
+        raise ValueError('Overview camera or transparency differs')
+    actual = record['actual_scene_bounds']
+    if any(SCENE_BOUNDS[2*i] > actual[2*i] or SCENE_BOUNDS[2*i+1] < actual[2*i+1] for i in range(3)):
+        raise ValueError('Overview bounds must contain the entire original scene')
     spheres = [g for g in record['auxiliary_geometry'] if 'sphere' in g['type']]
     if not spheres or any(g['display_opacity'] != OPACITY for g in spheres):
         raise ValueError('Actual rigid sphere display opacity differs')
     c.save(base.OUT/'detail-audit.json', dict(passed=True, secondary_detail_view=True,
         original_primary_media_run='40076682957', primary_media_untouched=True,
-        full_saved_history_frames=61, focus_bounds=FOCUS, sphere_opacity=OPACITY,
-        geometry_outside_camera_may_be_cropped=True, numerical_solver_rerun=False,
+        full_saved_history_frames=61, scene_bounds=SCENE_BOUNDS, sphere_opacity=OPACITY,
+        complete_plate_and_sphere_in_frame=True, geometry_outside_camera_may_be_cropped=False,
+        sphere_physical_radius_unchanged=True, numerical_solver_rerun=False,
         note='JH2 failed-particle debris; no cohesive fragment surfaces; visual acceptance pending.'))
 
 
