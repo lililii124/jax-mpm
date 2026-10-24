@@ -1,0 +1,59 @@
+name: theta zero rejected contact registry diagnostic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: theta-zero-rejected-contact-readonly
+  cancel-in-progress: false
+jobs:
+  diagnose:
+    if: github.ref == 'refs/heads/work/triaxial-zero-contact-diagnostic'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Read immutable original source, without installing or importing the solver
+        uses: actions/checkout@v7
+        with:
+          ref: b873d277711f5e706b2d57eea1b69f25e6375dc2
+          path: .local/triaxial-zero-contact-frozen
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Download exactly the preserved nonresumable diagnostic artifact
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .local
+          gh api --allow-escape-sequences "repos/${GITHUB_REPOSITORY}/actions/artifacts/12571135742/zip" > .local/zero-failed-contact-outer.zip
+          python tools/diagnose_triaxial_zero_contact.py prepare --archive .local/zero-failed-contact-outer.zip
+      - name: Install only original NumPy and resource monitor pins
+        timeout-minutes: 10
+        run: python -m pip install --disable-pip-version-check -r .local/zero-contact-diagnostic/requirements.txt
+      - name: Inspect failed-state contact registry under 6 GiB USS, zero mechanical steps
+        timeout-minutes: 23
+        run: python tools/diagnose_triaxial_zero_contact.py run
+      - name: Upload only small diagnostic reports and logs, never raw state or a resumable cache
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: theta-zero-readonly-contact-40118368653-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/zero-contact-diagnostic/*.json
+            .local/zero-contact-diagnostic/diagnostic.log
+          if-no-files-found: warn
+          retention-days: 2
+          compression-level: 6

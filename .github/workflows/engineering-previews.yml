@@ -1,36 +1,21 @@
-name: theta zero immutable frame20 recovery
+name: theta zero rejected contact registry diagnostic
 on:
   workflow_dispatch:
-    inputs:
-      parent_artifact_id:
-        type: string
-        required: true
-        default: '12556081018'
-      parent_archive_sha:
-        type: string
-        required: true
-        default: b1dc4b9f9c2b9cc9aa3b4f36e906b5e44eff24f920e2bffd17d6703d53ff82d7
-      end_frame:
-        type: string
-        required: true
-        default: '21'
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: theta-zero-immutable-recovery
+  group: theta-zero-rejected-contact-readonly
   cancel-in-progress: false
 jobs:
-  recover:
-    if: github.ref == 'refs/heads/work/triaxial-zero-recovery'
+  diagnose:
+    if: github.ref == 'refs/heads/work/triaxial-zero-contact-diagnostic'
     runs-on: ubuntu-24.04
-    timeout-minutes: 145
+    timeout-minutes: 40
     env:
-      JAX_PLATFORMS: cpu
-      JAX_ENABLE_X64: 'true'
-      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
       OPENBLAS_NUM_THREADS: '1'
-      OMP_NUM_THREADS: '2'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
       PYTHONUNBUFFERED: '1'
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
@@ -38,94 +23,37 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Check out original numerical source, never modify it
+      - name: Read immutable original source, without installing or importing the solver
         uses: actions/checkout@v7
         with:
           ref: b873d277711f5e706b2d57eea1b69f25e6375dc2
-          path: .local/triaxial-zero-frozen
+          path: .local/triaxial-zero-contact-frozen
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Download exact immutable parent and audit current cloud usage before compute
+      - name: Download exactly the preserved nonresumable diagnostic artifact
+        timeout-minutes: 10
         env:
           GH_TOKEN: ${{ github.token }}
-          PARENT_ARTIFACT: ${{ inputs.parent_artifact_id }}
-          PARENT_SHA: ${{ inputs.parent_archive_sha }}
-          END_FRAME: ${{ inputs.end_frame }}
         run: |
           mkdir -p .local
-          gh api --allow-escape-sequences "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PARENT_ARTIFACT}/zip" > .local/zero-parent-download.zip
-          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" > .local/zero-artifact-usage.json
-          python - <<'PY'
-          import hashlib,importlib.util,json,os,pathlib,subprocess,sys
-          path=pathlib.Path('.local/zero-parent-download.zip')
-          expected=os.environ['PARENT_SHA']
-          with path.open('rb') as f: actual=hashlib.file_digest(f,'sha256').hexdigest()
-          if actual != expected:
-              raise ValueError('Downloaded outer ZIP differs from the exact admitted GitHub artifact digest')
-          pages=json.loads(pathlib.Path('.local/zero-artifact-usage.json').read_text())
-          spec=importlib.util.spec_from_file_location('zero_pool_accounting','tools/run_triaxial_zero_recovery.py')
-          module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-          usage=module.artifact_usage(pages)
-          print(json.dumps(usage))
-          subprocess.run([sys.executable,'tools/run_triaxial_zero_recovery.py','prepare',
-              '--archive',str(path),'--archive-sha',expected,'--end-frame',os.environ['END_FRAME'],
-              '--pool-used-bytes',str(usage['rolling_pool_used_bytes']),
-              '--repository-artifact-bytes',str(usage['repository_artifact_bytes_observed']),
-              '--repository-artifact-count',str(usage['repository_artifact_count_observed']),
-              '--usage-record','.local/zero-artifact-usage.json'],check=True)
-          PY
-      - name: Install exact original scientific dependency pins
-        timeout-minutes: 15
-        run: python -m pip install --disable-pip-version-check -r .local/triaxial-zero-recovery/requirements.txt
-      - name: Advance one measured prefix or at most five later saved frames under 6 GiB USS
-        timeout-minutes: 115
-        run: python tools/run_triaxial_zero_recovery.py run
-      - name: Stream complete restart and every new real saved field under hard artifact bound
-        if: success()
+          gh api --allow-escape-sequences "repos/${GITHUB_REPOSITORY}/actions/artifacts/12571135742/zip" > .local/zero-failed-contact-outer.zip
+          python tools/diagnose_triaxial_zero_contact.py prepare --archive .local/zero-failed-contact-outer.zip
+      - name: Install only original NumPy and resource monitor pins
         timeout-minutes: 10
-        run: python tools/run_triaxial_zero_recovery.py package
-      - name: Upload bounded immutable capsule, no Actions cache snapshot
-        if: success()
+        run: python -m pip install --disable-pip-version-check -r .local/zero-contact-diagnostic/requirements.txt
+      - name: Inspect failed-state contact registry under 6 GiB USS, zero mechanical steps
+        timeout-minutes: 23
+        run: python tools/diagnose_triaxial_zero_contact.py run
+      - name: Upload only small diagnostic reports and logs, never raw state or a resumable cache
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: theta-zero-capsule-f${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/triaxial-zero-recovery/delivery
-          compression-level: 0
-          if-no-files-found: error
-          retention-days: 2
-      - name: Preserve small diagnostics on failure without calling rejected state resumable
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: theta-zero-recovery-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          name: theta-zero-readonly-contact-40118368653-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            .local/triaxial-zero-recovery/context.json
-            .local/triaxial-zero-recovery/memory.json
-            .local/triaxial-zero-recovery/solver.log
-            .local/triaxial-zero-recovery/history-availability.json
-            .local/triaxial-zero-recovery/artifact-accounting.json
-            .local/triaxial-zero-recovery/resume-metadata-proof.json
-            .local/triaxial-zero-recovery/resume-directory-proof.json
-            .local/triaxial-zero-recovery/work/formal/theta-00/hertz/status.json
-            .local/triaxial-zero-recovery/work/formal/theta-00/hertz/failure.json
-            .local/triaxial-zero-recovery/work/formal/theta-00/hertz/contact-metrics.json
+            .local/zero-contact-diagnostic/*.json
+            .local/zero-contact-diagnostic/diagnostic.log
           if-no-files-found: warn
           retention-days: 2
           compression-level: 6
-      - name: Preserve complete new restart and real new frames after transport or numerical failure
-        id: failure_capsule
-        if: failure()
-        timeout-minutes: 10
-        run: python tools/preserve_triaxial_zero_failure.py
-      - name: Upload bounded failure capsule under the same rolling pool name without overwriting any artifact
-        if: failure() && steps.failure_capsule.outputs.ready == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: theta-zero-capsule-f${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/triaxial-zero-recovery/failure-delivery
-          compression-level: 0
-          if-no-files-found: error
-          retention-days: 2
-          overwrite: false
