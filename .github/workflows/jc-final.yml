@@ -1,0 +1,127 @@
+name: Private JC exact-source completed protocol and ParaView
+
+on:
+  workflow_dispatch:
+    inputs:
+      parent_key:
+        description: Exact independently admitted frame-50 carry cache key
+        required: true
+        type: string
+      parent_receipt_sha256:
+        description: Independently checked SHA256 of that frame-50 carry receipt
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: jc-refinement-diagnostic-cache
+  cancel-in-progress: false
+
+jobs:
+  final:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Start whole-job budget
+        run: echo "JC_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
+      - name: Check out independently versioned final controller
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out immutable original numerical producer
+        uses: actions/checkout@v7
+        with:
+          ref: 08d83a051a9764a5a218fd33e184f3291eb3dd1c
+          path: .local/jc-frozen-solver
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Restore exact admitted frame-50 parent without fallback
+        id: restore
+        timeout-minutes: 20
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/jc-refinement-cache
+          key: ${{ inputs.parent_key }}
+          fail-on-cache-miss: true
+      - name: Verify complete source/cache/lineage before installing or advancing
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+          PARENT_KEY: ${{ inputs.parent_key }}
+          RECEIPT_SHA: ${{ inputs.parent_receipt_sha256 }}
+        run: >-
+          python tools/run_jc_final.py prepare
+          --parent-key "$PARENT_KEY" --receipt-sha "$RECEIPT_SHA"
+      - name: Recreate original recorded numerical runtime
+        timeout-minutes: 15
+        run: python -m pip install -e .local/jc-frozen-solver -r .local/jc-final-ci/requirements.txt
+      - name: Independently audit frame-50 parent, complete protocol, audit all raw history
+        id: solve
+        timeout-minutes: 265
+        run: python tools/run_jc_final.py run
+      - name: Install actual ParaView from immutable producer's pinned download recipe
+        timeout-minutes: 20
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
+          python tools/run_jc_final.py install-paraview
+      - name: Render actual saved particles in ParaView and verify every exported frame
+        id: render
+        timeout-minutes: 42
+        run: python tools/run_jc_final.py render
+      - name: Preserve complete raw result, exact parent cache, media and diagnostics
+        if: always()
+        timeout-minutes: 20
+        run: python tools/run_jc_final.py package
+      - name: Upload full private raw lineage and actual media
+        if: always()
+        id: upload
+        timeout-minutes: 25
+        uses: actions/upload-artifact@v4
+        with:
+          name: jc-final-full-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/jc-final-delivery/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Retrieve uploaded artifact by exact ID
+        if: always() && steps.upload.outcome == 'success'
+        timeout-minutes: 25
+        uses: actions/download-artifact@v5
+        with:
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/jc-final-retrieved/
+          merge-multiple: true
+      - name: Verify all retrieved parts and every reconstructed full file
+        if: always() && steps.upload.outcome == 'success'
+        timeout-minutes: 15
+        env:
+          JC_FINAL_ARTIFACT_NAME: jc-final-full-${{ github.run_id }}-${{ github.run_attempt }}
+          JC_FINAL_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          JC_FINAL_ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+        run: python tools/run_jc_final.py verify-retrieved
+      - name: Upload retrieval receipt and review records
+        if: always()
+        timeout-minutes: 5
+        uses: actions/upload-artifact@v4
+        with:
+          name: jc-final-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/jc-final-ci/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
