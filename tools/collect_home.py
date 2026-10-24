@@ -98,6 +98,9 @@ def legacy_describe(identifier):
     completed = {
         "completed--woven-plate-impact": (GROUPS[2], "Clamped woven plate impact"),
         "completed--crossed-fibre-hertz": (GROUPS[2], "Crossed fibre Hertz contact"),
+        "completed--crossed-fibre-jkr": (GROUPS[2], "Crossed fibre JKR contact"),
+        "completed--crossed-fibre-md": (GROUPS[2], "Crossed fibre MD contact"),
+        "completed--crossed-fibre-self-consistent": (GROUPS[2], "Crossed fibre SC local BEM contact"),
         "completed--ceramic-impact-debris": (GROUPS[0], "JH2 ceramic impact and debris"),
     }
     if identifier in completed:

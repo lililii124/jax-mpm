@@ -2896,5 +2896,41 @@
     "preview_frame": null,
     "preview_time": null,
     "auxiliary_geometry": []
+  },
+  {
+    "name": "crossed-fibre-jkr",
+    "source": "completed/crossed-fibre-jkr",
+    "particles": 202240,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false,
+    "preview_frame": 60,
+    "preview_time": 0.03,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "crossed-fibre-md",
+    "source": "completed/crossed-fibre-md",
+    "particles": 202240,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false,
+    "preview_frame": 60,
+    "preview_time": 0.03,
+    "auxiliary_geometry": []
+  },
+  {
+    "name": "crossed-fibre-self-consistent",
+    "source": "completed/crossed-fibre-self-consistent",
+    "particles": 202240,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "(6, 2)",
+    "animation": false,
+    "preview_frame": 60,
+    "preview_time": 0.03,
+    "auxiliary_geometry": []
   }
 ]

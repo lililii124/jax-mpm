@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "sampled_frames": [
+    0,
+    60
+  ],
+  "particles_per_frame": 202240,
+  "checker_sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+  "rtol": 1e-06,
+  "atol": 1e-07,
+  "scope": "Actual ParaView first/last coordinate, scalar and integer-label readback."
+}

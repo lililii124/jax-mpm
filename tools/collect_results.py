@@ -607,6 +607,8 @@ def collect(root, destination):
                 "preview-eligibility.json",
                 "publication-review.json",
                 "physical-review.json",
+                "material-review.json",
+                "contact-controller-binding.json",
                 "prefix-review.json",
                 "provenance.json",
                 "original-physical-review.json",

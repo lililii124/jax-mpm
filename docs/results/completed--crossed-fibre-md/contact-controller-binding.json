@@ -1,0 +1,100 @@
+{
+  "schema": "contact-full61-controller-binding-v1",
+  "model": "md",
+  "admission": {
+    "model": "md",
+    "run": 40078855654,
+    "source": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+    "receipt_sha256": "57d807c69bbe6a5d23f30fde1829d560ed744eb79644bae7de6b2e4a5cce9f0f",
+    "cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-md-40078855654-1-f60",
+    "parent_receipt_sha256": "7365149bc0ba29a65f599a59e41e04c0861bf433dd72af4b01034503f9fd236d",
+    "parent_cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-md-40077394360-1-f02",
+    "small_records_admitted": true,
+    "source_files_rebound_to_independently_admitted_parent": 18,
+    "runtime": {
+      "python": "3.12.13",
+      "implementation": "CPython",
+      "system": "Linux",
+      "machine": "x86_64",
+      "packages": {
+        "jax": "0.12.0.1",
+        "jaxlib": "0.12.0.1",
+        "ml-dtypes": "0.6.0",
+        "numpy": "2.5.4",
+        "opt-einsum": "3.4.0",
+        "pillow": "13.0.0",
+        "psutil": "7.2.2",
+        "scipy": "1.18.1"
+      }
+    },
+    "saved_states": 61,
+    "steps": 24495,
+    "particles": 202240,
+    "contact": {
+      "maximum_step_contact_force_N": 0.02307085923356647,
+      "minimum_step_contact_force_N": -0.0123681307034028,
+      "contact_gap_m": 0.0030469433711126466,
+      "lower_centre_displacement_y_m": -0.00038715830838789884,
+      "upper_centre_displacement_y_m": 0.0026097850627247667
+    },
+    "independent_saved_csv_force_balance_N": 6.938893903907228e-18,
+    "independent_saved_csv_momentum_closure_Ns": 9.711253916094235e-17,
+    "saved_material_records_undamaged": true,
+    "live_exact_cache": {
+      "id": 9443908786,
+      "ref": "refs/heads/work/fibre-contact-model-contrasts",
+      "key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-md-40078855654-1-f60",
+      "version": "9d6d53f72c0a42ff6ff2332d5afebc7345b1709a4a39bf5cd4f36352967f24d7",
+      "last_accessed_at": "2026-10-24T11:25:58.922617Z",
+      "created_at": "2026-10-24T11:25:58.513947Z",
+      "size_in_bytes": 207821420
+    },
+    "full_raw_locally_reaudited": false,
+    "independent_final_material_review_pending": true,
+    "complete_zip_digest_verified": false,
+    "public_visual_review_passed": false
+  },
+  "controller_sha256": "bce18515c2f43a8c593e39232478b372efe7ce7d3ce969f5c93b899ee51fbfda",
+  "workflow_sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508",
+  "admissions_sha256": "d10c13dba67668401b8514a9bbd0a5222bf5942752ca19a4d438cd0b4da7fd33",
+  "numerical_rerun": false,
+  "public_visual_review_passed": false,
+  "source_binding": {
+    "commit": "13178fe9717c1dec54e67bbb786c1e834d5ea830",
+    "run_id": "40092991573",
+    "files": {
+      "tools/finalize_contact_full61.py": {
+        "sha256": "bce18515c2f43a8c593e39232478b372efe7ce7d3ce969f5c93b899ee51fbfda",
+        "bytes": 5097
+      },
+      "tools/contact_full61_admissions.json": {
+        "sha256": "d10c13dba67668401b8514a9bbd0a5222bf5942752ca19a4d438cd0b4da7fd33",
+        "bytes": 7349
+      },
+      ".github/workflows/contact-full61-media.yml": {
+        "sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508",
+        "bytes": 5726
+      },
+      ".github/workflows/engineering-previews.yml": {
+        "sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508",
+        "bytes": 5726
+      },
+      "tools/finish_fibre_pull_off.py": {
+        "sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d",
+        "bytes": 22310
+      },
+      "tools/package_fibre_final_media.py": {
+        "sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984",
+        "bytes": 4584
+      },
+      "mpm_jax/visualization.py": {
+        "sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88",
+        "bytes": 11488
+      },
+      "mpm_jax/paraview_scene.py": {
+        "sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9",
+        "bytes": 35689
+      }
+    }
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "passed": true,
+  "checks": {
+    "positive_orientation": true,
+    "undamaged_final_state": true,
+    "maximum_tensile_history_contains_current_state": true,
+    "history_below_damage_onset": true,
+    "independent_final_kirchhoff_stress": true,
+    "independent_final_stored_energy": true
+  },
+  "production_eligible": false,
+  "final_elastic_energy_J": 2.1663156312002952e-05,
+  "recorded_final_elastic_energy_J": 2.1663156312003013e-05,
+  "energy_budget_J": 2.0559936479855997e-13,
+  "stress_Linf_error_Pa": 1.0125177141162567e-08,
+  "stress_Linf_budget_Pa": 4.928871873321261e-05,
+  "final_maximum_Biot_strain_norm": 0.024304856601491443,
+  "kappa_lower_bound_error": 1.4211722076939992e-15,
+  "maximum_abs_dynamic_work_residual_J": 2.8116396768057e-07,
+  "dynamic_work_residual_J": [
+    0.0,
+    -2.6978955431295116e-11,
+    -6.670320116943608e-11,
+    -1.1365050581177064e-10,
+    -1.6447998697040468e-10,
+    -2.2061416174733555e-10,
+    -2.6208710479759356e-10,
+    -2.993444403420142e-10,
+    -3.45753842069307e-10,
+    -4.007656492350303e-10,
+    -4.5541531301582075e-10,
+    -5.131926179095103e-10,
+    -2.129613282998147e-09,
+    -5.697344117763419e-09,
+    -9.37300457926548e-09,
+    -1.3161075088423862e-08,
+    -1.6932142928719608e-08,
+    -2.012994520036344e-08,
+    -2.3071344994175764e-08,
+    -2.586780147846956e-08,
+    -2.8519584234219347e-08,
+    -3.089455293699539e-08,
+    -3.312897317373579e-08,
+    -3.516855338241077e-08,
+    -3.7535231974391196e-08,
+    -4.109560965033715e-08,
+    -4.43276690650148e-08,
+    -4.811845960104013e-08,
+    -5.168601483032517e-08,
+    -5.540743633667676e-08,
+    -5.867539792572694e-08,
+    -6.267774611547918e-08,
+    -6.66615514859806e-08,
+    -6.997536004757525e-08,
+    -7.298208909233391e-08,
+    -7.627783234700067e-08,
+    -8.040601128515491e-08,
+    -8.478582139400811e-08,
+    -8.85689097518748e-08,
+    -9.294331580038186e-08,
+    -9.797332744715216e-08,
+    -1.0259932657841844e-07,
+    -1.0924968117180185e-07,
+    -1.163086834731868e-07,
+    -1.2387606187793872e-07,
+    -1.2986031279107567e-07,
+    -1.35582722128759e-07,
+    -1.4168831091067816e-07,
+    -1.4741930214526656e-07,
+    -1.5433190786819116e-07,
+    -1.6120759192475536e-07,
+    -1.680398965869572e-07,
+    -1.7611418931498403e-07,
+    -1.8773075846946451e-07,
+    -2.0041293653934245e-07,
+    -2.1661328065374984e-07,
+    -2.3287857683494677e-07,
+    -2.4763642228709436e-07,
+    -2.5981851146301823e-07,
+    -2.7107046186402796e-07,
+    -2.8116396768057e-07
+  ],
+  "maximum_step_contact_force_N": 0.022926005271818043,
+  "minimum_step_contact_force_N": -0.014608207265493634,
+  "contact_exercised": true,
+  "minimum_saved_contact_gap_m": -5.979076450968266e-05,
+  "final_contact_active": false,
+  "final_contact_gap_m": 0.0030353877739223174,
+  "maximum_absolute_centre_displacement_y_m": {
+    "lower": 0.0006378872305190009,
+    "upper": 0.002838873327292692
+  },
+  "scope": "Independent final F/SVD reconstruction at fixed damage. Saved K+U change minus actual fixture/contact work is reported, not assumed conserved. APIC losses, changing contact curvature and adhesive snap preclude a global conservative-contact claim. Full-time F and local contact equilibria are not independently reconstructed.",
+  "producer_source": {
+    "commit": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+    "tree": "44f6ed4669f215e5108e1dcbd8c807120a4fa46a",
+    "files": {
+      ".github/workflows/engineering-previews.yml": {
+        "sha256": "1d30198722705f08931e082d81e2188799e1471c6d651542582a7485d4d37ec7",
+        "git_blob_sha": "1605f0abca38709ae102a0349a0c9498a2d63dbc",
+        "lf_sha256": "1d30198722705f08931e082d81e2188799e1471c6d651542582a7485d4d37ec7"
+      },
+      ".github/workflows/fibre-pull-off-checks.yml": {
+        "sha256": "23b00ae82411e76899736f3a04a19cd8629bbe432654b0789e50adcdf04d29bd",
+        "git_blob_sha": "511431714d541d265bae4b50965d56c0763a91cb",
+        "lf_sha256": "23b00ae82411e76899736f3a04a19cd8629bbe432654b0789e50adcdf04d29bd"
+      },
+      "evidence/fibre/hertz-runtime-requirements.txt": {
+        "sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e",
+        "git_blob_sha": "57b291e66b5816d347fae9071bf0c0be693a135b",
+        "lf_sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e"
+      },
+      "evidence/fibre/hertz-runtime.json": {
+        "sha256": "5a81990c59e1fcce27ebdf74ac88bf65a83b1594950a3ce77a670dbcf1f3ba40",
+        "git_blob_sha": "45e56ed1bbf19304c30d61c130810734d27ba88f",
+        "lf_sha256": "5a81990c59e1fcce27ebdf74ac88bf65a83b1594950a3ce77a670dbcf1f3ba40"
+      },
+      "examples/fibre_pull_off.py": {
+        "sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+        "git_blob_sha": "844fd3aab9f003993daba2d9f8bc393fb50a2087",
+        "lf_sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432"
+      },
+      "examples/triaxial_failure.py": {
+        "sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+        "git_blob_sha": "1cf032e4134df0d2a7777a8c107976c2717fed61",
+        "lf_sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c"
+      },
+      "examples/triaxial_fibre_geometry.py": {
+        "sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+        "git_blob_sha": "fc0847e82a63b47bd6d391e3a20e2cb270df0ec8",
+        "lf_sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2"
+      },
+      "mpm_jax/cohesive_bem.py": {
+        "sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+        "git_blob_sha": "b206114b94ebd4a4207298d7b6e5fe9688102688",
+        "lf_sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e"
+      },
+      "mpm_jax/fibre_contact.py": {
+        "sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+        "git_blob_sha": "dc2ace66ed4f1e3513af6607dc9a9d8456205b7d",
+        "lf_sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab"
+      },
+      "mpm_jax/fibre_coupling.py": {
+        "sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+        "git_blob_sha": "0879ded521683e3bf9651bc7ddbcca28061b5114",
+        "lf_sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70"
+      },
+      "mpm_jax/fibre_mpm.py": {
+        "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+        "git_blob_sha": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75",
+        "lf_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+      },
+      "mpm_jax/local_contact_models.py": {
+        "sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+        "git_blob_sha": "e5a725f250cf12b0236801f3554f1b1e07d73796",
+        "lf_sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4"
+      },
+      "mpm_jax/materials/isotropic_brittle.py": {
+        "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+        "git_blob_sha": "887aaeda0466946f0b20563ae32b7614cde34099",
+        "lf_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+      },
+      "mpm_jax/maugis_dugdale.py": {
+        "sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+        "git_blob_sha": "9e1b2036afd80e987e11886c19b463c215c67be3",
+        "lf_sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443"
+      },
+      "pyproject.toml": {
+        "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+        "git_blob_sha": "48a88b0f91bf8ce340b488c1c6f7bd67ff02e6b9",
+        "lf_sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637"
+      },
+      "tools/run_engineering_preview.py": {
+        "sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5",
+        "git_blob_sha": "025bb7499589f3134bf1a2b800d6c1802d5487d1",
+        "lf_sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5"
+      },
+      "tools/run_fibre_pull_off.py": {
+        "sha256": "43ed6621e12c060c5dde46a47a0037dd3fcdf19651c0498f366229d0700537ab",
+        "git_blob_sha": "d8f2ff94ba150b02d8d52d29325a3e7aca9b9f3e",
+        "lf_sha256": "43ed6621e12c060c5dde46a47a0037dd3fcdf19651c0498f366229d0700537ab"
+      },
+      "tools/run_woven_preview.py": {
+        "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+        "git_blob_sha": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+        "lf_sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+      }
+    }
+  },
+  "controller_source": {
+    "commit": "13178fe9717c1dec54e67bbb786c1e834d5ea830",
+    "tree": "c2c302c56d7f93f1c96240dd7f7ac5c99906ab8b",
+    "files": {
+      ".github/workflows/engineering-previews.yml": {
+        "sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508",
+        "git_blob_sha": "2379ae4f9064bad733e9161ad0a3c3ba7f3fcfb1",
+        "lf_sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508"
+      },
+      "mpm_jax/export.py": {
+        "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+        "git_blob_sha": "c63793a32e959c61fcb64eb06456873bdc7b9377",
+        "lf_sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d"
+      },
+      "mpm_jax/paraview_scene.py": {
+        "sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9",
+        "git_blob_sha": "34a35a61355ae8346023a704bb981499f868d19c",
+        "lf_sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9"
+      },
+      "mpm_jax/particle_fields.py": {
+        "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+        "git_blob_sha": "f891d49ac55d1a5107384211f822c64acfd80336",
+        "lf_sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+      },
+      "mpm_jax/visualization.py": {
+        "sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88",
+        "git_blob_sha": "d59754760a48639bed0e576a19ad0ba47d176a91",
+        "lf_sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88"
+      },
+      "tools/check_vtk.py": {
+        "sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+        "git_blob_sha": "6d6e27c5b82e6916a77c7b9418395347b379dbd7",
+        "lf_sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d"
+      },
+      "tools/encode_video.py": {
+        "sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4",
+        "git_blob_sha": "86014ea39e1ea9e90be2370cb2a131eeaee6cb75",
+        "lf_sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4"
+      },
+      "tools/finish_fibre_pull_off.py": {
+        "sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d",
+        "git_blob_sha": "c5be282e9d127382ddc1ae1dcae5cb48806e51a3",
+        "lf_sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d"
+      },
+      "tools/package_fibre_final_media.py": {
+        "sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984",
+        "git_blob_sha": "85d2e3bd1343f7b8806630b57eb323e00cf77e5e",
+        "lf_sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984"
+      },
+      "tools/run_woven_preview.py": {
+        "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+        "git_blob_sha": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+        "lf_sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+      }
+    }
+  },
+  "input_sha256": {
+    "final_state_0.npz": "666e8ce0dea0ab413f868fbda97f9448457af811845c5dc91d9d871ff70d3c54",
+    "observables.csv": "74a9804fadc1d123a7d2f8a410919f2751c86fb5e56524df96b44e27eef8e84d",
+    "checkpoint.npz": "40d032eb4f24cb60bee5eaaaf2783b598a4ceba77a5ca55ee3a51d07158bdfd1"
+  }
+}

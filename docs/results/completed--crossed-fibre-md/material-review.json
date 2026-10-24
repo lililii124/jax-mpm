@@ -1,0 +1,251 @@
+{
+  "passed": true,
+  "checks": {
+    "positive_orientation": true,
+    "undamaged_final_state": true,
+    "maximum_tensile_history_contains_current_state": true,
+    "history_below_damage_onset": true,
+    "independent_final_kirchhoff_stress": true,
+    "independent_final_stored_energy": true
+  },
+  "production_eligible": false,
+  "final_elastic_energy_J": 2.1937727818737238e-05,
+  "recorded_final_elastic_energy_J": 2.193772781873729e-05,
+  "energy_budget_J": 2.0587393630529425e-13,
+  "stress_Linf_error_Pa": 9.738979400708558e-09,
+  "stress_Linf_budget_Pa": 4.9988412001075085e-05,
+  "final_maximum_Biot_strain_norm": 0.02464812994920893,
+  "kappa_lower_bound_error": 1.3769367590565906e-15,
+  "maximum_abs_dynamic_work_residual_J": 3.0622174359876454e-07,
+  "dynamic_work_residual_J": [
+    0.0,
+    -2.697895543125624e-11,
+    -6.670320116939637e-11,
+    -1.136505058117177e-10,
+    -1.6447998697066937e-10,
+    -2.206141617475473e-10,
+    -2.6208710479907586e-10,
+    -2.993444403421201e-10,
+    -3.4575384206803644e-10,
+    -4.0076564923270097e-10,
+    -4.554153130146561e-10,
+    -5.131926179069692e-10,
+    -2.591992953040846e-09,
+    -6.722063744991274e-09,
+    -1.0754540968453603e-08,
+    -1.5035660749453363e-08,
+    -1.9282481362744663e-08,
+    -2.2815825996295384e-08,
+    -2.6016729350500285e-08,
+    -2.9138309354196583e-08,
+    -3.215679017376716e-08,
+    -3.469726942710451e-08,
+    -3.722032914450317e-08,
+    -3.969693283038579e-08,
+    -4.199958620222812e-08,
+    -4.556754404248224e-08,
+    -4.9007306939694654e-08,
+    -5.332409392098721e-08,
+    -5.720029896244085e-08,
+    -6.119218837438388e-08,
+    -6.516658816359674e-08,
+    -6.923396478444301e-08,
+    -7.313504132433033e-08,
+    -7.60252742950097e-08,
+    -7.923567414597304e-08,
+    -8.334908310750624e-08,
+    -8.78642664426698e-08,
+    -9.302712411206535e-08,
+    -9.762723378600309e-08,
+    -1.0265722326688084e-07,
+    -1.0863596994519182e-07,
+    -1.140893526282992e-07,
+    -1.196417238689469e-07,
+    -1.2807183133268795e-07,
+    -1.3605753625089748e-07,
+    -1.4388380404542015e-07,
+    -1.505092107800189e-07,
+    -1.5698211402098573e-07,
+    -1.6337396480484816e-07,
+    -1.707704596005792e-07,
+    -1.7898086174066364e-07,
+    -1.862701894673593e-07,
+    -1.9506713827243465e-07,
+    -2.073882187964593e-07,
+    -2.2114140896520988e-07,
+    -2.3797413124075848e-07,
+    -2.5519998536446807e-07,
+    -2.7053889360540213e-07,
+    -2.835833083106478e-07,
+    -2.956261924019378e-07,
+    -3.0622174359876454e-07
+  ],
+  "maximum_step_contact_force_N": 0.02307085923356647,
+  "minimum_step_contact_force_N": -0.0123681307034028,
+  "contact_exercised": true,
+  "minimum_saved_contact_gap_m": -5.891786679127799e-05,
+  "final_contact_active": false,
+  "final_contact_gap_m": 0.0030469433711126466,
+  "maximum_absolute_centre_displacement_y_m": {
+    "lower": 0.0006420239080080554,
+    "upper": 0.0028455481783787144
+  },
+  "scope": "Independent final F/SVD reconstruction at fixed damage. Saved K+U change minus actual fixture/contact work is reported, not assumed conserved. APIC losses, changing contact curvature and adhesive snap preclude a global conservative-contact claim. Full-time F and local contact equilibria are not independently reconstructed.",
+  "producer_source": {
+    "commit": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+    "tree": "44f6ed4669f215e5108e1dcbd8c807120a4fa46a",
+    "files": {
+      ".github/workflows/engineering-previews.yml": {
+        "sha256": "1d30198722705f08931e082d81e2188799e1471c6d651542582a7485d4d37ec7",
+        "git_blob_sha": "1605f0abca38709ae102a0349a0c9498a2d63dbc",
+        "lf_sha256": "1d30198722705f08931e082d81e2188799e1471c6d651542582a7485d4d37ec7"
+      },
+      ".github/workflows/fibre-pull-off-checks.yml": {
+        "sha256": "23b00ae82411e76899736f3a04a19cd8629bbe432654b0789e50adcdf04d29bd",
+        "git_blob_sha": "511431714d541d265bae4b50965d56c0763a91cb",
+        "lf_sha256": "23b00ae82411e76899736f3a04a19cd8629bbe432654b0789e50adcdf04d29bd"
+      },
+      "evidence/fibre/hertz-runtime-requirements.txt": {
+        "sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e",
+        "git_blob_sha": "57b291e66b5816d347fae9071bf0c0be693a135b",
+        "lf_sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e"
+      },
+      "evidence/fibre/hertz-runtime.json": {
+        "sha256": "5a81990c59e1fcce27ebdf74ac88bf65a83b1594950a3ce77a670dbcf1f3ba40",
+        "git_blob_sha": "45e56ed1bbf19304c30d61c130810734d27ba88f",
+        "lf_sha256": "5a81990c59e1fcce27ebdf74ac88bf65a83b1594950a3ce77a670dbcf1f3ba40"
+      },
+      "examples/fibre_pull_off.py": {
+        "sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+        "git_blob_sha": "844fd3aab9f003993daba2d9f8bc393fb50a2087",
+        "lf_sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432"
+      },
+      "examples/triaxial_failure.py": {
+        "sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+        "git_blob_sha": "1cf032e4134df0d2a7777a8c107976c2717fed61",
+        "lf_sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c"
+      },
+      "examples/triaxial_fibre_geometry.py": {
+        "sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+        "git_blob_sha": "fc0847e82a63b47bd6d391e3a20e2cb270df0ec8",
+        "lf_sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2"
+      },
+      "mpm_jax/cohesive_bem.py": {
+        "sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+        "git_blob_sha": "b206114b94ebd4a4207298d7b6e5fe9688102688",
+        "lf_sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e"
+      },
+      "mpm_jax/fibre_contact.py": {
+        "sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+        "git_blob_sha": "dc2ace66ed4f1e3513af6607dc9a9d8456205b7d",
+        "lf_sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab"
+      },
+      "mpm_jax/fibre_coupling.py": {
+        "sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+        "git_blob_sha": "0879ded521683e3bf9651bc7ddbcca28061b5114",
+        "lf_sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70"
+      },
+      "mpm_jax/fibre_mpm.py": {
+        "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+        "git_blob_sha": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75",
+        "lf_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+      },
+      "mpm_jax/local_contact_models.py": {
+        "sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+        "git_blob_sha": "e5a725f250cf12b0236801f3554f1b1e07d73796",
+        "lf_sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4"
+      },
+      "mpm_jax/materials/isotropic_brittle.py": {
+        "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+        "git_blob_sha": "887aaeda0466946f0b20563ae32b7614cde34099",
+        "lf_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+      },
+      "mpm_jax/maugis_dugdale.py": {
+        "sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+        "git_blob_sha": "9e1b2036afd80e987e11886c19b463c215c67be3",
+        "lf_sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443"
+      },
+      "pyproject.toml": {
+        "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+        "git_blob_sha": "48a88b0f91bf8ce340b488c1c6f7bd67ff02e6b9",
+        "lf_sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637"
+      },
+      "tools/run_engineering_preview.py": {
+        "sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5",
+        "git_blob_sha": "025bb7499589f3134bf1a2b800d6c1802d5487d1",
+        "lf_sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5"
+      },
+      "tools/run_fibre_pull_off.py": {
+        "sha256": "43ed6621e12c060c5dde46a47a0037dd3fcdf19651c0498f366229d0700537ab",
+        "git_blob_sha": "d8f2ff94ba150b02d8d52d29325a3e7aca9b9f3e",
+        "lf_sha256": "43ed6621e12c060c5dde46a47a0037dd3fcdf19651c0498f366229d0700537ab"
+      },
+      "tools/run_woven_preview.py": {
+        "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+        "git_blob_sha": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+        "lf_sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+      }
+    }
+  },
+  "controller_source": {
+    "commit": "13178fe9717c1dec54e67bbb786c1e834d5ea830",
+    "tree": "c2c302c56d7f93f1c96240dd7f7ac5c99906ab8b",
+    "files": {
+      ".github/workflows/engineering-previews.yml": {
+        "sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508",
+        "git_blob_sha": "2379ae4f9064bad733e9161ad0a3c3ba7f3fcfb1",
+        "lf_sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508"
+      },
+      "mpm_jax/export.py": {
+        "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+        "git_blob_sha": "c63793a32e959c61fcb64eb06456873bdc7b9377",
+        "lf_sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d"
+      },
+      "mpm_jax/paraview_scene.py": {
+        "sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9",
+        "git_blob_sha": "34a35a61355ae8346023a704bb981499f868d19c",
+        "lf_sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9"
+      },
+      "mpm_jax/particle_fields.py": {
+        "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+        "git_blob_sha": "f891d49ac55d1a5107384211f822c64acfd80336",
+        "lf_sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+      },
+      "mpm_jax/visualization.py": {
+        "sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88",
+        "git_blob_sha": "d59754760a48639bed0e576a19ad0ba47d176a91",
+        "lf_sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88"
+      },
+      "tools/check_vtk.py": {
+        "sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+        "git_blob_sha": "6d6e27c5b82e6916a77c7b9418395347b379dbd7",
+        "lf_sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d"
+      },
+      "tools/encode_video.py": {
+        "sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4",
+        "git_blob_sha": "86014ea39e1ea9e90be2370cb2a131eeaee6cb75",
+        "lf_sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4"
+      },
+      "tools/finish_fibre_pull_off.py": {
+        "sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d",
+        "git_blob_sha": "c5be282e9d127382ddc1ae1dcae5cb48806e51a3",
+        "lf_sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d"
+      },
+      "tools/package_fibre_final_media.py": {
+        "sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984",
+        "git_blob_sha": "85d2e3bd1343f7b8806630b57eb323e00cf77e5e",
+        "lf_sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984"
+      },
+      "tools/run_woven_preview.py": {
+        "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+        "git_blob_sha": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+        "lf_sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+      }
+    }
+  },
+  "input_sha256": {
+    "final_state_0.npz": "2735a49cf8b8cf33a0b2de904639af247191e957a7e951cd4e866049bbf08ec0",
+    "observables.csv": "32e831e0e8a654cdc9146234679d46ab70583524189856b51fe213310a92fa04",
+    "checkpoint.npz": "05f23254dfb473cce344f7c4237b8ed017f3618fac624364f67ff68493d5e186"
+  }
+}

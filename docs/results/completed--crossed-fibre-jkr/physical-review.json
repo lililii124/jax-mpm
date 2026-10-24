@@ -1,0 +1,3053 @@
+{
+  "schema": "completed-contact-full-physical-v1",
+  "passed": true,
+  "checks": {
+    "original_source_runtime_raw_checkpoint_and_tables": true,
+    "full_history_and_contact_fixture_momentum": true,
+    "independent_material": true,
+    "full_raw_archive_retrieved_in_cloud": true
+  },
+  "prefix_review": {
+    "schema": "fibre-pull-off-prefix-audit-v1",
+    "prefix_verified": true,
+    "full_protocol_completed": true,
+    "production_eligible": false,
+    "media_created": false,
+    "frame": 60,
+    "saved_states_checked": 61,
+    "planned_saved_states": 61,
+    "steps": 24495,
+    "physical_time_s": 0.030000000000017554,
+    "target_duration_s": 0.03,
+    "checkpoint_leaves": {
+      "state_x": {
+        "shape": [
+          202240,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "0d2b98ad20caa69bf7293b050579cb96efdd7d9632ace94a4970a89b92f2adda"
+      },
+      "state_v": {
+        "shape": [
+          202240,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "02c35ca14b1a02253fa8120ecc3a99045a3d88af970a0bf26395aa7b26046165"
+      },
+      "state_F": {
+        "shape": [
+          202240,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "d8cf1ade6d5080d332a63be5b1d7f9389316c629806e2992f47419d6fd52dcbc"
+      },
+      "state_C": {
+        "shape": [
+          202240,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "4682a8de9a874d87f7894b5fb58df14ccb79e8891079edc07d1350f8d973e01c"
+      },
+      "state_mass": {
+        "shape": [
+          202240
+        ],
+        "dtype": "float64",
+        "sha256": "84ca5d5359d5a48699b5348891d3fc0a7bc04108904eb7e781851625fe3a322a"
+      },
+      "state_volume": {
+        "shape": [
+          202240
+        ],
+        "dtype": "float64",
+        "sha256": "c546c203b83d5003e25592d176efa0b78c3a6290d388f1b3be8a19e909908d3c"
+      },
+      "state_fibre_id": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int32",
+        "sha256": "294603f0867603ba4364c19e043880b4bf45a4cf2f880571cb10f08ce9d3b036"
+      },
+      "state_tau": {
+        "shape": [
+          202240,
+          3,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "4ec14e695b43f10c85ac7b6e103b8949ba56c8ddb3f2e68c6f669aa1c92b6b03"
+      },
+      "state_time": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "4f2e93689754fbdacc5f4210138177192e453fde3127db7bdb5b3729c666a9c0"
+      },
+      "state_valid": {
+        "shape": [],
+        "dtype": "bool",
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      },
+      "state_boundary_impulse": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "d51d49196afce04a8c7e2c77dde82e41217aca4dc1b2209754cc83b9e252b41b"
+      },
+      "state_external_impulse": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "45500cb0ca54824b6d94fd777a3af6b82b84ffa42f5b9921c1c57ea15452bf65"
+      },
+      "state_boundary_work": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "96e48937b96e177c4b88b290d531fb1ccd2954ef0415044b7b38ef836be827a4"
+      },
+      "history_kappa": {
+        "shape": [
+          202240
+        ],
+        "dtype": "float64",
+        "sha256": "363c3b5753bce653d600fa321a4c502d9d501052d33097d259401ec3ee13a04f"
+      },
+      "history_damage": {
+        "shape": [
+          202240
+        ],
+        "dtype": "float64",
+        "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+      },
+      "history_failed": {
+        "shape": [
+          202240
+        ],
+        "dtype": "bool",
+        "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+      },
+      "history_valid": {
+        "shape": [
+          202240
+        ],
+        "dtype": "bool",
+        "sha256": "bda70a65d893897036e9fd4975ce320470a8e532bf308b058ba74b880438fa3e"
+      },
+      "totals_steps": {
+        "shape": [],
+        "dtype": "int64",
+        "sha256": "fc8a03da5f2a0c49bce704b31744931249c4889018712b4b09ee0ffab862c6b4"
+      },
+      "totals_valid": {
+        "shape": [],
+        "dtype": "bool",
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      },
+      "totals_reason": {
+        "shape": [],
+        "dtype": "int32",
+        "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+      },
+      "totals_grip_impulse": {
+        "shape": [
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "98a2280c555ed8e92e6fe4f5e3bbbc7e6564d04a76ef125eda1381da8223c45f"
+      },
+      "totals_grip_work": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "3ddf59de6098637a066fcd6b85d32f2fe79908bcacd1d692f2955cb7bb35b1d4"
+      },
+      "totals_grid_work": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "041e5aadf9e24fffa5887269a9b221b98d55ab1eb051d66d96da2c76d5cdfc10"
+      },
+      "totals_contact_impulse": {
+        "shape": [
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "b4323ff3ec327e034da5fc31590a382e5543bae683e9b4c1179dc8eeaf22b17e"
+      },
+      "totals_contact_work": {
+        "shape": [
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "343435e5c9d48a27a82372bda97b3da07ea10b239900d18d83eea637f7d921ba"
+      },
+      "totals_last_grip_impulse": {
+        "shape": [
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "9d0560b260e2e4713801591b95f1468de35236dfa8c35e0b1f6092abcfb936bc"
+      },
+      "totals_maximum_force": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "c8f56dcbd1178528352df998b8718468f019ef748a6eb094138faed180801bdf"
+      },
+      "totals_minimum_force": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "f1195b8afaafcb6ea7ebd194d22561dae96b720e2d5885ebb1e21db47deafa12"
+      },
+      "totals_maximum_radius": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "405ac46c0d89a2df756d61939af6ad54dde7c60167d58be08f06d2e812b6900b"
+      },
+      "totals_maximum_nonrigid_displacement": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "3536f7a1d992e537d329664728eda2393e4b8355ac1a1f13d26e3956785d7e17"
+      },
+      "totals_maximum_radius_relative_change": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "1576825d870f6cc354c852f92753e68c8ac8e1d060b302ea6ffd495b9e1ed46b"
+      },
+      "metrics_valid": {
+        "shape": [],
+        "dtype": "bool",
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      },
+      "metrics_search_boundary": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "metrics_uncovered_near_pairs": {
+        "shape": [],
+        "dtype": "int64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "metrics_same_family_near_pairs": {
+        "shape": [],
+        "dtype": "int64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "metrics_coverage_motion_exceeded": {
+        "shape": [],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "metrics_maximum_nonrigid_displacement": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "031180bbbc5bf262098c08a4fd519e45c9f7397096a219512ff609d6338d7d8f"
+      },
+      "metrics_degenerate_geometry": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "metrics_unsupported_end_contact": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "metrics_failed_section_contact": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "metrics_gap": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "fc672f1503853edfd75d4ab06dd0f2ffd1cba2ab53fa7172972282b26b78868f"
+      },
+      "metrics_normal": {
+        "shape": [
+          1,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "f1758c55750d5afb704f23500e0586da1d2edc93ef17184d2d80f19abf0b91c9"
+      },
+      "metrics_closest_points": {
+        "shape": [
+          1,
+          2,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "b2fbf93d56ad66647d26d32c0fef12141635abe0a0f34d0c23de29fb181151f7"
+      },
+      "metrics_effective_radius": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "378f8d281b7a6851936c3e99fb635127734bfa39142515e347d0c3f5412de1ef"
+      },
+      "metrics_principal_curvatures": {
+        "shape": [
+          1,
+          2
+        ],
+        "dtype": "float64",
+        "sha256": "38340cd63b304ea3cef46a956e159bf6c1021c18de31f5dbf7bbae0eded99908"
+      },
+      "metrics_normal_force": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "metrics_contact_radius": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "metrics_active": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "metrics_potential": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "metrics_pair_segments": {
+        "shape": [
+          1,
+          2
+        ],
+        "dtype": "int64",
+        "sha256": "01d54dfe865d711dfee6b34de902ba8ece3033c102c99a59fbc7d76a88477575"
+      },
+      "metrics_force_residual": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+      },
+      "metrics_torque_residual": {
+        "shape": [
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "9d908ecfb6b256def8b49a7c504e6c889c4b0e41fe6ce3e01863dd7b61a20aa0"
+      },
+      "contact_active": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      "contact_law_valid": {
+        "shape": [
+          1
+        ],
+        "dtype": "bool",
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      },
+      "contact_radius": {
+        "shape": [
+          1
+        ],
+        "dtype": "float64",
+        "sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc"
+      },
+      "contact_segments": {
+        "shape": [
+          1,
+          2
+        ],
+        "dtype": "int64",
+        "sha256": "01d54dfe865d711dfee6b34de902ba8ece3033c102c99a59fbc7d76a88477575"
+      },
+      "contact_valid": {
+        "shape": [],
+        "dtype": "bool",
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      },
+      "contact_particle_force": {
+        "shape": [
+          202240,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "5decb2d3925aa4dfa177c612a5a8d71bec698dc791b485648e5a67458b4e050c"
+      },
+      "frame": {
+        "shape": [],
+        "dtype": "int64",
+        "sha256": "3fe8adee83a670dd3131f667e963775b2256f3f59d5a996984eb47f8375efd7c"
+      },
+      "signature": {
+        "shape": [],
+        "dtype": "<U64",
+        "sha256": "b9eb54f971138f946ce649bb825823e94bca521feb8c674a6797eee57d2fa3cb"
+      },
+      "solver_seconds": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "ac76cd245860329e502fb88b583988f180d379348f8bf3ceedf624be6f773c48"
+      },
+      "runtime": {
+        "shape": [],
+        "dtype": "<U80",
+        "sha256": "13f196b8358cfda9037b39f49705cd68cedeeb7111704f52bcde3a155b805b1c"
+      },
+      "tables": {
+        "shape": [],
+        "dtype": "<U263467",
+        "sha256": "9afe9343a80ba51692073b471457b98670426a452a66d1eb038620c359d58127"
+      },
+      "last_saved_frame": {
+        "shape": [],
+        "dtype": "int64",
+        "sha256": "3fe8adee83a670dd3131f667e963775b2256f3f59d5a996984eb47f8375efd7c"
+      },
+      "partial_step_clock_s": {
+        "shape": [],
+        "dtype": "float64",
+        "sha256": "4f2e93689754fbdacc5f4210138177192e453fde3127db7bdb5b3729c666a9c0"
+      },
+      "complete_saved_frame": {
+        "shape": [],
+        "dtype": "bool",
+        "sha256": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a"
+      }
+    },
+    "frame_records": [
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "889c6dd6a4df4e34bd5e8bba4ae378ad64f5abf7f70d9b9206763223dce41f46"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "3202bd267ef1fd3fcbe98a427b5528993549493bfa00c56dc576e0bc229f8658"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "4605ce65e25547508d4ce7dfd7d92154ed38454bb5ed530967ad915cc672268c"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "ff0cede1baf2dfa1b943753b530395b97752ceb9774fe56b72606c2f932bc77c"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "b6e69d51a565f28fbc23bcd979e13b2f1a56ccf7dd3fa75c22d3ee3fa46e02bf"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "306eb740a494e2dede67fe03d3391d0e48784e620f11885c91c301004cbd418d"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "1f72209a77a0f2ee05fee3856968750a5946bc92fe8acf7a1a02493accddc503"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "3db584959199a8cfa6846c3845153702056a7b8dd3976962072a8d45b5983288"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "ff5668e0533a69db0e7f063289f38f7dab4a9d94e706d9cbf972f95da820e1f1"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "a64f9ede928caa19c08adff3c229556457e60c9fa34cbabab1eb08981d403198"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "f172f7c57f4ad7d23250a101935b9dd2247407600cfa5c914e5dd3335785ba37"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "84e1669b0feed48604a65d118b5a893f7674fa7481b957dbdaf148c39afd7724"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "033762f42ffab24c3c4b6fc13d7dc9026e89474b8a7cc114dfa5e6ba08483e36"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "cf518a95dc551bfcca145eaea6a41c640d6b705f9da3d7cc8a34de1c55ce9d8a"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "0c6174c7afa253553657c6901c172659418b2b70b6a3fc8892e50ab11602f42f"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b0511559f548b8e45df02293d8b14fd0ad78742f15ae22fe55b9d07c9dcdd590"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "740ab527132ca38e5054bb33f3ae201f2a768fdc3b09c6305b489c08ee87ff3b"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "beed60a4b306ad0116953d410f3525a3cd5074f8011529e382d133dec9ee3c99"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "8e052a75164b74308871d7fa8b827a294692681239ec60fdbd42e8ca7dc9bd33"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "06080d4a1696686582e91182fc08e5aca698932cf46898ccd9dd18fecd7e40c0"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "6fafd12172439443957669d67e0410ef56bcb4be587316db8119d61a58e7afee"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "46feb147a96621d654ffb8905bff7e1e36ded25754e30f531ca756d7566ce3e9"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "fbb23fec33e335bab0cd0245e84e86de1356d5dcd6a27b5acc3e72c144e1c8fe"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "ee4666ce24c58ad2a68bb127e076bba144084f4ae786f53afd7f598cbc73add1"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "3ac6d53575f952bd88dc4db4ac11bbaec2e6e03fcd9a5ef07e7acb110651f4c6"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "95bfb91eab3d0582c318374f01d5af7d1e804721ad53ef53dfb4066ee260ac97"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "f58c64c946ac1396d377443c438d3b4c4b2a44a6662af1f60e5170286333de4c"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "6de2031952378a381d94b07208163dc895b67d6e1fd5532abff9fed65995cb8d"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "3144ab1caad22261367299604d5cabe9839fd10b47826a1e8c824c1690e52931"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "7b3e5822947d4abdeb58276ca6ff9d1492881efa49558391aa6b214e6bab8ac6"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "809f6be1205335f1af13a935d652c70621dc416e0906bc7dac06ad9a55ce5c77"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "22472842e548b36caeedf17aebee6ed96511d600dc697d792bf8e0949c42b617"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "f1bff8fd69f29bfa2b93ac5dc7c27b55a436cb535fab94a747989b81fb37ed42"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "38c95e5cbd4f450eef59b54181c1ad8971ff3906ade0fe136d85349b27f3d305"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "5e883c3dfc81843d3b903a847a82b684740c7a0fe39fab4c5a9ae3ee4d14786b"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "cc6d17504d301a4a51adcc3d7808a1b82ff7e0c10f6032310f87e259854b5a8d"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "070ccfd83906d3bc476e263e323594e034695660ca1053544f77f8d9997410fc"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b936336c3c7e5dca2e5e1fa6aa86be81792781fb441ae1223c3da4bef9152bcb"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "e5df93e153f186f139007955c3507c2c6251c445b6f9a222c864983370093a88"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d2d585324e8cb812483d67cb533c6333af5e72496ee183fa02ecdd6991395068"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "ec6dac74d183b050df5359de157f67fa80476fd40feeb2dea6ba5ace68999dbe"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2e97f972e61572427e39f7303a7f7740780214fe5f0d07e1ff41c3937ad8b4d4"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "2aba4d29db7c75e4e5280f32e3fad6dd903e451429fadc97aca13ec856473fc3"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "c0f0fd605ee67424ad4fcf25bd2ffb2866e765f80d48b950ac24b09ceeaec097"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "210052c96a7e490e6a2dcddb4614b7527c3cd49f27297e0d0dfac9d1ecb2eb6b"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "cba6fc676bf259dd81c218f9bef71e2cb805903bc23d74d700117333b5247c37"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "6433d8cc1f21d65e8db6c46c16cfe8253f61b503f1a0a5ccaef03c29c9ba5535"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "654112ef850f54791f72c19b61ce3d2a8d6a4cb34425d94a40ae29e98ee81f5b"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "81e2c61adc70b677df87864829dec234dab4f095696011fc7a2bea35d721de11"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "7456ee535e34f773e258f0fa0f90ffbfe31521213cb7d4dbfce0acbf9ebb0e2a"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "741ff62ac864da18b6bf18ad27a01857b5a09e7aca4a47fe65c1dbd80149f626"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "c2657cfd60a60df4219dfa5204c986985a86229fccb4bdc719ac357037c63710"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "c40644195fc0743cd2dcf2532184d7dc4157ad31e539cb19f2c922b47d29879e"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "1d2588eb9b93b49e4975d12a505a1e78bd28bbff65cf5bbfb0b94991d2a3eeb5"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "0465bb5ddf8efed59a06d752add3a21703a7393611df9fd0a7c3749e700dd435"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "08e7aa3c45c1b630262ff5d3443108e3dcc0c14f362dc6ee46b46674b480cfd1"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "449f710fb865548021461206e23ddd4e235e6c6ce6250edf74cbab3c9278357c"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "887036ae791c1aaddf6fad7c15fcc4e3821f165c67ab231e30c80ce5a95a03b2"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "72bdf36cb0771425e9f34ea8bd5f792e65f4e3609ba2ef2484e86d83b7a56c25"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "adb00c500239c4cd0576a525df7f14194854afe560f054ce22998a78bed87a91"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "e4a46553f6aa993a70dc7bf8dab5b37a160e8f7b48035df8fa39f9e09282b9c6"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "57802391a27d40dbb6c68a76c9f12a8e1aef8dba583b0bfdd85146df8e52bc99"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "af351c9f1f743037d303770db3a7fd911941687bbb9a2bc9a365ecc9f760fbfc"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "e28db00f14b049bc4dea540249947b13c0df9fcc416412672fe2ca4c12636fca"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "e676f0a781164f1050a4242434290260f2c6de721278e9d0ce0b47232f5eec5b"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "cc581e72c30f495443f75cbad707308a2b11d288deddc1cce155f4b43611204e"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "0e26bac01c5eaca209b02c19b470f35581100bdecef958c7f2ca5a427f232c6c"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "8650684692570c24edb62ae294535b90115205fe1dba5fd785d6f1dbabccd0f7"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "c4bdc011df6052bd05b0edc3e1b8d466ecdd764a0b213578e3907ce29671e35e"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "0331c8303e7bb2052a7f2c1c20b0f47d1ae7349bba166cb47d6285784b71f7d5"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "61dd39e3d25adceb14f21ebe8e21a1f3993a75adb15f4f9495efeb0514adfb58"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "42c9237e9a145afcb0ae2c377dd33452d11eceee9d8fa9910092c9996571d1f6"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "b65239cb76f3d018d47fd0fbb5bddafd32095666eca5574805fc2afedebd8b98"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "19b2d951eea9e411705bf94106483623e201fee5406e583de145fe30c589e20c"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "c48713783bc41864b54e778205200fdb8e2de8036b51cdff6bc431b343ed0400"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "166dc2209f6311fad7e420f420aecdedb1aa665334e64e71f406b869bf64b84d"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "26ad40d871e21a166bd0bd30169246088e56b15fb8936fe30a067a03a3729c96"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d7bec44267cbbaaa944c1010cea4632115ef17eefd13b2e2d88df4c65d773b7e"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "0d5121a2132a2aa8afa4b31d7a1064eacbb23e3f867aaf01ef1693855c0275b1"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "0a0ce2517d096da3458d7c28e235a2eda06343e9e68cf2b4b721a09df3ecbd0b"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "4e9d6708feff2f4edebe51e76150139ed1979aa09ef8e3084fac7a9dc63af6e8"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "6e5cfc284c1bd8038ae0701f02f9a35df7d469d1f8f71ef92914bf909ab9cdf5"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "a7255fb590bbc1b27c52c34dfdb037e1e0ff2971071afd3cd371e722f80faa41"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "629f027815077e2d8705c119a86b8d4f5b48f0be9b769f036bed38032f375817"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "92645b95dd903171c006c412596b344175fd9c98ddc1f85d1c45ebe9a2211cd5"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "153906c32fad34ac35ad63b88062487c112bc8aed51eb8c95e18f58518cb856d"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "ef6729367cf115fa53c567a0abb9aee9f816a79881309642d21d3d4289684e67"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b03802de5206edcaa260395598edd109058ca6bc5ab64c471aaf7efc8e711c34"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "fa16a7c8d0b6030f5ac8e85f34de8b54096d7c6015c2c2adc1745a90fa1e7849"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "63ab1ab90dfee8b0bc70303427e29a86d8043e4038b9d69a44a76edc5071f098"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "354469f5f98460d15a3a2d77443b271297cb080a35eea2630d11be7ca702ceb6"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "e1baff95e4834b9de9c21ab0c4b792e590c617c8d8dcdb6f0ee23ec02cedcac4"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "75b374f399156789b05e3c55fcbe719d4b0636b0f1202d2f6bdd3249ce689eef"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "1da9dda25cdff0a123c41091fb9688efb14d2c9a31fff94212d206548f3eae55"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "a04d67554bf18e1e9e48a84d997e4d8969ec3c92bf30662672e2145244c9f148"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "ce9236ba6cf996692624f42b570e4c121e112ec73ce2c3b7469d788635520abd"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "bdacb75320b39c6f9d36d3f41cbc9923ad8ec61f6b634b6889c5323ec2e075cf"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2cd5f891acd9e0a84e23a96f0aee8229ff11b98f2305ab7442f02f10e923f018"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "765b80264cbbbfb445b779610439391553c2817e59b702027b7ed16d57b5aa8d"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "914fb0b3e234aac442d22330b9494227159a675710fcb65269d1bad8dc316236"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "6b29631dd565cfa1e0be8eb4bd492808d19799df5bbb20cd22740457fdb8b0ac"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "895d870e1636c176aea27192f6c20d49105574fe46a36af776e0ef71e247bbd7"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "27e1cc2e6d6bdf335edd5a0ed92269b1bfb9a2d1f102c98c0fff1918542df372"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b582fbb306c1e590d036d45548c1a3ecdc0ec69055dbac9fd7268b4d3d8c03da"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "aba9883110cee18d7d9e33e35edbf0b8b501df576fee1308e607a43cec049e45"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "c5f10ecd13c99e2232ded77983ad30ed1d1a12ca988f190e3eae9aec2fe60209"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "edaa8742f4738ecaeb117bc37f695777881a693d837b7647335528777c9620e0"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "11250868d023a57d45ab35dbf845fb3ff206b2aa7403d33b75898f104dcea907"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "13a1c12025e1ee2b11845ebbd43edbd26ac95211bd6c33ef8b128341fb04935c"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b359358a6330e8f37b758bf1a0a25e8bda1344f7787bf8b5dffdf33f0c1975ea"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "eb7308b744d321fcefc1c13148416ae66b91f4b91f4ba79150f441fdf2d09706"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2f5d2dfa4bb494b74b0e29e9204bb3d02b438e5deb61cb2dc667e639344b9ff1"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "2ce0c82403d08f48f57fbd24339fce8a1e5a47f961757adf23670be8355cfc7d"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "f228aaf891a290e5848083c28f1e10d6b2197715e515bfe71fce0d813cc409ae"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "8a073ba1427c5c37fa858d769fe45c5aabe1ee7c7337bd79948faa9849e95b44"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2c41a7dcbce50eafbfbfcf3eaefd996aacfa8b6cc2380e710b7f51cdcb3cf596"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "0b32be8887d7a223bf2d8369f806924b2b13d7e746c2bfb6eb9108c8387270a4"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "58b7e705deeb6ed8108191aa9e09b7f04e72b5d4b20a2763a5e0d859b76c8546"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "0e656b04053ae5e5a1a283ed62f012f2980256efad079c7e2e55e60267dfe207"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      },
+      {
+        "x": {
+          "shape": [
+            202240,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "0d2b98ad20caa69bf7293b050579cb96efdd7d9632ace94a4970a89b92f2adda"
+        },
+        "damage": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "66599080dd6f2d73051618a612b15f0485ee9c1cc4353a424a92c328483997b1"
+        },
+        "speed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float64",
+          "sha256": "80a59fcbbe1c0f12ba0584fb568fcf0e4ecd42078875f72561f83c30eb5c1b4b"
+        },
+        "temperature": {
+          "shape": [
+            202240
+          ],
+          "dtype": "float32",
+          "sha256": "b83175d9e5206abe3fa7d3ce4cfc2bedf206db7b07634d266b66a6a8b6444da5"
+        },
+        "failed": {
+          "shape": [
+            202240
+          ],
+          "dtype": "uint8",
+          "sha256": "2246b52a34a02988d1dcbac38a1942a178b305c494b125096d447d9201943f9c"
+        }
+      }
+    ],
+    "runtime": {
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "numpy": "2.5.4",
+      "python": "3.12.13"
+    },
+    "body_momentum_error_Ns": [
+      4.675621868843738e-19,
+      4.038653092508504e-18
+    ],
+    "body_momentum_budget_Ns": [
+      8.398414392864877e-14,
+      3.4646839485957966e-13
+    ],
+    "momentum_budget_definition": "1e-9 times each body's absolute particle momentum plus absolute accumulated fixture/contact impulse, with a 1e-30 Ns scale floor.",
+    "grip_position_error_m": [
+      0.0,
+      1.7520707107365752e-16
+    ],
+    "grip_position_budget_m": 2.2278072719927878e-11,
+    "contact_force_balance_N": 0.0,
+    "kinetic_energy_J": 1.8824074652457984e-05,
+    "local_model_independently_resolved": false,
+    "full_physical_review_completed": false,
+    "scope": "Complete raw prefix, static labels, accepted state/clock and independently reconstructed momentum/kinetic energy. Local constitutive forces and full-period physical admissibility are not independently re-solved here; no media or calibrated response approval."
+  },
+  "material_review": {
+    "passed": true,
+    "checks": {
+      "positive_orientation": true,
+      "undamaged_final_state": true,
+      "maximum_tensile_history_contains_current_state": true,
+      "history_below_damage_onset": true,
+      "independent_final_kirchhoff_stress": true,
+      "independent_final_stored_energy": true
+    },
+    "production_eligible": false,
+    "final_elastic_energy_J": 1.0652156044681433e-05,
+    "recorded_final_elastic_energy_J": 1.0652156044681477e-05,
+    "energy_budget_J": 1.9458836453123845e-13,
+    "stress_Linf_error_Pa": 9.62734247877961e-09,
+    "stress_Linf_budget_Pa": 3.38684480522486e-05,
+    "final_maximum_Biot_strain_norm": 0.016842001281152468,
+    "kappa_lower_bound_error": 7.103692634125025e-16,
+    "maximum_abs_dynamic_work_residual_J": 1.9251731712842575e-07,
+    "dynamic_work_residual_J": [
+      0.0,
+      -2.6978955431295116e-11,
+      -6.670320116943608e-11,
+      -1.1365050581150594e-10,
+      -1.6447998697006057e-10,
+      -2.2061416174638264e-10,
+      -2.620871047970112e-10,
+      -2.993444403394731e-10,
+      -3.457538420667659e-10,
+      -4.0076564923174806e-10,
+      -4.554153130130679e-10,
+      -5.131926179056987e-10,
+      -5.623666017073303e-10,
+      -2.0695288922473275e-09,
+      -4.97747783999658e-09,
+      -7.518657686430977e-09,
+      -1.00317730511904e-08,
+      -1.2387925035579735e-08,
+      -1.4379870465975752e-08,
+      -1.6190008500404954e-08,
+      -1.8029741540594714e-08,
+      -1.959645444716483e-08,
+      -2.105283125531605e-08,
+      -2.2469716693702663e-08,
+      -2.3861459852798755e-08,
+      -2.5242360079192304e-08,
+      -2.7595926359456325e-08,
+      -2.9793750780365844e-08,
+      -3.2516669059147374e-08,
+      -3.507954027993316e-08,
+      -3.738429891069537e-08,
+      -3.945674048360604e-08,
+      -4.1653578627108586e-08,
+      -4.3753774316635034e-08,
+      -4.731235215418316e-08,
+      -5.056875819265717e-08,
+      -5.425996243123705e-08,
+      -5.711000681527507e-08,
+      -6.000430747841852e-08,
+      -6.283090779044188e-08,
+      -6.557422315710179e-08,
+      -6.819107088597406e-08,
+      -7.032432885868911e-08,
+      -7.233370804843336e-08,
+      -7.441588455767389e-08,
+      -7.672200342416014e-08,
+      -7.945470857713042e-08,
+      -8.283725827180411e-08,
+      -8.667533233471718e-08,
+      -9.143179999391643e-08,
+      -9.668170941825205e-08,
+      -1.0382872993105617e-07,
+      -1.1283714413618941e-07,
+      -1.239674236351469e-07,
+      -1.368705761953007e-07,
+      -1.4899887142047182e-07,
+      -1.5959541940813407e-07,
+      -1.6819999865800455e-07,
+      -1.7604258088474748e-07,
+      -1.8512548126069613e-07,
+      -1.9251731712842575e-07
+    ],
+    "maximum_step_contact_force_N": 0.01877249529100186,
+    "minimum_step_contact_force_N": -0.01130972040017751,
+    "contact_exercised": true,
+    "minimum_saved_contact_gap_m": -5.659185861265747e-05,
+    "final_contact_active": false,
+    "final_contact_gap_m": 0.002455556964628597,
+    "maximum_absolute_centre_displacement_y_m": {
+      "lower": 0.00030245933848782646,
+      "upper": 0.00278624797420483
+    },
+    "scope": "Independent final F/SVD reconstruction at fixed damage. Saved K+U change minus actual fixture/contact work is reported, not assumed conserved. APIC losses, changing contact curvature and adhesive snap preclude a global conservative-contact claim. Full-time F and local contact equilibria are not independently reconstructed.",
+    "producer_source": {
+      "commit": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+      "tree": "44f6ed4669f215e5108e1dcbd8c807120a4fa46a",
+      "files": {
+        ".github/workflows/engineering-previews.yml": {
+          "sha256": "1d30198722705f08931e082d81e2188799e1471c6d651542582a7485d4d37ec7",
+          "git_blob_sha": "1605f0abca38709ae102a0349a0c9498a2d63dbc",
+          "lf_sha256": "1d30198722705f08931e082d81e2188799e1471c6d651542582a7485d4d37ec7"
+        },
+        ".github/workflows/fibre-pull-off-checks.yml": {
+          "sha256": "23b00ae82411e76899736f3a04a19cd8629bbe432654b0789e50adcdf04d29bd",
+          "git_blob_sha": "511431714d541d265bae4b50965d56c0763a91cb",
+          "lf_sha256": "23b00ae82411e76899736f3a04a19cd8629bbe432654b0789e50adcdf04d29bd"
+        },
+        "evidence/fibre/hertz-runtime-requirements.txt": {
+          "sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e",
+          "git_blob_sha": "57b291e66b5816d347fae9071bf0c0be693a135b",
+          "lf_sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e"
+        },
+        "evidence/fibre/hertz-runtime.json": {
+          "sha256": "5a81990c59e1fcce27ebdf74ac88bf65a83b1594950a3ce77a670dbcf1f3ba40",
+          "git_blob_sha": "45e56ed1bbf19304c30d61c130810734d27ba88f",
+          "lf_sha256": "5a81990c59e1fcce27ebdf74ac88bf65a83b1594950a3ce77a670dbcf1f3ba40"
+        },
+        "examples/fibre_pull_off.py": {
+          "sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+          "git_blob_sha": "844fd3aab9f003993daba2d9f8bc393fb50a2087",
+          "lf_sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432"
+        },
+        "examples/triaxial_failure.py": {
+          "sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+          "git_blob_sha": "1cf032e4134df0d2a7777a8c107976c2717fed61",
+          "lf_sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c"
+        },
+        "examples/triaxial_fibre_geometry.py": {
+          "sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+          "git_blob_sha": "fc0847e82a63b47bd6d391e3a20e2cb270df0ec8",
+          "lf_sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2"
+        },
+        "mpm_jax/cohesive_bem.py": {
+          "sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+          "git_blob_sha": "b206114b94ebd4a4207298d7b6e5fe9688102688",
+          "lf_sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e"
+        },
+        "mpm_jax/fibre_contact.py": {
+          "sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+          "git_blob_sha": "dc2ace66ed4f1e3513af6607dc9a9d8456205b7d",
+          "lf_sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab"
+        },
+        "mpm_jax/fibre_coupling.py": {
+          "sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+          "git_blob_sha": "0879ded521683e3bf9651bc7ddbcca28061b5114",
+          "lf_sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70"
+        },
+        "mpm_jax/fibre_mpm.py": {
+          "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+          "git_blob_sha": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75",
+          "lf_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+        },
+        "mpm_jax/local_contact_models.py": {
+          "sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+          "git_blob_sha": "e5a725f250cf12b0236801f3554f1b1e07d73796",
+          "lf_sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4"
+        },
+        "mpm_jax/materials/isotropic_brittle.py": {
+          "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+          "git_blob_sha": "887aaeda0466946f0b20563ae32b7614cde34099",
+          "lf_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+        },
+        "mpm_jax/maugis_dugdale.py": {
+          "sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+          "git_blob_sha": "9e1b2036afd80e987e11886c19b463c215c67be3",
+          "lf_sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443"
+        },
+        "pyproject.toml": {
+          "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+          "git_blob_sha": "48a88b0f91bf8ce340b488c1c6f7bd67ff02e6b9",
+          "lf_sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637"
+        },
+        "tools/run_engineering_preview.py": {
+          "sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5",
+          "git_blob_sha": "025bb7499589f3134bf1a2b800d6c1802d5487d1",
+          "lf_sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5"
+        },
+        "tools/run_fibre_pull_off.py": {
+          "sha256": "43ed6621e12c060c5dde46a47a0037dd3fcdf19651c0498f366229d0700537ab",
+          "git_blob_sha": "d8f2ff94ba150b02d8d52d29325a3e7aca9b9f3e",
+          "lf_sha256": "43ed6621e12c060c5dde46a47a0037dd3fcdf19651c0498f366229d0700537ab"
+        },
+        "tools/run_woven_preview.py": {
+          "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+          "git_blob_sha": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+          "lf_sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+        }
+      }
+    },
+    "controller_source": {
+      "commit": "13178fe9717c1dec54e67bbb786c1e834d5ea830",
+      "tree": "c2c302c56d7f93f1c96240dd7f7ac5c99906ab8b",
+      "files": {
+        ".github/workflows/engineering-previews.yml": {
+          "sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508",
+          "git_blob_sha": "2379ae4f9064bad733e9161ad0a3c3ba7f3fcfb1",
+          "lf_sha256": "8640eedc4244cd243a62b05c10f9e04c5f142065f44f8013c7fd8012ac958508"
+        },
+        "mpm_jax/export.py": {
+          "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+          "git_blob_sha": "c63793a32e959c61fcb64eb06456873bdc7b9377",
+          "lf_sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d"
+        },
+        "mpm_jax/paraview_scene.py": {
+          "sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9",
+          "git_blob_sha": "34a35a61355ae8346023a704bb981499f868d19c",
+          "lf_sha256": "fcba19f926bf066e8d2ba7b4f23a0c57c8ee8d0b1053d88147ccafa6835fa4e9"
+        },
+        "mpm_jax/particle_fields.py": {
+          "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+          "git_blob_sha": "f891d49ac55d1a5107384211f822c64acfd80336",
+          "lf_sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+        },
+        "mpm_jax/visualization.py": {
+          "sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88",
+          "git_blob_sha": "d59754760a48639bed0e576a19ad0ba47d176a91",
+          "lf_sha256": "9c79641d588ac97f5141835e51d201eccf204fbefe6666176e26d02f4d4bef88"
+        },
+        "tools/check_vtk.py": {
+          "sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+          "git_blob_sha": "6d6e27c5b82e6916a77c7b9418395347b379dbd7",
+          "lf_sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d"
+        },
+        "tools/encode_video.py": {
+          "sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4",
+          "git_blob_sha": "86014ea39e1ea9e90be2370cb2a131eeaee6cb75",
+          "lf_sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4"
+        },
+        "tools/finish_fibre_pull_off.py": {
+          "sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d",
+          "git_blob_sha": "c5be282e9d127382ddc1ae1dcae5cb48806e51a3",
+          "lf_sha256": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d"
+        },
+        "tools/package_fibre_final_media.py": {
+          "sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984",
+          "git_blob_sha": "85d2e3bd1343f7b8806630b57eb323e00cf77e5e",
+          "lf_sha256": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984"
+        },
+        "tools/run_woven_preview.py": {
+          "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+          "git_blob_sha": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+          "lf_sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+        }
+      }
+    },
+    "input_sha256": {
+      "final_state_0.npz": "97ec21e421eb4c577675aaeea05822b235f7d2b6ed80260aed4575659816561a",
+      "observables.csv": "e7d488b4649f3edab23c0d2f8989f71df42ee7031957377f458c48e8b7d7a4fd",
+      "checkpoint.npz": "ca90867e26cafca0e673d63c35a104979a27c82e8f3be6223a4e9e1059800be0"
+    }
+  },
+  "independent_full_contact_law_validation": false,
+  "experimental_material_validation": false
+}

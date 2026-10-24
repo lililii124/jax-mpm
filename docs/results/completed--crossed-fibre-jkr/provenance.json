@@ -1,0 +1,54 @@
+{
+  "schema": "completed-run-provenance-v1",
+  "title": "Crossed fibre JKR contact",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40078845859",
+  "media_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40092982209",
+  "numerical_source_commit": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+  "raw_receipt_sha256": "67654f98331dfb8055d4971140c1eac5ebddecb4cdf293c9e93a984c1e66ea02",
+  "source_files_checked": 18,
+  "transport": {
+    "numerical_artifact": {
+      "id": 12558786185,
+      "name": "fibre-pull-off-jkr-f60-40078845859-1",
+      "zip": "H:\\test\\mpm\\.local\\full-plan-prefixes\\40078845859-1\\12558786185.zip",
+      "zip_sha256": "e143420133eb3552601cac2645b7dd1c3d86cab635b5b0c13260aa09576e396e",
+      "github_digest": "sha256:e143420133eb3552601cac2645b7dd1c3d86cab635b5b0c13260aa09576e396e",
+      "complete_listed_members_verified": true,
+      "omitted": {
+        "result/jkr/trajectory_x.npy": {
+          "bytes": 296079488,
+          "sha256": "f3d6ae9568e4f2609c2e3791904cbe1deeff54f09ae1b7f2e6e7c6bd6a407b18",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        },
+        "result/jkr/trajectory_speed.npy": {
+          "bytes": 98693248,
+          "sha256": "434ee6673ffe10722fdb8a5a68963e7542697bb3dff970ec8623c060943df0e3",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        },
+        "result/jkr/trajectory_temperature.npy": {
+          "bytes": 49346688,
+          "sha256": "bec75316a18469bf6635dd6b956041862c9763438dce6bf5570b9af079caa1c3",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        }
+      },
+      "directory": "H:\\test\\mpm\\.local\\full-plan-prefixes\\40078845859-1\\12558786185"
+    },
+    "numerical_zip_whole_locally_verified": true,
+    "media_receipt_zip_sha256": "16e88001af73676a87109f3bb26c06ebde5546d30ad245b7dd7c500064aa1cf9",
+    "media_full_artifact_id": 12560126445,
+    "media_full_artifact_github_digest": "sha256:3fdd7872da33f6293afe0829fe85ec38e0ea3a69437b664e570c5ec0d90d07b4",
+    "selected_media_members_crc_and_manifest_sha_locally_verified": true,
+    "complete_raw_archive_retrieved_and_all_original_members_hashed_in_cloud": {
+      "schema": "fibre-final-retrieved-whole-raw-v1",
+      "passed": true,
+      "raw_archive_sha256": "1bb76a00b54669964b12d208dfd37951bb923ccacd2ebc99a6a821fee0ea94ab",
+      "original_members_checked": 21,
+      "delivery_files_checked": 83,
+      "original_receipt_sha256": "67654f98331dfb8055d4971140c1eac5ebddecb4cdf293c9e93a984c1e66ea02",
+      "public_visual_review_passed": false
+    },
+    "complete_raw_backup_locally_verified": false
+  },
+  "scope": "Complete30ms crossed-rod prescribed-grip protocol. Local circular JKR patch law. Shared true-scale central view crops rod ends. Motion and inter-model visual differences are modest. Equivalent-curvature approximation; no independent full contact-law validation, experimental calibration or fracture claim.",
+  "experimental_material_validation": false
+}

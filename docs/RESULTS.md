@@ -84,6 +84,9 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [completed--ceramic-impact-debris](results/completed--ceramic-impact-debris/summary.json) | 386,420 | 6,120 | 0.0003 | 0.964861 | 1 | ParaView |
 | [completed--crossed-fibre-hertz](results/completed--crossed-fibre-hertz/summary.json) | 202,240 | 24,495 | 0.03 | 0.980333 | 0 | ParaView |
 | [completed--woven-plate-impact](results/completed--woven-plate-impact/summary.json) | 819,200 | 14,460 | 0.0002 | 0.957941 | 0 | ParaView |
+| [completed--crossed-fibre-jkr](results/completed--crossed-fibre-jkr/summary.json) | 202,240 | 24,495 | 0.03 | 0.979792 | 0 | ParaView |
+| [completed--crossed-fibre-md](results/completed--crossed-fibre-md/summary.json) | 202,240 | 24,495 | 0.03 | 0.9785 | 0 | ParaView |
+| [completed--crossed-fibre-self-consistent](results/completed--crossed-fibre-self-consistent/summary.json) | 202,240 | 24,495 | 0.03 | 0.978417 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)

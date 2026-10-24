@@ -1,0 +1,590 @@
+{
+  "case": "fibre-pull-off/self-consistent",
+  "completed": true,
+  "production_eligible": false,
+  "segment_complete": false,
+  "phase": "completed",
+  "segment_end_frame": 60,
+  "last_saved_frame": 60,
+  "last_saved_time_s": 0.030000000000017554,
+  "partial_step_clock_s": null,
+  "particles": [
+    202240
+  ],
+  "steps": 24495,
+  "target_steps": 24495,
+  "simulation_time": 0.030000000000017554,
+  "target_simulation_time": 0.03,
+  "solver_seconds": 7640.310781979,
+  "compile_and_warmup_seconds": 2.1306444159999955,
+  "timing_scope": "Solver time accumulates accepted block calls across segments; compilation time is for the current segment only and excludes setup and checkpoint IO.",
+  "dtype": "float64",
+  "runtime": {
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4",
+    "python": "3.12.13"
+  },
+  "source": {
+    "files": {
+      "examples/fibre_pull_off.py": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+      "examples/triaxial_failure.py": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+      "examples/triaxial_fibre_geometry.py": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/local_contact_models.py": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+      "mpm_jax/maugis_dugdale.py": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+      "mpm_jax/cohesive_bem.py": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+    },
+    "fingerprint": "6679b3fff58372474b6cf6d6e8fd983e44b0dee3f413972eb1441e10424006e5"
+  },
+  "definition": {
+    "series": "crossed-fibre-pull-off-v1",
+    "model": "self-consistent",
+    "duration_s": 0.03,
+    "frames": 60,
+    "saved_states": 61,
+    "steps": 24495,
+    "dt": 1.224739742804654e-06,
+    "frame_steps": [
+      0,
+      408,
+      816,
+      1225,
+      1633,
+      2041,
+      2450,
+      2858,
+      3266,
+      3674,
+      4082,
+      4491,
+      4899,
+      5307,
+      5716,
+      6124,
+      6532,
+      6940,
+      7348,
+      7757,
+      8165,
+      8573,
+      8982,
+      9390,
+      9798,
+      10206,
+      10614,
+      11023,
+      11431,
+      11839,
+      12248,
+      12656,
+      13064,
+      13472,
+      13880,
+      14289,
+      14697,
+      15105,
+      15514,
+      15922,
+      16330,
+      16738,
+      17146,
+      17555,
+      17963,
+      18371,
+      18780,
+      19188,
+      19596,
+      20004,
+      20412,
+      20821,
+      21229,
+      21637,
+      22046,
+      22454,
+      22862,
+      23270,
+      23678,
+      24087,
+      24495
+    ],
+    "geometry": {
+      "length_m": 0.064,
+      "radius_m": 0.002,
+      "diameter_m": 0.004,
+      "initial_surface_gap_m": 5e-05,
+      "particle_spacing_m": 0.0002,
+      "cross_section_particles": 316,
+      "fibres": [
+        {
+          "id": 0,
+          "family_id": 0,
+          "longitudinal_sections": 320,
+          "particle_count": 101120,
+          "particle_slice": [
+            0,
+            101120
+          ],
+          "radius_m": 0.002
+        },
+        {
+          "id": 1,
+          "family_id": 1,
+          "longitudinal_sections": 320,
+          "particle_count": 101120,
+          "particle_slice": [
+            101120,
+            202240
+          ],
+          "radius_m": 0.002
+        }
+      ],
+      "sampled_cross_section_area_m2": 1.2640000000000001e-05,
+      "circle_area_m2": 1.2566370614359172e-05,
+      "cross_section_area_relative_error": 0.005859240340778671,
+      "grip_length_m": 0.005,
+      "free_span_m": 0.054,
+      "sampling": "Uniform cell-centre lattice, clipped by the reference circle; every particle has volume spacing^3.",
+      "contact_coordinates": "Mass-weighted section centroids. Symmetric straight reference sections have zero centroid offset."
+    },
+    "geometry_fields": {
+      "x": {
+        "shape": [
+          202240,
+          3
+        ],
+        "dtype": "float64",
+        "sha256": "889c6dd6a4df4e34bd5e8bba4ae378ad64f5abf7f70d9b9206763223dce41f46"
+      },
+      "volume": {
+        "shape": [
+          202240
+        ],
+        "dtype": "float64",
+        "sha256": "c546c203b83d5003e25592d176efa0b78c3a6290d388f1b3be8a19e909908d3c"
+      },
+      "mass": {
+        "shape": [
+          202240
+        ],
+        "dtype": "float64",
+        "sha256": "84ca5d5359d5a48699b5348891d3fc0a7bc04108904eb7e781851625fe3a322a"
+      },
+      "fibre_id": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int32",
+        "sha256": "294603f0867603ba4364c19e043880b4bf45a4cf2f880571cb10f08ce9d3b036"
+      },
+      "family_id": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int32",
+        "sha256": "294603f0867603ba4364c19e043880b4bf45a4cf2f880571cb10f08ce9d3b036"
+      }
+    },
+    "grip_masks": [
+      {
+        "shape": [
+          202240
+        ],
+        "dtype": "bool",
+        "sha256": "6cf7f72b84322f09689d4f8c8f5443efaf72df924184daf4d7071d631f94cfef"
+      },
+      {
+        "shape": [
+          202240
+        ],
+        "dtype": "bool",
+        "sha256": "ac1a644cd296844b45a97d168537a272822116dfbb3b706d7348c66ea74fd680"
+      }
+    ],
+    "contact_candidates": [
+      {
+        "fibre_ids": [
+          0,
+          1
+        ],
+        "reference_centreline_points_m": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.00405,
+            0.0
+          ]
+        ]
+      }
+    ],
+    "material": {
+      "young": 2000000.0,
+      "poisson": 0.25,
+      "density": 1000.0,
+      "tensile_strength": 300000.0,
+      "fracture_energy": 100.0,
+      "characteristic_length": 0.0004
+    },
+    "wave_speed_m_per_s": 48.98979485566356,
+    "cfl": 0.15,
+    "grid": {
+      "dx_m": 0.0004,
+      "padding_cells": 4,
+      "bounds_m": [
+        [
+          [
+            -0.032,
+            0.032
+          ],
+          [
+            -0.007,
+            0.007
+          ],
+          [
+            -0.003,
+            0.003
+          ]
+        ],
+        [
+          [
+            -0.003,
+            0.003
+          ],
+          [
+            -0.00295,
+            0.01105
+          ],
+          [
+            -0.032,
+            0.032
+          ]
+        ]
+      ],
+      "shapes": [
+        [
+          169,
+          45,
+          25
+        ],
+        [
+          25,
+          45,
+          169
+        ]
+      ],
+      "nodes": 380250,
+      "max_nodes": 5000000
+    },
+    "protocol": {
+      "times_s": [
+        0.009999999999999998,
+        0.012,
+        0.025,
+        0.03
+      ],
+      "indentation_m": 0.0003,
+      "lift_m": 0.0015,
+      "boundary": "Both ends of lower fibre fixed in xyz; both ends of upper fibre share prescribed y translation and fixed xz.",
+      "velocity_discretization": "Exact displacement increment over each time step divided by dt."
+    },
+    "contact": {
+      "effective_modulus_Pa": 1066666.6666666667,
+      "reference_effective_radius_m": 0.002,
+      "work_of_adhesion_J_per_m2": 1.2,
+      "interaction_range_m": 2e-05,
+      "outer_radius_m": 0.001,
+      "rings": 32,
+      "coverage_skin_m": 0.008,
+      "search_window": 15
+    },
+    "gravity_m_per_s2": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "geometry_scale": 1.0,
+    "scope": "Dynamic independent-fibre bending with a circular-equivalent unresolved normal indentation law; no resolved contact-pressure footprint, exact elliptical contact, calibrated adhesion, or quasistatic strength claim.",
+    "energy_scope": "Pair force/torque and total linear impulse are checked. Changing local curvature and adhesion snap are not a complete conservative coupling.",
+    "source": {
+      "files": {
+        "examples/fibre_pull_off.py": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+        "examples/triaxial_failure.py": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+        "examples/triaxial_fibre_geometry.py": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+        "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+        "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+        "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+        "mpm_jax/local_contact_models.py": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+        "mpm_jax/maugis_dugdale.py": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+        "mpm_jax/cohesive_bem.py": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+        "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+      },
+      "fingerprint": "6679b3fff58372474b6cf6d6e8fd983e44b0dee3f413972eb1441e10424006e5"
+    }
+  },
+  "configs": [
+    {
+      "dim": 3,
+      "dt": 1.224739742804654e-06,
+      "domain_size": 0.064,
+      "n_grid": 160,
+      "grid_type": "independent-packed-rectangular-fibre-fields",
+      "failure_mode": "retain",
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "young": 2000000.0,
+      "poisson": 0.25,
+      "density": 1000.0,
+      "tensile_strength": 300000.0,
+      "fracture_energy": 100.0,
+      "characteristic_length": 0.0004
+    }
+  ],
+  "particle_spacing_m": 0.0002,
+  "particle_fields": {
+    "file": "particle_fields.npz",
+    "fields": {
+      "phase": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int8",
+        "sha256": "bda70a65d893897036e9fd4975ce320470a8e532bf308b058ba74b880438fa3e"
+      },
+      "yarn_id": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int32",
+        "sha256": "294603f0867603ba4364c19e043880b4bf45a4cf2f880571cb10f08ce9d3b036"
+      },
+      "family_id": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int32",
+        "sha256": "294603f0867603ba4364c19e043880b4bf45a4cf2f880571cb10f08ce9d3b036"
+      },
+      "grip_id": {
+        "shape": [
+          202240
+        ],
+        "dtype": "int8",
+        "sha256": "61454021f1de9722020871853e3a8e9f1f0b272569c125831004e966a6dce8b0"
+      }
+    }
+  },
+  "contact_model": {
+    "particles": 202240,
+    "sections": 640,
+    "segments": 638,
+    "candidate_pairs": 1,
+    "coverage_segment_pairs": 10277,
+    "search_window_segments_each_side": 15,
+    "coverage_skin_m": 0.008,
+    "proximity_margin_m": 2e-05,
+    "centreline": "Current mass-weighted cross-section centroids with piecewise linear interpolation.",
+    "radius": "Fixed reference circular radii; only small cross-sectional strain is represented.",
+    "curvature": "Two projected cylinder curvature tensors; R_eff is the inverse square root of their summed determinant. Orthogonal equal cylinders give R_eff=R, not R/2. This circular replacement is not an exact elliptical JKR solution.",
+    "energy": "Normal force is the fixed-curvature indentation derivative. Curvature changes do not include their geometric work term, so global contact-energy conservation is not asserted.",
+    "coverage": "All reference capsules within radii sum plus skin and proximity margin are enumerated and their current closest points are evaluated. Each registered fibre pair also uses the global minimum over that list; an inactive contact can recenter on a closer remote basin. After removing one global proper rigid motion, twice the maximum section displacement must remain within skin; otherwise rebuild before accepting a step. Every currently close segment pair must lie within the window recentered on the selected minimum; unseeded or additional remote close regions remain invalid, including same-family pairs.",
+    "limits": "Independent fibres only; no self-contact within one fibre and one contact history per fibre pair. An active attachment cannot jump beyond its previous search window. Physical end-cap contacts, active contact on failed sections, degenerate curvature, invalid segment history and exhausted unverified local searches require rejection. The returned validity flag must be checked before accepting forces or new attachment history."
+  },
+  "geometry_scale": 1.0,
+  "min_J": 0.9784169527371348,
+  "max_damage": 0.0,
+  "scope": "Dynamic independent-fibre bending with a circular-equivalent unresolved normal indentation law; no resolved contact-pressure footprint, exact elliptical contact, calibrated adhesion, or quasistatic strength claim.",
+  "energy_scope": "Pair force/torque and total linear impulse are checked. Changing local curvature and adhesion snap are not a complete conservative coupling.",
+  "force_sampling": "Contact force/history correspond to each saved position; grip forces are separately labelled interval averages and last-step impulses/dt.",
+  "initial": {
+    "time": 0.0,
+    "mass": 0.001617920000000001,
+    "reference_volume": 1.61792e-06,
+    "current_volume": 1.61792e-06,
+    "min_J": 1.0,
+    "max_J": 1.0,
+    "mass_relative_drift": 0.0,
+    "body_momentum_balance_residual_Ns": 0.0,
+    "contact_impulse_balance_Ns": 0.0,
+    "max_damage": 0.0,
+    "failed_mass": 0.0,
+    "state_valid": true,
+    "coupling_valid": true,
+    "failure_reason_code": 0
+  },
+  "final": {
+    "time": 0.030000000000017554,
+    "mass": 0.001617920000000001,
+    "reference_volume": 1.61792e-06,
+    "current_volume": 1.6182874404796684e-06,
+    "min_J": 0.985088078245232,
+    "max_J": 1.0169208711308155,
+    "mass_relative_drift": 0.0,
+    "body_momentum_balance_residual_Ns": 3.676638881324848e-19,
+    "contact_impulse_balance_Ns": 1.1434944787933055e-20,
+    "max_damage": 0.0,
+    "failed_mass": 0.0,
+    "state_valid": true,
+    "coupling_valid": true,
+    "failure_reason_code": 0
+  },
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "accepted_steps": 0,
+      "prescribed_upper_grip_displacement_m": 0.0,
+      "contact_force_N": 0.0,
+      "contact_gap_m": 4.9999999999987554e-05,
+      "contact_radius_m": 0.0,
+      "effective_radius_m": 0.0019999999999999996,
+      "contact_active": false,
+      "contact_potential_J": 0.0,
+      "contact_force_balance_N": 0.0,
+      "contact_torque_balance_Nm": 0.0,
+      "kinetic_translational_energy_J": 0.0,
+      "kinetic_affine_energy_J": 0.0,
+      "kinetic_energy_J": 0.0,
+      "elastic_energy_J": 0.0,
+      "kinetic_to_elastic_ratio": null,
+      "total_clamp_work_J": 0.0,
+      "grid_kinetic_correction_J": 0.0,
+      "total_contact_work_J": 0.0,
+      "maximum_step_contact_force_N": 0.0,
+      "minimum_step_contact_force_N": 0.0,
+      "maximum_step_contact_radius_m": 0.0,
+      "maximum_step_radius_relative_change": 0.0,
+      "maximum_step_nonrigid_displacement_m": 0.0,
+      "grip_position_error_m": 0.0,
+      "grip_velocity_error_m_per_s": 0.0,
+      "max_damage": 0.0,
+      "failed_particles": 0,
+      "lower_centre_displacement_y_m": 0.0,
+      "lower_clamp_work_J": 0.0,
+      "lower_contact_work_J": 0.0,
+      "lower_contact_force_x_N": 0.0,
+      "lower_interval_grip_force_x_N": 0.0,
+      "lower_last_step_grip_force_x_N": 0.0,
+      "lower_grip_impulse_x_Ns": 0.0,
+      "lower_contact_impulse_x_Ns": 0.0,
+      "lower_momentum_x_Ns": 0.0,
+      "lower_contact_force_y_N": 0.0,
+      "lower_interval_grip_force_y_N": 0.0,
+      "lower_last_step_grip_force_y_N": 0.0,
+      "lower_grip_impulse_y_Ns": 0.0,
+      "lower_contact_impulse_y_Ns": 0.0,
+      "lower_momentum_y_Ns": 0.0,
+      "lower_contact_force_z_N": 0.0,
+      "lower_interval_grip_force_z_N": 0.0,
+      "lower_last_step_grip_force_z_N": 0.0,
+      "lower_grip_impulse_z_Ns": 0.0,
+      "lower_contact_impulse_z_Ns": 0.0,
+      "lower_momentum_z_Ns": 0.0,
+      "upper_centre_displacement_y_m": 0.0,
+      "upper_clamp_work_J": 0.0,
+      "upper_contact_work_J": 0.0,
+      "upper_contact_force_x_N": 0.0,
+      "upper_interval_grip_force_x_N": 0.0,
+      "upper_last_step_grip_force_x_N": 0.0,
+      "upper_grip_impulse_x_Ns": 0.0,
+      "upper_contact_impulse_x_Ns": 0.0,
+      "upper_momentum_x_Ns": 0.0,
+      "upper_contact_force_y_N": 0.0,
+      "upper_interval_grip_force_y_N": 0.0,
+      "upper_last_step_grip_force_y_N": 0.0,
+      "upper_grip_impulse_y_Ns": 0.0,
+      "upper_contact_impulse_y_Ns": 0.0,
+      "upper_momentum_y_Ns": 0.0,
+      "upper_contact_force_z_N": 0.0,
+      "upper_interval_grip_force_z_N": 0.0,
+      "upper_last_step_grip_force_z_N": 0.0,
+      "upper_grip_impulse_z_Ns": 0.0,
+      "upper_contact_impulse_z_Ns": 0.0,
+      "upper_momentum_z_Ns": 0.0
+    },
+    "final": {
+      "time": 0.030000000000017554,
+      "accepted_steps": 24495,
+      "prescribed_upper_grip_displacement_m": 0.0015,
+      "contact_force_N": 0.0,
+      "contact_gap_m": 0.0030353877739223174,
+      "contact_radius_m": 0.0,
+      "effective_radius_m": 0.002,
+      "contact_active": false,
+      "contact_potential_J": 0.0,
+      "contact_force_balance_N": 0.0,
+      "contact_torque_balance_Nm": 0.0,
+      "kinetic_translational_energy_J": 1.553323866668911e-05,
+      "kinetic_affine_energy_J": 5.182651545035335e-09,
+      "kinetic_energy_J": 1.5538421318234145e-05,
+      "elastic_energy_J": 2.1663156312003013e-05,
+      "kinetic_to_elastic_ratio": 0.7172741171435252,
+      "total_clamp_work_J": 3.7839540312471076e-05,
+      "grid_kinetic_correction_J": -9.683784878314157e-05,
+      "total_contact_work_J": -3.567987145533479e-07,
+      "maximum_step_contact_force_N": 0.022926005271818043,
+      "minimum_step_contact_force_N": -0.014608207265493634,
+      "maximum_step_contact_radius_m": 0.0004375,
+      "maximum_step_radius_relative_change": 2.3765711620882257e-16,
+      "maximum_step_nonrigid_displacement_m": 0.0017944997517291457,
+      "grip_position_error_m": 1.7520707107365752e-16,
+      "grip_velocity_error_m_per_s": 0.0,
+      "max_damage": 0.0,
+      "failed_particles": 0,
+      "lower_centre_displacement_y_m": -0.00038093353554163737,
+      "lower_clamp_work_J": 0.0,
+      "lower_contact_work_J": 6.796290875533955e-06,
+      "lower_contact_force_x_N": 0.0,
+      "lower_interval_grip_force_x_N": 5.798281756232399e-17,
+      "lower_last_step_grip_force_x_N": -1.0428067459109007e-15,
+      "lower_grip_impulse_x_Ns": 4.056062676823958e-20,
+      "lower_contact_impulse_x_Ns": 9.432281546305969e-22,
+      "lower_momentum_x_Ns": 3.8803315367139764e-20,
+      "lower_contact_force_y_N": 0.0,
+      "lower_interval_grip_force_y_N": 0.008458658196970843,
+      "lower_last_step_grip_force_y_N": 0.0066025095782464675,
+      "lower_grip_impulse_y_Ns": -6.019444313784568e-05,
+      "lower_contact_impulse_y_Ns": -1.1354265383312321e-06,
+      "lower_momentum_y_Ns": -6.132986967617702e-05,
+      "lower_contact_force_z_N": 0.0,
+      "lower_interval_grip_force_z_N": -1.8068826138562777e-16,
+      "lower_last_step_grip_force_z_N": -3.244940035479342e-16,
+      "lower_grip_impulse_z_Ns": 5.423834708010932e-20,
+      "lower_contact_impulse_z_Ns": 1.507076844952458e-20,
+      "lower_momentum_z_Ns": 6.965759352940163e-20,
+      "upper_centre_displacement_y_m": 0.0026044542383807014,
+      "upper_clamp_work_J": 3.7839540312471076e-05,
+      "upper_contact_work_J": -7.153089590087303e-06,
+      "upper_contact_force_x_N": 0.0,
+      "upper_interval_grip_force_x_N": 1.6031809553939507e-16,
+      "upper_last_step_grip_force_x_N": 2.144372680224812e-17,
+      "upper_grip_impulse_x_Ns": 1.431538934002753e-19,
+      "upper_contact_impulse_x_Ns": -9.432281546306052e-22,
+      "upper_momentum_x_Ns": 1.4053211176007524e-19,
+      "upper_contact_force_y_N": 0.0,
+      "upper_interval_grip_force_y_N": -0.049740047473710684,
+      "upper_last_step_grip_force_y_N": -0.04404487136360572,
+      "upper_grip_impulse_y_Ns": -0.00010601616297711448,
+      "upper_contact_impulse_y_Ns": 1.1354265383312207e-06,
+      "upper_momentum_y_Ns": -0.00010488073643878362,
+      "upper_contact_force_z_N": 0.0,
+      "upper_interval_grip_force_z_N": -5.2241314115307e-16,
+      "upper_last_step_grip_force_z_N": -1.1477789068202572e-15,
+      "upper_grip_impulse_z_Ns": 2.736632882362106e-20,
+      "upper_contact_impulse_z_Ns": -1.5070768449524528e-20,
+      "upper_momentum_z_Ns": -2.555534786806989e-20
+    }
+  }
+}

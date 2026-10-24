@@ -1,0 +1,33 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "contact-controller-binding.json": "9cf83032b608a7ba03f05a0dddeee0437358a7a540c8b8bc7dad0bf1b354f7b8",
+    "diagnostics.csv": "9b57bd5843ee76368e7c207170f841ace8d4fd9a79d58ac52a73a3318baf9470",
+    "material-review.json": "88ca579f74c7c62dc84086e66f56b74df69bb7ac55cbbd294c46e8a5e5f59fd0",
+    "media-check.json": "3073ace16fb5cf930e8c55b13db44086df823d375ec72c4552ae79bef80ed756",
+    "observables.csv": "e7d488b4649f3edab23c0d2f8989f71df42ee7031957377f458c48e8b7d7a4fd",
+    "physical-review.json": "d4e22d86fda7688901d5fd00ec35c245c6182fe40aa4795ccfdb47d28606eb2b",
+    "prefix-review.json": "b247af70922d1a85f675661cdfd8df135424075eae5c2567a4a7bdbf3189f09c",
+    "provenance.json": "35679346e50311cfe4664572e6188a5b18ae102bf6ed7603b7f8883dcbe7b86a",
+    "render.json": "4ff6ffdfbc0bc0b7c06bcdc72f8dea6f2fce4c10763a89592b27056643c90272",
+    "summary.json": "1fa35e3b6e16c9a91ca13650997d304d7fbba7ae5e61f5ae5adc917d0252f26a",
+    "video.json": "549d54836794227edbf6255ac8b9e5e08d9bf6ff2ca6800fe514277db23e49e3",
+    "vtk_check.json": "62b1582e12167f2656e7460032aee8a7028869207719db6981d38dd4c04449e3",
+    "vtk_metadata.json": "27b234c8fa1b7302b5beec145bc2d49bfe29c2806adf4660539748593e3d81ca"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.9797920310484832,
+    "max_damage": 0.0
+  },
+  "scope": "Complete30ms crossed-rod prescribed-grip protocol. Local circular JKR patch law. Shared true-scale central view crops rod ends. Motion and inter-model visual differences are modest. Equivalent-curvature approximation; no independent full contact-law validation, experimental calibration or fracture claim.",
+  "experimental_material_validation": false
+}

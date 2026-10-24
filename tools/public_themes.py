@@ -67,7 +67,8 @@ def theme(value):
 def order(value):
     value = value.lower()
     rank = (
-        0 if "nonadhesive-pull-off" in value or "nonadhesive pull-off" in value
+        -1 if "single fibre" in value or "single-fibre" in value or "single fiber" in value
+        else 0 if "nonadhesive-pull-off" in value or "nonadhesive pull-off" in value
         else 1 if "adhesive-pull-off" in value or "adhesive pull-off" in value
         else 2 if "sinusoid" in value
         else 3

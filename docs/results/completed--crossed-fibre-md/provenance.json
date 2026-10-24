@@ -1,0 +1,54 @@
+{
+  "schema": "completed-run-provenance-v1",
+  "title": "Crossed fibre MD contact",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40078855654",
+  "media_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40092991573",
+  "numerical_source_commit": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+  "raw_receipt_sha256": "57d807c69bbe6a5d23f30fde1829d560ed744eb79644bae7de6b2e4a5cce9f0f",
+  "source_files_checked": 18,
+  "transport": {
+    "numerical_artifact": {
+      "id": 12558268741,
+      "name": "fibre-pull-off-md-f60-40078855654-1",
+      "zip": "H:\\test\\mpm\\.local\\full-plan-prefixes\\40078855654-1\\12558268741.zip",
+      "zip_sha256": "5a68c378418ed7cbd44c10089703be7d0c205cff95c38253bf34ffa4ec137dba",
+      "github_digest": "sha256:5a68c378418ed7cbd44c10089703be7d0c205cff95c38253bf34ffa4ec137dba",
+      "complete_listed_members_verified": true,
+      "omitted": {
+        "result/md/trajectory_x.npy": {
+          "bytes": 296079488,
+          "sha256": "f2ea77db0890c5c7cf2f8506876855f9c56f54c1847f6c8baf2a7381c2dc06dd",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        },
+        "result/md/trajectory_speed.npy": {
+          "bytes": 98693248,
+          "sha256": "281247724027e788b90d2a4e90f53cd87dc7d13a72044b2fa5d061e040567f0d",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        },
+        "result/md/trajectory_temperature.npy": {
+          "bytes": 49346688,
+          "sha256": "bec75316a18469bf6635dd6b956041862c9763438dce6bf5570b9af079caa1c3",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        }
+      },
+      "directory": "H:\\test\\mpm\\.local\\full-plan-prefixes\\40078855654-1\\12558268741"
+    },
+    "numerical_zip_whole_locally_verified": true,
+    "media_receipt_zip_sha256": "2eb690b8d01dfc8b8ba41ea2a4341472382b765ec5b3735970506b40a1cb144c",
+    "media_full_artifact_id": 12560036573,
+    "media_full_artifact_github_digest": "sha256:699515b1280f0d4e4f421165bbbf6e8f1b54eb1da86182685f30d7d111767649",
+    "selected_media_members_crc_and_manifest_sha_locally_verified": true,
+    "complete_raw_archive_retrieved_and_all_original_members_hashed_in_cloud": {
+      "schema": "fibre-final-retrieved-whole-raw-v1",
+      "passed": true,
+      "raw_archive_sha256": "f4b11fc2c44af31262edf7a8cc3464a4532a10fb787e07eba4f6d1f736c2a4d4",
+      "original_members_checked": 21,
+      "delivery_files_checked": 83,
+      "original_receipt_sha256": "57d807c69bbe6a5d23f30fde1829d560ed744eb79644bae7de6b2e4a5cce9f0f",
+      "public_visual_review_passed": false
+    },
+    "complete_raw_backup_locally_verified": false
+  },
+  "scope": "Complete30ms crossed-rod prescribed-grip protocol. Local circular Maugis-Dugdale patch law. Shared true-scale central view crops rod ends. Motion and inter-model visual differences are modest. Equivalent-curvature approximation; no independent full contact-law validation, experimental calibration or fracture claim.",
+  "experimental_material_validation": false
+}

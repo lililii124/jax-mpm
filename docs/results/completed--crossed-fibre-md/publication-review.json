@@ -1,0 +1,33 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "contact-controller-binding.json": "4939eff10e1f9f805295261b08457af1705909d0ca72914ef37ddda6bcca6c18",
+    "diagnostics.csv": "7e90b3de8584514da0b3aa7a7802b32a57690cf43770c64dc8ff8a99e3778ab7",
+    "material-review.json": "f5d746952799adc14745099fb7fe9757a9832bd12be6db7b3c4344cf41cb907c",
+    "media-check.json": "0801cd7c784f7e25c253331fa668835ac62d345e431b50f308274cdb9ff139d0",
+    "observables.csv": "32e831e0e8a654cdc9146234679d46ab70583524189856b51fe213310a92fa04",
+    "physical-review.json": "ac6061a364ff27b370724c7e34b8d63e38e2d7bcb5d61ec09ec59762f89d57a6",
+    "prefix-review.json": "d4bbe936bf75999edaa7a577770044155d51bd9754b9d51a87ae36b9a0ff07ba",
+    "provenance.json": "7fa8d0b97e13589582043191316d65b806e9e1f47919a5529420fc4f0325431a",
+    "render.json": "6ed1f532b04367766c1a111ebca138fac521507389fd45884dff5bddbbadf0f0",
+    "summary.json": "dead38964464fa41e4f8f50c8f2e53432c485a46b622a3cd9cdec728d5627250",
+    "video.json": "23884154f3cb72e27f28cd97ab454612664b194d13fe39b9ac5b0456a9c0eadd",
+    "vtk_check.json": "62b1582e12167f2656e7460032aee8a7028869207719db6981d38dd4c04449e3",
+    "vtk_metadata.json": "f29af97f87593309d5a9d6565917fa6ac965f6064739e1af9708c6ed72398c99"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.9784996185020522,
+    "max_damage": 0.0
+  },
+  "scope": "Complete30ms crossed-rod prescribed-grip protocol. Local circular Maugis-Dugdale patch law. Shared true-scale central view crops rod ends. Motion and inter-model visual differences are modest. Equivalent-curvature approximation; no independent full contact-law validation, experimental calibration or fracture claim.",
+  "experimental_material_validation": false
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "completed-run-provenance-v1",
+  "title": "Crossed fibre SC local BEM contact",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40078885920",
+  "media_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40093001104",
+  "numerical_source_commit": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+  "raw_receipt_sha256": "65e7439b2c31b9a75f0a0cb1be3775fdc544bb083eec74e51ff0e01eb803ac83",
+  "source_files_checked": 18,
+  "transport": {
+    "numerical_artifact": {
+      "id": 12557746712,
+      "name": "fibre-pull-off-self-consistent-f60-40078885920-1",
+      "zip": "H:\\test\\mpm\\.local\\full-plan-prefixes\\40078885920-1\\12557746712.zip",
+      "zip_sha256": "77ddadb1c67dbcef55e7723e62102cee721c4959bcd9349f58ed587f04e02602",
+      "github_digest": "sha256:77ddadb1c67dbcef55e7723e62102cee721c4959bcd9349f58ed587f04e02602",
+      "complete_listed_members_verified": true,
+      "omitted": {
+        "result/self-consistent/trajectory_x.npy": {
+          "bytes": 296079488,
+          "sha256": "9a61ed1ecde07212a10e1f96a1fc89e1b91a9b0541e75ddb675af6954a78552c",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        },
+        "result/self-consistent/trajectory_speed.npy": {
+          "bytes": 98693248,
+          "sha256": "d5c1b0ef935574057858493c1c3d7b78deb27f3521c72eb15cf693a3b6d14118",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        },
+        "result/self-consistent/trajectory_temperature.npy": {
+          "bytes": 49346688,
+          "sha256": "bec75316a18469bf6635dd6b956041862c9763438dce6bf5570b9af079caa1c3",
+          "reason": "Whole file exceeds remaining bounded-artifact budget; no truncated array is substituted."
+        }
+      },
+      "directory": "H:\\test\\mpm\\.local\\full-plan-prefixes\\40078885920-1\\12557746712"
+    },
+    "numerical_zip_whole_locally_verified": true,
+    "media_receipt_zip_sha256": "5db8c6f65ff8f52449bd5a3455cfd3c2001c97b5cdd1063a66fa5682ac072cfc",
+    "media_full_artifact_id": 12560186174,
+    "media_full_artifact_github_digest": "sha256:e43397c6b791d8e60e83ed82d2c4e930c77c455599149f85b68455ae48bdeb23",
+    "selected_media_members_crc_and_manifest_sha_locally_verified": true,
+    "complete_raw_archive_retrieved_and_all_original_members_hashed_in_cloud": {
+      "schema": "fibre-final-retrieved-whole-raw-v1",
+      "passed": true,
+      "raw_archive_sha256": "355a9a847e546a295687bf9ba44d8925d5ef7f2d0703d576a539ce97480182f4",
+      "original_members_checked": 21,
+      "delivery_files_checked": 83,
+      "original_receipt_sha256": "65e7439b2c31b9a75f0a0cb1be3775fdc544bb083eec74e51ff0e01eb803ac83",
+      "public_visual_review_passed": false
+    },
+    "complete_raw_backup_locally_verified": false
+  },
+  "scope": "Complete30ms crossed-rod prescribed-grip protocol. Local self-consistent cohesive BEM with32radial rings; connected-woven self-consistent contact remains unsupported. Shared true-scale central view crops rod ends. Motion and inter-model visual differences are modest. Equivalent-curvature approximation; no independent full contact-law validation, experimental calibration or fracture claim.",
+  "experimental_material_validation": false
+}

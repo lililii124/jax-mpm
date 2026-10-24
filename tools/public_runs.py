@@ -62,7 +62,7 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier) or summary.get("completed") is False:
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
-    if canonical in {"completed--woven-plate-impact", "completed--crossed-fibre-hertz", "completed--ceramic-impact-debris"}:
+    if canonical in {"completed--woven-plate-impact", "completed--crossed-fibre-hertz", "completed--ceramic-impact-debris", "completed--crossed-fibre-jkr", "completed--crossed-fibre-md", "completed--crossed-fibre-self-consistent"}:
         return is_archived_completed_ready(Path(folder), summary)
     source = canonical.split("--")[0]
     if source == "woven-preview":

@@ -1,0 +1,65 @@
+{
+  "bounds": [
+    -0.0319,
+    0.0319,
+    -0.0021675784138694794,
+    0.008732379972772918,
+    -0.0319,
+    0.0319
+  ],
+  "dim": 3,
+  "spacing": 0.0002,
+  "frames": 61,
+  "particles": 202240,
+  "fields": [
+    "speed",
+    "damage",
+    "temperature",
+    "body",
+    "failed",
+    "phase",
+    "yarn_id",
+    "family_id",
+    "grip_id"
+  ],
+  "visualization_dtype": "float32",
+  "source_dtype": "float64",
+  "field_ranges": {
+    "speed": [
+      0.0,
+      0.4300998558452458
+    ],
+    "damage": [
+      0.0,
+      0.0
+    ],
+    "temperature": [
+      293.1499938964844,
+      293.1499938964844
+    ],
+    "body": [
+      0.0,
+      0.0
+    ],
+    "failed": [
+      0.0,
+      0.0
+    ],
+    "phase": [
+      1.0,
+      1.0
+    ],
+    "yarn_id": [
+      0.0,
+      1.0
+    ],
+    "family_id": [
+      0.0,
+      1.0
+    ],
+    "grip_id": [
+      0.0,
+      2.0
+    ]
+  }
+}

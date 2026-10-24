@@ -1,0 +1,33 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "contact-controller-binding.json": "aeff12d7a846aee729df2d45bd5ea9d971f8cf0517c03b90adcbf08607c9730b",
+    "diagnostics.csv": "81129f69fe18a55f6df0937688163d99f54b82db4cd919ecf7e77375a086fad0",
+    "material-review.json": "0d131ec2209a6d28ef7efb5ff921f547f7219debd794f6860dc0f30a795df0c5",
+    "media-check.json": "240d03e51586bcd67abe39c872bb1129fc55943a3b3f71580edaec180c2168fd",
+    "observables.csv": "74a9804fadc1d123a7d2f8a410919f2751c86fb5e56524df96b44e27eef8e84d",
+    "physical-review.json": "45350ef68e681f153cd6f8e1feaeff9e8e105632226ce20ebd3403aeb9d02974",
+    "prefix-review.json": "10862e93ecb7f8992daf9ab2e0e401d280ffce73d5e5f8b8086358348bc81058",
+    "provenance.json": "f21569b03ce211d26c37ad428922a05f3f71b3f4a9b2c6e7884f37eac1dee7eb",
+    "render.json": "83b7b1b86074dc7a0e13b79510385f1530340cb442b9063b86c939e1e9ad19c7",
+    "summary.json": "f6b9875e735b23b02ff2ed838a193df8d644f37fa308f3f0f0994df91e689ce4",
+    "video.json": "42f62ea0c2b817e74315fe0ef5c8d877a732b93bea85bde73b2f6b13e9f89754",
+    "vtk_check.json": "62b1582e12167f2656e7460032aee8a7028869207719db6981d38dd4c04449e3",
+    "vtk_metadata.json": "b36db68e2eec74dd4784b67b37aa359d1f1664dcc4b14f8fbc42182bb1bd7ad5"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.9784169527371348,
+    "max_damage": 0.0
+  },
+  "scope": "Complete30ms crossed-rod prescribed-grip protocol. Local self-consistent cohesive BEM with32radial rings; connected-woven self-consistent contact remains unsupported. Shared true-scale central view crops rod ends. Motion and inter-model visual differences are modest. Equivalent-curvature approximation; no independent full contact-law validation, experimental calibration or fracture claim.",
+  "experimental_material_validation": false
+}
