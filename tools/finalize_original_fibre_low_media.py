@@ -33,7 +33,7 @@ def main():
   folder=cache/'data'/model;material=original_auditor.independent_material_review(folder);save(base/(model+'-material-review.json'),material)
   if not material['passed']:raise ValueError('Independent original final material/contact review refused')
   s=package.read(folder/'summary.json');g=s['definition']['geometry']
-  if not s['completed'] or s['steps']!=24495 or s['particles']!=202240 or g['length_m']!=.064 or g['radius_m']!=.002 or s['definition']['duration_s']!=.03:raise ValueError('Exact original64mm/D4mm/30ms case required')
+  if not s['completed'] or s['steps']!=24495 or s['target_steps']!=24495 or s['particles']!=[202240] or g['length_m']!=.064 or g['radius_m']!=.002 or s['definition']['duration_s']!=.03 or s['definition']['steps']!=24495 or s['definition']['frames']!=60 or s['definition']['saved_states']!=61:raise ValueError('Exact original64mm/D4mm/30ms case required')
   cases[model]=folder;caches[model]=cache;proofs[model]=proof;before[model]=inventory(cache)
  hsummary=package.read(cases['hertz']/'summary.json');msummary=package.read(cases['md']/'summary.json')
  for key in ('geometry','grid','material','protocol','frame_steps'):

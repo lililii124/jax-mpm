@@ -20,7 +20,9 @@ from examples.single_fibre_tension import descriptor,save_json
 def render(source,output):
     if output.exists():raise ValueError('Use a separate new read-only preview output')
     summary_path=source/'summary.json';summary_raw=summary_path.read_bytes() if summary_path.exists() else None
-    if summary_raw is None or not json.loads(summary_raw)['completed']:raise ValueError('Complete actual full61 summary required')
+    if summary_raw is None:raise ValueError('Complete actual full61 summary required')
+    admitted_summary=json.loads(summary_raw)
+    if not admitted_summary['completed'] or admitted_summary['particles']!=[202240] or admitted_summary['steps']!=24495 or admitted_summary['target_steps']!=24495:raise ValueError('Exact original single-body202240-particle summary required')
     plan=json.loads((source/'plan.json').read_text())
     if summary_raw is not None:summary=json.loads(summary_raw)
     else:
@@ -31,7 +33,7 @@ def render(source,output):
         signature=hashlib.sha256(json.dumps(plan,sort_keys=True).encode()).hexdigest()
         if str(cp['signature'])!=signature:raise ValueError('Actual saved-frame checkpoint differs from source/physical plan')
         frame=int(cp['frame']);tables=json.loads(str(cp['tables']));times=np.asarray(tables['times']);records=tables['frame_records']
-    if frame!=60 or plan['steps']!=24495 or plan['duration_s']!=.03 or plan['geometry']['length_m']!=.064 or plan['geometry']['radius_m']!=.002:raise ValueError('Only exact original64mm/D4mm/30ms/61states allowed')
+    if frame!=60 or plan['steps']!=24495 or plan['frames']!=60 or plan['saved_states']!=61 or plan['duration_s']!=.03 or plan['geometry']['length_m']!=.064 or plan['geometry']['radius_m']!=.002:raise ValueError('Only exact original64mm/D4mm/30ms/61states allowed')
     if len(times)!=frame+1 or len(records)!=frame+1:raise ValueError('Incomplete saved prefix')
     arrays={};fields={}
     for name in ('x','speed','damage','temperature','failed'):
