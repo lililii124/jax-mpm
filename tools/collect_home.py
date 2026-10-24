@@ -233,6 +233,10 @@ def main():
                 raise ValueError(f"GIF source differs from the selected cloud result: {entry['id']}")
             record["source_directory"] = directory
         public.append(record)
+    if (root / "docs/images/views/ceramic-cross-section.gif").is_file():
+        groups["Ceramics"].append(("JH2 ceramic central cross section", ceramic_section_cell()))
+    if (root / "docs/images/stages/metal-impact-f16.gif").is_file():
+        groups["Numerical stage previews"].append(("Metal impact numerical stage", metal_stage_cell()))
     lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
     for heading in THEMES:
         items = groups[heading]
@@ -245,10 +249,6 @@ def main():
             ordered = sorted(items, key=lambda item: (
                 WOVEN_LOADS.get(item[0].split(' · ')[-1], item[0]), item[0]))
         cells = [cell for _, cell in ordered]
-        if heading == THEMES[0] and (root / "docs/images/stages/metal-impact-f16.gif").is_file():
-            cells.append(metal_stage_cell())
-        if heading == THEMES[1] and (root / "docs/images/views/ceramic-cross-section.gif").is_file():
-            cells.append(ceramic_section_cell())
         for start in range(0, len(cells), columns):
             row = cells[start:start + columns]
             lines.append('<tr>')

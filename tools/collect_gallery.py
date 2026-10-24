@@ -267,10 +267,7 @@ def main():
     lines = [
         "# Gallery",
         "",
-        "Selected ParaView frames and videos from completed runs. Every material point is rendered.",
-        "Body colours distinguish contacting bodies; damage colours use a fixed range",
-        "over time. [Run records](RESULTS.md) contain",
-        "the parameters and numerical results.",
+        "ParaView frames and animations. [Run records](RESULTS.md).",
         "",
     ]
     manifest = []
@@ -330,9 +327,9 @@ def main():
                     "auxiliary_geometry": render.get("auxiliary_geometry", []),
                 }
             )
-        if heading == THEMES[0] and (ROOT / "docs/images/stages/metal-impact-f16.gif").is_file():
+        if heading == "Numerical stage previews" and (ROOT / "docs/images/stages/metal-impact-f16.gif").is_file():
             cells.append(metal_stage_cell(""))
-        if heading == THEMES[1] and (ROOT / "docs/images/views/ceramic-cross-section.gif").is_file():
+        if heading == "Ceramics" and (ROOT / "docs/images/views/ceramic-cross-section.gif").is_file():
             cells.append(ceramic_section_cell(""))
         if cells:
             columns = 3
@@ -347,7 +344,14 @@ def main():
                 lines.append('</tr>')
             lines += ['</table>', '']
     (ROOT / "docs/GALLERY.md").write_text("\n".join(lines), encoding="utf-8")
-    (target / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    manifest_path = target / "manifest.json"
+    write_manifest = True
+    if manifest_path.exists():
+        previous = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if {entry["name"]: entry for entry in previous} == {entry["name"]: entry for entry in manifest}:
+            write_manifest = False
+    if write_manifest:
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Collected {len(manifest)} ParaView scenes")
 
 
