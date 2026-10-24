@@ -181,6 +181,7 @@ def main():
     )
     parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
     parser.add_argument("--matrix-opacity", type=float, help="matrix opacity with family_id colors (default: 0.008)")
+    parser.add_argument("--debris-style", choices=("subtle", "highlight"), default="subtle")
     parser.add_argument("--focus-bounds", type=float, nargs=6, help="explicit close-up bounds; geometry outside the view may be cropped")
     args = parser.parse_args()
     if args.scene_bounds is not None and args.focus_bounds is not None:
@@ -607,19 +608,23 @@ def main():
         if args.field != "body":
             display.SetScalarBarVisibility(view, False)
         displays.append(display)
+    debris_radius, debris_opacity, debris_rgb = (
+        (0.68, 0.90, [0.97, 0.42, 0.12]) if args.debris_style == "highlight"
+        else (0.38, 0.28, [0.46, 0.49, 0.53])
+    )
     for failed_selection in debris_sources:
         debris = Show(failed_selection, view)
         debris.Representation = "Point Gaussian"
-        debris.GaussianRadius = 0.38 * spacing
+        debris.GaussianRadius = debris_radius * spacing
         debris.ShaderPreset = "Sphere"
         debris.Emissive = 0
         debris.Ambient = 0.4
         debris.Diffuse = 0.6
         debris.Specular = 0.15
-        debris.Opacity = 0.28
+        debris.Opacity = debris_opacity
         debris.ColorArrayName = ["POINTS", ""]
-        debris.DiffuseColor = [0.46, 0.49, 0.53]
-        debris.AmbientColor = [0.46, 0.49, 0.53]
+        debris.DiffuseColor = debris_rgb
+        debris.AmbientColor = debris_rgb
         displays.append(debris)
     indices = [len(times) - 1] if args.final_only else range(len(times))
     displayed_counts = []
@@ -747,9 +752,10 @@ def main():
             "active_selection": "all retain-body particles and ballistic-body particles with failed == 0",
             "failed_selection": "failed != 0 in ballistic bodies only",
             "failed_representation": "Point Gaussian",
-            "failed_marker_radius": 0.38 * spacing,
-            "failed_marker_opacity": 0.28,
-            "failed_marker_rgb": [0.46, 0.49, 0.53],
+            "style": args.debris_style,
+            "failed_marker_radius": debris_radius * spacing,
+            "failed_marker_opacity": debris_opacity,
+            "failed_marker_rgb": debris_rgb,
             "all_particles_retained": True,
             "displayed_counts": displayed_counts,
             "interpretation": "Non-load-bearing particle markers, not resolved fragment surfaces",
