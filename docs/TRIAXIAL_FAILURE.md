@@ -52,6 +52,16 @@ Separate grids permit fibres to move and slide independently. A shared velocity
 field would impose bonding and is unsuitable for this series. Hertz and JKR
 contact are selectable. Any circular equivalent used for crossed-fibre contact
 must be recorded separately from an exact elliptical-contact solution.
+
+`--law hertz --contact-regions connected` selects one local Hertz force per
+connected active region of the finite-segment coverage graph. Separate regions
+on the same fibre pair contribute separate forces; neighbouring coverage cells
+within one region are not counted repeatedly. The discrete component solver
+rejects cell/patch overflow or incomplete convergence. Local contact radii must
+remain below 0.2 times the smaller fibre radius, and footprints sharing a fibre
+must not overlap. This mode does not implement adhesive history merging or
+splitting. The default single-region path remains available for all four local
+models. Fragment contact and end-cap contact retain their stated limits.
 The current curvature calculation treats the local tangents as straight
 cylinders and keeps the reference radii. It omits axial curvature of the crimped
 tubes and cross-section deformation; contact-model sensitivity is required

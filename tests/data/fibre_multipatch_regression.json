@@ -1,0 +1,36 @@
+{
+  "producer_commit": "c6a16b63f3856af8bd2cc41661c271e988ec8f1d",
+  "producer_run": 40043059806,
+  "saved_steps": 4980,
+  "checkpoint_sha256": "f7545c2072b081e8f1843b9124aa1bd0c13e2069d1447f808bc28dc01ba63cb9",
+  "plan_sha256": "fa3ff41b17eb6926f6d4e4be081825cea1e7ca9c0b5d44e868e255f9965af717",
+  "audit_sha256": "c784701042821214592824aa788816519097763b2e10fefb2c18a306ddcc0192",
+  "fixture_sha256": "18c0e9aaa8dc7df26c85102dc5adeaf787b001cf5061a2708b9958b063eed0d6",
+  "fibres": [
+    {
+      "original_fibre_id": 35,
+      "family_id": 1,
+      "global_segment_start": 16553,
+      "kept_section_indices": [
+        175,
+        217
+      ],
+      "selected_original_segment": 16748,
+      "selected_local_segment": 20
+    },
+    {
+      "original_fibre_id": 64,
+      "family_id": 2,
+      "global_segment_start": 26433,
+      "kept_section_indices": [
+        175,
+        217
+      ],
+      "selected_original_segment": 26628,
+      "selected_local_segment": 20
+    }
+  ],
+  "scope": "Derived mass-weighted section centroids and section masses from the preserved rejected contact checkpoint. Unit tests add four symmetric particles per section; these are not the original particle snapshot. No rejected checkpoint is resumed or made valid.",
+  "original_contact_failure": "Seed909 has two disconnected negative-gap regions; the former one-region-per-pair model rejected the additional region.",
+  "derivation": "Keep selected segment +/-20 sections (plus the last segment endpoint), retain actual section mass and failure membership; no centroid displacement or contact-gap adjustment."
+}

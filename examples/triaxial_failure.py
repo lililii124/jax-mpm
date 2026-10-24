@@ -26,10 +26,16 @@ SOURCE_FILES = (
 )
 
 
-def source_record():
+def source_record(extra_files=()):
     root = Path(__file__).resolve().parents[1]
-    files = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in SOURCE_FILES}
+    files = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in (*SOURCE_FILES, *extra_files)}
     return {"files": files, "fingerprint": hashlib.sha256(json.dumps(files, sort_keys=True).encode()).hexdigest()}
+
+
+def current_plan_source(plan):
+    if plan.get('contact_regions', {}).get('mode') == 'connected':
+        return source_record(('mpm_jax/contact_patches.py', 'mpm_jax/fibre_patch_contact.py'))
+    return source_record()
 
 
 def descriptor(array):
@@ -105,10 +111,15 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
               pitch=.001, crimp=140e-6, clearance=2e-6, young=10e9, poisson=.25,
               density=1500., tensile_strength=100e6, fracture_energy=100., packing=1.,
               max_particles=1_000_000, adhesion_range=1e-6, cohesive_domain_radius=1e-4,
-              cohesive_rings=64):
+              cohesive_rings=64, contact_regions='single', contact_capacity=16384,
+              max_contact_patches=4096, patch_iterations=128):
     """Return a NumPy geometry and a reproducible plan without importing JAX."""
     if theta not in ANGLES or law not in ('hertz', 'jkr', 'md', 'self-consistent'):
         raise ValueError("theta must be 0..30 degrees in five-degree steps; choose hertz, jkr, md or self-consistent")
+    if contact_regions not in ('single', 'connected') or (contact_regions == 'connected' and law != 'hertz'):
+        raise ValueError('Connected contact regions currently support only stateless Hertz contact')
+    if any(type(v) is not int or v < 1 for v in (contact_capacity, max_contact_patches, patch_iterations)):
+        raise ValueError('Positive integer contact-region budgets are required')
     if (not np.isfinite(adhesion_range) or adhesion_range <= 0
             or not np.isfinite(cohesive_domain_radius) or cohesive_domain_radius <= 0
             or type(cohesive_rings) is not int or not 4 <= cohesive_rings <= 256):
@@ -189,7 +200,11 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
             'interaction_range_m': float(adhesion_range),
             'outer_radius_m': float(cohesive_domain_radius), 'rings': cohesive_rings,
             'scope': 'Unresolved local circular half-space compliance; not exact curved-cylinder contact or a second resolved bulk compliance. Fixed radial domain; unconverged or boundary-active solutions are rejected.'}
-    plan['source'] = source_record()
+    if contact_regions == 'connected':
+        plan['contact_regions'] = dict(mode='connected', capacity=contact_capacity,
+            max_patches=max_contact_patches, max_iterations=patch_iterations,
+            scope='One local circular Hertz force per connected active finite-segment region. Distinct regions on one fibre pair are independent; this is a discrete contact approximation, not an exact curved-surface solution. Adhesive branch merge/split is unsupported.')
+    plan['source'] = current_plan_source(plan)
     return geometry, plan
 
 
@@ -355,7 +370,7 @@ def run_case(geometry, plan, output, *, resume=False, stop_after_frame=None):
     save_json(folder/'status.json', {"completed": False, "phase": "initializing", "signature": signature})
     started = time.monotonic()
     try:
-        if source_record() != plan['source']:
+        if current_plan_source(plan) != plan['source']:
             raise ValueError("Numerical source changed after planning")
         return _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame)
     except BaseException as error:
@@ -413,6 +428,27 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
             interaction_range=local['interaction_range_m'], outer_radius=local['outer_radius_m'], rings=local['rings'])
     state = make_state(geometry['x'], geometry['volume'], geometry['fibre_id'], material, layout)
     contact = initial_contact_history(data, contact_law)
+    contact_record = contact_data_summary(data)
+    if plan.get('contact_regions', {}).get('mode') == 'connected':
+        from mpm_jax.contact_patches import patch_neighbours
+        from mpm_jax.fibre_patch_contact import initial_patch_history, evaluate_hertz_patches
+        regions = plan['contact_regions']
+        neighbours = patch_neighbours(np.asarray(data.coverage_pairs), np.asarray(data.segment_fibre))
+        contact = initial_patch_history(data, max_patches=regions['max_patches'])
+        contact_record.update(
+            coverage='Every reference capsule within the recorded motion skin is audited at each accepted step. Discrete active cells are grouped by eight-neighbour connectivity on each fibre pair; each component contributes one local Hertz force.',
+            limits='Stateless Hertz only, no adhesive branch merge/split. Fixed circular radii and a circular equivalent-curvature approximation. Failed-section, physical endpoint, same-family/degenerate geometry, exhausted motion skin, overlapping local patches or component-budget overflow require rejection.',
+            contact_regions=regions, maximum_contact_radius_over_fibre_radius=.2,
+            coverage_pairs=descriptor(np.asarray(data.coverage_pairs)), neighbour_graph=descriptor(neighbours))
+        if resume:
+            saved_model = json.loads((folder/'contact-model.json').read_text())
+            if saved_model != contact_record:
+                raise ValueError('Resume requires the identical complete contact-region graph and model')
+
+        def evaluate_contact(state, history, data, law):
+            return evaluate_hertz_patches(state, history, data, law, neighbours,
+                capacity=regions['capacity'], max_patches=regions['max_patches'],
+                max_iterations=regions['max_iterations'])
     intervals = plan['grip_x_intervals_m']
     masks = (geometry['x'][:, 0] <= intervals[0][1], geometry['x'][:, 0] >= intervals[1][0])
     motion = lambda t: loading_motion(t, plan['total_fixture_extension_m'], plan['load_time_s'], jnp)
@@ -462,7 +498,8 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
         initial_momentum = np.sum(np.asarray(state.mass)[:, None]*np.asarray(state.v), axis=0)-np.asarray(state.boundary_impulse)-np.asarray(state.external_impulse)
 
     def contact_statistics(metrics):
-        minimum_gap = jnp.min(metrics.gap, initial=jnp.inf)
+        minimum_gap = (metrics.minimum_coverage_gap if hasattr(metrics, 'minimum_coverage_gap')
+                       else jnp.min(metrics.gap, initial=jnp.inf))
         minimum_force = jnp.min(metrics.normal_force, initial=0.)
         maximum_force = jnp.max(metrics.normal_force, initial=0.)
         return jnp.array([jnp.sum(metrics.search_boundary), metrics.uncovered_near_pairs, metrics.same_family_near_pairs,
@@ -601,7 +638,7 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
                 "particle_fields": field_record, "source": plan['source'], "layout": layout_record})
         if not bool(initial_metrics.valid):
             raise FloatingPointError("Initial contact coverage/geometry is invalid; inspect status and contact-metrics.json")
-        save_json(folder/'contact-model.json', contact_data_summary(data))
+        save_json(folder/'contact-model.json', contact_record)
         end_frame = saved-1 if stop_after_frame is None else stop_after_frame
         if end_frame > start_frame:
             save_json(folder/'status.json', {"completed": False, "phase": "compiling", "frame": start_frame, "signature": signature})
@@ -627,7 +664,7 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
         finished = bool(aggregate[4]) and int(aggregate[0]) == plan['stop_steps']
         segment_complete = (not finished and bool(aggregate[4]) and stop_after_frame is not None
             and len(rows)-1 == stop_after_frame and int(aggregate[0]) == plan['frame_steps'][stop_after_frame])
-        if source_record() != plan['source']:
+        if current_plan_source(plan) != plan['source']:
             raise ValueError("Numerical source changed during execution; the run is not eligible for completion")
         completed = finished and not bool(plan['probe_steps'])
         phase = 'completed' if completed else 'probe-complete' if finished else 'checkpoint-ready' if segment_complete else 'failed'
@@ -641,7 +678,7 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
             "configs": [{"dim": 3, "dt": config.dt, "domain_size": geometry['metadata']['dimensions_m'][0], "n_grid": int(round(geometry['metadata']['dimensions_m'][0]/layout.dx)),
                          "grid_type": "independent-tube-sparse-fibre-fields" if storage == 'tube' else "independent-packed-rectangular-fibre-fields",
                          "grid_storage": storage, "failure_mode": "retain", "gravity": [0., 0., 0.]}],
-            "materials": [plan['material']], "definition": {**plan, "particle_spacing_m": plan['particle_spacing_m'], "contact_model": contact_data_summary(data)},
+            "materials": [plan['material']], "definition": {**plan, "particle_spacing_m": plan['particle_spacing_m'], "contact_model": contact_record},
             "particle_fields": field_record, "min_J": min(item['min_J'] for item in diagnostics), "max_damage": max(item['max_damage'] for item in rows),
             "first_material_failure_time_s": float(aggregate[1]) if aggregate[1] >= 0 else None,
             "peak_dynamic_grip_force_N": float(aggregate[2]) if aggregate[0] else None, "peak_dynamic_grip_force_time_s": float(aggregate[3]),
@@ -671,6 +708,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--theta', type=int, choices=ANGLES, default=0)
     parser.add_argument('--law', choices=('jkr', 'hertz', 'md', 'self-consistent'), default='jkr')
+    parser.add_argument('--contact-regions', choices=('single', 'connected'), default='single')
+    parser.add_argument('--contact-capacity', type=int, default=16384)
+    parser.add_argument('--max-contact-patches', type=int, default=4096)
+    parser.add_argument('--patch-iterations', type=int, default=128)
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--probe-steps', type=int, default=0)
     parser.add_argument('--smoke', action='store_true')
@@ -715,7 +756,9 @@ def main():
         tensile_strength=args.tensile_strength, fracture_energy=args.fracture_energy, packing=args.packing,
         max_particles=args.max_particles, padding_cells=args.padding_cells,
         adhesion_range=args.adhesion_range, cohesive_domain_radius=args.cohesive_domain_radius,
-        cohesive_rings=args.cohesive_rings)
+        cohesive_rings=args.cohesive_rings, contact_regions=args.contact_regions,
+        contact_capacity=args.contact_capacity, max_contact_patches=args.max_contact_patches,
+        patch_iterations=args.patch_iterations)
     if args.dry_run:
         validate_stop_after_frame(args.stop_after_frame, plan)
         print(json.dumps(json_value(plan), indent=2, allow_nan=False))
