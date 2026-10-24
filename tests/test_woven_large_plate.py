@@ -93,6 +93,45 @@ def test_static_planning_does_not_import_jax_in_a_clean_process(tmp_path):
     assert result.returncode == 0, result.stdout+result.stderr
 
 
+def prefix_fixture():
+    reference = np.arange(12, dtype=float).reshape(4, 3)
+    velocity = np.zeros_like(reference)
+    arrays = {"x": np.stack((reference, reference, reference)), "speed": np.zeros((3, 4), dtype=np.float32),
+              "damage": np.zeros((3, 4), dtype=np.float32), "temperature": np.full((3, 4), 293.15, dtype=np.float32)}
+    times = [0., .1, .2]
+    tables = {"times": times, "rows": [{"time": t, "accepted_steps": i} for i, t in enumerate(times)],
+              "diagnostics": [{"time": t} for t in times],
+              "trajectory_frames": [{name: example.array_descriptor(array[i]) for name, array in arrays.items()} for i in range(3)]}
+    return arrays, reference, reference.copy(), velocity, tables, 2, [0, 1, 2], .1
+
+
+def test_complete_resume_prefix_matches_every_saved_field():
+    example.validate_saved_prefix(*prefix_fixture())
+
+
+@pytest.mark.parametrize("field", ["x", "speed", "damage", "temperature"])
+def test_changed_earlier_mmap_frame_is_rejected_even_when_endpoint_is_unchanged(field):
+    values = list(prefix_fixture())
+    values[0][field][1].flat[0] += 1
+    with pytest.raises(ValueError, match="raw descriptor"):
+        example.validate_saved_prefix(*values)
+
+
+def test_unmatched_speed_endpoint_is_not_hidden_by_a_fresh_descriptor():
+    values = list(prefix_fixture())
+    values[0]["speed"][-1, 0] = 2.
+    values[4]["trajectory_frames"][-1]["speed"] = example.array_descriptor(values[0]["speed"][-1])
+    with pytest.raises(ValueError, match="checkpoint"):
+        example.validate_saved_prefix(*values)
+
+
+def test_inconsistent_clock_or_missing_prefix_frame_is_rejected():
+    values = list(prefix_fixture())
+    values[4]["times"][1] = .101
+    with pytest.raises(ValueError, match="time prefix"):
+        example.validate_saved_prefix(*values)
+
+
 def test_actual_jax_driver_prefix_checkpoint_and_invalid_resume(tmp_path, monkeypatch):
     """Small integration only; the physical full-size probe is a separate job."""
     from examples.woven_large_geometry import sample_large_weave

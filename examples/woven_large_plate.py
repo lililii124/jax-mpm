@@ -74,6 +74,31 @@ def save_npz(path, **values):
     temporary.replace(path)
 
 
+def validate_saved_prefix(arrays, reference, current_x, current_v, tables, frame, output_steps, dt):
+    """Validate every saved frame before a resumed run can modify any result."""
+    rows, diagnostics, times = tables["rows"], tables["diagnostics"], tables["times"]
+    descriptors = tables["trajectory_frames"]
+    if (any(len(table) != frame+1 for table in (rows, diagnostics, times, descriptors))
+            or not np.allclose(times, np.asarray(output_steps[:frame+1])*dt, rtol=5e-12, atol=0)
+            or any(float(row["time"]) != instant or int(row["accepted_steps"]) != step
+                   for row, instant, step in zip(rows, times, output_steps))
+            or any(float(row["time"]) != instant for row, instant in zip(diagnostics, times))):
+        raise ValueError("checkpoint tables are not the complete saved time prefix")
+    for index in range(frame+1):
+        if set(descriptors[index]) != set(arrays):
+            raise ValueError("checkpoint trajectory descriptor fields differ")
+        for name, array in arrays.items():
+            if array_descriptor(array[index]) != descriptors[index][name]:
+                raise ValueError(f"saved trajectory {name} frame {index} failed its raw descriptor")
+    if (not np.array_equal(arrays["x"][0], reference)
+            or not np.array_equal(arrays["x"][frame], current_x)
+            or not np.all(arrays["speed"][0] == 0)
+            or not np.array_equal(arrays["speed"][frame], np.linalg.norm(current_v, axis=1).astype(np.float32))
+            or not np.all(arrays["damage"][:frame+1] == 0)
+            or not np.all(arrays["temperature"][:frame+1] == np.float32(293.15))):
+        raise ValueError("saved initial or final trajectory fields differ from the elastic checkpoint")
+
+
 def acoustic_speed(parameters):
     E, nu, G = (np.asarray(parameters[name]) for name in ("yarn_young", "yarn_poisson", "yarn_shear"))
     S = np.diag(np.r_[1/E, 1/G[[2, 1, 0]]])
@@ -219,13 +244,15 @@ def run_case(sample, plan, output, *, resume=False):
     # accepted, valid, residual, velocity violation, iterations, contact nodes,
     # overflows, invalid windows, external work, peak yarn strain, min J.
     aggregate = jnp.asarray([0., 1., 0., 0., 0., 0., 0., 0., 0., 0., 1.])
-    rows, diagnostics, times = [], [], []
+    rows, diagnostics, times, frame_descriptors = [], [], [], []
     start_frame, solver_seconds, compile_seconds = -1, 0., 0.
     fields = {"phase": sample.phase, "yarn_id": sample.yarn_id, "family_id": sample.family_id}
     field_record = {"file": "particle_fields.npz", "fields": {key: array_descriptor(v) for key, v in fields.items()}}
     layout_record = {"lower": np.asarray(grid.layout.lower[0]).tolist(),
         "shape": np.asarray(grid.layout.shape[0]).tolist(), "origin": np.asarray(grid.layout.origin).tolist(),
         "dx_m": grid.layout.dx, "nodes": grid.layout.node_count,
+        "actual_contact_half_width_m": float(grid.contact_half_width),
+        "grid_y_max_m": float(grid.grid_y_max),
         "clamp_owner": array_descriptor(np.asarray(grid.clamp_owner)),
         "contact_indices": array_descriptor(np.asarray(grid.contact_indices))}
     if resume and (folder/"checkpoint.npz").exists():
@@ -250,6 +277,7 @@ def run_case(sample, plan, output, *, resume=False):
             start_frame, solver_seconds = int(data["frame"]), float(data["solver_seconds"])
             tables = json.loads(str(data["tables"]))
             rows, diagnostics, times = tables["rows"], tables["diagnostics"], tables["times"]
+            frame_descriptors = tables["trajectory_frames"]
             if (not 0 <= start_frame < len(plan["output_steps"])
                     or any(len(table) != start_frame+1 for table in (rows, diagnostics, times))
                     or int(aggregate[0]) != plan["output_steps"][start_frame]
@@ -260,6 +288,13 @@ def run_case(sample, plan, output, *, resume=False):
                 raise ValueError("checkpoint rigid-tool inertia or radius differs from the declared plan")
         if json.loads((folder/"layout.json").read_text()) != layout_record:
             raise ValueError("reconstructed grid or clamp differs from saved layout")
+        for filename, table in (("observables.csv", rows), ("diagnostics.csv", diagnostics)):
+            with (folder/filename).open(newline="", encoding="utf-8") as stream:
+                saved = list(csv.DictReader(stream))
+            if len(saved) != len(table) or any(set(record) != set(original) or any(
+                    record[key] != ("" if original[key] is None else str(original[key])) for key in record)
+                    for record, original in zip(saved, table)):
+                raise ValueError("saved CSV differs from the immutable checkpoint prefix")
     else:
         save_npz(folder/"particle_fields.npz", **fields)
         save_npz(folder/"reference.npz", x=sample.positions, volume=sample.volume, mass=mass,
@@ -276,8 +311,9 @@ def run_case(sample, plan, output, *, resume=False):
         if array.shape != shape or array.dtype != np.dtype(dtype):
             raise ValueError("trajectory shape/dtype differs from the complete output plan")
         arrays[name] = array
-    if start_frame >= 0 and not np.array_equal(arrays["x"][start_frame], np.asarray(state.x)):
-        raise ValueError("checkpoint coordinates differ from saved trajectory frame")
+    if start_frame >= 0:
+        validate_saved_prefix(arrays, sample.positions, np.asarray(state.x), np.asarray(state.v),
+                              tables, start_frame, plan["output_steps"], config.dt)
 
     @jax.jit
     def advance(current, ball, totals, parameters, packed_grid, force, steps):
@@ -327,6 +363,7 @@ def run_case(sample, plan, output, *, resume=False):
         arrays["temperature"][frame] = 293.15 if state.history is None else np.asarray(state.history.temperature)
         for array in arrays.values():
             array.flush()
+        frame_descriptors.append({name: array_descriptor(array[frame]) for name, array in arrays.items()})
         translational = .5*float(np.sum(mass*np.sum(v*v, axis=1)))
         affine = grid.layout.dx**2/8*float(np.sum(mass*np.einsum("pij,pij->p", C, C)))
         ball_v, ball_x = np.asarray(sphere.velocity), np.asarray(sphere.center)
@@ -383,7 +420,8 @@ def run_case(sample, plan, output, *, resume=False):
         save_npz(folder/"trajectory.npz", time=np.asarray(times), body=np.zeros(n, dtype=np.int32))
         save_npz(folder/"checkpoint.npz", **state_arrays(), aggregate=np.asarray(aggregate), frame=np.asarray(frame),
                  signature=np.array(signature), solver_seconds=np.asarray(solver_seconds), jax_version=np.array(jax.__version__),
-                 tables=np.array(json.dumps(json_value({"rows": rows, "diagnostics": diagnostics, "times": times}))))
+                 tables=np.array(json.dumps(json_value({"rows": rows, "diagnostics": diagnostics, "times": times,
+                                                       "trajectory_frames": frame_descriptors}))))
         save_json(folder/"status.json", {"completed": False, "phase": "running", "frame": frame,
             "frames": saved-1, "steps": int(aggregate[0]), "target_steps": plan["stop_steps"],
             "full_steps": plan["full_steps"], "time": instant, "signature": signature,
