@@ -1,4 +1,4 @@
-name: Diagnose original metal rejection from accepted frame 4
+name: Indicative replay-only metal gate probe from accepted frame 4
 on:
   workflow_dispatch:
 permissions:
@@ -54,7 +54,10 @@ jobs:
           python - <<'PY'
           import hashlib,json,os,re,subprocess
           from pathlib import Path
-          cache=Path('.local/metal-prefix-cache');out=Path('.local/metal-rejection-records');out.mkdir(parents=True)
+          cache=Path('.local/metal-prefix-cache');out=Path('.local/metal-replay-gate-records');out.mkdir(parents=True)
+          (out/'cpuinfo.txt').write_bytes(Path('/proc/cpuinfo').read_bytes())
+          (out/'lscpu.json').write_bytes(subprocess.check_output(['lscpu','--json']))
+          (out/'numerical-environment.json').write_text(json.dumps({k:v for k,v in os.environ.items() if k.startswith(('JAX_','XLA_')) or k in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS')},indent=2)+'\n')
           def entry(p):
               h=hashlib.sha256()
               with p.open('rb') as f:
@@ -81,11 +84,11 @@ jobs:
               assert subprocess.check_output(['git','rev-parse','HEAD:'+name],cwd='producer',text=True).strip()==blob
           controller={}
           assert subprocess.check_output(['git','rev-parse','HEAD'],cwd='controller',text=True).strip()==os.environ['GITHUB_SHA']
-          for name in ['tools/diagnose_metal_rejection.py','.github/workflows/engineering-previews.yml']:
+          for name in ['tools/probe_metal_replay_gates.py','.github/workflows/engineering-previews.yml']:
               path=Path('controller')/name;data=path.read_bytes();blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
               assert subprocess.check_output(['git','rev-parse','HEAD:'+name],cwd='controller',text=True).strip()==blob
               controller[name]={**entry(path),'git_blob':blob}
-          assert controller['tools/diagnose_metal_rejection.py']['sha256']=='c18d215a2533430098b16f304b6abbf48f531715511d3ce484fe470bef7a58c7'
+          assert controller['tools/probe_metal_replay_gates.py']['sha256']=='87305d49e29682ef4a7b908cafb737ae6cd694efe4606300001cfb5c5d3bf974'
           (out/'source-binding.json').write_text(json.dumps({'producer':source,'controller_sha':os.environ['GITHUB_SHA'],'controller_files':controller,'cache_key':expected,'original_receipt_sha256':before['receipt.json']['sha256'],'exact_cache_hit':True},indent=2)+'\n')
           # Treat freeze as data. No option, URL, command, or editable install
           # from the original runner is executed. The producer is on PYTHONPATH.
@@ -107,7 +110,7 @@ jobs:
       - name: Install recorded numerical package versions
         timeout-minutes: 10
         run: |
-          python -m pip install --only-binary=:all: --requirement .local/metal-rejection-records/safe-requirements.txt
+          python -m pip install --only-binary=:all: --requirement .local/metal-replay-gate-records/safe-requirements.txt
       - name: Replay only accepted frame 4 to first rejection
         timeout-minutes: 22
         run: |
@@ -115,9 +118,9 @@ jobs:
           import json,os,signal,subprocess,sys,time
           from pathlib import Path
           import psutil
-          root=Path.cwd();out=root/'.local/metal-rejection-records';log=out/'replay.log'
+          root=Path.cwd();out=root/'.local/metal-replay-gate-records';log=out/'replay.log'
           env=dict(os.environ,PYTHONPATH=str(root/'producer'))
-          cmd=[sys.executable,str(root/'controller/tools/diagnose_metal_rejection.py'),'--cache',str(root/'.local/metal-prefix-cache'),'--output',str(out/'diagnostic')]
+          cmd=[sys.executable,str(root/'controller/tools/probe_metal_replay_gates.py'),'--cache',str(root/'.local/metal-prefix-cache'),'--output',str(out/'diagnostic')]
           start=time.monotonic();peak=0;reason=None;samples=[]
           with log.open('wb') as f:
               process=subprocess.Popen(cmd,cwd=root/'producer',env=env,stdout=f,stderr=subprocess.STDOUT,start_new_session=True)
@@ -154,7 +157,7 @@ jobs:
           python - <<'PY'
           import hashlib,json,os,shutil,subprocess
           from pathlib import Path
-          cache=Path('.local/metal-prefix-cache');out=Path('.local/metal-rejection-records');out.mkdir(parents=True,exist_ok=True)
+          cache=Path('.local/metal-prefix-cache');out=Path('.local/metal-replay-gate-records');out.mkdir(parents=True,exist_ok=True)
           def entry(p):
               h=hashlib.sha256()
               with p.open('rb') as f:
@@ -168,7 +171,7 @@ jobs:
           (out/'cache-immutability.json').write_text(json.dumps({'unchanged':unchanged,'baseline_available':before is not None,'symlinks':symlinks,'no_cache_save':True},indent=2)+'\n')
           if Path('producer').exists():
               (out/'producer-status.txt').write_bytes(subprocess.check_output(['git','status','--porcelain'],cwd='producer'))
-          delivery=Path('.local/metal-rejection-delivery');delivery.mkdir(parents=True,exist_ok=True)
+          delivery=Path('.local/metal-replay-gate-delivery');delivery.mkdir(parents=True,exist_ok=True)
           files={};omitted={};used=0
           candidates=sorted([p for p in out.rglob('*') if p.is_file()],key=lambda p:(p.suffix=='.npz',p.as_posix()))
           for p in candidates:
@@ -179,7 +182,7 @@ jobs:
               target=delivery/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
               assert entry(target)==record
               files[name]=record;used+=record['bytes']
-          manifest={'files':files,'omitted':omitted,'cache_unchanged':unchanged,'producer':'07f35f678d60c881701d22dfd0ab4629ea8ee6c4','controller':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID'],'attempt':os.environ['GITHUB_RUN_ATTEMPT'],'never_resumable':True,'production_eligible':False,'physical_validation_passed':False,'scope':'Only original frame4-to-first-rejection diagnostic. Exact array equality gates attribution. Phase extrapolation is not validated phase physics. Listed artifact members are complete files; omissions are explicit.'}
+          manifest={'files':files,'omitted':omitted,'cache_unchanged':unchanged,'producer':'07f35f678d60c881701d22dfd0ab4629ea8ee6c4','controller':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID'],'attempt':os.environ['GITHUB_RUN_ATTEMPT'],'original_rejection_cause_established':False,'attribution_allowed':False,'never_resumable':True,'production_eligible':False,'physical_validation_passed':False,'scope':'Only original frame4-to-first-rejection diagnostic. Replay-only indicative gates; original-cause attribution is always prohibited. All mismatch metrics retained. Phase extrapolation is not validated phase physics. Listed artifact members are complete files; omissions are explicit.'}
           (delivery/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
           (delivery/'manifest.sha256').write_text(entry(delivery/'manifest.json')['sha256']+'  manifest.json\n')
           assert unchanged,'Missing baseline or original cache changed; diagnostic not admissible'
@@ -187,8 +190,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: metal-rejection-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/metal-rejection-delivery
+          name: metal-replay-gates-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/metal-replay-gate-delivery
           include-hidden-files: true
           retention-days: 2
           compression-level: 0
