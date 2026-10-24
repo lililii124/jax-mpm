@@ -1,65 +1,126 @@
-name: ceramic failed full review probe
+name: private ceramic read-only final media
 
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
-  group: ceramic-failed-full-review-${{ github.ref }}
+  group: ceramic-read-only-final-media
   cancel-in-progress: false
 
 jobs:
-  diagnose:
-    if: github.ref == 'refs/heads/work/ceramic-fragmentation-prefix'
+  media:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 150
     env:
-      PYTHONUNBUFFERED: '1'
       OPENBLAS_NUM_THREADS: '1'
-      OMP_NUM_THREADS: '1'
-      PYTHONDONTWRITEBYTECODE: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
     steps:
-      - name: Check out diagnostic controller and historical controller objects
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 0
           persist-credentials: false
-      - name: Check out immutable original numerical source for byte verification only
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           ref: 68c311813b11124459b7750f52695c7caa9b6c39
           path: .local/ceramic-frozen-solver
           persist-credentials: false
-      - name: Restore exact sealed failed cache without prefix fallback
-        id: raw
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Reserve disk for complete raw media and exact artifact retrieval
+        run: |
+          python - <<'PY'
+          import json,shutil,subprocess
+          before=shutil.disk_usage('.').free
+          if before < 32*1024**3:
+              subprocess.run(['sudo','rm','-rf','--','/usr/local/lib/android','/usr/share/dotnet'],check=True)
+          after=shutil.disk_usage('.').free
+          print(json.dumps({'free_before_bytes':before,'free_after_bytes':after,'required_free_bytes':32*1024**3,'removed_only_disposable_runner_sdks_if_needed':True}))
+          assert after >= 32*1024**3,'Insufficient disk for full raw preservation and retrieval'
+          PY
+      - name: Restore exact sealed failed endpoint without fallback
+        id: restore
+        timeout-minutes: 15
         uses: actions/cache/restore@v5
         with:
           path: .local/ceramic-prefix-cache
           key: ceramic-continuation-v1-68c311813b11124459b7750f52695c7caa9b6c39-df50b47ab8fcda24a924f196b1348609b34f63b9-40069099744-1-f60-failed
           fail-on-cache-miss: true
-      - name: Require exact immutable key
+      - name: Retrieve independent original full-review evidence by exact artifact ID
+        timeout-minutes: 5
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40074118544'
+          artifact-ids: '12552502562'
+          path: .local/ceramic-independent-probe
+          merge-multiple: true
+      - name: Verify raw/source and reconcile independent full review without solving
         env:
-          CACHE_HIT: ${{ steps.raw.outputs.cache-hit }}
-          CACHE_KEY: ${{ steps.raw.outputs.cache-matched-key }}
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: >-
+          python tools/finalize_ceramic_media.py prepare
+          --evidence .local/ceramic-independent-probe
+          --proof evidence/ceramic/independent-physical-review-v2.json
+          --original-review evidence/ceramic/original-full-physical-review.json
+          --review-sha 5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b
+          --provenance-sha 509206e1d5a322ede351eabecb0bfdbfd7f646b4f48e3e3092148c261dda5a61
+      - name: Install renderer dependencies from sealed requirements
+        timeout-minutes: 10
         run: |
-          test "$CACHE_HIT" = true
-          test "$CACHE_KEY" = ceramic-continuation-v1-68c311813b11124459b7750f52695c7caa9b6c39-df50b47ab8fcda24a924f196b1348609b34f63b9-40069099744-1-f60-failed
-      - uses: actions/setup-python@v7
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_ceramic_continuation as c
+          pins=c.dependency_pins((c.CACHE/'requirements.txt').read_text())
+          (c.ROOT/'.local/ceramic-final-media/renderer-requirements.txt').write_text(''.join(f'{name}=={version}\n' for name,version in sorted(pins.items())))
+          PY
+          python -m pip install -r .local/ceramic-final-media/renderer-requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Install actual headless ParaView
+        timeout-minutes: 15
+        run: python tools/finalize_ceramic_media.py install
+      - name: Render all 61 saved states and audit actual VTK PNG GIF
+        timeout-minutes: 90
+        run: python tools/finalize_ceramic_media.py render
+      - name: Verify unchanged raw and bound complete delivery
+        run: python tools/finalize_ceramic_media.py package
+      - uses: actions/upload-artifact@v4
+        id: upload
+        timeout-minutes: 15
         with:
-          python-version: '3.12.13'
-      - name: Install original review-only NumPy dependency
-        run: python -m pip install --disable-pip-version-check numpy==2.5.4
-      - name: Save original full physical gates and independent spatial diagnosis without solver execution
-        timeout-minutes: 20
-        run: python tools/probe_ceramic_full_review.py
-      - name: Preserve diagnostic reports even on integrity or reviewer failure
+          name: ceramic-final-media-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ceramic-final-media/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        timeout-minutes: 15
+        with:
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/ceramic-final-retrieved/
+          merge-multiple: true
+      - name: Hash every retrieved delivery file
+        env:
+          CERAMIC_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+        run: python tools/finalize_ceramic_media.py retrieved --retrieved .local/ceramic-final-retrieved
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: ceramic-full-review-probe-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/ceramic-full-review-probe
+          name: ceramic-final-media-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/ceramic-final-media/*receipt.json
+            .local/ceramic-final-media/admission.json
+            .local/ceramic-final-media/*audit.json
+            .local/ceramic-final-media/signature-reconciliation.json
           if-no-files-found: warn
-          retention-days: 2
-          compression-level: 6
+          retention-days: 30

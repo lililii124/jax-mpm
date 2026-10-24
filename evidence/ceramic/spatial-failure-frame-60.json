@@ -1,0 +1,292 @@
+{
+  "particles": 386420,
+  "failed_particle_count": 26746,
+  "failed_reference_volume_m3": 5.6064023601262895e-05,
+  "failed_fraction_of_total_reference_volume": 0.06921484395217638,
+  "reference_radius_m": {
+    "count": 26746,
+    "minimum": 0.0,
+    "quantiles_05_25_50_75_95": [
+      0.005791255193524639,
+      0.015539568345323745,
+      0.024909130439574413,
+      0.08369315550417768,
+      0.0959497565327104
+    ],
+    "maximum": 0.1117727255501357,
+    "mean": 0.044881014685781734
+  },
+  "reference_radius_bins_m": [
+    0.0,
+    0.01,
+    0.02,
+    0.03,
+    0.045,
+    0.06,
+    0.08,
+    0.1,
+    0.13
+  ],
+  "failed_reference_radius_bin_counts": [
+    3362,
+    6731,
+    5392,
+    788,
+    55,
+    0,
+    9633,
+    785
+  ],
+  "failed_reference_radius_bin_volume_m3": [
+    7.047306040059388e-06,
+    1.4109285233686178e-05,
+    1.1302520573468434e-05,
+    1.6517778582865732e-06,
+    1.1528906371289534e-07,
+    0.0,
+    2.0192355468114924e-05,
+    1.6454893639022335e-06
+  ],
+  "within_45mm_of_impact_center": {
+    "failed_particle_count": 16273,
+    "fraction_of_failed_count": 0.6084274284005085,
+    "failed_reference_volume_m3": 3.4110889705501794e-05,
+    "fraction_of_failed_reference_volume": 0.6084274284005085
+  },
+  "four_edge_8mm_clamp_band_union": {
+    "failed_particle_count": 4437,
+    "fraction_of_failed_count": 0.16589396545277799,
+    "failed_reference_volume_m3": 9.300683194451637e-06,
+    "fraction_of_failed_reference_volume": 0.16589396545277799
+  },
+  "individual_clamp_bands_overlapping_at_corners": {
+    "x_low": {
+      "failed_particle_count": 1111,
+      "fraction_of_failed_count": 0.04153892170791894,
+      "failed_reference_volume_m3": 2.328839087003779e-06,
+      "fraction_of_failed_reference_volume": 0.04153892170791894
+    },
+    "x_high": {
+      "failed_particle_count": 1113,
+      "fraction_of_failed_count": 0.04161369924474688,
+      "failed_reference_volume_m3": 2.333031416593345e-06,
+      "fraction_of_failed_reference_volume": 0.04161369924474688
+    },
+    "z_low": {
+      "failed_particle_count": 1103,
+      "fraction_of_failed_count": 0.041239811560607194,
+      "failed_reference_volume_m3": 2.312069768645516e-06,
+      "fraction_of_failed_reference_volume": 0.041239811560607194
+    },
+    "z_high": {
+      "failed_particle_count": 1110,
+      "fraction_of_failed_count": 0.041501532939504975,
+      "failed_reference_volume_m3": 2.3267429222089962e-06,
+      "fraction_of_failed_reference_volume": 0.041501532939504975
+    }
+  },
+  "outside_original_25mm_plate_thickness": {
+    "failed_particle_count": 1310,
+    "fraction_of_failed_count": 0.04897928662229866,
+    "failed_reference_volume_m3": 2.745975881165572e-06,
+    "fraction_of_failed_reference_volume": 0.04897928662229866
+  },
+  "failed_current_xyz_m": {
+    "count": 26746,
+    "minimum": [
+      0.042059835583564124,
+      0.06887936118968126,
+      0.04206033684073279
+    ],
+    "quantiles_05_25_50_75_95": [
+      [
+        0.0433080281868043,
+        0.07566634698106013,
+        0.04331167408589846
+      ],
+      [
+        0.10992578091756353,
+        0.08412134193188787,
+        0.11012387427790794
+      ],
+      [
+        0.1249998480205268,
+        0.09040614122918138,
+        0.1250081997149981
+      ],
+      [
+        0.14011312491158587,
+        0.0955182954049405,
+        0.14014825415169424
+      ],
+      [
+        0.2066925208986705,
+        0.09916097928997451,
+        0.20669212333498704
+      ]
+    ],
+    "maximum": [
+      0.2079403773880032,
+      0.10172705548598787,
+      0.20794060688795687
+    ],
+    "mean": [
+      0.12501377224763,
+      0.08911266781360717,
+      0.12511339292205345
+    ]
+  },
+  "failed_current_velocity_xyz_m_per_s": {
+    "count": 26746,
+    "minimum": [
+      -31.636951075057546,
+      -75.58617876933701,
+      -31.636718561071834
+    ],
+    "quantiles_05_25_50_75_95": [
+      [
+        -4.7107618079253095,
+        -30.168747140375448,
+        -4.715840735971836
+      ],
+      [
+        -0.8139935086108514,
+        -11.92946435805024,
+        -0.8005631822943446
+      ],
+      [
+        -0.0006459791406101152,
+        -0.06005279335162465,
+        -0.000453782771730819
+      ],
+      [
+        0.8146570897758879,
+        0.7934947211156731,
+        0.8122898674496412
+      ],
+      [
+        4.727886145881368,
+        16.341610367667975,
+        4.754883292692087
+      ]
+    ],
+    "maximum": [
+      31.672512177792033,
+      29.30105241968955,
+      31.661444668907777
+    ],
+    "mean": [
+      -0.001946336190225492,
+      -5.119956765459859,
+      0.005258868773101855
+    ]
+  },
+  "failed_current_speed_m_per_s": {
+    "count": 26746,
+    "minimum": 0.025529053113276842,
+    "quantiles_05_25_50_75_95": [
+      0.5258307651199607,
+      1.3157048156261124,
+      4.542040660164945,
+      16.974959690592495,
+      31.92380843387339
+    ],
+    "maximum": 75.66888279216465,
+    "mean": 10.17985746366098
+  },
+  "failed_displacement_xyz_m": {
+    "count": 26746,
+    "minimum": [
+      -0.009044388137147058,
+      -0.018076339226356694,
+      -0.009044347838395306
+    ],
+    "quantiles_05_25_50_75_95": [
+      [
+        -0.0010455543620575686,
+        -0.007346438694935738,
+        -0.0010517349760759964
+      ],
+      [
+        -9.579344261059775e-05,
+        -0.0032117158948970527,
+        -9.440382204977359e-05
+      ],
+      [
+        -8.262153096752489e-08,
+        -0.0001885429145967732,
+        3.616510844961507e-08
+      ],
+      [
+        9.48403488593777e-05,
+        5.277934190967698e-05,
+        9.694979900468775e-05
+      ],
+      [
+        0.0010434135089090954,
+        0.001455844089950642,
+        0.001047237860208789
+      ]
+    ],
+    "maximum": [
+      0.00905430176846811,
+      0.003602055485987868,
+      0.009051260155543195
+    ],
+    "mean": [
+      -3.17131430064192e-07,
+      -0.0017322248806275087,
+      9.683922239642369e-07
+    ]
+  },
+  "schema": "ceramic-spatial-failure-v1",
+  "accepted_saved_frame": 60,
+  "target_saved_frame": 60,
+  "full_protocol_completed": true,
+  "source_consistency_passed": true,
+  "physical_admission": false,
+  "sources": {
+    "checkpoint.json": {
+      "bytes": 144822,
+      "sha256": "50bf0a8c03248f3af8604297b4119c945c092ecad8117a4cd83645fdcab9c755"
+    },
+    "status.json": {
+      "bytes": 217,
+      "sha256": "4a2918158b791a0dc191ce587f52922162f9fcb28c9f753a334d4ec152e68fc4"
+    },
+    "trajectory_x.npy": {
+      "bytes": 565719008,
+      "sha256": "334ac2ee529d41a3c826fc1ae4938cf23690f145f3158ba3adb465bea0607acd"
+    },
+    "trajectory_failed.npy": {
+      "bytes": 23571748,
+      "sha256": "70f5abb030c410cceb0221adccaab4a28e63daabdb203d6532b7abae1db2d8d6"
+    },
+    "checkpoint_0_0.npz": {
+      "bytes": 208287627,
+      "sha256": "08603328bbd97301f61c15eca4ac695d3e6ef2ffa0826c222c7f71ca66b77063"
+    }
+  },
+  "review_script_sha256": "0583a4b2088b2a0262c713ce6f2de0f98e23c0fc4d5c5a2c3117b4be642f6873",
+  "reference_definition": {
+    "impact_center_xz_m": [
+      0.125,
+      0.125
+    ],
+    "center_radius_m": 0.045,
+    "plate_lower_xyz_m": [
+      0.035,
+      0.075,
+      0.035
+    ],
+    "plate_upper_xyz_m": [
+      0.215,
+      0.1,
+      0.215
+    ],
+    "clamp_band_width_m": 0.008,
+    "center_radius_comparison_tolerance_m": 1e-14,
+    "coordinates": "x,z in plane; y through thickness"
+  },
+  "interpretation": "Descriptive failed-particle spatial statistics only. JH-2 damage D is not a crack surface. Failure uses checkpoint history_failed, with reference-volume weighting. A frame-10 prefix need not have debris outside the plate thickness. Thickness escape is measured without a particle-spacing margin and differs from the original full-plan reviewer gate."
+}
