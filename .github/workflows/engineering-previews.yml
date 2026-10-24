@@ -1,11 +1,11 @@
-name: Ceramic fragmentation original-plan prefix
+name: Ceramic original-prefix review-only recovery
 on:
   workflow_dispatch:
     inputs:
-      mode:
-        type: choice
-        options: [prefix]
-        default: prefix
+      original_job_log_sha256:
+        description: Independently admitted SHA256 of the complete original job log (job 120788957488)
+        type: string
+        required: true
 permissions:
   contents: read
   actions: read
@@ -13,9 +13,9 @@ concurrency:
   group: ceramic-fragmentation-resource-prefix
   cancel-in-progress: false
 jobs:
-  targeted:
+  recover:
     runs-on: ubuntu-24.04
-    timeout-minutes: 50
+    timeout-minutes: 60
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -24,144 +24,153 @@ jobs:
       MKL_NUM_THREADS: '1'
       OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
-      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      FAILED_KEY: ceramic-prefix-v1-68c311813b11124459b7750f52695c7caa9b6c39-40065893663-1-f10-failed
     steps:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
+          fetch-depth: 0
           persist-credentials: false
+      - name: Require the original feature cache scope
+        run: |
+          test "$GITHUB_REF" = refs/heads/work/ceramic-fragmentation-prefix
+          test "$GITHUB_REPOSITORY" = lililii124/jax-mpm
+      - name: Restore only the exact original failed diagnostic, without resuming it
+        id: failed
+        uses: actions/cache/restore@v5
+        timeout-minutes: 12
+        with:
+          path: .local/ceramic-prefix-cache
+          key: ceramic-prefix-v1-68c311813b11124459b7750f52695c7caa9b6c39-40065893663-1-f10-failed
+          fail-on-cache-miss: true
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - run: python -m pip install -e . psutil
-        timeout-minutes: 12
-      - name: Bind exact source and numerical environment
+      - name: Preserve the restored diagnostic in a distinct read-only input directory
+        env:
+          CACHE_HIT: ${{ steps.failed.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.failed.outputs.cache-matched-key }}
         run: |
           python - <<'PY'
-          import hashlib,json,os,platform,subprocess
+          import json,os
           from pathlib import Path
-          root=Path.cwd();cache=root/'.local/ceramic-prefix-cache';records=root/'.local/ceramic-prefix-records'
-          cache.mkdir(parents=True);records.mkdir(parents=True)
-          sha=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip();assert sha==os.environ['GITHUB_SHA']
-          names=subprocess.check_output(['git','ls-files','--','mpm_jax','examples','tools','pyproject.toml','.github/workflows/engineering-previews.yml'],text=True).splitlines()
-          files={}
-          for name in names:
-              if not name.endswith(('.py','.toml','.yml')):continue
-              raw=(root/name).read_bytes();blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
-              assert subprocess.check_output(['git','rev-parse',f'HEAD:{name}'],text=True).strip()==blob
-              files[name]={'sha256':hashlib.sha256(raw).hexdigest(),'git_blob':blob,'bytes':len(raw)}
-          source={'repository':os.environ['GITHUB_REPOSITORY'],'commit':sha,'tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),'run_id':os.environ['GITHUB_RUN_ID'],'attempt':os.environ['GITHUB_RUN_ATTEMPT'],'files':files}
-          for folder in (cache,records):(folder/'source.json').write_text(json.dumps(source,indent=2)+'\n')
-          (cache/'requirements.txt').write_bytes(subprocess.check_output(['python','-m','pip','freeze']))
-          import jax,jaxlib,numpy
-          runtime={'python':platform.python_version(),'numpy':numpy.__version__,'jax':jax.__version__,'jaxlib':jaxlib.__version__,'backend':jax.default_backend(),'x64':bool(jax.config.jax_enable_x64)}
-          for folder in (cache,records):(folder/'runtime.json').write_text(json.dumps(runtime,indent=2)+'\n')
+          assert os.environ['CACHE_HIT']=='true' and os.environ['CACHE_MATCH']==os.environ['FAILED_KEY']
+          source=Path('.local/ceramic-prefix-cache');target=Path('.local/ceramic-original-failed-cache')
+          assert not target.exists()
+          source.rename(target)
+          records=Path('.local/ceramic-continuation-records');records.mkdir(parents=True)
+          (records/'original-cache-lookup.json').write_text(json.dumps({'exact_lookup':True,'key':os.environ['FAILED_KEY'],'never_resumable':True,'resume_executed':False},indent=2)+'\n')
           PY
-      - name: Original ceramic 300 microsecond plan stopped at saved frame 10
-        id: solve
-        if: inputs.mode == 'prefix'
-        timeout-minutes: 30
+      - name: Check out the immutable original numerical producer separately
+        uses: actions/checkout@v7
+        with:
+          ref: 68c311813b11124459b7750f52695c7caa9b6c39
+          path: .local/ceramic-frozen-solver
+          persist-credentials: false
+      - name: Download and verify the exact original evidence artifact and job log
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ github.token }}
+          JOB_LOG_SHA: ${{ inputs.original_job_log_sha256 }}
+        run: |
+          mkdir -p .local/ceramic-original-evidence
+          gh api /repos/lililii124/jax-mpm/actions/artifacts/12549841535/zip > .local/ceramic-original-evidence/artifact.zip
+          gh api /repos/lililii124/jax-mpm/actions/jobs/120788957488/logs > .local/ceramic-original-evidence/job.log
+          python - <<'PY'
+          import hashlib,json,os,re,sys,zipfile
+          from pathlib import Path
+          sys.path.insert(0,'tools');import recover_ceramic_review as r
+          base=Path('.local/ceramic-original-evidence');archive=base/'artifact.zip';log=base/'job.log'
+          expected='9e7132d8166d66ac602a17e59a387abd43b0c01264f226290bcfe15e671f40bf'
+          assert archive.stat().st_size==111041054 and r.c.digest(archive)==expected
+          assert re.fullmatch('[0-9a-f]{64}',os.environ['JOB_LOG_SHA']) and r.c.digest(log)==os.environ['JOB_LOG_SHA']
+          with zipfile.ZipFile(archive) as package:
+              for name,sha in r.ORIGINAL_RECORD_SHA.items():
+                  raw=package.read('records/'+name);assert hashlib.sha256(raw).hexdigest()==sha
+                  target=base/'records'/name;target.parent.mkdir(exist_ok=True);target.write_bytes(raw)
+          r.c.save(r.c.LOGS/'original-evidence-verification.json',{'artifact_id':12549841535,'run_id':40065893663,'job_id':120788957488,'zip_sha256':expected,'zip_bytes':111041054,'job_log_sha256':os.environ['JOB_LOG_SHA'],'command_record_sha256':r.ORIGINAL_RECORD_SHA})
+          PY
+      - name: Verify complete original raw and Git blobs before installing exact pins
+        timeout-minutes: 8
         run: |
           python - <<'PY'
           import sys
           from pathlib import Path
-          sys.path.insert(0,'tools')
-          import run_engineering_preview as engine
-          engine.LOGS=Path('.local/ceramic-prefix-records')
-          engine.command('ceramic-prefix',['timeout','--signal=TERM','--kill-after=10s','25m',sys.executable,'-m','examples.ceramic_fragmentation','--stop-after-frame','10','--output','.local/ceramic-prefix-cache/result'],monitor=True)
-          engine.command('ceramic-prefix-review',['timeout','--signal=TERM','--kill-after=10s','4m',sys.executable,'tools/review_ceramic_fragmentation.py','.local/ceramic-prefix-cache/result','--allow-prefix'],monitor=True)
+          sys.path.insert(0,'tools');import recover_ceramic_review as r
+          c=r.c;base=Path('.local/ceramic-original-failed-cache');old=c.read(base/'receipt.json')
+          assert c.digest(base/'receipt.json')==r.FAILED_RECEIPT_SHA
+          assert old['cache_key']==r.FAILED_KEY and old['never_resumable'] is True and old['prefix_complete'] is False
+          assert c.inventory(base)==old['files'] and c.read(base/'source.json')==old['source']
+          c.verify_source(old['source']);pins=c.dependency_pins((base/'requirements.txt').read_text())
+          assert c.read(base/'runtime.json')['python']=='3.12.13'
+          (c.LOGS/'requirements.txt').write_text(''.join(f'{name}=={version}\n' for name,version in sorted(pins.items())))
+          required=sum(record['bytes'] for record in old['files'].values())
+          import shutil
+          assert required<6_000_000_000 and shutil.disk_usage('.').free>2*required+2*1024**3
           PY
-      - name: Seal complete raw prefix or rejected diagnostic
-        id: seal
-        if: always() && inputs.mode == 'prefix'
-        timeout-minutes: 7
+          python -m pip install --requirement .local/ceramic-continuation-records/requirements.txt
+          python -m pip install --no-deps -e .local/ceramic-frozen-solver
+      - name: Copy whole raw and recover original review without any simulation
+        id: recovered
+        timeout-minutes: 12
+        env:
+          JOB_LOG_SHA: ${{ inputs.original_job_log_sha256 }}
+        run: >-
+          python tools/recover_ceramic_review.py recover
+          --failed-cache .local/ceramic-original-failed-cache
+          --records .local/ceramic-original-evidence/records
+          --receipt-sha aac212a3141be0b347d13b3f14eb972e402df678f36b65640025f541f006a5ff
+          --job-log .local/ceramic-original-evidence/job.log --job-log-sha "$JOB_LOG_SHA"
+      - name: Admit complete new snapshot within 6 GB and total repository within 9 GB
+        id: budget
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           python - <<'PY'
-          import hashlib,json,os,urllib.request
-          from pathlib import Path
-          cache=Path('.local/ceramic-prefix-cache');records=Path('.local/ceramic-prefix-records')
-          def digest(path):
-              h=hashlib.sha256()
-              with path.open('rb') as stream:
-                  for chunk in iter(lambda:stream.read(1048576),b''):h.update(chunk)
-              return h.hexdigest()
-          source=json.loads((cache/'source.json').read_text())
-          for name,entry in source['files'].items():assert digest(Path(name))==entry['sha256'],name
-          files={p.relative_to(cache).as_posix():{'bytes':p.stat().st_size,'sha256':digest(p)} for p in sorted(cache.rglob('*')) if p.is_file()}
-          assert not any(p.is_symlink() for p in cache.rglob('*')) and sum(e['bytes'] for e in files.values())<2*1024**3
-          status=json.loads((cache/'result/status.json').read_text()) if (cache/'result/status.json').exists() else {}
-          command=json.loads((records/'ceramic-prefix.json').read_text()) if (records/'ceramic-prefix.json').exists() else {}
-          review=json.loads((cache/'result/fragmentation-review.json').read_text()) if (cache/'result/fragmentation-review.json').exists() else {}
-          accepted=(command.get('completed') is True and status.get('phase')=='checkpoint-ready' and status.get('segment_complete') is True and status.get('frame')==10 and status.get('frames')==60 and review.get('passed') is True)
-          key=f"ceramic-prefix-v1-{source['commit']}-{source['run_id']}-{source['attempt']}-f10"+('' if accepted else '-failed')
-          request=urllib.request.Request(f"https://api.github.com/repos/{source['repository']}/actions/cache/usage",headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
-          with urllib.request.urlopen(request,timeout=30) as response:usage=json.load(response)
-          assert usage['active_caches_size_in_bytes']+sum(e['bytes'] for e in files.values())+1048576<=9_000_000_000
-          receipt={'schema':'ceramic-resource-prefix-v1','source':source,'files':files,'cache_key':key,'prefix_complete':accepted,'never_resumable':not accepted,'independent_physical_admission':False,'physical_validation_passed':False,'production_eligible':False,'requested_stroke_m':.012,'full_target_s':3e-4,'requested_stop_frame':10,'cache_is_permanent_backup':False,'repository_cache_usage':usage}
-          encoded=(json.dumps(receipt,indent=2)+'\n').encode();(cache/'receipt.json').write_bytes(encoded);(records/'receipt.json').write_bytes(encoded)
-          with open(os.environ['GITHUB_OUTPUT'],'a') as output:output.write('cache_key='+key+'\nreceipt_sha='+hashlib.sha256(encoded).hexdigest()+'\n')
+          import sys
+          sys.path.insert(0,'tools');import run_ceramic_continuation as c
+          c.cache_admission({},'before-save')
           PY
-      - name: Save exact raw bytes without replacing another cache
-        if: always() && steps.seal.outputs.cache_key != ''
+      - name: Save only the separately accepted new immutable cache
+        id: saved
         uses: actions/cache/save@v5
-        timeout-minutes: 10
+        timeout-minutes: 12
         with:
           path: .local/ceramic-prefix-cache
-          key: ${{ steps.seal.outputs.cache_key }}
-      - name: Confirm the saved key exists
+          key: ${{ steps.recovered.outputs.cache_key }}
+      - name: Look up the exact new accepted key
         id: lookup
-        if: always() && steps.seal.outputs.cache_key != ''
         uses: actions/cache/restore@v5
         with:
           path: .local/ceramic-prefix-cache
-          key: ${{ steps.seal.outputs.cache_key }}
+          key: ${{ steps.recovered.outputs.cache_key }}
           lookup-only: true
           fail-on-cache-miss: true
-      - name: Record exact cache lookup
-        if: always() && steps.lookup.outcome == 'success'
+      - name: Bind the new cache lookup to accepted receipt and entire raw inventory
         env:
-          EXPECTED: ${{ steps.seal.outputs.cache_key }}
-          ACTUAL: ${{ steps.lookup.outputs.cache-matched-key }}
-          EXACT: ${{ steps.lookup.outputs.cache-hit }}
-          RECEIPT_SHA: ${{ steps.seal.outputs.receipt_sha }}
+          CACHE_HIT: ${{ steps.lookup.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.lookup.outputs.cache-matched-key }}
+          NEW_KEY: ${{ steps.recovered.outputs.cache_key }}
+          NEW_RECEIPT_SHA: ${{ steps.recovered.outputs.receipt_sha }}
         run: |
           python - <<'PY'
-          import hashlib,json,os
-          from pathlib import Path
-          assert os.environ['EXPECTED']==os.environ['ACTUAL'] and os.environ['EXACT']=='true'
-          raw=Path('.local/ceramic-prefix-cache/receipt.json').read_bytes();assert hashlib.sha256(raw).hexdigest()==os.environ['RECEIPT_SHA']
-          Path('.local/ceramic-prefix-records/cache-confirmation.json').write_text(json.dumps({'key':os.environ['ACTUAL'],'receipt_sha256':os.environ['RECEIPT_SHA'],'exact_lookup':True,'permanent_backup':False},indent=2)+'\n')
+          import os,sys
+          sys.path.insert(0,'tools');import recover_ceramic_review as r
+          c=r.c;receipt=c.read(c.CACHE/'receipt.json')
+          assert os.environ['CACHE_HIT']=='true' and os.environ['CACHE_MATCH']==os.environ['NEW_KEY']==receipt['cache_key']
+          assert c.digest(c.CACHE/'receipt.json')==os.environ['NEW_RECEIPT_SHA'] and c.inventory()==receipt['files']
+          r.verify_recovery(receipt,c.CACHE)
+          c.save(c.LOGS/'cache-confirmation.json',{'exact_lookup':True,'key':receipt['cache_key'],'receipt_sha256':os.environ['NEW_RECEIPT_SHA'],'never_resumable':False,'kind':'review-only recovered','original_failed_key_never_resumable':True,'permanent_backup':False,'production_eligible':False})
           PY
-      - name: Preserve bounded whole evidence files
+      - name: Package complete evidence files within 192 MiB
         if: always()
-        timeout-minutes: 6
-        run: |
-          python - <<'PY'
-          import hashlib,json,shutil
-          from pathlib import Path
-          destination=Path('.local/ceramic-prefix-delivery');destination.mkdir()
-          candidates=[(p,Path('records')/p.name) for p in sorted(Path('.local/ceramic-prefix-records').glob('*')) if p.is_file()]
-          result=Path('.local/ceramic-prefix-cache/result')
-          names=['plan.json','summary.json','status.json','segment.json','fragmentation-review.json','failure.json','checkpoint.json','observables.csv','diagnostics.csv','checkpoint_0_0.npz','checkpoint_1_0.npz','final_state_0.npz','reference.npz','particle_fields.npz','trajectory.npz']
-          candidates += [(result/name,Path('result')/name) for name in names if (result/name).is_file()]
-          candidates += [(p,Path('result')/p.relative_to(result)) for p in sorted(result.rglob('*')) if p.is_file() and p.relative_to(result).as_posix() not in names]
-          files={};omitted={};used=0
-          for p,relative in candidates:
-              h=hashlib.sha256()
-              with p.open('rb') as stream:
-                  for chunk in iter(lambda:stream.read(1048576),b''):h.update(chunk)
-              entry={'bytes':p.stat().st_size,'sha256':h.hexdigest()}
-              if used+entry['bytes']>191*1024**2:omitted[relative.as_posix()]=entry;continue
-              target=destination/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target);files[relative.as_posix()]=entry;used+=entry['bytes']
-          (destination/'manifest.json').write_text(json.dumps({'files':files,'omitted':omitted,'physical_validation_passed':False,'production_eligible':False,'media_created':False,'scope':'Listed whole files; omitted raw arrays remain only in an exact-key temporary cache if confirmed.'},indent=2)+'\n')
-          PY
+        timeout-minutes: 5
+        run: python tools/run_ceramic_continuation.py package
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ceramic-${{ inputs.mode }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/ceramic-prefix-delivery
+          name: ceramic-review-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ceramic-continuation-delivery
           include-hidden-files: true
           retention-days: 2
           compression-level: 0
