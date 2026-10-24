@@ -57,16 +57,6 @@ ParaView frames and animations. [Run records](RESULTS.md).
 </tr>
 </table>
 
-## Metal plasticity and impact
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="images/jc-tension.png" alt="jc-tension" width="100%"><br><strong>jc-tension</strong><br><a href="results/material-engineering--jc-tension--johnson-cook/summary.json">Results</a> · <a href="images/jc-tension.mp4">Video</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
-</table>
-
 ## Concrete
 
 <table width="100%">

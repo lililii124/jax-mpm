@@ -62,16 +62,6 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
-### Metal plasticity and impact
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/material-engineering--jc-tension--johnson-cook.gif" alt="JC round-bar tension" width="100%"><br><a href="docs/results/material-engineering--jc-tension--johnson-cook/summary.json">JC round-bar tension</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
-</table>
-
 ### Concrete
 
 <table width="100%">
