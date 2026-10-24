@@ -230,6 +230,28 @@ def deviatoric_return(tau_old, ep_old, strain_increment, rotation, J, dt, T, p):
         return jnp.where(residual>0,mid,lo),jnp.where(residual>0,hi,mid)
 
     lo,hi=jax.lax.fori_loop(0,64,bisect,(jnp.zeros_like(qtrial),qtrial/(3*p.shear_modulus)))
+    tol=256*jnp.finfo(tau_old.dtype).eps*jnp.maximum(p.A*J,qtrial)+1e-6
+
+    def unresolved(lo,hi):
+        increment=.5*(lo+hi)
+        stress=jnp.maximum(qtrial-3*p.shear_modulus*increment,0.)
+        residual=stress-J*flow_stress(ep_old+increment,increment/safe_dt,T,p)
+        return active&(jnp.abs(residual)>tol)
+
+    def needs_refinement(carry):
+        lo,hi,count=carry
+        return (count<64)&jnp.any(unresolved(lo,hi))
+
+    def refine(carry):
+        lo,hi,count=carry
+        pending=unresolved(lo,hi)
+        next_lo,next_hi=bisect(0,(lo,hi))
+        return jnp.where(pending,next_lo,lo),jnp.where(pending,next_hi,hi),count+1
+
+    # Fractional hardening has a steep derivative at vanishing plastic strain.
+    # Refine only roots that miss the existing stress-residual tolerance, with
+    # at most 128 total bisections; the final validity gate remains unchanged.
+    lo,hi,_=jax.lax.while_loop(needs_refinement,refine,(lo,hi,jnp.asarray(0)))
     dep=jnp.where(active,.5*(lo+hi),0.)
     qnew=jnp.maximum(qtrial-3*p.shear_modulus*dep,0.)
     returned=trial*(qnew/jnp.maximum(qtrial,1e-30))[...,None,None]
@@ -238,7 +260,6 @@ def deviatoric_return(tau_old, ep_old, strain_increment, rotation, J, dt, T, p):
     loss=(jnp.sum(trial**2,axis=(-2,-1))-jnp.sum(returned**2,axis=(-2,-1)))/(4*p.shear_modulus*p.density)
     plastic=qnew*dep/p.density
     residual=qnew-J*flow_stress(ep_old+dep,dep/safe_dt,T,p)
-    tol=256*jnp.finfo(tau_old.dtype).eps*jnp.maximum(p.A*J,qtrial)+1e-6
     rotation_tolerance=max(1e-10,128*jnp.finfo(tau_old.dtype).eps)
     proper=jnp.max(jnp.abs(jnp.swapaxes(rotation,-1,-2)@rotation-eye),axis=(-2,-1))<rotation_tolerance
     proper=proper&(jnp.abs(jnp.linalg.det(rotation)-1)<rotation_tolerance)
