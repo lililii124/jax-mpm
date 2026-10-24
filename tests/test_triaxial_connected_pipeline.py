@@ -213,3 +213,53 @@ def test_diagnostic_cache_keeps_existing_budget_and_cannot_be_stage_four(tmp_pat
     context['stage'] = 4
     with pytest.raises(ValueError, match='Finalization'):
         segments.seal_failure(context)
+
+
+def test_repository_cache_budget_checks_initial_conservative_snapshot(tmp_path, monkeypatch):
+    monkeypatch.setattr(segments, 'LOGS', tmp_path)
+    context = {'stage': 1, 'request': segments.request(contact_regions='connected'),
+               'source': {'repository': 'owner/repo'}}
+    monkeypatch.setattr(segments, 'repository_cache_usage', lambda _: 100_000_000)
+    record = segments.repository_cache_admission(context, phase='initial')
+    assert record['passed'] and record['new_snapshot_raw_bytes'] >= 40416*5*45
+    monkeypatch.setattr(segments, 'repository_cache_usage', lambda _: 8_999_999_999)
+    with pytest.raises(ValueError, match='9 GB'):
+        segments.repository_cache_admission(context, phase='initial')
+
+
+def test_repository_cache_budget_rechecks_real_accepted_raw_before_save(tmp_path, monkeypatch):
+    spec = importlib.util.spec_from_file_location('budget_fixture', Path(__file__).with_name('test_triaxial_segments.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    cache, context, _, _ = module.sealed_fixture(tmp_path)
+    context['source']['repository'] = 'owner/repo'
+    monkeypatch.setattr(segments, 'CACHE', cache)
+    monkeypatch.setattr(segments, 'LOGS', tmp_path/'logs')
+    monkeypatch.setattr(segments, 'repository_cache_usage', lambda _: 100)
+    record = segments.repository_cache_admission(context)
+    actual = sum(path.stat().st_size for path in cache.rglob('*') if path.is_file())
+    assert record['new_snapshot_raw_bytes'] == actual
+    monkeypatch.setattr(segments, 'repository_cache_usage', lambda _: 9_000_000_000-actual)
+    with pytest.raises(ValueError, match='9 GB'):
+        segments.repository_cache_admission(context)
+
+
+def test_repository_cache_budget_applies_to_failure_without_deleting_bytes(tmp_path, monkeypatch):
+    cache, context, _ = failure_fixture(tmp_path, monkeypatch)
+    context['source']['repository'] = 'owner/repo'
+    before = {path.relative_to(cache).as_posix(): segments.file_record(path) for path in cache.rglob('*') if path.is_file()}
+    monkeypatch.setattr(segments, 'repository_cache_usage', lambda _: 9_000_000_000)
+    with pytest.raises(ValueError, match='9 GB'):
+        segments.repository_cache_admission(context, phase='before-diagnostic-save')
+    after = {path.relative_to(cache).as_posix(): segments.file_record(path) for path in cache.rglob('*') if path.is_file()}
+    assert before == after
+
+
+def test_cache_token_scope_is_limited_to_read_only_query_steps():
+    root = Path(__file__).resolve().parents[1]
+    parent = (root/'.github/workflows/triaxial-segments.yml').read_text()
+    child = (root/'.github/workflows/triaxial-segment-job.yml').read_text()
+    assert 'actions: read' in parent and 'actions: read' in child
+    assert child.count('GH_TOKEN: ${{ github.token }}') == 3
+    assert child.index('run: python tools/run_triaxial_segments.py cache-admission') < child.index('uses: actions/cache/save@v5')
+    assert 'steps.failed-budget.outcome' in child

@@ -34,6 +34,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   segment:
@@ -68,6 +69,8 @@ jobs:
           python-version: '3.12.13'
       - name: Resolve immutable request and exact cache identity
         id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: >-
           python tools/run_triaxial_segments.py prepare
           --mode "$SEGMENT_MODE" --stage "$SEGMENT_STAGE"
@@ -110,6 +113,11 @@ jobs:
         id: run
         timeout-minutes: 300
         run: python tools/run_triaxial_segments.py run
+      - name: Recheck repository usage before saving accepted raw data
+        if: inputs.stage < 4 && success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/run_triaxial_segments.py cache-admission
       - name: Save the complete raw continuation snapshot
         if: inputs.stage < 4
         timeout-minutes: 20
@@ -147,9 +155,15 @@ jobs:
         if: ${{ always() && inputs.stage < 4 && steps.run.outcome == 'failure' }}
         timeout-minutes: 8
         run: python tools/run_triaxial_segments.py seal-failure
+      - name: Recheck repository usage before saving diagnostic raw data
+        id: failed-budget
+        if: ${{ always() && steps.failed.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/run_triaxial_segments.py cache-admission --cache-phase before-diagnostic-save
       - name: Save original failed raw history without admitting the next job
         id: failed-save
-        if: ${{ always() && steps.failed.outcome == 'success' }}
+        if: ${{ always() && steps.failed.outcome == 'success' && steps.failed-budget.outcome == 'success' }}
         timeout-minutes: 20
         uses: actions/cache/save@v5
         with:

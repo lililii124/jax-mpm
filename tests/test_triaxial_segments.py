@@ -350,7 +350,7 @@ def test_finalization_job_uses_existing_last_key_and_never_advances_or_seals(tmp
 
 def test_fourth_job_workflow_does_not_run_or_save_a_fourth_segment():
     child = (segments.ROOT/'.github/workflows/triaxial-segment-job.yml').read_text()
-    assert child.count('if: inputs.stage < 4') == 4
+    assert child.count('if: inputs.stage < 4') == 5  # Includes the pre-save repository budget gate.
     assert 'if: inputs.stage == 4' in child
     assert 'if: inputs.stage == 3' not in child
     assert child.count('actions/cache/save@v5') == 2  # Accepted raw and separate non-resumable failure evidence.

@@ -14,6 +14,7 @@ import sys
 import tempfile
 import time
 import traceback
+import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -26,6 +27,7 @@ LOGS = ROOT / '.local/triaxial-segment-ci'
 DELIVERY = ROOT / '.local/triaxial-segment-delivery'
 CONTEXT = LOGS / 'job.json'
 CACHE_BUDGET = 8_000_000_000
+REPOSITORY_CACHE_BUDGET = 9_000_000_000
 PYTHON_VERSION = '3.12.13'
 RESULT_NAMES = {'plan.json', 'summary.json', 'status.json', 'layout.json', 'contact-model.json',
     'particle_fields.json', 'particle_fields.npz', 'checkpoint.npz', 'final_state_0.npz',
@@ -202,6 +204,55 @@ def cache_estimate(plan):
     return {'estimated_snapshot_bytes': per_snapshot, 'estimated_three_snapshot_bytes': total,
             'workflow_cache_budget_bytes': CACHE_BUDGET,
             'scope': 'Conservative pre-solve raw-data estimate; final complete payloads are independently counted at each seal. Cache compression is not used to justify this budget.'}
+
+
+def repository_cache_usage(repository):
+    if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repository):
+        raise ValueError('Invalid repository for read-only cache accounting')
+    token = os.environ.get('GH_TOKEN', '')
+    if not token:
+        raise ValueError('The cache accounting step requires a read-only Actions token')
+    query = urllib.request.Request(f'https://api.github.com/repos/{repository}/actions/cache/usage',
+        headers={'Authorization': 'Bearer '+token, 'Accept': 'application/vnd.github+json',
+                 'X-GitHub-Api-Version': '2022-11-28'})
+    with urllib.request.urlopen(query, timeout=30) as response:
+        record = json.load(response)
+    size = record.get('active_caches_size_in_bytes')
+    if type(size) is not int or size < 0:
+        raise ValueError('Repository cache response has no valid byte count')
+    return size
+
+
+def initial_snapshot_reservation(req):
+    # Tiny geometry is fixed at 40416 particles; reserve 50000. Formal requests
+    # use the explicit one-million particle ceiling until their exact plan exists.
+    count = 50_000 if req['mode'] == 'tiny' else req['plan_kwargs']['max_particles']
+    frames = req['plan_kwargs']['frames']+1
+    return count*frames*(3*8+8+8+4+1)+count*864+32*1024**2
+
+
+def repository_cache_admission(context, *, phase='before-save'):
+    if context['stage'] == 4:
+        raise ValueError('Finalization does not save another cache')
+    if phase == 'initial':
+        added = initial_snapshot_reservation(context['request'])
+    elif phase in ('before-save', 'before-diagnostic-save'):
+        diagnostic = phase == 'before-diagnostic-save'
+        payload = inventory(CACHE, context['request'], diagnostic=diagnostic)
+        added = sum(item['bytes'] for item in payload.values())
+    else:
+        raise ValueError('Unknown cache accounting phase')
+    existing = repository_cache_usage(context['source']['repository'])
+    margin = 1024**2
+    record = {'passed': existing+added+margin <= REPOSITORY_CACHE_BUDGET,
+        'phase': phase, 'existing_repository_cache_bytes': existing,
+        'new_snapshot_raw_bytes': added, 'archive_metadata_margin_bytes': margin,
+        'repository_budget_bytes': REPOSITORY_CACHE_BUDGET, 'observed_unix_s': time.time(),
+        'scope': 'Read-only current usage plus conservative new raw bytes. No deletion, paid quota change or reliance on compression. Other jobs can race; rechecked directly before each save.'}
+    save(LOGS/f'repository-cache-{phase}.json', record)
+    if not record['passed']:
+        raise ValueError('Existing repository caches plus this complete raw snapshot exceed the 9 GB safety budget')
+    return record
 
 
 def disk_admission(plan, *, stage, free_bytes, raw_already_present=False):
@@ -420,6 +471,8 @@ def prepare(args):
         raise ValueError('Resume requires the preceding job receipt SHA')
     save(CONTEXT, context)
     save(LOGS/'numerical-source.json', source)
+    if args.stage < 4:
+        repository_cache_admission(context, phase='initial')
     emit(cache_key=context['cache_key'], parent_key=context['parent_key'], end_frame=end,
          cache_path=CACHE.relative_to(ROOT).as_posix())
 
@@ -758,7 +811,7 @@ def small_package(context, case, *, complete_tiny):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('action', choices=('prepare', 'verify', 'lock', 'run', 'worker', 'install', 'confirm-cache',
-        'seal-failure', 'confirm-diagnostic', 'admit-finalize', 'finalize', 'package'))
+        'seal-failure', 'confirm-diagnostic', 'cache-admission', 'admit-finalize', 'finalize', 'package'))
     parser.add_argument('--mode', choices=('tiny', 'formal'), default='tiny')
     parser.add_argument('--stage', type=int, choices=(1, 2, 3, 4), default=1)
     parser.add_argument('--theta', type=int, default=0)
@@ -768,6 +821,7 @@ def main():
     parser.add_argument('--size', choices=tuple(study.SIZES), default='24x16')
     parser.add_argument('--parent-receipt', default='')
     parser.add_argument('--operation', choices=('plan', 'solve', 'reference'), default='solve')
+    parser.add_argument('--cache-phase', choices=('before-save', 'before-diagnostic-save'), default='before-save')
     args = parser.parse_args()
     if os.environ.get('GITHUB_ACTIONS') != 'true' or platform.system() != 'Linux':
         parser.error('Segment execution requires the independent Linux Actions runner')
@@ -790,6 +844,7 @@ def main():
         elif args.action == 'confirm-cache': confirm_cache(context)
         elif args.action == 'seal-failure': seal_failure(context)
         elif args.action == 'confirm-diagnostic': confirm_diagnostic_cache(context)
+        elif args.action == 'cache-admission': repository_cache_admission(context, phase=args.cache_phase)
         elif args.action == 'admit-finalize': admit_finalization(context)
         elif args.action == 'finalize': finalize(context)
         elif args.action == 'package': package(context)
