@@ -1,6 +1,7 @@
 """Executed by ParaView's pvpython, not the solver's Python environment."""
 
 import argparse
+import importlib.util
 import json
 from itertools import product
 from pathlib import Path
@@ -71,6 +72,15 @@ def waypoint_sphere_motion(definition, time):
     )
     scale = 0.5 * (1.0 - np.cos(np.pi * phase))
     return centers[0] + np.sum(scale[..., None] * np.diff(centers, axis=0), axis=-2)
+
+
+def read_integrated_sphere(folder, definition, times):
+    """Load the small NumPy verifier without importing the solver package."""
+    path = Path(__file__).with_name("saved_tool_motion.py")
+    spec = importlib.util.spec_from_file_location("saved_tool_motion_for_paraview", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.integrated_sphere_states(folder, definition, times)
 
 
 def body_failure_modes(summary, count):
@@ -221,6 +231,7 @@ def main():
     auxiliary_geometry = []
     grip_sources = []
     waypoint_sphere_sources = []
+    integrated_sphere_checks = []
     hemisphere_sources = []
     if hemisphere_definition:
         definition = hemisphere_definition
@@ -326,7 +337,13 @@ def main():
             }
         )
     for index, definition in enumerate(waypoint_sphere_definitions):
-        sphere = Sphere(registrationName=f"Adhesive rigid sphere {index + 1}")
+        integrated = definition.get("motion_kind") == "integrated-saved-states"
+        if definition.get("motion_kind") not in (None, "integrated-saved-states"):
+            raise ValueError("unknown rigid sphere motion kind")
+        if integrated:
+            centers, integrated_evidence = read_integrated_sphere(output, definition, times)
+            integrated_sphere_checks.append((definition, integrated_evidence))
+        sphere = Sphere(registrationName=f"{'Integrated finite-mass' if integrated else 'Adhesive'} rigid sphere {index + 1}")
         radius = definition["radius"]
         sphere.Radius = radius
         sphere.ThetaResolution = 128
@@ -340,7 +357,8 @@ def main():
         surface.Diffuse = 0.8
         surface.Specular = 0.65
         surface.SpecularPower = 45
-        centers = waypoint_sphere_motion(definition, times)
+        if not integrated:
+            centers = waypoint_sphere_motion(definition, times)
         all_centers = np.asarray(definition["centers"])
         span = times[-1] - times[0]
         for axis in range(3):
@@ -359,18 +377,21 @@ def main():
             bounds[2 * axis + 1] = max(
                 bounds[2 * axis + 1], all_centers[:, axis].max() + radius
             )
-        waypoint_sphere_sources.append((sphere, definition))
-        auxiliary_geometry.append(
-            {
-                "type": "prescribed_adhesive_rigid_sphere",
-                "parameters": definition,
-                "display_opacity": sphere_opacity,
-                "included_in_particle_count": False,
-                "motion": "SpherePath cosine waypoint interpolation, evaluated at every output time",
-                "state_file_interpolation": "linear between output-time keyframes",
-                "interpretation": "Prescribed contact geometry; the deformable layer alone is represented by MPM particles",
-            }
-        )
+        waypoint_sphere_sources.append((sphere, definition, centers if integrated else None))
+        if integrated:
+            auxiliary_geometry.append({**integrated_evidence, "parameters": definition, "display_opacity": sphere_opacity})
+        else:
+            auxiliary_geometry.append(
+                {
+                    "type": "prescribed_adhesive_rigid_sphere",
+                    "parameters": definition,
+                    "display_opacity": sphere_opacity,
+                    "included_in_particle_count": False,
+                    "motion": "SpherePath cosine waypoint interpolation, evaluated at every output time",
+                    "state_file_interpolation": "linear between output-time keyframes",
+                    "interpretation": "Prescribed contact geometry; the deformable layer alone is represented by MPM particles",
+                }
+            )
     boxes = [
         (f"Prescribed rigid grip {index + 1}", "prescribed_rigid_grip", definition)
         for index, definition in enumerate(grip_definitions)
@@ -610,8 +631,8 @@ def main():
         reader.UpdatePipeline(times[i])
         for grip, center0, definition in grip_sources:
             grip.Center = center0 + grip_displacement(definition, times[i])
-        for sphere, definition in waypoint_sphere_sources:
-            sphere.Center = waypoint_sphere_motion(definition, times[i])
+        for sphere, definition, saved_centers in waypoint_sphere_sources:
+            sphere.Center = saved_centers[i] if saved_centers is not None else waypoint_sphere_motion(definition, times[i])
         for posed, center0, definition in hemisphere_sources:
             posed.Transform.Translate = center0 + grip_displacement(definition, times[i])
         Render(view)
@@ -649,11 +670,17 @@ def main():
             )
         if i % 10 == 0 or i == len(times) - 1:
             print(f"ParaView: frame {i + 1}/{len(times)}", flush=True)
+    for definition, initial_evidence in integrated_sphere_checks:
+        _, final_evidence = read_integrated_sphere(output, definition, times)
+        if final_evidence != initial_evidence:
+            raise RuntimeError("integrated tool or numerical history changed during rendering")
     SaveState(str(output / "scene.pvsm"))
     provenance = {
         "renderer": "ParaView",
         "version": str(GetParaViewVersion()),
-        "style_revision": 8
+        "style_revision": 9
+        if any(definition.get("motion_kind") == "integrated-saved-states" for definition in waypoint_sphere_definitions)
+        else 8
         if woven_display
         else 7
         if waypoint_sphere_definitions

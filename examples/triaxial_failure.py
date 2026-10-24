@@ -1,4 +1,4 @@
-"""Explicit extension of separate interlaced fibres with Hertz or JKR contact.
+"""Explicit extension of separate interlaced fibres with selectable local contact.
 
 Dry runs use NumPy only. Probe and smoke results are not production envelopes.
 """
@@ -22,6 +22,7 @@ SOURCE_FILES = (
     "examples/triaxial_failure.py", "examples/triaxial_fibre_geometry.py",
     "mpm_jax/fibre_mpm.py", "mpm_jax/fibre_coupling.py", "mpm_jax/fibre_contact.py",
     "mpm_jax/materials/isotropic_brittle.py",
+    "mpm_jax/local_contact_models.py", "mpm_jax/maugis_dugdale.py", "mpm_jax/cohesive_bem.py",
 )
 
 
@@ -103,10 +104,15 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
               load_transits=10., dimensions=None, grip_length=None, diameter=235e-6,
               pitch=.001, crimp=140e-6, clearance=2e-6, young=10e9, poisson=.25,
               density=1500., tensile_strength=100e6, fracture_energy=100., packing=1.,
-              max_particles=1_000_000):
+              max_particles=1_000_000, adhesion_range=1e-6, cohesive_domain_radius=1e-4,
+              cohesive_rings=64):
     """Return a NumPy geometry and a reproducible plan without importing JAX."""
-    if theta not in ANGLES or law not in ('hertz', 'jkr'):
-        raise ValueError("theta must be 0..30 degrees in five-degree steps; law must be hertz or jkr")
+    if theta not in ANGLES or law not in ('hertz', 'jkr', 'md', 'self-consistent'):
+        raise ValueError("theta must be 0..30 degrees in five-degree steps; choose hertz, jkr, md or self-consistent")
+    if (not np.isfinite(adhesion_range) or adhesion_range <= 0
+            or not np.isfinite(cohesive_domain_radius) or cohesive_domain_radius <= 0
+            or type(cohesive_rings) is not int or not 4 <= cohesive_rings <= 256):
+        raise ValueError("A positive interaction range/radial domain and 4..256 rings are required")
     if grid_storage not in ('dense', 'tube'):
         raise ValueError("grid_storage must be dense or tube")
     if any(type(value) is not int or value < limit for value, limit in ((frames, 1), (probe_steps, 0), (padding_cells, 2), (search_window, 1), (max_nodes, 1), (max_particles, 1))):
@@ -174,16 +180,82 @@ def plan_case(theta=0, *, law='jkr', smoke=False, probe_steps=0, frames=60, max_
         "grip_x_intervals_m": [[0., grip], [dimensions[0]-grip, dimensions[0]]],
         "coverage_skin_m": coverage_skin, "search_window": search_window,
         "requested_work_of_adhesion_J_per_m2": work_of_adhesion,
-        "work_of_adhesion_J_per_m2": work_of_adhesion if law == 'jkr' else 0.,
+        "work_of_adhesion_J_per_m2": work_of_adhesion if law != 'hertz' else 0.,
         "particle_spacing_m": particle_spacing, "sampling_hash": descriptor(geometry['x']),
         "trajectory_estimated_bytes": len(frame_steps)*len(geometry['x'])*(3*8+8+8+4+1),
         "interpretation": f"An explicit dynamic finite coupon with {load_transits:g} gauge-length elastic transit times of loading and a 20% hold. Kinetic/elastic energy ratio is recorded, not assumed negligible. First material failure, dynamic reaction maximum and sampled section-graph connectivity are distinct observations; they do not by themselves define a quasi-static or size-converged failure envelope."}
+    if law in ('md', 'self-consistent'):
+        plan['local_contact_parameters'] = {
+            'interaction_range_m': float(adhesion_range),
+            'outer_radius_m': float(cohesive_domain_radius), 'rings': cohesive_rings,
+            'scope': 'Unresolved local circular half-space compliance; not exact curved-cylinder contact or a second resolved bulk compliance. Fixed radial domain; unconverged or boundary-active solutions are rejected.'}
     plan['source'] = source_record()
     return geometry, plan
 
 
 def output_directory(output, plan):
     return Path(output)/plan['scope']/f"theta-{plan['theta_deg']:02d}"/plan['law']
+
+
+def restore_contact_history(template, checkpoint, array_module=np, *, parameters=None):
+    """Restore every law carry leaf; never reset an adhesive branch on resume."""
+    values = {}
+    for key, reference in template._asdict().items():
+        name = 'contact_active' if key == 'active' else 'contact_law_valid' if key == 'valid' else 'contact_local_'+key
+        if name not in checkpoint:
+            raise ValueError(f'Missing complete local-contact history: {name}')
+        value = np.asarray(checkpoint[name])
+        expected = np.asarray(reference)
+        if value.shape != expected.shape or value.dtype != expected.dtype or not np.isfinite(value).all():
+            raise ValueError(f'Invalid local-contact history shape, dtype or value: {name}')
+        if key == 'gap' and np.any(value < 0):
+            raise ValueError('Cohesive ring gaps cannot be negative')
+        if key == 'valid' and not value.all():
+            raise ValueError('Invalid local-contact state is not resumable')
+        values[key] = array_module.asarray(value)
+    if parameters is not None and hasattr(parameters, 'base'):
+        profile = np.asarray(values['previous_profile'])
+        base_profile = np.asarray(parameters.base.profile)
+        ratio = profile/base_profile
+        if (np.any(profile <= 0) or not np.allclose(ratio, ratio[..., :1], rtol=1e-12, atol=0)):
+            raise ValueError('Saved contact curvature profile is not a positive circular paraboloid')
+        gap = np.asarray(values['gap'])
+        work = np.broadcast_to(np.asarray(parameters.work_of_adhesion), gap.shape[:-1])[..., None]
+        interaction_range = np.broadcast_to(np.asarray(parameters.interaction_range), gap.shape[:-1])[..., None]
+        active = np.any(np.where(work > 0, gap < interaction_range, gap == 0), axis=-1)
+        if not np.array_equal(active, np.asarray(values['active'])):
+            raise ValueError('Saved adhesive branch flag contradicts its ring gaps')
+    return type(template)(**values)
+
+
+def restore_contact_model(parameters, checkpoint):
+    """Retain the original BEM table across CPUs, with independent table checks."""
+    if not hasattr(parameters, 'base'):
+        return parameters
+    import jax.numpy as jnp
+    base = parameters.base
+    values = {}
+    for key, reference in base._asdict().items():
+        name = 'contact_bem_'+key
+        if name not in checkpoint:
+            raise ValueError('Resume requires the complete original BEM model table')
+        value, expected = np.asarray(checkpoint[name]), np.asarray(reference)
+        if value.shape != expected.shape or value.dtype != expected.dtype or not np.isfinite(value).all():
+            raise ValueError('Invalid saved BEM model table')
+        if key not in ('compliance', 'stiffness') and not np.array_equal(value, expected):
+            raise ValueError('Saved BEM geometry or parameters differ from the physical plan')
+        values[key] = value
+    C, K = values['compliance'], values['stiffness']
+    if (not np.allclose(C, np.asarray(base.compliance), rtol=1e-12, atol=0)
+            or not np.allclose(C, C.T, rtol=1e-12, atol=0)
+            or not np.allclose(K, K.T, rtol=1e-12, atol=0)
+            or np.linalg.norm(C@K-np.eye(len(C)), ord=np.inf) > 1e-9):
+        raise ValueError('Saved BEM compliance or inverse is inconsistent')
+    try:
+        np.linalg.cholesky(C)
+    except np.linalg.LinAlgError as error:
+        raise ValueError('Saved BEM compliance is not positive definite') from error
+    return parameters._replace(base=type(base)(**{key: jnp.asarray(value) for key, value in values.items()}))
 
 
 def _graph_observation(x, failed, geometry, data, contact_history, dx, grip_masks):
@@ -302,7 +374,7 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
     import jax.numpy as jnp
     from mpm_jax.fibre_mpm import FibreConfig, FibreState, build_layout, build_tube_layout, make_state, reference_grips, step_with_diagnostics, stored_energy
     from mpm_jax.fibre_coupling import FibreCouplingHistory, build_contact_data, contact_data_summary, evaluate_contact, initial_contact_history
-    from mpm_jax.fibre_contact import FibreContactHistory, fibre_contact_parameters
+    from mpm_jax.fibre_contact import fibre_contact_parameters
     from mpm_jax.materials.isotropic_brittle import BrittleHistory, isotropic_brittle
 
     jax.config.update('jax_enable_x64', True)
@@ -326,11 +398,21 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
     if resume and json.loads((folder/'layout.json').read_text()) != layout_record:
         raise ValueError("Resume requires the identical validated grid-storage mapping")
     save_json(folder/'layout.json', layout_record)
-    data = build_contact_data(geometry, search_window=plan['search_window'], coverage_skin=plan['coverage_skin_m'])
-    contact_law = fibre_contact_parameters(effective_modulus=material.young/(2*(1-material.poisson**2)),
-        effective_radius=geometry['metadata']['diameter_m']/2, work_of_adhesion=plan['work_of_adhesion_J_per_m2'], model=plan['law'])
+    capture_range = (plan['local_contact_parameters']['interaction_range_m']
+                     if plan['law'] in ('md', 'self-consistent') and plan['work_of_adhesion_J_per_m2'] > 0 else 0.)
+    data = build_contact_data(geometry, search_window=plan['search_window'],
+                              coverage_skin=plan['coverage_skin_m'], proximity_margin=capture_range)
+    parameters = dict(effective_modulus=material.young/(2*(1-material.poisson**2)),
+        effective_radius=geometry['metadata']['diameter_m']/2, work_of_adhesion=plan['work_of_adhesion_J_per_m2'])
+    if plan['law'] in ('hertz', 'jkr'):
+        contact_law = fibre_contact_parameters(**parameters, model=plan['law'])
+    else:
+        from mpm_jax.local_contact_models import local_contact_model
+        local = plan['local_contact_parameters']
+        contact_law = local_contact_model(plan['law'], **parameters,
+            interaction_range=local['interaction_range_m'], outer_radius=local['outer_radius_m'], rings=local['rings'])
     state = make_state(geometry['x'], geometry['volume'], geometry['fibre_id'], material, layout)
-    contact = initial_contact_history(data)
+    contact = initial_contact_history(data, contact_law)
     intervals = plan['grip_x_intervals_m']
     masks = (geometry['x'][:, 0] <= intervals[0][1], geometry['x'][:, 0] >= intervals[1][0])
     motion = lambda t: loading_motion(t, plan['total_fixture_extension_m'], plan['load_time_s'], jnp)
@@ -357,7 +439,8 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
             history = BrittleHistory(*(jnp.asarray(checkpoint['history_'+key]) for key in BrittleHistory._fields))
             values = {key: jnp.asarray(checkpoint['state_'+key]) for key in FibreState._fields if key != 'history'}
             state = FibreState(**values, history=history)
-            contact = FibreCouplingHistory(FibreContactHistory(jnp.asarray(checkpoint['contact_active']), jnp.asarray(checkpoint['contact_law_valid'])),
+            contact_law = restore_contact_model(contact_law, checkpoint)
+            contact = FibreCouplingHistory(restore_contact_history(contact.law, checkpoint, jnp, parameters=contact_law),
                 jnp.asarray(checkpoint['contact_radius']), jnp.asarray(checkpoint['contact_segments']), jnp.asarray(checkpoint['contact_valid']))
             total_impulse, clamp_work, grid_ke_work = [checkpoint[key].copy() for key in ('total_impulse', 'clamp_work', 'grid_ke_work')]
             aggregate, last_contact = checkpoint['aggregate'].copy(), checkpoint['last_contact'].copy()
@@ -426,6 +509,10 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
             frame=frame, signature=np.array(signature), solver_seconds=solver_seconds,
             jax_version=np.array(jax.__version__),
             tables=np.array(json.dumps(json_value({'observables': rows, 'diagnostics': diagnostics, 'times': times}))))
+        values.update({'contact_local_'+key: np.asarray(value) for key, value in contact.law._asdict().items()
+                       if key not in ('active', 'valid')})
+        if hasattr(contact_law, 'base'):
+            values.update({'contact_bem_'+key: np.asarray(value) for key, value in contact_law.base._asdict().items()})
         save_npz(folder/'checkpoint.npz', **values)
         final = {key: np.asarray(value) for key, value in state._asdict().items() if key != 'history'}
         final.update({'history_'+key: np.asarray(value) for key, value in state.history._asdict().items()})
@@ -583,7 +670,7 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--theta', type=int, choices=ANGLES, default=0)
-    parser.add_argument('--law', choices=('jkr', 'hertz'), default='jkr')
+    parser.add_argument('--law', choices=('jkr', 'hertz', 'md', 'self-consistent'), default='jkr')
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--probe-steps', type=int, default=0)
     parser.add_argument('--smoke', action='store_true')
@@ -609,6 +696,9 @@ def main():
     parser.add_argument('--padding-cells', type=int, default=6)
     parser.add_argument('--grid-storage', choices=('dense', 'tube'), default='dense')
     parser.add_argument('--work-of-adhesion', type=float, default=.1)
+    parser.add_argument('--adhesion-range', type=float, default=1e-6, help='Dugdale interaction range in metres for MD/self-consistent contact')
+    parser.add_argument('--cohesive-domain-radius', type=float, default=1e-4, help='Fixed BEM radial domain in metres; never automatically expanded')
+    parser.add_argument('--cohesive-rings', type=int, default=64)
     parser.add_argument('--particle-spacing', type=float, default=45e-6)
     parser.add_argument('--packing', type=float, default=1., help='Sampling-density multiplier only, not physical fibre packing or volume fraction')
     parser.add_argument('--output', type=Path, default=Path('outputs/triaxial-failure'))
@@ -623,7 +713,9 @@ def main():
         grip_length=args.grip_length, diameter=args.diameter, pitch=args.pitch, crimp=args.crimp,
         clearance=args.clearance, young=args.young, poisson=args.poisson, density=args.density,
         tensile_strength=args.tensile_strength, fracture_energy=args.fracture_energy, packing=args.packing,
-        max_particles=args.max_particles, padding_cells=args.padding_cells)
+        max_particles=args.max_particles, padding_cells=args.padding_cells,
+        adhesion_range=args.adhesion_range, cohesive_domain_radius=args.cohesive_domain_radius,
+        cohesive_rings=args.cohesive_rings)
     if args.dry_run:
         validate_stop_after_frame(args.stop_after_frame, plan)
         print(json.dumps(json_value(plan), indent=2, allow_nan=False))

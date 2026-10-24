@@ -10,7 +10,7 @@ import time
 
 import numpy as np
 
-from examples.woven_geometry import ARCHITECTURES
+from examples.woven_geometry import ARCHITECTURES, WeaveSample
 from examples.woven_large_geometry import sample_large_weave
 
 
@@ -197,8 +197,67 @@ def pressure_force(sample, plan):
     return force
 
 
-def run_case(sample, plan, output, *, resume=False):
+def runtime_stop_frame(plan, stop_after_frame):
+    """A planned pause never changes the physical plan or a probe signature."""
+    last = len(plan["output_steps"])-1
+    if stop_after_frame is None:
+        return last
+    if type(stop_after_frame) is not int or not 0 <= stop_after_frame <= last:
+        raise ValueError("stop_after_frame must be a saved frame index within the complete plan")
+    if plan["probe_steps"]:
+        raise ValueError("runtime frame pauses are separate from immutable prefix probes")
+    return stop_after_frame
+
+
+def validate_reference(sample, plan):
+    mass = sample.volume*np.where(sample.phase == 1, plan["material_parameters"]["yarn_density"],
+                                  plan["material_parameters"]["matrix_density"])
+    values = {"x": sample.positions, "volume": sample.volume, "mass": mass, "phase": sample.phase,
+              "yarn_id": sample.yarn_id, "family_id": sample.family_id, "orientation": sample.orientation}
+    if (sample.metadata != plan["geometry"] or len(sample.positions) != plan["particles"]
+            or set(plan["reference_arrays"]) != set(values)
+            or any(array_descriptor(value) != plan["reference_arrays"][name] for name, value in values.items())):
+        raise ValueError("reference geometry or material mass differs from the immutable plan")
+    return mass
+
+
+def validate_checkpoint_control(data, plan):
+    aggregate = np.asarray(data["aggregate"])
+    if (aggregate.shape != (11,) or aggregate.dtype != np.dtype("float64") or not np.isfinite(aggregate).all()
+            or aggregate[1] != 1 or not bool(data["state_valid"])
+            or any(aggregate[index] < 0 or aggregate[index] != int(aggregate[index]) for index in (0, 4, 5, 6, 7))
+            or aggregate[6] != 0 or aggregate[7] != 0 or np.any(aggregate[[2, 3, 9]] < 0) or aggregate[10] <= 0):
+        raise ValueError("a rejected step or invalid aggregate is not resumable")
+    for name, shape in (("center", (3,)), ("velocity", (3,)), ("mass", ()), ("radius", ())):
+        value = np.asarray(data["sphere_"+name])
+        if value.shape != shape or value.dtype != np.dtype("float64") or not np.isfinite(value).all():
+            raise ValueError("checkpoint sphere fields have invalid shape, dtype or values")
+    if float(data["sphere_mass"]) != plan["tool"]["mass_kg"] or float(data["sphere_radius"]) != plan["tool"]["diameter_m"]/2:
+        raise ValueError("checkpoint rigid-tool inertia or radius differs from the declared plan")
+
+
+def load_saved_case(folder):
+    """Load the producer's reference bytes, without re-sampling on another CPU."""
+    folder = Path(folder)
+    plan = json.loads((folder/"plan.json").read_text())
+    if source_record() != plan["source"]:
+        raise ValueError("saved numerical source differs from this driver")
+    with np.load(folder/"reference.npz", allow_pickle=False) as data:
+        if set(data.files) != set(plan["reference_arrays"]):
+            raise ValueError("saved reference fields differ from the immutable plan")
+        values = {name: data[name].copy() for name in data.files}
+    if any(array_descriptor(value) != plan["reference_arrays"][name] for name, value in values.items()):
+        raise ValueError("saved reference bytes differ from the immutable plan")
+    sample = WeaveSample(values["x"], values["volume"], values["phase"], values["yarn_id"],
+                         values["family_id"], values["orientation"], plan["geometry"])
+    validate_reference(sample, plan)
+    return sample, plan
+
+
+def run_case(sample, plan, output, *, resume=False, stop_after_frame=None):
     """Integrate the declared full protocol or an explicitly separate prefix probe."""
+    end_frame = runtime_stop_frame(plan, stop_after_frame)
+    mass = validate_reference(sample, plan)
     import jax
     jax.config.update("jax_enable_x64", True)
     import jax.numpy as jnp
@@ -226,7 +285,6 @@ def run_case(sample, plan, output, *, resume=False):
     if kind != "woven":
         raise ValueError("this driver is restricted to the declared elastic woven material")
     material = woven_elastic(orientation=sample.orientation, phase=sample.phase, **plan["material_parameters"])
-    mass = sample.volume*np.where(sample.phase == 1, WOVEN_MATERIAL["yarn_density"], WOVEN_MATERIAL["matrix_density"])
     settings = plan["grid"]
     grid = make_plate_grid(sample.positions, size=sample.metadata["size_xz_m"], dx=settings["dx_m"],
         band=plan["clamp"]["band_width_m"], y_bounds=settings["y_bounds_m"],
@@ -259,9 +317,8 @@ def run_case(sample, plan, output, *, resume=False):
         with np.load(folder/"checkpoint.npz", allow_pickle=False) as data:
             if str(data["signature"]) != signature or str(data["jax_version"]) != jax.__version__:
                 raise ValueError("checkpoint source/plan or JAX version differs")
+            validate_checkpoint_control(data, plan)
             aggregate = jnp.asarray(data["aggregate"])
-            if float(aggregate[1]) != 1. or not bool(data["state_valid"]):
-                raise ValueError("a rejected step is diagnostic evidence, not an automatically resumable state")
             values = {name: jnp.asarray(data["state_"+name]) for name in WovenState._fields if name != "history"}
             for name, value in state._asdict().items():
                 if name != "history":
@@ -284,10 +341,10 @@ def run_case(sample, plan, output, *, resume=False):
                     or not np.isclose(float(state.time), int(aggregate[0])*config.dt, rtol=1e-12, atol=0)
                     or times[-1] != float(state.time)):
                 raise ValueError("checkpoint and saved time history are not the same complete prefix")
-            if float(sphere.mass) != plan["tool"]["mass_kg"] or float(sphere.radius) != plan["tool"]["diameter_m"]/2:
-                raise ValueError("checkpoint rigid-tool inertia or radius differs from the declared plan")
         if json.loads((folder/"layout.json").read_text()) != layout_record:
             raise ValueError("reconstructed grid or clamp differs from saved layout")
+        if end_frame <= start_frame and start_frame < len(plan["output_steps"])-1:
+            raise ValueError("runtime stop must advance beyond the saved checkpoint frame")
         for filename, table in (("observables.csv", rows), ("diagnostics.csv", diagnostics)):
             with (folder/filename).open(newline="", encoding="utf-8") as stream:
                 saved = list(csv.DictReader(stream))
@@ -431,10 +488,12 @@ def run_case(sample, plan, output, *, resume=False):
         if start_frame < 0:
             record(0)
             start_frame = 0
-        started = time.perf_counter()
-        compiled = advance.lower(state, sphere, aggregate, material, grid, force_base, jnp.asarray(0, dtype=jnp.int32)).compile()
-        compile_seconds = time.perf_counter()-started
-        for frame in range(start_frame+1, saved):
+        segment_start_frame = start_frame
+        if end_frame > start_frame:
+            started = time.perf_counter()
+            compiled = advance.lower(state, sphere, aggregate, material, grid, force_base, jnp.asarray(0, dtype=jnp.int32)).compile()
+            compile_seconds = time.perf_counter()-started
+        for frame in range(start_frame+1, end_frame+1):
             steps = plan["output_steps"][frame]-int(aggregate[0])
             if steps <= 0:
                 raise ValueError("saved step index is not a strict prefix of the plan")
@@ -449,7 +508,8 @@ def run_case(sample, plan, output, *, resume=False):
             raise ValueError("numerical source changed during execution")
         finished = bool(aggregate[1]) and int(aggregate[0]) == plan["stop_steps"]
         completed = finished and plan["probe_steps"] == 0
-        phase = "completed" if completed else "probe-complete" if finished else "failed"
+        segment_complete = bool(aggregate[1]) and len(rows)-1 == end_frame and not finished
+        phase = "completed" if completed else "probe-complete" if finished else "checkpoint-ready" if segment_complete else "failed"
         final = {key.removeprefix("state_"): value for key, value in state_arrays().items()}
         save_npz(folder/"final_state_0.npz", **final)
         definition = {**plan, "particle_spacing_xyz_m": sample.metadata["particle_spacing_m"],
@@ -458,6 +518,10 @@ def run_case(sample, plan, output, *, resume=False):
         if plan["loading"] == "sphere-impact":
             definition["rigid_spheres"] = [{"radius": plan["tool"]["diameter_m"]/2,
                 "times": times, "centers": [[row[f"ball_center_{axis}_m"] for axis in "xyz"] for row in rows],
+                "velocities": [[row[f"ball_velocity_{axis}_m_s"] for axis in "xyz"] for row in rows],
+                "mass": plan["tool"]["mass_kg"], "motion_kind": "integrated-saved-states",
+                "state_file": "observables.csv", "state_file_sha256": hashlib.sha256((folder/"observables.csv").read_bytes()).hexdigest(),
+                "producer_source_fingerprint": plan["source"]["fingerprint"],
                 "motion_source": "actual integrated finite-mass sphere states; no imposed impact trajectory"}]
         elif plan["loading"] == "hemisphere-indentation":
             definition["rigid_hemisphere"] = {"radius": plan["tool"]["diameter_m"]/2,
@@ -465,6 +529,8 @@ def run_case(sample, plan, output, *, resume=False):
                 "loading_duration": plan["loading_duration_s"], "motion_kind": "half-cosine-displacement-hold"}
         summary = {"case": "/".join([plan["series"], *plan["case_path"]]), "completed": completed,
             "probe_complete": bool(finished and plan["probe_steps"]), "production_eligible": False,
+            "segment_complete": segment_complete, "segment_start_frame": segment_start_frame,
+            "segment_end_frame": len(rows)-1, "runtime_stop_after_frame": stop_after_frame,
             "phase": phase, "particles": [n], "steps": int(aggregate[0]), "full_steps": plan["full_steps"],
             "simulation_time": float(state.time), "target_simulation_time": plan["duration_s"],
             "solver_seconds": solver_seconds, "compile_seconds": compile_seconds,
@@ -482,10 +548,12 @@ def run_case(sample, plan, output, *, resume=False):
             "angular_momentum_scope": "radial frictionless sphere has no spin degree of freedom; global fixture angular-impulse closure is not reported"}
         save_json(folder/"summary.json", summary)
         save_json(folder/"status.json", {"completed": completed, "probe_complete": summary["probe_complete"],
+            "segment_complete": segment_complete, "segment_start_frame": segment_start_frame,
+            "segment_end_frame": len(rows)-1, "runtime_stop_after_frame": stop_after_frame,
             "phase": phase, "frame": len(rows)-1, "frames": saved-1, "steps": int(aggregate[0]),
             "target_steps": plan["stop_steps"], "full_steps": plan["full_steps"], "time": float(state.time),
             "signature": signature, "coupling_valid": bool(aggregate[1])})
-        if not finished:
+        if not finished and not segment_complete:
             raise FloatingPointError("plate/contact step rejected; last accepted state and failure diagnostics preserved")
         return summary
     except BaseException as error:
@@ -507,15 +575,24 @@ def main(argv=None):
     parser.add_argument("--dx", type=float, default=.0005)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--stop-after-frame", type=int, help="runtime-only pause at a saved frame of the full plan")
     parser.add_argument("--output", type=Path, default=Path("outputs/woven-large"))
     args = parser.parse_args(argv)
-    sample, plan = make_plan(args.architecture, args.case, frames=args.frames,
-                            probe_steps=args.probe_steps, dx=args.dx)
+    if args.resume:
+        sample, plan = load_saved_case(args.output/args.architecture/args.case)
+        if (plan["architecture"] != args.architecture or plan["loading"] != args.case
+                or plan["frames"] != args.frames or plan["probe_steps"] != args.probe_steps or plan["grid"]["dx_m"] != args.dx):
+            parser.error("requested configuration differs from the saved complete plan")
+    else:
+        sample, plan = make_plan(args.architecture, args.case, frames=args.frames,
+                                probe_steps=args.probe_steps, dx=args.dx)
+    runtime_stop_frame(plan, args.stop_after_frame)
     if args.dry_run:
         print(json.dumps(json_value(plan), indent=2, allow_nan=False))
     else:
-        summary = run_case(sample, plan, args.output, resume=args.resume)
+        summary = run_case(sample, plan, args.output, resume=args.resume, stop_after_frame=args.stop_after_frame)
         print(json.dumps({"completed": summary["completed"], "probe_complete": summary["probe_complete"],
+                          "segment_complete": summary["segment_complete"],
                           "steps": summary["steps"], "particles": summary["particles"]}))
 
 

@@ -15,7 +15,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from .fibre_contact import initial_fibre_contact_history, update_fibre_contact
+from .fibre_contact import FibreContactParameters, initial_fibre_contact_history, update_fibre_contact
 
 
 @partial(jax.tree_util.register_dataclass,
@@ -226,8 +226,13 @@ def build_contact_data(geometry, *, search_window=4, coverage_skin=None, proximi
     return FibreContactData(*converted, section_offset, len(x), len(seeds), search_window, skin, float(proximity_margin))
 
 
-def initial_contact_history(data):
-    return FibreCouplingHistory(initial_fibre_contact_history((data.pair_count,)),
+def initial_contact_history(data, law=None):
+    if law is None or isinstance(law, FibreContactParameters):
+        local = initial_fibre_contact_history((data.pair_count,))
+    else:
+        from .local_contact_models import initial_local_contact_history
+        local = initial_local_contact_history(law, (data.pair_count,))
+    return FibreCouplingHistory(local,
                                 jnp.zeros(data.pair_count, dtype=data.coverage_reference.dtype),
                                 data.seed_segments, jnp.asarray(True))
 
@@ -324,6 +329,14 @@ def evaluate_contact(state, history, data, law):
     relocated = jnp.any((selected < window_lower) | (selected > window_upper), axis=-1)
     invalid_history = jnp.any((history.segments < lo) | (history.segments > hi), axis=-1)
     boundary = invalid_history | (history.law.active & relocated) | (jnp.any(at_edge, axis=-1) & ~use_global)
+    if not isinstance(law, FibreContactParameters):
+        # Virgin finite-range contacts can attach before solid surfaces touch.
+        # Previously active patches retain their own history beyond this range.
+        approach_range = jnp.where(law.work_of_adhesion > 0, law.interaction_range, 0.)
+        capture_valid = (jnp.all(jnp.isfinite(approach_range))
+                         & jnp.all(approach_range >= 0)
+                         & jnp.all(approach_range <= data.proximity_margin))
+        boundary = boundary | ~capture_valid
     audit_lower, audit_upper = jnp.maximum(selected-data.search_window, lo), jnp.minimum(selected+data.search_window, hi)
     directions = centres[data.segments[selected, 1]]-centres[data.segments[selected, 0]]
     lengths = jnp.linalg.norm(directions, axis=-1)
@@ -331,7 +344,12 @@ def evaluate_contact(state, history, data, law):
     normal = (second-first)/jnp.maximum(distance, 1e-30)[:, None]
     radius, curvature, curvature_valid = _curvature(tangents[:, 0], tangents[:, 1], normal, data.fibre_radius[data.seed_fibres])
     gap = distance-jnp.sum(data.fibre_radius[data.seed_fibres], axis=-1)
-    new_law, response = update_fibre_contact(history.law, -gap, law._replace(effective_radius=radius))
+    parameters = law._replace(effective_radius=radius)
+    if isinstance(law, FibreContactParameters):
+        new_law, response = update_fibre_contact(history.law, -gap, parameters)
+    else:
+        from .local_contact_models import update_local_contact
+        new_law, response = update_local_contact(history.law, -gap, parameters)
     pair_force = response.normal_force[:, None]*normal
     weights = jnp.stack((jnp.stack((1-wa, wa), axis=-1), jnp.stack((1-wb, wb), axis=-1)), axis=1)
     endpoint_sections = data.segments[selected]
@@ -361,6 +379,8 @@ def evaluate_contact(state, history, data, law):
              & jnp.all(jnp.isfinite(forces)) & jnp.all((history.segments >= lo) & (history.segments <= hi))
              & ~jnp.any(boundary) & ~jnp.any(uncovered) & ~motion_exceeded & ~jnp.any(degenerate)
              & ~jnp.any(endpoints & near_contact) & ~jnp.any(failed_contact))
+    if not isinstance(law, FibreContactParameters):
+        valid = valid & capture_valid
     updated = FibreCouplingHistory(new_law, response.radius, selected, valid)
     metrics = FibreCouplingMetrics(valid, boundary, jnp.sum(uncovered), jnp.sum(uncovered & same_family), motion_exceeded,
         displacement, degenerate, endpoints & near_contact, failed_contact, gap, normal, jnp.stack((first, second), axis=1),
