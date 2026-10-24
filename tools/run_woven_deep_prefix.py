@@ -22,7 +22,8 @@ def main():
   raw=(ROOT/name).read_bytes();blob=subprocess.check_output(['git','show','HEAD:'+name]);assert raw==blob,name
   sources[name]=dict(sha256=transport.digest(ROOT/name),bytes=len(raw))
  transport.write(DEST/'source.json',dict(commit=commit,files=sources,runtime=runtime,fresh_t0=True,physical_validation_passed=False))
- command=[sys.executable,'-m','examples.woven_deep_impact','--output',str(DEST/'output'),'--stop-after-frame','2']
+ command=[sys.executable,'-m','examples.woven_deep_impact','--output',str(DEST/'output'),'--stop-after-frame','2','--persistence','controller']
+ assert not (DEST/'output/segments').exists()
  begun=time.monotonic();samples=[];reason=None
  with (DEST/'solve.log').open('wb') as log:
   proc=subprocess.Popen(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
@@ -52,6 +53,7 @@ def main():
     break
    time.sleep(1)
   code=proc.wait()
+ assert not (DEST/'output/segments').exists(), 'Duplicate snapshots forbidden in controller mode'
  transport.write(DEST/'monitor.json',dict(samples=samples,reason=reason,returncode=code))
  if reason or code:raise RuntimeError('Rejected prefix; complete raw preserved')
  result=DEST/'output/plain/deep-sphere-impact';status=json.loads((result/'status.json').read_text())
@@ -61,7 +63,8 @@ def main():
  files={p.relative_to(DEST).as_posix():dict(bytes=p.stat().st_size,sha256=transport.digest(p)) for p in DEST.rglob('*') if p.is_file()}
  transport.write(DEST/'receipt.json',dict(schema='woven-deep-f2-v1',commit=commit,files=files,status=status,physical_validation_passed=False,scope='40J elastic exploratory prefix; depth target not yet assessed'))
 if __name__=='__main__':
- if len(sys.argv)>1 and sys.argv[1]=='package':transport.package()
+ if len(sys.argv)>1 and sys.argv[1]=='package':
+  assert not (DEST/'output/segments').exists(), 'Duplicate snapshot forbidden';transport.package()
  elif len(sys.argv)>1 and sys.argv[1]=='verify':
   folder=Path(sys.argv[2]);assert transport.digest(folder/'transport.json')==transport.digest(transport.DELIVERY/'transport.json');transport.verify(folder)
  else:main()

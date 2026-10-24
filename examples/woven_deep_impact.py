@@ -1,7 +1,8 @@
 """Separate 40 J deep-impact experiment; no claim of calibrated material response.
 
 Run prefixes before the full protocol: --stop-after-frame 2, then --resume
---stop-after-frame 10. Each completed segment is sealed in a separate snapshot.
+--stop-after-frame 10. Local runs seal snapshots; cloud controllers should pass
+--persistence controller and preserve their exact inventory and multipart payload.
 """
 import argparse
 import csv
@@ -86,10 +87,19 @@ def seal(folder, target):
     """Preserve exact raw bytes, including rejected results, without overwriting history."""
     target = Path(target)
     shutil.copytree(folder, target)
-    files = {str(path.relative_to(target)): hashlib.sha256(path.read_bytes()).hexdigest()
+    files = {str(path.relative_to(target)): stream_sha256(path)
              for path in sorted(target.rglob("*")) if path.is_file()}
     base.save_json(target/"receipt.json", {"files": files,
         "source": base.source_record(), "scope": "Exact raw segment snapshot; failed outputs retained."})
+
+
+def stream_sha256(path):
+    """Bound hash memory independently of preallocated trajectory size."""
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(1024*1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def main(argv=None):
@@ -100,10 +110,12 @@ def main(argv=None):
     parser.add_argument("--stop-after-frame", type=int, default=2)
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--persistence", choices=("local", "controller"), default="local",
+                        help="controller: retain one raw working tree; external controller owns exact inventory, receipt and transport")
     args = parser.parse_args(argv)
     folder = args.output/"plain/deep-sphere-impact"
     snapshot = args.output/"segments"/f"f{args.stop_after_frame:02d}"
-    if snapshot.exists():
+    if args.persistence == "local" and snapshot.exists():
         raise FileExistsError("segment snapshot exists; choose the next frame or a fresh output")
     if args.resume:
         sample, plan = base.load_saved_case(folder)
@@ -126,7 +138,7 @@ def main(argv=None):
                       stop_after_frame=args.stop_after_frame)
         base.save_json(folder/"deep-review.json", review(folder))
     finally:
-        if folder.exists():
+        if args.persistence == "local" and folder.exists():
             seal(folder, snapshot)
 
 

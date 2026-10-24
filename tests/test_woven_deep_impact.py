@@ -39,3 +39,43 @@ def test_seal_retains_exact_failed_raw_and_rejects_overwrite(tmp_path):
     assert set(receipt["files"]) == {"checkpoint.npz", "exception.json"}
     with pytest.raises(FileExistsError):
         deep.seal(raw, target)
+
+
+def test_large_receipt_hash_uses_streaming_reads(tmp_path, monkeypatch):
+    from pathlib import Path
+    import hashlib
+    raw = tmp_path/"large.bin"
+    content = b"bounded stream"*(200_000)
+    raw.write_bytes(content)
+    def forbidden(*args, **kwargs):
+        raise AssertionError("whole-file reads are forbidden")
+    monkeypatch.setattr(Path, "read_bytes", forbidden)
+    assert deep.stream_sha256(raw) == hashlib.sha256(content).hexdigest()
+
+
+@pytest.mark.parametrize("failed", [False, True])
+def test_controller_persistence_keeps_single_raw_tree(tmp_path, monkeypatch, failed):
+    folder = tmp_path/"plain/deep-sphere-impact"
+    monkeypatch.setattr(deep, "make_plan", lambda **kwargs: (None, {}))
+    monkeypatch.setattr(deep.base, "runtime_stop_frame", lambda *args: None)
+    def run(*args, **kwargs):
+        folder.mkdir(parents=True)
+        (folder/"raw.bin").write_bytes(b"preserve exact raw")
+        if failed:
+            (folder/"exception.json").write_text('{"message":"rejected"}')
+            raise FloatingPointError("rejected")
+    monkeypatch.setattr(deep.base, "run_case", run)
+    monkeypatch.setattr(deep, "review", lambda *args: {"accepted": False})
+    def forbidden(*args):
+        raise AssertionError("controller mode must not duplicate raw files")
+    monkeypatch.setattr(deep, "seal", forbidden)
+    arguments = ["--output", str(tmp_path), "--persistence", "controller"]
+    if failed:
+        with pytest.raises(FloatingPointError):
+            deep.main(arguments)
+        assert (folder/"exception.json").exists()
+    else:
+        deep.main(arguments)
+        assert (folder/"deep-review.json").exists()
+    assert (folder/"raw.bin").read_bytes() == b"preserve exact raw"
+    assert not (tmp_path/"segments").exists()
