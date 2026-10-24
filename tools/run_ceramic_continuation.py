@@ -27,7 +27,8 @@ PRODUCER = '68c311813b11124459b7750f52695c7caa9b6c39'
 REPOSITORY = 'lililii124/jax-mpm'
 FEATURE_REF = 'refs/heads/work/ceramic-fragmentation-prefix'
 FIRST_KEY = f'ceramic-prefix-v1-{PRODUCER}-40065893663-1-f10'
-CONTROLLER_FILES = ('tools/run_ceramic_continuation.py', 'tools/recover_ceramic_review.py', '.github/workflows/engineering-previews.yml')
+LEGACY_CONTROLLER_FILES = ('tools/run_ceramic_continuation.py', 'tools/recover_ceramic_review.py', '.github/workflows/engineering-previews.yml')
+CONTROLLER_FILES = (*LEGACY_CONTROLLER_FILES, 'tools/review_ceramic_spatial_failure.py')
 SOURCE_PATHS = ('mpm_jax', 'examples', 'tools', 'pyproject.toml', '.github/workflows/engineering-previews.yml')
 RAW_LIMIT = 6_000_000_000
 REPO_LIMIT = 9_000_000_000
@@ -116,9 +117,11 @@ def controller_record():
 
 
 def verify_controller(record):
+    expected_files = (LEGACY_CONTROLLER_FILES if record.get('commit') ==
+                      'cc033df244f7349d89b6cc08c74374454f44baa2' else CONTROLLER_FILES)
     if (record.get('repository') != REPOSITORY or record.get('ref') != FEATURE_REF
             or not re.fullmatch('[0-9a-f]{40}', record.get('commit', ''))
-            or set(record.get('files', {})) != set(CONTROLLER_FILES)):
+            or set(record.get('files', {})) != set(expected_files)):
         raise ValueError('Invalid historical controller source identity')
     for name, expected in record['files'].items():
         if hashlib.sha256(git(ROOT, 'show', f"{record['commit']}:{name}")).hexdigest() != expected:
@@ -450,6 +453,8 @@ def run(context):
         return engine.command(name, ['timeout', '--signal=INT', '--kill-after=60s', f'{seconds}s', *map(str, arguments)], monitor=True)
     command('parent-review', [sys.executable, ROOT/'tools/recover_ceramic_review.py', 'review', '--folder', folder, '--allow-prefix'], 10)
     command('parent-state-audit', [sys.executable, __file__, 'audit', '--audit-frame', context['from_frame']], 10)
+    command('parent-spatial-failure-review', [sys.executable, ROOT/'tools/review_ceramic_spatial_failure.py',
+        folder, '--output', LOGS/f"spatial-failure-frame-{context['from_frame']}.json"], 5)
     before = prefix_snapshot(context['from_frame'])
     save(LOGS/'original-prefix.json', before)
     save(LOGS/'timing-forecast.json', {
@@ -474,6 +479,8 @@ def run(context):
     options = ['--allow-prefix'] if context['end_frame'] < 60 else []
     command('independent-ceramic-review', [sys.executable, ROOT/'tools/recover_ceramic_review.py', 'review', '--folder', folder, *options], 12, 30)
     command('accepted-state-audit', [sys.executable, __file__, 'audit', '--audit-frame', context['end_frame']], 12, 20)
+    command('accepted-spatial-failure-review', [sys.executable, ROOT/'tools/review_ceramic_spatial_failure.py',
+        folder, '--output', LOGS/f"spatial-failure-frame-{context['end_frame']}.json"], 5, 15)
     verify_source(context['source'])
     verify_runtime(context)
     if controller_record() != context['controller']:
