@@ -1,0 +1,315 @@
+name: Private v6 energy1250to1260ns original-probe admission
+on:
+  workflow_dispatch:
+    inputs:
+      seed_run_id:
+        description: Exact admitted seed uploader run ID
+        required: true
+        type: string
+      seed_attempt:
+        description: Exact seed uploader attempt
+        required: true
+        default: '1'
+        type: string
+      seed_commit:
+        description: Exact seed uploader commit SHA
+        required: true
+        type: string
+      seed_artifacts_json:
+        description: Exact uploader receipt artifact records with IDs names ZIP SHA256
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: metal-v6-numerical-recovery-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  recovery:
+    if: github.ref == 'refs/heads/work/metal-fragment-v6-cloud'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Restore exact admitted1250ns artifact IDs and whole hashes
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SEED_RUN_ID: ${{ inputs.seed_run_id }}
+          SEED_ATTEMPT: ${{ inputs.seed_attempt }}
+          SEED_COMMIT: ${{ inputs.seed_commit }}
+          SEED_ARTIFACTS_JSON: ${{ inputs.seed_artifacts_json }}
+        run: python tools/run_metal_v6_energy_admission.py restore
+      - name: Install exact producer JAX code wheel and pinned platform dependencies
+        timeout-minutes: 10
+        run: python tools/run_metal_v6_energy_admission.py install
+      - name: Compare original and diagnosed1250to1260ns steps with unchanged physical gates
+        timeout-minutes: 32
+        run: python tools/run_metal_v6_energy_admission.py run
+      - name: Preserve whole raw even failed or resource-stopped
+        if: always()
+        id: package
+        timeout-minutes: 10
+        run: |
+          python tools/run_metal_v6_energy_admission.py package
+          python - <<'PY'
+          import hashlib,os
+          from pathlib import Path
+          sha=hashlib.sha256(Path('.local/metal-v6-energy-probe-delivery/transport.json').read_bytes()).hexdigest()
+          with open(os.environ['GITHUB_OUTPUT'],'a') as stream:stream.write('manifest_sha='+sha+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        id: upload_manifest
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-manifest
+          path: .local/metal-v6-energy-probe-delivery/transport.json
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-000.tarpart') != ''
+        id: upload_part_000
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-000
+          path: .local/metal-v6-energy-probe-delivery/part-000.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-001.tarpart') != ''
+        id: upload_part_001
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-001
+          path: .local/metal-v6-energy-probe-delivery/part-001.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-002.tarpart') != ''
+        id: upload_part_002
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-002
+          path: .local/metal-v6-energy-probe-delivery/part-002.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-003.tarpart') != ''
+        id: upload_part_003
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-003
+          path: .local/metal-v6-energy-probe-delivery/part-003.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-004.tarpart') != ''
+        id: upload_part_004
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-004
+          path: .local/metal-v6-energy-probe-delivery/part-004.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-005.tarpart') != ''
+        id: upload_part_005
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-005
+          path: .local/metal-v6-energy-probe-delivery/part-005.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-006.tarpart') != ''
+        id: upload_part_006
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-006
+          path: .local/metal-v6-energy-probe-delivery/part-006.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-007.tarpart') != ''
+        id: upload_part_007
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-007
+          path: .local/metal-v6-energy-probe-delivery/part-007.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-008.tarpart') != ''
+        id: upload_part_008
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-008
+          path: .local/metal-v6-energy-probe-delivery/part-008.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-009.tarpart') != ''
+        id: upload_part_009
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-009
+          path: .local/metal-v6-energy-probe-delivery/part-009.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-010.tarpart') != ''
+        id: upload_part_010
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-010
+          path: .local/metal-v6-energy-probe-delivery/part-010.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-011.tarpart') != ''
+        id: upload_part_011
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-011
+          path: .local/metal-v6-energy-probe-delivery/part-011.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-012.tarpart') != ''
+        id: upload_part_012
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-012
+          path: .local/metal-v6-energy-probe-delivery/part-012.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-013.tarpart') != ''
+        id: upload_part_013
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-013
+          path: .local/metal-v6-energy-probe-delivery/part-013.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-014.tarpart') != ''
+        id: upload_part_014
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-014
+          path: .local/metal-v6-energy-probe-delivery/part-014.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/metal-v6-energy-probe-delivery/part-015.tarpart') != ''
+        id: upload_part_015
+        timeout-minutes: 3
+        with:
+          name: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-part-015
+          path: .local/metal-v6-energy-probe-delivery/part-015.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        if: always()
+        timeout-minutes: 10
+        with:
+          pattern: metal-v6-recovery-${{ github.run_id }}-${{ github.run_attempt }}-*
+          path: .local/metal-v6-cloud-retrieved/
+          merge-multiple: true
+      - name: Verify pre-upload original manifest, all parts and every whole raw file
+        if: always()
+        timeout-minutes: 10
+        env:
+          EXPECTED_MANIFEST: ${{ steps.package.outputs.manifest_sha }}
+        run: python tools/run_metal_v6_energy_admission.py verify-retrieval --folder .local/metal-v6-cloud-retrieved --expected "$EXPECTED_MANIFEST"
+      - name: Record immutable recovery transport handles and checkpoint status
+        if: always()
+        env:
+          MANIFEST_ID: ${{ steps.upload_manifest.outputs.artifact-id }}
+          MANIFEST_SHA: ${{ steps.upload_manifest.outputs.artifact-digest }}
+          PART_000_ID: ${{ steps.upload_part_000.outputs.artifact-id }}
+          PART_000_SHA: ${{ steps.upload_part_000.outputs.artifact-digest }}
+          PART_001_ID: ${{ steps.upload_part_001.outputs.artifact-id }}
+          PART_001_SHA: ${{ steps.upload_part_001.outputs.artifact-digest }}
+          PART_002_ID: ${{ steps.upload_part_002.outputs.artifact-id }}
+          PART_002_SHA: ${{ steps.upload_part_002.outputs.artifact-digest }}
+          PART_003_ID: ${{ steps.upload_part_003.outputs.artifact-id }}
+          PART_003_SHA: ${{ steps.upload_part_003.outputs.artifact-digest }}
+          PART_004_ID: ${{ steps.upload_part_004.outputs.artifact-id }}
+          PART_004_SHA: ${{ steps.upload_part_004.outputs.artifact-digest }}
+          PART_005_ID: ${{ steps.upload_part_005.outputs.artifact-id }}
+          PART_005_SHA: ${{ steps.upload_part_005.outputs.artifact-digest }}
+          PART_006_ID: ${{ steps.upload_part_006.outputs.artifact-id }}
+          PART_006_SHA: ${{ steps.upload_part_006.outputs.artifact-digest }}
+          PART_007_ID: ${{ steps.upload_part_007.outputs.artifact-id }}
+          PART_007_SHA: ${{ steps.upload_part_007.outputs.artifact-digest }}
+          PART_008_ID: ${{ steps.upload_part_008.outputs.artifact-id }}
+          PART_008_SHA: ${{ steps.upload_part_008.outputs.artifact-digest }}
+          PART_009_ID: ${{ steps.upload_part_009.outputs.artifact-id }}
+          PART_009_SHA: ${{ steps.upload_part_009.outputs.artifact-digest }}
+          PART_010_ID: ${{ steps.upload_part_010.outputs.artifact-id }}
+          PART_010_SHA: ${{ steps.upload_part_010.outputs.artifact-digest }}
+          PART_011_ID: ${{ steps.upload_part_011.outputs.artifact-id }}
+          PART_011_SHA: ${{ steps.upload_part_011.outputs.artifact-digest }}
+          PART_012_ID: ${{ steps.upload_part_012.outputs.artifact-id }}
+          PART_012_SHA: ${{ steps.upload_part_012.outputs.artifact-digest }}
+          PART_013_ID: ${{ steps.upload_part_013.outputs.artifact-id }}
+          PART_013_SHA: ${{ steps.upload_part_013.outputs.artifact-digest }}
+          PART_014_ID: ${{ steps.upload_part_014.outputs.artifact-id }}
+          PART_014_SHA: ${{ steps.upload_part_014.outputs.artifact-digest }}
+          PART_015_ID: ${{ steps.upload_part_015.outputs.artifact-id }}
+          PART_015_SHA: ${{ steps.upload_part_015.outputs.artifact-digest }}
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          run=os.environ['GITHUB_RUN_ID'];attempt=os.environ['GITHUB_RUN_ATTEMPT'];prefix=f'metal-v6-recovery-{run}-{attempt}'
+          records=[]
+          if os.environ['MANIFEST_ID']:records.append(dict(id=int(os.environ['MANIFEST_ID']),name=prefix+'-manifest',sha256=os.environ['MANIFEST_SHA']))
+          for i in range(16):
+              if os.environ[f'PART_{i:03}_ID']:records.append(dict(id=int(os.environ[f'PART_{i:03}_ID']),name=prefix+f'-part-{i:03}',sha256=os.environ[f'PART_{i:03}_SHA']))
+          receipt=Path('.local/metal-v6-energy-probe/raw/run-receipt.json')
+          value=dict(run_id=run,attempt=attempt,commit=os.environ['GITHUB_SHA'],artifacts=records,run_receipt=json.loads(receipt.read_text()) if receipt.exists() else None)
+          Path('.local/metal-v6-recovery-artifact-receipt.json').write_text(json.dumps(value,indent=2)+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: metal-v6-recovery-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/metal-v6-recovery-artifact-receipt.json
+            .local/metal-v6-cloud-retrieved/retrieval-receipt.json
+            .local/metal-v6-energy-probe/raw/run-receipt.json
+          if-no-files-found: warn
+          retention-days: 30
