@@ -32,6 +32,7 @@ class HJC(NamedTuple):
     density: float
     initial_damage: float
     legacy_v3: bool = True
+    mat111_compacted_tension: bool = False
 
 
 def hjc(
@@ -58,10 +59,13 @@ def hjc(
     density=2440.0,
     cold_start_damage=False,
     profile="legacy-v3",
+    compacted_tension="legacy-polynomial",
 ):
     """Select the supplied v3 profile or strain-floor strength/damage equations."""
     if profile not in ("legacy-v3", "strain-floor"):
         raise ValueError("HJC profile must be 'legacy-v3' or 'strain-floor'")
+    if compacted_tension not in ("legacy-polynomial", "mat111-linear"):
+        raise ValueError("compacted_tension must be 'legacy-polynomial' or 'mat111-linear'")
     _positive(
         shear=shear,
         compressive_strength=compressive_strength,
@@ -109,6 +113,7 @@ def hjc(
         density,
         initial_damage,
         profile == "legacy-v3",
+        compacted_tension == "mat111-linear",
     )
 
 
@@ -126,10 +131,13 @@ def update_hjc(old, strain, J, dt, p):
     depv = jnp.where(old.compaction < 1, depv, 0.0)
     epv = old.plastic_volume + depv
     dense_mu = (mu - p.lock_strain) / (1 + p.lock_strain)
+    nonlinear_mu = jnp.where(p.mat111_compacted_tension, jnp.maximum(dense_mu, 0.), dense_mu)
+    dense_pressure = p.K1*dense_mu + (p.K2+p.K3*dense_mu)*nonlinear_mu**2
+    legacy_dense_pressure = ((p.K3*dense_mu+p.K2)*dense_mu+p.K1)*dense_mu
     pressure = jnp.where(
         old.compaction < 1,
         unloading_bulk * (mu - epv),
-        ((p.K3 * dense_mu + p.K2) * dense_mu + p.K1) * dense_mu,
+        jnp.where(p.mat111_compacted_tension, dense_pressure, legacy_dense_pressure),
     )
     pressure = jnp.maximum(pressure, -p.tensile_strength * (1 - old.damage))
     maximum = jnp.maximum(old.max_compression, mu)
