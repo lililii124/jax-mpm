@@ -16,9 +16,9 @@ except ImportError:
 
 
 try:
-    from .public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
+    from .public_themes import THEMES, HIDDEN_DISPLAY_IDS, theme, order
 except ImportError:
-    from public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
+    from public_themes import THEMES, HIDDEN_DISPLAY_IDS, theme, order
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -159,7 +159,7 @@ def gallery_groups(catalogue):
                     identifier = replacement
                     parts = identifier.split("--")
                     name, relative = parts[1], "/".join(parts)
-            if identifier not in HIDDEN_HOME_IDS:
+            if identifier not in HIDDEN_HOME_IDS and identifier not in HIDDEN_DISPLAY_IDS:
                 resolved.append((name, relative))
         groups[heading] = resolved
     listed = {relative for entries in groups.values() for _, relative in entries}
@@ -275,7 +275,7 @@ def main():
         cells = []
         for name, relative in entries:
             identifier = source_ids.get(relative, relative.replace("/", "--"))
-            if not is_public_run(identifier) or identifier not in selected_ids:
+            if not is_public_run(identifier) or identifier not in selected_ids or identifier in HIDDEN_DISPLAY_IDS:
                 continue
             folder = ROOT / "outputs" / relative
             if not all((folder / f).exists() for f in ("summary.json", "render.json", "final.png")):
@@ -310,7 +310,7 @@ def main():
                 video_link += f" · [GIF](images/home/{identifier}.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             cells.append(
-                f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}** · {count:,} particles<br>'
+                f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}**<br>'
                 f"[Results](results/{identifier}/summary.json){video_link}"
             )
             manifest.append(
@@ -327,10 +327,6 @@ def main():
                     "auxiliary_geometry": render.get("auxiliary_geometry", []),
                 }
             )
-        if heading == "Numerical stage previews" and (ROOT / "docs/images/stages/metal-impact-f16.gif").is_file():
-            cells.append(metal_stage_cell(""))
-        if heading == "Ceramics" and (ROOT / "docs/images/views/ceramic-cross-section.gif").is_file():
-            cells.append(ceramic_section_cell(""))
         if cells:
             columns = 3
             lines += [f"## {heading}", "", '<table width="100%">']
@@ -348,10 +344,12 @@ def main():
     write_manifest = True
     if manifest_path.exists():
         previous = json.loads(manifest_path.read_text(encoding="utf-8"))
-        if {entry["name"]: entry for entry in previous} == {entry["name"]: entry for entry in manifest}:
+        current = {entry["name"]: entry for entry in manifest}
+        manifest = [current.pop(entry["name"]) for entry in previous if entry["name"] in current] + list(current.values())
+        if previous == manifest:
             write_manifest = False
     if write_manifest:
-        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        manifest_path.write_bytes((json.dumps(manifest, indent=2) + "\n").encode("utf-8"))
     print(f"Collected {len(manifest)} ParaView scenes")
 
 

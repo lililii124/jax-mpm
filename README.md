@@ -7,6 +7,56 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 [Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)
 
+### Fibres: contact and pull-off
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/completed--crossed-fibre-hertz.gif" alt="Crossed fibre Hertz contact" width="100%"><br><a href="docs/results/completed--crossed-fibre-hertz/summary.json">Crossed fibre Hertz contact</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
+### Woven composites: plate impact
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/completed--woven-plate-impact.gif" alt="Clamped woven plate impact" width="100%"><br><a href="docs/results/completed--woven-plate-impact/summary.json">Clamped woven plate impact</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
+### Woven composites: plain weave
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/woven--plain--in-plane-shear.gif" alt="0°/90° plain weave · In-plane shear" width="100%"><br><a href="docs/results/woven--plain--in-plane-shear/summary.json">0°/90° plain weave · In-plane shear</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--plain--weft-tension.gif" alt="0°/90° plain weave · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--plain--weft-tension/summary.json">0°/90° plain weave · Transverse in-plane tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--plain--warp-tension.gif" alt="0°/90° plain weave · Warp tension" width="100%"><br><a href="docs/results/woven--plain--warp-tension/summary.json">0°/90° plain weave · Warp tension</a></td>
+</tr>
+</table>
+
+### Woven composites: triaxial weave
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--in-plane-shear.gif" alt="0°/±60° weave · In-plane shear" width="100%"><br><a href="docs/results/woven--triaxial--in-plane-shear/summary.json">0°/±60° weave · In-plane shear</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--weft-tension.gif" alt="0°/±60° weave · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--triaxial--weft-tension/summary.json">0°/±60° weave · Transverse in-plane tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--warp-tension.gif" alt="0°/±60° weave · Warp tension" width="100%"><br><a href="docs/results/woven--triaxial--warp-tension/summary.json">0°/±60° weave · Warp tension</a></td>
+</tr>
+</table>
+
+### Woven composites: twill weave
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--in-plane-shear.gif" alt="2×2 twill · In-plane shear" width="100%"><br><a href="docs/results/woven--twill-2x2--in-plane-shear/summary.json">2×2 twill · In-plane shear</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--weft-tension.gif" alt="2×2 twill · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--twill-2x2--weft-tension/summary.json">2×2 twill · Transverse in-plane tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--warp-tension.gif" alt="2×2 twill · Warp tension" width="100%"><br><a href="docs/results/woven--twill-2x2--warp-tension/summary.json">2×2 twill · Warp tension</a></td>
+</tr>
+</table>
+
 ### Metal plasticity and impact
 
 <table width="100%">
@@ -31,63 +81,23 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 <table width="100%">
 <tr>
-<td width="33%" align="center"><img src="docs/images/views/ceramic-cross-section.gif" alt="JH2 ceramic central cross section" width="100%"><br><a href="docs/views/ceramic-cross-section/README.md">JH2 ceramic central cross section</a><br>Second view of the same 61-state result.</td>
 <td width="33%" align="center"><img src="docs/images/home/completed--ceramic-impact-debris.gif" alt="JH2 ceramic impact and debris" width="100%"><br><a href="docs/results/completed--ceramic-impact-debris/summary.json">JH2 ceramic impact and debris</a></td>
 <td width="33%" align="center"></td>
-</tr>
-</table>
-
-### Woven plate impact
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/completed--woven-plate-impact.gif" alt="Clamped woven plate impact" width="100%"><br><a href="docs/results/completed--woven-plate-impact/summary.json">Clamped woven plate impact</a></td>
-<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
 
-### Plain weave: in-plane loading
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/woven--plain--in-plane-shear.gif" alt="0°/90° plain weave · In-plane shear" width="100%"><br><a href="docs/results/woven--plain--in-plane-shear/summary.json">0°/90° plain weave · In-plane shear</a></td>
-<td width="33%" align="center"><img src="docs/images/home/woven--plain--weft-tension.gif" alt="0°/90° plain weave · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--plain--weft-tension/summary.json">0°/90° plain weave · Transverse in-plane tension</a></td>
-<td width="33%" align="center"><img src="docs/images/home/woven--plain--warp-tension.gif" alt="0°/90° plain weave · Warp tension" width="100%"><br><a href="docs/results/woven--plain--warp-tension/summary.json">0°/90° plain weave · Warp tension</a></td>
-</tr>
-</table>
-
-### Triaxial weave: in-plane loading
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--in-plane-shear.gif" alt="0°/±60° weave · In-plane shear" width="100%"><br><a href="docs/results/woven--triaxial--in-plane-shear/summary.json">0°/±60° weave · In-plane shear</a></td>
-<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--weft-tension.gif" alt="0°/±60° weave · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--triaxial--weft-tension/summary.json">0°/±60° weave · Transverse in-plane tension</a></td>
-<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--warp-tension.gif" alt="0°/±60° weave · Warp tension" width="100%"><br><a href="docs/results/woven--triaxial--warp-tension/summary.json">0°/±60° weave · Warp tension</a></td>
-</tr>
-</table>
-
-### Twill weave: in-plane loading
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--in-plane-shear.gif" alt="2×2 twill · In-plane shear" width="100%"><br><a href="docs/results/woven--twill-2x2--in-plane-shear/summary.json">2×2 twill · In-plane shear</a></td>
-<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--weft-tension.gif" alt="2×2 twill · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--twill-2x2--weft-tension/summary.json">2×2 twill · Transverse in-plane tension</a></td>
-<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--warp-tension.gif" alt="2×2 twill · Warp tension" width="100%"><br><a href="docs/results/woven--twill-2x2--warp-tension/summary.json">2×2 twill · Warp tension</a></td>
-</tr>
-</table>
-
-### Adhesive contact and pull-off
+### Adhesive surface contact
 
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/adhesion-visible--nonadhesive-pull-off.gif" alt="Nonadhesive pull-off" width="100%"><br><a href="docs/results/adhesion-visible--nonadhesive-pull-off/summary.json">Nonadhesive pull-off</a></td>
 <td width="33%" align="center"><img src="docs/images/home/adhesion-visible--adhesive-pull-off.gif" alt="Adhesive pull-off" width="100%"><br><a href="docs/results/adhesion-visible--adhesive-pull-off/summary.json">Adhesive pull-off</a></td>
-<td width="33%" align="center"><img src="docs/images/home/contact-models--jkr-footprint.gif" alt="JKR pressure footprint" width="100%"><br><a href="docs/results/contact-models--jkr-footprint/summary.json">JKR pressure footprint</a></td>
+<td width="33%" align="center"><img src="docs/images/home/adhesion--lateral-release.gif" alt="Lateral release" width="100%"><br><a href="docs/results/adhesion--lateral-release/summary.json">Lateral release</a></td>
 </tr>
 <tr>
-<td width="33%" align="center"><img src="docs/images/home/adhesion--lateral-release.gif" alt="Lateral release" width="100%"><br><a href="docs/results/adhesion--lateral-release/summary.json">Lateral release</a></td>
 <td width="33%" align="center"><img src="docs/images/home/adhesion--three-sphere-array.gif" alt="Three-sphere array" width="100%"><br><a href="docs/results/adhesion--three-sphere-array/summary.json">Three-sphere array</a></td>
+<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
@@ -97,17 +107,17 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/ball-beam.gif" alt="Ball–beam contact" width="100%"><br><a href="docs/results/benchmarks--ball-beam--neo-hookean/summary.json">Ball–beam contact</a></td>
-<td width="33%" align="center"><img src="docs/images/home/completed--crossed-fibre-hertz.gif" alt="Crossed fibre Hertz contact" width="100%"><br><a href="docs/results/completed--crossed-fibre-hertz/summary.json">Crossed fibre Hertz contact</a></td>
 <td width="33%" align="center"><img src="docs/images/home/suite--sliding--neo-hookean.gif" alt="Frictional sliding" width="100%"><br><a href="docs/results/suite--sliding--neo-hookean/summary.json">Frictional sliding</a></td>
+<td width="33%" align="center"><img src="docs/images/home/suite--head-on--neo-hookean.gif" alt="Head-on contact" width="100%"><br><a href="docs/results/suite--head-on--neo-hookean/summary.json">Head-on contact</a></td>
 </tr>
 <tr>
-<td width="33%" align="center"><img src="docs/images/home/suite--head-on--neo-hookean.gif" alt="Head-on contact" width="100%"><br><a href="docs/results/suite--head-on--neo-hookean/summary.json">Head-on contact</a></td>
 <td width="33%" align="center"><img src="docs/images/home/suite--oblique--neo-hookean.gif" alt="Oblique contact" width="100%"><br><a href="docs/results/suite--oblique--neo-hookean/summary.json">Oblique contact</a></td>
 <td width="33%" align="center"><img src="docs/images/home/suite--rebound--neo-hookean.gif" alt="Rebound" width="100%"><br><a href="docs/results/suite--rebound--neo-hookean/summary.json">Rebound</a></td>
+<td width="33%" align="center"><img src="docs/images/home/benchmarks--rubber-ball--neo-hookean.gif" alt="Rubber-ball drop" width="100%"><br><a href="docs/results/benchmarks--rubber-ball--neo-hookean/summary.json">Rubber-ball drop</a></td>
 </tr>
 <tr>
-<td width="33%" align="center"><img src="docs/images/home/benchmarks--rubber-ball--neo-hookean.gif" alt="Rubber-ball drop" width="100%"><br><a href="docs/results/benchmarks--rubber-ball--neo-hookean/summary.json">Rubber-ball drop</a></td>
 <td width="33%" align="center"><img src="docs/images/home/contact-models--sphere-contact.gif" alt="Spherical indentation" width="100%"><br><a href="docs/results/contact-models--sphere-contact/summary.json">Spherical indentation</a></td>
+<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
@@ -157,16 +167,6 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
-### Numerical stage previews
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/stages/metal-impact-f16.gif" alt="Metal impact numerical stage preview" width="100%"><br><a href="docs/stages/metal-impact-f16/README.md">Metal impact: f16 numerical stage</a><br>17 saved states; phase/EOS extrapolation. Full protocol pending.</td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
-</table>
-
 <!-- END EXAMPLE GIFS -->
 
 ## Installation
@@ -200,7 +200,6 @@ python -m examples.suite --case perforated-panel --grid 48 --ppc 3 --gif
 python -m examples.suite --case cellular-cushion --grid 48 --ppc 3 --gif
 python -m examples.material_paths --model all
 python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gif
-python -m examples.adhesive_contact --case jkr-footprint --grid 48 --ppc 3 --gif
 python -m examples.material_engineering --case jc-tension --grid 80 --frames 60 --gif
 python -m examples.material_engineering --case concrete-bending --frames 40 --gif
 python -m examples.material_engineering --case ceramic-indentation --frames 40 --gif

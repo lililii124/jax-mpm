@@ -145,18 +145,6 @@
     ]
   },
   {
-    "name": "jkr-footprint",
-    "source": "contact-models/jkr-footprint",
-    "particles": 386019,
-    "field": "body",
-    "renderer": "ParaView",
-    "version": "(6, 2)",
-    "animation": true,
-    "preview_frame": 20,
-    "preview_time": 0.15,
-    "auxiliary_geometry": []
-  },
-  {
     "name": "oblique",
     "source": "suite/oblique/neo-hookean",
     "particles": 38686,

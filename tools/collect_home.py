@@ -159,9 +159,9 @@ def legacy_describe(identifier):
 
 
 try:
-    from .public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
+    from .public_themes import THEMES, HIDDEN_DISPLAY_IDS, theme, order
 except ImportError:
-    from public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
+    from public_themes import THEMES, HIDDEN_DISPLAY_IDS, theme, order
 
 def describe(identifier):
     _, title = legacy_describe(identifier)
@@ -217,7 +217,8 @@ def main():
         expected_render_hash = entry.get("render_lf_sha256", entry["render_sha256"])
         if render_hash != expected_render_hash:
             raise ValueError(f"Rendering record changed: {render_path}")
-        groups[group].append((title, f'<img src="{entry["gif_path"]}" alt="{title}" width="100%"><br>[{title}]({result})'))
+        if entry["id"] not in HIDDEN_DISPLAY_IDS:
+            groups[group].append((title, f'<img src="{entry["gif_path"]}" alt="{title}" width="100%"><br>[{title}]({result})'))
         record = {
             key: entry[key] for key in (
                 "id", "gif_path", "gif_sha256", "bytes",
@@ -233,10 +234,6 @@ def main():
                 raise ValueError(f"GIF source differs from the selected cloud result: {entry['id']}")
             record["source_directory"] = directory
         public.append(record)
-    if (root / "docs/images/views/ceramic-cross-section.gif").is_file():
-        groups["Ceramics"].append(("JH2 ceramic central cross section", ceramic_section_cell()))
-    if (root / "docs/images/stages/metal-impact-f16.gif").is_file():
-        groups["Numerical stage previews"].append(("Metal impact numerical stage", metal_stage_cell()))
     lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
     for heading in THEMES:
         items = groups[heading]
@@ -245,9 +242,6 @@ def main():
         columns = 3
         lines += [f"### {heading}", "", '<table width="100%">']
         ordered = sorted(items, key=lambda item: order(item[0]))
-        if heading == 'Woven composites':
-            ordered = sorted(items, key=lambda item: (
-                WOVEN_LOADS.get(item[0].split(' · ')[-1], item[0]), item[0]))
         cells = [cell for _, cell in ordered]
         for start in range(0, len(cells), columns):
             row = cells[start:start + columns]
