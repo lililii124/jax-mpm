@@ -33,7 +33,7 @@ def render(source,output):
         signature=hashlib.sha256(json.dumps(plan,sort_keys=True).encode()).hexdigest()
         if str(cp['signature'])!=signature:raise ValueError('Actual saved-frame checkpoint differs from source/physical plan')
         frame=int(cp['frame']);tables=json.loads(str(cp['tables']));times=np.asarray(tables['times']);records=tables['frame_records']
-    if frame!=60 or plan['steps']!=24495 or plan['frames']!=60 or plan['saved_states']!=61 or plan['duration_s']!=.03 or plan['geometry']['length_m']!=.064 or plan['geometry']['radius_m']!=.002:raise ValueError('Only exact original64mm/D4mm/30ms/61states allowed')
+    if frame!=60 or plan['steps']!=24495 or plan['frames']!=60 or plan['saved_states']!=61 or plan['duration_s']!=.03 or plan['geometry']['length_m']!=.064 or plan['geometry']['radius_m']!=.002 or plan['geometry_fields']['x']['shape']!=[202240,3]:raise ValueError('Only exact original64mm/D4mm/30ms/61states allowed')
     if len(times)!=frame+1 or len(records)!=frame+1:raise ValueError('Incomplete saved prefix')
     arrays={};fields={}
     for name in ('x','speed','damage','temperature','failed'):
@@ -45,7 +45,7 @@ def render(source,output):
         for name in static.files:
             if descriptor(static[name])!=summary['particle_fields']['fields'][name]:raise ValueError('Changed actual particle labels')
             fields[name]=np.array(static[name])
-    fields.update({k:arrays[k] for k in ('speed','damage','temperature','failed')});fields['body']=np.zeros(plan['particles'],dtype=np.int32)
+    fields.update({k:arrays[k] for k in ('speed','damage','temperature','failed')});fields['body']=np.zeros(plan['geometry_fields']['x']['shape'][0],dtype=np.int32)
     output.mkdir(parents=True);save_json(output/'summary.json',summary)
     export_series(arrays['x'],fields,times,output,spacing=plan['geometry']['particle_spacing_m'],dim=3)
     command=[find_pvpython(),'--force-offscreen-rendering',str(ROOT/'tools/paraview_fibre_pair_scene.py'),str(output),'--field','family_id','--resolution','400','--focus-bounds',*map(str,[-.003,.003,-.0018,.0042,-.003,.003])]
