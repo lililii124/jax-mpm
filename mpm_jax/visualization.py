@@ -150,8 +150,8 @@ def trajectory_arrays(output):
             else:
                 arrays.update({name: data[name] for name in names if name in data})
             arrays.update({name: data[name] for name in ("time", "body") if name in data})
-            if "failed" in data:
-                failed_file = output / "trajectory_failed.npy"
+            failed_file = output / "trajectory_failed.npy"
+            if "failed" in data or (mapped and failed_file.is_file()):
                 arrays["failed"] = (
                     np.load(failed_file, mmap_mode="r") if mapped and failed_file.is_file()
                     else data["failed"]
