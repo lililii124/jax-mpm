@@ -1,0 +1,123 @@
+name: JC refinement exact-source continuation
+
+on:
+  workflow_dispatch:
+    inputs:
+      parent_key:
+        description: Exact admitted previous carry cache key
+        required: true
+        type: string
+      parent_receipt_sha256:
+        description: Independently checked SHA256 of the previous carry receipt
+        required: true
+        type: string
+      from_frame:
+        description: Saved frame in the admitted parent carry
+        required: true
+        type: choice
+        options: ['10', '20', '30', '40']
+      end_frame:
+        description: Next partial frame, exactly ten frames after the parent
+        required: true
+        type: choice
+        options: ['20', '30', '40', '50']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jc-refinement-diagnostic-cache
+  cancel-in-progress: false
+
+jobs:
+  continuation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Start the whole-job budget
+        run: echo "JC_JOB_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
+      - name: Check out the independently versioned controller
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check out the immutable first-segment numerical source
+        uses: actions/checkout@v7
+        with:
+          ref: 08d83a051a9764a5a218fd33e184f3291eb3dd1c
+          path: .local/jc-frozen-solver
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Restore the exact parent cache without fallback
+        id: restore
+        timeout-minutes: 20
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/jc-refinement-cache
+          key: ${{ inputs.parent_key }}
+          fail-on-cache-miss: true
+      - name: Verify source, receipt and all restored bytes before installing or advancing
+        id: prepare
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+          PARENT_KEY: ${{ inputs.parent_key }}
+          RECEIPT_SHA: ${{ inputs.parent_receipt_sha256 }}
+          FROM_FRAME: ${{ inputs.from_frame }}
+          END_FRAME: ${{ inputs.end_frame }}
+        run: >-
+          python tools/run_jc_continuation.py prepare
+          --parent-key "$PARENT_KEY" --receipt-sha "$RECEIPT_SHA"
+          --from-frame "$FROM_FRAME" --end-frame "$END_FRAME"
+      - name: Recreate the recorded numerical runtime
+        timeout-minutes: 15
+        run: python -m pip install -e .local/jc-frozen-solver -r .local/jc-continuation-ci/requirements.txt
+      - name: Independently audit the parent, resume and audit the entire saved prefix
+        id: solve
+        timeout-minutes: 310
+        run: python tools/run_jc_continuation.py run
+      - name: Save the complete next carry under a new key
+        timeout-minutes: 20
+        uses: actions/cache/save@v5
+        with:
+          path: .local/jc-refinement-cache
+          key: ${{ steps.prepare.outputs.cache_key }}
+      - name: Confirm the exact saved key is retrievable
+        id: lookup
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/jc-refinement-cache
+          key: ${{ steps.prepare.outputs.cache_key }}
+          lookup-only: true
+          fail-on-cache-miss: true
+      - name: Verify the saved receipt without claiming a completed tensile test
+        env:
+          CACHE_HIT: ${{ steps.lookup.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.lookup.outputs.cache-matched-key }}
+          RECEIPT_SHA: ${{ steps.solve.outputs.receipt_sha }}
+        run: python tools/run_jc_continuation.py confirm-cache
+      - name: Preserve lightweight records or bounded complete diagnostic state
+        if: always()
+        timeout-minutes: 6
+        run: python tools/run_jc_continuation.py package
+      - name: Upload partial diagnostics only
+        if: always()
+        timeout-minutes: 9
+        uses: actions/upload-artifact@v4
+        with:
+          name: jc-continuation-frame-${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/jc-continuation-delivery/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 2
+          compression-level: 0

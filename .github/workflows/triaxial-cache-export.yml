@@ -1,0 +1,95 @@
+name: triaxial raw cache export
+
+on:
+  workflow_dispatch:
+    inputs:
+      producer_commit:
+        description: Exact numerical producer commit
+        type: string
+        required: true
+      producer_run:
+        description: Original triaxial segmented run ID
+        type: string
+        required: true
+      producer_attempt:
+        description: Original run attempt
+        type: string
+        default: '1'
+        required: true
+      receipt_sha:
+        description: Independently retained SHA256 of receipts/frame-60.json
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: triaxial-segmented-study-cache
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    cache-mode: read
+    permissions:
+      contents: write
+      actions: read
+    env:
+      PRODUCER_COMMIT: ${{ inputs.producer_commit }}
+      PRODUCER_RUN: ${{ inputs.producer_run }}
+      PRODUCER_ATTEMPT: ${{ inputs.producer_attempt }}
+      RECEIPT_SHA: ${{ inputs.receipt_sha }}
+      PYTHONUNBUFFERED: 'true'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Validate fixed producer identity before restoring anything
+        id: prepare
+        run: >-
+          python tools/export_triaxial_cache.py prepare
+          --producer-commit "$PRODUCER_COMMIT" --producer-run "$PRODUCER_RUN"
+          --producer-attempt "$PRODUCER_ATTEMPT" --receipt-sha "$RECEIPT_SHA"
+      - name: Read the producer Git objects independently of exporter source
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.prepare.outputs.producer_commit }}
+          path: producer-source
+          persist-credentials: false
+      - name: Restore the exact original final cache
+        id: restore
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/triaxial-segment-cache
+          key: ${{ steps.prepare.outputs.cache_key }}
+          fail-on-cache-miss: true
+      - name: Verify raw bytes and upload lossless assets to the pinned draft
+        timeout-minutes: 160
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: >-
+          python tools/export_triaxial_cache.py export
+          --producer-commit "$PRODUCER_COMMIT" --producer-run "$PRODUCER_RUN"
+          --producer-attempt "$PRODUCER_ATTEMPT" --receipt-sha "$RECEIPT_SHA"
+          --source-checkout producer-source
+      - name: Preserve the small export receipt, without raw arrays or credentials
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: triaxial-raw-export-${{ inputs.producer_run }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/triaxial-raw-export/export-report.json
+            .local/triaxial-raw-export/upload-progress.json
+            .local/triaxial-raw-export/raw-export-manifest.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 2

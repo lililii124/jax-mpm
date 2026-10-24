@@ -34,7 +34,9 @@ The geometry module also retains its more separated 0.20 mm diameter default.
 The tight series must pass the same continuous-curve exclusion audit; changing
 particle sampling does not change physical packing or fracture energy.
 
-The 18-period free gauge and 16-period width are starting dimensions. Smaller
+The free gauge spans 18 fibre pitches and the width spans 16 pitches. These
+length-to-pitch ratios are not counts of primitive translation cells; the legacy
+metadata fields `gauge_periods` and `width_periods` store these ratios. Smaller
 and larger coupons must be compared at fixed fibre dimensions and packing to
 measure boundary and finite-specimen effects. A large particle count alone is
 not evidence of size independence.
@@ -50,6 +52,13 @@ Separate grids permit fibres to move and slide independently. A shared velocity
 field would impose bonding and is unsuitable for this series. Hertz and JKR
 contact are selectable. Any circular equivalent used for crossed-fibre contact
 must be recorded separately from an exact elliptical-contact solution.
+The current curvature calculation treats the local tangents as straight
+cylinders and keeps the reference radii. It omits axial curvature of the crimped
+tubes and cross-section deformation; contact-model sensitivity is required
+before interpreting differences as quantitative adhesive-fibre strength.
+Contact locations use polylines through section mass centroids. Curved-tube
+volume weighting displaces these from geometric centreline points, so their
+proxy gap also requires a separate geometry-sensitivity check.
 
 The present material loses stiffness after complete damage. Resolved crack
 faces, fragment separation and fragment recontact require an explicit additional
