@@ -1,109 +1,125 @@
-name: engineering previews
-
+name: private fibre full raw and ParaView finalization
 on:
   workflow_dispatch:
     inputs:
-      preset:
-        description: Reviewed engineering cases or the round-bar density diagnostic
-        type: choice
-        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, adhesion-v4-pair, jc-density-diagnostic, jc-necking-formal]
-        default: all
+      producer_receipt_sha256:
+        description: Independently admitted original frame60 receipt SHA256
+        type: string
         required: true
-
 permissions:
   contents: read
-
+  actions: read
 concurrency:
-  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: fibre-original-hertz-final-media
   cancel-in-progress: false
-
 jobs:
-  engineering:
+  finalize:
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+    timeout-minutes: 150
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '4'
       OPENBLAS_NUM_THREADS: '1'
-      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
-      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
+      RECEIPT_SHA: ${{ inputs.producer_receipt_sha256 }}
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 81c57439c71cb3f48c575c4d55ee9fcc89b3aa39
+          path: .local/fibre-original-producer
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - name: Install CPU and rendering dependencies
-        timeout-minutes: 30
-        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
-      - name: Install official ParaView
-        timeout-minutes: 20
-        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
-      - name: Solve and independently review
-        timeout-minutes: 300
-        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
-      - name: Upload reviewed results or the explicitly marked diagnostic
-        if: success()
-        uses: actions/upload-artifact@v4
+          python-version: '3.12.13'
+      - name: Reserve disk for complete original archive and VTK
+        run: |
+          df -h .
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet
+          python -c "import shutil; assert shutil.disk_usage('.').free>=25*1024**3"
+      - uses: actions/cache/restore@v5
+        id: restore
+        timeout-minutes: 15
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/engineering-delivery/main/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
+          path: .local/fibre-pull-off-cache
+          key: fibre-pull-off-v1-81c57439c71cb3f48c575c4d55ee9fcc89b3aa39-hertz-40064897804-1-f60
+          fail-on-cache-miss: true
+      - name: Verify exact original receipt before installing locked dependencies
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib,re
+          root=pathlib.Path('.local/fibre-pull-off-cache')
+          assert os.environ['CACHE_HIT']=='true'
+          key='fibre-pull-off-v1-81c57439c71cb3f48c575c4d55ee9fcc89b3aa39-hertz-40064897804-1-f60'
+          assert os.environ['CACHE_MATCH']==key
+          expected=os.environ['RECEIPT_SHA']; assert re.fullmatch('[0-9a-f]{64}',expected)
+          assert hashlib.sha256((root/'receipt.json').read_bytes()).hexdigest()==expected
+          r=json.loads((root/'receipt.json').read_text()); assert r['frame']==60 and r['cache_key']==key
+          assert r['kind']=='accepted-prefix' and r['never_resumable'] is False
+          runtime=json.loads((root/'runtime/environment.json').read_text())
+          assert runtime['python']=='3.12.13'
+          pins=''.join(k+'=='+v+'\n' for k,v in sorted(runtime['packages'].items()))
+          assert (root/'runtime/requirements.txt').read_text()==pins
+          PY
+          python -m pip install -r .local/fibre-pull-off-cache/runtime/requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Install and preflight actual offscreen ParaView
+        timeout-minutes: 15
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as pv
+          pv.LOGS=Path('.local/fibre-pv-install');pv.LOGS.mkdir()
+          pv.install()
+          PY
+      - name: Independently review full raw and render all61 actual saved states
+        timeout-minutes: 100
+        run: >-
+          python tools/finish_fibre_pull_off.py
+          --cache .local/fibre-pull-off-cache
+          --receipt-sha "$RECEIPT_SHA"
+          --producer-root .local/fibre-original-producer
+          --output .local/fibre-final-media
+      - name: Package bounded media and complete multipart raw archive
+        run: python tools/package_fibre_final_media.py package --output .local/fibre-final-media --delivery .local/fibre-final-delivery
+      - uses: actions/upload-artifact@v4
+        id: upload
+        timeout-minutes: 15
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
-          path: .local/engineering-delivery/final-state/
+          name: fibre-hertz-complete-media-raw-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/fibre-final-delivery/
+          include-hidden-files: true
           if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        timeout-minutes: 15
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
-          path: .local/engineering-delivery/final-state-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate media when needed
-        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
-          path: .local/engineering-delivery/media/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second media package when needed
-        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
-          path: .local/engineering-delivery/media-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload diagnostic logs
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/fibre-final-retrieved/
+          merge-multiple: true
+      - name: Independently hash complete retrieved archive and every original member
+        run: python tools/package_fibre_final_media.py verify --delivery .local/fibre-final-retrieved
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
-          path: .local/engineering-ci/
+          name: fibre-hertz-final-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/fibre-final-media/*.json
+            .local/fibre-final-media/logs/
+            .local/fibre-pv-install/
+            .local/fibre-final-retrieved/*receipt.json
           if-no-files-found: warn
-          retention-days: 1
-          compression-level: 6
+          retention-days: 30
