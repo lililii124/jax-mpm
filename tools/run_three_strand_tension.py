@@ -129,14 +129,42 @@ def guarded(arguments,log):
     return record
 
 
+def parent_artifact_identity(artifact_id,run_id):
+    if not artifact_id.isdecimal() or not run_id.isdecimal():raise ValueError('Exact numeric parent run and artifact IDs required')
+    repository=os.environ['GITHUB_REPOSITORY'];token=os.environ['GH_TOKEN']
+    def api(suffix):
+        request=urllib.request.Request('https://api.github.com/repos/'+repository+'/'+suffix,headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'})
+        with urllib.request.urlopen(request,timeout=30) as response:return json.load(response)
+    run=api('actions/runs/'+run_id);artifact=api('actions/artifacts/'+artifact_id);binding=source()
+    if run['status']!='completed' or run['conclusion']!='success' or run['head_sha']!=binding['commit']:raise ValueError('Exact parent run must be terminal SUCCESS at the unchanged source')
+    if artifact['id']!=int(artifact_id) or artifact['expired'] or artifact['workflow_run']['id']!=int(run_id) or artifact['workflow_run']['head_sha']!=binding['commit']:raise ValueError('Parent artifact run/source/expiry mismatch')
+    if not artifact['name'].startswith('three-strand-complete-raw-f') or not artifact.get('digest','').startswith('sha256:') or artifact['size_in_bytes']>2*1024**3:raise ValueError('Unexpected or unbounded parent artifact identity')
+    return {'run_id':int(run_id),'run_attempt':run['run_attempt'],'head_sha':run['head_sha'],'artifact':artifact,'backend':'github-actions-artifact-only'}
+
+
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=('prepare','verify','run','render'));p.add_argument('--cache',type=Path,default=ROOT/'.local/three-strand-tension-cache');p.add_argument('--stop-after-frame',type=int,default=2);p.add_argument('--parent-receipt',default='');p.add_argument('--restore-key',default='');p.add_argument('--model',choices=['hertz','jkr'],default='hertz');p.add_argument('--length',type=float,default=.024);p.add_argument('--diameter',type=float,default=.002);p.add_argument('--pitch',type=float,default=.008);p.add_argument('--compactness',type=float,default=.985);p.add_argument('--dx',type=float,default=.0002);p.add_argument('--spacing',type=float,default=.0001);a=p.parse_args();source();root=a.cache.resolve();geometry,plan=plan_case(length=a.length,diameter=a.diameter,pitch=a.pitch,compactness=a.compactness,dx=a.dx,spacing=a.spacing,model=a.model)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=('prepare','restore-parent','verify','run','render'));p.add_argument('--cache',type=Path,default=ROOT/'.local/three-strand-tension-cache');p.add_argument('--stop-after-frame',type=int,default=2);p.add_argument('--parent-receipt',default='');p.add_argument('--restore-key',default='');p.add_argument('--model',choices=['hertz','jkr'],default='hertz');p.add_argument('--length',type=float,default=.024);p.add_argument('--diameter',type=float,default=.002);p.add_argument('--pitch',type=float,default=.008);p.add_argument('--compactness',type=float,default=.985);p.add_argument('--dx',type=float,default=.0002);p.add_argument('--spacing',type=float,default=.0001);p.add_argument('--parent-artifact-id',default=os.environ.get('PARENT_ARTIFACT_ID',''));p.add_argument('--parent-run-id',default=os.environ.get('PARENT_RUN_ID',''));a=p.parse_args();source();root=a.cache.resolve();geometry,plan=plan_case(length=a.length,diameter=a.diameter,pitch=a.pitch,compactness=a.compactness,dx=a.dx,spacing=a.spacing,model=a.model)
     if a.phase=='prepare':
+        if bool(a.restore_key)!=bool(a.parent_artifact_id) or bool(a.restore_key)!=bool(a.parent_run_id):raise ValueError('Continuation requires exact parent artifact and run IDs; fresh f2 requires neither')
+        if a.restore_key:
+            identity=parent_artifact_identity(a.parent_artifact_id,a.parent_run_id)
+            save_json(ROOT/'.local/three-strand-parent-artifact.json',identity)
         if a.stop_after_frame not in (2,10,20,30,40,50,60):raise ValueError('Whole-frame stage endpoint required')
         if bool(a.parent_receipt)!=bool(a.restore_key) or not a.restore_key and a.stop_after_frame!=2:raise ValueError('Fresh stage must stop at frame2; continuation requires exact key and receipt')
         if a.restore_key and not a.restore_key.startswith('three-strand-tension-v1-'+source()['commit']+'-'):raise ValueError('Parent cache source differs')
         key='three-strand-tension-v1-'+source()['commit']+'-'+source()['run_id']+'-'+source()['run_attempt']+f'-f{a.stop_after_frame:02d}'
         with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('cache_key='+key+'\n')
+        return
+    if a.phase=='restore-parent':
+        from tools.package_three_strand_raw import restore
+        identity=parent_artifact_identity(a.parent_artifact_id,a.parent_run_id)
+        restore(ROOT/'.local/three-strand-parent-delivery',root,a.parent_receipt)
+        receipt=verify(root,a.parent_receipt)
+        if receipt['cache_key']!=a.restore_key or receipt['request']!=plan:raise ValueError('Restored exact parent capsule key/physical request differs')
+        expected_name='three-strand-complete-raw-f'+str(receipt['frame'])+'-'+str(identity['run_id'])+'-'+str(receipt['source']['run_attempt'])
+        if identity['artifact']['name']!=expected_name or str(receipt['source']['run_id'])!=str(identity['run_id']):raise ValueError('Restored receipt differs from exact artifact/run identity')
+        if receipt['environment']['python']!='3.12.13' or receipt['environment']['packages']!=PINNED_RUNTIME:raise ValueError('Parent capsule runtime differs from fixed numerical lock')
+        save_json(ROOT/'.local/three-strand-parent-artifact.json',identity)
         return
     if a.phase=='verify':verify(root,a.parent_receipt);return
     if a.phase=='render':
@@ -189,15 +217,6 @@ def main():
     import shutil
     if shutil.disk_usage(root).free<4*1024**3:raise ValueError('Insufficient disk for complete raw/checkpoint evidence')
     logs=ROOT/'.local/three-strand-tension-logs';logs.mkdir(parents=True,exist_ok=True)
-    if os.environ.get('GITHUB_ACTIONS')=='true':
-        repository=os.environ['GITHUB_REPOSITORY'];token=os.environ['GH_TOKEN']
-        request=urllib.request.Request('https://api.github.com/repos/'+repository+'/actions/cache/usage',headers={'Authorization':'Bearer '+token,'Accept':'application/vnd.github+json'})
-        with urllib.request.urlopen(request,timeout=30) as response:usage=json.load(response)
-        # Conservatively reserve a full2GiB new stage without deleting any old
-        # result/cache or relying on automatic cache eviction.
-        admission={'existing_bytes':usage['active_caches_size_in_bytes'],'reserved_new_raw_bytes':2*1024**3,'conservative_limit_bytes':9_000_000_000}
-        save_json(logs/'repository-cache-admission.json',admission)
-        if admission['existing_bytes']+admission['reserved_new_raw_bytes']>admission['conservative_limit_bytes']:raise ValueError('Repository cache headroom insufficient; preserve old contact caches')
     try:
         args=[sys.executable,'-m','examples.three_strand_tension','--output',str(root/'data'),'--stop-after-frame',str(a.stop_after_frame)]
         args+=['--model',a.model,'--length',str(a.length),'--diameter',str(a.diameter),'--pitch',str(a.pitch),'--compactness',str(a.compactness),'--dx',str(a.dx),'--spacing',str(a.spacing)]
@@ -215,7 +234,7 @@ def main():
         key='three-strand-tension-v1-'+source()['commit']+'-'+source()['run_id']+'-'+source()['run_attempt']+f'-f{a.stop_after_frame:02d}'
         files=inventory(root)
         if sum(v['bytes'] for v in files.values())>2*1024**3:raise ValueError('Complete raw cache exceeds2GiB')
-        receipt={'schema':'three-strand-tension-cache-v1','kind':'accepted-prefix','never_resumable':False,'source':source(),'environment':runtime,'frame':a.stop_after_frame,'cache_key':key,'parent_receipt_sha256':a.parent_receipt,'parent_cache_key':a.restore_key,'request':plan,'files':files,'resource':resource,'independent_review':review,'production_eligible':False,'public_visual_review_passed':False}
+        receipt={'storage':{'backend':'github-actions-artifact-only','parent_artifact_id':a.parent_artifact_id,'parent_run_id':a.parent_run_id},'schema':'three-strand-tension-cache-v1','kind':'accepted-prefix','never_resumable':False,'source':source(),'environment':runtime,'frame':a.stop_after_frame,'cache_key':key,'parent_receipt_sha256':a.parent_receipt,'parent_cache_key':a.restore_key,'request':plan,'files':files,'resource':resource,'independent_review':review,'production_eligible':False,'public_visual_review_passed':False}
         save_json(root/'receipt.json',receipt)
         with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('receipt_sha256='+digest(root/'receipt.json')+'\n')
         print(json.dumps({'cache_key':key,'receipt_sha256':digest(root/'receipt.json'),'independent_review':review}))

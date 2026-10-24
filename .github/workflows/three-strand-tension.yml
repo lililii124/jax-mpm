@@ -34,7 +34,16 @@ on:
         options: ['2', '10', '20', '30', '40', '50', '60']
         default: '2'
         required: true
+      parent_artifact_id:
+        description: Exact successful whole-raw parent artifact ID, empty for fresh f2
+        type: string
+        default: ''
+      parent_run_id:
+        description: Exact successful parent workflow run ID, empty for fresh f2
+        type: string
+        default: ''
       restore_key:
+        description: Logical sealed parent capsule key, not Actions cache storage
         type: string
         default: ''
       parent_receipt:
@@ -58,6 +67,8 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       PYTHONUNBUFFERED: '1'
       GH_TOKEN: ${{ github.token }}
+      PARENT_ARTIFACT_ID: ${{ inputs.parent_artifact_id }}
+      PARENT_RUN_ID: ${{ inputs.parent_run_id }}
       PARENT_KEY: ${{ inputs.restore_key }}
       PARENT_SHA: ${{ inputs.parent_receipt }}
       ROPE_MODEL: ${{ inputs.model }}
@@ -85,22 +96,19 @@ jobs:
           --restore-key "$PARENT_KEY" --parent-receipt "$PARENT_SHA"
           --model "$ROPE_MODEL" --length "$ROPE_LENGTH" --diameter "$ROPE_DIAMETER"
           --pitch "$ROPE_PITCH" --compactness "$ROPE_COMPACTNESS" --dx "$ROPE_DX" --spacing "$ROPE_SPACING"
-      - uses: actions/cache/restore@v5
+      - uses: actions/download-artifact@v5
         if: inputs.restore_key != ''
         id: restore
         with:
-          path: .local/three-strand-tension-cache
-          key: ${{ inputs.restore_key }}
-          fail-on-cache-miss: true
-      - name: Verify exact complete raw snapshot before installing original lock
+          artifact-ids: ${{ inputs.parent_artifact_id }}
+          run-id: ${{ inputs.parent_run_id }}
+          github-token: ${{ github.token }}
+          path: .local/three-strand-parent-delivery/
+          merge-multiple: true
+      - name: Verify exact parent artifact and restore every original raw member before installing lock
         if: inputs.restore_key != ''
-        env:
-          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
-          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
         run: |
-          test "$CACHE_HIT" = true
-          test "$CACHE_MATCH" = "$PARENT_KEY"
-          python tools/run_three_strand_tension.py verify --parent-receipt "$PARENT_SHA"
+          python tools/run_three_strand_tension.py restore-parent --parent-receipt "$PARENT_SHA" --restore-key "$PARENT_KEY" --model "$ROPE_MODEL" --length "$ROPE_LENGTH" --diameter "$ROPE_DIAMETER" --pitch "$ROPE_PITCH" --compactness "$ROPE_COMPACTNESS" --dx "$ROPE_DX" --spacing "$ROPE_SPACING"
           python -m pip install -r .local/three-strand-tension-cache/requirements.txt
           python -m pip install --no-deps -e .
       - name: Install initial numerical environment
@@ -116,18 +124,6 @@ jobs:
           --restore-key "$PARENT_KEY" --parent-receipt "$PARENT_SHA"
           --model "$ROPE_MODEL" --length "$ROPE_LENGTH" --diameter "$ROPE_DIAMETER"
           --pitch "$ROPE_PITCH" --compactness "$ROPE_COMPACTNESS" --dx "$ROPE_DX" --spacing "$ROPE_SPACING"
-      - uses: actions/cache/save@v5
-        if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
-        with:
-          path: .local/three-strand-tension-cache
-          key: ${{ steps.prepare.outputs.cache_key }}
-      - uses: actions/cache/restore@v5
-        if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
-        with:
-          path: .local/three-strand-tension-cache
-          key: ${{ steps.prepare.outputs.cache_key }}
-          lookup-only: true
-          fail-on-cache-miss: true
       - name: Archive every raw byte in bounded192MiB parts
         if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
         run: python tools/package_three_strand_raw.py package --cache .local/three-strand-tension-cache --delivery .local/three-strand-raw-delivery
@@ -179,6 +175,7 @@ jobs:
             .local/three-strand-tension-media/*.mp4
             .local/three-strand-tension-media/frames/
             .local/three-strand-retrieval-receipt.json
+            .local/three-strand-parent-artifact.json
             .local/three-strand-pv-install/
           include-hidden-files: true
           if-no-files-found: warn

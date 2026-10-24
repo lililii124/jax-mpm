@@ -1,5 +1,8 @@
 """Preserve every original three-strand raw byte in bounded192MiB archive parts."""
 import argparse
+import io
+import shutil
+import tarfile
 import json
 from pathlib import Path
 import sys
@@ -44,9 +47,33 @@ def package(cache,output,diagnostic=False):
     print(json.dumps({'raw_parts':len(archive['parts']),'part_limit_bytes':192*1024**2,'uncompressed_bytes':raw_bytes,'compressed_bytes':archive['compressed_bytes'],'raw_archive_sha256':archive['sha256'],'all_original_members_verified':result['original_members_checked']}))
 
 
+def restore(delivery,cache,expected_receipt):
+    """Verify the entire immutable capsule, then safely restore every raw byte."""
+    if cache.exists():raise ValueError('Exact parent capsule needs a new empty local target')
+    manifest=transport.read(delivery/'delivery-manifest.json')
+    if manifest.get('diagnostic_only') or manifest.get('never_resumable') or manifest.get('raw_case')!='three-strand-tension':raise ValueError('Diagnostic or other-case artifact cannot resume')
+    if manifest['original_receipt_sha256']!=expected_receipt:raise ValueError('External parent receipt SHA does not match artifact')
+    verifier.verify(delivery)
+    archive=transport.read(delivery/'raw-archive/archive-manifest.json')
+    if archive['uncompressed_file_bytes']>2*1024**3:raise ValueError('Parent full raw exceeds2GiB budget')
+    paths=[delivery/'raw-archive'/item['file'] for item in archive['parts']]
+    cache.mkdir(parents=True)
+    with io.BufferedReader(verifier.Parts(paths)) as stream,tarfile.open(fileobj=stream,mode='r|gz') as tar:
+        for member in tar:
+            prefix='fibre-pull-off-cache/'
+            if not member.isfile() or not member.name.startswith(prefix):raise ValueError('Unexpected capsule member')
+            name=member.name[len(prefix):]
+            target=verifier.safe(cache,name);target.parent.mkdir(parents=True,exist_ok=True)
+            with tar.extractfile(member) as original,target.open('xb') as output:shutil.copyfileobj(original,output,1024**2)
+            if transport.file_record(target)!=archive['members'][member.name]:raise ValueError('Restored raw member changed')
+    if transport.sha(cache/'receipt.json')!=expected_receipt:raise ValueError('Restored original receipt changed')
+    return {'restored':True,'original_receipt_sha256':expected_receipt,'original_members_restored':len(archive['members']),'raw_archive_sha256':archive['sha256']}
+
+
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=['package','diagnostic','verify']);p.add_argument('--cache',type=Path);p.add_argument('--delivery',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=['package','diagnostic','verify','restore']);p.add_argument('--cache',type=Path);p.add_argument('--delivery',type=Path,required=True);p.add_argument('--receipt-sha',default='');a=p.parse_args()
     if a.phase in ('package','diagnostic'):package(a.cache.resolve(),a.delivery.resolve(),diagnostic=a.phase=='diagnostic')
+    elif a.phase=='restore':print(json.dumps(restore(a.delivery.resolve(),a.cache.resolve(),a.receipt_sha)))
     else:
         result=verifier.verify(a.delivery.resolve());target=a.delivery.parent/'three-strand-retrieval-receipt.json';transport.save(target,result);print(json.dumps(result))
 
