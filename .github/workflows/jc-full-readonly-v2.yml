@@ -1,0 +1,81 @@
+name: Private original JC full61 read-only audit and ParaView v2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 08d83a051a9764a5a218fd33e184f3291eb3dd1c
+          path: .local/jc-frozen-solver
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Retrieve sole original artifact by exact ID
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          mkdir -p .local/jc-readonly-v2
+          python tools/restore_jc_full_original.py --prove-controller --receipt .local/jc-readonly-v2/controller-proof.json
+          gh api "repos/$GH_REPO/actions/artifacts/12570755899" > .local/jc-readonly-v2/original-artifact.json
+          gh api --allow-escape-sequences "repos/$GH_REPO/actions/artifacts/12570755899/zip" > .local/jc-readonly-v2/original.zip
+          python tools/restore_jc_full_original.py .local/jc-readonly-v2/original.zip .local/jc-readonly-v2/restored --metadata .local/jc-readonly-v2/original-artifact.json --receipt .local/jc-readonly-v2/restore-receipt.json
+      - name: Recreate exact recorded runtime without running solver
+        run: python -m pip install -e .local/jc-frozen-solver -r .local/jc-readonly-v2/restored/controller-records/requirements.txt
+      - name: Verify source lineage, typed full history, and independent coordinate neck gate
+        run: >-
+          python tools/review_jc_full_result_v2.py .local/jc-readonly-v2/restored/result
+          --parent-cache .local/jc-readonly-v2/restored/parent-cache
+          --parent-key jc-continuation-v1-9a6ca77d102f08bb0e940b8b8158b95b9e3b6655-40089658915-1-frame50
+          --receipt-sha 8df427058ea9f7b8490309f1524c61d64c701a4c7c3dd53ed8e7344d5b8160c0
+          --records .local/jc-readonly-v2/restored/controller-records
+          --output .local/jc-readonly-v2/full-result-review-v2.json
+      - name: Require raw neck gate before installing renderer
+        run: |
+          python -c "import json; r=json.load(open('.local/jc-readonly-v2/full-result-review-v2.json')); assert r['passed'] and r['coordinate_neck_audit']['passed']"
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
+          python tools/run_jc_final.py install-paraview
+      - name: Render all original frames using actual ParaView
+        run: |
+          PVPYTHON=$(python -c "import json; print(json.load(open('.local/jc-final-ci/paraview-install.json'))['pvpython'])")
+          "$PVPYTHON" --force-offscreen-rendering tools/render_jc_full_v2.py render --folder .local/jc-readonly-v2/restored/result --output .local/jc-readonly-v2/media --review .local/jc-readonly-v2/full-result-review-v2.json
+          python tools/render_jc_full_v2.py encode --output .local/jc-readonly-v2/media
+      - name: Verify original bytes after rendering
+        run: |
+          python -c "import sys; sys.path.insert(0,'tools'); import run_jc_continuation as c; from pathlib import Path; r=c.read_json('.local/jc-readonly-v2/restore-receipt.json'); root=Path('.local/jc-readonly-v2/restored'); assert all(c.file_record(root/n)=={'bytes':v['bytes'],'sha256':v['sha256']} for n,v in r['files'].items())"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jc-full-readonly-v2-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/jc-readonly-v2/controller-proof.json
+            .local/jc-readonly-v2/original-artifact.json
+            .local/jc-readonly-v2/restore-receipt.json
+            .local/jc-readonly-v2/full-result-review-v2.json
+            .local/jc-readonly-v2/media/
+            .local/jc-final-ci/paraview-install.json
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
