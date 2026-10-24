@@ -1,5 +1,6 @@
 """Build the README animation catalogue from completed run records."""
 
+import re
 import argparse
 import hashlib
 import json
@@ -206,7 +207,7 @@ def main():
         expected_render_hash = entry.get("render_lf_sha256", entry["render_sha256"])
         if render_hash != expected_render_hash:
             raise ValueError(f"Rendering record changed: {render_path}")
-        groups[group].append((title, f'<img src="{entry["gif_path"]}" alt="{title}" width="320" height="320"><br>[{title}]({result})'))
+        groups[group].append((title, f'<img src="{entry["gif_path"]}" alt="{title}" width="100%"><br>[{title}]({result})'))
         record = {
             key: entry[key] for key in (
                 "id", "gif_path", "gif_sha256", "bytes",
@@ -228,7 +229,7 @@ def main():
         if not items:
             continue
         columns = 2 if heading == GROUPS[8] else 3
-        lines += [f"### {heading}", "", "|" + " |" * columns, "|" + "---|" * columns]
+        lines += [f"### {heading}", "", '<table width="100%">']
         ordered = sorted(items, key=lambda item: (not item[0].startswith("Nonadhesive"), item[0])) if heading == GROUPS[8] else sorted(items)
         if heading in (GROUPS[9], GROUPS[10]):
             ordered = sorted(items, key=lambda item: (
@@ -238,8 +239,12 @@ def main():
         cells = [cell for _, cell in ordered]
         for start in range(0, len(cells), columns):
             row = cells[start:start + columns]
-            lines.append("| " + " | ".join(row + [""] * (columns - len(row))) + " |")
-        lines.append("")
+            lines.append('<tr>')
+            for cell in row + [''] * (columns - len(row)):
+                cell = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', cell)
+                lines.append(f'<td width="{100//columns}%" align="center">{cell}</td>')
+            lines.append('</tr>')
+        lines += ['</table>', '']
     lines += [END, ""]
     block = "\n".join(lines)
     readme_path = root / "README.md"

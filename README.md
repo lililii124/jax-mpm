@@ -9,54 +9,117 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 ### Material engineering
 
-| | | |
-|---|---|---|
-| <img src="docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif" alt="HJC bending with symmetry constraints" width="320" height="320"><br>[HJC bending with symmetry constraints](docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json) | <img src="docs/images/home/material-engineering--jc-tension--johnson-cook.gif" alt="JC round-bar tension" width="320" height="320"><br>[JC round-bar tension](docs/results/material-engineering--jc-tension--johnson-cook/summary.json) | <img src="docs/images/home/completed--ceramic-impact-debris.gif" alt="JH2 ceramic impact and debris" width="320" height="320"><br>[JH2 ceramic impact and debris](docs/results/completed--ceramic-impact-debris/summary.json) |
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif" alt="HJC bending with symmetry constraints" width="100%"><br><a href="docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json">HJC bending with symmetry constraints</a></td>
+<td width="33%" align="center"><img src="docs/images/home/material-engineering--jc-tension--johnson-cook.gif" alt="JC round-bar tension" width="100%"><br><a href="docs/results/material-engineering--jc-tension--johnson-cook/summary.json">JC round-bar tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--ceramic-impact-debris.gif" alt="JH2 ceramic impact and debris" width="100%"><br><a href="docs/results/completed--ceramic-impact-debris/summary.json">JH2 ceramic impact and debris</a></td>
+</tr>
+</table>
 
 ### Adhesion comparison
 
-| | |
-|---|---|
-| <img src="docs/images/home/adhesion-visible--nonadhesive-pull-off.gif" alt="Nonadhesive pull-off" width="320" height="320"><br>[Nonadhesive pull-off](docs/results/adhesion-visible--nonadhesive-pull-off/summary.json) | <img src="docs/images/home/adhesion-visible--adhesive-pull-off.gif" alt="Adhesive pull-off" width="320" height="320"><br>[Adhesive pull-off](docs/results/adhesion-visible--adhesive-pull-off/summary.json) |
+<table width="100%">
+<tr>
+<td width="50%" align="center"><img src="docs/images/home/adhesion-visible--nonadhesive-pull-off.gif" alt="Nonadhesive pull-off" width="100%"><br><a href="docs/results/adhesion-visible--nonadhesive-pull-off/summary.json">Nonadhesive pull-off</a></td>
+<td width="50%" align="center"><img src="docs/images/home/adhesion-visible--adhesive-pull-off.gif" alt="Adhesive pull-off" width="100%"><br><a href="docs/results/adhesion-visible--adhesive-pull-off/summary.json">Adhesive pull-off</a></td>
+</tr>
+</table>
 
 ### Woven composites
 
-| | | |
-|---|---|---|
-| <img src="docs/images/home/woven--plain--warp-tension.gif" alt="0°/90° plain weave · Warp tension" width="320" height="320"><br>[0°/90° plain weave · Warp tension](docs/results/woven--plain--warp-tension/summary.json) | <img src="docs/images/home/woven--triaxial--warp-tension.gif" alt="0°/±60° weave · Warp tension" width="320" height="320"><br>[0°/±60° weave · Warp tension](docs/results/woven--triaxial--warp-tension/summary.json) | <img src="docs/images/home/woven--twill-2x2--warp-tension.gif" alt="2×2 twill · Warp tension" width="320" height="320"><br>[2×2 twill · Warp tension](docs/results/woven--twill-2x2--warp-tension/summary.json) |
-| <img src="docs/images/home/woven--plain--weft-tension.gif" alt="0°/90° plain weave · Transverse in-plane tension" width="320" height="320"><br>[0°/90° plain weave · Transverse in-plane tension](docs/results/woven--plain--weft-tension/summary.json) | <img src="docs/images/home/woven--triaxial--weft-tension.gif" alt="0°/±60° weave · Transverse in-plane tension" width="320" height="320"><br>[0°/±60° weave · Transverse in-plane tension](docs/results/woven--triaxial--weft-tension/summary.json) | <img src="docs/images/home/woven--twill-2x2--weft-tension.gif" alt="2×2 twill · Transverse in-plane tension" width="320" height="320"><br>[2×2 twill · Transverse in-plane tension](docs/results/woven--twill-2x2--weft-tension/summary.json) |
-| <img src="docs/images/home/woven--plain--in-plane-shear.gif" alt="0°/90° plain weave · In-plane shear" width="320" height="320"><br>[0°/90° plain weave · In-plane shear](docs/results/woven--plain--in-plane-shear/summary.json) | <img src="docs/images/home/woven--triaxial--in-plane-shear.gif" alt="0°/±60° weave · In-plane shear" width="320" height="320"><br>[0°/±60° weave · In-plane shear](docs/results/woven--triaxial--in-plane-shear/summary.json) | <img src="docs/images/home/woven--twill-2x2--in-plane-shear.gif" alt="2×2 twill · In-plane shear" width="320" height="320"><br>[2×2 twill · In-plane shear](docs/results/woven--twill-2x2--in-plane-shear/summary.json) |
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/woven--plain--warp-tension.gif" alt="0°/90° plain weave · Warp tension" width="100%"><br><a href="docs/results/woven--plain--warp-tension/summary.json">0°/90° plain weave · Warp tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--warp-tension.gif" alt="0°/±60° weave · Warp tension" width="100%"><br><a href="docs/results/woven--triaxial--warp-tension/summary.json">0°/±60° weave · Warp tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--warp-tension.gif" alt="2×2 twill · Warp tension" width="100%"><br><a href="docs/results/woven--twill-2x2--warp-tension/summary.json">2×2 twill · Warp tension</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/woven--plain--weft-tension.gif" alt="0°/90° plain weave · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--plain--weft-tension/summary.json">0°/90° plain weave · Transverse in-plane tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--weft-tension.gif" alt="0°/±60° weave · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--triaxial--weft-tension/summary.json">0°/±60° weave · Transverse in-plane tension</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--weft-tension.gif" alt="2×2 twill · Transverse in-plane tension" width="100%"><br><a href="docs/results/woven--twill-2x2--weft-tension/summary.json">2×2 twill · Transverse in-plane tension</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/woven--plain--in-plane-shear.gif" alt="0°/90° plain weave · In-plane shear" width="100%"><br><a href="docs/results/woven--plain--in-plane-shear/summary.json">0°/90° plain weave · In-plane shear</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--triaxial--in-plane-shear.gif" alt="0°/±60° weave · In-plane shear" width="100%"><br><a href="docs/results/woven--triaxial--in-plane-shear/summary.json">0°/±60° weave · In-plane shear</a></td>
+<td width="33%" align="center"><img src="docs/images/home/woven--twill-2x2--in-plane-shear.gif" alt="2×2 twill · In-plane shear" width="100%"><br><a href="docs/results/woven--twill-2x2--in-plane-shear/summary.json">2×2 twill · In-plane shear</a></td>
+</tr>
+</table>
 
 ### Structures and tanks
 
-| | | |
-|---|---|---|
-| <img src="docs/images/home/cellular-cushion.gif" alt="Cellular cushioning" width="320" height="320"><br>[Cellular cushioning](docs/results/engineering--cellular-cushion--neo-hookean/summary.json) | <img src="docs/images/home/baffled-tank.gif" alt="Flexible baffles" width="320" height="320"><br>[Flexible baffles](docs/results/engineering--baffled-tank--neo-hookean/summary.json) | <img src="docs/images/home/benchmarks--large-bending--neo-hookean.gif" alt="Large bending" width="320" height="320"><br>[Large bending](docs/results/benchmarks--large-bending--neo-hookean/summary.json) |
-| <img src="docs/images/home/large-twist.gif" alt="Large twist" width="320" height="320"><br>[Large twist](docs/results/benchmarks--large-twist--neo-hookean/summary.json) | <img src="docs/images/home/perforated-panel.gif" alt="Perforated panel" width="320" height="320"><br>[Perforated panel](docs/results/engineering--perforated-panel--neo-hookean/summary.json) | <img src="docs/images/home/engineering--unbaffled-tank--neo-hookean.gif" alt="Unbaffled tank" width="320" height="320"><br>[Unbaffled tank](docs/results/engineering--unbaffled-tank--neo-hookean/summary.json) |
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/cellular-cushion.gif" alt="Cellular cushioning" width="100%"><br><a href="docs/results/engineering--cellular-cushion--neo-hookean/summary.json">Cellular cushioning</a></td>
+<td width="33%" align="center"><img src="docs/images/home/baffled-tank.gif" alt="Flexible baffles" width="100%"><br><a href="docs/results/engineering--baffled-tank--neo-hookean/summary.json">Flexible baffles</a></td>
+<td width="33%" align="center"><img src="docs/images/home/benchmarks--large-bending--neo-hookean.gif" alt="Large bending" width="100%"><br><a href="docs/results/benchmarks--large-bending--neo-hookean/summary.json">Large bending</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/large-twist.gif" alt="Large twist" width="100%"><br><a href="docs/results/benchmarks--large-twist--neo-hookean/summary.json">Large twist</a></td>
+<td width="33%" align="center"><img src="docs/images/home/perforated-panel.gif" alt="Perforated panel" width="100%"><br><a href="docs/results/engineering--perforated-panel--neo-hookean/summary.json">Perforated panel</a></td>
+<td width="33%" align="center"><img src="docs/images/home/engineering--unbaffled-tank--neo-hookean.gif" alt="Unbaffled tank" width="100%"><br><a href="docs/results/engineering--unbaffled-tank--neo-hookean/summary.json">Unbaffled tank</a></td>
+</tr>
+</table>
 
 ### Dynamics and contact
 
-| | | |
-|---|---|---|
-| <img src="docs/images/home/ball-beam.gif" alt="Ball–beam contact" width="320" height="320"><br>[Ball–beam contact](docs/results/benchmarks--ball-beam--neo-hookean/summary.json) | <img src="docs/images/home/completed--woven-plate-impact.gif" alt="Clamped woven plate impact" width="320" height="320"><br>[Clamped woven plate impact](docs/results/completed--woven-plate-impact/summary.json) | <img src="docs/images/home/completed--crossed-fibre-hertz.gif" alt="Crossed fibre Hertz contact" width="320" height="320"><br>[Crossed fibre Hertz contact](docs/results/completed--crossed-fibre-hertz/summary.json) |
-| <img src="docs/images/home/suite--sliding--neo-hookean.gif" alt="Frictional sliding" width="320" height="320"><br>[Frictional sliding](docs/results/suite--sliding--neo-hookean/summary.json) | <img src="docs/images/home/suite--head-on--neo-hookean.gif" alt="Head-on contact" width="320" height="320"><br>[Head-on contact](docs/results/suite--head-on--neo-hookean/summary.json) | <img src="docs/images/home/contact-models--jkr-footprint.gif" alt="JKR pressure footprint" width="320" height="320"><br>[JKR pressure footprint](docs/results/contact-models--jkr-footprint/summary.json) |
-| <img src="docs/images/home/adhesion--lateral-release.gif" alt="Lateral release" width="320" height="320"><br>[Lateral release](docs/results/adhesion--lateral-release/summary.json) | <img src="docs/images/home/suite--oblique--neo-hookean.gif" alt="Oblique contact" width="320" height="320"><br>[Oblique contact](docs/results/suite--oblique--neo-hookean/summary.json) | <img src="docs/images/home/suite--rebound--neo-hookean.gif" alt="Rebound" width="320" height="320"><br>[Rebound](docs/results/suite--rebound--neo-hookean/summary.json) |
-| <img src="docs/images/home/benchmarks--rubber-ball--neo-hookean.gif" alt="Rubber-ball drop" width="320" height="320"><br>[Rubber-ball drop](docs/results/benchmarks--rubber-ball--neo-hookean/summary.json) | <img src="docs/images/home/contact-models--sphere-contact.gif" alt="Spherical indentation" width="320" height="320"><br>[Spherical indentation](docs/results/contact-models--sphere-contact/summary.json) | <img src="docs/images/home/adhesion--three-sphere-array.gif" alt="Three-sphere array" width="320" height="320"><br>[Three-sphere array](docs/results/adhesion--three-sphere-array/summary.json) |
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/ball-beam.gif" alt="Ball–beam contact" width="100%"><br><a href="docs/results/benchmarks--ball-beam--neo-hookean/summary.json">Ball–beam contact</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--woven-plate-impact.gif" alt="Clamped woven plate impact" width="100%"><br><a href="docs/results/completed--woven-plate-impact/summary.json">Clamped woven plate impact</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--crossed-fibre-hertz.gif" alt="Crossed fibre Hertz contact" width="100%"><br><a href="docs/results/completed--crossed-fibre-hertz/summary.json">Crossed fibre Hertz contact</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/suite--sliding--neo-hookean.gif" alt="Frictional sliding" width="100%"><br><a href="docs/results/suite--sliding--neo-hookean/summary.json">Frictional sliding</a></td>
+<td width="33%" align="center"><img src="docs/images/home/suite--head-on--neo-hookean.gif" alt="Head-on contact" width="100%"><br><a href="docs/results/suite--head-on--neo-hookean/summary.json">Head-on contact</a></td>
+<td width="33%" align="center"><img src="docs/images/home/contact-models--jkr-footprint.gif" alt="JKR pressure footprint" width="100%"><br><a href="docs/results/contact-models--jkr-footprint/summary.json">JKR pressure footprint</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/adhesion--lateral-release.gif" alt="Lateral release" width="100%"><br><a href="docs/results/adhesion--lateral-release/summary.json">Lateral release</a></td>
+<td width="33%" align="center"><img src="docs/images/home/suite--oblique--neo-hookean.gif" alt="Oblique contact" width="100%"><br><a href="docs/results/suite--oblique--neo-hookean/summary.json">Oblique contact</a></td>
+<td width="33%" align="center"><img src="docs/images/home/suite--rebound--neo-hookean.gif" alt="Rebound" width="100%"><br><a href="docs/results/suite--rebound--neo-hookean/summary.json">Rebound</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/benchmarks--rubber-ball--neo-hookean.gif" alt="Rubber-ball drop" width="100%"><br><a href="docs/results/benchmarks--rubber-ball--neo-hookean/summary.json">Rubber-ball drop</a></td>
+<td width="33%" align="center"><img src="docs/images/home/contact-models--sphere-contact.gif" alt="Spherical indentation" width="100%"><br><a href="docs/results/contact-models--sphere-contact/summary.json">Spherical indentation</a></td>
+<td width="33%" align="center"><img src="docs/images/home/adhesion--three-sphere-array.gif" alt="Three-sphere array" width="100%"><br><a href="docs/results/adhesion--three-sphere-array/summary.json">Three-sphere array</a></td>
+</tr>
+</table>
 
 ### Fluids and fluid–solid interaction
 
-| | | |
-|---|---|---|
-| <img src="docs/images/home/suite--dam-break--neo-hookean.gif" alt="Dam break" width="320" height="320"><br>[Dam break](docs/results/suite--dam-break--neo-hookean/summary.json) | <img src="docs/images/home/benchmarks--elastic-gate--neo-hookean.gif" alt="Elastic gate" width="320" height="320"><br>[Elastic gate](docs/results/benchmarks--elastic-gate--neo-hookean/summary.json) | <img src="docs/images/home/benchmarks--floating-block--neo-hookean.gif" alt="Floating block" width="320" height="320"><br>[Floating block](docs/results/benchmarks--floating-block--neo-hookean/summary.json) |
-| <img src="docs/images/home/suite--fsi--neo-hookean.gif" alt="Flow past an elastic obstacle" width="320" height="320"><br>[Flow past an elastic obstacle](docs/results/suite--fsi--neo-hookean/summary.json) | <img src="docs/images/home/suite--sloshing--neo-hookean.gif" alt="Sloshing" width="320" height="320"><br>[Sloshing](docs/results/suite--sloshing--neo-hookean/summary.json) | <img src="docs/images/home/suite--water-entry--neo-hookean.gif" alt="Water entry · reference" width="320" height="320"><br>[Water entry · reference](docs/results/suite--water-entry--neo-hookean/summary.json) |
-| <img src="docs/images/home/water-entry.gif" alt="Water entry · refined" width="320" height="320"><br>[Water entry · refined](docs/results/production--water-entry--neo-hookean/summary.json) |  |  |
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/suite--dam-break--neo-hookean.gif" alt="Dam break" width="100%"><br><a href="docs/results/suite--dam-break--neo-hookean/summary.json">Dam break</a></td>
+<td width="33%" align="center"><img src="docs/images/home/benchmarks--elastic-gate--neo-hookean.gif" alt="Elastic gate" width="100%"><br><a href="docs/results/benchmarks--elastic-gate--neo-hookean/summary.json">Elastic gate</a></td>
+<td width="33%" align="center"><img src="docs/images/home/benchmarks--floating-block--neo-hookean.gif" alt="Floating block" width="100%"><br><a href="docs/results/benchmarks--floating-block--neo-hookean/summary.json">Floating block</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/suite--fsi--neo-hookean.gif" alt="Flow past an elastic obstacle" width="100%"><br><a href="docs/results/suite--fsi--neo-hookean/summary.json">Flow past an elastic obstacle</a></td>
+<td width="33%" align="center"><img src="docs/images/home/suite--sloshing--neo-hookean.gif" alt="Sloshing" width="100%"><br><a href="docs/results/suite--sloshing--neo-hookean/summary.json">Sloshing</a></td>
+<td width="33%" align="center"><img src="docs/images/home/suite--water-entry--neo-hookean.gif" alt="Water entry · reference" width="100%"><br><a href="docs/results/suite--water-entry--neo-hookean/summary.json">Water entry · reference</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/water-entry.gif" alt="Water entry · refined" width="100%"><br><a href="docs/results/production--water-entry--neo-hookean/summary.json">Water entry · refined</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
 
 ### Elasticity and prescribed loading
 
-| | | |
-|---|---|---|
-| <img src="docs/images/home/visible-motion--cantilever--neo-hookean.gif" alt="Cyclic bending" width="320" height="320"><br>[Cyclic bending](docs/results/visible-motion--cantilever--neo-hookean/summary.json) | <img src="docs/images/home/visible-motion--torsion--neo-hookean.gif" alt="Cyclic torsion" width="320" height="320"><br>[Cyclic torsion](docs/results/visible-motion--torsion--neo-hookean/summary.json) | <img src="docs/images/home/visible-motion--shear--neo-hookean.gif" alt="Large simple shear" width="320" height="320"><br>[Large simple shear](docs/results/visible-motion--shear--neo-hookean/summary.json) |
-| <img src="docs/images/home/visible-motion--surface-load--neo-hookean.gif" alt="Pressure-loaded panel" width="320" height="320"><br>[Pressure-loaded panel](docs/results/visible-motion--surface-load--neo-hookean/summary.json) |  |  |
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/visible-motion--cantilever--neo-hookean.gif" alt="Cyclic bending" width="100%"><br><a href="docs/results/visible-motion--cantilever--neo-hookean/summary.json">Cyclic bending</a></td>
+<td width="33%" align="center"><img src="docs/images/home/visible-motion--torsion--neo-hookean.gif" alt="Cyclic torsion" width="100%"><br><a href="docs/results/visible-motion--torsion--neo-hookean/summary.json">Cyclic torsion</a></td>
+<td width="33%" align="center"><img src="docs/images/home/visible-motion--shear--neo-hookean.gif" alt="Large simple shear" width="100%"><br><a href="docs/results/visible-motion--shear--neo-hookean/summary.json">Large simple shear</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/visible-motion--surface-load--neo-hookean.gif" alt="Pressure-loaded panel" width="100%"><br><a href="docs/results/visible-motion--surface-load--neo-hookean/summary.json">Pressure-loaded panel</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
 
 <!-- END EXAMPLE GIFS -->
 
@@ -105,19 +168,52 @@ For `examples.suite`, `--case all` runs the scenarios with their default materia
 Completed runs and animations are included in the [results](docs/RESULTS.md)
 and [gallery](docs/GALLERY.md).
 
-| Group | Cases |
-|---|---|
-| Elastic dynamics | Longitudinal wave, cantilever vibration, torsional release, large bending/twist |
-| Prescribed loading | Simple shear, platen compression, pressure-loaded clamped panel |
-| Contact | Head-on collision, oblique collision, frictional sliding, rebound, rubber-ball drop, ball–beam contact |
-| Spherical contact | Prescribed rigid sphere indentation; Hertz and JKR pressure footprints |
-| Fluids | Dam break, sloshing |
-| Fluid–solid interaction | Clamped obstacle, elastic-block water entry, top-clamped gate, floating block |
-| Engineering structures | Perforated panel under a pressure pulse, cellular elastomer cushion under a falling mass |
-| Accelerated tanks | Harmonic base excitation, with and without perforated flexible baffles |
-| Material points | Compression/unload, hydrostatic compression, shear reversal, confined shear |
-| Material engineering | JC round-bar tension to failure, concrete beam bending, ceramic indentation |
-| Woven composites | Plain, triaxial and 2×2 twill under in-plane tension/shear and transverse compression/bending |
+<table width="100%">
+<tr>
+<td width="50%" align="center">Elastic dynamics</td>
+<td width="50%" align="center">Longitudinal wave, cantilever vibration, torsional release, large bending/twist</td>
+</tr>
+<tr>
+<td width="50%" align="center">Prescribed loading</td>
+<td width="50%" align="center">Simple shear, platen compression, pressure-loaded clamped panel</td>
+</tr>
+<tr>
+<td width="50%" align="center">Contact</td>
+<td width="50%" align="center">Head-on collision, oblique collision, frictional sliding, rebound, rubber-ball drop, ball–beam contact</td>
+</tr>
+<tr>
+<td width="50%" align="center">Spherical contact</td>
+<td width="50%" align="center">Prescribed rigid sphere indentation; Hertz and JKR pressure footprints</td>
+</tr>
+<tr>
+<td width="50%" align="center">Fluids</td>
+<td width="50%" align="center">Dam break, sloshing</td>
+</tr>
+<tr>
+<td width="50%" align="center">Fluid–solid interaction</td>
+<td width="50%" align="center">Clamped obstacle, elastic-block water entry, top-clamped gate, floating block</td>
+</tr>
+<tr>
+<td width="50%" align="center">Engineering structures</td>
+<td width="50%" align="center">Perforated panel under a pressure pulse, cellular elastomer cushion under a falling mass</td>
+</tr>
+<tr>
+<td width="50%" align="center">Accelerated tanks</td>
+<td width="50%" align="center">Harmonic base excitation, with and without perforated flexible baffles</td>
+</tr>
+<tr>
+<td width="50%" align="center">Material points</td>
+<td width="50%" align="center">Compression/unload, hydrostatic compression, shear reversal, confined shear</td>
+</tr>
+<tr>
+<td width="50%" align="center">Material engineering</td>
+<td width="50%" align="center">JC round-bar tension to failure, concrete beam bending, ceramic indentation</td>
+</tr>
+<tr>
+<td width="50%" align="center">Woven composites</td>
+<td width="50%" align="center">Plain, triaxial and 2×2 twill under in-plane tension/shear and transverse compression/bending</td>
+</tr>
+</table>
 
 The [woven composite examples](docs/WOVEN_COMPOSITES.md) use bonded elastic
 yarns and matrix with explicit local material axes. They write numerical output
@@ -161,14 +257,32 @@ and the interpretation of grip forces, section forces and damage.
 
 ## Materials
 
-| Family | Implementations |
-|---|---|
-| Linear elasticity | Isotropic, orthotropic, transverse isotropic; rotated material axes |
-| Hyperelasticity | Compressible Neo-Hookean, selected Blatz–Ko rubber branch |
-| Metal plasticity | Mixed/isotropic bilinear J2, prescribed-temperature plasticity, Johnson–Cook, selected Steinberg–Guinan branch |
-| Brittle materials | JH-2, HJC, three-surface RHT with p-alpha compaction |
-| Fluid | Compressible inviscid volumetric law |
-| Woven composite | Orthotropic Saint Venant–Kirchhoff yarns in a Neo-Hookean matrix; fully bonded interface |
+<table width="100%">
+<tr>
+<td width="50%" align="center">Linear elasticity</td>
+<td width="50%" align="center">Isotropic, orthotropic, transverse isotropic; rotated material axes</td>
+</tr>
+<tr>
+<td width="50%" align="center">Hyperelasticity</td>
+<td width="50%" align="center">Compressible Neo-Hookean, selected Blatz–Ko rubber branch</td>
+</tr>
+<tr>
+<td width="50%" align="center">Metal plasticity</td>
+<td width="50%" align="center">Mixed/isotropic bilinear J2, prescribed-temperature plasticity, Johnson–Cook, selected Steinberg–Guinan branch</td>
+</tr>
+<tr>
+<td width="50%" align="center">Brittle materials</td>
+<td width="50%" align="center">JH-2, HJC, three-surface RHT with p-alpha compaction</td>
+</tr>
+<tr>
+<td width="50%" align="center">Fluid</td>
+<td width="50%" align="center">Compressible inviscid volumetric law</td>
+</tr>
+<tr>
+<td width="50%" align="center">Woven composite</td>
+<td width="50%" align="center">Orthotropic Saint Venant–Kirchhoff yarns in a Neo-Hookean matrix; fully bonded interface</td>
+</tr>
+</table>
 
 The incremental models use three-dimensional stress/history tensors. Defaults
 are demonstration parameters. Model conventions, source scopes, and omitted
@@ -246,6 +360,6 @@ Sources are listed in [REFERENCES.md](REFERENCES.md).
 
 Historical metal impact model: numerical stage preview only. 17 actual saved states from 0 to 266.667 ns. Phase/EOS extrapolation (temperature reaches about 34,500 K); NOT validated 5 km/s impact physics or a completed protocol. No numerical solver rerun. Original-resolution GIF; uniform display size only.
 
-<img src="docs/images/stages/metal-impact-f16.gif" alt="Metal impact numerical stage preview; phase/EOS extrapolation" width="320" height="320">
+<img src="docs/images/stages/metal-impact-f16.gif" alt="Metal impact numerical stage preview; phase/EOS extrapolation" width="100%">
 
 [Stage evidence](docs/stages/metal-impact-f16/README.md)

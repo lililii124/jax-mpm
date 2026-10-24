@@ -1,5 +1,6 @@
 """Copy completed ParaView images into the documentation gallery."""
 
+import re
 import json
 import csv
 import hashlib
@@ -298,7 +299,7 @@ def main():
                 video_link += f" · [GIF](images/home/{identifier}.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             cells.append(
-                f'<img src="images/{name}.png" alt="{name}" width="320" height="320"><br>**{label}** · {count:,} particles<br>'
+                f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}** · {count:,} particles<br>'
                 f"[Results](results/{identifier}/summary.json){video_link}"
             )
             manifest.append(
@@ -317,11 +318,16 @@ def main():
             )
         if cells:
             columns = 3 if heading.startswith("Woven composites") else 2
-            lines += [f"## {heading}", "", "|" + " |" * columns, "|" + "---|" * columns]
+            lines += [f"## {heading}", "", '<table width="100%">']
             for i in range(0, len(cells), columns):
                 pair = cells[i : i + columns]
-                lines.append("| " + " | ".join(pair + [""] * (columns - len(pair))) + " |")
-            lines.append("")
+                lines.append('<tr>')
+                for cell in pair + [''] * (columns - len(pair)):
+                    cell = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', cell)
+                    cell = re.sub(r'\*\*([^*]+)\*\*', r'<strong>\1</strong>', cell)
+                    lines.append(f'<td width="{100//columns}%" align="center">{cell}</td>')
+                lines.append('</tr>')
+            lines += ['</table>', '']
     (ROOT / "docs/GALLERY.md").write_text("\n".join(lines), encoding="utf-8")
     (target / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(f"Collected {len(manifest)} ParaView scenes")
