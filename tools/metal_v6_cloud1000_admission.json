@@ -1,0 +1,60 @@
+{
+  "schema": "metal-v6-cloud1000-admission-v1",
+  "transport_sha256": "799e608a34bef53a43becbeaa9e11d374a6a936d72cf0a6e6cca1f3e3f5b6dea",
+  "seed_context_sha256": "b9023a9f3aa6fff4000c36ca8333d36f4773717b4f2ba068b8fba80a11dd81bc",
+  "checkpoint_sha256": "43691838dbf563f8de2671f32e97fa558930e2c7fb36dc46818be975e5e77e1c",
+  "parent_receipt_sha256": "c69b0598761c7eba380e44ffdb8c9889f6d0e34ea875f0a4dce77feeb989add0",
+  "parent_source_sha256": "6cce62a2c8abfc46c82223caeeaf14bd906f63239e2d29d5f89ad1749588ff56",
+  "runtime": {
+    "python": "3.12.13",
+    "numpy": "2.5.4",
+    "jax": "0.12.1.dev20261022",
+    "jaxlib": "0.12.0.1",
+    "backend": "cpu",
+    "x64": true
+  },
+  "jax_wheel": "jax-0.12.1.dev20261022-py3-none-any.whl",
+  "jax_wheel_sha256": "8aecd75dba37eb8e76418487445c66efb3877b3724570d3b70237f063090b980",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "jaxlib": "0.12.0.1",
+    "scipy": "1.18.1",
+    "ml_dtypes": "0.6.0",
+    "opt_einsum": "3.4.0",
+    "psutil": "7.2.2"
+  },
+  "start_ns": 1000,
+  "stop_ns": 1250,
+  "parts": {
+    "part-000.tarpart": {
+      "bytes": 49571840,
+      "sha256": "38ded796a7599c6ca25ab88cfa742d2d48059a6b1e64818a9cc4528d2b209d31"
+    }
+  },
+  "fixed_feature_ref": "refs/heads/work/metal-fragment-v6-cloud",
+  "max_artifact_archive_bytes": 201326592,
+  "max_part_payload_bytes": 134217728,
+  "scope": "Independently admitted exact1000ns numerical source/runtime/full100 raw files/CP/momentum/calorimetry/domain; numerical reservoir26.243percent remains physically unvalidated and blocks public GIF/densification. Continue only unchanged1000to1250ns diagnostic segment.",
+  "parent_kind": "cloud1000",
+  "artifact_name_prefix": "metal-v6-recovery",
+  "parent_admission_complete": true,
+  "producer_identity": {
+    "run_id": "40112026243",
+    "attempt": "1",
+    "commit": "44b93411d15fbc6d52cfccd5005261c6640c5994",
+    "artifacts": [
+      {
+        "id": 12566634629,
+        "name": "metal-v6-recovery-40112026243-1-manifest",
+        "sha256": "3b085c27a44fca471d984293e9008a06ff09b0c63a9e2ec6214efec6cffe9b77"
+      },
+      {
+        "id": 12567895233,
+        "name": "metal-v6-recovery-40112026243-1-part-000",
+        "sha256": "e08d08cbe49aed269b33303d3f8021e75e41eabd69a2fbc5db26f292bdb91009"
+      }
+    ]
+  },
+  "independent_admission_sha256": "644e6b15ecb15608c5776805d3e56676b16cd95e2e6e18390fea57765b1eee19",
+  "independent_admission_file": "evidence/metal-v6/1000ns-independent-admission.json"
+}
