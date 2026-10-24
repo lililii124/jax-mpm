@@ -63,7 +63,10 @@ def package():
              'signature-reconciliation.json', 'paraview-install.json', 'renderer-requirements.txt',
              'media-audit.json', 'detail-audit.json',
              'result/render.json', 'result/vtk-full-audit.json', 'result/simulation.gif']
-    names += [p.relative_to(base.OUT).as_posix() for p in sorted((base.OUT/'sealed-cache-metadata').rglob('*')) if p.is_file()]
+    metadata = [p for p in sorted((base.OUT/'sealed-cache-metadata').rglob('*')) if p.is_file()]
+    names += [p.relative_to(base.OUT).as_posix() for p in metadata if p.suffix in ('.json', '.txt')]
+    omitted_metadata = {p.relative_to(base.OUT).as_posix():c.file_record(p)
+                        for p in metadata if p.suffix not in ('.json', '.txt')}
     names += [f'result/frames/frame_{i:05d}.png' for i in (0, 10, 20, 30, 40, 50, 60)]
     for name in names:
         target = DELIVERY/name
@@ -75,7 +78,9 @@ def package():
         raise ValueError('Detail delivery exceeds 100 MB bound')
     receipt = dict(schema='ceramic-detail-delivery-v1', files=files, bytes=total,
                    bound_bytes=LIMIT, raw_retained_in_exact_sealed_cache=True,
-                   permanent_raw_backup_verified=False, solver_executed=False)
+                   permanent_raw_backup_verified=False, solver_executed=False,
+                   omitted_binary_raw_metadata=omitted_metadata,
+                   complete_raw_artifact_id='12553597633')
     c.save(DELIVERY/'delivery-receipt.json', receipt)
     c.save(base.OUT/'delivery-receipt.json', receipt)
     base.verify_raw()
