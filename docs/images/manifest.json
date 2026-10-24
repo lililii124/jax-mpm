@@ -2951,5 +2951,17 @@
         "interpretation": "Prescribed contact geometry; the deformable layer alone is represented by MPM particles"
       }
     ]
+  },
+  {
+    "name": "jc-necking-refined",
+    "source": "completed/jc-necking-refined",
+    "particles": 341584,
+    "field": "geometry",
+    "renderer": "ParaView",
+    "version": "6.2.0",
+    "animation": false,
+    "preview_frame": 15,
+    "preview_time": 3.75e-05,
+    "auxiliary_geometry": []
   }
 ]

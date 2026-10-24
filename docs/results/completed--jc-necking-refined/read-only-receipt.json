@@ -1,0 +1,40 @@
+{
+  "schema": "jc-readonly-controller-v2",
+  "passed": true,
+  "head": "978436b8e367c835962438f24bd15f3038b63d49",
+  "workflow_ref": "lililii124/jax-mpm/.github/workflows/engineering-previews.yml@refs/heads/work/jc-complete-refined",
+  "files": {
+    ".github/workflows/jc-full-readonly-v2.yml": {
+      "sha256": "64ef6c242e24b64974c62c72f0ce11035e62af82427948c60958fd1c73ccd539",
+      "git_blob": "43278fc45978d92c7e68d273bd9f1ccc2d84a9e6"
+    },
+    ".github/workflows/engineering-previews.yml": {
+      "sha256": "64ef6c242e24b64974c62c72f0ce11035e62af82427948c60958fd1c73ccd539",
+      "git_blob": "43278fc45978d92c7e68d273bd9f1ccc2d84a9e6"
+    },
+    "tools/restore_jc_full_original.py": {
+      "sha256": "d3d79b1f3f7bf6aff7a6c30366ab707b9d2db439ca1385a4fc10751b604cc35f",
+      "git_blob": "e1c5f15a04df391da8d92c048d289d5b6627a312"
+    },
+    "tools/review_jc_full_result_v2.py": {
+      "sha256": "dcc750ea04ca831850a80d11e7fee92718899a9e7f382941254d8019c03408bc",
+      "git_blob": "cae65da565501c35826a5f7a76d4de03c6289e20"
+    },
+    "tools/render_jc_full_v2.py": {
+      "sha256": "5e06cc1c7a4600ee9a8c4d42a4998b07d11ddc01c973453aa3e95453467dfb3d",
+      "git_blob": "3a4679e4f610af6b99b279a32acaddcce9d50990"
+    },
+    "tools/run_jc_continuation.py": {
+      "sha256": "0268a2f9e2447d1da14a08e8fa6e6a2a27f236bf8c4870d1d90aa7315647688b",
+      "git_blob": "a84390fb17564c15ffceb532e37cb67a5c45686f"
+    },
+    "tools/jc_grid_separation.py": {
+      "sha256": "37437f51dea61e2dd7c3973db001d49d478b4ee1f8ae7e7ce5dcd12751a0c568",
+      "git_blob": "483c65c2ed2285dfe926505975c94851b12c43cf"
+    },
+    "tools/run_jc_final.py": {
+      "sha256": "eeac722b725d3d2358a4502a22fe19ccdefcebe4554550b121a31153d6151089",
+      "git_blob": "65d39cd722c2747d8a21c5be7c0e83bd5279d02f"
+    }
+  }
+}

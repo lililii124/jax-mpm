@@ -151,14 +151,14 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="33%" align="center"><img src="docs/images/home/visible-motion--torsion--neo-hookean.gif" alt="Cyclic torsion" width="100%"><br><a href="docs/results/visible-motion--torsion--neo-hookean/summary.json">Cyclic torsion</a></td>
 </tr>
 <tr>
+<td width="33%" align="center"><img src="docs/images/home/completed--jc-necking-refined.gif" alt="JC round-bar necking" width="100%"><br><a href="docs/results/completed--jc-necking-refined/summary.json">JC round-bar necking</a></td>
 <td width="33%" align="center"><img src="docs/images/home/benchmarks--large-bending--neo-hookean.gif" alt="Large bending" width="100%"><br><a href="docs/results/benchmarks--large-bending--neo-hookean/summary.json">Large bending</a></td>
 <td width="33%" align="center"><img src="docs/images/home/visible-motion--shear--neo-hookean.gif" alt="Large simple shear" width="100%"><br><a href="docs/results/visible-motion--shear--neo-hookean/summary.json">Large simple shear</a></td>
-<td width="33%" align="center"><img src="docs/images/home/large-twist.gif" alt="Large twist" width="100%"><br><a href="docs/results/benchmarks--large-twist--neo-hookean/summary.json">Large twist</a></td>
 </tr>
 <tr>
+<td width="33%" align="center"><img src="docs/images/home/large-twist.gif" alt="Large twist" width="100%"><br><a href="docs/results/benchmarks--large-twist--neo-hookean/summary.json">Large twist</a></td>
 <td width="33%" align="center"><img src="docs/images/home/perforated-panel.gif" alt="Perforated panel" width="100%"><br><a href="docs/results/engineering--perforated-panel--neo-hookean/summary.json">Perforated panel</a></td>
 <td width="33%" align="center"><img src="docs/images/home/visible-motion--surface-load--neo-hookean.gif" alt="Pressure-loaded panel" width="100%"><br><a href="docs/results/visible-motion--surface-load--neo-hookean/summary.json">Pressure-loaded panel</a></td>
-<td width="33%" align="center"></td>
 </tr>
 </table>
 

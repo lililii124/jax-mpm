@@ -112,20 +112,6 @@
     "source_render_sha256": "7cd531ad52ea2a00510248eaa639905f990495dad1c4ce15b95ac15226614e3f"
   },
   {
-    "id": "material-engineering--jc-tension--johnson-cook",
-    "gif_path": "docs/images/home/material-engineering--jc-tension--johnson-cook.gif",
-    "gif_sha256": "33ac2a1fa7600da668081c07af98cef408e9d777bfa3839ad7e901912a81b053",
-    "bytes": 599907,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 61,
-    "gif_frames": 61,
-    "render_sha256": "5178386da641318b4d4532c519d5739e63ee1c51e46af224267de204d541ca62",
-    "source_render_sha256": "844576330ba1b125bacb00818cf6081d91cb50e40dbbb7c354b039e6c8015976"
-  },
-  {
     "id": "benchmarks--ball-beam--neo-hookean",
     "gif_path": "docs/images/home/ball-beam.gif",
     "gif_sha256": "64b850e8b6a75adac6b1ea3dbf06a5949a13fc5016503f9cdbc6920f71c78261",
@@ -661,5 +647,19 @@
     "gif_frames": 51,
     "render_sha256": "2f9d47aa688c23d756c7651b06101ac28a3bb8e2466e7c3fa07583b79a7c6f62",
     "source_render_sha256": "2f9d47aa688c23d756c7651b06101ac28a3bb8e2466e7c3fa07583b79a7c6f62"
+  },
+  {
+    "id": "completed--jc-necking-refined",
+    "gif_path": "docs/images/home/completed--jc-necking-refined.gif",
+    "gif_sha256": "f5bb22e463d08a328e81961980013c894a32e62fa0c99a025bbb8207d7dc620d",
+    "bytes": 1138063,
+    "dimensions": [
+      400,
+      400
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "fe0b61faaa34f617b286cdc58dedfc3dc3cc41b19a69ec8d08daaced4179364a",
+    "source_render_sha256": "96bd1ba3eeb74ef56401520b4bc436522511f7967fe9f7b0e63c2523fd9503a2"
   }
 ]

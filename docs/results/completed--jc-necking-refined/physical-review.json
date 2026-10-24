@@ -1,0 +1,4348 @@
+{
+  "schema": "jc-full-result-review-v2",
+  "passed": true,
+  "full_protocol_completed": true,
+  "fracture_gates": {
+    "material_failure_observed": true,
+    "final_reference_grips_grid_decoupled": true,
+    "failure_precedes_separation_at_saved_resolution": true,
+    "no_separation_before_failed_material": true
+  },
+  "resolved_saved_history_fracture": true,
+  "production_eligible": false,
+  "parent_receipt_sha256": "8df427058ea9f7b8490309f1524c61d64c701a4c7c3dd53ed8e7344d5b8160c0",
+  "parent_cache_key": "jc-continuation-v1-9a6ca77d102f08bb0e940b8b8158b95b9e3b6655-40089658915-1-frame50",
+  "producer_source": {
+    "source_kind": "github-actions",
+    "repository": "lililii124/jax-mpm",
+    "commit": "08d83a051a9764a5a218fd33e184f3291eb3dd1c",
+    "tree": "ad3925b506df879379fcf93031e0129ef765e95d",
+    "run_id": "40037839236",
+    "run_attempt": "1",
+    "files": {
+      ".github/workflows/engineering-previews.yml": "7217cd403daa46827b6858637a3676f486d0cd1b54572608f6f27ea3bf72fa1a",
+      ".github/workflows/jc-refinement.yml": "f7b71f06efab2769255d600d80f59f7ebb88326f8c937c92139b333014c13fb9",
+      ".github/workflows/tests.yml": "3f5bb0d748efeb12e5466bc3d42a70e43e2ed357533daf4da40345583d92cea9",
+      ".github/workflows/triaxial-checks.yml": "65a4483eaa98dcf0916d2fc09691310836d0d93c3f8236d0fe4339d2223452a0",
+      ".github/workflows/triaxial-runs.yml": "5c290ac00d6f4bab34a97e25e9f77c7a5b3bb425b4ad65aed464317b5d702e83",
+      ".github/workflows/triaxial-segment-job.yml": "fa734fd67653df43c8d5a7e294b98efcb10c793fde02dc679f8c76ca9105ad91",
+      ".github/workflows/triaxial-segments.yml": "d3d4b628f7bbc1e273f4fec033a569c30c8849793e459fc9ef0356f7e70d2fbb",
+      ".github/workflows/woven-gallery.yml": "3949dd52d63da36689f86625b998b2dcf7462138cac6f5745fb9da8a678605f1",
+      ".github/workflows/woven-previews.yml": "c315a28936ba4dc485a85a7e64ae9ac1562cc9b06c7abea6eecf96d16954f15f",
+      "examples/__init__.py": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+      "examples/adhesion_contrast.py": "838c9bfdb092aa67ad6318d9f90009114189a5437083b203a7309da275d86835",
+      "examples/adhesive_array.py": "a684ef8e298358843d8af2f55962eeb9b78d76c144b62735a6511f6222560f5e",
+      "examples/adhesive_contact.py": "6cbdc8e6081329c39a830e8fe373f53b738410108d5025dac9e6f56a7071cb2e",
+      "examples/adhesive_suite.py": "683aca65ea2365d3822d757565fd0c1a7000707ffc229381015d5936007387dc",
+      "examples/benchmarks.py": "e6d3254670c094a81e72786581509c7d7e2a2b290ace27ad626ea537da1aa15d",
+      "examples/brittle_engineering.py": "23aaa6c5aa88ee21ce8fe4d63ae4942970bc7ddf945d3a85f91405087a120a0d",
+      "examples/common.py": "bb5b3ff00b4d4edb54632a11f54b81d2edca767f440d9c6f4a7d52a8a3e5a46f",
+      "examples/contact.py": "e475ab3f090d1796ee7f680c58ded359ef54d47452bb92360d6f2ef1a1735f80",
+      "examples/elastic_models.py": "d8d7ae280fe91227432f9e3213b0cc71d9990817266c1bff8c08fb31a241f47f",
+      "examples/engineering.py": "566fa9629d007a48393ebee3ddc141691f39587581f1d4e2b09a4394d4be13ec",
+      "examples/fluids.py": "5ff6e6cbadb921877f5658d187e520126324d14d202dbc66df81eea397819d9d",
+      "examples/gradient.py": "aac17faf397ce4f56361d9de59edfcaa6512e10a99082fd4c89b0262440f47a6",
+      "examples/jc_necking.py": "6fce5973ddf465bb929ebf02173c656f645e27847acba3934c491af81475f677",
+      "examples/material_engineering.py": "cf318eee7aa6ed71bdc4e4e435eeceeab13b8612959c2c90075b7bba44a70414",
+      "examples/material_paths.py": "764ae920856e7c94553ec79d2dec15b4d21bd8927e933c628c87923b98b30974",
+      "examples/scenarios.py": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d",
+      "examples/suite.py": "787f46ad8509808784bba3c32d9a8ef1bd160d7e00f51dfd6939e23ba18c95b0",
+      "examples/triaxial_failure.py": "f1c61c132141ec495c46bdac600eda537478997624d491c36c435c16430cc0d7",
+      "examples/triaxial_fibre_geometry.py": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+      "examples/visible_motion.py": "0de51bf641eec60e8ce9313c45155f53dc8b6d4386bb34295ef5aff3d2221e12",
+      "examples/woven_composite.py": "ddc5e2b351e62563b37d6836e1418894821ee541357709fa63bece6939545866",
+      "examples/woven_geometry.py": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "examples/woven_hemisphere.py": "13f464445d885e819e55d1966bbf99c21a6f1be8b1ccdb29e6cd4ee9bbd3e4c7",
+      "mpm_jax/__init__.py": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494",
+      "mpm_jax/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+      "mpm_jax/adhesion.py": "12cda0bc77b95a8740245050bc2ae86b78018bd2642329efff3920cb8d9f9042",
+      "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+      "mpm_jax/cli.py": "be61ba75adfa3a0fd05892402e1970ef62d7fd7250fce329b63b2c0d8b34f105",
+      "mpm_jax/contact.py": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "mpm_jax/contact_laws.py": "101008865ed200d94d02b88a674c3943fcb82549ca2913961c2649f37df2175a",
+      "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "mpm_jax/export.py": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/fibre_coupling.py": "bc62046a1263011902eda3b762e263b1ae0e14e2ed90ad86838d9f809a042053",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/initialization.py": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d",
+      "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/hjc.py": "0823f546a46858fb42bf3cf1f812f289f889d0dc0cd4969705d87fdcd6f7cf4e",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "mpm_jax/materials/jh2.py": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "mpm_jax/materials/plastic.py": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "mpm_jax/materials/rht.py": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+      "mpm_jax/materials/steinberg.py": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "mpm_jax/materials/woven.py": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "mpm_jax/paraview_scene.py": "aba8f30187c892862496c93ec7d9ead7c00e14b059fa5b12cecc5fd828aebebf",
+      "mpm_jax/particle_fields.py": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+      "mpm_jax/visualization.py": "d834330c0fe1c1f55fbe997e0f5e62e7e22c36ed5766ada8d35da2cacc23dd69",
+      "pyproject.toml": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+      "tools/audit_delivery.py": "c34d790bf8a45910526ae713063e58fcf0b1e613d012bd5a7d489db4ecb1027e",
+      "tools/audit_triaxial_records.py": "751b3c0a93515cf53e096e29ef106d8fc22b3f40f534da072e31d6566e77e837",
+      "tools/check_paraview_failure.py": "9460dec67d20bbdf8362d16e8543cdffa7d4bf30a29548614643615d941618a0",
+      "tools/check_vtk.py": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+      "tools/collect_gallery.py": "ff9ec71cbc1b2d295c86c8d70e1f49be7b37014b5a392827357d852579943568",
+      "tools/collect_home.py": "5421d5af0b5af4e9d2843d6606da4fa38d20cbba09b368bec29f6abc8960f82d",
+      "tools/collect_reference_fixtures.py": "655b58ef65981e7ac1255a587edc99940d24b5d09195f89eb7c6516461307a51",
+      "tools/collect_results.py": "ffd20246d616b09e5882b65ccf24ff6744a611a302be0e535734853859c3af9b",
+      "tools/collect_review.py": "813e4a4b5d1f1eb4ccbde7fe0b1ef1089d7cebe271570dfe194204fb5231d360",
+      "tools/encode_video.py": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4",
+      "tools/install_runner_dependencies.py": "4b164e1e83b47faf252d4b8e01cc8e4c3ff46a6bd5f343267d2fe031e56790ea",
+      "tools/pack_woven_gallery.py": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+      "tools/public_runs.py": "f342cc07c44d2117f2159efbf2d12a77d9ccf88ca475b0130a523d3739e4d85a",
+      "tools/review_adhesion.py": "a7efea61a652ebf4e965d804d372560f751c2fb2e911ad723c12d5aea51d74ae",
+      "tools/review_adhesion_comparison.py": "bc0f277a38625acc957e1265ca4750ffdac980c114fb1256c271e0de39e3118a",
+      "tools/review_contact.py": "8b0a1e3319b9838ee62d1489225379cb128b9de648030500ec66aafe3a2e7354",
+      "tools/review_dynamics.py": "7c4062903a83f3da5cbfed0a1bec0b9689d88f82cc8fa0c2272fa47faf598bf8",
+      "tools/review_material_engineering.py": "3a474d4572275d963575a873e0519e0a6a821d30b2b7bd65a86c894f9b01d4d9",
+      "tools/review_triaxial_state.py": "6aa7b82430c1c76e3c91f33ee79a9a047c300fa39bd8674ca3cd8b24683d5b51",
+      "tools/review_visible_motion.py": "877e47d7f462ee41cbe87d5c3acfad74452509788e04cbdf42fe7e56555cc5c8",
+      "tools/review_wave_comparison.py": "b4dcbd2720bf3e09276b586afacde1a5a0716e61d91a007627e8aea1d1d9d812",
+      "tools/review_woven.py": "f9f1d671526305dcab0a51c90db04a99a46002d46e5991ba44593792d4d14ecf",
+      "tools/run_engineering_preview.py": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5",
+      "tools/run_jc_refinement.py": "2061763d53dae15924a74c6ffe01c27e0c187324d1c72669d939e80cfd9c5eb8",
+      "tools/run_triaxial_checks.py": "a196f9a7dcafdb1897cb1f492a86e852debaf04cc435d563ebfeaf0a32ffc0b6",
+      "tools/run_triaxial_segments.py": "a4903bc37268dca3ab1a8c958f97379275838e02174359b3ac27e3526f292bcf",
+      "tools/run_triaxial_study.py": "fae732a68b258d278bbe8eadf837c4f1f2786663ee37158ed860e9f5b70811fb",
+      "tools/run_woven_preview.py": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+    },
+    "git_blob_sha": {
+      ".github/workflows/engineering-previews.yml": "88c21e39fdf558ad47d84ef19c7b3ba620250512",
+      ".github/workflows/jc-refinement.yml": "c63de1b91a97c8af299db3ef076d6ca7cbb2dd3c",
+      ".github/workflows/tests.yml": "b5d3e90a93c76c3aba16dcd978baa2b035239fa2",
+      ".github/workflows/triaxial-checks.yml": "62e44109e68c93fba19c7ff356f7ecd7bda24aa0",
+      ".github/workflows/triaxial-runs.yml": "21e11291028b61f5ca17bd968e120cfc4344005d",
+      ".github/workflows/triaxial-segment-job.yml": "39e975b72bf00d492b34074cecb3b2579a2e9a1b",
+      ".github/workflows/triaxial-segments.yml": "4e4558e29b0286d2444570d1b0e9a1166e33e78b",
+      ".github/workflows/woven-gallery.yml": "db2c738a29f00cc3c82d83c1d85f6ddea955756b",
+      ".github/workflows/woven-previews.yml": "514bb5e8e19e2cca67d5dcdbaf970726cab6893a",
+      "examples/__init__.py": "305f09eccc274dc582fe9581d8c58908d74f4325",
+      "examples/adhesion_contrast.py": "ab1ce878a9c84ff2f36308d1387e53293ec1d072",
+      "examples/adhesive_array.py": "689ebac153dc605e4cb23490846c3a4ab26e5569",
+      "examples/adhesive_contact.py": "ba7b6438c37c6cccffa24fa5a683eac2e908c7d7",
+      "examples/adhesive_suite.py": "4f21dacc9ab68ef3c3a3221da58066ef49203aea",
+      "examples/benchmarks.py": "58b495b61e818b8682b38128cfc562c580d9b83c",
+      "examples/brittle_engineering.py": "541a95aefa5260fdb1586a39bd2f617b4558b97f",
+      "examples/common.py": "b02faabdc00d3fee76a7e285ffe54ee54a831abf",
+      "examples/contact.py": "027ca071d1a1b909a1da93cf305f2b8105059858",
+      "examples/elastic_models.py": "b80e2b2f781ec0bd3d6a2df16c9ea9e38a05507b",
+      "examples/engineering.py": "a319f6a9303f1b5dab8827d3b51e4f15c82e4faa",
+      "examples/fluids.py": "8f221753a4a5d534433b68bb8a55ced69fb03642",
+      "examples/gradient.py": "30005227e1a6c5297824f052848b3f71e4317579",
+      "examples/jc_necking.py": "b7a9c6e01778687261afcfe254373710db808791",
+      "examples/material_engineering.py": "7dfe3cdd3588e2c0188bf3a7f0fac5c7253306d8",
+      "examples/material_paths.py": "be55528da1b445d7823ed4611e1782eed89a1122",
+      "examples/scenarios.py": "434dea72b10740bc929f63988ae1446ffcda9b9c",
+      "examples/suite.py": "4d1a150e6bbd6af15e3c082b0d844265a039e7b6",
+      "examples/triaxial_failure.py": "1dfe61094601f4831546821ff0814325ec0ae43f",
+      "examples/triaxial_fibre_geometry.py": "fc0847e82a63b47bd6d391e3a20e2cb270df0ec8",
+      "examples/visible_motion.py": "880ed4a4ca65be0ab7c7d442d6954e3a1e5401b0",
+      "examples/woven_composite.py": "f491b4bc63f85567efa0b4b9ed114d742092817d",
+      "examples/woven_geometry.py": "4af53a16a3d745cb4afded6350cd446dde5e8b55",
+      "examples/woven_hemisphere.py": "f09cd3608097d8337df2b94a9fc55da3a2d21224",
+      "mpm_jax/__init__.py": "b3582e545eab34fc3c45c2b2689378776a4e8713",
+      "mpm_jax/__main__.py": "4e28416e104515e90fca4b69cc60d0c61fd15d61",
+      "mpm_jax/adhesion.py": "3d0fac2368cef6b140de1a100cbf8925a8898ffe",
+      "mpm_jax/boundaries.py": "42bcc2c499d3accbfeb87c92f1ca7b4f583b3cc1",
+      "mpm_jax/cli.py": "7c33a4d74d865d778296c72ec388dffa34204fe0",
+      "mpm_jax/contact.py": "16ca2bd150b7f531ddb334e317256a7d6e84733e",
+      "mpm_jax/contact_laws.py": "bf7e9c398ba12d14300564b329bfb4cacc416b90",
+      "mpm_jax/core.py": "2bfb0e4508f9f56872e136dce27407872754e609",
+      "mpm_jax/export.py": "c63793a32e959c61fcb64eb06456873bdc7b9377",
+      "mpm_jax/fibre_contact.py": "dc2ace66ed4f1e3513af6607dc9a9d8456205b7d",
+      "mpm_jax/fibre_coupling.py": "57419950b1814ce0323106c4e7124205f0f98615",
+      "mpm_jax/fibre_mpm.py": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75",
+      "mpm_jax/initialization.py": "4f48e24e8078f2a4c8636ddc176c78e90107d87b",
+      "mpm_jax/materials/__init__.py": "1b3d0c61f9a9c77c22b8ba0114527de4bc239ea8",
+      "mpm_jax/materials/elastic.py": "e1db30fa49ddfefc131c4066d99fd51557a52d9b",
+      "mpm_jax/materials/history.py": "ca4721d91a8ac752423806cdf2404a76226d9d9e",
+      "mpm_jax/materials/hjc.py": "8101443a58f7281c4b241e951ce105a048b1416c",
+      "mpm_jax/materials/isotropic_brittle.py": "887aaeda0466946f0b20563ae32b7614cde34099",
+      "mpm_jax/materials/jh2.py": "6f37b5080c97e4c0ef48dfb3fd34c20138195b97",
+      "mpm_jax/materials/johnson_cook.py": "b7ff295cf3208bfe43bf35a8ba78723c19fff1bf",
+      "mpm_jax/materials/plastic.py": "73aefe879e1c14c6040732489c3099779251ef95",
+      "mpm_jax/materials/rht.py": "118d64c4141a9dee24db8fa238f3f59491fdc460",
+      "mpm_jax/materials/steinberg.py": "54ad9f62c76327b869ced00d7f1b2fc09ee0c6cf",
+      "mpm_jax/materials/woven.py": "998f014b30c0bb4ccbb5dbd7dcf989f30568c0de",
+      "mpm_jax/paraview_scene.py": "bedab12df36f14a5f2143f28f4c44d493c6df46e",
+      "mpm_jax/particle_fields.py": "f891d49ac55d1a5107384211f822c64acfd80336",
+      "mpm_jax/visualization.py": "6aedce6a768872a0cc6f56a9df8e1d9c1a2c584d",
+      "pyproject.toml": "48a88b0f91bf8ce340b488c1c6f7bd67ff02e6b9",
+      "tools/audit_delivery.py": "6ec9bc3ed5eda5e05b7f046d698017ff16be69d9",
+      "tools/audit_triaxial_records.py": "a95191a313f247c43e9ad0231154737839b0a5ca",
+      "tools/check_paraview_failure.py": "35d8e22adb28e3e04cff5872bc39c06fac7e9c01",
+      "tools/check_vtk.py": "6d6e27c5b82e6916a77c7b9418395347b379dbd7",
+      "tools/collect_gallery.py": "18fba15001d98586078c8aca058329ffa0b99d84",
+      "tools/collect_home.py": "9a6a94854160276e789fada843ef6bde30de0963",
+      "tools/collect_reference_fixtures.py": "519121230bc81e7a4df54ca804e76a773cd582ea",
+      "tools/collect_results.py": "e60b3e55437e98ef74ef1fcdedc712f73042d6fa",
+      "tools/collect_review.py": "1f6d0782ee61ad38068ed11ea05b53d792b6ce5e",
+      "tools/encode_video.py": "86014ea39e1ea9e90be2370cb2a131eeaee6cb75",
+      "tools/install_runner_dependencies.py": "ec094b2984e79f8cf02285b638bd36014dc50a76",
+      "tools/pack_woven_gallery.py": "58a7de34f2f5abf27a28ba6336bfd3a3b9b2ea42",
+      "tools/public_runs.py": "b3fbb6a35e3fba795839467ee5c5293619a60524",
+      "tools/review_adhesion.py": "7e0892cf04dc18e295625cdcc40f604c911cb10d",
+      "tools/review_adhesion_comparison.py": "c34faf2c5570759b2968d1933ae673e0888d8f78",
+      "tools/review_contact.py": "8a15962d88f8dff7f36419c7c60e5a0aad7f1b71",
+      "tools/review_dynamics.py": "a49fc72519dbeb3ab33a6f8480d2a17a58a86a38",
+      "tools/review_material_engineering.py": "62fa7f9df714d92721fb758bb9a9f2aa1b77e492",
+      "tools/review_triaxial_state.py": "c0ff512a61fdeb3d3f6fa47b77ebb5b2e74724ea",
+      "tools/review_visible_motion.py": "792c5b8ec56be6c6ace8c34210ff698c2b41ffa3",
+      "tools/review_wave_comparison.py": "24e2813026401497a5aad19afb6bfbfbdba85e7c",
+      "tools/review_woven.py": "becf48054b9d0f4a1c3139447dff77c6665ad7c9",
+      "tools/run_engineering_preview.py": "025bb7499589f3134bf1a2b800d6c1802d5487d1",
+      "tools/run_jc_refinement.py": "1f7c177b016d6b52ce01f6987a8bb8c34fc7f7a7",
+      "tools/run_triaxial_checks.py": "a9a3dd4cda97bf904b8962a7edb9a82fc0ac7118",
+      "tools/run_triaxial_segments.py": "a5434ea40f1fb4087dd4a3272cc018092d1caca7",
+      "tools/run_triaxial_study.py": "854dbc528eebe0d9a958883080b6fca4819cbdec",
+      "tools/run_woven_preview.py": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f"
+    },
+    "lf_sha256": {
+      ".github/workflows/engineering-previews.yml": "7217cd403daa46827b6858637a3676f486d0cd1b54572608f6f27ea3bf72fa1a",
+      ".github/workflows/jc-refinement.yml": "f7b71f06efab2769255d600d80f59f7ebb88326f8c937c92139b333014c13fb9",
+      ".github/workflows/tests.yml": "3f5bb0d748efeb12e5466bc3d42a70e43e2ed357533daf4da40345583d92cea9",
+      ".github/workflows/triaxial-checks.yml": "65a4483eaa98dcf0916d2fc09691310836d0d93c3f8236d0fe4339d2223452a0",
+      ".github/workflows/triaxial-runs.yml": "5c290ac00d6f4bab34a97e25e9f77c7a5b3bb425b4ad65aed464317b5d702e83",
+      ".github/workflows/triaxial-segment-job.yml": "fa734fd67653df43c8d5a7e294b98efcb10c793fde02dc679f8c76ca9105ad91",
+      ".github/workflows/triaxial-segments.yml": "d3d4b628f7bbc1e273f4fec033a569c30c8849793e459fc9ef0356f7e70d2fbb",
+      ".github/workflows/woven-gallery.yml": "3949dd52d63da36689f86625b998b2dcf7462138cac6f5745fb9da8a678605f1",
+      ".github/workflows/woven-previews.yml": "c315a28936ba4dc485a85a7e64ae9ac1562cc9b06c7abea6eecf96d16954f15f",
+      "examples/__init__.py": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+      "examples/adhesion_contrast.py": "838c9bfdb092aa67ad6318d9f90009114189a5437083b203a7309da275d86835",
+      "examples/adhesive_array.py": "a684ef8e298358843d8af2f55962eeb9b78d76c144b62735a6511f6222560f5e",
+      "examples/adhesive_contact.py": "6cbdc8e6081329c39a830e8fe373f53b738410108d5025dac9e6f56a7071cb2e",
+      "examples/adhesive_suite.py": "683aca65ea2365d3822d757565fd0c1a7000707ffc229381015d5936007387dc",
+      "examples/benchmarks.py": "e6d3254670c094a81e72786581509c7d7e2a2b290ace27ad626ea537da1aa15d",
+      "examples/brittle_engineering.py": "23aaa6c5aa88ee21ce8fe4d63ae4942970bc7ddf945d3a85f91405087a120a0d",
+      "examples/common.py": "bb5b3ff00b4d4edb54632a11f54b81d2edca767f440d9c6f4a7d52a8a3e5a46f",
+      "examples/contact.py": "e475ab3f090d1796ee7f680c58ded359ef54d47452bb92360d6f2ef1a1735f80",
+      "examples/elastic_models.py": "d8d7ae280fe91227432f9e3213b0cc71d9990817266c1bff8c08fb31a241f47f",
+      "examples/engineering.py": "566fa9629d007a48393ebee3ddc141691f39587581f1d4e2b09a4394d4be13ec",
+      "examples/fluids.py": "5ff6e6cbadb921877f5658d187e520126324d14d202dbc66df81eea397819d9d",
+      "examples/gradient.py": "aac17faf397ce4f56361d9de59edfcaa6512e10a99082fd4c89b0262440f47a6",
+      "examples/jc_necking.py": "6fce5973ddf465bb929ebf02173c656f645e27847acba3934c491af81475f677",
+      "examples/material_engineering.py": "cf318eee7aa6ed71bdc4e4e435eeceeab13b8612959c2c90075b7bba44a70414",
+      "examples/material_paths.py": "764ae920856e7c94553ec79d2dec15b4d21bd8927e933c628c87923b98b30974",
+      "examples/scenarios.py": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d",
+      "examples/suite.py": "787f46ad8509808784bba3c32d9a8ef1bd160d7e00f51dfd6939e23ba18c95b0",
+      "examples/triaxial_failure.py": "f1c61c132141ec495c46bdac600eda537478997624d491c36c435c16430cc0d7",
+      "examples/triaxial_fibre_geometry.py": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+      "examples/visible_motion.py": "0de51bf641eec60e8ce9313c45155f53dc8b6d4386bb34295ef5aff3d2221e12",
+      "examples/woven_composite.py": "ddc5e2b351e62563b37d6836e1418894821ee541357709fa63bece6939545866",
+      "examples/woven_geometry.py": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "examples/woven_hemisphere.py": "13f464445d885e819e55d1966bbf99c21a6f1be8b1ccdb29e6cd4ee9bbd3e4c7",
+      "mpm_jax/__init__.py": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494",
+      "mpm_jax/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+      "mpm_jax/adhesion.py": "12cda0bc77b95a8740245050bc2ae86b78018bd2642329efff3920cb8d9f9042",
+      "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+      "mpm_jax/cli.py": "be61ba75adfa3a0fd05892402e1970ef62d7fd7250fce329b63b2c0d8b34f105",
+      "mpm_jax/contact.py": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "mpm_jax/contact_laws.py": "101008865ed200d94d02b88a674c3943fcb82549ca2913961c2649f37df2175a",
+      "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "mpm_jax/export.py": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/fibre_coupling.py": "bc62046a1263011902eda3b762e263b1ae0e14e2ed90ad86838d9f809a042053",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/initialization.py": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d",
+      "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/hjc.py": "0823f546a46858fb42bf3cf1f812f289f889d0dc0cd4969705d87fdcd6f7cf4e",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "mpm_jax/materials/jh2.py": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "mpm_jax/materials/plastic.py": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "mpm_jax/materials/rht.py": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+      "mpm_jax/materials/steinberg.py": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "mpm_jax/materials/woven.py": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "mpm_jax/paraview_scene.py": "aba8f30187c892862496c93ec7d9ead7c00e14b059fa5b12cecc5fd828aebebf",
+      "mpm_jax/particle_fields.py": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+      "mpm_jax/visualization.py": "d834330c0fe1c1f55fbe997e0f5e62e7e22c36ed5766ada8d35da2cacc23dd69",
+      "pyproject.toml": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+      "tools/audit_delivery.py": "c34d790bf8a45910526ae713063e58fcf0b1e613d012bd5a7d489db4ecb1027e",
+      "tools/audit_triaxial_records.py": "751b3c0a93515cf53e096e29ef106d8fc22b3f40f534da072e31d6566e77e837",
+      "tools/check_paraview_failure.py": "9460dec67d20bbdf8362d16e8543cdffa7d4bf30a29548614643615d941618a0",
+      "tools/check_vtk.py": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+      "tools/collect_gallery.py": "ff9ec71cbc1b2d295c86c8d70e1f49be7b37014b5a392827357d852579943568",
+      "tools/collect_home.py": "5421d5af0b5af4e9d2843d6606da4fa38d20cbba09b368bec29f6abc8960f82d",
+      "tools/collect_reference_fixtures.py": "655b58ef65981e7ac1255a587edc99940d24b5d09195f89eb7c6516461307a51",
+      "tools/collect_results.py": "ffd20246d616b09e5882b65ccf24ff6744a611a302be0e535734853859c3af9b",
+      "tools/collect_review.py": "813e4a4b5d1f1eb4ccbde7fe0b1ef1089d7cebe271570dfe194204fb5231d360",
+      "tools/encode_video.py": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4",
+      "tools/install_runner_dependencies.py": "4b164e1e83b47faf252d4b8e01cc8e4c3ff46a6bd5f343267d2fe031e56790ea",
+      "tools/pack_woven_gallery.py": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+      "tools/public_runs.py": "f342cc07c44d2117f2159efbf2d12a77d9ccf88ca475b0130a523d3739e4d85a",
+      "tools/review_adhesion.py": "a7efea61a652ebf4e965d804d372560f751c2fb2e911ad723c12d5aea51d74ae",
+      "tools/review_adhesion_comparison.py": "bc0f277a38625acc957e1265ca4750ffdac980c114fb1256c271e0de39e3118a",
+      "tools/review_contact.py": "8b0a1e3319b9838ee62d1489225379cb128b9de648030500ec66aafe3a2e7354",
+      "tools/review_dynamics.py": "7c4062903a83f3da5cbfed0a1bec0b9689d88f82cc8fa0c2272fa47faf598bf8",
+      "tools/review_material_engineering.py": "3a474d4572275d963575a873e0519e0a6a821d30b2b7bd65a86c894f9b01d4d9",
+      "tools/review_triaxial_state.py": "6aa7b82430c1c76e3c91f33ee79a9a047c300fa39bd8674ca3cd8b24683d5b51",
+      "tools/review_visible_motion.py": "877e47d7f462ee41cbe87d5c3acfad74452509788e04cbdf42fe7e56555cc5c8",
+      "tools/review_wave_comparison.py": "b4dcbd2720bf3e09276b586afacde1a5a0716e61d91a007627e8aea1d1d9d812",
+      "tools/review_woven.py": "f9f1d671526305dcab0a51c90db04a99a46002d46e5991ba44593792d4d14ecf",
+      "tools/run_engineering_preview.py": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5",
+      "tools/run_jc_refinement.py": "2061763d53dae15924a74c6ffe01c27e0c187324d1c72669d939e80cfd9c5eb8",
+      "tools/run_triaxial_checks.py": "a196f9a7dcafdb1897cb1f492a86e852debaf04cc435d563ebfeaf0a32ffc0b6",
+      "tools/run_triaxial_segments.py": "a4903bc37268dca3ab1a8c958f97379275838e02174359b3ac27e3526f292bcf",
+      "tools/run_triaxial_study.py": "fae732a68b258d278bbe8eadf837c4f1f2786663ee37158ed860e9f5b70811fb",
+      "tools/run_woven_preview.py": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+    },
+    "fingerprint": "a0a3bc1e70c9df1b742dab8b5e0d10a57b9072a930cf94daaeb12820b7f69cf0",
+    "runner_source_sha256": "2061763d53dae15924a74c6ffe01c27e0c187324d1c72669d939e80cfd9c5eb8",
+    "scope": "Exact checked-out source for a start-only refinement diagnostic; not a completed tensile result."
+  },
+  "final_metrics": {
+    "central_material_section_force_N": 0.0,
+    "maximum_equivalent_plastic_strain": 1.1640602033500052,
+    "max_damage": 1.0,
+    "failed_particles": 4408,
+    "central_active_particles": 0,
+    "min_J": 0.9939864320119615,
+    "max_J": 1.0317895016934298,
+    "mass_kg": 9.905936e-05,
+    "reference_volume_m3": 1.2651259259259262e-08
+  },
+  "separation_history": [
+    {
+      "frame": 0,
+      "time_s": 0.0,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9831,
+          "x_bounds_m": [
+            0.0018166666666666665,
+            0.0049833333333333335
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9831,
+          "x_bounds_m": [
+            0.005016666666666667,
+            0.008183333333333334
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "time_s": 2.4999999999999998e-06,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.0018163473654704086,
+            0.004983331555794194
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.005016668444205806,
+            0.008183652634529623
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 2,
+      "time_s": 4.9999999999999996e-06,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.0018141726772831766,
+            0.004983318891133558
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.005016681108866442,
+            0.008185827322716884
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 3,
+      "time_s": 7.5e-06,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.001808570666980655,
+            0.004983286048160024
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.0050167139518399765,
+            0.008191429333019428
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 4,
+      "time_s": 9.999999999999999e-06,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.001798491178161834,
+            0.004983198231227514
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.005016801768772486,
+            0.008201508821838257
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 5,
+      "time_s": 1.2499999999999999e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.0017835657099413706,
+            0.004983007976924684
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.005016992023075316,
+            0.008216434290058734
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 6,
+      "time_s": 1.5e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.0017641635178689064,
+            0.004982747097787852
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 9819,
+          "x_bounds_m": [
+            0.005017252902212146,
+            0.00823583648213119
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 7,
+      "time_s": 1.75e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10104,
+          "x_bounds_m": [
+            0.0017413353981189455,
+            0.004982383613968628
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10104,
+          "x_bounds_m": [
+            0.005017616386031369,
+            0.00825866460188113
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 8,
+      "time_s": 1.9999999999999998e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 747,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10096,
+          "x_bounds_m": [
+            0.0017166537132987827,
+            0.004981900916579978
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10096,
+          "x_bounds_m": [
+            0.005018099083420019,
+            0.008283346286701281
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 9,
+      "time_s": 2.2499999999999998e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 723,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10064,
+          "x_bounds_m": [
+            0.0016916537132988542,
+            0.004981289989069689
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10064,
+          "x_bounds_m": [
+            0.005018710010930308,
+            0.008308346286701419
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 10,
+      "time_s": 2.4999999999999998e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 723,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10008,
+          "x_bounds_m": [
+            0.0016666537132989257,
+            0.004980562906515065
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10008,
+          "x_bounds_m": [
+            0.005019437093484933,
+            0.008333346286701557
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 11,
+      "time_s": 2.7499999999999998e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 651,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10213,
+          "x_bounds_m": [
+            0.0016416537132989972,
+            0.0049797549022973725
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10213,
+          "x_bounds_m": [
+            0.005020245097702626,
+            0.008358346286701695
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 12,
+      "time_s": 3e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 627,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10157,
+          "x_bounds_m": [
+            0.0016166537132990687,
+            0.004978827377806851
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10157,
+          "x_bounds_m": [
+            0.005021172622193147,
+            0.008383346286701832
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 13,
+      "time_s": 3.25e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 603,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10093,
+          "x_bounds_m": [
+            0.0015916537132991402,
+            0.004977760246889753
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10093,
+          "x_bounds_m": [
+            0.005022239753110241,
+            0.00840834628670197
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 14,
+      "time_s": 3.5e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 579,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10017,
+          "x_bounds_m": [
+            0.0015666537132992117,
+            0.004976533761832415
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10017,
+          "x_bounds_m": [
+            0.005023466238167578,
+            0.008433346286702108
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 15,
+      "time_s": 3.75e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 579,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10250,
+          "x_bounds_m": [
+            0.0015416537132992832,
+            0.004975105852558635
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10250,
+          "x_bounds_m": [
+            0.005024894147441356,
+            0.008458346286702246
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 16,
+      "time_s": 3.9999999999999996e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341584,
+      "failed_particles": 0,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 563,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170792,
+          "positive_grid_nodes": 10198,
+          "x_bounds_m": [
+            0.0015166537132993547,
+            0.004973441157690196
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170792,
+          "positive_grid_nodes": 10198,
+          "x_bounds_m": [
+            0.005026558842309795,
+            0.008483346286702383
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 17,
+      "time_s": 4.2499999999999996e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 341200,
+      "failed_particles": 384,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 483,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170600,
+          "positive_grid_nodes": 10098,
+          "x_bounds_m": [
+            0.0014916537132994262,
+            0.0049714592679654486
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170600,
+          "positive_grid_nodes": 10098,
+          "x_bounds_m": [
+            0.005028540732034545,
+            0.008508346286702521
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 18,
+      "time_s": 4.4999999999999996e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 340136,
+      "failed_particles": 1448,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 447,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 170068,
+          "positive_grid_nodes": 10026,
+          "x_bounds_m": [
+            0.0014666537132994976,
+            0.004968912306011998
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 170068,
+          "positive_grid_nodes": 10026,
+          "x_bounds_m": [
+            0.005031087693987995,
+            0.008533346286702659
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 19,
+      "time_s": 4.7499999999999996e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 338400,
+      "failed_particles": 3184,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 392,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 169200,
+          "positive_grid_nodes": 10237,
+          "x_bounds_m": [
+            0.0014416537132995691,
+            0.004963304584222957
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 169200,
+          "positive_grid_nodes": 10237,
+          "x_bounds_m": [
+            0.005036695415777033,
+            0.008558346286702797
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 20,
+      "time_s": 4.9999999999999996e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337192,
+      "failed_particles": 4392,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 124,
+      "no_shared_grid_support_at_split": false,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": false,
+      "empty_interior_axial_node_planes": [],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168596,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0014166537132996406,
+            0.004949815888325172
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168596,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005050184111674813,
+            0.008583346286702934
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 21,
+      "time_s": 5.2499999999999995e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        50
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.0013916537132997121,
+            0.004837196498475695
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.00516280350152431,
+            0.008608346286703072
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 22,
+      "time_s": 5.4999999999999995e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        50
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0013666537132997836,
+            0.00481177414677084
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005188225853229175,
+            0.00863334628670321
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 23,
+      "time_s": 5.7499999999999995e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        50
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.001341653713299855,
+            0.004785936895417832
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.005214063104582184,
+            0.008658346286703348
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 24,
+      "time_s": 6e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        50
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0013166537132999266,
+            0.0047603117019085995
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005239688298091412,
+            0.008683346286703485
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 25,
+      "time_s": 6.25e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        49,
+        50,
+        51
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.001291653713299998,
+            0.004735194235294639
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.005264805764705371,
+            0.008708346286703623
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 26,
+      "time_s": 6.5e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        49,
+        50,
+        51
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0012666537133000696,
+            0.00471060070921967
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005289399290780356,
+            0.008733346286703761
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 27,
+      "time_s": 6.75e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        49,
+        50,
+        51
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.001241653713300141,
+            0.004686281137771029
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.005313718862228994,
+            0.008758346286703899
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 28,
+      "time_s": 7e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        49,
+        50,
+        51
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0012166537133002126,
+            0.00466195291185422
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0053380470881458,
+            0.008783346286704036
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 29,
+      "time_s": 7.25e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.001191653713300284,
+            0.004637066556013433
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.00536293344398658,
+            0.008808346286704174
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 30,
+      "time_s": 7.5e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0011666537133003555,
+            0.00461175566468388
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005388244335316136,
+            0.008833346286704312
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 31,
+      "time_s": 7.75e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.001141653713300427,
+            0.004586062301675251
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.005413937698324765,
+            0.00885834628670445
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 32,
+      "time_s": 7.999999999999999e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0011166537133004985,
+            0.004560418999305488
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005439581000694528,
+            0.008883346286704587
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 33,
+      "time_s": 8.25e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.00109165371330057,
+            0.004535255590263031
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.005464744409736989,
+            0.008908346286704725
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 34,
+      "time_s": 8.499999999999999e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0010666537133006415,
+            0.0045105359017577375
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005489464098242289,
+            0.008933346286704863
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 35,
+      "time_s": 8.75e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.001041653713300713,
+            0.004486136464833446
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0055138635351665855,
+            0.008958346286705
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 36,
+      "time_s": 8.999999999999999e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0010166537133007845,
+            0.004461776578819972
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005538223421180056,
+            0.008983346286705138
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 37,
+      "time_s": 9.25e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.000991653713300856,
+            0.004436959948188846
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.005563040051811172,
+            0.009008346286705276
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 38,
+      "time_s": 9.499999999999999e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.000966653713300886,
+            0.00441174529616639
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.00558825470383362,
+            0.009033346286705414
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 39,
+      "time_s": 9.75e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0009416537133008528,
+            0.004386158573847616
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0056138414261523925,
+            0.009058346286705552
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 40,
+      "time_s": 9.999999999999999e-05,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0009166537133008197,
+            0.00436053890857543
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005639461091424578,
+            0.00908334628670569
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 41,
+      "time_s": 0.0001025,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.0008916537133007866,
+            0.004335330032688015
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.005664669967312004,
+            0.009108346286705827
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 42,
+      "time_s": 0.00010499999999999999,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0008666537133007534,
+            0.0043105139550853435
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005689486044914697,
+            0.009133346286705965
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 43,
+      "time_s": 0.0001075,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0008416537133007203,
+            0.004286032027503791
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.005713967972496259,
+            0.009158346286706103
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 44,
+      "time_s": 0.00010999999999999999,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0008166537133006872,
+            0.004261643045478752
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005738356954521294,
+            0.00918334628670624
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 45,
+      "time_s": 0.0001125,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.000791653713300654,
+            0.004236873142008173
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.005763126857991862,
+            0.009208346286706378
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 46,
+      "time_s": 0.00011499999999999999,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0007666537133006209,
+            0.004211742135309168
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005788257864690841,
+            0.009233346286706516
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 47,
+      "time_s": 0.0001175,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0007416537133005878,
+            0.004186240257544271
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.00581375974245572,
+            0.009258346286706654
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 48,
+      "time_s": 0.00012,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0007166537133005546,
+            0.004160644669722111
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005839355330277881,
+            0.009283346286706792
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 49,
+      "time_s": 0.0001225,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.0006916537133005215,
+            0.004135396216025519
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.005864603783974481,
+            0.00930834628670693
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 50,
+      "time_s": 0.000125,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0006666537133004884,
+            0.004110496451685417
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.005889503548314618,
+            0.009333346286707067
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 51,
+      "time_s": 0.0001275,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0006416537133004552,
+            0.004085937772085073
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.005914062227914993,
+            0.009358346286707205
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 52,
+      "time_s": 0.00013,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0006166537133004221,
+            0.004061523560778369
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.005938476439221693,
+            0.009383346286707343
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 53,
+      "time_s": 0.0001325,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.000591653713300389,
+            0.004036791513922658
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9916,
+          "x_bounds_m": [
+            0.005963208486077365,
+            0.00940834628670748
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 54,
+      "time_s": 0.000135,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0005666537133003558,
+            0.004011737790114442
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.0059882622098855745,
+            0.009433346286707618
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 55,
+      "time_s": 0.0001375,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0005416537133003227,
+            0.00398631513348552
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0060136848665144965,
+            0.009458346286707756
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 56,
+      "time_s": 0.00014,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0005166537133002895,
+            0.003960746579656232
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.006039253420343796,
+            0.009483346286707894
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 57,
+      "time_s": 0.0001425,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.0004916537133002564,
+            0.0039354679934159005
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9912,
+          "x_bounds_m": [
+            0.006064532006584143,
+            0.009508346286708031
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 58,
+      "time_s": 0.000145,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.00046665371330026855,
+            0.003910495929864398
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 9880,
+          "x_bounds_m": [
+            0.006089504070135676,
+            0.00953334628670817
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 59,
+      "time_s": 0.0001475,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.0004416537133002877,
+            0.003885866086931147
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10109,
+          "x_bounds_m": [
+            0.006114133913068941,
+            0.009558346286708307
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    },
+    {
+      "frame": 60,
+      "time_s": 0.00015,
+      "split_plane_m": 0.005,
+      "active_particles": 337176,
+      "failed_particles": 4408,
+      "both_current_sides_occupied": true,
+      "shared_positive_3d_grid_nodes": 0,
+      "no_shared_grid_support_at_split": true,
+      "reference_grips_unfailed_and_on_own_sides": true,
+      "reference_grip_sets_grid_decoupled": true,
+      "empty_interior_axial_node_planes": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "partitions": [
+        {
+          "side": "left",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.0004166537133003069,
+            0.003861420773182247
+          ],
+          "reference_left_grip_particles": 21648,
+          "reference_right_grip_particles": 0
+        },
+        {
+          "side": "right",
+          "particles": 168588,
+          "positive_grid_nodes": 10061,
+          "x_bounds_m": [
+            0.006138579226817841,
+            0.009583346286708445
+          ],
+          "reference_left_grip_particles": 0,
+          "reference_right_grip_particles": 21648
+        }
+      ]
+    }
+  ],
+  "first_saved_failure_frame": 17,
+  "first_saved_separation_frame": 21,
+  "input_sha256": {
+    "plan.json": "0c1281cc9db6ab0fefb6bf0b5b556d38379c24e8fc7d489311dee60c042f65e6",
+    "numerical-source.json": "2b6d62922fbe4d8421a02de77f2176737b82b7adc73e33251c98062a90bad172",
+    "summary.json": "efec37c4bc474206544a4006402dda0ce612c5a2cc11a3bd9943ae5c460bc069",
+    "status.json": "a715ffd42a3dc6bdef082616625e9805e75e146b2deac2a3af163437e90dd98c",
+    "final_state_0.npz": "74b785986ac6eac1bd38e1b457ab15f17617aae5eec5d67725439ec86bb9b843",
+    "observables.csv": "8de4d73756c684716ae7785907b4c9c144bdb7ff0932a0e34a3c2bcb580b5184",
+    "diagnostics.csv": "1bab5a166f660c0e2646da93e06a8948ab2594f8deed4b0e7f2a8c53e74b38dc",
+    "trajectory.npz": "12b2567d3791e17593acb43b4016c0a59de0750542052a8e48ec5551d499e9e5",
+    "trajectory_x.npy": "55f8319c74ed9bf85f4c133e974e5feaaf57f6d5c9b5e7ca4675df875d03ec3b",
+    "trajectory_speed.npy": "e0e9a83daf89e82bbedca7832195806ae65e922e9bf74c2d7a112bcec492ead5",
+    "trajectory_damage.npy": "0088c03be339c2eae9017c8a89051b4935f514454d6292e96d5f2c7ba7a67405",
+    "trajectory_temperature.npy": "31f1e7703e7829d1fbce9e1f60d189d86845327808a085edecbfd7e27a3b6030",
+    "trajectory_failed.npy": "33c5f3b9c3328983788fd94e7733adb23c95e08e1285164bff626b8476c71ac7",
+    "frames_data/frame_00000.npz": "6437c1bcae1b146020b33dd44ef91a7e38c662c513eef08cf34e5c2bb94e8d38",
+    "frames_data/frame_00001.npz": "bf47d2c3237eaecb8de02249b2d55dea5feed434a158fe87b006b1f153c7b7d6",
+    "frames_data/frame_00002.npz": "e9ff904f28cc8ee4d2e61c35dba96e47ab77a23ac50a989507bb30b637963563",
+    "frames_data/frame_00003.npz": "461a6eeff0e8ecb1166f0f4306212e603527ca677da6b30d8071f1843c1ccf6b",
+    "frames_data/frame_00004.npz": "24dff3c68ff8439088343db43e9ce021242c253e70d9ca5ed736b290573c207d",
+    "frames_data/frame_00005.npz": "dc4201d846d8df092fd2b90c4e3800be2c40ed6e8c0479f655c04533eef04643",
+    "frames_data/frame_00006.npz": "603bac2dccd1cf84cf0221b850b54a6d16eec025f8fd9c049d91b6b1109972b4",
+    "frames_data/frame_00007.npz": "2dd78e82d0d7abfd209dc8eb3566270bbc23e21295c7ad2aef54e3d97cf775de",
+    "frames_data/frame_00008.npz": "0210a5e6bf64f1808f751eef8c5dd189683ac289b4c3b44649af45a8686ab489",
+    "frames_data/frame_00009.npz": "99b790720445f0957767abdd530f36c170fda41ec2210fee92cf044e038c2ddd",
+    "frames_data/frame_00010.npz": "2b9b4622127d0fe3edc93a0367e641aeae86aa7c9289b66aabf480031363a0e4",
+    "frames_data/frame_00011.npz": "3faa2aabdbc41e55ae285c5bcae950ad8cf5433b628e7cb41689e1dcd884d2e8",
+    "frames_data/frame_00012.npz": "494ad6c4ba5f09951e281f014fd9e494c57e2448e32a92cc169f092c1e3c3a0a",
+    "frames_data/frame_00013.npz": "5166e0731788c62e6150ff9230fd90385d0c4aa632119eea70bac02d1b959fad",
+    "frames_data/frame_00014.npz": "9255c23689d623a73097bd91722726853c3dd3a6fd11db3bdcdaf66095c05755",
+    "frames_data/frame_00015.npz": "79d33faf44f0a494cfec55107c1b56fdfd48b4e635c07b0f4a0bbb52722a5a33",
+    "frames_data/frame_00016.npz": "a6d839f9604ee33e763aedadcdfa61f00f61ff72f5df0ea253bf7ee57baaa24c",
+    "frames_data/frame_00017.npz": "fb072f6d5c4e34c81faafed33aef236eeeb8f30825998a754dd6041bf2c5753e",
+    "frames_data/frame_00018.npz": "9c347d8b61f903d5f52b57df78c8ee6449259ecdfa7f6759fa4b7d2e500a3f16",
+    "frames_data/frame_00019.npz": "94282a2bd7c84d6b95df557fb646125004f74950799a20533575ab52603249cb",
+    "frames_data/frame_00020.npz": "2423c4f7f86c98a1197d3447cccb349e08abc2fc9d6bfd56f7b8e54237b359c7",
+    "frames_data/frame_00021.npz": "a777efa843abd77275c4987504f7b84480f9a69de2531438836191f2fd7d76a7",
+    "frames_data/frame_00022.npz": "79892ed73e7a2044a953e182833c7b7ed08f6ec21b9a505463a27eae08ab0928",
+    "frames_data/frame_00023.npz": "8f0295949936f1d898e8b8e7e67ea1771fe15555c878338a7137c2fdc47959b6",
+    "frames_data/frame_00024.npz": "d7a4c748817e7cfc0295aee3228bd18f764ffa6bf5bb16ee7ec4ba43d7fe1964",
+    "frames_data/frame_00025.npz": "948b24fc1780f65149da20ac940cc93ab572947ec51549366d23f71784a42f35",
+    "frames_data/frame_00026.npz": "aebd9a05ce65ddbcecd3ba75d7b6a2a311fd82ad1b4977591212f4f28bd1ad38",
+    "frames_data/frame_00027.npz": "c2ed58a41ce03bf9f296b9fdd89e87341d51e0b04a8d81410434fe055d68c3b6",
+    "frames_data/frame_00028.npz": "6639824af65a8e53fc75115c158593d20f08ea8ae460ae77bcf7073f08623423",
+    "frames_data/frame_00029.npz": "fa5d1806a3e7473f4503bd7f102b31e75f9fb2fe490634f364a8b168a5ae13ae",
+    "frames_data/frame_00030.npz": "3256eeee9550e00d210f6475e3c1964de2a2616177ba552ec77945f695918308",
+    "frames_data/frame_00031.npz": "7599ca207f2085b8a4b854abcd5a12bb190b66fa3d2314afe7a9f19c7a4af99e",
+    "frames_data/frame_00032.npz": "cd116dd739f78a1eb63393b66277d0b06ce78cd0b4715ce37ac878010599a9f0",
+    "frames_data/frame_00033.npz": "b9c109d3032b575a285bc5e6ff86480efa90f0162b4b2fe717c008f763207d91",
+    "frames_data/frame_00034.npz": "f25f7f032c9c385ddc92460042d1dc3b681b151357f52673eafc36cc3bf71532",
+    "frames_data/frame_00035.npz": "359668b92c5cf0408f9d1e9ce5da6b9b75170bba3ac747c9e5438e5346c83878",
+    "frames_data/frame_00036.npz": "97d97d0116752da1e340bfde34fc3a198e267fe2ae5cd1be905457782e557df7",
+    "frames_data/frame_00037.npz": "4fc5d8ca21ce42a6c829a0886c658cb96fb2bce07b69e48f9e1b904813a7338c",
+    "frames_data/frame_00038.npz": "807b268612f43f0ab895706f05b57c854e02904b156d50f696557ed68ae7cf89",
+    "frames_data/frame_00039.npz": "79e9de22878a7e4093e6c70fcc598c5872a59781f78c14c989ab4c3b013beaac",
+    "frames_data/frame_00040.npz": "667199f3cdf9813669fffb5dfe683c05a7912fa1b883e2959d8e0bd15ced16bb",
+    "frames_data/frame_00041.npz": "2c3cd915d72ff6e73a73a2316df7f642d4def290f74bdd13ab361b4f20ccfa16",
+    "frames_data/frame_00042.npz": "44e9d3888fe1f90105c46b19b41468a2b4a6e2bb2ede420d2d054c772da300bc",
+    "frames_data/frame_00043.npz": "60b0dd9b51b06ef89601878e13a2736a8d37309044891dab9f48fe7de2616001",
+    "frames_data/frame_00044.npz": "fac0d75cf1c757e0afca16fa683dbabde3b96c820a2a3156cfa9e7d580eeb67a",
+    "frames_data/frame_00045.npz": "4dbbfa9b46b60d6cd30940fdb0bbe847cf4f3f18dee4df6f615616fcc9c01446",
+    "frames_data/frame_00046.npz": "c09b8f840c4efe9dc70a116106d6a218f43f05cd643db3f1b153aa5aef802b4c",
+    "frames_data/frame_00047.npz": "c332d15daddf915294e4966f2f2067d3600bbc465b131e2f115f2999d6400ff7",
+    "frames_data/frame_00048.npz": "be9ecb3b4dd67bff4a75efb80c42a79f8ce0326c289f96c9015840cfdddcb71c",
+    "frames_data/frame_00049.npz": "2c93970f639a9fb50082ae1deea10dbb55e8be43945b30a306649931c28eba89",
+    "frames_data/frame_00050.npz": "db3ecdf53ea71d7411626ca38b18aede03e82bd14b711161c2ba684c275fc891",
+    "frames_data/frame_00051.npz": "a98f64756b0a184694abc0bbca1fa34b2f68290d7e82f1555f54b45c428bd5dd",
+    "frames_data/frame_00052.npz": "b41f980f163e8380a92cae657b77207410c62994fc5f0fc8ef87a5c42a92ad36",
+    "frames_data/frame_00053.npz": "7abef81f0b74d8c7935cf455ee348e925439bde7525d8e3da06018b494202a1a",
+    "frames_data/frame_00054.npz": "e4934263abf96c95db93cd55bc65dfb3f54e6c2dcac773eff62557b7fb7e123e",
+    "frames_data/frame_00055.npz": "1673cf946d2b3f7e9fbbd71342b9f13305caccf62f86a3fc03059737987f272a",
+    "frames_data/frame_00056.npz": "fa3482ce3db6ecf8acb5ba23fd9731ac81f530de4e2ceff7acfdad84a447786e",
+    "frames_data/frame_00057.npz": "10cd8f6575b1c5afdce3d3239de6f4e12c1c9c00537f9a0cd510f60964208a9c",
+    "frames_data/frame_00058.npz": "5af3a3e8217e38c584242971af99dfed77e5839bf59a7f88723ada40ddc14bf4",
+    "frames_data/frame_00059.npz": "3f284e421316ac165c851b87cb41e20ddc61607cbb901c7fdf344f06ea20ddbf",
+    "frames_data/frame_00060.npz": "0a205383557bd78df72b8dc0f2f09f4dabc2e092943b72a3beebf16c3e5e7d34"
+  },
+  "review_source_sha256": "dcc750ea04ca831850a80d11e7fee92718899a9e7f382941254d8019c03408bc",
+  "scope": "Completed immutable protocol and saved-state grid-decoupling audit. Does not establish experimental accuracy, fracture-energy convergence, resolved fragment surfaces, or uninterrupted-run equivalence. Same-frame failure and separation do not resolve causal ordering.",
+  "original_controller_records_sha256": {
+    "context.json": "4cecd6336c4e1b5d8705d030f0d521906138217f62a6d10dd96d5479538dbb4d",
+    "parent-prefix.json": "a57a9b5a17a20d656d27f8bd18a70d728963fd31a0b86f97e08effc3adead656",
+    "parent-receipt.json": "8df427058ea9f7b8490309f1524c61d64c701a4c7c3dd53ed8e7344d5b8160c0",
+    "worker-runtime.json": "e2607ecef139759ac44b8955459e2d405703c5135d655048f9901a08c759dba5",
+    "environment-lock.json": "7f3fe8d8792b0dd5e399f057ad5af1e25c0296848da8cd042417e8cb3b355d4e",
+    "loaded-numerics.json": "91b426e19ce51a9bedf3db56d8c1b1a419dec1192cba4918cf6f9e7482e30bef"
+  },
+  "coordinate_neck_audit": {
+    "passed": true,
+    "consecutive_neck_frames": [
+      [
+        15,
+        16,
+        17
+      ],
+      [
+        16,
+        17,
+        18
+      ],
+      [
+        17,
+        18,
+        19
+      ]
+    ],
+    "history": [
+      {
+        "frame": 0,
+        "time_s": 0.0,
+        "central_width_m": 0.001533333333333333,
+        "remote_width_m": 0.0016,
+        "central_reference_slab_centers_m": [
+          0.004600000000000002,
+          0.004733333333333334,
+          0.0048666666666666684
+        ],
+        "central_initial_ratio": 1.0,
+        "central_remote_ratio": 0.958333333333333,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 0.0008778418516671023,
+        "engineering_strain": 0.0,
+        "coordinate_grip_engineering_strain": 0.0,
+        "strain_difference": 0.0,
+        "neck_gate": false
+      },
+      {
+        "frame": 1,
+        "time_s": 2.4999999999999998e-06,
+        "central_width_m": 0.0015332874941760349,
+        "remote_width_m": 0.0015999502447348278,
+        "central_reference_slab_centers_m": [
+          0.004600000000000002,
+          0.004733333333333334,
+          0.0048666666666666684
+        ],
+        "central_initial_ratio": 0.9999701048974143,
+        "central_remote_ratio": 0.9583344852265443,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 49.73143013126412,
+        "engineering_strain": 0.00011386000712306792,
+        "coordinate_grip_engineering_strain": 0.00011348961929422342,
+        "strain_difference": -3.703878288445039e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 2,
+        "time_s": 4.9999999999999996e-06,
+        "central_width_m": 0.001532961043585822,
+        "remote_width_m": 0.0015996099414010564,
+        "central_reference_slab_centers_m": [
+          0.004600000000000002,
+          0.004733333333333334,
+          0.0048666666666666684
+        ],
+        "central_initial_ratio": 0.9997572023385798,
+        "central_remote_ratio": 0.958334281320571,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 352.5091722845195,
+        "engineering_strain": 0.0008900328914544088,
+        "coordinate_grip_engineering_strain": 0.0008868245506128845,
+        "strain_difference": -3.2083408415242622e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 3,
+        "time_s": 7.5e-06,
+        "central_width_m": 0.0015321161089781583,
+        "remote_width_m": 0.0015987330192970613,
+        "central_reference_slab_centers_m": [
+          0.004600000000000002,
+          0.004733333333333334,
+          0.0048666666666666684
+        ],
+        "central_initial_ratio": 0.999206158029234,
+        "central_remote_ratio": 0.9583314352585315,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1121.9383291959123,
+        "engineering_strain": 0.00289000039852852,
+        "coordinate_grip_engineering_strain": 0.002879753013748148,
+        "strain_difference": -1.0247384780371748e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 4,
+        "time_s": 9.999999999999999e-06,
+        "central_width_m": 0.0015284841265553958,
+        "remote_width_m": 0.0015970797432951964,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9968374738404758,
+        "central_remote_ratio": 0.9570493477061641,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1929.5579687024124,
+        "engineering_strain": 0.006488932636293188,
+        "coordinate_grip_engineering_strain": 0.006471989304258932,
+        "strain_difference": -1.694333203425529e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 5,
+        "time_s": 1.2499999999999999e-05,
+        "central_width_m": 0.0015199892883090646,
+        "remote_width_m": 0.0015943752022755796,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9912973619406945,
+        "central_remote_ratio": 0.9533447874375195,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 2024.335189026569,
+        "engineering_strain": 0.011818571827099944,
+        "coordinate_grip_engineering_strain": 0.011801732698873052,
+        "strain_difference": -1.6839128226892042e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 6,
+        "time_s": 1.5e-05,
+        "central_width_m": 0.001508556584997015,
+        "remote_width_m": 0.0015910028544404888,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.98384125108501,
+        "central_remote_ratio": 0.9481796847734331,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 2066.7920394396588,
+        "engineering_strain": 0.018747175748597265,
+        "coordinate_grip_engineering_strain": 0.01873038491422483,
+        "strain_difference": -1.6790834372434893e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 7,
+        "time_s": 1.75e-05,
+        "central_width_m": 0.001493486793762297,
+        "remote_width_m": 0.0015877251657124803,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9740131263667157,
+        "central_remote_ratio": 0.9406456646368677,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 2082.9887612244097,
+        "engineering_strain": 0.026899574292837344,
+        "coordinate_grip_engineering_strain": 0.026882895805973486,
+        "strain_difference": -1.6678486863857395e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 8,
+        "time_s": 1.9999999999999998e-05,
+        "central_width_m": 0.0014746393291299716,
+        "remote_width_m": 0.001585382079574923,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9617213016065035,
+        "central_remote_ratio": 0.930147595414574,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1884.7939563746158,
+        "engineering_strain": 0.035714285714285705,
+        "coordinate_grip_engineering_strain": 0.035697632973214724,
+        "strain_difference": -1.6652741070981303e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 9,
+        "time_s": 2.2499999999999998e-05,
+        "central_width_m": 0.001452904299447576,
+        "remote_width_m": 0.00158416833253879,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9475462822484193,
+        "central_remote_ratio": 0.9171400978071249,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 2060.0110150579785,
+        "engineering_strain": 0.04464285714285714,
+        "coordinate_grip_engineering_strain": 0.044622650395306884,
+        "strain_difference": -2.0206747550252646e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 10,
+        "time_s": 2.4999999999999998e-05,
+        "central_width_m": 0.0014279730531381373,
+        "remote_width_m": 0.0015837079951670915,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9312867737857419,
+        "central_remote_ratio": 0.9016643582628859,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 2026.0682466302378,
+        "engineering_strain": 0.053571428571428555,
+        "coordinate_grip_engineering_strain": 0.053551478953274,
+        "strain_difference": -1.9949618154553594e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 11,
+        "time_s": 2.7499999999999998e-05,
+        "central_width_m": 0.0014008354518144242,
+        "remote_width_m": 0.0015836523113768955,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.9135883381398421,
+        "central_remote_ratio": 0.8845599768022803,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1981.366433361778,
+        "engineering_strain": 0.06249999999999999,
+        "coordinate_grip_engineering_strain": 0.062480093689123495,
+        "strain_difference": -1.9906310876498245e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 12,
+        "time_s": 3e-05,
+        "central_width_m": 0.0013722432335213834,
+        "remote_width_m": 0.0015837081023438759,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.8949412392530763,
+        "central_remote_ratio": 0.8664748456426243,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1867.7429297820267,
+        "engineering_strain": 0.07142857142857142,
+        "coordinate_grip_engineering_strain": 0.07140868156619226,
+        "strain_difference": -1.9889862379163237e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 13,
+        "time_s": 3.25e-05,
+        "central_width_m": 0.0013427290177042714,
+        "remote_width_m": 0.001583799142223026,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.8756928376332207,
+        "central_remote_ratio": 0.8477899639594527,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1859.0282665059008,
+        "engineering_strain": 0.08035714285714285,
+        "coordinate_grip_engineering_strain": 0.0803381517132422,
+        "strain_difference": -1.8991143900651264e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 14,
+        "time_s": 3.5e-05,
+        "central_width_m": 0.0013131384270947835,
+        "remote_width_m": 0.0015839021860436576,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.8563946263661634,
+        "central_remote_ratio": 0.8290527272866515,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1783.2172723042527,
+        "engineering_strain": 0.08928571428571429,
+        "coordinate_grip_engineering_strain": 0.08926711308047472,
+        "strain_difference": -1.860120523956843e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 15,
+        "time_s": 3.75e-05,
+        "central_width_m": 0.0012843453687764316,
+        "remote_width_m": 0.0015840107137192448,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.8376165448541947,
+        "central_remote_ratio": 0.8108186123064778,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1694.7828234230265,
+        "engineering_strain": 0.0982142857142857,
+        "coordinate_grip_engineering_strain": 0.09819582513052126,
+        "strain_difference": -1.8460583764437488e-05,
+        "neck_gate": true
+      },
+      {
+        "frame": 16,
+        "time_s": 3.9999999999999996e-05,
+        "central_width_m": 0.00125752970709355,
+        "remote_width_m": 0.0015841332065298188,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.8201280698436197,
+        "central_remote_ratio": 0.7938282600920146,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1647.6185769747817,
+        "engineering_strain": 0.10714285714285714,
+        "coordinate_grip_engineering_strain": 0.10712446635216986,
+        "strain_difference": -1.8390790687272673e-05,
+        "neck_gate": true
+      },
+      {
+        "frame": 17,
+        "time_s": 4.2499999999999996e-05,
+        "central_width_m": 0.0012338464652898462,
+        "remote_width_m": 0.001584296109957213,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.8046824773629434,
+        "central_remote_ratio": 0.7787978885608503,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1464.973353639085,
+        "engineering_strain": 0.11607142857142856,
+        "coordinate_grip_engineering_strain": 0.116055579515168,
+        "strain_difference": -1.5849056260563987e-05,
+        "neck_gate": true
+      },
+      {
+        "frame": 18,
+        "time_s": 4.4999999999999996e-05,
+        "central_width_m": 0.0012170709232383798,
+        "remote_width_m": 0.00158465861788553,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7937419064598131,
+        "central_remote_ratio": 0.7680335117618984,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 1175.0614657115634,
+        "engineering_strain": 0.12499999999999999,
+        "coordinate_grip_engineering_strain": 0.12498533862670001,
+        "strain_difference": -1.4661373299973413e-05,
+        "neck_gate": true
+      },
+      {
+        "frame": 19,
+        "time_s": 4.7499999999999996e-05,
+        "central_width_m": 0.0012155217236926605,
+        "remote_width_m": 0.0015853185870327257,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7927315589299961,
+        "central_remote_ratio": 0.7667365623762592,
+        "positive_projected_ligament": true,
+        "separated": false,
+        "force_N": 570.8611716394312,
+        "engineering_strain": 0.13392857142857142,
+        "coordinate_grip_engineering_strain": 0.13391517418796076,
+        "strain_difference": -1.3397240610668604e-05,
+        "neck_gate": true
+      },
+      {
+        "frame": 20,
+        "time_s": 4.9999999999999996e-05,
+        "central_width_m": 0.0012164251199579294,
+        "remote_width_m": 0.0015858504211032087,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933207304073454,
+        "central_remote_ratio": 0.7670490884705975,
+        "positive_projected_ligament": false,
+        "separated": false,
+        "force_N": 844.265085169417,
+        "engineering_strain": 0.14285714285714285,
+        "coordinate_grip_engineering_strain": 0.14284431651303764,
+        "strain_difference": -1.2826344105210108e-05,
+        "neck_gate": false
+      },
+      {
+        "frame": 21,
+        "time_s": 5.2499999999999995e-05,
+        "central_width_m": 0.001216506327862556,
+        "remote_width_m": 0.00158572809744997,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933736920842758,
+        "central_remote_ratio": 0.7671594706676609,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 183.28867629713488,
+        "engineering_strain": 0.15178571428571425,
+        "coordinate_grip_engineering_strain": 0.15178073211444865,
+        "strain_difference": -4.982171265599522e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 22,
+        "time_s": 5.4999999999999995e-05,
+        "central_width_m": 0.0012164966092961815,
+        "remote_width_m": 0.0015859257325428506,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933673538888142,
+        "central_remote_ratio": 0.7670577406835238,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 116.6318250954615,
+        "engineering_strain": 0.1607142857142857,
+        "coordinate_grip_engineering_strain": 0.1607094564907274,
+        "strain_difference": -4.829223558294737e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 23,
+        "time_s": 5.7499999999999995e-05,
+        "central_width_m": 0.0012164936129536168,
+        "remote_width_m": 0.0015860277651258217,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.793365399752359,
+        "central_remote_ratio": 0.7670065049946403,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -83.00694295634966,
+        "engineering_strain": 0.1696428571428571,
+        "coordinate_grip_engineering_strain": 0.16963847306481664,
+        "strain_difference": -4.3840780404591495e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 24,
+        "time_s": 6e-05,
+        "central_width_m": 0.001216447714927331,
+        "remote_width_m": 0.0015862224807100614,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933354662569552,
+        "central_remote_ratio": 0.7668834162423399,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 231.81400919087434,
+        "engineering_strain": 0.17857142857142858,
+        "coordinate_grip_engineering_strain": 0.17856704648522556,
+        "strain_difference": -4.382086203014168e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 25,
+        "time_s": 6.25e-05,
+        "central_width_m": 0.001216411297217386,
+        "remote_width_m": 0.0015861372318627875,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933117155765563,
+        "central_remote_ratio": 0.7669016733115905,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -190.4251805827219,
+        "engineering_strain": 0.18750000000000003,
+        "coordinate_grip_engineering_strain": 0.18749918880728444,
+        "strain_difference": -8.111927155829424e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 26,
+        "time_s": 6.5e-05,
+        "central_width_m": 0.0012163846495258839,
+        "remote_width_m": 0.0015861476055049016,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7932943366473157,
+        "central_remote_ratio": 0.7668798574005885,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -87.20025532810969,
+        "engineering_strain": 0.1964285714285714,
+        "coordinate_grip_engineering_strain": 0.19642639777665155,
+        "strain_difference": -2.1736519198456428e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 27,
+        "time_s": 6.75e-05,
+        "central_width_m": 0.0012164265620279908,
+        "remote_width_m": 0.0015859488253012184,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933216708878204,
+        "central_remote_ratio": 0.7670024042528331,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 28.152217448139695,
+        "engineering_strain": 0.20535714285714285,
+        "coordinate_grip_engineering_strain": 0.2053545692835116,
+        "strain_difference": -2.5735736312593183e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 28,
+        "time_s": 7e-05,
+        "central_width_m": 0.001216430197454429,
+        "remote_width_m": 0.0015858603986700682,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933240418181061,
+        "central_remote_ratio": 0.7670474642500372,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 182.56740673007232,
+        "engineering_strain": 0.21428571428571427,
+        "coordinate_grip_engineering_strain": 0.2142831023208693,
+        "strain_difference": -2.611964844967396e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 29,
+        "time_s": 7.25e-05,
+        "central_width_m": 0.0012164102937487714,
+        "remote_width_m": 0.0015857981371357928,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933110611405033,
+        "central_remote_ratio": 0.7670650288099119,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 174.22375511565005,
+        "engineering_strain": 0.22321428571428573,
+        "coordinate_grip_engineering_strain": 0.2232116286225775,
+        "strain_difference": -2.657091708213599e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 30,
+        "time_s": 7.5e-05,
+        "central_width_m": 0.0012163835523183767,
+        "remote_width_m": 0.001585889300455508,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7932936210772024,
+        "central_remote_ratio": 0.7670040727111282,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 108.9344271862447,
+        "engineering_strain": 0.23214285714285712,
+        "coordinate_grip_engineering_strain": 0.23214068358297837,
+        "strain_difference": -2.1735598787486765e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 31,
+        "time_s": 7.75e-05,
+        "central_width_m": 0.0012164122846618074,
+        "remote_width_m": 0.0015860146369236618,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933123595620485,
+        "central_remote_ratio": 0.7669615754752684,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -42.89373779041762,
+        "engineering_strain": 0.24107142857142858,
+        "coordinate_grip_engineering_strain": 0.24106969470360384,
+        "strain_difference": -1.7338678247325046e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 32,
+        "time_s": 7.999999999999999e-05,
+        "central_width_m": 0.001216449495224396,
+        "remote_width_m": 0.001586161609631398,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933366273202586,
+        "central_remote_ratio": 0.7669139688149949,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 95.31078955999536,
+        "engineering_strain": 0.24999999999999997,
+        "coordinate_grip_engineering_strain": 0.24999831370306735,
+        "strain_difference": -1.6862969326181254e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 33,
+        "time_s": 8.25e-05,
+        "central_width_m": 0.0012164372967394673,
+        "remote_width_m": 0.0015861480999862672,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933286717866094,
+        "central_remote_ratio": 0.7669128101909268,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -173.33317886386794,
+        "engineering_strain": 0.2589285714285714,
+        "coordinate_grip_engineering_strain": 0.2589289467251249,
+        "strain_difference": 3.752965535008812e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 34,
+        "time_s": 8.499999999999999e-05,
+        "central_width_m": 0.0012164071198947776,
+        "remote_width_m": 0.0015861344592533954,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933089912357247,
+        "central_remote_ratio": 0.766900380228388,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -102.48502110291616,
+        "engineering_strain": 0.26785714285714285,
+        "coordinate_grip_engineering_strain": 0.2678565128393477,
+        "strain_difference": -6.300177951557018e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 35,
+        "time_s": 8.75e-05,
+        "central_width_m": 0.0012164222468269141,
+        "remote_width_m": 0.0015859840203393918,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933188566262486,
+        "central_remote_ratio": 0.7669826626415861,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 13.749323143044197,
+        "engineering_strain": 0.2767857142857143,
+        "coordinate_grip_engineering_strain": 0.2767846932327823,
+        "strain_difference": -1.0210529319820694e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 36,
+        "time_s": 8.999999999999999e-05,
+        "central_width_m": 0.0012164389660736798,
+        "remote_width_m": 0.0015858764401886544,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933297604828349,
+        "central_remote_ratio": 0.767045234576392,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 107.64388394120924,
+        "engineering_strain": 0.2857142857142857,
+        "coordinate_grip_engineering_strain": 0.28571321518201553,
+        "strain_difference": -1.0705322701642928e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 37,
+        "time_s": 9.25e-05,
+        "central_width_m": 0.0012164319246715518,
+        "remote_width_m": 0.0015858316481170808,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933251682640557,
+        "central_remote_ratio": 0.7670624596979562,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 167.4555689495973,
+        "engineering_strain": 0.29464285714285715,
+        "coordinate_grip_engineering_strain": 0.29464114709112244,
+        "strain_difference": -1.710051734715723e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 38,
+        "time_s": 9.499999999999999e-05,
+        "central_width_m": 0.0012164090908719255,
+        "remote_width_m": 0.0015858835634870048,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933102766556038,
+        "central_remote_ratio": 0.767022951040184,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 116.42512880614274,
+        "engineering_strain": 0.30357142857142855,
+        "coordinate_grip_engineering_strain": 0.3035702347217864,
+        "strain_difference": -1.1938496421448619e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 39,
+        "time_s": 9.75e-05,
+        "central_width_m": 0.001216417813099064,
+        "remote_width_m": 0.0015860004720915572,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933159650646071,
+        "central_remote_ratio": 0.766971911108512,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -11.5607045972286,
+        "engineering_strain": 0.3125,
+        "coordinate_grip_engineering_strain": 0.3124992360648342,
+        "strain_difference": -7.639351657928728e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 40,
+        "time_s": 9.999999999999999e-05,
+        "central_width_m": 0.0012164543736321095,
+        "remote_width_m": 0.0015861295259998675,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933398088905064,
+        "central_remote_ratio": 0.7669325573302587,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 40.420566778884364,
+        "engineering_strain": 0.3214285714285714,
+        "coordinate_grip_engineering_strain": 0.32142792013334875,
+        "strain_difference": -6.512952226422897e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 41,
+        "time_s": 0.0001025,
+        "central_width_m": 0.0012164521821011484,
+        "remote_width_m": 0.0015861394139902293,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933383796311839,
+        "central_remote_ratio": 0.7669263945978975,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -161.16878599714352,
+        "engineering_strain": 0.33035714285714285,
+        "coordinate_grip_engineering_strain": 0.33035808980220566,
+        "strain_difference": 9.469450628074583e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 42,
+        "time_s": 0.00010499999999999999,
+        "central_width_m": 0.0012164271846944708,
+        "remote_width_m": 0.0015861277587046984,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933220769746551,
+        "central_remote_ratio": 0.7669162701545925,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -114.54814575126773,
+        "engineering_strain": 0.33928571428571425,
+        "coordinate_grip_engineering_strain": 0.3392858598564347,
+        "strain_difference": 1.4557072047782782e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 43,
+        "time_s": 0.0001075,
+        "central_width_m": 0.0012164307623516153,
+        "remote_width_m": 0.0015860030851835734,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933244102293145,
+        "central_remote_ratio": 0.766978812157114,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -10.998662976191863,
+        "engineering_strain": 0.3482142857142857,
+        "coordinate_grip_engineering_strain": 0.3482140499668635,
+        "strain_difference": -2.357474221947875e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 44,
+        "time_s": 0.00010999999999999999,
+        "central_width_m": 0.0012164464021531005,
+        "remote_width_m": 0.0015858969528769697,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933346100998483,
+        "central_remote_ratio": 0.7670400021554677,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 76.82878622540352,
+        "engineering_strain": 0.35714285714285715,
+        "coordinate_grip_engineering_strain": 0.35714253960124587,
+        "strain_difference": -3.175416112832785e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 45,
+        "time_s": 0.0001125,
+        "central_width_m": 0.0012164451143779952,
+        "remote_width_m": 0.0015858528497710823,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933337702465187,
+        "central_remote_ratio": 0.7670605217587426,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 152.1470771262167,
+        "engineering_strain": 0.36607142857142855,
+        "coordinate_grip_engineering_strain": 0.3660703482017226,
+        "strain_difference": -1.080369705974693e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 46,
+        "time_s": 0.00011499999999999999,
+        "central_width_m": 0.0012164262533478365,
+        "remote_width_m": 0.0015858822482085627,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933214695746762,
+        "central_remote_ratio": 0.767034409220439,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 120.94195531029526,
+        "engineering_strain": 0.375,
+        "coordinate_grip_engineering_strain": 0.37499936631437847,
+        "strain_difference": -6.336856215316544e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 47,
+        "time_s": 0.0001175,
+        "central_width_m": 0.0012164272223504976,
+        "remote_width_m": 0.0015859780470270674,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933221015329334,
+        "central_remote_ratio": 0.7669886885450296,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 14.264954415919975,
+        "engineering_strain": 0.38392857142857145,
+        "coordinate_grip_engineering_strain": 0.3839283466201915,
+        "strain_difference": -2.248083799671896e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 48,
+        "time_s": 0.00012,
+        "central_width_m": 0.0012164598937967786,
+        "remote_width_m": 0.0015860977967987698,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933434089978992,
+        "central_remote_ratio": 0.7669513798278811,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 25.941465927603964,
+        "engineering_strain": 0.3928571428571429,
+        "coordinate_grip_engineering_strain": 0.39285704212199707,
+        "strain_difference": -1.0073514583597287e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 49,
+        "time_s": 0.0001225,
+        "central_width_m": 0.0012164630745575436,
+        "remote_width_m": 0.0015861303776269619,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933454834070939,
+        "central_remote_ratio": 0.766937631178539,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -143.4332116720807,
+        "engineering_strain": 0.40178571428571425,
+        "coordinate_grip_engineering_strain": 0.40178692136117705,
+        "strain_difference": 1.20707546280574e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 50,
+        "time_s": 0.000125,
+        "central_width_m": 0.0012164421670426307,
+        "remote_width_m": 0.0015861345408758759,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933318480712811,
+        "central_remote_ratio": 0.7669224367126523,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -117.10815009509238,
+        "engineering_strain": 0.4107142857142857,
+        "coordinate_grip_engineering_strain": 0.4107148447205009,
+        "strain_difference": 5.590062152061037e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 51,
+        "time_s": 0.0001275,
+        "central_width_m": 0.0012164399738846508,
+        "remote_width_m": 0.0015860283470536818,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933304177508594,
+        "central_remote_ratio": 0.7669724038314925,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -29.393033106759844,
+        "engineering_strain": 0.41964285714285715,
+        "coordinate_grip_engineering_strain": 0.4196430462834055,
+        "strain_difference": 1.8914054833452099e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 52,
+        "time_s": 0.00013,
+        "central_width_m": 0.0012164533792965112,
+        "remote_width_m": 0.0015859123982592518,
+        "central_reference_slab_centers_m": [
+          0.004733333333333334,
+          0.0048666666666666684,
+          0.005000000000000001
+        ],
+        "central_initial_ratio": 0.7933391604107684,
+        "central_remote_ratio": 0.767036931315834,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 65.64946746578629,
+        "engineering_strain": 0.42857142857142855,
+        "coordinate_grip_engineering_strain": 0.42857151631222296,
+        "strain_difference": 8.774079440776461e-08,
+        "neck_gate": false
+      },
+      {
+        "frame": 53,
+        "time_s": 0.0001325,
+        "central_width_m": 0.0012164540821140316,
+        "remote_width_m": 0.0015858542014112783,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933396187700208,
+        "central_remote_ratio": 0.7670655228150789,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 135.3212693500643,
+        "engineering_strain": 0.4375,
+        "coordinate_grip_engineering_strain": 0.4374994894507093,
+        "strain_difference": -5.105492906776199e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 54,
+        "time_s": 0.000135,
+        "central_width_m": 0.0012164381184361728,
+        "remote_width_m": 0.0015858708987110126,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933292076757651,
+        "central_remote_ratio": 0.7670473803541557,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 120.52217885862606,
+        "engineering_strain": 0.44642857142857145,
+        "coordinate_grip_engineering_strain": 0.4464284818187655,
+        "strain_difference": -8.960980596439683e-08,
+        "neck_gate": false
+      },
+      {
+        "frame": 55,
+        "time_s": 0.0001375,
+        "central_width_m": 0.0012164348138526259,
+        "remote_width_m": 0.0015859578540847843,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933270525125823,
+        "central_remote_ratio": 0.7670032407983498,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 31.54997120914872,
+        "engineering_strain": 0.4553571428571429,
+        "coordinate_grip_engineering_strain": 0.4553574687035528,
+        "strain_difference": 3.258464099098468e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 56,
+        "time_s": 0.00014,
+        "central_width_m": 0.001216464351869332,
+        "remote_width_m": 0.0015860722660491317,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933463164365211,
+        "central_remote_ratio": 0.7669665360831986,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -3.4144544961772207,
+        "engineering_strain": 0.46428571428571425,
+        "coordinate_grip_engineering_strain": 0.46428617825123164,
+        "strain_difference": 4.639655173943602e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 57,
+        "time_s": 0.0001425,
+        "central_width_m": 0.0012164714483302137,
+        "remote_width_m": 0.0015861135024506188,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.793350944563183,
+        "central_remote_ratio": 0.7669510703053148,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -129.02811062192805,
+        "engineering_strain": 0.4732142857142857,
+        "coordinate_grip_engineering_strain": 0.47321546469712605,
+        "strain_difference": 1.178982840355225e-06,
+        "neck_gate": false
+      },
+      {
+        "frame": 58,
+        "time_s": 0.000145,
+        "central_width_m": 0.0012164532624793216,
+        "remote_width_m": 0.001586126341916652,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933390842256447,
+        "central_remote_ratio": 0.7669333963707943,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -118.53471083222128,
+        "engineering_strain": 0.48214285714285715,
+        "coordinate_grip_engineering_strain": 0.4821434387746082,
+        "strain_difference": 5.816317510398683e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 59,
+        "time_s": 0.0001475,
+        "central_width_m": 0.001216448248838896,
+        "remote_width_m": 0.00158604593915191,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933358144601498,
+        "central_remote_ratio": 0.7669691140783443,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": -43.16916697837362,
+        "engineering_strain": 0.4910714285714286,
+        "coordinate_grip_engineering_strain": 0.49107162854998293,
+        "strain_difference": 1.999785543271848e-07,
+        "neck_gate": false
+      },
+      {
+        "frame": 60,
+        "time_s": 0.00015,
+        "central_width_m": 0.0012164602240732384,
+        "remote_width_m": 0.0015859391296154295,
+        "central_reference_slab_centers_m": [
+          0.0048666666666666684,
+          0.005000000000000001,
+          0.005133333333333335
+        ],
+        "central_initial_ratio": 0.7933436243955905,
+        "central_remote_ratio": 0.7670283186519364,
+        "positive_projected_ligament": false,
+        "separated": true,
+        "force_N": 71.84263701978028,
+        "engineering_strain": 0.49999999999999994,
+        "coordinate_grip_engineering_strain": 0.5000000881444798,
+        "strain_difference": 8.814447988170215e-08,
+        "neck_gate": false
+      }
+    ],
+    "force_comparison": {
+      "peak_force_frame": 7,
+      "peak_force_N": 2082.9887612244097,
+      "first_neck_frame": 15,
+      "force_at_first_neck_N": 1694.7828234230265
+    },
+    "method": "Fixed reference axial slabs of thickness four particle spacings; narrowest median of three consecutive central slabs within 10% gauge length, normalized by the same reference slabs; remote median widths at 25\u201335%; y envelope plus one spacing. Current active XY raster at one spacing, dilated one pixel, 8-connected across gauge. Orthographic z projection.",
+    "scope": "Projected geometric ligament at particle resolution; does not establish a resolved three-dimensional material surface or experimental accuracy."
+  },
+  "visual_neck_gate_passed": true
+}

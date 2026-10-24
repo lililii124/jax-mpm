@@ -1,0 +1,30 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "summary.json": "efec37c4bc474206544a4006402dda0ce612c5a2cc11a3bd9943ae5c460bc069",
+    "status.json": "a715ffd42a3dc6bdef082616625e9805e75e146b2deac2a3af163437e90dd98c",
+    "diagnostics.csv": "e0e7289467249148b9cc4becdb0a4199634cadde57e23caaa2a8bf1d867046ae",
+    "observables.csv": "7f54474f8ce603b8bf3a8512753fd39e248f779d7558e2c9ffbb019afcb3c88f",
+    "physical-review.json": "7b65c44e6d2805c13924f257771a9528c3819ab947e502e35636cfc7a960eb4c",
+    "numerical-source.json": "2b6d62922fbe4d8421a02de77f2176737b82b7adc73e33251c98062a90bad172",
+    "admission.json": "2663bd858255ab98eaab5268d65d8d1e6b5e58fd24e98efd38ffed3e105c544a",
+    "read-only-receipt.json": "1ad160a21bdc48d97213c837f8b5a0a554b9a08fa3db1bb9cfaac89c53a3f26a",
+    "media-audit.json": "e776faa77c7f84cf73bc8c89bf712117376d66540f7bee376775d7ad18eecb74",
+    "provenance.json": "0b4f1b03ede2ab04395ee52af8c32c4c3599ccfb96dfde322967bdd04e9d633c",
+    "render.json": "fe0b61faaa34f617b286cdc58dedfc3dc3cc41b19a69ec8d08daaced4179364a"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.99338068589844,
+    "max_damage": 1.0
+  },
+  "scope": "True61saved-state150us protocol; typed v2 review retains original physical gates, pre-separation3consecutive coordinate neck and positive ligament, actual orthographic ParaView with per-frame Fetch equality and dynamic PNG/GIF verification. Neck interval25to45us slowed for visibility."
+}

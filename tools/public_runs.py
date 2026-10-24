@@ -26,7 +26,7 @@ HIDDEN_HOME_IDS.update({
 
 HOME_REPLACEMENTS = {
     "material-engineering--ceramic-indentation-wide--jh2": "completed--ceramic-impact-debris",
-    "material-engineering--jc-tension--johnson-cook": "material-engineering--jc-necking--johnson-cook",
+    "material-engineering--jc-tension--johnson-cook": "completed--jc-necking-refined",
     "material-engineering--concrete-bending--hjc": "material-engineering--concrete-bending-large--hjc",
     "material-engineering--concrete-bending-large--hjc": "material-engineering--concrete-bending-symmetric--hjc",
     "material-engineering--ceramic-indentation--jh2": "material-engineering--ceramic-indentation-wide--jh2",
@@ -62,6 +62,23 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier) or summary.get("completed") is False:
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical == "completed--jc-necking-refined":
+        if not is_archived_completed_ready(Path(folder), summary):
+            return False
+        try:
+            physical = json.loads((Path(folder)/"physical-review.json").read_text())
+            media = json.loads((Path(folder)/"media-audit.json").read_text())
+            return (physical["passed"] is True and physical["full_protocol_completed"] is True
+                    and physical["resolved_saved_history_fracture"] is True
+                    and physical["coordinate_neck_audit"]["passed"] is True
+                    and all(physical["fracture_gates"].values())
+                    and media["pipeline_coordinates_verified"] is True
+                    and media["smoke_only"] is False and media["frames_rendered"] == 61
+                    and media["unique_png_sha256_count"] > 2
+                    and media["gif"]["unique_decoded_pixel_states"] > 2
+                    and media["gif"]["frames"] == 61)
+        except (OSError, ValueError, KeyError, TypeError):
+            return False
     if canonical in {"completed--woven-plate-impact", "completed--crossed-fibre-hertz", "completed--ceramic-impact-debris", "completed--crossed-fibre-jkr", "completed--crossed-fibre-md", "completed--crossed-fibre-self-consistent"}:
         return is_archived_completed_ready(Path(folder), summary)
     if canonical == "completed--radial-sinusoidal-pull-off":

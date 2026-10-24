@@ -1,0 +1,371 @@
+{
+  "case": "jc-necking / johnson-cook",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 100,
+      "dt": 2.5906735751295336e-09,
+      "domain_size": 0.01,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "johnson-cook",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.0022,
+            0.01,
+            0.01
+          ],
+          "velocity": [
+            -10.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null,
+          "ramp_time": 2e-05
+        },
+        {
+          "lower": [
+            0.0078,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "velocity": [
+            10.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null,
+          "ramp_time": 2e-05
+        }
+      ],
+      "failure_mode": "ballistic"
+    }
+  ],
+  "materials": [
+    {
+      "mu": 77519379844.96124,
+      "bulk": 158730158730.1587,
+      "A": 792000000.0,
+      "B": 510000000.0,
+      "n": 0.26,
+      "C": 0.014,
+      "m": 1.03,
+      "reference_rate": 1.0,
+      "reference_temperature": 298.0,
+      "melt_temperature": 1793.0,
+      "heat_capacity": 477.0,
+      "heat_fraction": 1.0,
+      "density": 7830.0,
+      "failure": [
+        0.05,
+        3.44,
+        -2.12,
+        0.002,
+        0.61
+      ],
+      "failure_enabled": true
+    }
+  ],
+  "steps": 57900,
+  "simulation_time": 0.00015,
+  "particles": [
+    341584
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.13",
+  "compile_and_warmup_seconds": 740.723758429,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 56941.14613386699,
+  "min_J": 0.99338068589844,
+  "max_damage": 1.0,
+  "max_plastic_strain": 1.1640602033500052,
+  "max_temperature": 679.4795548742406,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -1.7364973006939296e-15,
+    9.828138558685544e-18,
+    4.94927818991475e-18
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "prescribed_extension_m": 0.0,
+      "engineering_strain": 0.0,
+      "mean_grip_tensile_force_N": 0.0008778418516671023,
+      "nominal_grip_stress_Pa": 436.60271858050527,
+      "left_grip_reaction_x_N": 0.0008778418516671017,
+      "right_grip_reaction_x_N": -0.0008778418516671028,
+      "boundary_sample_time_s": 2.5906735751295336e-09,
+      "actuator_power_W": 7.268610972455828e-10,
+      "central_material_section_force_N": 0.0,
+      "minimum_absolute_gauge_section_force_N": 0.0,
+      "minimum_gauge_load_bearing_area_ratio": 1.0,
+      "failed_gauge_sections": 0,
+      "central_active_particles": 3152,
+      "central_area_ratio_mean": 1.0,
+      "central_geometric_rms_radius_m": 0.0005279150532429403,
+      "central_geometric_rms_radius_ratio": 1.0,
+      "minimum_intact_gauge_rms_radius_ratio": 0.9999999999999991,
+      "intact_gauge_sections": 162,
+      "load_bearing_axial_gap_m": 3.3333333333334866e-05,
+      "gap_exceeds_grid_support": false,
+      "support_separated_components": 1,
+      "maximum_equivalent_plastic_strain": 0.0,
+      "maximum_temperature_K": 298.0,
+      "max_damage": 0.0,
+      "mean_damage_volume_weighted": 0.0,
+      "failed_particles": 0,
+      "failed_mass_kg": 0.0,
+      "failed_reference_volume_fraction": 0.0,
+      "total_mass_error_kg": 0.0,
+      "momentum_x_kg_m_per_s": 0.0,
+      "kinetic_energy_J": 0.0,
+      "plastic_work_J": 0.0,
+      "constitutive_work_J": 0.0,
+      "grip_inner_particles": 28864,
+      "grip_inner_velocity_error_m_per_s": 0.0,
+      "grip_inner_axial_position_error_m": 0.0,
+      "grip_inner_transverse_displacement_m": 0.0,
+      "failed_grip_particles": 0
+    },
+    "final": {
+      "time": 0.00015,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -1.7364973006939296e-15,
+      "boundary_impulse_y": 9.828138558685544e-18,
+      "boundary_impulse_z": 4.94927818991475e-18,
+      "prescribed_extension_m": 0.0027999999999999995,
+      "engineering_strain": 0.49999999999999994,
+      "mean_grip_tensile_force_N": 71.84263701978028,
+      "nominal_grip_stress_Pa": 35731596.27017133,
+      "left_grip_reaction_x_N": 71.8426370189895,
+      "right_grip_reaction_x_N": -71.84263702057108,
+      "boundary_sample_time_s": 0.00015000259067357512,
+      "actuator_power_W": 1436.852740395606,
+      "central_material_section_force_N": 0.0,
+      "minimum_absolute_gauge_section_force_N": 0.0,
+      "minimum_gauge_load_bearing_area_ratio": 0.0,
+      "failed_gauge_sections": 2,
+      "central_active_particles": 0,
+      "central_area_ratio_mean": 0.41800992953040184,
+      "central_geometric_rms_radius_m": 0.0004263169932337463,
+      "central_geometric_rms_radius_ratio": 0.80754846942688,
+      "minimum_intact_gauge_rms_radius_ratio": 0.7079588872271817,
+      "intact_gauge_sections": 158,
+      "load_bearing_axial_gap_m": 0.0022771584536355944,
+      "gap_exceeds_grid_support": true,
+      "support_separated_components": 2,
+      "maximum_equivalent_plastic_strain": 1.1640602033500052,
+      "maximum_temperature_K": 679.4795548742406,
+      "max_damage": 1.0,
+      "mean_damage_volume_weighted": 0.06285655911130307,
+      "failed_particles": 4408,
+      "failed_mass_kg": 1.2783200000000002e-06,
+      "failed_reference_volume_fraction": 0.012904585694880321,
+      "total_mass_error_kg": 0.0,
+      "momentum_x_kg_m_per_s": -1.7357031936573986e-15,
+      "kinetic_energy_J": 0.004142945830683812,
+      "plastic_work_J": 1.3077854482797906,
+      "constitutive_work_J": 1.3145565131075367,
+      "grip_inner_particles": 28864,
+      "grip_inner_velocity_error_m_per_s": 5.694612459285886e-09,
+      "grip_inner_axial_position_error_m": 1.2953375121225325e-08,
+      "grip_inner_transverse_displacement_m": 4.5002618892067853e-17,
+      "failed_grip_particles": 0
+    }
+  },
+  "definition": {
+    "purpose": "steel circular-arc-waisted rod under symmetric dynamic tension",
+    "series": "jc-necking-sphinxsys-pr1127-v1",
+    "units": "m, s, kg, N, Pa",
+    "source": "https://github.com/Xiangyu-Hu/SPHinXsys/pull/1127",
+    "source_commit": "c3c1556ec86f9ebc6f0697149dff052702d20a75",
+    "source_scope": "unmerged numerical implementation reference; not experimental validation",
+    "material": "SPHinXsys PR 1127 verification steel",
+    "bar_ends_x_m": [
+      0.0018,
+      0.0082
+    ],
+    "bar_diameter_m": 0.0016,
+    "waist_radius_m": 0.00075,
+    "transition_half_length_m": 0.00075,
+    "arc_radius_m": 0.0028249999999999985,
+    "radial_profile": "two tangent circular arcs per waist half, as necking_geometry.h",
+    "gauge_length_m": 0.0056,
+    "grip_inner_faces_x_m": [
+      0.0022,
+      0.0078
+    ],
+    "requested_particles_per_cell_per_axis": 3,
+    "effective_particles_per_cell_per_axis": 3.0,
+    "particle_spacing_m": 3.3333333333333335e-05,
+    "transverse_lattice_count": 48,
+    "reference_volume": "uniform spacing cubed; circular-arc outline clips particle centres",
+    "particle_density_quantization": "round target diameter count upward to an even integer; axial count is four times diameter count",
+    "grid_cells_across_nominal_diameter": 16.0,
+    "grips": "opposed translating grid velocity boxes; all three velocity components prescribed",
+    "grip_discretization": "grid constraints approximate the PR's reference-particle position/velocity constraints; quadratic support smooths the interface",
+    "grip_inner_sampling": "initial centres at least 1.5 dx inside each translating grip face; full support remains constrained at any grid phase",
+    "grip_axial_integration": "positions advance with prescribed end-step velocity; expected ramp quadrature error is O(speed*dt)",
+    "grip_speed_m_per_s": 10.0,
+    "ramp_time_s": 2e-05,
+    "nominal_strain_rate_plateau_per_s": 3571.4285714285716,
+    "duration_s": 0.00015,
+    "reference_duration_s": 0.00015,
+    "acoustic_CFL_requested": 0.15,
+    "acoustic_CFL": 0.14988441808547628,
+    "flow_integration": "backward-Euler radial return with current plastic rate and old temperature",
+    "reference_flow_integration": "PR explicit hardening tangent uses the previous plastic rate",
+    "failure_rate": "current equivalent plastic strain increment / dt",
+    "reference_failure_rate": "PR current equivalent deviatoric total strain increment / dt",
+    "heating": "plastic work / current density / cp; heat fraction one",
+    "reference_heating": "PR uses reference density in the plastic-work heating update",
+    "triaxiality": "mean tensile stress / von Mises stress; D3=-2.12",
+    "failure_mode": "ballistic",
+    "failure_interpretation": "D=1 removes stress and grid participation; mass retained as noncontacting ballistic debris; no fracture-energy regularization",
+    "separation_measure": "empty reference material sections and active x gaps exceeding 3 dx",
+    "section_force": "sum of sigma * cofactor(F) * e_x times reference volume / actual uniform spacing",
+    "geometric_radius": "transverse RMS distance about each reference layer centroid; computed from all layer particles, including failed mass after rupture; ratio to initial RMS",
+    "intact_radius": "minimum geometric RMS ratio among fully intact gauge layers; value one if none remain, with count reported",
+    "reaction_sampling": "next-step grid impulse, including imposed grip inertia; forces are on the tools",
+    "energy_scope": "kinetic, plastic and stress work are diagnostics; sampled actuator power is not an energy-closure or fracture-energy claim",
+    "rigid_grips": [
+      {
+        "lower": [
+          0.0017,
+          0.004,
+          0.004
+        ],
+        "upper": [
+          0.0022,
+          0.006,
+          0.006
+        ],
+        "velocity": [
+          -10.0,
+          0.0,
+          0.0
+        ],
+        "ramp_time": 2e-05,
+        "start": 0.0,
+        "end": null
+      },
+      {
+        "lower": [
+          0.0078,
+          0.004,
+          0.004
+        ],
+        "upper": [
+          0.0083,
+          0.006,
+          0.006
+        ],
+        "velocity": [
+          10.0,
+          0.0,
+          0.0
+        ],
+        "ramp_time": 2e-05,
+        "start": 0.0,
+        "end": null
+      }
+    ]
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 9.905936e-05,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.005000000000000001,
+      "com_y": 0.005,
+      "com_z": 0.005000000000000001,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 1.2651259259259262e-08,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 298.0,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "active_particles": 341584,
+      "debris_particles": 0,
+      "active_mass": 9.905936e-05,
+      "debris_mass": 0.0,
+      "active_current_volume": 1.2651259259259262e-08,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.00015,
+      "body": 0,
+      "mass": 9.905936e-05,
+      "momentum_x": -1.7364973006939296e-15,
+      "momentum_y": 9.828138558685544e-18,
+      "momentum_z": 4.94927818991475e-18,
+      "kinetic_energy": 0.004142945830683812,
+      "com_x": 0.005000000000000447,
+      "com_y": 0.005000000000000001,
+      "com_z": 0.005000000000000002,
+      "min_J": 0.9939864320119615,
+      "max_J": 1.0317895016934298,
+      "current_volume": 1.26542301244905e-08,
+      "max_speed": 14.221205836398477,
+      "max_plastic_strain": 1.1640602033500052,
+      "max_damage": 1.0,
+      "max_temperature": 679.4795548742406,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 1.3145565131075356,
+      "active_particles": 337176,
+      "debris_particles": 4408,
+      "active_mass": 9.778104000000002e-05,
+      "debris_mass": 1.2783200000000002e-06,
+      "active_current_volume": 1.2488717915944131e-08,
+      "strain_energy": null
+    }
+  ]
+}

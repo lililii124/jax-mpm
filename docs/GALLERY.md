@@ -57,6 +57,16 @@ ParaView frames and animations. [Run records](RESULTS.md).
 </tr>
 </table>
 
+## Metal plasticity and impact
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="images/jc-necking-refined.png" alt="JC round-bar necking" width="100%"><br><strong>JC round-bar necking</strong><br><a href="results/completed--jc-necking-refined/summary.json">Results</a> ¡¤ <a href="images/home/completed--jc-necking-refined.gif">GIF</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
 ## Concrete
 
 <table width="100%">

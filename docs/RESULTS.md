@@ -88,6 +88,7 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [completed--crossed-fibre-md](results/completed--crossed-fibre-md/summary.json) | 202,240 | 24,495 | 0.03 | 0.9785 | 0 | ParaView |
 | [completed--crossed-fibre-self-consistent](results/completed--crossed-fibre-self-consistent/summary.json) | 202,240 | 24,495 | 0.03 | 0.978417 | 0 | ParaView |
 | [completed--radial-sinusoidal-pull-off](results/completed--radial-sinusoidal-pull-off/summary.json) | 367,744 | 3,700 | 1.3 | 0.541301 | 0 | ParaView |
+| [completed--jc-necking-refined](results/completed--jc-necking-refined/summary.json) | 341,584 | 57,900 | 0.00015 | 0.993381 | 1 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)

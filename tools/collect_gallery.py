@@ -202,6 +202,8 @@ def gallery_groups(catalogue):
 
 def preview(folder, name, render):
     """Select the largest response when a completed animation is available."""
+    if name == "jc-necking-refined":
+        return folder / "final.png", 15, 37.5e-6
     if folder.parent.name in ADHESION_SOURCES:
         comparison = json.loads((folder.parent / "adhesion_comparison.json").read_text(encoding="utf-8"))
         intervals = comparison["deformation_contrast"]["qualifying_saved_intervals"]
@@ -322,7 +324,7 @@ def main():
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             if identifier == "completed--radial-sinusoidal-pull-off":
                 label = "Radial sinusoidal pull-off"
-            label = {'completed--crossed-fibre-jkr': 'Crossed fibre JKR contact', 'completed--crossed-fibre-md': 'Crossed fibre MD contact', 'completed--crossed-fibre-self-consistent': 'Crossed fibre SC local BEM contact'}.get(identifier, label)
+            label = {'completed--jc-necking-refined': 'JC round-bar necking', 'completed--crossed-fibre-jkr': 'Crossed fibre JKR contact', 'completed--crossed-fibre-md': 'Crossed fibre MD contact', 'completed--crossed-fibre-self-consistent': 'Crossed fibre SC local BEM contact'}.get(identifier, label)
             cells.append(
                 f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}**<br>'
                 f"[Results](results/{identifier}/summary.json){video_link}"
