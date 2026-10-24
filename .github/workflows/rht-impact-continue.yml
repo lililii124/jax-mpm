@@ -1,0 +1,415 @@
+name: Private RHT immutable frame-3 continuation
+
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: Immutable original frame-3 to frame-8 continuation only
+        type: choice
+        options: [rht-impact-continue]
+        default: rht-impact-continue
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: rht-impact-continue-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prefix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Retrieve immutable original transport and all raw parts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40071417301'
+          pattern: rht-impact-prefix-40071417301-1-*
+          merge-multiple: true
+          path: .local/rht-parent-transport
+      - name: Retrieve original same-run full raw receipt
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40071417301'
+          name: rht-impact-retrieval-40071417301-1
+          path: .local/rht-parent-transport
+      - name: Install complete original pinned numerical environment
+        timeout-minutes: 15
+        run: |
+          python -m tools.rht_impact_continue requirements --parent .local/rht-parent-transport --destination .local/rht-parent-requirements.txt
+          python -m pip install -r .local/rht-parent-requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Admit original full raw and resume exact plan through frame 8
+        timeout-minutes: 190
+        run: python -m tools.rht_impact_continue run --parent .local/rht-parent-transport --destination .local/rht-impact-continuation
+      - name: Package complete raw including failure evidence
+        if: always()
+        timeout-minutes: 15
+        run: python -m tools.rht_impact_continue package --destination .local/rht-impact-continuation --delivery .local/rht-impact-delivery
+      - name: Upload transport manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-manifest
+          path: .local/rht-impact-delivery/transport.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload raw part 000 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-000.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-000
+          path: .local/rht-impact-delivery/part-000.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 001 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-001.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-001
+          path: .local/rht-impact-delivery/part-001.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 002 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-002.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-002
+          path: .local/rht-impact-delivery/part-002.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 003 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-003.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-003
+          path: .local/rht-impact-delivery/part-003.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 004 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-004.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-004
+          path: .local/rht-impact-delivery/part-004.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 005 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-005.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-005
+          path: .local/rht-impact-delivery/part-005.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 006 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-006.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-006
+          path: .local/rht-impact-delivery/part-006.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 007 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-007.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-007
+          path: .local/rht-impact-delivery/part-007.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 008 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-008.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-008
+          path: .local/rht-impact-delivery/part-008.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 009 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-009.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-009
+          path: .local/rht-impact-delivery/part-009.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 010 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-010.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-010
+          path: .local/rht-impact-delivery/part-010.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 011 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-011.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-011
+          path: .local/rht-impact-delivery/part-011.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 012 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-012.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-012
+          path: .local/rht-impact-delivery/part-012.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 013 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-013.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-013
+          path: .local/rht-impact-delivery/part-013.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 014 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-014.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-014
+          path: .local/rht-impact-delivery/part-014.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 015 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-015.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-015
+          path: .local/rht-impact-delivery/part-015.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 016 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-016.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-016
+          path: .local/rht-impact-delivery/part-016.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 017 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-017.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-017
+          path: .local/rht-impact-delivery/part-017.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 018 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-018.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-018
+          path: .local/rht-impact-delivery/part-018.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 019 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-019.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-019
+          path: .local/rht-impact-delivery/part-019.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 020 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-020.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-020
+          path: .local/rht-impact-delivery/part-020.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 021 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-021.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-021
+          path: .local/rht-impact-delivery/part-021.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 022 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-022.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-022
+          path: .local/rht-impact-delivery/part-022.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 023 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-023.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-023
+          path: .local/rht-impact-delivery/part-023.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 024 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-024.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-024
+          path: .local/rht-impact-delivery/part-024.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 025 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-025.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-025
+          path: .local/rht-impact-delivery/part-025.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 026 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-026.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-026
+          path: .local/rht-impact-delivery/part-026.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 027 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-027.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-027
+          path: .local/rht-impact-delivery/part-027.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 028 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-028.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-028
+          path: .local/rht-impact-delivery/part-028.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 029 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-029.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-029
+          path: .local/rht-impact-delivery/part-029.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 030 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-030.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-030
+          path: .local/rht-impact-delivery/part-030.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 031 bounded to 128 MiB
+        if: always() && hashFiles('.local/rht-impact-delivery/part-031.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-part-031
+          path: .local/rht-impact-delivery/part-031.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Retrieve exact run raw artifacts
+        if: always()
+        timeout-minutes: 10
+        uses: actions/download-artifact@v5
+        with:
+          pattern: rht-impact-prefix-${{ github.run_id }}-${{ github.run_attempt }}-*
+          path: .local/rht-impact-retrieved/
+          merge-multiple: true
+      - name: Verify all parts and every original whole file
+        if: always()
+        timeout-minutes: 8
+        run: python tools/rht_impact_prefix.py verify .local/rht-impact-retrieved
+      - name: Preserve retrieval receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-retrieval-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/rht-impact-retrieved/retrieval-receipt.json
+          if-no-files-found: warn
+          retention-days: 7

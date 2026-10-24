@@ -1,26 +1,27 @@
-name: Private RHT pointed impact bounded prefix
+name: Private RHT immutable frame-3 continuation
 
 on:
   workflow_dispatch:
     inputs:
       preset:
-        description: Private bounded RHT impact prefix only
+        description: Immutable original frame-3 to frame-8 continuation only
         type: choice
-        options: [rht-impact-prefix]
-        default: rht-impact-prefix
+        options: [rht-impact-continue]
+        default: rht-impact-continue
         required: true
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
-  group: rht-impact-prefix-${{ github.ref }}
+  group: rht-impact-continue-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   prefix:
     runs-on: ubuntu-24.04
-    timeout-minutes: 100
+    timeout-minutes: 300
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -36,16 +37,34 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Install and record exact numerical runtime
-        timeout-minutes: 10
-        run: python -m pip install -e . psutil
-      - name: Advance exact default physical plan only through frame 8
-        timeout-minutes: 53
-        run: python tools/rht_impact_prefix.py
+      - name: Retrieve immutable original transport and all raw parts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40071417301'
+          pattern: rht-impact-prefix-40071417301-1-*
+          merge-multiple: true
+          path: .local/rht-parent-transport
+      - name: Retrieve original same-run full raw receipt
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40071417301'
+          name: rht-impact-retrieval-40071417301-1
+          path: .local/rht-parent-transport
+      - name: Install complete original pinned numerical environment
+        timeout-minutes: 15
+        run: |
+          python -m tools.rht_impact_continue requirements --parent .local/rht-parent-transport --destination .local/rht-parent-requirements.txt
+          python -m pip install -r .local/rht-parent-requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Admit original full raw and resume exact plan through frame 8
+        timeout-minutes: 190
+        run: python -m tools.rht_impact_continue run --parent .local/rht-parent-transport --destination .local/rht-impact-continuation
       - name: Package complete raw including failure evidence
         if: always()
-        timeout-minutes: 10
-        run: python tools/rht_impact_prefix.py package
+        timeout-minutes: 15
+        run: python -m tools.rht_impact_continue package --destination .local/rht-impact-continuation --delivery .local/rht-impact-delivery
       - name: Upload transport manifest
         if: always()
         uses: actions/upload-artifact@v4
