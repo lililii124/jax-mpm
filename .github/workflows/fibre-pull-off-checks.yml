@@ -1,0 +1,155 @@
+name: crossed fibre pull-off prefixes
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: One local contact model; identical full 30 ms protocol
+        type: choice
+        options: [hertz, jkr, md, self-consistent]
+        default: hertz
+        required: true
+      stop_after_frame:
+        description: Runtime saved-frame endpoint; a fresh prefix must use 2
+        type: choice
+        options: ['2', '10', '20', '30', '40', '50', '60']
+        default: '2'
+        required: true
+      restore_key:
+        description: Exact preceding cache key from this same source commit, or empty for fresh
+        type: string
+        default: ''
+      parent_receipt:
+        description: SHA256 of the preceding sealed receipt, required with restore_key
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: crossed-fibre-pull-off-prefixes
+  cancel-in-progress: false
+
+jobs:
+  numerical-prefix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      FIBRE_MODEL: ${{ inputs.model }}
+      FIBRE_ENDPOINT: ${{ inputs.stop_after_frame }}
+      FIBRE_PARENT_KEY: ${{ inputs.restore_key }}
+      FIBRE_PARENT_SHA: ${{ inputs.parent_receipt }}
+    steps:
+      - uses: actions/checkout@v7
+        timeout-minutes: 5
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        timeout-minutes: 5
+        with:
+          python-version: '3.12.13'
+      - name: Bind source, full physical protocol and runtime-only stopping frame
+        id: prepare
+        timeout-minutes: 3
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python tools/run_fibre_pull_off.py prepare --model "$FIBRE_MODEL"
+          --stop-after-frame "$FIBRE_ENDPOINT" --restore-key "$FIBRE_PARENT_KEY"
+          --parent-receipt "$FIBRE_PARENT_SHA"
+      - name: Restore the exact preceding raw snapshot
+        id: restore
+        if: inputs.restore_key != ''
+        timeout-minutes: 15
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/fibre-pull-off-cache
+          key: ${{ steps.prepare.outputs.parent_key }}
+          fail-on-cache-miss: true
+      - name: Verify exact hit and every byte before installing cached versions
+        if: inputs.restore_key != ''
+        timeout-minutes: 5
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+          EXPECTED_KEY: ${{ steps.prepare.outputs.parent_key }}
+        run: |
+          test "$CACHE_HIT" = true
+          test "$CACHE_MATCH" = "$EXPECTED_KEY"
+          python tools/run_fibre_pull_off.py verify
+      - name: Install initial CPU dependencies
+        if: inputs.restore_key == ''
+        timeout-minutes: 15
+        run: python -m pip install -e . psutil
+      - name: Restore exactly pinned numerical distributions
+        if: inputs.restore_key != ''
+        timeout-minutes: 15
+        run: |
+          python -m pip install -r .local/fibre-pull-off-cache/runtime/requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Lock or validate the actual numerical environment
+        timeout-minutes: 3
+        run: python tools/run_fibre_pull_off.py lock
+      - name: Run a guarded complete-frame prefix and independently audit records
+        id: run
+        timeout-minutes: 290
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/run_fibre_pull_off.py run
+      - name: Seal original failed raw bytes as diagnostic and never resumable
+        id: failed
+        if: always() && steps.run.outcome == 'failure'
+        timeout-minutes: 5
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/run_fibre_pull_off.py seal-failure
+      - name: Save the entire raw continuation state
+        if: always() && (steps.run.outcome == 'success' || steps.failed.outcome == 'success')
+        timeout-minutes: 20
+        uses: actions/cache/save@v5
+        with:
+          path: .local/fibre-pull-off-cache
+          key: ${{ steps.run.outcome == 'success' && steps.prepare.outputs.cache_key || steps.failed.outputs.cache_key }}
+      - name: Confirm the exact new cache exists
+        id: lookup
+        if: always() && (steps.run.outcome == 'success' || steps.failed.outcome == 'success')
+        timeout-minutes: 5
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/fibre-pull-off-cache
+          key: ${{ steps.run.outcome == 'success' && steps.prepare.outputs.cache_key || steps.failed.outputs.cache_key }}
+          lookup-only: true
+          fail-on-cache-miss: true
+      - name: Record verified cache availability and receipt identity
+        if: always() && steps.lookup.outcome == 'success'
+        timeout-minutes: 3
+        env:
+          CACHE_HIT: ${{ steps.lookup.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.lookup.outputs.cache-matched-key }}
+          EXPECTED_KEY: ${{ steps.run.outcome == 'success' && steps.prepare.outputs.cache_key || steps.failed.outputs.cache_key }}
+          RECEIPT_SHA: ${{ steps.run.outcome == 'success' && steps.run.outputs.receipt_sha || steps.failed.outputs.receipt_sha }}
+        run: python tools/run_fibre_pull_off.py confirm-cache
+      - name: Preserve bounded whole evidence files even on failure
+        if: always()
+        timeout-minutes: 7
+        run: python tools/run_fibre_pull_off.py package
+      - name: Upload diagnostic records without homepage publication
+        if: always()
+        timeout-minutes: 8
+        uses: actions/upload-artifact@v4
+        with:
+          name: fibre-pull-off-${{ inputs.model }}-f${{ inputs.stop_after_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/fibre-pull-off-delivery/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 2
+          compression-level: 0
