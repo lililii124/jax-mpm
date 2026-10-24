@@ -13,7 +13,11 @@ from reconcile_ceramic_signature import reconcile
 
 OUT = c.ROOT / '.local/ceramic-final-media'
 REGISTERED = '.github/workflows/engineering-previews.yml'
+FEATURE_REF = c.FEATURE_REF
 TEMPLATE = '.github/workflows/ceramic-final-media.yml'
+TEMPLATE_NAME = 'feature ceramic read-only final media'
+EXTRA_SOURCES = ()
+EXPECTED_SCOPE = 'complete scene'
 LIMIT = 8_000_000_000
 REVIEW_SHA = '5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b'
 PROVENANCE_SHA = '509206e1d5a322ede351eabecb0bfdbfd7f646b4f48e3e3092148c261dda5a61'
@@ -23,20 +27,20 @@ PROOF_SHA = '04ba94ea8d8cd4aa74d4f3031770e08f0eb67efa544d96b5a838ed80c2cdfe52'
 def private_workflow_bytes(root):
     text = (Path(root)/TEMPLATE).read_text(encoding='utf-8')
     first, rest = text.split('\n', 1)
-    if first != 'name: feature ceramic read-only final media':
+    if first != 'name: '+TEMPLATE_NAME:
         raise ValueError('Unexpected finalization template')
-    return ('name: private ceramic read-only final media\n'+rest).encode()
+    return ('name: private '+TEMPLATE_NAME.removeprefix('feature ')+'\n'+rest).encode()
 
 
 def controller():
     commit = c.git(c.ROOT, 'rev-parse', 'HEAD').decode().strip()
-    if (commit != os.environ.get('GITHUB_SHA') or os.environ.get('GITHUB_REF') != c.FEATURE_REF
+    if (commit != os.environ.get('GITHUB_SHA') or os.environ.get('GITHUB_REF') != FEATURE_REF
             or os.environ.get('GITHUB_WORKFLOW_REF', '').split('@')[0] != c.REPOSITORY+'/'+REGISTERED):
         raise ValueError('Requires committed private registered feature workflow')
     names = (REGISTERED, TEMPLATE, 'tools/finalize_ceramic_media.py',
              'tools/reconcile_ceramic_signature.py', 'tools/probe_ceramic_full_review.py',
              'tools/run_ceramic_continuation.py', 'tools/check_jc_final_media.py',
-             'mpm_jax/visualization.py', 'mpm_jax/paraview_scene.py', 'mpm_jax/export.py')
+             'mpm_jax/visualization.py', 'mpm_jax/paraview_scene.py', 'mpm_jax/export.py') + EXTRA_SOURCES
     for name in names:
         if (c.ROOT/name).read_bytes() != c.git(c.ROOT, 'show', commit+':'+name):
             raise ValueError('Uncommitted finalization source: '+name)
@@ -167,7 +171,7 @@ def audit():
             and render['geometry_scale'] == 1 and render['axes'] is False
             and render['annotations'] is False and render['field'] == 'damage'
             and render['color_range'] == [0,1] and render['resolution'] == [1200,1200]
-            and render['view_scope'] == 'complete scene'
+            and render['view_scope'] == EXPECTED_SCOPE
             and render['failure_display']['all_particles_retained'] is True
             and render['failure_display']['style'] == 'highlight'
             and render['particles'] == 386420
