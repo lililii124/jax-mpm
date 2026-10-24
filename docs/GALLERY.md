@@ -22,7 +22,7 @@ the parameters and numerical results.
 <tr>
 <td width="33%" align="center"><img src="images/ceramic-impact-debris.png" alt="JH2 ceramic impact and debris" width="100%"><br><strong>JH2 ceramic impact and debris</strong> · 386,420 particles<br><a href="results/completed--ceramic-impact-debris/summary.json">Results</a> · <a href="images/home/completed--ceramic-impact-debris.gif">GIF</a></td>
 <td width="33%" align="center"><img src="images/concrete-bending-symmetric.png" alt="Concrete bending with symmetry constraints" width="100%"><br><strong>Concrete bending with symmetry constraints</strong><br><a href="results/material-engineering--concrete-bending-symmetric--hjc/summary.json">Results</a> · <a href="results/material-engineering--concrete-bending-symmetric--hjc/runtime-symmetry.json">Symmetry audit</a> · <a href="images/concrete-bending-symmetric.mp4">Video</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="images/views/ceramic-cross-section.gif" alt="JH2 ceramic central cross section" width="100%"><br><a href="views/ceramic-cross-section/README.md">JH2 ceramic central cross section</a><br>Same 61-state result; ballistic failed-particle debris.</td>
 </tr>
 </table>
 

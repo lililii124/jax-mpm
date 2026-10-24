@@ -1,0 +1,1 @@
+JH2 ceramic impact: central material cross section. Actual61savedstates,0to300us; fixed2.5mm reference-x slab viewed side-on. Orange failed particles are ballistic noncontacting debris, not cohesive chunks. Original75mm sphere/180mm plate physics unchanged; the sphere CAD is omitted from this section view. Full numerical record remains completed--ceramic-impact-debris.

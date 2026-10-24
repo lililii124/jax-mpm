@@ -1,0 +1,15 @@
+{
+  "schema": "ceramic-signature-reconciliation-v1",
+  "raw_files_sha256": {
+    "summary.json": "6d97b5a6fc2eb7fffe24dc0d182133d3070df724573267b3fd1c5a2b4d53c38f",
+    "checkpoint.json": "50bf0a8c03248f3af8604297b4119c945c092ecad8117a4cd83645fdcab9c755"
+  },
+  "original_review_sha256": "5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b",
+  "original_summary_signature": "3768f5d73a2073eeaba0e92d71272a16979894625643610f3f45529231dd3698",
+  "checkpoint_signature": "d6a55f26ec2a8d05cbdcefb97750abb2f51509fc6e20808a2cdd5bed1b578e94",
+  "corrected_summary_signature": "d6a55f26ec2a8d05cbdcefb97750abb2f51509fc6e20808a2cdd5bed1b578e94",
+  "serialized_boundary_end_count": 4,
+  "remaining_failed_checks": [],
+  "all_original_physical_checks_after_correction": true,
+  "scope": "Read-only reviewer serialization correction; original result and rejected receipt remain unchanged."
+}

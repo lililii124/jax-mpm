@@ -17,3 +17,8 @@ def metal_stage_cell(prefix='docs/'):
  return ('<img src="'+prefix+'images/stages/metal-impact-f16.gif" alt="Metal impact numerical stage preview" width="100%"><br>'
          '<a href="'+prefix+'stages/metal-impact-f16/README.md">Metal impact: f16 numerical stage</a><br>'
          '17 saved states; phase/EOS extrapolation. Not validated 5 km/s physics or a completed protocol.')
+
+def ceramic_section_cell(prefix='docs/'):
+ return ('<img src="'+prefix+'images/views/ceramic-cross-section.gif" alt="JH2 ceramic central cross section" width="100%"><br>'
+         '<a href="'+prefix+'views/ceramic-cross-section/README.md">JH2 ceramic central cross section</a><br>'
+         'Same 61-state result; ballistic failed-particle debris.')

@@ -23,7 +23,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--ceramic-impact-debris.gif" alt="JH2 ceramic impact and debris" width="100%"><br><a href="docs/results/completed--ceramic-impact-debris/summary.json">JH2 ceramic impact and debris</a></td>
 <td width="33%" align="center"><img src="docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif" alt="HJC bending with symmetry constraints" width="100%"><br><a href="docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json">HJC bending with symmetry constraints</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/views/ceramic-cross-section.gif" alt="JH2 ceramic central cross section" width="100%"><br><a href="docs/views/ceramic-cross-section/README.md">JH2 ceramic central cross section</a><br>Same 61-state result; ballistic failed-particle debris.</td>
 </tr>
 </table>
 

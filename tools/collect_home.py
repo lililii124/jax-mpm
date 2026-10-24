@@ -159,9 +159,9 @@ def legacy_describe(identifier):
 
 
 try:
-    from .public_themes import THEMES, theme, order, metal_stage_cell
+    from .public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
 except ImportError:
-    from public_themes import THEMES, theme, order, metal_stage_cell
+    from public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
 
 def describe(identifier):
     _, title = legacy_describe(identifier)
@@ -247,6 +247,8 @@ def main():
         cells = [cell for _, cell in ordered]
         if heading == THEMES[0] and (root / "docs/images/stages/metal-impact-f16.gif").is_file():
             cells.append(metal_stage_cell())
+        if heading == THEMES[1] and (root / "docs/images/views/ceramic-cross-section.gif").is_file():
+            cells.append(ceramic_section_cell())
         for start in range(0, len(cells), columns):
             row = cells[start:start + columns]
             lines.append('<tr>')

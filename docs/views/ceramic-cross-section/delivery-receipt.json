@@ -1,0 +1,78 @@
+{
+  "schema": "ceramic-section-delivery-v1",
+  "files": {
+    "admission.json": {
+      "bytes": 39667,
+      "sha256": "237c025d0a986ae9e3e1b31253f8e43e89598da9d27fb6562f2f010843e4d193"
+    },
+    "independent-physical-review-v2.json": {
+      "bytes": 8322,
+      "sha256": "04ba94ea8d8cd4aa74d4f3031770e08f0eb67efa544d96b5a838ed80c2cdfe52"
+    },
+    "original-full-physical-review.json": {
+      "bytes": 5727,
+      "sha256": "5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b"
+    },
+    "signature-reconciliation.json": {
+      "bytes": 894,
+      "sha256": "e861f19b5432acc2400e40d33795d8c1e807b83ba88c90b84a8227dffec00ce1"
+    },
+    "paraview-install.json": {
+      "bytes": 665,
+      "sha256": "be83468db7bf1e7e782077a9600ed36d2e70a6e60534fa3b31f8e3e4a95336de"
+    },
+    "renderer-requirements.txt": {
+      "bytes": 122,
+      "sha256": "aa111b51591d9a33c555d77b7f88f2f8fe6eededbf222a9cadf56af9ffb2988e"
+    },
+    "section-audit.json": {
+      "bytes": 363,
+      "sha256": "92f61bcb0e522fc8dbd143940b43c73b3a2c35427ae43f699d2a5747668e7672"
+    },
+    "result/section-render.json": {
+      "bytes": 38878,
+      "sha256": "57777a692a6baec18160002c057a4a495ffbb2252b6e03b810f0ad4cb33ecbc4"
+    },
+    "result/section-scene.pvsm": {
+      "bytes": 342190,
+      "sha256": "db9b9aa75227810adefe6e74b078abab3be7fd6bafdb2e511524ef5e0236e832"
+    },
+    "result/simulation.gif": {
+      "bytes": 10499113,
+      "sha256": "14c9b0a2cf01a033828fe66b283ff7815192506c9653a128a598ac0b5e6f71df"
+    },
+    "result/frames/frame_00000.png": {
+      "bytes": 263049,
+      "sha256": "c500af73fcbb359b68f8f41c1dbeef66cedcdf09ab28269571c3658e5c395d64"
+    },
+    "result/frames/frame_00010.png": {
+      "bytes": 394668,
+      "sha256": "eee5321a7879e873cef85247f98abe02867cf0ffcee71830d4e97d5970a57b57"
+    },
+    "result/frames/frame_00020.png": {
+      "bytes": 418875,
+      "sha256": "c7d4a409cdc7cb68988139380afedf36b646e3852703577724b431b3b1eca871"
+    },
+    "result/frames/frame_00030.png": {
+      "bytes": 421777,
+      "sha256": "5bdd3d59236eef47147cdd28f05fa33db67c571917d0cc40313d35e1afb1d53f"
+    },
+    "result/frames/frame_00040.png": {
+      "bytes": 398255,
+      "sha256": "44e1895935bf9bc29a20a9e9110b632d79903f53683126ad17120ca949b87902"
+    },
+    "result/frames/frame_00050.png": {
+      "bytes": 409153,
+      "sha256": "cbf140ef219b0445fd1f7bc67f66ae6de2f58b6a53c8d9026e863c052b18d9ae"
+    },
+    "result/frames/frame_00060.png": {
+      "bytes": 399337,
+      "sha256": "3a6ee33563e043317ba58bf3634778e8b5efc930d0e3f99e4066c3cd913a07d4"
+    }
+  },
+  "bytes": 13641055,
+  "bound_bytes": 100000000,
+  "raw_retained_in_exact_sealed_cache": true,
+  "permanent_raw_backup_verified": false,
+  "solver_executed": false
+}

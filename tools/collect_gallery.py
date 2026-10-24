@@ -16,9 +16,9 @@ except ImportError:
 
 
 try:
-    from .public_themes import THEMES, theme, order, metal_stage_cell
+    from .public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
 except ImportError:
-    from public_themes import THEMES, theme, order, metal_stage_cell
+    from public_themes import THEMES, theme, order, metal_stage_cell, ceramic_section_cell
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -332,6 +332,8 @@ def main():
             )
         if heading == THEMES[0] and (ROOT / "docs/images/stages/metal-impact-f16.gif").is_file():
             cells.append(metal_stage_cell(""))
+        if heading == THEMES[1] and (ROOT / "docs/images/views/ceramic-cross-section.gif").is_file():
+            cells.append(ceramic_section_cell(""))
         if cells:
             columns = 3
             lines += [f"## {heading}", "", '<table width="100%">']
