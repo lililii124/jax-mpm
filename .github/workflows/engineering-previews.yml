@@ -1,6 +1,11 @@
-name: Fresh corrected-source 5000 m per s prefix
+name: Admitted corrected-source f8 to f16 continuation
 on:
   workflow_dispatch:
+    inputs:
+      producer_receipt_sha256:
+        description: Independently admitted receipt SHA256 from corrected producer run 40073145856
+        required: true
+        type: string
 permissions:
   contents: read
   actions: read
@@ -8,7 +13,7 @@ concurrency:
   group: metal-impact-resource-prefix
   cancel-in-progress: false
 jobs:
-  fresh-prefix:
+  admitted-continuation:
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:
@@ -21,6 +26,7 @@ jobs:
       PYTHONUNBUFFERED: '1'
       PYTHONDONTWRITEBYTECODE: '1'
       PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PRODUCER_RECEIPT_SHA: ${{ inputs.producer_receipt_sha256 }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -33,31 +39,49 @@ jobs:
         timeout-minutes: 10
         run: |
           python -m pip install --only-binary=:all: iniconfig==2.3.1 jax==0.12.0.1 jaxlib==0.12.0.1 ml_dtypes==0.6.0 numpy==2.5.4 opt_einsum==3.4.0 packaging==26.3 pillow==13.0.0 pluggy==1.7.0 psutil==7.2.2 Pygments==2.21.0 pytest==9.1.1 scipy==1.18.1
-      - name: Bind new source and review unchanged full physical protocol
-        run: python tools/run_metal_corrected_prefix.py prepare
-      - name: Fresh t0 prefix to f8 under 20 minute and 6 GiB guards
+      - name: Restore only exact corrected-source producer f8 cache
+        id: parent
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/metal-corrected-prefix-cache
+          key: metal-corrected-prefix-v1-21a0f3737f684a09bcdbb1b9388f74ddbc6410ae-40073145856-1-f8
+          fail-on-cache-miss: true
+      - name: Require exact producer key before independent receipt verification
+        env:
+          EXACT: ${{ steps.parent.outputs.cache-hit }}
+          ACTUAL: ${{ steps.parent.outputs.cache-matched-key }}
+        run: |
+          python - <<'PY'
+          import os
+          assert os.environ['EXACT']=='true'
+          assert os.environ['ACTUAL']=='metal-corrected-prefix-v1-21a0f3737f684a09bcdbb1b9388f74ddbc6410ae-40073145856-1-f8'
+          PY
+      - name: Verify admitted receipt, complete producer inventory and frozen protocol
+        id: prepare
+        run: python tools/run_metal_corrected_continuation.py prepare --receipt-sha "$PRODUCER_RECEIPT_SHA"
+      - name: Admitted f8 to f16 under 20 minute and 6 GiB guards
         timeout-minutes: 22
-        run: python tools/run_metal_corrected_prefix.py run
+        run: python tools/run_metal_corrected_continuation.py run --receipt-sha "$PRODUCER_RECEIPT_SHA"
       - name: Seal new-source accepted checkpoint or raw failure
         id: seal
-        if: always()
+        if: always() && steps.prepare.outcome == 'success'
         timeout-minutes: 6
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python tools/run_metal_corrected_prefix.py seal
+        run: python tools/run_metal_corrected_continuation.py seal --receipt-sha "$PRODUCER_RECEIPT_SHA"
       - name: Save unique new-source raw cache only within repository budget
         if: always() && steps.seal.outputs.cache_key != ''
         uses: actions/cache/save@v5
         timeout-minutes: 8
         with:
-          path: .local/metal-corrected-prefix-cache
+          path: .local/metal-corrected-continuation-cache
           key: ${{ steps.seal.outputs.cache_key }}
       - name: Confirm only the newly written exact cache key
         id: lookup
         if: always() && steps.seal.outputs.cache_key != ''
         uses: actions/cache/restore@v5
         with:
-          path: .local/metal-corrected-prefix-cache
+          path: .local/metal-corrected-continuation-cache
           key: ${{ steps.seal.outputs.cache_key }}
           lookup-only: true
           fail-on-cache-miss: true
@@ -73,20 +97,20 @@ jobs:
           import hashlib,json,os
           from pathlib import Path
           assert os.environ['EXPECTED']==os.environ['ACTUAL'] and os.environ['EXACT']=='true'
-          assert os.environ['EXPECTED'].startswith('metal-corrected-prefix-v1-'+os.environ['GITHUB_SHA']+'-')
-          raw=Path('.local/metal-corrected-prefix-cache/receipt.json').read_bytes()
+          assert os.environ['EXPECTED'].startswith('metal-corrected-continuation-v1-'+os.environ['GITHUB_SHA']+'-')
+          raw=Path('.local/metal-corrected-continuation-cache/receipt.json').read_bytes()
           assert hashlib.sha256(raw).hexdigest()==os.environ['RECEIPT_SHA']
-          Path('.local/metal-corrected-prefix-records/cache-confirmation.json').write_text(json.dumps({'key':os.environ['ACTUAL'],'receipt_sha256':os.environ['RECEIPT_SHA'],'exact_lookup':True,'permanent_backup':False},indent=2)+'\n')
+          Path('.local/metal-corrected-continuation-records/cache-confirmation.json').write_text(json.dumps({'key':os.environ['ACTUAL'],'receipt_sha256':os.environ['RECEIPT_SHA'],'exact_lookup':True,'permanent_backup':False},indent=2)+'\n')
           PY
       - name: Deliver bounded complete files including raw rejection first
         if: always()
         timeout-minutes: 6
-        run: python tools/run_metal_corrected_prefix.py deliver
+        run: python tools/run_metal_corrected_continuation.py deliver --receipt-sha "$PRODUCER_RECEIPT_SHA"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: metal-corrected-prefix-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/metal-corrected-prefix-delivery
+          name: metal-corrected-continuation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/metal-corrected-continuation-delivery
           include-hidden-files: true
           retention-days: 2
           compression-level: 0
