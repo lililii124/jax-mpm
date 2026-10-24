@@ -81,6 +81,14 @@ def test_a_sphere_leaving_the_proven_contact_window_is_rejected():
     assert not bool(diagnostic.contact_window_valid) and not bool(current.valid)
 
 
+def test_config_cannot_claim_a_wider_contact_window_than_the_actual_grid_subset():
+    state, material, _, config, sphere = fixture('sphere-impact')
+    narrow = make_plate_grid(np.asarray(state.x), size=(.016, .016), dx=.001, band=.002,
+        y_bounds=(-.004, .004), padding_cells=2, contact_half_width=.001)
+    current, _, diagnostic = step_with_diagnostics(state, material, narrow, config, sphere)
+    assert not bool(diagnostic.contact_window_valid) and not bool(current.valid)
+
+
 def test_apic_affine_kinetic_energy_is_reported_separately():
     state, _, grid, _, _ = fixture()
     state = state._replace(C=jnp.broadcast_to(jnp.eye(3)*2., state.C.shape))

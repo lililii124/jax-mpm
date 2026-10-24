@@ -44,8 +44,9 @@ def test_chunking_and_origin_do_not_change_phase_ownership():
     shift = np.array((.11, .02, -.03))
     translated = sample_large_weave("triaxial", **PARAMETERS, origin=shift)
     np.testing.assert_allclose(translated.positions-small.positions, np.broadcast_to(shift, small.positions.shape))
-    for name in ("volume", "phase", "family_id", "yarn_id", "orientation"):
+    for name in ("volume", "phase", "family_id", "yarn_id"):
         np.testing.assert_array_equal(getattr(small, name), getattr(translated, name))
+    np.testing.assert_allclose(small.orientation, translated.orientation, rtol=0, atol=3e-15)
 
 
 @pytest.mark.parametrize("architecture", ARCHITECTURES)

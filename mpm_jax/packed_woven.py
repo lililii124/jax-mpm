@@ -20,6 +20,7 @@ class PlateGrid(NamedTuple):
     contact_indices: jax.Array
     contact_coordinates: jax.Array
     grid_y_max: jax.Array
+    contact_half_width: jax.Array
 
 
 class WovenState(NamedTuple):
@@ -121,7 +122,8 @@ def make_plate_grid(reference, *, size=(.16, .16), dx=.0005, band=.005,
     coordinates = np.column_stack((axes[0][contact // (shape[1] * shape[2])],
         axes[1][(contact // shape[2]) % shape[1]], axes[2][contact % shape[2]]))
     return PlateGrid(layout, jnp.asarray(owner.ravel()), jnp.asarray(contact),
-                     jnp.asarray(coordinates), jnp.asarray(axes[1][-1]))
+                     jnp.asarray(coordinates), jnp.asarray(axes[1][-1]),
+                     jnp.asarray(contact_half_width))
 
 
 def make_state(x, volume, mass, material, *, kind='woven', v=None):
@@ -196,7 +198,8 @@ def step_with_diagnostics(state, material, grid, config, sphere, force=None):
         # This cap bound proves that no occupied grid node outside the window can intersect the sphere.
         vertical = jnp.maximum(sphere.center[1] - grid.grid_y_max, 0.)
         cap = jnp.sqrt(jnp.maximum(sphere.radius**2 - vertical**2, 0.))
-        window_valid = (jnp.max(jnp.abs(sphere.center[jnp.array([0, 2])])) + cap <= config.contact_half_width)
+        window_valid = ((jnp.max(jnp.abs(sphere.center[jnp.array([0, 2])])) + cap <= grid.contact_half_width)
+                        & (grid.contact_half_width == config.contact_half_width))
         selected, coordinates, weights, slots, contact_count = _compact_contact(mass, velocity, grid, sphere, config.contact_capacity)
         overflow = contact_count > config.contact_capacity
         values = velocity[selected]
