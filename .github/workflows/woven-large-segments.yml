@@ -1,0 +1,168 @@
+name: Large woven plate saved-frame segments
+
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: Full 200 us plan; start at 20, then exact-cache 40/60, then finalize
+        type: choice
+        options: ['20', '40', '60', 'finalize']
+        default: '20'
+      architecture:
+        type: choice
+        options: [plain, triaxial, twill-2x2]
+        default: plain
+      loading:
+        type: choice
+        options: [sphere-impact, hemisphere-indentation, pressure-bending]
+        default: sphere-impact
+      parent_run:
+        description: Exact admitted parent run ID; empty only for stage 20
+        type: string
+        default: ''
+      parent_attempt:
+        description: Exact parent run attempt
+        type: string
+        default: ''
+      parent_receipt_sha:
+        description: Independently verified complete parent receipt SHA256
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: woven-large-raw-cache
+  cancel-in-progress: false
+
+jobs:
+  segment:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      VTK_DEFAULT_OPENGL_WINDOW: vtkEGLRenderWindow
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Validate request, fixed source, disk and existing cache budget
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUEST_STAGE: ${{ inputs.stage }}
+          REQUEST_ARCHITECTURE: ${{ inputs.architecture }}
+          REQUEST_LOADING: ${{ inputs.loading }}
+          PARENT_RUN: ${{ inputs.parent_run }}
+          PARENT_ATTEMPT: ${{ inputs.parent_attempt }}
+          PARENT_RECEIPT_SHA: ${{ inputs.parent_receipt_sha }}
+        run: >-
+          python tools/run_woven_large_segments.py prepare
+          --stage "$REQUEST_STAGE" --architecture "$REQUEST_ARCHITECTURE"
+          --loading "$REQUEST_LOADING" --parent-run "$PARENT_RUN"
+          --parent-attempt "$PARENT_ATTEMPT" --parent-receipt-sha "$PARENT_RECEIPT_SHA"
+      - name: Restore exact parent data only
+        id: restore
+        if: steps.prepare.outputs.needs_restore == 'true'
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ steps.prepare.outputs.cache_path }}
+          key: ${{ steps.prepare.outputs.parent_key }}
+          fail-on-cache-miss: true
+      - name: Reject fallback hits and verify all restored bytes before installation
+        if: steps.prepare.outputs.needs_restore == 'true'
+        env:
+          EXPECTED_KEY: ${{ steps.prepare.outputs.parent_key }}
+          ACTUAL_KEY: ${{ steps.restore.outputs.cache-matched-key }}
+          EXACT_HIT: ${{ steps.restore.outputs.cache-hit }}
+        run: |
+          test "$EXACT_HIT" = true
+          test "$ACTUAL_KEY" = "$EXPECTED_KEY"
+          python tools/run_woven_large_segments.py verify
+      - name: Install initial or exactly pinned Python environment
+        timeout-minutes: 20
+        env:
+          NEEDS_RESTORE: ${{ steps.prepare.outputs.needs_restore }}
+        run: |
+          if [ "$NEEDS_RESTORE" = true ]; then
+            python -m pip install -r .local/woven-large-segment-cache/runtime/requirements.txt
+            python -m pip install --no-deps -e .
+          else
+            python -m pip install -e . psutil
+          fi
+      - name: Install official ParaView only for the complete-result job
+        if: inputs.stage == 'finalize'
+        timeout-minutes: 50
+        run: |
+          python tools/run_woven_large_segments.py install
+          python -m pip install -r .local/woven-large-segment-cache/runtime/requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Check exact runtime and record this runner CPU
+        run: python tools/run_woven_large_segments.py lock
+      - name: Advance one original-plan saved-frame segment and independently review its prefix
+        id: run
+        if: inputs.stage != 'finalize'
+        timeout-minutes: 300
+        run: python tools/run_woven_large_segments.py run
+      - name: Seal rejected raw data under a non-resumable diagnostic key
+        id: diagnostic
+        if: ${{ always() && inputs.stage != 'finalize' && steps.run.outcome == 'failure' && steps.run.outputs.cache_key == '' }}
+        continue-on-error: true
+        timeout-minutes: 12
+        run: python tools/run_woven_large_segments.py seal-failure
+      - name: Save complete accepted or diagnostic raw snapshot
+        id: save
+        if: ${{ always() && (steps.run.outputs.cache_key != '' || steps.diagnostic.outputs.cache_key != '') }}
+        uses: actions/cache/save@v5
+        timeout-minutes: 20
+        with:
+          path: ${{ steps.prepare.outputs.cache_path }}
+          key: ${{ steps.run.outputs.cache_key || steps.diagnostic.outputs.cache_key }}
+      - name: Verify exact server cache key exists
+        id: lookup
+        if: ${{ always() && steps.save.outcome == 'success' }}
+        uses: actions/cache/restore@v5
+        with:
+          path: ${{ steps.prepare.outputs.cache_path }}
+          key: ${{ steps.run.outputs.cache_key || steps.diagnostic.outputs.cache_key }}
+          lookup-only: true
+          fail-on-cache-miss: true
+      - name: Confirm local sealed bytes and exact server key
+        if: ${{ always() && steps.lookup.outcome == 'success' }}
+        env:
+          CACHE_HIT: ${{ steps.lookup.outputs.cache-hit }}
+          CACHE_MATCHED_KEY: ${{ steps.lookup.outputs.cache-matched-key }}
+        run: python tools/run_woven_large_segments.py confirm-cache
+      - name: Independently review and render actual full saved tool states
+        if: inputs.stage == 'finalize'
+        timeout-minutes: 120
+        run: python tools/run_woven_large_segments.py finalize
+      - name: Preserve bounded whole-file evidence, including failures
+        if: ${{ always() && steps.prepare.outcome == 'success' }}
+        timeout-minutes: 10
+        run: python tools/run_woven_large_segments.py package
+      - name: Upload records without claiming a permanent raw backup
+        if: always()
+        uses: actions/upload-artifact@v7
+        timeout-minutes: 10
+        with:
+          name: woven-large-${{ inputs.architecture }}-${{ inputs.loading }}-${{ inputs.stage }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/woven-large-segment-delivery
+          include-hidden-files: true
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 2
