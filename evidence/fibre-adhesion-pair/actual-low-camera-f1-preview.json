@@ -1,0 +1,43 @@
+{
+  "schema": "fibre-pair-real-prefix-low-camera-preview-v1",
+  "original_frame_count": 2,
+  "live_snapshot_without_completed_job_summary": true,
+  "source_plan_sha256": "1192bc5ac111d811c7f98d5d527fc5efda6193d380d573c51f648071fa6f5d37",
+  "source_summary_sha256": null,
+  "source_checkpoint_sha256": "72a75ac9a75c3d1dbccc85c9d7726ece77bd062662d128c8334de43c3c41992d",
+  "actual_renderer": "ParaView",
+  "camera_direction": [
+    1.4,
+    0.2,
+    1.8
+  ],
+  "geometry_scale": 1,
+  "axes": false,
+  "annotations": false,
+  "production_eligible": false,
+  "complete61frame_result": false,
+  "scope": "Only actual MPM saved states are shown; original raw input remains read-only. A short early prefix cannot establish the later predicted adhesion deformation contrast.",
+  "actual_preview_files": {
+    "final.png": {
+      "sha256": "1148b54907ddb359727d19e7dc6dda1c58a96c28780c93971d93e0f9f3698421",
+      "bytes": 1056823
+    },
+    "preview.gif": {
+      "sha256": "3f614b0bdc780d9055ff46c4c9325b676b00e93d6b870eeddedc0893cec32575",
+      "bytes": 1212886
+    },
+    "render.json": {
+      "sha256": "57a526d37b3f705cc341fcf1d956fe3732e07075d48fccc566e64ae9bb95b165",
+      "bytes": 2816
+    },
+    "frames/frame_00000.png": {
+      "sha256": "0d1e44e6a329f8aaa09651747e49c4bb301558eeac40b8e87af670e837a7f065",
+      "bytes": 1056777
+    },
+    "frames/frame_00001.png": {
+      "sha256": "1148b54907ddb359727d19e7dc6dda1c58a96c28780c93971d93e0f9f3698421",
+      "bytes": 1056823
+    }
+  },
+  "failed_job_context": true
+}

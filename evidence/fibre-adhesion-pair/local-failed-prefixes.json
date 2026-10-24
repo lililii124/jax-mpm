@@ -1,0 +1,57 @@
+{
+  "hertz": {
+    "guard": {
+      "peak_tree_uss_bytes": 1381384192,
+      "minimum_system_available_bytes": 11262025728,
+      "complete_samples": 841,
+      "uss_limit_bytes": 6442450944,
+      "reason": null,
+      "monitor_error": null,
+      "returncode": 1,
+      "seconds": 934.5939999999828
+    },
+    "status": {
+      "phase": "failed",
+      "frame": 1,
+      "signature": "854e8dab2dce165b367804af70e244bea4b87204f2657137a57601203bad1178",
+      "never_resumable": true
+    },
+    "source_plan_sha256": "1192bc5ac111d811c7f98d5d527fc5efda6193d380d573c51f648071fa6f5d37",
+    "last_original_checkpoint_sha256": "72a75ac9a75c3d1dbccc85c9d7726ece77bd062662d128c8334de43c3c41992d",
+    "raw_directory": "H:\\test\\mpm\\.local\\fibre-adhesion-pair-real-f2\\hertz",
+    "failed_raw_retained": true,
+    "never_resumable": true,
+    "actual_f2_passed": false,
+    "failure": "JAX allocation585628xxx bytes failed under Windows global commit pressure; physical RAM and per-process USS were not exhausted",
+    "accepted_last_saved_frame": 1,
+    "accepted_steps": 1217,
+    "solver_seconds_to_first_saved_frame": 596.297,
+    "observed_seconds_per_step_including_compile": 0.48997288414133117
+  },
+  "jkr": {
+    "guard": {
+      "peak_tree_uss_bytes": 1566306304,
+      "minimum_system_available_bytes": 11230081024,
+      "complete_samples": 170,
+      "uss_limit_bytes": 6442450944,
+      "reason": null,
+      "monitor_error": null,
+      "returncode": 1,
+      "seconds": 191.29699999996228
+    },
+    "status": {
+      "phase": "failed",
+      "frame": 0,
+      "signature": "70b384325c6b77813e0b599dfc56c13c8cd2e8a30737b87219e512393504b91b",
+      "never_resumable": true
+    },
+    "source_plan_sha256": "34ef70aa887d4d21326874f937cee0802c464983154d5c1f52b8c9b232d7b530",
+    "last_original_checkpoint_sha256": "841400d0dd515e53ec99854903bb0244d67898a830a203db514f9db406383153",
+    "raw_directory": "H:\\test\\mpm\\.local\\fibre-adhesion-pair-real-f2\\jkr",
+    "failed_raw_retained": true,
+    "never_resumable": true,
+    "actual_f2_passed": false,
+    "failure": "JAX allocation585628xxx bytes failed under Windows global commit pressure; physical RAM and per-process USS were not exhausted"
+  },
+  "scope": "Local100ms reference, distinct from independent40ms cloud proposal. Both jobs failed and are not resumable/accepted f2; saved raw and original producer source snapshot remain in .local. The Hertz live f1 ParaView images depict only actual early saved states, not a predicted adhesion comparison."
+}

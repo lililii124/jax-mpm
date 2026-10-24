@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "same202240-point40ms physical request across both models",
+    "same dx/global origin/six padding cells with strict per-step support check",
+    "same low-elevation6mm actual camera",
+    "actual HEAD and registered workflow Git blob binding",
+    "wrong HEAD rejected",
+    "full192MiB-part capsule retrieval/member checks",
+    "corrupt archive rejected",
+    "artifact-only success/failure whole raw retrieval",
+    "all source/YAML/embedded Python parse"
+  ],
+  "scope": "Control/transport tests only; no fabricated numerical admission"
+}

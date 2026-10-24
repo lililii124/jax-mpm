@@ -1,0 +1,406 @@
+{
+  "series": "fibre-adhesion-pair-dynamic-v1",
+  "model": "hertz",
+  "case": "fibre-adhesion-pair-dynamic-40ms",
+  "physical_common": {
+    "geometry": {
+      "length_m": 0.032,
+      "radius_m": 0.001,
+      "diameter_m": 0.002,
+      "initial_surface_gap_m": 1e-05,
+      "particle_spacing_m": 0.0001,
+      "cross_section_particles": 316,
+      "fibres": [
+        {
+          "id": 0,
+          "family_id": 0,
+          "longitudinal_sections": 320,
+          "particle_count": 101120,
+          "particle_slice": [
+            0,
+            101120
+          ],
+          "radius_m": 0.001
+        },
+        {
+          "id": 1,
+          "family_id": 1,
+          "longitudinal_sections": 320,
+          "particle_count": 101120,
+          "particle_slice": [
+            101120,
+            202240
+          ],
+          "radius_m": 0.001
+        }
+      ],
+      "sampled_cross_section_area_m2": 3.1600000000000002e-06,
+      "circle_area_m2": 3.141592653589793e-06,
+      "cross_section_area_relative_error": 0.005859240340778671,
+      "grip_length_m": 0.003,
+      "free_span_m": 0.026000000000000002,
+      "sampling": "Uniform cell-centre lattice, clipped by the reference circle; every particle has volume spacing^3.",
+      "contact_coordinates": "Mass-weighted section centroids. Symmetric straight reference sections have zero centroid offset."
+    },
+    "material": {
+      "young": 400000.0,
+      "poisson": 0.25,
+      "density": 1000.0,
+      "tensile_strength": 300000.0,
+      "fracture_energy": 100.0,
+      "characteristic_length": 0.0002
+    },
+    "fixture": {
+      "spring_stiffness_N_per_m": 0.7056029424546744,
+      "parallel_damper_Ns_per_m": 0.0015,
+      "beam_relative_stiffness_estimate_N_per_m": 1.7159359054655217,
+      "series_stiffness_estimate_N_per_m": 0.5,
+      "boundary": "Lower fibre both end collars fixed xyz. Upper fibre end collars have fixed xz and one common free rigid y translation; spring/damper links that y DOF to the prescribed actuator. No upper y displacement is prescribed directly."
+    },
+    "protocol": {
+      "times_s": [
+        0.0,
+        0.006,
+        0.01,
+        0.022000000000000002,
+        0.034,
+        0.04
+      ],
+      "actuator_y_m": [
+        0.0,
+        -0.00015,
+        -0.00015,
+        0.00045,
+        0.00045,
+        0.0012
+      ],
+      "scope": "Identical press,hold,slow pull to common near-threshold plateau,hold,final separation. Hold level is a scan-based prototype and requires shared-path MPM pilot confirmation; never shift individual model loading."
+    },
+    "contact_parameters": {
+      "effective_modulus_Pa": 213333.33333333334,
+      "reference_effective_radius_m": 0.001,
+      "work_of_adhesion_J_per_m2": 0.08,
+      "interaction_range_m": 1.040041911525953e-06,
+      "Tabor_mu": 5.0,
+      "outer_radius_m": 0.0003,
+      "rings": 256,
+      "local_a0_over_R": 0.17436710272644404,
+      "max_sweeps": 8192,
+      "equilibrium_tolerance": 1e-08,
+      "maximum_a_over_fibre_radius": 0.2
+    },
+    "camera": {
+      "focus_bounds_m": [
+        -0.003,
+        0.003,
+        -0.0018,
+        0.0042,
+        -0.003,
+        0.003
+      ],
+      "field": "family_id",
+      "geometry_scale": 1,
+      "axes": false,
+      "annotations": false,
+      "resolution": 1200,
+      "colors": "Same fixed lower/upper fibre family palette for all4 models",
+      "direction": [
+        1.4,
+        0.2,
+        1.8
+      ],
+      "elevation_coefficient": 0.2
+    },
+    "duration_s": 0.04,
+    "saved_states": 61,
+    "steps": 29212,
+    "dt": 1.3693002875530605e-06,
+    "grid_storage_bounds_m": [
+      [
+        [
+          -0.016,
+          0.016
+        ],
+        [
+          -0.0015,
+          0.0015
+        ],
+        [
+          -0.0015,
+          0.0015
+        ]
+      ],
+      [
+        [
+          -0.0015,
+          0.0015
+        ],
+        [
+          0.0005,
+          0.0048
+        ],
+        [
+          -0.016,
+          0.016
+        ]
+      ]
+    ]
+  },
+  "common_request_sha256": "650168750b3123de5563e9184e812e0e5ede1b3bdeb311f00b000f7f158979f1",
+  "material": {
+    "young": 400000.0,
+    "poisson": 0.25,
+    "density": 1000.0,
+    "tensile_strength": 300000.0,
+    "fracture_energy": 100.0,
+    "characteristic_length": 0.0002
+  },
+  "geometry": {
+    "length_m": 0.032,
+    "radius_m": 0.001,
+    "diameter_m": 0.002,
+    "initial_surface_gap_m": 1e-05,
+    "particle_spacing_m": 0.0001,
+    "cross_section_particles": 316,
+    "fibres": [
+      {
+        "id": 0,
+        "family_id": 0,
+        "longitudinal_sections": 320,
+        "particle_count": 101120,
+        "particle_slice": [
+          0,
+          101120
+        ],
+        "radius_m": 0.001
+      },
+      {
+        "id": 1,
+        "family_id": 1,
+        "longitudinal_sections": 320,
+        "particle_count": 101120,
+        "particle_slice": [
+          101120,
+          202240
+        ],
+        "radius_m": 0.001
+      }
+    ],
+    "sampled_cross_section_area_m2": 3.1600000000000002e-06,
+    "circle_area_m2": 3.141592653589793e-06,
+    "cross_section_area_relative_error": 0.005859240340778671,
+    "grip_length_m": 0.003,
+    "free_span_m": 0.026000000000000002,
+    "sampling": "Uniform cell-centre lattice, clipped by the reference circle; every particle has volume spacing^3.",
+    "contact_coordinates": "Mass-weighted section centroids. Symmetric straight reference sections have zero centroid offset."
+  },
+  "fixture": {
+    "spring_stiffness_N_per_m": 0.7056029424546744,
+    "parallel_damper_Ns_per_m": 0.0015,
+    "beam_relative_stiffness_estimate_N_per_m": 1.7159359054655217,
+    "series_stiffness_estimate_N_per_m": 0.5,
+    "boundary": "Lower fibre both end collars fixed xyz. Upper fibre end collars have fixed xz and one common free rigid y translation; spring/damper links that y DOF to the prescribed actuator. No upper y displacement is prescribed directly."
+  },
+  "protocol": {
+    "times_s": [
+      0.0,
+      0.006,
+      0.01,
+      0.022000000000000002,
+      0.034,
+      0.04
+    ],
+    "actuator_y_m": [
+      0.0,
+      -0.00015,
+      -0.00015,
+      0.00045,
+      0.00045,
+      0.0012
+    ],
+    "scope": "Identical press,hold,slow pull to common near-threshold plateau,hold,final separation. Hold level is a scan-based prototype and requires shared-path MPM pilot confirmation; never shift individual model loading."
+  },
+  "contact": {
+    "effective_modulus_Pa": 213333.33333333334,
+    "reference_effective_radius_m": 0.001,
+    "work_of_adhesion_J_per_m2": 0.08,
+    "interaction_range_m": 1.040041911525953e-06,
+    "Tabor_mu": 5.0,
+    "outer_radius_m": 0.0003,
+    "rings": 256,
+    "local_a0_over_R": 0.17436710272644404,
+    "max_sweeps": 8192,
+    "equilibrium_tolerance": 1e-08,
+    "maximum_a_over_fibre_radius": 0.2
+  },
+  "camera": {
+    "focus_bounds_m": [
+      -0.003,
+      0.003,
+      -0.0018,
+      0.0042,
+      -0.003,
+      0.003
+    ],
+    "field": "family_id",
+    "geometry_scale": 1,
+    "axes": false,
+    "annotations": false,
+    "resolution": 1200,
+    "colors": "Same fixed lower/upper fibre family palette for all4 models",
+    "direction": [
+      1.4,
+      0.2,
+      1.8
+    ],
+    "elevation_coefficient": 0.2
+  },
+  "duration_s": 0.04,
+  "frames": 60,
+  "saved_states": 61,
+  "steps": 29212,
+  "dt": 1.3693002875530605e-06,
+  "frame_steps": [
+    0,
+    487,
+    974,
+    1461,
+    1947,
+    2434,
+    2921,
+    3408,
+    3895,
+    4382,
+    4869,
+    5356,
+    5842,
+    6329,
+    6816,
+    7303,
+    7790,
+    8277,
+    8764,
+    9250,
+    9737,
+    10224,
+    10711,
+    11198,
+    11685,
+    12172,
+    12659,
+    13145,
+    13632,
+    14119,
+    14606,
+    15093,
+    15580,
+    16067,
+    16553,
+    17040,
+    17527,
+    18014,
+    18501,
+    18988,
+    19475,
+    19962,
+    20448,
+    20935,
+    21422,
+    21909,
+    22396,
+    22883,
+    23370,
+    23856,
+    24343,
+    24830,
+    25317,
+    25804,
+    26291,
+    26778,
+    27265,
+    27751,
+    28238,
+    28725,
+    29212
+  ],
+  "particles": 202240,
+  "grid": {
+    "dx_m": 0.0002,
+    "padding_cells": 6,
+    "bounds_m": [
+      [
+        [
+          -0.016,
+          0.016
+        ],
+        [
+          -0.0015,
+          0.0015
+        ],
+        [
+          -0.0015,
+          0.0015
+        ]
+      ],
+      [
+        [
+          -0.0015,
+          0.0015
+        ],
+        [
+          0.0005,
+          0.0048
+        ],
+        [
+          -0.016,
+          0.016
+        ]
+      ]
+    ],
+    "max_nodes": 1500000,
+    "planned_rectangular_nodes": 321088,
+    "support_checked_each_step": true
+  },
+  "source": {
+    "files": {
+      "examples/fibre_adhesion_contrast.py": "4efee6abd1727170b739658e3a6c1437457e127be85c2aafb25c9260d176c309",
+      "examples/fibre_pull_off.py": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+      "examples/single_fibre_tension.py": "81f967870a79b6787296ad6f1c1fffd05cfe16e4815337c6015101d563c4c316",
+      "tools/scan_fibre_adhesion_contrast.py": "f439b96213ca4e4814c7973c3ba3607c622704e25f72a66040c5a81da1a5e943",
+      "tools/scan_fibre_pair_fixture.py": "5fb773ce3c8ff87af84d20a5f7372a1fa8ce09961cd1e982545011f130fb881d",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/fibre_contrast_coupling.py": "166de8b5df18a19220949e7bbc021e5b04837512dfd71c5a0f50462eb5c9b0ee",
+      "mpm_jax/local_contact_models.py": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+      "mpm_jax/maugis_dugdale.py": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+      "mpm_jax/cohesive_bem.py": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+    },
+    "fingerprint": "8ae60831ffe4b37a7057c6a897d012f4de3bd6db155c47dd4779831cdcca8b9a"
+  },
+  "comparison_group": "hertz-jkr-adsorption-baseline-pair",
+  "pair_reduced_screen": {
+    "actual_centre_separation_difference_m": 0.0004640637022077397,
+    "linear_beam_bending_m": 0.0001352217471321697,
+    "hold_contact_force_N": -0.0002320318511038694,
+    "hold_contact_radius_m": 0.0001515204805023563,
+    "stable_hold_margin_m": 0.00029804208210678675,
+    "scope": "Analytic stable-contact plus linear beam/common spring screen; actual MPM deformation/dynamics remain unverified."
+  },
+  "group_scan_qualified": true,
+  "qualification_blocker": "Tabor5 local scan converges with8192 sweeps at strict1e-8 tolerance, but SC128/256/512-ring threshold drifts48/111um exceed the2.58um JKR/MD distinction. A shared compliant fixture can expose a physical time window only after convergence/pilot validation; no artificial contrast or altered per-model conditions allowed.",
+  "production_eligible": false,
+  "public_visual_review_passed": false,
+  "resource": {
+    "uss_limit_bytes": 6442450944,
+    "raw_trajectory_bytes": 555148800,
+    "first_prefix_frame": 2
+  },
+  "scope": "Hertz versus JKR adsorption/nonadsorption pair first; MD/SC only when individually applicable and mesh-qualified. Illustrative same-geometry soft-fixture dynamic normal pull-off, not axial interfacial shear pullout. No fabrication pretension or calibrated strength. Material damage is measured separately from contact detachment.",
+  "control_source": {
+    "file": "examples/fibre_pair_dynamic_prefix.py",
+    "sha256": "5944aa1130fc12e8badd735f440afffe63b98cfed5a4bfc8553b49a8f360f8b4"
+  },
+  "interpretation": "40ms explicit dynamics, not a quasistatic strength test. Analytic0.464mm separation difference is a screening prediction only. Full actual MPM pair must demonstrate>0.3mm real central separation difference, actual stable attachment versus no adhesion, measured kinetic response, clamp work, spring/damper energy and no material damage. No per-model loading shifts or camera changes."
+}
