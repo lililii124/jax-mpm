@@ -20,6 +20,7 @@ from paraview.simple import (
     GetColorTransferFunction,
     GetParaViewVersion,
     PVDReader,
+    ProgrammableFilter,
     Render,
     SaveScreenshot,
     SaveState,
@@ -72,6 +73,42 @@ def waypoint_sphere_motion(definition, time):
     )
     scale = 0.5 * (1.0 - np.cos(np.pi * phase))
     return centers[0] + np.sum(scale[..., None] * np.diff(centers, axis=0), axis=-2)
+
+
+def radial_sinusoidal_mesh(sphere, profile):
+    """Warp actual rendered sphere vertices with the solver's exact zero-set map."""
+    amplitude, wavelength = profile["amplitude_m"], profile["wavelength_m"]
+    if (not np.isfinite(amplitude) or amplitude < 0 or
+            not np.isfinite(wavelength) or wavelength <= 0 or profile.get("axis") != "y"):
+        raise ValueError("invalid radial sinusoidal render geometry")
+    warped = ProgrammableFilter(registrationName="Radial sinusoidal rigid contact surface", Input=sphere)
+    warped.Script = f"""
+import numpy as np
+from vtkmodules.util.numpy_support import vtk_to_numpy, numpy_to_vtk
+source = self.GetInputDataObject(0, 0)
+output = self.GetOutputDataObject(0)
+output.ShallowCopy(source)
+points = vtk_to_numpy(source.GetPoints().GetData()).astype(np.float64).copy()
+bounds = source.GetBounds()
+cx, cz = .5*(bounds[0]+bounds[1]), .5*(bounds[4]+bounds[5])
+rho = np.sqrt((points[:,0]-cx)**2+(points[:,2]-cz)**2)
+points[:,1] += {amplitude!r}*(np.cos(2*np.pi*rho/{wavelength!r})-1)
+from vtkmodules.vtkCommonCore import vtkPoints
+mapped = vtkPoints()
+mapped.SetData(numpy_to_vtk(points, deep=True))
+output.SetPoints(mapped)
+# Source sphere normals no longer describe the corrugated surface.
+output.GetPointData().SetNormals(None)
+output.GetCellData().SetNormals(None)
+from vtkmodules.vtkFiltersCore import vtkPolyDataNormals
+normals = vtkPolyDataNormals()
+normals.SetInputData(output)
+normals.SplittingOff()
+normals.ConsistencyOn()
+normals.Update()
+output.ShallowCopy(normals.GetOutput())
+"""
+    return warped
 
 
 def read_integrated_sphere(folder, definition, times):
@@ -181,6 +218,7 @@ def main():
     )
     parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
     parser.add_argument("--matrix-opacity", type=float, help="matrix opacity with family_id colors (default: 0.008)")
+    parser.add_argument("--debris-style", choices=("subtle", "highlight"), default="subtle")
     parser.add_argument("--focus-bounds", type=float, nargs=6, help="explicit close-up bounds; geometry outside the view may be cropped")
     args = parser.parse_args()
     if args.scene_bounds is not None and args.focus_bounds is not None:
@@ -300,7 +338,13 @@ def main():
         sphere.ThetaResolution = 128
         sphere.PhiResolution = 96
         sphere.Center = center0
-        surface = Show(sphere, view)
+        radial_profile = summary.get("definition", {}).get("radial_sinusoid")
+        if radial_profile:
+            # Refine both azimuth and polar directions so 80-mm rings are resolved.
+            sphere.ThetaResolution = 256
+            sphere.PhiResolution = 192
+        rigid_surface = radial_sinusoidal_mesh(sphere, radial_profile) if radial_profile else sphere
+        surface = Show(rigid_surface, view)
         surface.Opacity = sphere_opacity
         surface.ColorArrayName = ["POINTS", ""]
         surface.DiffuseColor = [0.56, 0.62, 0.68]
@@ -349,7 +393,13 @@ def main():
         sphere.ThetaResolution = 128
         sphere.PhiResolution = 96
         sphere.Center = definition["centers"][0]
-        surface = Show(sphere, view)
+        radial_profile = summary.get("definition", {}).get("radial_sinusoid")
+        if radial_profile:
+            # Refine both azimuth and polar directions so 80-mm rings are resolved.
+            sphere.ThetaResolution = 256
+            sphere.PhiResolution = 192
+        rigid_surface = radial_sinusoidal_mesh(sphere, radial_profile) if radial_profile else sphere
+        surface = Show(rigid_surface, view)
         surface.Opacity = sphere_opacity
         surface.ColorArrayName = ["POINTS", ""]
         surface.DiffuseColor = [0.59, 0.65, 0.71]
@@ -373,6 +423,7 @@ def main():
             track.KeyFrames = keys
             bounds[2 * axis] = min(
                 bounds[2 * axis], all_centers[:, axis].min() - radius
+                - (2 * radial_profile["amplitude_m"] if radial_profile and axis == 1 else 0)
             )
             bounds[2 * axis + 1] = max(
                 bounds[2 * axis + 1], all_centers[:, axis].max() + radius
@@ -383,7 +434,9 @@ def main():
         else:
             auxiliary_geometry.append(
                 {
-                    "type": "prescribed_adhesive_rigid_sphere",
+                    "type": "prescribed_radial_sinusoidal_rigid_sphere" if radial_profile else "prescribed_adhesive_rigid_sphere",
+                    "radial_sinusoid": radial_profile,
+                    "mesh_map": "y += A*(cos(2*pi*rho/wavelength)-1)" if radial_profile else None,
                     "parameters": definition,
                     "display_opacity": sphere_opacity,
                     "included_in_particle_count": False,
@@ -522,11 +575,13 @@ def main():
     active_sources = []
     debris_sources = []
     woven_sources = []
+    woven_has_matrix = False
     if woven_display:
         family_count = int(metadata["field_ranges"]["family_id"][1]) + 1
         if family_count < 1 or family_count > len(colors):
             raise ValueError("woven family_id must use contiguous labels from zero to at most two")
-        selections = [("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)]
+        woven_has_matrix = metadata["field_ranges"]["phase"][0] == 0
+        selections = [("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)] if woven_has_matrix else []
         selections += [("family_id", family, colors[family], 1.0) for family in range(family_count)]
         for name, value, color, opacity in selections:
             selected = Threshold(registrationName=f"{name} {value}", Input=reader)
@@ -607,19 +662,23 @@ def main():
         if args.field != "body":
             display.SetScalarBarVisibility(view, False)
         displays.append(display)
+    debris_radius, debris_opacity, debris_rgb = (
+        (0.68, 0.90, [0.97, 0.42, 0.12]) if args.debris_style == "highlight"
+        else (0.38, 0.28, [0.46, 0.49, 0.53])
+    )
     for failed_selection in debris_sources:
         debris = Show(failed_selection, view)
         debris.Representation = "Point Gaussian"
-        debris.GaussianRadius = 0.38 * spacing
+        debris.GaussianRadius = debris_radius * spacing
         debris.ShaderPreset = "Sphere"
         debris.Emissive = 0
         debris.Ambient = 0.4
         debris.Diffuse = 0.6
         debris.Specular = 0.15
-        debris.Opacity = 0.28
+        debris.Opacity = debris_opacity
         debris.ColorArrayName = ["POINTS", ""]
-        debris.DiffuseColor = [0.46, 0.49, 0.53]
-        debris.AmbientColor = [0.46, 0.49, 0.53]
+        debris.DiffuseColor = debris_rgb
+        debris.AmbientColor = debris_rgb
         displays.append(debris)
     indices = [len(times) - 1] if args.final_only else range(len(times))
     displayed_counts = []
@@ -640,7 +699,8 @@ def main():
             counts = [source.GetDataInformation().GetNumberOfPoints() for source in woven_sources]
             if sum(counts) != metadata["particles"] or any(count == 0 for count in counts):
                 raise RuntimeError("woven phase/family display must partition every particle")
-            woven_counts.append({"time": times[i], "matrix": counts[0], "yarn_families": counts[1:]})
+            woven_counts.append({"time": times[i], "matrix": counts[0] if woven_has_matrix else 0,
+                                 "yarn_families": counts[1:] if woven_has_matrix else counts})
         if has_failed and not woven_display:
             active_count = sum(
                 source.GetDataInformation().GetNumberOfPoints()
@@ -747,9 +807,10 @@ def main():
             "active_selection": "all retain-body particles and ballistic-body particles with failed == 0",
             "failed_selection": "failed != 0 in ballistic bodies only",
             "failed_representation": "Point Gaussian",
-            "failed_marker_radius": 0.38 * spacing,
-            "failed_marker_opacity": 0.28,
-            "failed_marker_rgb": [0.46, 0.49, 0.53],
+            "style": args.debris_style,
+            "failed_marker_radius": debris_radius * spacing,
+            "failed_marker_opacity": debris_opacity,
+            "failed_marker_rgb": debris_rgb,
             "all_particles_retained": True,
             "displayed_counts": displayed_counts,
             "interpretation": "Non-load-bearing particle markers, not resolved fragment surfaces",

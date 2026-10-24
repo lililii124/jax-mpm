@@ -1,109 +1,216 @@
-name: engineering previews
-
-on:
-  workflow_dispatch:
-    inputs:
-      preset:
-        description: Reviewed engineering cases or the round-bar density diagnostic
-        type: choice
-        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, adhesion-v4-pair, jc-density-diagnostic, jc-necking-formal]
-        default: all
-        required: true
-
+name: independent artifact-only single fibre tension stages
 permissions:
   contents: read
-
+  actions: read
 concurrency:
-  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: single-fibre-tension
   cancel-in-progress: false
-
 jobs:
-  engineering:
+  stage:
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+    timeout-minutes: 300
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '4'
+      OMP_NUM_THREADS: '2'
       OPENBLAS_NUM_THREADS: '1'
-      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
-      LIBGL_ALWAYS_SOFTWARE: '1'
       PYTHONUNBUFFERED: '1'
+      GH_TOKEN: ${{ github.token }}
+      PARENT_ARTIFACT_ID: ${{ inputs.parent_artifact_id }}
+      PARENT_RUN_ID: ${{ inputs.parent_run_id }}
+      PARENT_KEY: ${{ inputs.restore_key }}
+      PARENT_SHA: ${{ inputs.parent_receipt }}
+      END_FRAME: ${{ inputs.stop_after_frame }}
     steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - name: Install CPU and rendering dependencies
-        timeout-minutes: 30
-        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
-      - name: Install official ParaView
-        timeout-minutes: 20
-        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
-      - name: Solve and independently review
-        timeout-minutes: 300
-        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
-      - name: Upload reviewed results or the explicitly marked diagnostic
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/engineering-delivery/main/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
-          path: .local/engineering-delivery/final-state/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
-          path: .local/engineering-delivery/final-state-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate media when needed
-        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
-          path: .local/engineering-delivery/media/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second media package when needed
-        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
-          path: .local/engineering-delivery/media-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload diagnostic logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
-          path: .local/engineering-ci/
-          if-no-files-found: warn
-          retention-days: 1
-          compression-level: 6
+    - uses: actions/checkout@v7
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@v7
+      with:
+        python-version: 3.12.13
+    - name: Install host-only planning dependencies
+      run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2
+    - name: Bind unchanged physical plan and exact parent key
+      id: prepare
+      run: python tools/run_single_fibre_tension.py prepare --stop-after-frame "$END_FRAME" --restore-key "$PARENT_KEY" --parent-receipt
+        "$PARENT_SHA"       
+    - uses: actions/download-artifact@v5
+      if: inputs.restore_key != ''
+      id: restore
+      with:
+        artifact-ids: ${{ inputs.parent_artifact_id }}
+        run-id: ${{ inputs.parent_run_id }}
+        github-token: ${{ github.token }}
+        path: .local/single-fibre-parent-delivery/
+        merge-multiple: true
+    - name: Verify exact parent artifact and restore every original raw member before installing lock
+      if: inputs.restore_key != ''
+      run: 'python tools/run_single_fibre_tension.py restore-parent --parent-receipt "$PARENT_SHA" --restore-key "$PARENT_KEY"
+            
+         
+
+        python -m pip install -r .local/single-fibre-tension-cache/requirements.txt
+
+        python -m pip install --no-deps -e .
+
+        '
+    - name: Install initial numerical environment
+      if: inputs.restore_key == ''
+      run: 'python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0
+        psutil==7.2.2 scipy==1.18.1
+
+        python -m pip install --no-deps -e .
+
+        '
+    - name: Compute guarded whole-frame prefix and independent material/raw review
+      if: inputs.phase == 'numerical'
+      id: numerical
+      run: python tools/run_single_fibre_tension.py run --stop-after-frame "$END_FRAME" --restore-key "$PARENT_KEY" --parent-receipt
+        "$PARENT_SHA"       
+    - name: Archive every raw byte in bounded192MiB parts
+      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
+      run: python tools/package_single_fibre_raw.py package --cache .local/single-fibre-tension-cache --delivery .local/single-fibre-raw-delivery
+    - uses: actions/upload-artifact@v4
+      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
+      id: raw_upload
+      with:
+        name: single-fibre-complete-raw-f${{ inputs.stop_after_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: .local/single-fibre-raw-delivery/
+        include-hidden-files: true
+        compression-level: 0
+        retention-days: 30
+        if-no-files-found: error
+    - uses: actions/download-artifact@v5
+      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
+      with:
+        artifact-ids: ${{ steps.raw_upload.outputs.artifact-id }}
+        path: .local/single-fibre-raw-retrieved/
+        merge-multiple: true
+    - name: Independently verify retrieved full raw archive and all members
+      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
+      run: python tools/package_single_fibre_raw.py verify --delivery .local/single-fibre-raw-retrieved
+    - name: Install real offscreen ParaView
+      if: inputs.phase == 'media'
+      run: 'test -n "$PARENT_KEY"
+
+        sudo apt-get update
+
+        sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
+
+        python - <<''PY''
+
+        import sys
+
+        from pathlib import Path
+
+        sys.path.insert(0,''tools'')
+
+        import run_woven_preview as p
+
+        p.LOGS=Path(''.local/single-fibre-pv-install'');p.LOGS.mkdir()
+
+        p.install()
+
+        PY
+
+        '
+    - name: Render independently accepted full fracture only
+      if: inputs.phase == 'media'
+      run: python tools/run_single_fibre_tension.py render --parent-receipt "$PARENT_SHA"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: single-fibre-tension-${{ inputs.phase }}-f${{ inputs.stop_after_frame }}-${{ github.run_id }}-${{ github.run_attempt
+          }}
+        path: '.local/single-fibre-tension-logs/
+
+          .local/single-fibre-tension-media/*.json
+
+          .local/single-fibre-tension-media/*.csv
+
+          .local/single-fibre-tension-media/*.gif
+
+          .local/single-fibre-tension-media/*.mp4
+
+          .local/single-fibre-tension-media/frames/
+
+          .local/single-fibre-retrieval-receipt.json
+
+          .local/single-fibre-parent-artifact.json
+
+          .local/single-fibre-pv-install/
+
+          '
+        include-hidden-files: true
+        if-no-files-found: warn
+        retention-days: 30
+        compression-level: 1
+    - name: Seal bounded whole failed diagnostic bytes
+      if: failure()
+      id: diagnostic
+      run: python tools/package_single_fibre_raw.py diagnostic --cache .local/single-fibre-tension-cache --delivery .local/single-fibre-failed-delivery
+    - uses: actions/upload-artifact@v4
+      if: failure() && steps.diagnostic.outcome == 'success'
+      id: diagnostic_upload
+      with:
+        name: single-fibre-failed-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+        path: .local/single-fibre-failed-delivery/
+        include-hidden-files: true
+        compression-level: 0
+        retention-days: 30
+        if-no-files-found: error
+    - uses: actions/download-artifact@v5
+      if: failure() && steps.diagnostic_upload.outcome == 'success'
+      with:
+        artifact-ids: ${{ steps.diagnostic_upload.outputs.artifact-id }}
+        path: .local/single-fibre-failed-retrieved/
+        merge-multiple: true
+    - name: Verify retrieved failed diagnostic archive and every original member
+      if: failure() && steps.diagnostic_upload.outcome == 'success'
+      run: python tools/package_single_fibre_raw.py verify --delivery .local/single-fibre-failed-retrieved
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: single-fibre-diagnostic-retrieval-${{ github.run_id }}-${{ github.run_attempt }}
+        path: .local/single-fibre-retrieval-receipt.json
+        if-no-files-found: ignore
+        retention-days: 30
+'on':
+  workflow_dispatch:
+    inputs:
+      phase:
+        type: choice
+        options:
+        - numerical
+        - media
+        default: numerical
+        required: true
+      stop_after_frame:
+        type: choice
+        options:
+        - '2'
+        - '10'
+        - '20'
+        - '30'
+        - '40'
+        - '50'
+        - '60'
+        default: '2'
+        required: true
+      parent_artifact_id:
+        description: Exact successful whole-raw parent artifact ID, empty for fresh f2
+        type: string
+        default: ''
+      parent_run_id:
+        description: Exact successful parent workflow run ID, empty for fresh f2
+        type: string
+        default: ''
+      restore_key:
+        description: Logical sealed parent capsule key, not Actions cache storage
+        type: string
+        default: ''
+      parent_receipt:
+        type: string
+        default: ''
