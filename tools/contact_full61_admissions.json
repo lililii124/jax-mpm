@@ -1,0 +1,166 @@
+{
+  "schema": "contact-full61-admissions-v1",
+  "scope": "Authenticated ranged small records, exact source inventories rebound to previously independently admitted full ZIP/source/parent; full raw and independent material/contact review required in cloud finalizer before media acceptance.",
+  "models": {
+    "jkr": {
+      "model": "jkr",
+      "run": 40078845859,
+      "source": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+      "receipt_sha256": "67654f98331dfb8055d4971140c1eac5ebddecb4cdf293c9e93a984c1e66ea02",
+      "cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-jkr-40078845859-1-f60",
+      "parent_receipt_sha256": "4fd41d11da108cad03c0cd6abb45bb91bd839bce33434f93732701b765c95aef",
+      "parent_cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-jkr-40077390102-1-f02",
+      "small_records_admitted": true,
+      "source_files_rebound_to_independently_admitted_parent": 18,
+      "runtime": {
+        "python": "3.12.13",
+        "implementation": "CPython",
+        "system": "Linux",
+        "machine": "x86_64",
+        "packages": {
+          "jax": "0.12.0.1",
+          "jaxlib": "0.12.0.1",
+          "ml-dtypes": "0.6.0",
+          "numpy": "2.5.4",
+          "opt-einsum": "3.4.0",
+          "pillow": "13.0.0",
+          "psutil": "7.2.2",
+          "scipy": "1.18.1"
+        }
+      },
+      "saved_states": 61,
+      "steps": 24495,
+      "particles": 202240,
+      "contact": {
+        "maximum_step_contact_force_N": 0.01877249529100186,
+        "minimum_step_contact_force_N": -0.01130972040017751,
+        "contact_gap_m": 0.002455556964628597,
+        "lower_centre_displacement_y_m": -8.995280401281171e-05,
+        "upper_centre_displacement_y_m": 0.002315604160615804
+      },
+      "independent_saved_csv_force_balance_N": 6.938893903907228e-18,
+      "independent_saved_csv_momentum_closure_Ns": 9.965173217857393e-17,
+      "saved_material_records_undamaged": true,
+      "live_exact_cache": {
+        "id": 9443888016,
+        "ref": "refs/heads/work/fibre-contact-model-contrasts",
+        "key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-jkr-40078845859-1-f60",
+        "version": "9d6d53f72c0a42ff6ff2332d5afebc7345b1709a4a39bf5cd4f36352967f24d7",
+        "last_accessed_at": "2026-10-24T11:25:06.722596Z",
+        "created_at": "2026-10-24T11:25:06.380097Z",
+        "size_in_bytes": 206976899
+      },
+      "full_raw_locally_reaudited": false,
+      "independent_final_material_review_pending": true,
+      "complete_zip_digest_verified": false,
+      "public_visual_review_passed": false,
+      "independent_JKR_saved_force_formula_error_N": 6.938893903907228e-18
+    },
+    "md": {
+      "model": "md",
+      "run": 40078855654,
+      "source": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+      "receipt_sha256": "57d807c69bbe6a5d23f30fde1829d560ed744eb79644bae7de6b2e4a5cce9f0f",
+      "cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-md-40078855654-1-f60",
+      "parent_receipt_sha256": "7365149bc0ba29a65f599a59e41e04c0861bf433dd72af4b01034503f9fd236d",
+      "parent_cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-md-40077394360-1-f02",
+      "small_records_admitted": true,
+      "source_files_rebound_to_independently_admitted_parent": 18,
+      "runtime": {
+        "python": "3.12.13",
+        "implementation": "CPython",
+        "system": "Linux",
+        "machine": "x86_64",
+        "packages": {
+          "jax": "0.12.0.1",
+          "jaxlib": "0.12.0.1",
+          "ml-dtypes": "0.6.0",
+          "numpy": "2.5.4",
+          "opt-einsum": "3.4.0",
+          "pillow": "13.0.0",
+          "psutil": "7.2.2",
+          "scipy": "1.18.1"
+        }
+      },
+      "saved_states": 61,
+      "steps": 24495,
+      "particles": 202240,
+      "contact": {
+        "maximum_step_contact_force_N": 0.02307085923356647,
+        "minimum_step_contact_force_N": -0.0123681307034028,
+        "contact_gap_m": 0.0030469433711126466,
+        "lower_centre_displacement_y_m": -0.00038715830838789884,
+        "upper_centre_displacement_y_m": 0.0026097850627247667
+      },
+      "independent_saved_csv_force_balance_N": 6.938893903907228e-18,
+      "independent_saved_csv_momentum_closure_Ns": 9.711253916094235e-17,
+      "saved_material_records_undamaged": true,
+      "live_exact_cache": {
+        "id": 9443908786,
+        "ref": "refs/heads/work/fibre-contact-model-contrasts",
+        "key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-md-40078855654-1-f60",
+        "version": "9d6d53f72c0a42ff6ff2332d5afebc7345b1709a4a39bf5cd4f36352967f24d7",
+        "last_accessed_at": "2026-10-24T11:25:58.922617Z",
+        "created_at": "2026-10-24T11:25:58.513947Z",
+        "size_in_bytes": 207821420
+      },
+      "full_raw_locally_reaudited": false,
+      "independent_final_material_review_pending": true,
+      "complete_zip_digest_verified": false,
+      "public_visual_review_passed": false
+    },
+    "self-consistent": {
+      "model": "self-consistent",
+      "run": 40078885920,
+      "source": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+      "receipt_sha256": "65e7439b2c31b9a75f0a0cb1be3775fdc544bb083eec74e51ff0e01eb803ac83",
+      "cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-self-consistent-40078885920-1-f60",
+      "parent_receipt_sha256": "6381a88c9d32b3fe78c33a6eef239703999aa7154e5bcf6f0667081a78a2945d",
+      "parent_cache_key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-self-consistent-40077399620-1-f02",
+      "small_records_admitted": true,
+      "source_files_rebound_to_independently_admitted_parent": 18,
+      "runtime": {
+        "python": "3.12.13",
+        "implementation": "CPython",
+        "system": "Linux",
+        "machine": "x86_64",
+        "packages": {
+          "jax": "0.12.0.1",
+          "jaxlib": "0.12.0.1",
+          "ml-dtypes": "0.6.0",
+          "numpy": "2.5.4",
+          "opt-einsum": "3.4.0",
+          "pillow": "13.0.0",
+          "psutil": "7.2.2",
+          "scipy": "1.18.1"
+        }
+      },
+      "saved_states": 61,
+      "steps": 24495,
+      "particles": 202240,
+      "contact": {
+        "maximum_step_contact_force_N": 0.022926005271818043,
+        "minimum_step_contact_force_N": -0.014608207265493634,
+        "contact_gap_m": 0.0030353877739223174,
+        "lower_centre_displacement_y_m": -0.00038093353554163737,
+        "upper_centre_displacement_y_m": 0.0026044542383807014
+      },
+      "independent_saved_csv_force_balance_N": 5.204170427930421e-18,
+      "independent_saved_csv_momentum_closure_Ns": 9.538247436617544e-17,
+      "saved_material_records_undamaged": true,
+      "live_exact_cache": {
+        "id": 9442964549,
+        "ref": "refs/heads/work/fibre-contact-model-contrasts",
+        "key": "fibre-pull-off-v1-7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43-self-consistent-40078885920-1-f60",
+        "version": "9d6d53f72c0a42ff6ff2332d5afebc7345b1709a4a39bf5cd4f36352967f24d7",
+        "last_accessed_at": "2026-10-24T10:47:29.282892Z",
+        "created_at": "2026-10-24T10:47:29.000028Z",
+        "size_in_bytes": 207921964
+      },
+      "full_raw_locally_reaudited": false,
+      "independent_final_material_review_pending": true,
+      "complete_zip_digest_verified": false,
+      "public_visual_review_passed": false
+    }
+  }
+}

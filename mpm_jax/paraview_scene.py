@@ -526,7 +526,9 @@ def main():
         family_count = int(metadata["field_ranges"]["family_id"][1]) + 1
         if family_count < 1 or family_count > len(colors):
             raise ValueError("woven family_id must use contiguous labels from zero to at most two")
-        selections = [("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)]
+        has_matrix = metadata["field_ranges"]["phase"][0] == 0
+        selections = ([("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)]
+                      if has_matrix else [])
         selections += [("family_id", family, colors[family], 1.0) for family in range(family_count)]
         for name, value, color, opacity in selections:
             selected = Threshold(registrationName=f"{name} {value}", Input=reader)
@@ -640,7 +642,8 @@ def main():
             counts = [source.GetDataInformation().GetNumberOfPoints() for source in woven_sources]
             if sum(counts) != metadata["particles"] or any(count == 0 for count in counts):
                 raise RuntimeError("woven phase/family display must partition every particle")
-            woven_counts.append({"time": times[i], "matrix": counts[0], "yarn_families": counts[1:]})
+            woven_counts.append({"time": times[i], "matrix": counts[0] if has_matrix else 0,
+                                 "yarn_families": counts[1:] if has_matrix else counts})
         if has_failed and not woven_display:
             active_count = sum(
                 source.GetDataInformation().GetNumberOfPoints()
@@ -732,12 +735,14 @@ def main():
     if woven_display:
         provenance["color_range_source"] = "fixed categorical yarn-family colors"
         provenance["woven_display"] = {
+            "matrix_present": has_matrix,
             "matrix_opacity": matrix_opacity,
             "matrix_rgb": [0.72, 0.78, 0.83],
             "family_rgb": list(colors[:family_count]),
             "all_particles_retained": True,
             "displayed_counts": woven_counts,
-            "interpretation": "Translucent matrix and opaque yarn particles; actual positions without displacement scaling",
+            "interpretation": ("Translucent matrix and opaque yarn particles; actual positions without displacement scaling"
+                               if has_matrix else "Opaque fibre family particles; no matrix phase; actual positions without displacement scaling"),
         }
     if has_failed and not woven_display:
         provenance["failure_display"] = {

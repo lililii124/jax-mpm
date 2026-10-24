@@ -1,0 +1,137 @@
+name: admitted contact full61 raw and ParaView media
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Already completed full result only
+        type: choice
+        options: [jkr, md, self-consistent]
+        required: true
+      producer_receipt_sha256:
+        description: Independently admitted original frame60 receipt SHA256
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: contact-full61-media-${{ inputs.model }}
+  cancel-in-progress: false
+jobs:
+  finalize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      CONTACT_MODEL: ${{ inputs.model }}
+      RECEIPT_SHA: ${{ inputs.producer_receipt_sha256 }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43
+          path: .local/fibre-original-producer
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Reserve disk for complete original archive and VTK
+        run: |
+          df -h .
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet
+          python -c "import shutil; assert shutil.disk_usage('.').free>=25*1024**3"
+      - name: Bind admitted terminal run and model to exact cache
+        id: admission
+        run: python tools/finalize_contact_full61.py prepare --model "$CONTACT_MODEL" --receipt-sha "$RECEIPT_SHA"
+      - uses: actions/cache/restore@v5
+        id: restore
+        timeout-minutes: 15
+        with:
+          path: .local/fibre-pull-off-cache
+          key: ${{ steps.admission.outputs.cache_key }}
+          fail-on-cache-miss: true
+      - name: Verify exact original receipt before installing locked dependencies
+        env:
+          EXPECTED_KEY: ${{ steps.admission.outputs.cache_key }}
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib,re
+          root=pathlib.Path('.local/fibre-pull-off-cache')
+          assert os.environ['CACHE_HIT']=='true'
+          key=os.environ['EXPECTED_KEY']
+          assert os.environ['CACHE_MATCH']==key
+          expected=os.environ['RECEIPT_SHA']; assert re.fullmatch('[0-9a-f]{64}',expected)
+          assert hashlib.sha256((root/'receipt.json').read_bytes()).hexdigest()==expected
+          r=json.loads((root/'receipt.json').read_text()); assert r['frame']==60 and r['cache_key']==key
+          assert r['kind']=='accepted-prefix' and r['never_resumable'] is False
+          runtime=json.loads((root/'runtime/environment.json').read_text())
+          assert runtime['python']=='3.12.13'
+          pins=''.join(k+'=='+v+'\n' for k,v in sorted(runtime['packages'].items()))
+          assert (root/'runtime/requirements.txt').read_text()==pins
+          PY
+          python -m pip install -r .local/fibre-pull-off-cache/runtime/requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Install and preflight actual offscreen ParaView
+        timeout-minutes: 15
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
+          ffmpeg -version
+          ffprobe -version
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as pv
+          pv.LOGS=Path('.local/fibre-pv-install');pv.LOGS.mkdir()
+          pv.install()
+          PY
+      - name: Independently review full raw and render all61 actual saved states
+        timeout-minutes: 100
+        run: >-
+          python tools/finalize_contact_full61.py finalize --model "$CONTACT_MODEL"
+          --cache .local/fibre-pull-off-cache
+          --receipt-sha "$RECEIPT_SHA"
+          --producer-root .local/fibre-original-producer
+          --output .local/fibre-final-media
+      - name: Package bounded media and complete multipart raw archive
+        run: python tools/package_fibre_final_media.py package --output .local/fibre-final-media --delivery .local/fibre-final-delivery
+      - uses: actions/upload-artifact@v4
+        id: upload
+        timeout-minutes: 15
+        with:
+          name: fibre-${{ inputs.model }}-complete-media-raw-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/fibre-final-delivery/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        timeout-minutes: 15
+        with:
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/fibre-final-retrieved/
+          merge-multiple: true
+      - name: Independently hash complete retrieved archive and every original member
+        run: python tools/package_fibre_final_media.py verify --delivery .local/fibre-final-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fibre-${{ inputs.model }}-final-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/fibre-final-media/*.json
+            .local/fibre-final-media/logs/
+            .local/fibre-pv-install/
+            .local/fibre-final-retrieved/*receipt.json
+          if-no-files-found: warn
+          retention-days: 30
