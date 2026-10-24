@@ -75,7 +75,9 @@ jobs:
         timeout-minutes: 15
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
+          ffmpeg -version
+          ffprobe -version
           python - <<'PY'
           import sys
           from pathlib import Path
@@ -119,6 +121,11 @@ jobs:
           path: |
             .local/fibre-final-media/*.json
             .local/fibre-final-media/logs/
+            .local/fibre-final-media/result/simulation.gif
+            .local/fibre-final-media/result/render.json
+            .local/fibre-final-media/result/frames/frame_00000.png
+            .local/fibre-final-media/result/frames/frame_00030.png
+            .local/fibre-final-media/result/frames/frame_00060.png
             .local/fibre-pv-install/
             .local/fibre-final-retrieved/*receipt.json
           if-no-files-found: warn
