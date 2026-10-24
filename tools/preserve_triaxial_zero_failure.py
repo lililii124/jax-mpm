@@ -73,7 +73,8 @@ def preserve(m):
             'contact_law_valid': bool(np.all(cp['contact_law_valid']))}
     selected = {'diagnostic/checkpoint.npz': checkpoint,
         'records/context.json': context_path, 'records/plan.json': m.BASE / 'parent/plan.json'}
-    for name in ('memory.json', 'solver.log', 'history-availability.json', 'artifact-accounting.json'):
+    for name in ('memory.json', 'solver.log', 'history-availability.json', 'artifact-accounting.json',
+                 'resume-metadata-proof.json'):
         if (m.BASE / name).exists():
             selected['records/' + name] = m.BASE / name
     for name in ('status.json', 'failure.json', 'summary.json', 'observables.csv',

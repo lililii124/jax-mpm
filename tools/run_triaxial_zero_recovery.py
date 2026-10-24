@@ -36,6 +36,7 @@ CONTROLLER_PATHS = ('tools/run_triaxial_zero_recovery.py',
     '.github/workflows/triaxial-zero-recovery.yml',
     'tests/test_triaxial_zero_recovery_storage.py')
 FIELDS = ('x', 'speed', 'damage', 'failed', 'temperature')
+RESUME_METADATA = ('status.json', 'summary.json', 'contact-model.json')
 PREFIX = '.local/triaxial-segment-cache/data/formal/theta-00/hertz/'
 
 
@@ -142,6 +143,11 @@ def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
             if record(parent / 'checkpoint.npz') != {'bytes': cp['bytes'], 'sha256': cp['sha256']}:
                 raise ValueError('Reassembled full checkpoint mismatch')
             plan = json.loads(z.read(PREFIX + 'plan.json'))
+            # The original driver reads status before entering its runtime.
+            # Preserve actual admitted metadata bytes, rather than synthesizing
+            # a running/accepted phase from the existence of an NPZ alone.
+            for name in RESUME_METADATA:
+                (parent / name).write_bytes(z.read(PREFIX + name))
             job = json.loads(z.read('.local/triaxial-segment-ci/job.json'))
             environment = json.loads(z.read('.local/triaxial-segment-ci/environment-check.json'))['environment']
             provenance = {'origin_run': 40066438924, 'origin_artifact': 12556081018,
@@ -163,6 +169,9 @@ def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
             for name in ('checkpoint.npz', 'plan.json', 'context.json'):
                 with z.open('restart/' + name) as source, (parent / name).open('xb') as output:
                     shutil.copyfileobj(source, output, 1024**2)
+            for name in RESUME_METADATA:
+                with z.open('records/' + name) as source, (parent / name).open('xb') as output:
+                    shutil.copyfileobj(source, output, 1024**2)
             prior = read(parent / 'context.json')
             plan, kwargs, environment = read(parent / 'plan.json'), prior['kwargs'], prior['environment']
             provenance, start = prior['provenance'], manifest['end_frame']
@@ -173,6 +182,7 @@ def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
     context = {'schema': 'triaxial-zero-recovery-v1', 'parent_archive_sha256': expected_sha,
         'controller': controller,
         'parent_checkpoint': record(parent / 'checkpoint.npz'), 'start_frame': start,
+        'parent_metadata': {name: record(parent / name) for name in RESUME_METADATA},
         'end_frame': end_frame, 'kwargs': kwargs, 'environment': environment,
         'provenance': provenance, 'artifact_limit_bytes': ARTIFACT_LIMIT,
         'rolling_pool_used_bytes': cloud_used, 'rolling_pool_limit_bytes': CLOUD_LIMIT,
@@ -206,6 +216,48 @@ def verify_frozen(plan):
             raise ValueError('Frozen numerical source differs: ' + name)
 
 
+def restore_resume_metadata(folder, plan, context):
+    """Restore real parent status/summary only after checkpoint-bound admission."""
+    import numpy as np
+    parent = BASE / 'parent'
+    for name in RESUME_METADATA:
+        if record(parent / name) != context['parent_metadata'][name]:
+            raise ValueError('Parent resume metadata bytes changed: ' + name)
+    if record(folder / 'checkpoint.npz') != context['parent_checkpoint']:
+        raise ValueError('Copied original checkpoint bytes changed')
+    status, summary = read(parent / 'status.json'), read(parent / 'summary.json')
+    frame = context['start_frame']
+    signature = hashlib.sha256(json.dumps(plan, sort_keys=True).encode()).hexdigest()
+    with np.load(folder / 'checkpoint.npz', allow_pickle=False) as cp:
+        steps, instant = int(cp['aggregate'][0]), float(cp['state_time'])
+        if (int(cp['frame']) != frame or str(cp['signature']) != signature
+                or steps != plan['frame_steps'][frame] or not bool(cp['aggregate'][4])
+                or not all(np.all(cp[key]) for key in ('state_valid', 'history_valid', 'contact_valid', 'contact_law_valid'))):
+            raise ValueError('Parent metadata cannot admit a rejected or mismatched checkpoint')
+    if (status.get('completed') is not False or status.get('probe_complete') is not False
+            or status.get('segment_complete') is not True or status.get('coupling_valid') is not True
+            or status.get('phase') != 'checkpoint-ready' or status.get('frame') != frame
+            or status.get('segment_end_frame') != frame or status.get('frames') != plan['saved_states'] - 1
+            or status.get('steps') != steps or status.get('target_steps') != plan['stop_steps']
+            or status.get('signature') != signature):
+        raise ValueError('Original saved status does not identify the exact resumable parent')
+    if (summary.get('completed') is not False or summary.get('probe_complete') is not False
+            or summary.get('segment_complete') is not True or summary.get('phase') != 'checkpoint-ready'
+            or summary.get('segment_end_frame') != frame or summary.get('steps') != steps
+            or summary.get('definition') != {**plan, 'contact_model': read(parent / 'contact-model.json')}
+            or summary.get('source') != plan['source']
+            or summary.get('simulation_time') != instant):
+        raise ValueError('Original saved summary differs from checkpoint/plan endpoint')
+    for name in RESUME_METADATA:
+        shutil.copyfile(parent / name, folder / name)
+        if record(folder / name) != context['parent_metadata'][name]:
+            raise ValueError('Resume metadata copy changed bytes: ' + name)
+    save(BASE / 'resume-metadata-proof.json', {'parent_checkpoint': context['parent_checkpoint'],
+        'parent_metadata': context['parent_metadata'], 'frame': frame, 'steps': steps,
+        'signature': signature, 'copied_exact_original_bytes': True,
+        'old_particle_history_reconstructed': False, 'numerical_steps_executed': 0})
+
+
 def worker():
     """Numerical worker: exact original source, parameters, checkpoint and law."""
     context, plan = read(BASE / 'context.json'), read(BASE / 'parent/plan.json')
@@ -230,6 +282,7 @@ def worker():
     folder.mkdir(parents=True)
     save(folder / 'plan.json', plan)
     shutil.copyfile(BASE / 'parent/checkpoint.npz', folder / 'checkpoint.npz')
+    restore_resume_metadata(folder, plan, context)
     count, saved, start = plan['particles'], plan['saved_states'], context['start_frame']
     with np.load(folder / 'checkpoint.npz', allow_pickle=False) as cp:
         if (int(cp['frame']) != start or not bool(cp['aggregate'][4])
@@ -414,6 +467,8 @@ def package():
             'records/memory.json': BASE / 'memory.json', 'records/solver.log': BASE / 'solver.log'}
         if (BASE / 'artifact-accounting.json').exists():
             selected['records/artifact-accounting.json'] = BASE / 'artifact-accounting.json'
+        if (BASE / 'resume-metadata-proof.json').exists():
+            selected['records/resume-metadata-proof.json'] = BASE / 'resume-metadata-proof.json'
         for name in ('summary.json', 'status.json', 'observables.csv', 'diagnostics.csv',
                      'layout.json', 'contact-model.json', 'contact-metrics.json', 'particle_fields.npz'):
             selected['records/' + name] = folder / name
