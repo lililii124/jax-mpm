@@ -1,16 +1,15 @@
-name: fresh linear metal bounded f8 prefix
-on:
-  workflow_dispatch:
+name: Read-only linear metal f8 whole raw admission
 permissions:
   contents: read
+  actions: read
 concurrency:
-  group: metal-linear-full-${{ github.sha }}
+  group: metal-linear-continuation-${{ github.sha }}
   cancel-in-progress: false
 jobs:
   solve:
     if: github.ref == 'refs/heads/work/metal-linear-full'
     runs-on: ubuntu-24.04
-    timeout-minutes: 210
+    timeout-minutes: 45
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -19,338 +18,33 @@ jobs:
       OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
     steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.sha }}
-          persist-credentials: false
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.12.13'
-      - name: Install pinned numerical runtime
-        run: |
-          python -m pip install numpy==2.5.4 jax==0.12.0.1 jaxlib==0.12.0.1 psutil==7.2.2
-          python -m pip install --no-deps -e .
-      - name: Fresh source bound t0 to f8 bounded first prefix
-        run: python tools/run_metal_linear_full.py --wall-seconds-per-segment 5100 --stop-frame 8
-      - name: Package whole raw even after failed solve
-        if: always()
-        id: package
-        timeout-minutes: 10
-        run: |
-          python tools/run_metal_linear_full.py package
-          echo "manifest_sha=$(sha256sum .local/metal-linear-delivery/transport.json | cut -d ' ' -f1)" >> "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-manifest
-          path: .local/metal-linear-delivery/transport.json
-          if-no-files-found: error
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-000.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-000
-          path: .local/metal-linear-delivery/part-000.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-001.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-001
-          path: .local/metal-linear-delivery/part-001.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-002.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-002
-          path: .local/metal-linear-delivery/part-002.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-003.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-003
-          path: .local/metal-linear-delivery/part-003.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-004.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-004
-          path: .local/metal-linear-delivery/part-004.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-005.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-005
-          path: .local/metal-linear-delivery/part-005.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-006.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-006
-          path: .local/metal-linear-delivery/part-006.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-007.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-007
-          path: .local/metal-linear-delivery/part-007.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-008.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-008
-          path: .local/metal-linear-delivery/part-008.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-009.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-009
-          path: .local/metal-linear-delivery/part-009.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-010.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-010
-          path: .local/metal-linear-delivery/part-010.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-011.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-011
-          path: .local/metal-linear-delivery/part-011.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-012.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-012
-          path: .local/metal-linear-delivery/part-012.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-013.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-013
-          path: .local/metal-linear-delivery/part-013.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-014.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-014
-          path: .local/metal-linear-delivery/part-014.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-015.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-015
-          path: .local/metal-linear-delivery/part-015.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-016.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-016
-          path: .local/metal-linear-delivery/part-016.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-017.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-017
-          path: .local/metal-linear-delivery/part-017.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-018.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-018
-          path: .local/metal-linear-delivery/part-018.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-019.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-019
-          path: .local/metal-linear-delivery/part-019.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-020.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-020
-          path: .local/metal-linear-delivery/part-020.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-021.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-021
-          path: .local/metal-linear-delivery/part-021.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-022.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-022
-          path: .local/metal-linear-delivery/part-022.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-023.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-023
-          path: .local/metal-linear-delivery/part-023.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-024.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-024
-          path: .local/metal-linear-delivery/part-024.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-025.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-025
-          path: .local/metal-linear-delivery/part-025.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-026.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-026
-          path: .local/metal-linear-delivery/part-026.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-027.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-027
-          path: .local/metal-linear-delivery/part-027.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-028.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-028
-          path: .local/metal-linear-delivery/part-028.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-029.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-029
-          path: .local/metal-linear-delivery/part-029.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-030.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-030
-          path: .local/metal-linear-delivery/part-030.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        if: always() && hashFiles('.local/metal-linear-delivery/part-031.tarpart') != ''
-        timeout-minutes: 3
-        with:
-          name: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-part-031
-          path: .local/metal-linear-delivery/part-031.tarpart
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 7
-      - uses: actions/download-artifact@v5
-        if: always()
-        timeout-minutes: 10
-        with:
-          pattern: metal-linear-${{ github.run_id }}-${{ github.run_attempt }}-*
-          path: .local/metal-linear-retrieved/
-          merge-multiple: true
-      - name: Verify original manifest and whole raw retrieval
-        if: always()
-        timeout-minutes: 8
-        env:
-          EXPECTED_MANIFEST: ${{ steps.package.outputs.manifest_sha }}
-        run: python tools/run_metal_linear_full.py verify .local/metal-linear-retrieved "$EXPECTED_MANIFEST"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: metal-linear-retrieval-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/metal-linear-retrieved/retrieval-receipt.json
-          if-no-files-found: error
-          retention-days: 7
+    - uses: actions/checkout@v7
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@v7
+      with:
+        python-version: 3.12.13
+    - name: Install pinned numerical runtime
+      run: 'python -m pip install numpy==2.5.4 jax==0.12.0.1 jaxlib==0.12.0.1 psutil==7.2.2
+
+        python -m pip install --no-deps -e .
+
+        '
+    - name: Read-only full artifact source runtime and saved-state admission
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python tools/admit_metal_linear_f8.py
+      timeout-minutes: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: linear-metal-f8-independent-admission-${{ github.run_id }}-${{ github.run_attempt
+          }}
+        path: '.local/metal-linear-continuation/independent-admission.json
+
+          .local/metal-linear-continuation/lineage.json'
+        if-no-files-found: error
+        retention-days: 30
+'on':
+  workflow_dispatch: {}
