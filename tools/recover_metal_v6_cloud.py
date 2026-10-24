@@ -2,6 +2,7 @@
 import argparse,hashlib,importlib.metadata,json,os,re,shutil,signal,subprocess,sys,tarfile,time,urllib.request,urllib.parse,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
 ADMISSION=ROOT/'tools/metal_v6_cloud_seed_admission.json'
 DEST=ROOT/'.local/metal-v6-cloud-recovery'
 RAW=DEST/'raw'
