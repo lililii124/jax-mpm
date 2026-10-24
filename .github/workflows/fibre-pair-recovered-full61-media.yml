@@ -1,0 +1,128 @@
+name: recovered matched full40ms real61 ParaView pair media
+on:
+  workflow_dispatch:
+    inputs:
+      hertz_artifact_id:
+        type: string
+        required: true
+      hertz_receipts_artifact_id:
+        type: string
+        required: true
+      hertz_receipt_sha256:
+        type: string
+        required: true
+      jkr_artifact_id:
+        type: string
+        required: true
+      jkr_receipts_artifact_id:
+        type: string
+        required: true
+      jkr_receipt_sha256:
+        type: string
+        required: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: recovered-matched-full40ms-pair-media
+  cancel-in-progress: false
+jobs:
+  media:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HERTZ_ARTIFACT: ${{ inputs.hertz_artifact_id }}
+      HERTZ_RECEIPTS_ARTIFACT: ${{ inputs.hertz_receipts_artifact_id }}
+      HERTZ_RECEIPT: ${{ inputs.hertz_receipt_sha256 }}
+      JKR_ARTIFACT: ${{ inputs.jkr_artifact_id }}
+      JKR_RECEIPTS_ARTIFACT: ${{ inputs.jkr_receipts_artifact_id }}
+      JKR_RECEIPT: ${{ inputs.jkr_receipt_sha256 }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: bfaaf43cdca9f7ddedcb9726b35a3fc482aa8206
+          path: .local/producer-source
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2 pillow==13.0.0
+      - name: Bind actual media HEAD and registered workflow then fetch only official complete successful raw
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          head=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
+          if head!=os.environ['GITHUB_SHA']:raise ValueError('Media HEAD differs')
+          own='.github/workflows/fibre-pair-recovered-full61-media.yml';active='.github/workflows/'+os.environ['GITHUB_WORKFLOW_REF'].split('/.github/workflows/',1)[1].split('@',1)[0]
+          if active not in (own,'.github/workflows/engineering-previews.yml') or Path(active).read_bytes()!=Path(own).read_bytes():raise ValueError('Registered media override differs')
+          names=['tools/recover_fibre_pair_full61_archive.py','tools/finalize_recovered_fibre_pair_media.py','tools/finalize_fibre_pair_full61_media.py','tools/render_fibre_pair_full61.py','tools/paraview_fibre_pair_scene.py','tools/review_fibre_pair_full61.py','tools/review_fibre_pair_full_hold.py','tools/fibre_pair_full61_certifications.json','tools/package_fibre_final_media.py','tools/run_fibre_pair_prefix.py','tools/finish_fibre_pull_off.py','tools/run_woven_preview.py','mpm_jax/paraview_scene.py','mpm_jax/export.py','mpm_jax/visualization.py','mpm_jax/particle_fields.py',own,active]
+          record={}
+          for n in set(names):
+           raw=Path(n).read_bytes()
+           if raw!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Media source differs from exact HEAD')
+           record[n]=hashlib.sha256(raw).hexdigest()
+          Path('.local/media-source.json').write_text(json.dumps({'commit':head,'files':record},indent=2))
+          repo=os.environ['GITHUB_REPOSITORY'];official={}
+          def api(p):return json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/'+p]))
+          for model,runid in [('hertz','40113622359'),('jkr','40113637037')]:
+           artifact_id=os.environ[model.upper()+'_ARTIFACT'];run=api('actions/runs/'+runid);artifact=api('actions/artifacts/'+artifact_id)
+           if run['status']!='completed' or run['conclusion'] not in ('success','failure') or run['head_sha']!='0d3029212c7ad6f494e62637494d1951ba048368':raise ValueError('Original run must be terminal exact source; numerical admission is separately recovered')
+           if artifact['expired'] or artifact['workflow_run']['id']!=int(runid) or artifact['name']!='fibre-pair-'+model+'-full61-complete-raw-'+runid or artifact['size_in_bytes']>2*1024**3:raise ValueError('Exact original complete raw artifact identity/budget differs')
+           path=Path('.local')/('full-'+model+'.zip')
+           with path.open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+artifact_id+'/zip'],stdout=f,check=True)
+           h=hashlib.sha256()
+           with path.open('rb') as f:
+            for b in iter(lambda:f.read(1024**2),b''):h.update(b)
+           if artifact['digest']!='sha256:'+h.hexdigest():raise ValueError('Official complete raw ZIP digest differs')
+           receipts=api('actions/artifacts/'+os.environ[model.upper()+'_RECEIPTS_ARTIFACT'])
+           if receipts['expired'] or receipts['workflow_run']['id']!=int(runid) or receipts['workflow_run']['head_sha']!=run['head_sha'] or receipts['name']!='fibre-pair-'+model+'-full61-receipts-'+runid or receipts['size_in_bytes']>2*1024**2:raise ValueError('Wrong original small receipt artifact')
+           small=Path('.local')/('full-'+model+'-receipts.zip')
+           with small.open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+str(receipts['id'])+'/zip'],stdout=f,check=True)
+           if receipts['digest']!='sha256:'+hashlib.sha256(small.read_bytes()).hexdigest():raise ValueError('Original small ZIP SHA differs')
+           official[model]={'run':run,'artifact':artifact,'zip_sha256':h.hexdigest(),'receipts_artifact':receipts,'original_failed_packaging_not_masked':run['conclusion']=='failure'}
+          Path('.local/media-official-parents.json').write_text(json.dumps(official,indent=2))
+          PY
+      - name: Install actual pinned ParaView offscreen renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('.local/pair-pv-install');p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Complete raw/state audit then actual measured hold gate then real61 frames at identical low camera
+        run: python tools/finalize_recovered_fibre_pair_media.py --hertz-receipt-sha256 "$HERTZ_RECEIPT" --jkr-receipt-sha256 "$JKR_RECEIPT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: recovered-matched-full40ms-real61-pair-media-${{ github.run_id }}
+          path: |
+            .local/media-source.json
+            .local/media-official-parents.json
+            .local/pair-media/*-independent-full61-review.json
+            .local/pair-media/*/copy-only-recovery/independent-recovery-admission.json
+            .local/pair-media/actual-pair-hold-gate.json
+            .local/pair-media/media-admission.json
+            .local/pair-media/logs/
+            .local/pair-media/rendered/*/simulation.gif
+            .local/pair-media/rendered/*/preview-receipt.json
+            .local/pair-media/rendered/*/render.json
+            .local/pair-media/rendered/*/render.log
+            .local/pair-media/rendered/*/frames/
+            .local/pair-pv-install/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
