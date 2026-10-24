@@ -1,0 +1,140 @@
+name: feature radial sinusoidal full review media
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Independent full raw review, optionally followed by matched51-state media
+        type: choice
+        options: [media, audit]
+        default: media
+        required: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: radial-sinusoidal-independent-full-review-media
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 145
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      REVIEW_MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: de2bfea446e66e6245e33329a663996c5d5b9e84
+          path: .local/radial-immutable-producer
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 93becdf685107c35193b610af231915a58249c52
+          path: .local/radial-numerical-controller
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Admit full immutable raw and read-only render disk budget
+        run: |
+          python - <<'PY'
+          import shutil,subprocess
+          if shutil.disk_usage('.').free<24*1024**3:
+              subprocess.run(['sudo','rm','-rf','--','/usr/local/lib/android','/usr/share/dotnet'],check=True)
+          assert shutil.disk_usage('.').free>=24*1024**3
+          PY
+      - name: Restore exact successful f50 evidence without fallback
+        id: restore
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/radial-immutable-producer/.local/radial-sinusoidal-full
+          key: radial-dual-continuation-v1-93becdf685107c35193b610af231915a58249c52-40094841691-1
+          fail-on-cache-miss: true
+      - name: Retrieve exact independently admitted original prefix proof
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40092005172'
+          artifact-ids: '12559346521'
+          path: .local/radial-independent-proof
+          merge-multiple: true
+      - name: Retrieve exact small complete-transport manifest
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40094841691'
+          artifact-ids: '12560529308'
+          path: .local/radial-full-transport
+          merge-multiple: true
+      - name: Record actual immutable full numerical run and artifact identities
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs=require('fs');
+            const run_id=40094841691;
+            const run=(await github.rest.actions.getWorkflowRun({...context.repo,run_id})).data;
+            if(run.head_sha!=='93becdf685107c35193b610af231915a58249c52'||run.conclusion!=='success'||run.path!=='.github/workflows/engineering-previews.yml')throw new Error('Full numerical run identity differs');
+            const all=await github.paginate(github.rest.actions.listWorkflowRunArtifacts,{...context.repo,run_id,per_page:100});
+            const artifacts=all.filter(x=>x.name.startsWith('radial-cont-raw-40094841691-1-'));
+            if(!artifacts.length||artifacts.some(x=>x.expired))throw new Error('Complete retained numerical transport unavailable');
+            fs.mkdirSync('.local',{recursive:true});
+            fs.writeFileSync('.local/radial-full-run-identities.json',JSON.stringify({run_id,head_sha:run.head_sha,workflow_path:run.path,conclusion:run.conclusion,artifacts:artifacts.map(x=>({id:x.id,name:x.name,size_in_bytes:x.size_in_bytes,digest:x.digest}))},null,2));
+      - name: Install immutable numerical reader and rendering runtime
+        timeout-minutes: 10
+        run: |
+          python -m pip install -r .local/radial-immutable-producer/tools/radial_sinusoidal_runtime.txt
+          python -m pip install --no-deps -e .local/radial-immutable-producer
+      - name: Install actual ParaView for media only
+        if: inputs.mode == 'media'
+        timeout-minutes: 20
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
+          python tools/radial_sinusoidal_full_review.py install
+      - name: Independently review all51 states and optionally render matched media
+        timeout-minutes: 95
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: python tools/radial_sinusoidal_full_review.py "$REVIEW_MODE"
+      - uses: actions/upload-artifact@v4
+        id: delivery
+        if: always()
+        timeout-minutes: 10
+        with:
+          name: radial-full-independent-${{ inputs.mode }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/radial-full-review-media/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+      - uses: actions/download-artifact@v5
+        if: success()
+        timeout-minutes: 10
+        with:
+          artifact-ids: ${{ steps.delivery.outputs.artifact-id }}
+          path: .local/radial-full-independent-retrieved
+          merge-multiple: true
+      - name: Verify exact same-run retrieved review/media bytes
+        if: success()
+        env:
+          MEDIA_ARTIFACT_ID: ${{ steps.delivery.outputs.artifact-id }}
+        run: python tools/radial_sinusoidal_full_review.py verify-delivery --folder .local/radial-full-independent-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: radial-full-independent-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/radial-full-review-retrieval.json
+            .local/radial-full-run-identities.json
+            .local/radial-immutable-producer/.local/radial-sinusoidal-pv-install/paraview-install.json
+          if-no-files-found: warn
+          retention-days: 30
