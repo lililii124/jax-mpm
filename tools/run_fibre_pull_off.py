@@ -57,7 +57,9 @@ def source_record():
     names = next(ast.literal_eval(node.value) for node in parsed.body if isinstance(node, ast.Assign)
         and any(isinstance(target, ast.Name) and target.id == 'SOURCE_FILES' for target in node.targets))
     names = sorted(set(names) | {'tools/run_fibre_pull_off.py', 'tools/run_engineering_preview.py',
-        'tools/run_woven_preview.py', 'pyproject.toml', '.github/workflows/fibre-pull-off-checks.yml'})
+        'tools/run_woven_preview.py', 'pyproject.toml', '.github/workflows/fibre-pull-off-checks.yml',
+        '.github/workflows/engineering-previews.yml', 'evidence/fibre/hertz-runtime.json',
+        'evidence/fibre/hertz-runtime-requirements.txt'})
     source = engine.identity()
     files, blobs, normalized = {}, {}, {}
     for name in names:
