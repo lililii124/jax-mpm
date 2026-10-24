@@ -1,0 +1,316 @@
+{
+  "admitted_prefix": true,
+  "controller_commit": "b64487421fe7ede31889ba7557a46309826b4d68",
+  "controller_run": "40090971218",
+  "full_protocol_accepted": false,
+  "parent_attempt": 1,
+  "parent_commit": "669ba3593a8c5db2b50c3d995ced34a6f596b64f",
+  "parent_run": 40089103544,
+  "raw_unchanged": true,
+  "receipt": {
+    "commit": "669ba3593a8c5db2b50c3d995ced34a6f596b64f",
+    "files": {
+      "monitor.json": {
+        "bytes": 29200,
+        "sha256": "291526b9ece71c9d09e87ec31eb2565b1fa32874434961ed141b5263eab868bd"
+      },
+      "output/plain/deep-sphere-impact/checkpoint.npz": {
+        "bytes": 2783932,
+        "sha256": "b8740f320dd3e99ac0ed44de0f672679e25063e533d1143ae7efa17f461f064a"
+      },
+      "output/plain/deep-sphere-impact/deep-review.json": {
+        "bytes": 462,
+        "sha256": "ec2b0455509a26fde3d7658d47f8d52a393ee58195f50ea69aefa5e58ec5ffeb"
+      },
+      "output/plain/deep-sphere-impact/diagnostics.csv": {
+        "bytes": 485,
+        "sha256": "b5c8643f1c135302641f2438c515c1948080ac00111f5ed5c2d3c52b18f0022c"
+      },
+      "output/plain/deep-sphere-impact/final_state_0.npz": {
+        "bytes": 2780821,
+        "sha256": "3b8fa1bbe6ba24e0550d127c8dba0ad845459b595cc7c542325d23a80779e0d6"
+      },
+      "output/plain/deep-sphere-impact/layout.json": {
+        "bytes": 570,
+        "sha256": "79029ee24f313ef098a4a8d4aa0dec87af15dc5802ffac75cb5081bf00db5401"
+      },
+      "output/plain/deep-sphere-impact/layout_arrays.npz": {
+        "bytes": 2170221,
+        "sha256": "7844bf4b7d235183f1c09ef28057c109f23c5865818a527e6b79c3257643cb67"
+      },
+      "output/plain/deep-sphere-impact/observables.csv": {
+        "bytes": 2476,
+        "sha256": "6742ccc39b072933a8b8531e699ca803621d977fe2b82454bbca48213c060d59"
+      },
+      "output/plain/deep-sphere-impact/particle_fields.npz": {
+        "bytes": 72758,
+        "sha256": "f7291841cb1b5e13005ccd289e36b04a228b4c6436b5a913bf001a43a393eddf"
+      },
+      "output/plain/deep-sphere-impact/plan.json": {
+        "bytes": 1152775,
+        "sha256": "cbaf646a7a1dc04eb15bfb708e18701731215154637cd36c51a50009df9cc904"
+      },
+      "output/plain/deep-sphere-impact/reference.npz": {
+        "bytes": 3544889,
+        "sha256": "6e3cadb2e47f96c34b661fce4049a3c45e1ad50ca79abdb5ad9afad347c0122f"
+      },
+      "output/plain/deep-sphere-impact/status.json": {
+        "bytes": 434,
+        "sha256": "83c67200d902e5984375da385909d669eba306237f8c4c28201cd75096c880a7"
+      },
+      "output/plain/deep-sphere-impact/summary.json": {
+        "bytes": 1299160,
+        "sha256": "e5a20c45bbc46fcee0813100b5245f7432bda07ac0c180d7429cd956961bb9f9"
+      },
+      "output/plain/deep-sphere-impact/trajectory.npz": {
+        "bytes": 3606,
+        "sha256": "728675a11cd9cb3dfcecfb180265c82a0ecdbe6b96107b496ba1fd2ec0bb3729"
+      },
+      "output/plain/deep-sphere-impact/trajectory_damage.npy": {
+        "bytes": 199884928,
+        "sha256": "4ff33f65fdb1587b45c22c6d00be03c9291a90605d95c1545e0ae6eca2742a39"
+      },
+      "output/plain/deep-sphere-impact/trajectory_speed.npy": {
+        "bytes": 199884928,
+        "sha256": "4ff33f65fdb1587b45c22c6d00be03c9291a90605d95c1545e0ae6eca2742a39"
+      },
+      "output/plain/deep-sphere-impact/trajectory_temperature.npy": {
+        "bytes": 199884928,
+        "sha256": "15f35b0944278189659255a28d76dafcdf466aeb56fa3f1405f65b11b9014c63"
+      },
+      "output/plain/deep-sphere-impact/trajectory_x.npy": {
+        "bytes": 1199308928,
+        "sha256": "cca0224247f530535e78a5534c947f90697c5e762b7da0c109d7e67e9fb02c5e"
+      },
+      "solve.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source.json": {
+        "bytes": 3157,
+        "sha256": "c5cf5d6f2b15171bedb12bfafba3dff4ca801b293739d1acab851ae055b52718"
+      }
+    },
+    "physical_validation_passed": false,
+    "schema": "woven-deep-f2-v1",
+    "scope": "40J elastic exploratory prefix; depth target not yet assessed",
+    "status": {
+      "completed": false,
+      "coupling_valid": true,
+      "frame": 2,
+      "frames": 60,
+      "full_steps": 14460,
+      "phase": "checkpoint-ready",
+      "probe_complete": false,
+      "runtime_stop_after_frame": 2,
+      "segment_complete": true,
+      "segment_end_frame": 2,
+      "segment_start_frame": 0,
+      "signature": "60c40bdb95b16bcbaf7dcdd65463ddb3f507234f07f82cadee879406d88d3844",
+      "steps": 482,
+      "target_steps": 14460,
+      "time": 6.666666666666601e-06
+    }
+  },
+  "review": {
+    "accepted": false,
+    "clamp_passed": true,
+    "completed": false,
+    "energy_passed": true,
+    "final_yarn_green_strain_norm": 0.0,
+    "independent_final_material_energy_J": 0.0,
+    "material_energy_passed": true,
+    "max_relative_energy_error": 0.0,
+    "peak_center_indentation_m": -0.0,
+    "scope": "Saved-frame peak center ROI displacement; deeper peaks between saved frames are not resolved. Elastic demonstration only.",
+    "stable": true,
+    "target_m": 0.002
+  },
+  "runtime": {
+    "backend": "cpu",
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4",
+    "psutil": "7.2.2",
+    "python": "3.12.13",
+    "x64": true
+  },
+  "schema": "woven-deep-f2-independent-admission-v1",
+  "scope": "Complete verified parent raw restored to fresh destination; parent artifacts unchanged",
+  "solver_executed": false,
+  "source": {
+    "commit": "669ba3593a8c5db2b50c3d995ced34a6f596b64f",
+    "files": {
+      ".github/workflows/engineering-previews.yml": {
+        "bytes": 17509,
+        "sha256": "498ff7012c099bd7ac9c5a2fa21c490dade9702ec1cb42bca8635625e382285e"
+      },
+      ".github/workflows/woven-deep-prefix.yml": {
+        "bytes": 17509,
+        "sha256": "498ff7012c099bd7ac9c5a2fa21c490dade9702ec1cb42bca8635625e382285e"
+      },
+      "examples/woven_deep_impact.py": {
+        "bytes": 7831,
+        "sha256": "8422e5e459f5abd73c6a2f1e2f0c07ce50f1c078967963e5c7ef5f13ee9998e6"
+      },
+      "examples/woven_geometry.py": {
+        "bytes": 16097,
+        "sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a"
+      },
+      "examples/woven_large_geometry.py": {
+        "bytes": 11369,
+        "sha256": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6"
+      },
+      "examples/woven_large_plate.py": {
+        "bytes": 39300,
+        "sha256": "10d22d58685f6998c3bcea7f92fa406b0cb1d3feb2a77b3a946579b50685387a"
+      },
+      "mpm_jax/fibre_mpm.py": {
+        "bytes": 21592,
+        "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+      },
+      "mpm_jax/materials/__init__.py": {
+        "bytes": 1613,
+        "sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b"
+      },
+      "mpm_jax/materials/elastic.py": {
+        "bytes": 5652,
+        "sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655"
+      },
+      "mpm_jax/materials/history.py": {
+        "bytes": 3323,
+        "sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b"
+      },
+      "mpm_jax/materials/johnson_cook.py": {
+        "bytes": 5734,
+        "sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205"
+      },
+      "mpm_jax/materials/woven.py": {
+        "bytes": 4375,
+        "sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207"
+      },
+      "mpm_jax/packed_woven.py": {
+        "bytes": 13893,
+        "sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668"
+      },
+      "mpm_jax/particle_fields.py": {
+        "bytes": 1622,
+        "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+      },
+      "mpm_jax/rigid_sphere_contact.py": {
+        "bytes": 6209,
+        "sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f"
+      },
+      "pyproject.toml": {
+        "bytes": 754,
+        "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637"
+      },
+      "tools/review_woven_large.py": {
+        "bytes": 42575,
+        "sha256": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e"
+      },
+      "tools/rht_impact_prefix.py": {
+        "bytes": 13751,
+        "sha256": "db7979c0df15e39ce29e69b98400523f3d46c770c7d6f500922aec5bcfabb4d4"
+      },
+      "tools/run_woven_deep_prefix.py": {
+        "bytes": 4335,
+        "sha256": "3a53b3f0a18688b92c21f926420861ad291921c51834f370f561cb853019ff30"
+      }
+    },
+    "fresh_t0": true,
+    "physical_validation_passed": false,
+    "runtime": {
+      "backend": "cpu",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "numpy": "2.5.4",
+      "psutil": "7.2.2",
+      "python": "3.12.13",
+      "x64": true
+    }
+  },
+  "source_files": {
+    ".github/workflows/engineering-previews.yml": {
+      "bytes": 1731,
+      "sha256": "33f8b2f200dec8d68497fc9e9d4240d3004cb37b356fe339c6d3565a75a6aac5"
+    },
+    ".github/workflows/woven-deep-f10.yml": {
+      "bytes": 17988,
+      "sha256": "ce76369d984a6b15fc72dca7eda52b9e550ad4cc9b87b2831bc083fe5dbfe2a7"
+    },
+    ".github/workflows/woven-deep-f2-admission.yml": {
+      "bytes": 1731,
+      "sha256": "33f8b2f200dec8d68497fc9e9d4240d3004cb37b356fe339c6d3565a75a6aac5"
+    },
+    "examples/woven_deep_impact.py": {
+      "bytes": 7831,
+      "sha256": "8422e5e459f5abd73c6a2f1e2f0c07ce50f1c078967963e5c7ef5f13ee9998e6"
+    },
+    "examples/woven_geometry.py": {
+      "bytes": 16097,
+      "sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a"
+    },
+    "examples/woven_large_geometry.py": {
+      "bytes": 11369,
+      "sha256": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6"
+    },
+    "examples/woven_large_plate.py": {
+      "bytes": 39300,
+      "sha256": "10d22d58685f6998c3bcea7f92fa406b0cb1d3feb2a77b3a946579b50685387a"
+    },
+    "mpm_jax/fibre_mpm.py": {
+      "bytes": 21592,
+      "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+    },
+    "mpm_jax/materials/__init__.py": {
+      "bytes": 1613,
+      "sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b"
+    },
+    "mpm_jax/materials/elastic.py": {
+      "bytes": 5652,
+      "sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655"
+    },
+    "mpm_jax/materials/history.py": {
+      "bytes": 3323,
+      "sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b"
+    },
+    "mpm_jax/materials/johnson_cook.py": {
+      "bytes": 5734,
+      "sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205"
+    },
+    "mpm_jax/materials/woven.py": {
+      "bytes": 4375,
+      "sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207"
+    },
+    "mpm_jax/packed_woven.py": {
+      "bytes": 13893,
+      "sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668"
+    },
+    "mpm_jax/particle_fields.py": {
+      "bytes": 1622,
+      "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+    },
+    "mpm_jax/rigid_sphere_contact.py": {
+      "bytes": 6209,
+      "sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f"
+    },
+    "pyproject.toml": {
+      "bytes": 754,
+      "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637"
+    },
+    "tools/review_woven_large.py": {
+      "bytes": 42575,
+      "sha256": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e"
+    },
+    "tools/rht_impact_prefix.py": {
+      "bytes": 13751,
+      "sha256": "db7979c0df15e39ce29e69b98400523f3d46c770c7d6f500922aec5bcfabb4d4"
+    },
+    "tools/run_woven_deep_f10.py": {
+      "bytes": 8241,
+      "sha256": "df0846ba0f8da7e5de7b3ed96587be6b36958be6293afcb7077f3ae894b954da"
+    }
+  },
+  "transport_sha256": "4c36a652818f2f45d9d20b34e381a7799689cbe287686464c929d96131bbbbcb"
+}

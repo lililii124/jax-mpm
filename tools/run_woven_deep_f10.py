@@ -56,12 +56,16 @@ def main(review_only=False):
  assert runtime==dict(python='3.12.13',numpy='2.5.4',jax='0.12.0.1',jaxlib='0.12.0.1',psutil='7.2.2',backend='cpu',x64=True),runtime
  commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
  assert commit==os.environ['GITHUB_SHA'] and os.environ['GITHUB_REF']=='refs/heads/work/woven-deep-impact'
- names=(*base.SOURCE_FILES,'tools/run_woven_deep_f10.py','tools/rht_impact_prefix.py','.github/workflows/woven-deep-f10.yml','.github/workflows/woven-deep-f2-admission.yml','.github/workflows/engineering-previews.yml','pyproject.toml')
+ names=(*base.SOURCE_FILES,'tools/run_woven_deep_f10.py','tools/rht_impact_prefix.py','.github/workflows/woven-deep-f10.yml','.github/workflows/woven-deep-f2-admission.yml','evidence/deep-woven/f2-independent-admission.json','.github/workflows/engineering-previews.yml','pyproject.toml')
  sources={}
  for name in names:
   raw=(ROOT/name).read_bytes();blob=subprocess.check_output(['git','show','HEAD:'+name]);assert raw==blob,name
   sources[name]=dict(sha256=transport.digest(ROOT/name),bytes=len(raw))
  transport.write(DEST/'source.json',dict(commit=commit,files=sources,runtime=runtime,fresh_t0=False,parent_run=40089103544,parent_transport_sha256=PARENT_TRANSPORT,physical_validation_passed=False))
+ if not review_only:
+  proof=ROOT/'evidence/deep-woven/f2-independent-admission.json'
+  assert transport.digest(proof)=='c06573b7fba7aaefcb3811cdbde51d0262440761c51a857c3bc3d653bf024ee3'
+  admission=json.loads(proof.read_text());assert admission['admitted_prefix'] and admission['raw_unchanged'] and not admission['solver_executed'] and admission['parent_commit']==PARENT_COMMIT
  restore_parent(runtime)
  if review_only:
   import numpy as np
