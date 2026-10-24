@@ -1,0 +1,53 @@
+name: Private deep woven f10 read-only admission
+permissions:
+  contents: read
+concurrency:
+  group: woven-deep-f10-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  prefix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/setup-python@v7
+      with:
+        python-version: 3.12.13
+    - name: Install and record exact numerical runtime
+      timeout-minutes: 10
+      run: 'python -m pip install numpy==2.5.4 jax==0.12.0.1 jaxlib==0.12.0.1 psutil==7.2.2
+
+        python -m pip install --no-deps -e .
+
+        '
+    - name: Retrieve immutable accepted parent run only
+      uses: actions/download-artifact@v5
+      with:
+        github-token: ${{ github.token }}
+        run-id: 40091612689
+        pattern: woven-deep-f10-40091612689-1-*
+        path: .local/deep-f10-parent
+        merge-multiple: true
+    - name: Independently audit all restored parent bytes without a solver
+      run: python tools/admit_woven_deep_f10.py
+      timeout-minutes: 20
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: woven-deep-f10-independent-admission-${{ github.run_id }}-${{ github.run_attempt
+          }}
+        path: .local/deep-f10-independent-admission/independent-admission.json
+        if-no-files-found: error
+        retention-days: 30
+'on':
+  workflow_dispatch: {}
