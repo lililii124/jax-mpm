@@ -1,0 +1,762 @@
+name: feature radial sinusoidal continuation
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: radial-sinusoidal-immutable-continuation
+  cancel-in-progress: false
+jobs:
+  continuation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: de2bfea446e66e6245e33329a663996c5d5b9e84
+          path: .local/radial-immutable-producer
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install immutable numerical runtime
+        timeout-minutes: 10
+        run: |
+          python -m pip install -r .local/radial-immutable-producer/tools/radial_sinusoidal_runtime.txt
+          python -m pip install --no-deps -e .local/radial-immutable-producer
+      - name: Admit complete raw workcopy transport and retrieval disk budget
+        run: |
+          python - <<'PY'
+          import shutil,subprocess
+          if shutil.disk_usage('.').free < 32*1024**3:
+              subprocess.run(['sudo','rm','-rf','--','/usr/local/lib/android','/usr/share/dotnet'],check=True)
+          assert shutil.disk_usage('.').free >= 32*1024**3
+          PY
+      - name: Restore exact independently admitted parent without fallback
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/radial-sinusoidal-full
+          key: radial-sinusoidal-v1-2363a43cf6afbd771833e035e0b7703ecd6ff6651306984ca2e7ebf828f2961d-40090780381-1
+          fail-on-cache-miss: true
+      - name: Retrieve exact independent f10 admission proof artifact
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40092005172'
+          artifact-ids: '12559346521'
+          path: .local/radial-independent-proof
+          merge-multiple: true
+      - name: Continue immutable producer only from f10 through f50
+        id: continuation
+        timeout-minutes: 245
+        run: python tools/radial_sinusoidal_continuation.py continue
+      - name: Preserve complete fresh continuation cache including failed raw
+        if: always() && steps.continuation.outputs.cache_key != ''
+        timeout-minutes: 10
+        uses: actions/cache/save@v5
+        with:
+          path: .local/radial-immutable-producer/.local/radial-sinusoidal-full
+          key: ${{ steps.continuation.outputs.cache_key }}
+      - name: Package all continuation evidence without pruning failed raw
+        if: always()
+        timeout-minutes: 10
+        run: python tools/radial_sinusoidal_continuation.py package
+      - uses: actions/upload-artifact@v4
+        if: always()
+        id: manifest
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-manifest
+          path: .local/radial-continuation-parts/transport.json
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-000.tarpart') != ''
+        id: part000
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-000
+          path: .local/radial-continuation-parts/part-000.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-001.tarpart') != ''
+        id: part001
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-001
+          path: .local/radial-continuation-parts/part-001.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-002.tarpart') != ''
+        id: part002
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-002
+          path: .local/radial-continuation-parts/part-002.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-003.tarpart') != ''
+        id: part003
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-003
+          path: .local/radial-continuation-parts/part-003.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-004.tarpart') != ''
+        id: part004
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-004
+          path: .local/radial-continuation-parts/part-004.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-005.tarpart') != ''
+        id: part005
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-005
+          path: .local/radial-continuation-parts/part-005.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-006.tarpart') != ''
+        id: part006
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-006
+          path: .local/radial-continuation-parts/part-006.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-007.tarpart') != ''
+        id: part007
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-007
+          path: .local/radial-continuation-parts/part-007.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-008.tarpart') != ''
+        id: part008
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-008
+          path: .local/radial-continuation-parts/part-008.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-009.tarpart') != ''
+        id: part009
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-009
+          path: .local/radial-continuation-parts/part-009.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-010.tarpart') != ''
+        id: part010
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-010
+          path: .local/radial-continuation-parts/part-010.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-011.tarpart') != ''
+        id: part011
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-011
+          path: .local/radial-continuation-parts/part-011.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-012.tarpart') != ''
+        id: part012
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-012
+          path: .local/radial-continuation-parts/part-012.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-013.tarpart') != ''
+        id: part013
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-013
+          path: .local/radial-continuation-parts/part-013.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-014.tarpart') != ''
+        id: part014
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-014
+          path: .local/radial-continuation-parts/part-014.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-015.tarpart') != ''
+        id: part015
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-015
+          path: .local/radial-continuation-parts/part-015.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-016.tarpart') != ''
+        id: part016
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-016
+          path: .local/radial-continuation-parts/part-016.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-017.tarpart') != ''
+        id: part017
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-017
+          path: .local/radial-continuation-parts/part-017.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-018.tarpart') != ''
+        id: part018
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-018
+          path: .local/radial-continuation-parts/part-018.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-019.tarpart') != ''
+        id: part019
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-019
+          path: .local/radial-continuation-parts/part-019.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-020.tarpart') != ''
+        id: part020
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-020
+          path: .local/radial-continuation-parts/part-020.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-021.tarpart') != ''
+        id: part021
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-021
+          path: .local/radial-continuation-parts/part-021.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-022.tarpart') != ''
+        id: part022
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-022
+          path: .local/radial-continuation-parts/part-022.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-023.tarpart') != ''
+        id: part023
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-023
+          path: .local/radial-continuation-parts/part-023.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-024.tarpart') != ''
+        id: part024
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-024
+          path: .local/radial-continuation-parts/part-024.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-025.tarpart') != ''
+        id: part025
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-025
+          path: .local/radial-continuation-parts/part-025.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-026.tarpart') != ''
+        id: part026
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-026
+          path: .local/radial-continuation-parts/part-026.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-027.tarpart') != ''
+        id: part027
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-027
+          path: .local/radial-continuation-parts/part-027.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-028.tarpart') != ''
+        id: part028
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-028
+          path: .local/radial-continuation-parts/part-028.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-029.tarpart') != ''
+        id: part029
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-029
+          path: .local/radial-continuation-parts/part-029.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-030.tarpart') != ''
+        id: part030
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-030
+          path: .local/radial-continuation-parts/part-030.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-031.tarpart') != ''
+        id: part031
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-031
+          path: .local/radial-continuation-parts/part-031.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-032.tarpart') != ''
+        id: part032
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-032
+          path: .local/radial-continuation-parts/part-032.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-033.tarpart') != ''
+        id: part033
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-033
+          path: .local/radial-continuation-parts/part-033.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-034.tarpart') != ''
+        id: part034
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-034
+          path: .local/radial-continuation-parts/part-034.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-035.tarpart') != ''
+        id: part035
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-035
+          path: .local/radial-continuation-parts/part-035.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-036.tarpart') != ''
+        id: part036
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-036
+          path: .local/radial-continuation-parts/part-036.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-037.tarpart') != ''
+        id: part037
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-037
+          path: .local/radial-continuation-parts/part-037.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-038.tarpart') != ''
+        id: part038
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-038
+          path: .local/radial-continuation-parts/part-038.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-039.tarpart') != ''
+        id: part039
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-039
+          path: .local/radial-continuation-parts/part-039.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-040.tarpart') != ''
+        id: part040
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-040
+          path: .local/radial-continuation-parts/part-040.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-041.tarpart') != ''
+        id: part041
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-041
+          path: .local/radial-continuation-parts/part-041.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-042.tarpart') != ''
+        id: part042
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-042
+          path: .local/radial-continuation-parts/part-042.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-043.tarpart') != ''
+        id: part043
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-043
+          path: .local/radial-continuation-parts/part-043.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-044.tarpart') != ''
+        id: part044
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-044
+          path: .local/radial-continuation-parts/part-044.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-045.tarpart') != ''
+        id: part045
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-045
+          path: .local/radial-continuation-parts/part-045.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-046.tarpart') != ''
+        id: part046
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-046
+          path: .local/radial-continuation-parts/part-046.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-047.tarpart') != ''
+        id: part047
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-047
+          path: .local/radial-continuation-parts/part-047.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-048.tarpart') != ''
+        id: part048
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-048
+          path: .local/radial-continuation-parts/part-048.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-049.tarpart') != ''
+        id: part049
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-049
+          path: .local/radial-continuation-parts/part-049.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-050.tarpart') != ''
+        id: part050
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-050
+          path: .local/radial-continuation-parts/part-050.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-051.tarpart') != ''
+        id: part051
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-051
+          path: .local/radial-continuation-parts/part-051.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-052.tarpart') != ''
+        id: part052
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-052
+          path: .local/radial-continuation-parts/part-052.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-053.tarpart') != ''
+        id: part053
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-053
+          path: .local/radial-continuation-parts/part-053.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-054.tarpart') != ''
+        id: part054
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-054
+          path: .local/radial-continuation-parts/part-054.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-055.tarpart') != ''
+        id: part055
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-055
+          path: .local/radial-continuation-parts/part-055.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-056.tarpart') != ''
+        id: part056
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-056
+          path: .local/radial-continuation-parts/part-056.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-057.tarpart') != ''
+        id: part057
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-057
+          path: .local/radial-continuation-parts/part-057.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-058.tarpart') != ''
+        id: part058
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-058
+          path: .local/radial-continuation-parts/part-058.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-059.tarpart') != ''
+        id: part059
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-059
+          path: .local/radial-continuation-parts/part-059.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-060.tarpart') != ''
+        id: part060
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-060
+          path: .local/radial-continuation-parts/part-060.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-061.tarpart') != ''
+        id: part061
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-061
+          path: .local/radial-continuation-parts/part-061.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-062.tarpart') != ''
+        id: part062
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-062
+          path: .local/radial-continuation-parts/part-062.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-continuation-parts/part-063.tarpart') != ''
+        id: part063
+        timeout-minutes: 3
+        with:
+          name: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-063
+          path: .local/radial-continuation-parts/part-063.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - name: Record exact immutable continuation artifact identities
+        uses: actions/github-script@v7
+        env:
+          ARTIFACT_RUN: ${{ github.run_id }}
+          ARTIFACT_ATTEMPT: ${{ github.run_attempt }}
+          EXPECTED_NUMERICAL_SHA: ${{ github.sha }}
+        with:
+          script: |
+            const fs=require('fs');
+            const run_id=Number(process.env.ARTIFACT_RUN);
+            const run=(await github.rest.actions.getWorkflowRun({...context.repo,run_id})).data;
+            if(run.head_sha!==process.env.EXPECTED_NUMERICAL_SHA) throw new Error('Numerical controller SHA differs');
+            const prefix=`radial-cont-raw-${run_id}-${process.env.ARTIFACT_ATTEMPT}-`;
+            const all=await github.paginate(github.rest.actions.listWorkflowRunArtifacts,{...context.repo,run_id,per_page:100});
+            const artifacts=all.filter(x=>x.name.startsWith(prefix));
+            if(!artifacts.length || artifacts.some(x=>x.expired)) throw new Error('Complete continuation raw unavailable');
+            fs.mkdirSync('.local',{recursive:true});
+            fs.writeFileSync('.local/radial-cont-artifact-identities.json',JSON.stringify({run_id,attempt:process.env.ARTIFACT_ATTEMPT,head_sha:run.head_sha,workflow_path:run.path,conclusion:run.conclusion,artifacts:artifacts.map(x=>({id:x.id,name:x.name,size_in_bytes:x.size_in_bytes,digest:x.digest}))},null,2));
+      - uses: actions/download-artifact@v5
+        if: always() && steps.manifest.outcome == 'success'
+        timeout-minutes: 20
+        with:
+          pattern: radial-cont-raw-${{ github.run_id }}-${{ github.run_attempt }}-*
+          path: .local/radial-continuation-retrieved
+          merge-multiple: true
+      - name: Verify every same-run retrieved raw part and file
+        if: always() && steps.manifest.outcome == 'success'
+        timeout-minutes: 10
+        run: python tools/radial_sinusoidal_continuation.py retrieve --folder .local/radial-continuation-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: radial-cont-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/radial-immutable-producer/.local/radial-sinusoidal-full/continuation-receipt.json
+            .local/radial-continuation-retrieved/retrieval-receipt.json
+            .local/radial-cont-artifact-identities.json
+          if-no-files-found: warn
+          retention-days: 30
