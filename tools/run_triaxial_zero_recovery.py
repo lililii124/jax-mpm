@@ -7,6 +7,7 @@ Each bounded capsule contains the complete restart and new real saved frames.
 No Actions cache is written; capsules must be backed up before cloud retirement.
 """
 import argparse
+import ast
 import hashlib
 import importlib.metadata
 import json
@@ -36,7 +37,7 @@ CONTROLLER_PATHS = ('tools/run_triaxial_zero_recovery.py',
     '.github/workflows/triaxial-zero-recovery.yml',
     'tests/test_triaxial_zero_recovery_storage.py')
 FIELDS = ('x', 'speed', 'damage', 'failed', 'temperature')
-RESUME_METADATA = ('status.json', 'summary.json', 'contact-model.json')
+RESUME_METADATA = ('status.json', 'summary.json', 'contact-model.json', 'layout.json')
 PREFIX = '.local/triaxial-segment-cache/data/formal/theta-00/hertz/'
 
 
@@ -246,6 +247,7 @@ def restore_resume_metadata(folder, plan, context):
             or summary.get('segment_end_frame') != frame or summary.get('steps') != steps
             or summary.get('definition') != {**plan, 'contact_model': read(parent / 'contact-model.json')}
             or summary.get('source') != plan['source']
+            or summary.get('layout') != read(parent / 'layout.json')
             or summary.get('simulation_time') != instant):
         raise ValueError('Original saved summary differs from checkpoint/plan endpoint')
     for name in RESUME_METADATA:
@@ -256,6 +258,109 @@ def restore_resume_metadata(folder, plan, context):
         'parent_metadata': context['parent_metadata'], 'frame': frame, 'steps': steps,
         'signature': signature, 'copied_exact_original_bytes': True,
         'old_particle_history_reconstructed': False, 'numerical_steps_executed': 0})
+
+
+def resume_file_contract(source):
+    """Enumerate every original resume file read, including dynamic mmaps."""
+    tree = ast.parse(source)
+    functions = {node.name: node for node in tree.body if isinstance(node, ast.FunctionDef)}
+    names, fields = set(), None
+    for function in ('run_case', '_run_runtime', 'open_trajectory_arrays'):
+        for node in ast.walk(functions[function]):
+            if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == 'dtypes' for t in node.targets):
+                fields = tuple(ast.literal_eval(key) for key in node.value.keys)
+            if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Attribute):
+                continue
+            if node.func.attr in ('read_text', 'read_bytes'):
+                path = node.func.value
+            elif node.func.attr in ('load', 'open_memmap') and node.args:
+                path = node.args[0]
+            else:
+                continue
+            if (isinstance(path, ast.BinOp) and isinstance(path.op, ast.Div)
+                    and isinstance(path.left, ast.Name) and path.left.id == 'folder'):
+                if isinstance(path.right, ast.Constant) and isinstance(path.right.value, str):
+                    names.add(path.right.value)
+                elif not (function == 'open_trajectory_arrays' and isinstance(path.right, ast.JoinedStr)):
+                    raise ValueError('Unclassified original resume path; review its complete dependency before dispatch')
+    if fields is None or set(fields) != set(FIELDS):
+        raise ValueError('Original saved-field storage contract changed')
+    names.update(f'trajectory_{field}.npy' for field in fields)
+    expected = {'plan.json', 'checkpoint.npz', *RESUME_METADATA,
+                *(f'trajectory_{field}.npy' for field in FIELDS)}
+    if names != expected:
+        raise ValueError('Original resume read-set changed: ' + repr(sorted(names)))
+    return sorted(names)
+
+
+def audit_resume_directory(folder, plan, context, *, source=None):
+    """Check the full original read-set and actual CP/mmap endpoint before runtime.
+
+    This validates storage and state schema without integrating or substituting
+    a physical model. Original runtime still rebuilds and verifies grid/contact.
+    """
+    import numpy as np
+    source = (FROZEN / 'examples/triaxial_failure.py').read_text() if source is None else source
+    required = resume_file_contract(source)
+    for name in required:
+        path = folder / name
+        if path.is_symlink() or not path.is_file():
+            raise ValueError('Original resume dependency absent: ' + name)
+    if read(folder / 'plan.json') != plan:
+        raise ValueError('Restored resume plan changed')
+    frame, count, saved = context['start_frame'], plan['particles'], plan['saved_states']
+    arrays = {}
+    with np.load(folder / 'checkpoint.npz', allow_pickle=False) as cp:
+        required_leaves = {
+            *('state_' + key for key in ('x', 'v', 'F', 'C', 'tau', 'mass', 'volume', 'fibre_id',
+                'time', 'valid', 'boundary_impulse', 'external_impulse', 'boundary_work')),
+            *('history_' + key for key in ('kappa', 'damage', 'failed', 'valid')),
+            'contact_active', 'contact_law_valid', 'contact_radius', 'contact_segments', 'contact_valid',
+            'total_impulse', 'clamp_work', 'grid_ke_work', 'aggregate', 'last_contact', 'initial_momentum',
+            'frame', 'signature', 'solver_seconds', 'jax_version', 'tables'}
+        if set(cp.files) != required_leaves:
+            raise ValueError('Full original Hertz restart leaf inventory differs')
+        for key in sorted(required_leaves):
+            value = cp[key]
+            if value.dtype.hasobject or (value.dtype.kind in 'biufc' and not np.isfinite(value).all()):
+                raise ValueError('Invalid finite original restart leaf: ' + key)
+        tables = json.loads(str(cp['tables']))
+        if (any(len(tables[key]) != frame + 1 for key in ('observables', 'diagnostics', 'times'))
+                or float(cp['state_time']) != tables['times'][-1]
+                or str(cp['jax_version']) != context['environment']['packages']['jax']):
+            raise ValueError('Complete original restart tables/runtime disagree')
+        for key in ('x', 'v', 'F', 'C', 'tau', 'mass', 'volume', 'fibre_id'):
+            trailing = (3, 3) if key in ('F', 'C', 'tau') else (3,) if key in ('x', 'v') else ()
+            if cp['state_' + key].shape != (count, *trailing):
+                raise ValueError('Restart particle state schema differs: ' + key)
+        for key in ('kappa', 'damage', 'failed', 'valid'):
+            if cp['history_' + key].shape != (count,):
+                raise ValueError('Restart material history schema differs: ' + key)
+        patches = plan['contact_regions']['max_patches']
+        for key in ('contact_active', 'contact_law_valid', 'contact_radius', 'contact_segments'):
+            shape = (patches, 2) if key == 'contact_segments' else (patches,)
+            if cp[key].shape != shape:
+                raise ValueError('Complete connected-contact restart schema differs: ' + key)
+        expected = {'x': cp['state_x'], 'damage': cp['history_damage'], 'failed': cp['history_failed'],
+                    'speed': np.linalg.norm(cp['state_v'], axis=1), 'temperature': np.full(count, 293.15, np.float32)}
+        for field in FIELDS:
+            array = np.load(folder / f'trajectory_{field}.npy', mmap_mode='r', allow_pickle=False)
+            try:
+                shape = (saved, count, 3) if field == 'x' else (saved, count)
+                dtype = np.dtype(np.uint8 if field == 'failed' else np.float32 if field == 'temperature' else np.float64)
+                if array.shape != shape or array.dtype != dtype or not np.array_equal(array[frame], expected[field]):
+                    raise ValueError('Original resume mmap endpoint/schema differs: ' + field)
+                arrays[field] = {'shape': list(shape), 'dtype': str(dtype), 'actual_checkpoint_frame': frame}
+            finally:
+                array._mmap.close()
+    proof = {'schema': 'triaxial-zero-complete-resume-directory-v1', 'required_files': required,
+        'original_driver_sha256': hashlib.sha256(source.encode()).hexdigest(),
+        'mmap_endpoints': arrays, 'frame': frame, 'steps': plan['frame_steps'][frame],
+        'complete_restart_tables_checked': True, 'numerical_steps_executed': 0,
+        'complete_checkpoint_leaves_checked': sorted(required_leaves),
+        'scope': 'All original resume file reads and complete CP/mmap endpoint checked before runtime; grid/contact physics and first solver step remain original runtime checks.'}
+    save(BASE / 'resume-directory-proof.json', proof)
+    return proof
 
 
 def worker():
@@ -312,6 +417,7 @@ def worker():
         'integration_uses': 'complete original mechanical and contact checkpoint only',
         'old_observation_and_diagnostic_tables': 'complete inside checkpoint',
         'full_original_particle_history_available': False})
+    audit_resume_directory(folder, plan, context)
     driver.run_case(geometry, plan, output, resume=True, stop_after_frame=context['end_frame'])
     verify_frozen(plan)
 
@@ -469,6 +575,8 @@ def package():
             selected['records/artifact-accounting.json'] = BASE / 'artifact-accounting.json'
         if (BASE / 'resume-metadata-proof.json').exists():
             selected['records/resume-metadata-proof.json'] = BASE / 'resume-metadata-proof.json'
+        if (BASE / 'resume-directory-proof.json').exists():
+            selected['records/resume-directory-proof.json'] = BASE / 'resume-directory-proof.json'
         for name in ('summary.json', 'status.json', 'observables.csv', 'diagnostics.csv',
                      'layout.json', 'contact-model.json', 'contact-metrics.json', 'particle_fields.npz'):
             selected['records/' + name] = folder / name

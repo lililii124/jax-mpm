@@ -29,10 +29,12 @@ def fixture(tmp_path, monkeypatch):
         'segment_end_frame': 20, 'frames': 60, 'steps': 6400, 'target_steps': 19200,
         'signature': signature}
     contact = {'runtime_mapping': 'actual-original-mapping'}
+    layout = {'node_map': 'actual-original-storage-mapping'}
     summary = {'completed': False, 'probe_complete': False, 'segment_complete': True,
         'phase': 'checkpoint-ready', 'segment_end_frame': 20, 'steps': 6400,
-        'definition': {**plan, 'contact_model': contact}, 'source': plan['source'], 'simulation_time': .25}
-    for name, data in [('status.json', status), ('summary.json', summary), ('contact-model.json', contact)]:
+        'definition': {**plan, 'contact_model': contact}, 'source': plan['source'], 'simulation_time': .25,
+        'layout': layout}
+    for name, data in [('status.json', status), ('summary.json', summary), ('contact-model.json', contact), ('layout.json', layout)]:
         m.save(parent / name, data)
     shutil.copyfile(parent / 'checkpoint.npz', folder / 'checkpoint.npz')
     context = {'start_frame': 20, 'parent_checkpoint': m.record(parent / 'checkpoint.npz'),
