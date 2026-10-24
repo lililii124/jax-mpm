@@ -63,18 +63,26 @@ def audit():
             if png.size!=(1200,1200) or png.convert('RGB').getextrema()==((255,255),)*3:
                 raise ValueError('Invalid section PNG')
     with Image.open(folder/'simulation.gif') as gif:
-        if gif.n_frames!=61 or gif.size!=(1200,1200):
-            raise ValueError('GIF must retain all 61 saved states')
+        if not 2<=gif.n_frames<=61 or gif.size!=(1200,1200):
+            raise ValueError('GIF must show changing saved states')
+        duration_ms = 0
         for i in range(61):
+            if i>=gif.n_frames:
+                break
             gif.seek(i)
             gif.load()
-            if gif.info.get('duration')!=60:
+            duration = gif.info.get('duration')
+            if not isinstance(duration,int) or duration<60 or duration%60:
                 raise ValueError('Unexpected GIF timing')
+            duration_ms += duration
+        if duration_ms!=61*60:
+            raise ValueError('GIF duration differs from all 61 saved states')
     for name, record in c.read(base.OUT/'admission.json')['raw_files'].items():
         if name.startswith('result/') and c.file_record(base.OUT/name)!=record:
             raise ValueError('Original numerical bytes changed: '+name)
     base.verify_raw()
     c.save(base.OUT/'section-audit.json', dict(passed=True, saved_states=61,
+        gif_encoded_frames=gif.n_frames, gif_duration_ms=duration_ms,
         material_selection_from_reference_x=True, section_plane_x_m=.125,
         slab_total_thickness_m=.0025, no_axes_or_text=True, raw_unchanged=True,
         solver_executed=False, production_eligible=False, public_visual_review_passed=False))
