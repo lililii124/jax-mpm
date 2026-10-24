@@ -1,0 +1,27 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "diagnostics.csv": "e1e9d3e9a6f9c9d99ce816e167367733c66a62f909958824cc72512fedae4279",
+    "observables.csv": "7bcd8768a0900115897fde85f79f309a1e5b961078de4eaf5598ebd41cf71482",
+    "physical-review.json": "7d3f1f334271f15acfb0dfc9a9113d5732ea932f4faaa8bf85efc06be691788f",
+    "prefix-review.json": "af38768f3ec2e706188e17dc81f7346fb07c3b2849e8126a3257fd94098c0c92",
+    "provenance.json": "980aed6c0e5fb64a66422cdf5e28b659eabc6944e02d53128178c4dd21ae346f",
+    "render.json": "55bdc6006589e34642d438b53c3b9dcfe34f3067f92f66c8681f14d2999c00d2",
+    "summary.json": "eb0522c97d91f09a44e18c1f513f4f5311177d659e7b3478f00939be0ec18ef2"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.9803330117017462,
+    "max_damage": 0.0
+  },
+  "scope": "Complete30ms nonadhesive Hertz two-rod baseline. True-scale central detail; rod ends can lie outside the camera. Visible motion is modest and projection overlap persists. No adhesion or strong visual pull-off contrast claim.",
+  "experimental_material_validation": false
+}

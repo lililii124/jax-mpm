@@ -518,21 +518,6 @@
     "source_render_sha256": "c9fab32702081242037d479d08348cd18a70d65aaaed123210699c6583450188"
   },
   {
-    "id": "material-engineering--ceramic-indentation-wide--jh2",
-    "gif_path": "docs/images/home/material-engineering--ceramic-indentation-wide--jh2.gif",
-    "gif_sha256": "e02b2bd458c122b72cbb4d88718cd3da2e472c500314dff9e12e4ed48f217530",
-    "bytes": 373515,
-    "dimensions": [
-      400,
-      400
-    ],
-    "source_frames": 41,
-    "gif_frames": 41,
-    "render_sha256": "79c1f8a8f0fd5ab0613d7b1100050bd5911f425a2acf8a933ef80d807b203217",
-    "source_render_sha256": "79c1f8a8f0fd5ab0613d7b1100050bd5911f425a2acf8a933ef80d807b203217",
-    "source_directory": "outputs/material-engineering-cloud/ceramic-indentation-wide/jh2"
-  },
-  {
     "id": "material-engineering--concrete-bending-symmetric--hjc",
     "gif_path": "docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif",
     "gif_sha256": "9ac943b391588f0643ad91d564704c2912853d85fec7e96d355302cea0b91249",
@@ -576,5 +561,47 @@
     "render_sha256": "adf3ae27e99a24e2dd92079fad59620c255174be20ec0b585d9677cb23d140f2",
     "source_render_sha256": "adf3ae27e99a24e2dd92079fad59620c255174be20ec0b585d9677cb23d140f2",
     "source_directory": "outputs/adhesion-visible-v4-cloud/adhesive-pull-off"
+  },
+  {
+    "id": "completed--ceramic-impact-debris",
+    "gif_path": "docs/images/home/completed--ceramic-impact-debris.gif",
+    "gif_sha256": "5fc07c8d98afe2799f60e6e98397f9de85ef14a685cc9a4cfd88d5b2341a02d5",
+    "bytes": 19169787,
+    "dimensions": [
+      1200,
+      1200
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "139cff3901469af5c40c4a9bcc4d3c7a12702cbaf958786c2b965a48eeadf256",
+    "source_render_sha256": "139cff3901469af5c40c4a9bcc4d3c7a12702cbaf958786c2b965a48eeadf256"
+  },
+  {
+    "id": "completed--crossed-fibre-hertz",
+    "gif_path": "docs/images/home/completed--crossed-fibre-hertz.gif",
+    "gif_sha256": "f9744befb303fa74ad2b695d0fbd7650fef3f12f1272035ea23c25452acb186b",
+    "bytes": 27064583,
+    "dimensions": [
+      1200,
+      1200
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "55bdc6006589e34642d438b53c3b9dcfe34f3067f92f66c8681f14d2999c00d2",
+    "source_render_sha256": "55bdc6006589e34642d438b53c3b9dcfe34f3067f92f66c8681f14d2999c00d2"
+  },
+  {
+    "id": "completed--woven-plate-impact",
+    "gif_path": "docs/images/home/completed--woven-plate-impact.gif",
+    "gif_sha256": "36476182cce0f3055725677c41af9ee95770a1635e72ae2d06969f3283fc542b",
+    "bytes": 24315668,
+    "dimensions": [
+      1200,
+      1200
+    ],
+    "source_frames": 61,
+    "gif_frames": 61,
+    "render_sha256": "5485bf54381757ba8d17a658a8a763542ca12b3f8238f32c8979b30299836a95",
+    "source_render_sha256": "5485bf54381757ba8d17a658a8a763542ca12b3f8238f32c8979b30299836a95"
   }
 ]

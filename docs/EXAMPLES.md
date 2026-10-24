@@ -253,3 +253,11 @@ The tank elevation observable is the maximum water-particle height. Liquid masse
 are 93.31054 kg with baffles and 113.34013 kg without them. The
 [response review](results/dynamics-review.json) includes the prescribed-acceleration
 and applied-impulse checks alongside these histories.
+
+## Completed plate impact and fibre contact
+
+The [clamped woven plate impact](results/completed--woven-plate-impact/provenance.json) completes the 200 µs bonded elastic protocol. It is a coarse illustrative example; yarn separation, damage and material calibration are outside its scope.
+
+[Crossed fibre Hertz contact](results/completed--crossed-fibre-hertz/provenance.json) completes the 30 ms nonadhesive baseline. The shared central detail is at true scale; rod ends are cropped and motion is modest. It does not demonstrate an adhesive pull-off contrast.
+
+[JH2 ceramic impact and debris](results/completed--ceramic-impact-debris/provenance.json) shows the complete 300 µs history with the original 75 mm sphere and 180 mm plate. The faint sphere is a display-opacity change. Orange points are ballistic noncontacting failed particles, including a visible central debris mound; they are not resolved cohesive fragments. The versioned physical review corrects a signature serialization mismatch without changing numerical data or the original failed receipt. These examples are not experimentally validated benchmarks.

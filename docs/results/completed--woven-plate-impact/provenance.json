@@ -1,0 +1,17 @@
+{
+  "schema": "completed-run-provenance-v1",
+  "title": "Clamped woven plate impact",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40072947783",
+  "media_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40079918893",
+  "numerical_source_commit": "81c57439c71cb3f48c575c4d55ee9fcc89b3aa39",
+  "raw_receipt_sha256": "b383d38c539e08f2dbbfdb94a3016436940604fb3fa9577fc641ec4b9925520f",
+  "source_files_checked": 28,
+  "transport": {
+    "artifact_id": 12554717429,
+    "zip_sha256": "97f22cb7e4568ce0573429cf381b79e3fac7c6154c033195a61de0669c536b7c",
+    "whole_zip_locally_verified": true,
+    "whole_archive_backup_locally_verified": false
+  },
+  "scope": "Coarse fully bonded elastic woven plate with four clamped edges and a freely moving sphere. No damage, yarn separation, resolved yarn-thickness or calibrated material-strength claim.",
+  "experimental_material_validation": false
+}

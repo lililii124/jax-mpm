@@ -1,0 +1,440 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 5,
+  "frames_rendered": 61,
+  "animation": "simulation.gif",
+  "field": "damage",
+  "actual_field_range": [
+    0.0,
+    1.0
+  ],
+  "color_range": [
+    0.0,
+    1.0
+  ],
+  "color_range_source": "--color-range",
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": false,
+  "geometry_scale": 1.0,
+  "resolution": [
+    1200,
+    1200
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.0007750000000000003,
+  "scene_bounds": [
+    0.03564748201438849,
+    0.2143525179856115,
+    0.06887936118968126,
+    0.17500000000000002,
+    0.03564748201438849,
+    0.2143525179856115
+  ],
+  "actual_scene_bounds": [
+    0.03564748201438849,
+    0.2143525179856115,
+    0.06887936118968126,
+    0.17500000000000002,
+    0.03564748201438849,
+    0.2143525179856115
+  ],
+  "actual_body_bounds": [
+    0.03564748201438849,
+    0.2143525179856115,
+    0.06887936118968126,
+    0.10172705548598787,
+    0.03564748201438849,
+    0.2143525179856115
+  ],
+  "camera_bounds": [
+    0.03,
+    0.22,
+    0.06,
+    0.18,
+    0.03,
+    0.22
+  ],
+  "camera_bounds_source": "--scene-bounds",
+  "view_scope": "complete scene",
+  "render_overrides": {
+    "source": "renderer command-line arguments",
+    "color_range": [
+      0.0,
+      1.0
+    ],
+    "scene_bounds": [
+      0.03,
+      0.22,
+      0.06,
+      0.18,
+      0.03,
+      0.22
+    ],
+    "focus_bounds": null,
+    "sphere_opacity": 0.08,
+    "matrix_opacity": null
+  },
+  "camera_position": [
+    0.39099999999999996,
+    0.2815,
+    0.467
+  ],
+  "camera_focal_point": [
+    0.125,
+    0.12,
+    0.125
+  ],
+  "camera_parallel_scale": 0.14931035720682867,
+  "particles": 386420,
+  "auxiliary_geometry": [
+    {
+      "type": "prescribed_rigid_sphere",
+      "parameters": {
+        "center": [
+          0.125,
+          0.1375,
+          0.125
+        ],
+        "radius": 0.0375,
+        "displacement": [
+          0.0,
+          -0.012,
+          0.0
+        ],
+        "duration": 0.0003
+      },
+      "display_opacity": 0.08,
+      "included_in_particle_count": false,
+      "motion": "cosine loading/unloading cycle"
+    }
+  ],
+  "failure_display": {
+    "field": "failed",
+    "body_failure_modes": [
+      "ballistic"
+    ],
+    "missing_config_failure_mode": "retain",
+    "active_selection": "all retain-body particles and ballistic-body particles with failed == 0",
+    "failed_selection": "failed != 0 in ballistic bodies only",
+    "failed_representation": "Point Gaussian",
+    "style": "highlight",
+    "failed_marker_radius": 0.0008500000000000004,
+    "failed_marker_opacity": 0.9,
+    "failed_marker_rgb": [
+      0.97,
+      0.42,
+      0.12
+    ],
+    "all_particles_retained": true,
+    "displayed_counts": [
+      {
+        "time": 0.0,
+        "active_particles": 386420,
+        "debris_particles": 0
+      },
+      {
+        "time": 4.9999999999999996e-06,
+        "active_particles": 386420,
+        "debris_particles": 0
+      },
+      {
+        "time": 9.999999999999999e-06,
+        "active_particles": 386420,
+        "debris_particles": 0
+      },
+      {
+        "time": 1.4999999999999999e-05,
+        "active_particles": 386420,
+        "debris_particles": 0
+      },
+      {
+        "time": 1.9999999999999998e-05,
+        "active_particles": 386252,
+        "debris_particles": 168
+      },
+      {
+        "time": 2.4999999999999998e-05,
+        "active_particles": 385767,
+        "debris_particles": 653
+      },
+      {
+        "time": 2.9999999999999997e-05,
+        "active_particles": 385500,
+        "debris_particles": 920
+      },
+      {
+        "time": 3.5e-05,
+        "active_particles": 385265,
+        "debris_particles": 1155
+      },
+      {
+        "time": 3.9999999999999996e-05,
+        "active_particles": 385127,
+        "debris_particles": 1293
+      },
+      {
+        "time": 4.4999999999999996e-05,
+        "active_particles": 385028,
+        "debris_particles": 1392
+      },
+      {
+        "time": 4.9999999999999996e-05,
+        "active_particles": 384873,
+        "debris_particles": 1547
+      },
+      {
+        "time": 5.4999999999999995e-05,
+        "active_particles": 384709,
+        "debris_particles": 1711
+      },
+      {
+        "time": 5.9999999999999995e-05,
+        "active_particles": 384406,
+        "debris_particles": 2014
+      },
+      {
+        "time": 6.5e-05,
+        "active_particles": 383998,
+        "debris_particles": 2422
+      },
+      {
+        "time": 7e-05,
+        "active_particles": 383528,
+        "debris_particles": 2892
+      },
+      {
+        "time": 7.5e-05,
+        "active_particles": 383157,
+        "debris_particles": 3263
+      },
+      {
+        "time": 7.999999999999999e-05,
+        "active_particles": 382605,
+        "debris_particles": 3815
+      },
+      {
+        "time": 8.499999999999999e-05,
+        "active_particles": 381686,
+        "debris_particles": 4734
+      },
+      {
+        "time": 8.999999999999999e-05,
+        "active_particles": 380459,
+        "debris_particles": 5961
+      },
+      {
+        "time": 9.499999999999999e-05,
+        "active_particles": 379693,
+        "debris_particles": 6727
+      },
+      {
+        "time": 9.999999999999999e-05,
+        "active_particles": 378863,
+        "debris_particles": 7557
+      },
+      {
+        "time": 0.00010499999999999999,
+        "active_particles": 378124,
+        "debris_particles": 8296
+      },
+      {
+        "time": 0.00010999999999999999,
+        "active_particles": 377475,
+        "debris_particles": 8945
+      },
+      {
+        "time": 0.00011499999999999999,
+        "active_particles": 376613,
+        "debris_particles": 9807
+      },
+      {
+        "time": 0.00011999999999999999,
+        "active_particles": 375947,
+        "debris_particles": 10473
+      },
+      {
+        "time": 0.000125,
+        "active_particles": 375391,
+        "debris_particles": 11029
+      },
+      {
+        "time": 0.00013,
+        "active_particles": 374751,
+        "debris_particles": 11669
+      },
+      {
+        "time": 0.000135,
+        "active_particles": 374227,
+        "debris_particles": 12193
+      },
+      {
+        "time": 0.00014,
+        "active_particles": 373710,
+        "debris_particles": 12710
+      },
+      {
+        "time": 0.000145,
+        "active_particles": 373300,
+        "debris_particles": 13120
+      },
+      {
+        "time": 0.00015,
+        "active_particles": 372978,
+        "debris_particles": 13442
+      },
+      {
+        "time": 0.000155,
+        "active_particles": 372740,
+        "debris_particles": 13680
+      },
+      {
+        "time": 0.00015999999999999999,
+        "active_particles": 372450,
+        "debris_particles": 13970
+      },
+      {
+        "time": 0.000165,
+        "active_particles": 372209,
+        "debris_particles": 14211
+      },
+      {
+        "time": 0.00016999999999999999,
+        "active_particles": 371784,
+        "debris_particles": 14636
+      },
+      {
+        "time": 0.000175,
+        "active_particles": 371280,
+        "debris_particles": 15140
+      },
+      {
+        "time": 0.00017999999999999998,
+        "active_particles": 370687,
+        "debris_particles": 15733
+      },
+      {
+        "time": 0.000185,
+        "active_particles": 370023,
+        "debris_particles": 16397
+      },
+      {
+        "time": 0.00018999999999999998,
+        "active_particles": 369406,
+        "debris_particles": 17014
+      },
+      {
+        "time": 0.000195,
+        "active_particles": 368729,
+        "debris_particles": 17691
+      },
+      {
+        "time": 0.00019999999999999998,
+        "active_particles": 368101,
+        "debris_particles": 18319
+      },
+      {
+        "time": 0.000205,
+        "active_particles": 367529,
+        "debris_particles": 18891
+      },
+      {
+        "time": 0.00020999999999999998,
+        "active_particles": 366999,
+        "debris_particles": 19421
+      },
+      {
+        "time": 0.000215,
+        "active_particles": 366444,
+        "debris_particles": 19976
+      },
+      {
+        "time": 0.00021999999999999998,
+        "active_particles": 366067,
+        "debris_particles": 20353
+      },
+      {
+        "time": 0.000225,
+        "active_particles": 365841,
+        "debris_particles": 20579
+      },
+      {
+        "time": 0.00022999999999999998,
+        "active_particles": 365658,
+        "debris_particles": 20762
+      },
+      {
+        "time": 0.000235,
+        "active_particles": 365363,
+        "debris_particles": 21057
+      },
+      {
+        "time": 0.00023999999999999998,
+        "active_particles": 365024,
+        "debris_particles": 21396
+      },
+      {
+        "time": 0.000245,
+        "active_particles": 364560,
+        "debris_particles": 21860
+      },
+      {
+        "time": 0.00025,
+        "active_particles": 364088,
+        "debris_particles": 22332
+      },
+      {
+        "time": 0.00025499999999999996,
+        "active_particles": 363572,
+        "debris_particles": 22848
+      },
+      {
+        "time": 0.00026,
+        "active_particles": 363095,
+        "debris_particles": 23325
+      },
+      {
+        "time": 0.000265,
+        "active_particles": 362646,
+        "debris_particles": 23774
+      },
+      {
+        "time": 0.00027,
+        "active_particles": 362228,
+        "debris_particles": 24192
+      },
+      {
+        "time": 0.00027499999999999996,
+        "active_particles": 361768,
+        "debris_particles": 24652
+      },
+      {
+        "time": 0.00028,
+        "active_particles": 361325,
+        "debris_particles": 25095
+      },
+      {
+        "time": 0.000285,
+        "active_particles": 360861,
+        "debris_particles": 25559
+      },
+      {
+        "time": 0.00029,
+        "active_particles": 360471,
+        "debris_particles": 25949
+      },
+      {
+        "time": 0.00029499999999999996,
+        "active_particles": 360087,
+        "debris_particles": 26333
+      },
+      {
+        "time": 0.0003,
+        "active_particles": 359674,
+        "debris_particles": 26746
+      }
+    ],
+    "interpretation": "Non-load-bearing particle markers, not resolved fragment surfaces"
+  }
+}

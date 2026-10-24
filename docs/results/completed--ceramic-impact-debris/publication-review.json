@@ -1,0 +1,28 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "diagnostics.csv": "00929935914e01a9159f60997a70f748d682a39ddc3a7547c1085e187a99c7cd",
+    "observables.csv": "44aed81a176ae59657e2178b8734563c6c9fab75dd748405398ab1b5ba4d88c5",
+    "original-physical-review.json": "5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b",
+    "physical-review.json": "73c21158d914f457636750ac85248bdfa3506af6346d993cb6dc75e3b8f657ad",
+    "provenance.json": "25caa518b826a4486e5ced67f3dc62707b1a0845c1d488fcd420b150d218cd7e",
+    "render.json": "139cff3901469af5c40c4a9bcc4d3c7a12702cbaf958786c2b965a48eeadf256",
+    "signature-reconciliation.json": "e861f19b5432acc2400e40d33795d8c1e807b83ba88c90b84a8227dffec00ce1",
+    "summary.json": "6d97b5a6fc2eb7fffe24dc0d182133d3070df724573267b3fd1c5a2b4d53c38f"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.9648610976230677,
+    "max_damage": 1.0
+  },
+  "scope": "Complete300us JH2 plate impact with ballistic noncontacting failed-particle debris, not cohesive fragment surfaces or a validated fragmentation benchmark. Original75mm sphere and180mm plate unchanged; sphere display opacity0.08. Boundary damage is visible separately from the central debris.",
+  "experimental_material_validation": false
+}

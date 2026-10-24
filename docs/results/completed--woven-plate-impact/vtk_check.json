@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "sampled_frames": [
+    0,
+    60
+  ],
+  "particles_per_frame": 819200,
+  "checker_sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+  "rtol": 1e-06,
+  "atol": 1e-07,
+  "input_sha256": {
+    "plan.json": {
+      "bytes": 1152190,
+      "sha256": "bd53ed7c6797fbac59f5ca494acaae7c67f5ac9cf3449ee8a6466ecc39e5aee4"
+    },
+    "summary.json": {
+      "bytes": 1315858,
+      "sha256": "33633f117cd1a4d063cf72c264e1cdf6894f4b57f1ecef0c3b40b452080db765"
+    },
+    "status.json": {
+      "bytes": 434,
+      "sha256": "6f63425abbfa35b2db1066931674b4302d269ac9cc8d6bd0d3fd675310c56045"
+    },
+    "layout.json": {
+      "bytes": 570,
+      "sha256": "690d2afe656d803396a69d2758bc3c1d7b3fea6a3d5c3e74b015aa97293cb29a"
+    },
+    "reference.npz": {
+      "bytes": 3544889,
+      "sha256": "6e3cadb2e47f96c34b661fce4049a3c45e1ad50ca79abdb5ad9afad347c0122f"
+    },
+    "final_state_0.npz": {
+      "bytes": 145438552,
+      "sha256": "43f402c0e863db09ac6cdfbf751ddb999d7317daa917a36c744355def685e9b7"
+    },
+    "checkpoint.npz": {
+      "bytes": 145508974,
+      "sha256": "b60f7ab8513be2c700238c72f2b59636e7ca25b99359cdfa5ac58901e893fe6b"
+    },
+    "layout_arrays.npz": {
+      "bytes": 1431943,
+      "sha256": "2db31282a56f3c3c49d7300b3d8010482182ec9ff9619e64f3dc19d399e78da6"
+    },
+    "particle_fields.npz": {
+      "bytes": 72758,
+      "sha256": "f7291841cb1b5e13005ccd289e36b04a228b4c6436b5a913bf001a43a393eddf"
+    },
+    "trajectory.npz": {
+      "bytes": 4025,
+      "sha256": "d237d84585d1facbe5dc96809bb581ab121a5042ba89abad769cf53480833e18"
+    },
+    "observables.csv": {
+      "bytes": 70046,
+      "sha256": "9e3383d2eb2049a1ed24c82c84f6d09a920e1f28a540b6a44b27463edf2460bc"
+    },
+    "diagnostics.csv": {
+      "bytes": 11627,
+      "sha256": "b0675e6d00e2d3a4855bfe2b3ce952fe79b6d646354014b064799ab0d2dcc143"
+    },
+    "trajectory_x.npy": {
+      "bytes": 1199308928,
+      "sha256": "4e289c28e98ce535b2fae3002fcb4dbf80fc2f668f2ae7c9d6ddc7e962289e7d"
+    },
+    "trajectory_speed.npy": {
+      "bytes": 199884928,
+      "sha256": "c300b89c2f9f106da9c196e9d240e932ca60077ffcc8cd5489df970e795113ef"
+    },
+    "trajectory_damage.npy": {
+      "bytes": 199884928,
+      "sha256": "4ff33f65fdb1587b45c22c6d00be03c9291a90605d95c1545e0ae6eca2742a39"
+    },
+    "trajectory_temperature.npy": {
+      "bytes": 199884928,
+      "sha256": "e932af6c4988294ef64c7ada7b2d74a4a53f9071fe518cf98dbb826ef231b9ed"
+    }
+  },
+  "vtk_metadata_sha256": "6054d03629b3fe89f556ee56bdce9c788dbca8c33b0f7576a901a341db86b786",
+  "scope": "Actual ParaView VTK readback of first/last coordinates, scalars and integer labels."
+}

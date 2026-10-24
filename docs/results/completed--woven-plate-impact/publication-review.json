@@ -1,0 +1,30 @@
+{
+  "schema": "completed-media-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_numerical_protocol": true,
+    "independent_physical_checks": true,
+    "actual_paraview": true,
+    "full_saved_history": true,
+    "source_bound_media": true,
+    "visual_review": true
+  },
+  "sources": {
+    "diagnostics.csv": "b0675e6d00e2d3a4855bfe2b3ce952fe79b6d646354014b064799ab0d2dcc143",
+    "media-check.json": "d97cdc559758558eec942320ce52014db87856445f31762eb17bc2c1c6d6da25",
+    "observables.csv": "9e3383d2eb2049a1ed24c82c84f6d09a920e1f28a540b6a44b27463edf2460bc",
+    "physical-review.json": "90cf53617169faed107d7adccbf04204d1fc7b7c9c6a085e71b5a7bbda341baf",
+    "provenance.json": "adf2ef8f13040cbfee3580cbfd01f4a976a4e1b342684c7b6ebde88cbe385ab5",
+    "render.json": "5485bf54381757ba8d17a658a8a763542ca12b3f8238f32c8979b30299836a95",
+    "summary.json": "33633f117cd1a4d063cf72c264e1cdf6894f4b57f1ecef0c3b40b452080db765",
+    "video.json": "281024fc82d72f02c3c0e109c29103b9861d94145d29e5eb4821c9bb329d9333",
+    "vtk_check.json": "64d250a01048de46068e87b39ee12f28abe547bdc3b4ac542e6af94780ea4e93",
+    "vtk_metadata.json": "6054d03629b3fe89f556ee56bdce9c788dbca8c33b0f7576a901a341db86b786"
+  },
+  "catalogue_metrics": {
+    "min_J": 0.9579414242509963,
+    "max_damage": 0.0
+  },
+  "scope": "Coarse fully bonded elastic woven plate with four clamped edges and a freely moving sphere. No damage, yarn separation, resolved yarn-thickness or calibrated material-strength claim.",
+  "experimental_material_validation": false
+}

@@ -25,6 +25,7 @@ HIDDEN_HOME_IDS.update({
 
 
 HOME_REPLACEMENTS = {
+    "material-engineering--ceramic-indentation-wide--jh2": "completed--ceramic-impact-debris",
     "material-engineering--jc-tension--johnson-cook": "material-engineering--jc-necking--johnson-cook",
     "material-engineering--concrete-bending--hjc": "material-engineering--concrete-bending-large--hjc",
     "material-engineering--concrete-bending-large--hjc": "material-engineering--concrete-bending-symmetric--hjc",
@@ -61,6 +62,8 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier) or summary.get("completed") is False:
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical in {"completed--woven-plate-impact", "completed--crossed-fibre-hertz", "completed--ceramic-impact-debris"}:
+        return is_archived_completed_ready(Path(folder), summary)
     source = canonical.split("--")[0]
     if source == "woven-preview":
         return is_woven_preview_ready(Path(folder), canonical, summary)
@@ -98,6 +101,33 @@ def is_ready_for_publication(folder, identifier, summary):
                     and audit.get("passed") is True and audit.get("checks")
                     and all(value is True for value in audit["checks"].values())
                     and audit.get("thresholds") == {"maximum_saved_damage_mirror_rms": .01, "maximum_saved_left_right_damaged_fraction_difference": .01}):
+                return False
+    except (OSError, ValueError, TypeError, KeyError, AttributeError):
+        return False
+    return True
+
+
+def is_archived_completed_ready(folder, summary):
+    """Keep imported full-protocol media bound to its reviewed publication files."""
+    try:
+        review = json.loads((folder / "publication-review.json").read_text(encoding="utf-8"))
+        render = json.loads((folder / "render.json").read_text(encoding="utf-8"))
+        required = {"complete_numerical_protocol", "independent_physical_checks", "actual_paraview",
+                    "full_saved_history", "source_bound_media", "visual_review"}
+        if (summary.get("completed") is not True or review.get("schema") != "completed-media-publication-v1"
+                or review.get("passed") is not True or set(review.get("checks", {})) != required
+                or not all(value is True for value in review["checks"].values())
+                or render.get("renderer") != "ParaView" or render.get("frames_rendered") != 61
+                or render.get("axes") is not False or render.get("annotations") is not False
+                or render.get("geometry_scale") != 1):
+            return False
+        if not {"summary.json", "render.json", "physical-review.json", "provenance.json"} <= set(review["sources"]):
+            return False
+        for name, expected in review["sources"].items():
+            if Path(name).name != name:
+                return False
+            raw = (folder / name).read_bytes().replace(b"\r\n", b"\n")
+            if hashlib.sha256(raw).hexdigest() != expected:
                 return False
     except (OSError, ValueError, TypeError, KeyError, AttributeError):
         return False

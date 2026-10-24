@@ -1,0 +1,20 @@
+{
+  "schema": "completed-run-provenance-v1",
+  "title": "JH2 ceramic impact and debris",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40069099744",
+  "media_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40079852621",
+  "numerical_source_commit": "68c311813b11124459b7750f52695c7caa9b6c39",
+  "raw_receipt_sha256": "cbd552706c53db80415ffc2d24e740cb32c907baf36be9d2295eb09f001ce8ed",
+  "source_files_checked": 11,
+  "transport": {
+    "artifact_id": 12554892459,
+    "zip_sha256": "840f21c69411437d4c976d61cc69edd59ae12da7acb3a23a08d1def802e77d4b",
+    "whole_zip_locally_verified": true,
+    "original_raw_receipt_remains_failed_and_never_resumable": true,
+    "independent_review_v2_original_sha256": "04ba94ea8d8cd4aa74d4f3031770e08f0eb67efa544d96b5a838ed80c2cdfe52",
+    "review_correction": "Only four fixed boundary end fields null\u2192+inf in copied signature metadata;29 other physical gates unchanged, no solver rerun.",
+    "complete_raw_backup_locally_verified": false
+  },
+  "scope": "Complete300us JH2 plate impact with ballistic noncontacting failed-particle debris, not cohesive fragment surfaces or a validated fragmentation benchmark. Original75mm sphere and180mm plate unchanged; sphere display opacity0.08. Boundary damage is visible separately from the central debris.",
+  "experimental_material_validation": false
+}

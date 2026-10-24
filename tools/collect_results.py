@@ -17,6 +17,7 @@ except ImportError:
 
 
 SOURCES = (
+    "completed",
     "suite",
     "elastic_cantilever",
     "compression",
@@ -568,7 +569,8 @@ def collect(root, destination):
                     continue
                 raise
             identifier = canonical_identifier(folder.relative_to(root / "outputs"))
-            has_trajectory = (folder / "trajectory.npz").is_file() or complete_artifact_import(folder)
+            has_trajectory = ((folder / "trajectory.npz").is_file() or complete_artifact_import(folder)
+                              or (source == "completed" and is_ready_for_publication(folder, identifier, summary)))
             if source in CLOUD_ALIASES and not complete_engineering_import(folder, identifier, summary):
                 continue
             if not has_trajectory or summary.get("completed") is False:
@@ -603,6 +605,12 @@ def collect(root, destination):
                 "runtime-symmetry.json",
                 "preview-review.json",
                 "preview-eligibility.json",
+                "publication-review.json",
+                "physical-review.json",
+                "prefix-review.json",
+                "provenance.json",
+                "original-physical-review.json",
+                "signature-reconciliation.json",
                 *JC_CHAIN_FILES,
             )
             for name in names:
@@ -646,8 +654,10 @@ def collect(root, destination):
                     "particles": sum(summary["particles"]),
                     "steps": summary["steps"],
                     "simulation_time": summary["simulation_time"],
-                    "min_J": summary["min_J"],
-                    "max_damage": summary["max_damage"],
+                    "min_J": (json.loads((folder / "publication-review.json").read_text())["catalogue_metrics"]["min_J"]
+                              if source == "completed" else summary["min_J"]),
+                    "max_damage": (json.loads((folder / "publication-review.json").read_text())["catalogue_metrics"]["max_damage"]
+                                   if source == "completed" else summary["max_damage"]),
                     "solver_seconds": summary["solver_seconds"],
                     "renderer": render.get("renderer"),
                     "sha256": hashes,

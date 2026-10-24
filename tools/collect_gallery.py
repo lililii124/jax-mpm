@@ -159,6 +159,12 @@ def gallery_groups(catalogue):
     listed = {relative for entries in groups.values() for _, relative in entries}
     for record in catalogue:
         parts = record["id"].split("--")
+        if parts[0] == "completed":
+            relative = sources[record["id"]]
+            if relative not in listed:
+                groups["Dynamics and contact"].append((parts[1], relative))
+                listed.add(relative)
+            continue
         if parts[0] in ("woven", "woven-preview"):
             relative = record.get("source_directory", "outputs/" + "/".join(parts)).removeprefix("outputs/")
             if relative not in listed:
@@ -271,7 +277,7 @@ def main():
             selected, frame, time = preview(folder, name, render)
             copy_if_changed(selected, target / f"{name}.png")
             animation = (
-                (name in ANIMATIONS or identifier.startswith(("adhesion--", "adhesion-visible--", "woven--", "woven-preview--")))
+                (name in ANIMATIONS or identifier.startswith(("adhesion--", "adhesion-visible--", "woven--", "woven-preview--", "completed--")))
                 and (folder / "video.json").exists()
                 and (folder / "simulation.mp4").exists()
             )
@@ -288,6 +294,8 @@ def main():
                 copy_if_changed(folder / "simulation.mp4", target / f"{name}.mp4")
             count = sum(summary["particles"])
             video_link = f" · [Video](images/{name}.mp4)" if animation else ""
+            if identifier.startswith("completed--") and (ROOT / f"docs/images/home/{identifier}.gif").is_file():
+                video_link += f" · [GIF](images/home/{identifier}.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             cells.append(
                 f"![{name}](images/{name}.png)<br>**{label}** · {count:,} particles<br>"

@@ -1,0 +1,368 @@
+{
+  "case": "JH-2 ceramic fragmentation",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 96,
+      "dt": 4.901960784313725e-08,
+      "domain_size": 0.25,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "jh2",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.043000000000000003,
+            0.25,
+            0.25
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.207,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.25,
+            0.25,
+            0.043000000000000003
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.0,
+            0.0,
+            0.207
+          ],
+          "upper": [
+            0.25,
+            0.25,
+            0.25
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "center": [
+            0.125,
+            0.1375,
+            0.125
+          ],
+          "radius": 0.0375,
+          "displacement": [
+            0.0,
+            -0.012,
+            0.0
+          ],
+          "duration": 0.0003
+        }
+      ],
+      "failure_mode": "ballistic"
+    }
+  ],
+  "materials": [
+    {
+      "shear": 20000000000.0,
+      "A": 0.79,
+      "B": 0.3,
+      "C": 0.007,
+      "M": 0.6,
+      "N": 0.6,
+      "reference_rate": 1.0,
+      "tensile_strength": 100000000.0,
+      "maximum_fractured_strength": 1.0,
+      "hel": 2600000000.0,
+      "pressure_hel": 1600000000.0,
+      "bulking_fraction": 0.5,
+      "D1": 0.01,
+      "D2": 0.5,
+      "K1": 130000000000.0,
+      "K2": 0.0,
+      "K3": 0.0,
+      "failure_strain": 0.05,
+      "density": 2500.0
+    }
+  ],
+  "steps": 6120,
+  "simulation_time": 0.0003,
+  "particles": [
+    386420
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.13",
+  "compile_and_warmup_seconds": 63.05441523999997,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 4395.926599961001,
+  "min_J": 0.9648610976230677,
+  "max_damage": 1.0,
+  "max_plastic_strain": 0.05352091671067228,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    0.0005762971863666468,
+    0.5915109757903755,
+    -0.002223891439852128
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "max_damage": 0.0,
+      "mean_damage_reference_volume": 0.0,
+      "damaged_reference_volume_m3": 0.0,
+      "damaged_reference_volume_fraction": 0.0,
+      "fully_damaged_reference_volume_fraction": 0.0,
+      "material_failed_reference_volume_fraction": 0.0,
+      "max_equivalent_plastic_strain": 0.0,
+      "damaged_region_min_x_m": null,
+      "damaged_region_max_x_m": null,
+      "damaged_region_min_y_m": null,
+      "damaged_region_max_y_m": null,
+      "damaged_region_min_z_m": null,
+      "damaged_region_max_z_m": null,
+      "boundary_sample_time_s": 4.901960784313725e-08,
+      "indenter_reaction_y_N": 614.5943007512119,
+      "nominal_indentation_m": 0.0,
+      "indenter_speed_y_m_per_s": -0.0,
+      "central_surface_displacement_y_m": 0.0,
+      "failed_mass_kg": 0.0,
+      "failed_reference_volume_m3": 0.0,
+      "failed_particle_count": 0,
+      "maximum_particle_displacement_m": 0.0
+    },
+    "final": {
+      "time": 0.0003,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0005762971863666468,
+      "boundary_impulse_y": 0.5915109757903755,
+      "boundary_impulse_z": -0.002223891439852128,
+      "max_damage": 1.0,
+      "mean_damage_reference_volume": 0.20036347503251015,
+      "damaged_reference_volume_m3": 0.00016191824957300353,
+      "damaged_reference_volume_fraction": 0.19989907354691785,
+      "fully_damaged_reference_volume_fraction": 0.19985249210703376,
+      "material_failed_reference_volume_fraction": 0.06921484395217638,
+      "max_equivalent_plastic_strain": 0.05352091671067228,
+      "damaged_region_min_x_m": 0.040825472750451335,
+      "damaged_region_max_x_m": 0.20917454594083626,
+      "damaged_region_min_y_m": 0.06887936118968126,
+      "damaged_region_max_y_m": 0.10172705548598787,
+      "damaged_region_min_z_m": 0.04082546770550258,
+      "damaged_region_max_z_m": 0.20917449558259196,
+      "boundary_sample_time_s": 0.0003000490196078431,
+      "indenter_reaction_y_N": -0.0,
+      "nominal_indentation_m": 0.0,
+      "indenter_speed_y_m_per_s": -0.0,
+      "central_surface_displacement_y_m": -0.0055075627818119135,
+      "failed_mass_kg": 0.14016005900315726,
+      "failed_reference_volume_m3": 5.6064023601262895e-05,
+      "failed_particle_count": 26746,
+      "maximum_particle_displacement_m": 0.018076436717180174
+    }
+  },
+  "definition": {
+    "purpose": "ceramic-fragmentation",
+    "model": "jh2",
+    "units": "m, s, kg, N, Pa",
+    "parameter_status": "repository constitutive defaults; demonstration geometry and loading, not a calibrated experiment",
+    "material_parameters_SI": {
+      "shear": 20000000000.0,
+      "A": 0.79,
+      "B": 0.3,
+      "C": 0.007,
+      "M": 0.6,
+      "N": 0.6,
+      "reference_rate": 1.0,
+      "tensile_strength": 100000000.0,
+      "maximum_fractured_strength": 1.0,
+      "hel": 2600000000.0,
+      "pressure_hel": 1600000000.0,
+      "bulking_fraction": 0.5,
+      "D1": 0.01,
+      "D2": 0.5,
+      "K1": 130000000000.0,
+      "K2": 0.0,
+      "K3": 0.0,
+      "failure_strain": 0.05,
+      "density": 2500.0
+    },
+    "particles_per_cell_per_axis": 2,
+    "lower": [
+      0.035,
+      0.075,
+      0.035
+    ],
+    "upper": [
+      0.215,
+      0.1,
+      0.215
+    ],
+    "grid_spacing_m": 0.0026041666666666665,
+    "duration_s": 0.0003,
+    "time_step_s": 4.901960784313725e-08,
+    "estimated_acoustic_speed_m_per_s": 7916.228058025278,
+    "acoustic_CFL": 0.14901135168047583,
+    "gravity": "omitted for the short dynamic loading interval",
+    "other_faces": "traction-free",
+    "reaction_sampling": "force on each rigid boundary from next-step grid momentum correction; force on specimen has opposite sign",
+    "failure_mode": "ballistic",
+    "damage_region_threshold": 0.5,
+    "damage_region_geometry": "bounds of current particle centers above the damage threshold",
+    "damage_interpretation": "local constitutive damage and plastic strain; D=1 is not a resolved crack or a separated fragment",
+    "mesh_dependence": "local softening has no fracture-energy regularization; damage widths and post-peak response require refinement studies",
+    "loading_regime": "prescribed dynamic spherical impact and withdrawal",
+    "boundary_condition": "four 8 mm edge strips fixed in all velocity components; no backing",
+    "failure_rule": "JH-2 equivalent plastic strain threshold; failed points coast without grid or tool contact",
+    "failure_strain": 0.05,
+    "rigid_sphere": {
+      "center": [
+        0.125,
+        0.1375,
+        0.125
+      ],
+      "radius": 0.0375,
+      "displacement": [
+        0.0,
+        -0.012,
+        0.0
+      ],
+      "duration": 0.0003
+    },
+    "rigid_sphere_motion": "one full cosine cycle over 300 microseconds",
+    "maximum_nominal_indentation_m": 0.012,
+    "peak_indenter_speed_m_per_s": 125.66370614359174,
+    "plate_width_m": 0.18,
+    "plate_thickness_m": 0.025,
+    "edge_clamp_width_m": 0.008,
+    "particle_spacing_m": 0.0012500000000000005,
+    "fragment_interpretation": "ballistic failed material is noncontacting debris; cohesive chunks, crack-face contact, size-independent fracture energy and measured ceramic calibration are absent"
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 2.0250000000000012,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.12499999999999994,
+      "com_y": 0.08749999999999997,
+      "com_z": 0.12499999999999994,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0008100000000000004,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "active_particles": 386420,
+      "debris_particles": 0,
+      "active_mass": 2.0250000000000012,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0008100000000000004,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.0003,
+      "body": 0,
+      "mass": 2.0250000000000012,
+      "momentum_x": 0.0005762971863666468,
+      "momentum_y": 0.5915109757903755,
+      "momentum_z": -0.002223891439852128,
+      "kinetic_energy": 17.32962302318139,
+      "com_x": 0.12499997353646931,
+      "com_y": 0.08768963314166985,
+      "com_z": 0.12500003513092842,
+      "min_J": 0.9648610976230677,
+      "max_J": 1.066616352850934,
+      "current_volume": 0.0008111170802348291,
+      "max_speed": 75.66888279216465,
+      "max_plastic_strain": 0.05352091671067228,
+      "max_damage": 1.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 436.1493255241136,
+      "active_particles": 359674,
+      "debris_particles": 26746,
+      "active_mass": 1.8848399409968435,
+      "debris_mass": 0.14016005900315726,
+      "active_current_volume": 0.0007545406557378256,
+      "strain_energy": null
+    }
+  ]
+}

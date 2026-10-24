@@ -10,7 +10,7 @@ the parameters and numerical results.
 | | |
 |---|---|
 | ![jc-tension](images/jc-tension.png)<br>**jc-tension** · 146,880 particles<br>[Results](results/material-engineering--jc-tension--johnson-cook/summary.json) · [Video](images/jc-tension.mp4) | |
-| ![ceramic-indentation-wide](images/ceramic-indentation-wide.png)<br>**ceramic-indentation-wide** · 386,420 particles<br>[Results](results/material-engineering--ceramic-indentation-wide--jh2/summary.json) · [Video](images/ceramic-indentation-wide.mp4) |  |
+| ![JH2 ceramic impact and debris](images/ceramic-impact-debris.png)<br>**JH2 ceramic impact and debris** · 386,420 particles<br>[Results](results/completed--ceramic-impact-debris/summary.json) · [GIF](images/home/completed--ceramic-impact-debris.gif) | |
 
 ## Engineering structures and tanks
 
@@ -66,3 +66,9 @@ Matched contact views at the same withdrawal-hold time; physical geometry is unc
 | | |
 |---|---|
 | ![Nonadhesive pull-off](images/adhesion-visible-nonadhesive-pull-off.png)<br>**Nonadhesive pull-off**<br>[Results](results/adhesion-visible--nonadhesive-pull-off/summary.json) · [Video](images/adhesion-visible-nonadhesive-pull-off.mp4) | ![Adhesive pull-off](images/adhesion-visible-adhesive-pull-off.png)<br>**Adhesive pull-off**<br>[Results](results/adhesion-visible--adhesive-pull-off/summary.json) · [Video](images/adhesion-visible-adhesive-pull-off.mp4) |
+
+## Completed contact and impact examples
+
+| | |
+|---|---|
+| ![Clamped woven plate impact](images/woven-plate-impact.png)<br>**Clamped woven plate impact** · 819,200 particles<br>[Results](results/completed--woven-plate-impact/summary.json) · [GIF](images/home/completed--woven-plate-impact.gif) · [Video](images/woven-plate-impact.mp4) | ![Crossed fibre Hertz contact](images/crossed-fibre-hertz.png)<br>**Crossed fibre Hertz contact** · 202,240 particles<br>[Results](results/completed--crossed-fibre-hertz/summary.json) · [GIF](images/home/completed--crossed-fibre-hertz.gif) |

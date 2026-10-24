@@ -81,6 +81,9 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [material-engineering--concrete-bending-symmetric--hjc](results/material-engineering--concrete-bending-symmetric--hjc/summary.json) | 121,104 | 10,500 | 0.0015 | 0.985444 | 1 | ParaView |
 | [adhesion-visible--adhesive-pull-off](results/adhesion-visible--adhesive-pull-off/summary.json) | 367,744 | 3,700 | 1.3 | 0.546498 | 0 | ParaView |
 | [adhesion-visible--nonadhesive-pull-off](results/adhesion-visible--nonadhesive-pull-off/summary.json) | 367,744 | 3,700 | 1.3 | 0.763119 | 0 | ParaView |
+| [completed--ceramic-impact-debris](results/completed--ceramic-impact-debris/summary.json) | 386,420 | 6,120 | 0.0003 | 0.964861 | 1 | ParaView |
+| [completed--crossed-fibre-hertz](results/completed--crossed-fibre-hertz/summary.json) | 202,240 | 24,495 | 0.03 | 0.980333 | 0 | ParaView |
+| [completed--woven-plate-impact](results/completed--woven-plate-impact/summary.json) | 819,200 | 14,460 | 0.0002 | 0.957941 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)

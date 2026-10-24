@@ -1609,5 +1609,75 @@
       "numerical-source.json": "683478039ed99bbd8128b6356b42481a9ead32840a04aef182fd32ea8a5f3c40",
       "media-check.json": "2017d19f3c217b8747e154b3646728c25f849757eec2b9e7ecabb202d178b6a7"
     }
+  },
+  {
+    "id": "completed--ceramic-impact-debris",
+    "case": "JH-2 ceramic fragmentation",
+    "source_directory": "outputs/completed/ceramic-impact-debris",
+    "particles": 386420,
+    "steps": 6120,
+    "simulation_time": 0.0003,
+    "min_J": 0.9648610976230677,
+    "max_damage": 1.0,
+    "solver_seconds": 4395.926599961001,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "6d97b5a6fc2eb7fffe24dc0d182133d3070df724573267b3fd1c5a2b4d53c38f",
+      "diagnostics.csv": "00929935914e01a9159f60997a70f748d682a39ddc3a7547c1085e187a99c7cd",
+      "observables.csv": "44aed81a176ae59657e2178b8734563c6c9fab75dd748405398ab1b5ba4d88c5",
+      "render.json": "139cff3901469af5c40c4a9bcc4d3c7a12702cbaf958786c2b965a48eeadf256",
+      "publication-review.json": "a007c773ce7116bb9d8feaf760e1be72e2f2e4e82f0e4affe33851c837d6be7b",
+      "physical-review.json": "73c21158d914f457636750ac85248bdfa3506af6346d993cb6dc75e3b8f657ad",
+      "provenance.json": "25caa518b826a4486e5ced67f3dc62707b1a0845c1d488fcd420b150d218cd7e",
+      "original-physical-review.json": "5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b",
+      "signature-reconciliation.json": "e861f19b5432acc2400e40d33795d8c1e807b83ba88c90b84a8227dffec00ce1"
+    }
+  },
+  {
+    "id": "completed--crossed-fibre-hertz",
+    "case": "fibre-pull-off/hertz",
+    "source_directory": "outputs/completed/crossed-fibre-hertz",
+    "particles": 202240,
+    "steps": 24495,
+    "simulation_time": 0.030000000000017554,
+    "min_J": 0.9803330117017462,
+    "max_damage": 0.0,
+    "solver_seconds": 10198.219628463996,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "eb0522c97d91f09a44e18c1f513f4f5311177d659e7b3478f00939be0ec18ef2",
+      "diagnostics.csv": "e1e9d3e9a6f9c9d99ce816e167367733c66a62f909958824cc72512fedae4279",
+      "observables.csv": "7bcd8768a0900115897fde85f79f309a1e5b961078de4eaf5598ebd41cf71482",
+      "render.json": "55bdc6006589e34642d438b53c3b9dcfe34f3067f92f66c8681f14d2999c00d2",
+      "publication-review.json": "39b8e7ed44ee4dbc5109d0ab5c95503736c67a9b23e74b009616f348af63f4bb",
+      "physical-review.json": "7d3f1f334271f15acfb0dfc9a9113d5732ea932f4faaa8bf85efc06be691788f",
+      "prefix-review.json": "af38768f3ec2e706188e17dc81f7346fb07c3b2849e8126a3257fd94098c0c92",
+      "provenance.json": "980aed6c0e5fb64a66422cdf5e28b659eabc6944e02d53128178c4dd21ae346f"
+    }
+  },
+  {
+    "id": "completed--woven-plate-impact",
+    "case": "woven-large/plain/sphere-impact",
+    "source_directory": "outputs/completed/woven-plate-impact",
+    "particles": 819200,
+    "steps": 14460,
+    "simulation_time": 0.00019999999999996746,
+    "min_J": 0.9579414242509963,
+    "max_damage": 0.0,
+    "solver_seconds": 11335.467356176996,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "33633f117cd1a4d063cf72c264e1cdf6894f4b57f1ecef0c3b40b452080db765",
+      "diagnostics.csv": "b0675e6d00e2d3a4855bfe2b3ce952fe79b6d646354014b064799ab0d2dcc143",
+      "observables.csv": "9e3383d2eb2049a1ed24c82c84f6d09a920e1f28a540b6a44b27463edf2460bc",
+      "render.json": "5485bf54381757ba8d17a658a8a763542ca12b3f8238f32c8979b30299836a95",
+      "vtk_metadata.json": "6054d03629b3fe89f556ee56bdce9c788dbca8c33b0f7576a901a341db86b786",
+      "video.json": "281024fc82d72f02c3c0e109c29103b9861d94145d29e5eb4821c9bb329d9333",
+      "vtk_check.json": "64d250a01048de46068e87b39ee12f28abe547bdc3b4ac542e6af94780ea4e93",
+      "media-check.json": "d97cdc559758558eec942320ce52014db87856445f31762eb17bc2c1c6d6da25",
+      "publication-review.json": "458ae4528f52daeb34226b5275e4dc56c05ad290e85d30172c7445945f2539e7",
+      "physical-review.json": "90cf53617169faed107d7adccbf04204d1fc7b7c9c6a085e71b5a7bbda341baf",
+      "provenance.json": "adf2ef8f13040cbfee3580cbfd01f4a976a4e1b342684c7b6ebde88cbe385ab5"
+    }
   }
 ]
