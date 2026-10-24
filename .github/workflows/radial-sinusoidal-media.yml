@@ -1,0 +1,131 @@
+name: radial sinusoidal read-only media
+on:
+  workflow_dispatch:
+    inputs:
+      raw_run_id:
+        description: Exact completed numerical run ID
+        required: true
+        type: string
+      raw_run_attempt:
+        description: Exact numerical run attempt
+        required: true
+        default: '1'
+        type: string
+      source_sha:
+        description: Exact numerical source commit SHA (40 hex)
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: radial-sinusoidal-media
+  cancel-in-progress: false
+jobs:
+  media:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 145
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      RAW_RUN_ID: ${{ inputs.raw_run_id }}
+      RAW_RUN_ATTEMPT: ${{ inputs.raw_run_attempt }}
+      SOURCE_SHA: ${{ inputs.source_sha }}
+    steps:
+      - name: Validate exact selectors before checkout
+        env:
+          RAW_ID: ${{ inputs.raw_run_id }}
+          ATTEMPT: ${{ inputs.raw_run_attempt }}
+          SHA: ${{ inputs.source_sha }}
+        run: |
+          python - <<'PY'
+          import os,re
+          assert re.fullmatch(r'[0-9]+',os.environ['RAW_ID'])
+          assert re.fullmatch(r'[0-9]+',os.environ['ATTEMPT'])
+          assert re.fullmatch(r'[0-9a-f]{40}',os.environ['SHA'])
+          PY
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.source_sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Reserve complete-raw/render disk budget
+        run: |
+          python - <<'PY'
+          import shutil,subprocess
+          if shutil.disk_usage('.').free < 30*1024**3:
+              subprocess.run(['sudo','rm','-rf','--','/usr/local/lib/android','/usr/share/dotnet'],check=True)
+          assert shutil.disk_usage('.').free >= 30*1024**3, '30 GiB free disk required'
+          PY
+      - name: Record exact immutable raw artifact identities from GitHub API
+        uses: actions/github-script@v7
+        env:
+          ARTIFACT_RUN: ${{ inputs.raw_run_id }}
+          ARTIFACT_ATTEMPT: ${{ inputs.raw_run_attempt }}
+        with:
+          script: |
+            const fs = require('fs');
+            const run_id = Number(process.env.ARTIFACT_RUN);
+            const run = (await github.rest.actions.getWorkflowRun({...context.repo, run_id})).data;
+            if (run.head_sha !== process.env.SOURCE_SHA) throw new Error('Source run SHA differs');
+            const prefix = `radial-raw-${run_id}-${process.env.ARTIFACT_ATTEMPT}-`;
+            const all = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {...context.repo, run_id, per_page: 100});
+            const artifacts = all.filter(x => x.name.startsWith(prefix));
+            if (!artifacts.length || artifacts.some(x => x.expired)) throw new Error('No complete retained raw transport');
+            fs.mkdirSync('.local', {recursive: true});
+            fs.writeFileSync('.local/radial-sinusoidal-raw-artifact-identities.json', JSON.stringify({run_id, attempt: process.env.ARTIFACT_ATTEMPT, head_sha: run.head_sha, workflow_path: run.path, conclusion: run.conclusion, artifacts: artifacts.map(x => ({id:x.id,name:x.name,size_in_bytes:x.size_in_bytes,digest:x.digest}))}, null, 2));
+      - uses: actions/download-artifact@v5
+        timeout-minutes: 20
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.raw_run_id }}
+          pattern: radial-raw-${{ inputs.raw_run_id }}-${{ inputs.raw_run_attempt }}-*
+          merge-multiple: true
+          path: .local/radial-sinusoidal-input
+      - name: Verify full multipart transport and safely extract exact raw
+        timeout-minutes: 10
+        run: python tools/radial_sinusoidal_cloud.py extract --folder .local/radial-sinusoidal-input
+      - name: Install recorded renderer runtime and actual ParaView
+        timeout-minutes: 20
+        run: |
+          python -m pip install -r tools/radial_sinusoidal_runtime.txt
+          python -m pip install --no-deps -e .
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python tools/radial_sinusoidal_cloud.py install
+      - name: Render only 51 saved states, audit GIF and unchanged raw
+        timeout-minutes: 85
+        run: python tools/radial_sinusoidal_cloud.py media
+      - uses: actions/upload-artifact@v4
+        id: media
+        timeout-minutes: 10
+        with:
+          name: radial-sinusoidal-media-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/radial-sinusoidal-media/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+      - uses: actions/download-artifact@v5
+        timeout-minutes: 10
+        with:
+          artifact-ids: ${{ steps.media.outputs.artifact-id }}
+          path: .local/radial-sinusoidal-media-retrieved
+          merge-multiple: true
+      - name: Verify exact same-run delivered media
+        env:
+          MEDIA_ARTIFACT_ID: ${{ steps.media.outputs.artifact-id }}
+        run: python tools/radial_sinusoidal_cloud.py verify-media --folder .local/radial-sinusoidal-media-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: radial-sinusoidal-media-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/radial-sinusoidal-media-retrieval.json
+            .local/radial-sinusoidal-input/retrieval-receipt.json
+            .local/radial-sinusoidal-pv-install/paraview-install.json
+          if-no-files-found: warn
+          retention-days: 30

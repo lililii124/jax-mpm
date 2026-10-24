@@ -14,6 +14,8 @@ from mpm_jax.adhesion import (
     SpherePath,
     penalty_step_number,
     sphere_interaction,
+    radial_sinusoidal_interaction,
+    radial_sinusoidal_gap_gradient,
 )
 from mpm_jax.contact_laws import boundary_reaction
 from .common import run
@@ -37,7 +39,7 @@ LIFT_HOLD_PRESETS = {
 }
 
 
-def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
+def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard", radial_profile=None):
     if suite_case is not None and suite_case not in SUITE_CASES:
         raise ValueError("unknown adhesive suite case")
     if preset != "standard" and preset not in LIFT_HOLD_PRESETS:
@@ -152,12 +154,17 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
                 ),
             )
         )
+    def interaction(points, areas, center, radius, law):
+        if radial_profile is None:
+            return sphere_interaction(points, areas, center, radius, law)
+        return radial_sinusoidal_interaction(points, areas, center, radius, law, radial_profile)
+
     reference_surface = jnp.asarray(reference)[surface_indices]
 
     def interactions(current, time):
         points = current.x[surface_indices]
         return tuple(
-            sphere_interaction(
+            interaction(
                 points, surface_area, path.motion(time)[0], path.radius, law
             )
             for path in paths
@@ -200,7 +207,7 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
         all_x = np.asarray(current.x)
         for index, (path, load) in enumerate(zip(paths, loads)):
             center, center_velocity = path.motion(time)
-            undeformed = sphere_interaction(
+            undeformed = interaction(
                 reference_surface, surface_area, center, path.radius, law
             )
             prefix = f"sphere_{index}_"
@@ -229,7 +236,9 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
                     + "max_bulk_penetration_m": float(
                         max(
                             0.0,
-                            path.radius
+                            -float(jnp.min(radial_sinusoidal_gap_gradient(
+                                jnp.asarray(all_x), center, path.radius, radial_profile)[0]))
+                            if radial_profile is not None else path.radius
                             - np.linalg.norm(all_x - np.asarray(center), axis=1).min(),
                         )
                     ),
@@ -354,6 +363,22 @@ def make_case(*, grid=48, ppc=3, frames=50, suite_case=None, preset="standard"):
         )
         if profile["revision"] is not None:
             definition["loading_revision"] = profile["revision"]
+    if radial_profile is not None:
+        definition.update(
+            purpose="radial-sinusoidal-pull-off",
+            radial_sinusoid={"amplitude_m": radial_profile.amplitude,
+                             "wavelength_m": radial_profile.wavelength, "axis": "y",
+                             "height": "A*(cos(2*pi*rho/wavelength)-1)",
+                             "rho": "sqrt((x-center_x)^2+(z-center_z)^2)"},
+            comparison_variable="rigid indenter radial sinusoidal geometry",
+            comparison_pair="radial-sinusoidal-vs-adhesive-v4",
+            comparison_scope="same v4 adhesive material, nominal sphere radius, center path, boundary, dt and reference-area law; geometry changes",
+            contact_gap="norm((x-cx,y-cy-h(rho),z-cz))-R; warped-coordinate gap, not Euclidean distance",
+            contact_force="-A0*Uprime(gap)*grad(gap); normal is normalized grad(gap), force retains gradient magnitude",
+            tangential_contact="frictionless relative to corrugated surface normal",
+            comparison_targets={"status": "prospective geometry comparison; no claimed improvement or measured result"},
+            penalty_stability_indicator="sphere k*A0*dt^2/m indicator only; corrugated gap gradients increase local stiffness; full-run stability requires review",
+        )
     return (
         Case((state,), (material,), (config,), duration, definition, forces, observe),
         substeps,

@@ -150,3 +150,65 @@ def penalty_step_number(masses, reference_areas, dt, law):
         * dt**2
         / jnp.asarray(masses)
     )
+
+
+@dataclass(frozen=True)
+class RadialSinusoid:
+    """Vertical concentric corrugation, centered on the rigid body's y axis."""
+
+    amplitude: float = 0.008
+    wavelength: float = 0.08
+
+    def __post_init__(self):
+        if not isfinite(self.amplitude) or self.amplitude < 0:
+            raise ValueError("amplitude must be finite and nonnegative")
+        if not isfinite(self.wavelength) or self.wavelength <= 0:
+            raise ValueError("wavelength must be finite and positive")
+
+    def height(self, rho):
+        return self.amplitude * (jnp.cos(2 * jnp.pi * rho / self.wavelength) - 1)
+
+
+def radial_sinusoidal_gap_gradient(positions, center, radius, profile):
+    """Implicit warped-sphere gap and its full spatial gradient.
+
+    This gap is a sphere distance in vertically warped coordinates, NOT a
+    Euclidean signed distance to the corrugated surface. Forces must retain
+    the gradient magnitude to be the derivative of the stated potential.
+    The zero set is the sphere mesh with y += A*(cos(2*pi*rho/lambda)-1).
+    """
+    radial = positions - jnp.asarray(center)
+    rho2 = jnp.sum(radial[:, (0, 2)] ** 2, axis=-1)
+    rho = jnp.sqrt(jnp.maximum(rho2, jnp.finfo(positions.dtype).tiny))
+    k = 2 * jnp.pi / profile.wavelength
+    # sin(k*rho)/rho has the analytic limit k at the axis.
+    factor = -profile.amplitude * k * k * jnp.sinc(k * rho / jnp.pi)
+    dhdx, dhdz = factor * radial[:, 0], factor * radial[:, 2]
+    warped = radial.at[:, 1].add(-profile.height(rho))
+    distance = jnp.linalg.norm(warped, axis=-1)
+    unit = warped / jnp.maximum(distance, jnp.finfo(positions.dtype).tiny)[:, None]
+    gradient = unit.at[:, 0].add(-unit[:, 1] * dhdx)
+    gradient = gradient.at[:, 2].add(-unit[:, 1] * dhdz)
+    return distance - radius, gradient
+
+
+@partial(jax.jit, static_argnames=("law", "profile"))
+def radial_sinusoidal_interaction(positions, reference_areas, center, radius, law, profile):
+    """Conservative nominal Dugdale interaction on an explicit corrugated sphere."""
+    if profile.amplitude == 0:
+        return sphere_interaction(positions, reference_areas, center, radius, law)
+    gap, gradient = radial_sinusoidal_gap_gradient(positions, center, radius, profile)
+    areas = jnp.broadcast_to(jnp.asarray(reference_areas), gap.shape)
+    forces = (areas * law.traction(gap))[:, None] * gradient
+    penalty = areas * 0.5 * law.penalty_stiffness * jnp.minimum(gap, 0.0)**2
+    potential = areas * law.potential(gap)
+    compressed = gap < 0
+    adhesive = (gap >= 0) & (gap < law.interaction_range) & (law.work_of_adhesion > 0)
+    return SurfaceInteraction(
+        forces, gap, -jnp.sum(forces, axis=0),
+        -jnp.sum(jnp.cross(positions-jnp.asarray(center), forces), axis=0),
+        jnp.sum(potential), jnp.sum(penalty), jnp.sum(potential-penalty),
+        jnp.sum(jnp.where(compressed, areas, 0.0)),
+        jnp.sum(jnp.where(adhesive, areas, 0.0)),
+        jnp.sum(compressed), jnp.sum(adhesive),
+    )

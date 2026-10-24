@@ -1,109 +1,781 @@
-name: engineering previews
-
+name: private radial sinusoidal full numerical run
 on:
   workflow_dispatch:
     inputs:
-      preset:
-        description: Reviewed engineering cases or the round-bar density diagnostic
+      stop_after_frame:
+        description: Fresh bounded f10 admission prefix or full f50 protocol
         type: choice
-        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, adhesion-v4-pair, jc-density-diagnostic, jc-necking-formal]
-        default: all
+        options: ['10', '50']
+        default: '10'
         required: true
-
+      continuation_cache_key:
+        description: Exact accepted-prefix cache key; empty means fresh t0
+        type: string
+        default: ''
+      parent_receipt_sha256:
+        description: Exact accepted-prefix receipt SHA256 for continuation
+        type: string
+        default: ''
 permissions:
   contents: read
-
+  actions: read
 concurrency:
-  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: radial-sinusoidal-full-${{ github.ref }}
   cancel-in-progress: false
-
 jobs:
-  engineering:
+  numerical:
     runs-on: ubuntu-24.04
     timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '4'
       OPENBLAS_NUM_THREADS: '1'
-      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
-      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
+      SOURCE_SHA: ${{ github.sha }}
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - name: Install CPU and rendering dependencies
-        timeout-minutes: 30
-        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
-      - name: Install official ParaView
-        timeout-minutes: 20
-        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
-      - name: Solve and independently review
-        timeout-minutes: 300
-        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
-      - name: Upload reviewed results or the explicitly marked diagnostic
-        if: success()
-        uses: actions/upload-artifact@v4
+          python-version: '3.12.13'
+      - name: Install exact numerical runtime
+        timeout-minutes: 10
+        run: |
+          python -m pip install -r tools/radial_sinusoidal_runtime.txt
+          python -m pip install --no-deps -e .
+      - name: Admit whole raw packaging and same-run retrieval disk budget
+        run: |
+          python - <<'PY'
+          import shutil,subprocess
+          if shutil.disk_usage('.').free < 32*1024**3:
+              subprocess.run(['sudo','rm','-rf','--','/usr/local/lib/android','/usr/share/dotnet'],check=True)
+          assert shutil.disk_usage('.').free >= 32*1024**3
+          PY
+      - name: Restore only an explicitly selected accepted prefix for continuation
+        if: inputs.continuation_cache_key != ''
+        uses: actions/cache/restore@v5
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/engineering-delivery/main/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
+          path: .local/radial-sinusoidal-full
+          key: ${{ inputs.continuation_cache_key }}
+          fail-on-cache-miss: true
+      - name: Stage the exact restored parent away from the fresh destination
+        if: inputs.continuation_cache_key != ''
+        env:
+          PARENT_SHA: ${{ inputs.parent_receipt_sha256 }}
+        run: python tools/radial_sinusoidal_cloud.py stage-parent
+      - name: Fresh bounded f10 or explicitly requested full f50 protocol
+        id: solve
+        timeout-minutes: 245
+        env:
+          STOP_AFTER_FRAME: ${{ inputs.stop_after_frame }}
+          CONTINUATION_KEY: ${{ inputs.continuation_cache_key }}
+          PARENT_SHA: ${{ inputs.parent_receipt_sha256 }}
+        run: |
+          if [ -n "$CONTINUATION_KEY" ]; then
+            python tools/radial_sinusoidal_cloud.py run --stop-after-frame "$STOP_AFTER_FRAME" --continue-from .local/radial-sinusoidal-resume-input --parent-receipt-sha256 "$PARENT_SHA"
+          else
+            python tools/radial_sinusoidal_cloud.py run --stop-after-frame "$STOP_AFTER_FRAME"
+          fi
+      - name: Preserve exact same-run raw cache including failed endpoint
+        if: always() && steps.solve.outputs.cache_key != ''
+        timeout-minutes: 10
+        uses: actions/cache/save@v5
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
-          path: .local/engineering-delivery/final-state/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
-          path: .local/engineering-delivery/final-state-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate media when needed
-        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
-          path: .local/engineering-delivery/media/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second media package when needed
-        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
-          path: .local/engineering-delivery/media-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload diagnostic logs
+          path: .local/radial-sinusoidal-full
+          key: ${{ steps.solve.outputs.cache_key }}
+      - name: Package complete raw and failure receipts
         if: always()
-        uses: actions/upload-artifact@v4
+        timeout-minutes: 10
+        run: python tools/radial_sinusoidal_cloud.py package
+      - uses: actions/upload-artifact@v4
+        if: always()
+        id: manifest
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
-          path: .local/engineering-ci/
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-manifest
+          path: .local/radial-sinusoidal-parts/transport.json
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-000.tarpart') != ''
+        id: part000
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-000
+          path: .local/radial-sinusoidal-parts/part-000.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-001.tarpart') != ''
+        id: part001
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-001
+          path: .local/radial-sinusoidal-parts/part-001.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-002.tarpart') != ''
+        id: part002
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-002
+          path: .local/radial-sinusoidal-parts/part-002.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-003.tarpart') != ''
+        id: part003
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-003
+          path: .local/radial-sinusoidal-parts/part-003.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-004.tarpart') != ''
+        id: part004
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-004
+          path: .local/radial-sinusoidal-parts/part-004.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-005.tarpart') != ''
+        id: part005
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-005
+          path: .local/radial-sinusoidal-parts/part-005.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-006.tarpart') != ''
+        id: part006
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-006
+          path: .local/radial-sinusoidal-parts/part-006.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-007.tarpart') != ''
+        id: part007
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-007
+          path: .local/radial-sinusoidal-parts/part-007.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-008.tarpart') != ''
+        id: part008
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-008
+          path: .local/radial-sinusoidal-parts/part-008.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-009.tarpart') != ''
+        id: part009
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-009
+          path: .local/radial-sinusoidal-parts/part-009.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-010.tarpart') != ''
+        id: part010
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-010
+          path: .local/radial-sinusoidal-parts/part-010.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-011.tarpart') != ''
+        id: part011
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-011
+          path: .local/radial-sinusoidal-parts/part-011.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-012.tarpart') != ''
+        id: part012
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-012
+          path: .local/radial-sinusoidal-parts/part-012.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-013.tarpart') != ''
+        id: part013
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-013
+          path: .local/radial-sinusoidal-parts/part-013.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-014.tarpart') != ''
+        id: part014
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-014
+          path: .local/radial-sinusoidal-parts/part-014.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-015.tarpart') != ''
+        id: part015
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-015
+          path: .local/radial-sinusoidal-parts/part-015.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-016.tarpart') != ''
+        id: part016
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-016
+          path: .local/radial-sinusoidal-parts/part-016.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-017.tarpart') != ''
+        id: part017
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-017
+          path: .local/radial-sinusoidal-parts/part-017.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-018.tarpart') != ''
+        id: part018
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-018
+          path: .local/radial-sinusoidal-parts/part-018.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-019.tarpart') != ''
+        id: part019
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-019
+          path: .local/radial-sinusoidal-parts/part-019.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-020.tarpart') != ''
+        id: part020
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-020
+          path: .local/radial-sinusoidal-parts/part-020.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-021.tarpart') != ''
+        id: part021
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-021
+          path: .local/radial-sinusoidal-parts/part-021.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-022.tarpart') != ''
+        id: part022
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-022
+          path: .local/radial-sinusoidal-parts/part-022.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-023.tarpart') != ''
+        id: part023
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-023
+          path: .local/radial-sinusoidal-parts/part-023.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-024.tarpart') != ''
+        id: part024
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-024
+          path: .local/radial-sinusoidal-parts/part-024.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-025.tarpart') != ''
+        id: part025
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-025
+          path: .local/radial-sinusoidal-parts/part-025.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-026.tarpart') != ''
+        id: part026
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-026
+          path: .local/radial-sinusoidal-parts/part-026.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-027.tarpart') != ''
+        id: part027
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-027
+          path: .local/radial-sinusoidal-parts/part-027.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-028.tarpart') != ''
+        id: part028
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-028
+          path: .local/radial-sinusoidal-parts/part-028.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-029.tarpart') != ''
+        id: part029
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-029
+          path: .local/radial-sinusoidal-parts/part-029.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-030.tarpart') != ''
+        id: part030
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-030
+          path: .local/radial-sinusoidal-parts/part-030.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-031.tarpart') != ''
+        id: part031
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-031
+          path: .local/radial-sinusoidal-parts/part-031.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-032.tarpart') != ''
+        id: part032
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-032
+          path: .local/radial-sinusoidal-parts/part-032.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-033.tarpart') != ''
+        id: part033
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-033
+          path: .local/radial-sinusoidal-parts/part-033.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-034.tarpart') != ''
+        id: part034
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-034
+          path: .local/radial-sinusoidal-parts/part-034.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-035.tarpart') != ''
+        id: part035
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-035
+          path: .local/radial-sinusoidal-parts/part-035.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-036.tarpart') != ''
+        id: part036
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-036
+          path: .local/radial-sinusoidal-parts/part-036.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-037.tarpart') != ''
+        id: part037
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-037
+          path: .local/radial-sinusoidal-parts/part-037.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-038.tarpart') != ''
+        id: part038
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-038
+          path: .local/radial-sinusoidal-parts/part-038.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-039.tarpart') != ''
+        id: part039
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-039
+          path: .local/radial-sinusoidal-parts/part-039.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-040.tarpart') != ''
+        id: part040
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-040
+          path: .local/radial-sinusoidal-parts/part-040.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-041.tarpart') != ''
+        id: part041
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-041
+          path: .local/radial-sinusoidal-parts/part-041.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-042.tarpart') != ''
+        id: part042
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-042
+          path: .local/radial-sinusoidal-parts/part-042.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-043.tarpart') != ''
+        id: part043
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-043
+          path: .local/radial-sinusoidal-parts/part-043.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-044.tarpart') != ''
+        id: part044
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-044
+          path: .local/radial-sinusoidal-parts/part-044.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-045.tarpart') != ''
+        id: part045
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-045
+          path: .local/radial-sinusoidal-parts/part-045.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-046.tarpart') != ''
+        id: part046
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-046
+          path: .local/radial-sinusoidal-parts/part-046.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-047.tarpart') != ''
+        id: part047
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-047
+          path: .local/radial-sinusoidal-parts/part-047.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-048.tarpart') != ''
+        id: part048
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-048
+          path: .local/radial-sinusoidal-parts/part-048.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-049.tarpart') != ''
+        id: part049
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-049
+          path: .local/radial-sinusoidal-parts/part-049.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-050.tarpart') != ''
+        id: part050
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-050
+          path: .local/radial-sinusoidal-parts/part-050.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-051.tarpart') != ''
+        id: part051
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-051
+          path: .local/radial-sinusoidal-parts/part-051.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-052.tarpart') != ''
+        id: part052
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-052
+          path: .local/radial-sinusoidal-parts/part-052.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-053.tarpart') != ''
+        id: part053
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-053
+          path: .local/radial-sinusoidal-parts/part-053.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-054.tarpart') != ''
+        id: part054
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-054
+          path: .local/radial-sinusoidal-parts/part-054.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-055.tarpart') != ''
+        id: part055
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-055
+          path: .local/radial-sinusoidal-parts/part-055.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-056.tarpart') != ''
+        id: part056
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-056
+          path: .local/radial-sinusoidal-parts/part-056.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-057.tarpart') != ''
+        id: part057
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-057
+          path: .local/radial-sinusoidal-parts/part-057.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-058.tarpart') != ''
+        id: part058
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-058
+          path: .local/radial-sinusoidal-parts/part-058.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-059.tarpart') != ''
+        id: part059
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-059
+          path: .local/radial-sinusoidal-parts/part-059.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-060.tarpart') != ''
+        id: part060
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-060
+          path: .local/radial-sinusoidal-parts/part-060.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-061.tarpart') != ''
+        id: part061
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-061
+          path: .local/radial-sinusoidal-parts/part-061.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-062.tarpart') != ''
+        id: part062
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-062
+          path: .local/radial-sinusoidal-parts/part-062.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - uses: actions/upload-artifact@v4
+        if: always() && hashFiles('.local/radial-sinusoidal-parts/part-063.tarpart') != ''
+        id: part063
+        timeout-minutes: 3
+        with:
+          name: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-part-063
+          path: .local/radial-sinusoidal-parts/part-063.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 7
+      - name: Record exact immutable raw artifact identities from GitHub API
+        uses: actions/github-script@v7
+        env:
+          ARTIFACT_RUN: ${{ github.run_id }}
+          ARTIFACT_ATTEMPT: ${{ github.run_attempt }}
+        with:
+          script: |
+            const fs = require('fs');
+            const run_id = Number(process.env.ARTIFACT_RUN);
+            const run = (await github.rest.actions.getWorkflowRun({...context.repo, run_id})).data;
+            if (run.head_sha !== process.env.SOURCE_SHA) throw new Error('Source run SHA differs');
+            const prefix = `radial-raw-${run_id}-${process.env.ARTIFACT_ATTEMPT}-`;
+            const all = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {...context.repo, run_id, per_page: 100});
+            const artifacts = all.filter(x => x.name.startsWith(prefix));
+            if (!artifacts.length || artifacts.some(x => x.expired)) throw new Error('No complete retained raw transport');
+            fs.mkdirSync('.local', {recursive: true});
+            fs.writeFileSync('.local/radial-sinusoidal-raw-artifact-identities.json', JSON.stringify({run_id, attempt: process.env.ARTIFACT_ATTEMPT, head_sha: run.head_sha, workflow_path: run.path, conclusion: run.conclusion, artifacts: artifacts.map(x => ({id:x.id,name:x.name,size_in_bytes:x.size_in_bytes,digest:x.digest}))}, null, 2));
+      - name: Retrieve exact same-run transport artifacts
+        if: always() && steps.manifest.outcome == 'success'
+        timeout-minutes: 20
+        uses: actions/download-artifact@v5
+        with:
+          pattern: radial-raw-${{ github.run_id }}-${{ github.run_attempt }}-*
+          path: .local/radial-sinusoidal-retrieved
+          merge-multiple: true
+      - name: Verify every retrieved part and raw file
+        if: always() && steps.manifest.outcome == 'success'
+        timeout-minutes: 10
+        run: python tools/radial_sinusoidal_cloud.py retrieve --folder .local/radial-sinusoidal-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: radial-raw-receipts-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/radial-sinusoidal-raw-artifact-identities.json
+            .local/radial-sinusoidal-full/receipt.json
+            .local/radial-sinusoidal-full/progress.json
+            .local/radial-sinusoidal-retrieved/retrieval-receipt.json
           if-no-files-found: warn
-          retention-days: 1
-          compression-level: 6
+          retention-days: 30
