@@ -33,6 +33,7 @@ PROOF_SHA='74840b9e9bf12f479787bdfb359bd34098354402fdcf3c13deccee698043836f'
 TEMPLATE='.github/workflows/radial-sinusoidal-full-review-media.yml'
 CONTROLLER='tools/radial_sinusoidal_full_review.py'
 OVERLAY='tools/radial_sinusoidal_paraview_overlay.py'
+VTK_LAUNCHER='tools/radial_sinusoidal_vtk_audit.py'
 REGISTERED='.github/workflows/engineering-previews.yml'
 REF='refs/heads/work/radial-sinusoidal-full'
 REPOSITORY='lililii124/jax-mpm'
@@ -78,7 +79,7 @@ def private_workflow_bytes(root=None):
 
 
 def controller_files():
-    names=[CONTROLLER,TEMPLATE,REGISTERED,OVERLAY]
+    names=[CONTROLLER,TEMPLATE,REGISTERED,OVERLAY,VTK_LAUNCHER]
     names += [f'docs/results/adhesion-visible--{name}-pull-off/{file}'
         for name in ('nonadhesive','adhesive') for file in ('summary.json','render.json')]
     names += [f'docs/images/home/adhesion-visible--{name}-pull-off.gif' for name in ('nonadhesive','adhesive')]
@@ -348,6 +349,40 @@ def overlay_module():
     return module
 
 
+def vtk_audit_command(folder,producer,pvpython,receipt,expected_particles=367744):
+    return [str(pvpython),'--force-offscreen-rendering',str(ROOT/VTK_LAUNCHER),
+        '--review',str(Path(__file__).resolve()),'--review-sha256',digest(Path(__file__).resolve()),
+        '--producer',str(Path(producer).resolve()),'--folder',str(Path(folder).resolve()),
+        '--receipt',str(Path(receipt).resolve()),'--expected-particles',str(expected_particles)]
+
+
+def verify_vtk_child(folder,receipt,expected_particles=367744):
+    folder=Path(folder).resolve();receipt=Path(receipt).resolve();target=folder/'vtk-full-mesh-audit.json'
+    if not target.is_file() or not receipt.is_file():
+        raise ValueError('Actual VTK child did not produce both required audit and completion receipt; inspect vtk-audit.log')
+    child=read(receipt);data=read(target)
+    if not (child.get('passed') is True and child['output_file']==str(target)
+        and child['folder']==str(folder) and child['output_sha256']==digest(target)
+        and child['review_sha256']==digest(Path(__file__).resolve())
+        and child['expected_particles']==expected_particles and child['actual_particle_frames_checked']==51
+        and data.get('passed') is True and data['actual_particle_frames_checked']==51
+        and data['particles_per_frame']==expected_particles
+        and child['renderer_overlay']==data['renderer_overlay']==overlay_module().provenance()):
+        raise ValueError('Actual VTK child output/source/geometry receipt differs')
+    mesh=data['actual_warped_rigid_mesh_checks']
+    if [item['frame'] for item in mesh]!=[0,10,16,30,43,50] or any(
+        not 0<=item['maximum_gap_zero_set_error_m']<1e-7 or item['mesh_vertices']<=0 for item in mesh):
+        raise ValueError('Actual six-frame rigid mesh zero-set audit incomplete')
+    return data
+
+
+def copy_media_payload(render,destination):
+    for name in ('simulation.gif','render.json','summary.json','vtk-full-mesh-audit.json'):
+        shutil.copyfile(Path(render)/name,Path(destination)/name)
+    for i in (10,16,30,43,50):
+        shutil.copyfile(Path(render)/'frames'/f'frame_{i:05d}.png',Path(destination)/f'frame_{i:05d}.png')
+
+
 def render_media():
     old=old_helpers();render=PRODUCER/'.local/radial-independent-render'
     if render.exists():raise ValueError('Fresh read-only render copy required')
@@ -358,8 +393,10 @@ def render_media():
         '--producer',str(PRODUCER),str(render),'--field','displacement','--resolution','1200',
         '--color-range',*[str(x) for x in COLOR_RANGE],'--focus-bounds',*[str(x) for x in FOCUS]]
     old.guard(command,OUT/'render.log',75*60,render)
-    subprocess.run([os.environ['PARAVIEW_PYTHON'],'--force-offscreen-rendering',str(Path(__file__).resolve()),'vtk',
-        '--folder',str(render)],cwd=PRODUCER,check=True,timeout=600)
+    vtk_receipt=OUT/'vtk-child-receipt.json'
+    old.guard(vtk_audit_command(render,PRODUCER,os.environ['PARAVIEW_PYTHON'],vtk_receipt),
+        OUT/'vtk-audit.log',600,render)
+    verify_vtk_child(render,vtk_receipt)
     encode_gif(render)
     record=read(render/'render.json')
     if record.get('renderer_overlay')!=overlay_module().provenance():raise ValueError('Actual renderer overlay provenance differs')
@@ -375,8 +412,7 @@ def render_media():
         with Image.open(render/'frames'/f'frame_{i:05d}.png') as image:
             image.load()
             if image.size!=(1200,1200) or all(lo==hi for lo,hi in image.convert('RGB').getextrema()):raise ValueError('PNG missing/blank')
-    for name in ('simulation.gif','render.json','summary.json','vtk-full-mesh-audit.json'):shutil.copyfile(render/name,OUT/name)
-    for i in (10,16,30,43,50):shutil.copyfile(render/'frames'/f'frame_{i:05d}.png',OUT/f'frame_{i:05d}.png')
+    copy_media_payload(render,OUT)
     for name,expected in read(WORK/'continuation-receipt.json')['raw_files'].items():
         if digest(render/name)!=expected['sha256']:raise ValueError('Numerical render-copy bytes changed')
     save(OUT/'media-audit.json',{'passed':True,'gif_frames':51,'gif_resolution':[400,400],

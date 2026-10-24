@@ -54,15 +54,21 @@ def main():
         '--producer',str(producer),str(data),'--field','displacement','--resolution','400',
         '--color-range',*[str(x) for x in review.COLOR_RANGE],'--focus-bounds',*[str(x) for x in review.FOCUS]]
     subprocess.run(command,cwd=ROOT,check=True,timeout=300)
-    subprocess.run([str(args.pvpython),'--force-offscreen-rendering',str(Path(__file__).resolve()),'--vtk','--output',str(output)],cwd=ROOT,check=True,timeout=120)
+    delivery=output/'delivery';delivery.mkdir()
+    receipt=delivery/'vtk-child-receipt.json'
+    audit_command=review.vtk_audit_command(data,producer,args.pvpython.resolve(),receipt,expected_particles=192)
+    with (delivery/'vtk-audit.log').open('wb') as stream:
+        subprocess.run(audit_command,cwd=producer,stdout=stream,stderr=subprocess.STDOUT,check=True,timeout=120)
+    review.verify_vtk_child(data,receipt,expected_particles=192)
     review.encode_gif(data)
+    review.copy_media_payload(data,delivery)
     rendered=review.read(data/'render.json')
     assert rendered['frames_rendered']==51 and rendered['resolution']==[400,400]
     assert rendered['axes'] is False and rendered['annotations'] is False
     assert rendered['renderer_overlay']==overlay.provenance()
     audit=review.read(data/'vtk-full-mesh-audit.json')
     result={'passed':True,'scope':'tiny nonphysical actual-render fixture; not f50 numerical acceptance',
-        'frames_rendered':51,'fixture_particles':192,'gif_resolution':[400,400],
+        'actual_child_receipt_and_copy_chain_passed':True,'frames_rendered':51,'fixture_particles':192,'gif_resolution':[400,400],
         'gif_bytes':(data/'simulation.gif').stat().st_size,'axes':False,'text':False,
         'renderer_overlay':rendered['renderer_overlay'],'actual_mesh_checks':audit['actual_warped_rigid_mesh_checks'],
         'pvpython':str(args.pvpython),'solver_executed':False}
