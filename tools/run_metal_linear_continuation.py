@@ -38,9 +38,20 @@ def validate_admission(a, allow_pending_readonly=False):
         raise ValueError('Independent original manifest and receipt SHA required')
 
 
+class StripCrossHostAuthorization(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        redirected=super().redirect_request(req,fp,code,msg,headers,newurl)
+        if redirected is not None:
+            from urllib.parse import urlsplit
+            if urlsplit(newurl).scheme!='https': raise ValueError('HTTPS artifact redirect required')
+            if urlsplit(req.full_url).netloc!=urlsplit(newurl).netloc:
+                redirected.remove_header('Authorization')
+        return redirected
+
+
 def request(url):
     req=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
-    return urllib.request.urlopen(req)
+    return urllib.request.build_opener(StripCrossHostAuthorization()).open(req,timeout=90)
 
 
 def restore(*, allow_pending_readonly=False):
