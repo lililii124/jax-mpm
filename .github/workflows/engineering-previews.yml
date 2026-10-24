@@ -74,8 +74,8 @@ jobs:
           JOB_LOG_SHA: ${{ inputs.original_job_log_sha256 }}
         run: |
           mkdir -p .local/ceramic-original-evidence
-          gh api /repos/lililii124/jax-mpm/actions/artifacts/12549841535/zip > .local/ceramic-original-evidence/artifact.zip
-          gh api /repos/lililii124/jax-mpm/actions/jobs/120788957488/logs > .local/ceramic-original-evidence/job.log
+          gh api --allow-escape-sequences /repos/lililii124/jax-mpm/actions/artifacts/12549841535/zip > .local/ceramic-original-evidence/artifact.zip
+          gh api --allow-escape-sequences /repos/lililii124/jax-mpm/actions/jobs/120788957488/logs > .local/ceramic-original-evidence/job.log
           python - <<'PY'
           import hashlib,json,os,re,sys,zipfile
           from pathlib import Path
