@@ -1,0 +1,38 @@
+{
+  "schema": "metal-v6-cloud-seed-admission-v1",
+  "transport_sha256": "4d51d2f2f6b4a1096dc64e7c4faea8f93fef2c38bc8ee31465b5a1b3ca9cf5b0",
+  "seed_context_sha256": "b9023a9f3aa6fff4000c36ca8333d36f4773717b4f2ba068b8fba80a11dd81bc",
+  "checkpoint_sha256": "34f37faeca24a389f80c4b633bfa0b0ad585ac2d129a2d560ec31d9a18f8f4fe",
+  "parent_receipt_sha256": "34b4c7443fff73240df559eb085433b5cfc3d0f2c437e213aec2a890e37db4cf",
+  "parent_source_sha256": "57bbcead7471798100753a3a12df2ed678845dea4a5eedf54bb06ab30f6e8a0b",
+  "runtime": {
+    "python": "3.12.13",
+    "numpy": "2.5.4",
+    "jax": "0.12.1.dev20261022",
+    "jaxlib": "0.12.0.1",
+    "backend": "cpu",
+    "x64": true
+  },
+  "jax_wheel": "jax-0.12.1.dev20261022-py3-none-any.whl",
+  "jax_wheel_sha256": "8aecd75dba37eb8e76418487445c66efb3877b3724570d3b70237f063090b980",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "jaxlib": "0.12.0.1",
+    "scipy": "1.18.1",
+    "ml_dtypes": "0.6.0",
+    "opt_einsum": "3.4.0",
+    "psutil": "7.2.2"
+  },
+  "start_ns": 750,
+  "stop_ns": 1000,
+  "parts": {
+    "part-000.tarpart": {
+      "bytes": 83169280,
+      "sha256": "967ef0ae3f9c7504cca30a3623b10201a31864f79dfa5557f8cf4cdbe295a307"
+    }
+  },
+  "fixed_feature_ref": "refs/heads/work/metal-fragment-v6-cloud",
+  "max_artifact_archive_bytes": 201326592,
+  "max_part_payload_bytes": 134217728,
+  "scope": "Immutable local accepted restart seed. Failed Windows1455 attempt included only as evidence; never restored for computation."
+}

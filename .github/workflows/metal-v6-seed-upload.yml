@@ -1,0 +1,60 @@
+name: Private v6 immutable750ns seed artifact upload
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: metal-v6-seed750-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  seed:
+    if: github.ref == 'refs/heads/work/metal-fragment-v6-cloud'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Verify original pinned manifest, whole part and every raw file
+        run: python tools/recover_metal_v6_cloud.py verify-seed --folder recovery-seeds/metal-v6-750ns
+      - uses: actions/upload-artifact@v4
+        id: manifest
+        with:
+          name: metal-v6-seed750-${{ github.run_id }}-${{ github.run_attempt }}-manifest
+          path: recovery-seeds/metal-v6-750ns/transport.json
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        id: part
+        with:
+          name: metal-v6-seed750-${{ github.run_id }}-${{ github.run_attempt }}-part-000
+          path: recovery-seeds/metal-v6-750ns/part-000.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Record immutable uploader artifact IDs and ZIP SHA256
+        env:
+          MANIFEST_ID: ${{ steps.manifest.outputs.artifact-id }}
+          MANIFEST_SHA: ${{ steps.manifest.outputs.artifact-digest }}
+          PART_ID: ${{ steps.part.outputs.artifact-id }}
+          PART_SHA: ${{ steps.part.outputs.artifact-digest }}
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          run=os.environ['GITHUB_RUN_ID'];attempt=os.environ['GITHUB_RUN_ATTEMPT']
+          records=[dict(id=int(os.environ['MANIFEST_ID']),name=f'metal-v6-seed750-{run}-{attempt}-manifest',sha256=os.environ['MANIFEST_SHA']),dict(id=int(os.environ['PART_ID']),name=f'metal-v6-seed750-{run}-{attempt}-part-000',sha256=os.environ['PART_SHA'])]
+          value=dict(seed_run_id=run,seed_attempt=attempt,seed_commit=os.environ['GITHUB_SHA'],artifacts=records,numerical_producer='Local accepted750ns proof; uploader does not recompute it')
+          Path('.local').mkdir(exist_ok=True);Path('.local/metal-v6-seed-artifact-receipt.json').write_text(json.dumps(value,indent=2)+'\n')
+          print(json.dumps(value))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: metal-v6-seed750-${{ github.run_id }}-${{ github.run_attempt }}-receipt
+          path: .local/metal-v6-seed-artifact-receipt.json
+          if-no-files-found: error
+          retention-days: 30

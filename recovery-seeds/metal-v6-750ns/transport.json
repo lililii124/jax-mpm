@@ -1,0 +1,565 @@
+{
+  "files": {
+    "dependencies/jax-0.12.1.dev20261022-py3-none-any.whl": {
+      "bytes": 3637713,
+      "sha256": "8aecd75dba37eb8e76418487445c66efb3877b3724570d3b70237f063090b980"
+    },
+    "dependencies/producer-jax-main.zip": {
+      "bytes": 23664510,
+      "sha256": "abf21d5a02db4ea124500cea4e162722d3ee700ac0aac1f339efd0a5ee41c5c7"
+    },
+    "dependencies/requirements.txt": {
+      "bytes": 99,
+      "sha256": "10eea55c0cf460cc92d3dd8a970e17d9f16b7957d1442f41733eeb204e146623"
+    },
+    "interrupted-windows-attempt/monitor-live.json": {
+      "bytes": 23408,
+      "sha256": "98fa47883ee2c1e398aa26cf63ed926f57a15027e6eb127309355954401b021c"
+    },
+    "interrupted-windows-attempt/monitor.json": {
+      "bytes": 23568,
+      "sha256": "84256cca4f0be296177a4a5c2dde4436aa939368fa01af561191f30c7fde1961"
+    },
+    "interrupted-windows-attempt/result/assumptions.json": {
+      "bytes": 10169,
+      "sha256": "c42c235a4939887b23e56aff5e26001b899d42bf4b866fd200df907befeea0ca"
+    },
+    "interrupted-windows-attempt/result/checkpoint.npz": {
+      "bytes": 5244767,
+      "sha256": "34f37faeca24a389f80c4b633bfa0b0ad585ac2d129a2d560ec31d9a18f8f4fe"
+    },
+    "interrupted-windows-attempt/result/lineage.json": {
+      "bytes": 404,
+      "sha256": "173998218156e2a96f2e3ed5884ccc60d950aa6d66e623f9ed373cd5858729d3"
+    },
+    "interrupted-windows-attempt/result/parent-checkpoint.npz": {
+      "bytes": 5244767,
+      "sha256": "34f37faeca24a389f80c4b633bfa0b0ad585ac2d129a2d560ec31d9a18f8f4fe"
+    },
+    "interrupted-windows-attempt/result/runtime.json": {
+      "bytes": 144,
+      "sha256": "5971947677074263b8785deb46aedaf498207df765dbf8e2aab4cdb477a45603"
+    },
+    "interrupted-windows-attempt/solve.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "interrupted-windows-attempt/source.json": {
+      "bytes": 2279,
+      "sha256": "57bbcead7471798100753a3a12df2ed678845dea4a5eedf54bb06ab30f6e8a0b"
+    },
+    "parent-proof/monitor-live.json": {
+      "bytes": 94448,
+      "sha256": "070cb272d9de500f8763a40aa2172fcffb0323727306baabeddd14c9343d40f3"
+    },
+    "parent-proof/monitor.json": {
+      "bytes": 94493,
+      "sha256": "9e16ba7e08f9f381dfe11fb67eeb3a996a1d04c5a9dcf47dd0ef561e7ead4d92"
+    },
+    "parent-proof/result/assumptions.json": {
+      "bytes": 10184,
+      "sha256": "06dc4d9577b7bcd4ff9e41fcabde9b1dd21a0eb303044dc6b3fe6b67c8fc3292"
+    },
+    "parent-proof/result/checkpoint.npz": {
+      "bytes": 5244767,
+      "sha256": "34f37faeca24a389f80c4b633bfa0b0ad585ac2d129a2d560ec31d9a18f8f4fe"
+    },
+    "parent-proof/result/frame-005.npz": {
+      "bytes": 4860762,
+      "sha256": "ddb7b42507968211955c3aa7c0c904af4fe3aab42775ff096879d4f53585217e"
+    },
+    "parent-proof/result/frame-006.npz": {
+      "bytes": 4915537,
+      "sha256": "dc9db30c8126f867d6b6b81ee42cda938dd56b452d65b290c7c5e02229f82b50"
+    },
+    "parent-proof/result/groups-005.json": {
+      "bytes": 3506,
+      "sha256": "4b53bcbaf1b69e9c39cf14f22b26b5d8c3c8409e463c06d3cbdbb6f974e073d4"
+    },
+    "parent-proof/result/groups-006.json": {
+      "bytes": 11214,
+      "sha256": "46c0a29e69e4289a2011d57bdcf1b66d579d8fae661a2fbd03817289dbe9b3df"
+    },
+    "parent-proof/result/lineage.json": {
+      "bytes": 395,
+      "sha256": "364cdcfc4485a9c63678f53f4a78bcfa6e96c0a21a7fd4ee4d38dcd6959c9439"
+    },
+    "parent-proof/result/metrics.json": {
+      "bytes": 4125,
+      "sha256": "2f5423269d6ec49fe4f72327da78297a4f08cdc61983a5cb7ee8c854d1ba0baa"
+    },
+    "parent-proof/result/parent-checkpoint.npz": {
+      "bytes": 5102478,
+      "sha256": "3ef150a62d7cbcc26e4ae4c6b1f92149c5451bae809907766665fc49166ccb3b"
+    },
+    "parent-proof/result/runtime.json": {
+      "bytes": 144,
+      "sha256": "5971947677074263b8785deb46aedaf498207df765dbf8e2aab4cdb477a45603"
+    },
+    "parent-proof/result/spatial-005.json": {
+      "bytes": 6233,
+      "sha256": "5bdaec3211dfa9024030dcc487bc429852611f592109452a820f11da7bde0b9e"
+    },
+    "parent-proof/result/spatial-006.json": {
+      "bytes": 14887,
+      "sha256": "00f469daa1ff8a19873b98d1e53a0f0d91b1ce0b35c1641020507b98d91564b6"
+    },
+    "parent-proof/segment-receipt.json": {
+      "bytes": 3149,
+      "sha256": "34b4c7443fff73240df559eb085433b5cfc3d0f2c437e213aec2a890e37db4cf"
+    },
+    "parent-proof/solve.log": {
+      "bytes": 3264,
+      "sha256": "efb103d0dcf387e70b6d40d78070b7db6f691a3b4953249029ab93f810f6c434"
+    },
+    "parent-proof/source.json": {
+      "bytes": 2279,
+      "sha256": "57bbcead7471798100753a3a12df2ed678845dea4a5eedf54bb06ab30f6e8a0b"
+    },
+    "prefix-proof/admitted-contact-proof.json": {
+      "bytes": 3177,
+      "sha256": "8a38e4d0d8ebc26a1daa8366150a7c81c98dd7a389c82776b885d2ac80e94c52"
+    },
+    "prefix-proof/monitor-live.json": {
+      "bytes": 10523,
+      "sha256": "b05b7e31825763b622b8a659484780e06623ba14d678b9d3760df5e9cacce74a"
+    },
+    "prefix-proof/monitor.json": {
+      "bytes": 10568,
+      "sha256": "9e6ce17d283eccdbfa95e393a3d5c8689eb9a9a5f3ee89696278028163fe68bb"
+    },
+    "prefix-proof/result/assumptions.json": {
+      "bytes": 9687,
+      "sha256": "eff28c547349bded7fb5c9e456d695abb21259de69e6c56b9a455772331aa9dc"
+    },
+    "prefix-proof/result/checkpoint.npz": {
+      "bytes": 5102478,
+      "sha256": "3ef150a62d7cbcc26e4ae4c6b1f92149c5451bae809907766665fc49166ccb3b"
+    },
+    "prefix-proof/result/frame-000.npz": {
+      "bytes": 92047,
+      "sha256": "3b658a19fb97e35a92c82ec7f5ead8a5216d874e2a4b8f3d9c381fe69767efeb"
+    },
+    "prefix-proof/result/frame-001.npz": {
+      "bytes": 4364951,
+      "sha256": "d4bf55782826adf4e4e03a3836961a8c9e753208e0723a51a3513d30cc55cfbc"
+    },
+    "prefix-proof/result/frame-002.npz": {
+      "bytes": 4529080,
+      "sha256": "8345cbbd97c43726f1d5f86f94e4c151cc84e0494cd6735b62787c7dec5cf8a8"
+    },
+    "prefix-proof/result/frame-003.npz": {
+      "bytes": 4671171,
+      "sha256": "69cc1e081fb15af5663e743dc1e40da2bae45b89c1047e4e8600aa3288489b26"
+    },
+    "prefix-proof/result/frame-004.npz": {
+      "bytes": 4773470,
+      "sha256": "96fd5bfaf05dddd20be3caea82e272d6e98500212f5438d64b00a96f10023e3d"
+    },
+    "prefix-proof/result/groups-000.json": {
+      "bytes": 1481,
+      "sha256": "b72d843a5cb19e635e0f8c56ffe5520fa6dec12fe1d50a8a047bca76f74fdcfd"
+    },
+    "prefix-proof/result/groups-001.json": {
+      "bytes": 1588,
+      "sha256": "ad1142d03ed51b280ca90334d4293825c463c8ae447e3fe467154ef68a0e00b4"
+    },
+    "prefix-proof/result/groups-002.json": {
+      "bytes": 975,
+      "sha256": "74fbde166b75f90b45e05e8bc7d1fa0f785f3073286dfdee2c3642f6540069d0"
+    },
+    "prefix-proof/result/groups-003.json": {
+      "bytes": 973,
+      "sha256": "5a0e21741a58fcdbd3ab0ba16ee69eef5e65c4e3b3a3fd928c9be338afca0ff2"
+    },
+    "prefix-proof/result/groups-004.json": {
+      "bytes": 978,
+      "sha256": "c7195bb0c43e51b0a8368dddab347e28d006899737e6810bf26c81e5f5d3984c"
+    },
+    "prefix-proof/result/metrics.json": {
+      "bytes": 4194,
+      "sha256": "69a3d5b6344112bbcc1bea72617640f865d04736d24f898b61fef3115be061d5"
+    },
+    "prefix-proof/result/runtime.json": {
+      "bytes": 144,
+      "sha256": "5971947677074263b8785deb46aedaf498207df765dbf8e2aab4cdb477a45603"
+    },
+    "prefix-proof/runtime-freeze.txt": {
+      "bytes": 593,
+      "sha256": "1664e8f145c7dda4f33d09f2db9adde475ffded7355b55dd35ac791aa07e60dd"
+    },
+    "prefix-proof/solve.log": {
+      "bytes": 3624,
+      "sha256": "8c631c915aeff7c72cfbe82546ca5901e2991757519258b86f654e7625961f5b"
+    },
+    "prefix-proof/source.json": {
+      "bytes": 1944,
+      "sha256": "91c225a6cec9671aaa8e86bd3a6754877079102e3eaee309f7e0934ed16f83f1"
+    },
+    "prefix-proof/source/examples/metal_fragment_formal_v6.py": {
+      "bytes": 8157,
+      "sha256": "d0c9c276c9c4144fb1bb83675d3bdbbfc469a5bb874f8473abb946749bb14d9d"
+    },
+    "prefix-proof/source/examples/metal_fragment_multifield.py": {
+      "bytes": 6589,
+      "sha256": "44210cd5294492f25014e23750a02ec80ba5e303bebc5ba9d15bcc8a28417de6"
+    },
+    "prefix-proof/source/examples/metal_fragment_multifield_compact.py": {
+      "bytes": 7124,
+      "sha256": "40151803555480dc169c71b20aa9e5d7d470d0dfd16e74b7d6deacc858c31b5d"
+    },
+    "prefix-proof/source/examples/metal_fragment_multifield_v2.py": {
+      "bytes": 6878,
+      "sha256": "f72383821f7769884a66221d69b4f8ad61b3b33ec7a4bfc407e02e3636348d96"
+    },
+    "prefix-proof/source/examples/metal_fragment_multifield_v3.py": {
+      "bytes": 7362,
+      "sha256": "4a1fce817f9e93a0a8a031c275b9b7269f774f8df94447b78964b70323505655"
+    },
+    "prefix-proof/source/examples/metal_plate_geometry.py": {
+      "bytes": 3105,
+      "sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf"
+    },
+    "prefix-proof/source/examples/metal_sphere_geometry.py": {
+      "bytes": 7557,
+      "sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd"
+    },
+    "prefix-proof/source/examples/metal_sphere_impact_fracture.py": {
+      "bytes": 30713,
+      "sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc"
+    },
+    "prefix-proof/source/examples/woven_geometry.py": {
+      "bytes": 16097,
+      "sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a"
+    },
+    "prefix-proof/source/mpm_jax/contact.py": {
+      "bytes": 4189,
+      "sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00"
+    },
+    "prefix-proof/source/mpm_jax/core.py": {
+      "bytes": 11478,
+      "sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08"
+    },
+    "prefix-proof/source/mpm_jax/fibre_mpm.py": {
+      "bytes": 21592,
+      "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+    },
+    "prefix-proof/source/mpm_jax/fragment_multifield_v6_mpm.py": {
+      "bytes": 40469,
+      "sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792"
+    },
+    "prefix-proof/source/mpm_jax/materials/linear_metal.py": {
+      "bytes": 3323,
+      "sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc"
+    },
+    "prefix-proof/source/mpm_jax/materials/shock_metal.py": {
+      "bytes": 11390,
+      "sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3"
+    },
+    "prefix-proof/source/tools/audit_metal_fragments.py": {
+      "bytes": 3009,
+      "sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242"
+    },
+    "prefix-proof/source/tools/check_multifield_accelerated_contact.py": {
+      "bytes": 4683,
+      "sha256": "e4891316c30cb8c6b47cf89bf440b808498d67161235f1d185702861d556d7c2"
+    },
+    "prefix-proof/source/tools/prove_metal_formal_v6.py": {
+      "bytes": 5169,
+      "sha256": "506b40e1d1adc546b3a54616f50f357102519d72d3d217af0d54e68d48ca7f6a"
+    },
+    "runtime-source/examples/__init__.py": {
+      "bytes": 35,
+      "sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3"
+    },
+    "runtime-source/examples/metal_fragment_formal_v6.py": {
+      "bytes": 8157,
+      "sha256": "d0c9c276c9c4144fb1bb83675d3bdbbfc469a5bb874f8473abb946749bb14d9d"
+    },
+    "runtime-source/examples/metal_fragment_multifield.py": {
+      "bytes": 6589,
+      "sha256": "44210cd5294492f25014e23750a02ec80ba5e303bebc5ba9d15bcc8a28417de6"
+    },
+    "runtime-source/examples/metal_fragment_multifield_compact.py": {
+      "bytes": 7124,
+      "sha256": "40151803555480dc169c71b20aa9e5d7d470d0dfd16e74b7d6deacc858c31b5d"
+    },
+    "runtime-source/examples/metal_fragment_multifield_v2.py": {
+      "bytes": 6878,
+      "sha256": "f72383821f7769884a66221d69b4f8ad61b3b33ec7a4bfc407e02e3636348d96"
+    },
+    "runtime-source/examples/metal_fragment_multifield_v3.py": {
+      "bytes": 7362,
+      "sha256": "4a1fce817f9e93a0a8a031c275b9b7269f774f8df94447b78964b70323505655"
+    },
+    "runtime-source/examples/metal_fragment_v6_continue.py": {
+      "bytes": 11778,
+      "sha256": "2ba2db8496f8c7e914711c5c05ccbc02eb136033e50a9aa2911b51b921f99a24"
+    },
+    "runtime-source/examples/metal_plate_geometry.py": {
+      "bytes": 3105,
+      "sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf"
+    },
+    "runtime-source/examples/metal_sphere_geometry.py": {
+      "bytes": 7557,
+      "sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd"
+    },
+    "runtime-source/examples/metal_sphere_impact_fracture.py": {
+      "bytes": 30713,
+      "sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc"
+    },
+    "runtime-source/examples/woven_geometry.py": {
+      "bytes": 16097,
+      "sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a"
+    },
+    "runtime-source/mpm_jax/__init__.py": {
+      "bytes": 1430,
+      "sha256": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494"
+    },
+    "runtime-source/mpm_jax/__main__.py": {
+      "bytes": 30,
+      "sha256": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279"
+    },
+    "runtime-source/mpm_jax/adhesion.py": {
+      "bytes": 8476,
+      "sha256": "32fa7d72ba36c67dc819715d5ae542b47b58825f22d467adca48c71c27740693"
+    },
+    "runtime-source/mpm_jax/boundaries.py": {
+      "bytes": 9959,
+      "sha256": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0"
+    },
+    "runtime-source/mpm_jax/cli.py": {
+      "bytes": 6467,
+      "sha256": "be61ba75adfa3a0fd05892402e1970ef62d7fd7250fce329b63b2c0d8b34f105"
+    },
+    "runtime-source/mpm_jax/cohesive_bem.py": {
+      "bytes": 9560,
+      "sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e"
+    },
+    "runtime-source/mpm_jax/contact.py": {
+      "bytes": 4189,
+      "sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00"
+    },
+    "runtime-source/mpm_jax/contact_laws.py": {
+      "bytes": 9546,
+      "sha256": "101008865ed200d94d02b88a674c3943fcb82549ca2913961c2649f37df2175a"
+    },
+    "runtime-source/mpm_jax/contact_patches.py": {
+      "bytes": 5588,
+      "sha256": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7"
+    },
+    "runtime-source/mpm_jax/core.py": {
+      "bytes": 11478,
+      "sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08"
+    },
+    "runtime-source/mpm_jax/export.py": {
+      "bytes": 6564,
+      "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d"
+    },
+    "runtime-source/mpm_jax/fibre_contact.py": {
+      "bytes": 6846,
+      "sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab"
+    },
+    "runtime-source/mpm_jax/fibre_contrast_coupling.py": {
+      "bytes": 9064,
+      "sha256": "7533e2c172757fe91d9a3ee26ab7f2783ec0a8d30080b978f4fb92c134d7af9b"
+    },
+    "runtime-source/mpm_jax/fibre_coupling.py": {
+      "bytes": 24964,
+      "sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70"
+    },
+    "runtime-source/mpm_jax/fibre_dugdale_regions.py": {
+      "bytes": 4194,
+      "sha256": "7b963de2bc835fc31aba23e43023382bdcf3df6dc76f39131ea185b9741acac3"
+    },
+    "runtime-source/mpm_jax/fibre_jkr_regions.py": {
+      "bytes": 14536,
+      "sha256": "ebe1931dba3483fc13831e976765b3e0bc2876bb138208ad298efe95dd242b9c"
+    },
+    "runtime-source/mpm_jax/fibre_maugis_regions.py": {
+      "bytes": 3529,
+      "sha256": "ebfc65b3b25f1b2c70345a95d2b7291999b134d9239b8e55fb09aaa646ed6f1d"
+    },
+    "runtime-source/mpm_jax/fibre_mpm.py": {
+      "bytes": 21592,
+      "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+    },
+    "runtime-source/mpm_jax/fibre_patch_contact.py": {
+      "bytes": 11541,
+      "sha256": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358"
+    },
+    "runtime-source/mpm_jax/fibre_region_identity.py": {
+      "bytes": 6335,
+      "sha256": "f79fc321c42a51547308978cc0094561ee94e2f937ba0638c16e6b954942052d"
+    },
+    "runtime-source/mpm_jax/fracture_impact_mpm.py": {
+      "bytes": 29045,
+      "sha256": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_compact_mpm.py": {
+      "bytes": 33829,
+      "sha256": "6601526ae59f339b13ee4a301c80d6b9727631f37234526f1475e75b8bf38116"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_mpm.py": {
+      "bytes": 30958,
+      "sha256": "9e2cf587b51c92b967de0bce65ea62b19c355a22aca8b748fe078f05e1a6b55e"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_v2_mpm.py": {
+      "bytes": 32377,
+      "sha256": "a03175a89f5a692e9b76497a8e7a1fadc80e3771dae5998a6fce4f627202b1b4"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_v3_mpm.py": {
+      "bytes": 34587,
+      "sha256": "5efc46f2c041704b284a59699d7267dd1deb175e56dd70d917d5b9b4aa5443d3"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_v4_mpm.py": {
+      "bytes": 39587,
+      "sha256": "d19c512a9ae35ac8a72df06412edb6d3d32efac552eced1b117f2faaed98bc36"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_v5_mpm.py": {
+      "bytes": 40388,
+      "sha256": "cd78d1eec5a9acb008bb994f83496eedbbd6640471b895bd4f181ba043bb0d58"
+    },
+    "runtime-source/mpm_jax/fragment_multifield_v6_mpm.py": {
+      "bytes": 40469,
+      "sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792"
+    },
+    "runtime-source/mpm_jax/impact_mpm.py": {
+      "bytes": 26016,
+      "sha256": "dcf981413ea0435d80a08e657b2ed7b221476f5961680a6e8fd249f4d4d1589e"
+    },
+    "runtime-source/mpm_jax/initialization.py": {
+      "bytes": 6909,
+      "sha256": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d"
+    },
+    "runtime-source/mpm_jax/linear_impact_mpm.py": {
+      "bytes": 27716,
+      "sha256": "0dd3a5f16c6f406e46227844f5bc6810b1fa94d88a5aed746538110a97bce459"
+    },
+    "runtime-source/mpm_jax/local_contact_models.py": {
+      "bytes": 8591,
+      "sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4"
+    },
+    "runtime-source/mpm_jax/materials/__init__.py": {
+      "bytes": 1613,
+      "sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b"
+    },
+    "runtime-source/mpm_jax/materials/elastic.py": {
+      "bytes": 5652,
+      "sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655"
+    },
+    "runtime-source/mpm_jax/materials/history.py": {
+      "bytes": 3323,
+      "sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b"
+    },
+    "runtime-source/mpm_jax/materials/hjc.py": {
+      "bytes": 8648,
+      "sha256": "7dcf3eb3cd476b83ceab9518f5389cc8edca21d2edc070fbb87993188ee2d622"
+    },
+    "runtime-source/mpm_jax/materials/isotropic_brittle.py": {
+      "bytes": 7172,
+      "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+    },
+    "runtime-source/mpm_jax/materials/jh2.py": {
+      "bytes": 5917,
+      "sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a"
+    },
+    "runtime-source/mpm_jax/materials/johnson_cook.py": {
+      "bytes": 5734,
+      "sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205"
+    },
+    "runtime-source/mpm_jax/materials/linear_metal.py": {
+      "bytes": 3323,
+      "sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc"
+    },
+    "runtime-source/mpm_jax/materials/plastic.py": {
+      "bytes": 5076,
+      "sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea"
+    },
+    "runtime-source/mpm_jax/materials/rht.py": {
+      "bytes": 21395,
+      "sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1"
+    },
+    "runtime-source/mpm_jax/materials/shock_metal.py": {
+      "bytes": 11390,
+      "sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3"
+    },
+    "runtime-source/mpm_jax/materials/steinberg.py": {
+      "bytes": 4471,
+      "sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342"
+    },
+    "runtime-source/mpm_jax/materials/woven.py": {
+      "bytes": 4375,
+      "sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207"
+    },
+    "runtime-source/mpm_jax/maugis_dugdale.py": {
+      "bytes": 9196,
+      "sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443"
+    },
+    "runtime-source/mpm_jax/packed_woven.py": {
+      "bytes": 13893,
+      "sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668"
+    },
+    "runtime-source/mpm_jax/paraview_scene.py": {
+      "bytes": 38509,
+      "sha256": "47015e792433ac1c5e86f0b271f6ce1e16ef7c0e16f9605ef57e8597c2da7539"
+    },
+    "runtime-source/mpm_jax/particle_fields.py": {
+      "bytes": 1622,
+      "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+    },
+    "runtime-source/mpm_jax/rigid_sphere_contact.py": {
+      "bytes": 6209,
+      "sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f"
+    },
+    "runtime-source/mpm_jax/rope_hertz_contact.py": {
+      "bytes": 3158,
+      "sha256": "a2f999dfdeb40f0e161c8a57ac29b30ba3fb2938f2e977314b05e8c8f78b8718"
+    },
+    "runtime-source/mpm_jax/saved_tool_motion.py": {
+      "bytes": 7467,
+      "sha256": "62a161077334bb53cd8775233f202bbf397eeb4c29cbbb4a9430e9921be678af"
+    },
+    "runtime-source/mpm_jax/visualization.py": {
+      "bytes": 11896,
+      "sha256": "624027cbcaf8be7b4a832c40fc2b1f853c3107cf2d675478260f9c71872515ff"
+    },
+    "runtime-source/pyproject.toml": {
+      "bytes": 754,
+      "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637"
+    },
+    "runtime-source/tools/audit_metal_fragments.py": {
+      "bytes": 3009,
+      "sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242"
+    },
+    "runtime-source/tools/check_multifield_accelerated_contact.py": {
+      "bytes": 4683,
+      "sha256": "e4891316c30cb8c6b47cf89bf440b808498d67161235f1d185702861d556d7c2"
+    },
+    "runtime-source/tools/metal_v6_continuation_admission.json": {
+      "bytes": 879,
+      "sha256": "cb1efd28898937a396a23ff23fdbdbca505dd199a93e012e95149d250193353b"
+    },
+    "runtime-source/tools/prove_metal_formal_v6.py": {
+      "bytes": 5169,
+      "sha256": "506b40e1d1adc546b3a54616f50f357102519d72d3d217af0d54e68d48ca7f6a"
+    },
+    "runtime-source/tools/run_metal_v6_segments.py": {
+      "bytes": 7206,
+      "sha256": "f4d2808f2f0e834bc87e7841038345c3261c4111ee4fc64916461814429a90b2"
+    },
+    "seed-context.json": {
+      "bytes": 78040,
+      "sha256": "b9023a9f3aa6fff4000c36ca8333d36f4773717b4f2ba068b8fba80a11dd81bc"
+    }
+  },
+  "part_limit_bytes": 134217728,
+  "parts": {
+    "part-000.tarpart": {
+      "bytes": 83169280,
+      "sha256": "967ef0ae3f9c7504cca30a3623b10201a31864f79dfa5557f8cf4cdbe295a307"
+    }
+  },
+  "scope": "Whole raw evidence, including failed or incomplete solve",
+  "status": "complete-raw-packaged"
+}
