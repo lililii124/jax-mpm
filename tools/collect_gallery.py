@@ -298,7 +298,7 @@ def main():
                 video_link += f" · [GIF](images/home/{identifier}.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             cells.append(
-                f"![{name}](images/{name}.png)<br>**{label}** · {count:,} particles<br>"
+                f'<img src="images/{name}.png" alt="{name}" width="320" height="320"><br>**{label}** · {count:,} particles<br>'
                 f"[Results](results/{identifier}/summary.json){video_link}"
             )
             manifest.append(

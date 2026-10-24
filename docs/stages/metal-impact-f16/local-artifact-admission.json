@@ -1,0 +1,121 @@
+{
+  "run_id": 40084124694,
+  "commit": "144751ea25ec7455e08101f10da5648e91c8d5f7",
+  "kind": "metal",
+  "passed": true,
+  "artifacts": [
+    {
+      "artifact_id": 12556641678,
+      "bytes": 12129,
+      "zip_sha256": "f2b1fb5b19ff380dfc0434801d4a022875a492da6cb3ba3567532146459925ee",
+      "github_digest": "sha256:f2b1fb5b19ff380dfc0434801d4a022875a492da6cb3ba3567532146459925ee",
+      "directory": "H:\\test\\mpm\\.local\\metal-adaptive-prefix-feature\\40084124694-1\\12556641678",
+      "all_members_crc_verified": true,
+      "files": {
+        "admission.json": {
+          "bytes": 25854,
+          "sha256": "883f516a7dec4cde5b8593fb7e1b58d4d65ca611976dd11d939722855fcc53a1"
+        },
+        "delivery-receipt.json": {
+          "bytes": 2417,
+          "sha256": "113e70ffb3ad278cf536a6c659c395706ff4670a8f425f0983a3f663a9b27191"
+        },
+        "media-audit.json": {
+          "bytes": 395,
+          "sha256": "d6ceb7156fe708c9e89797257a67389a256e466388469fbda0845e2e6cc8484a"
+        },
+        "retrieval-receipt.json": {
+          "bytes": 222,
+          "sha256": "2e5145e61443e4f0f51ff6961cd0eed2d8fe18b4765d3787f33b72ae3df92866"
+        },
+        "vtk-audit.json": {
+          "bytes": 1823,
+          "sha256": "84e3d73fc40f426f67fec8919a29680540bcb22daadf2f0c20c6589940bf9597"
+        }
+      }
+    },
+    {
+      "artifact_id": 12555974941,
+      "bytes": 6288590,
+      "zip_sha256": "ed5a7e4f343778e4f8c1bea6084c7c26e940e625281213e13c6bb2968de6fac9",
+      "github_digest": "sha256:ed5a7e4f343778e4f8c1bea6084c7c26e940e625281213e13c6bb2968de6fac9",
+      "directory": "H:\\test\\mpm\\.local\\metal-adaptive-prefix-feature\\40084124694-1\\12555974941",
+      "all_members_crc_verified": true,
+      "files": {
+        "admission.json": {
+          "bytes": 25854,
+          "sha256": "883f516a7dec4cde5b8593fb7e1b58d4d65ca611976dd11d939722855fcc53a1"
+        },
+        "delivery-receipt.json": {
+          "bytes": 2417,
+          "sha256": "113e70ffb3ad278cf536a6c659c395706ff4670a8f425f0983a3f663a9b27191"
+        },
+        "media-audit.json": {
+          "bytes": 395,
+          "sha256": "d6ceb7156fe708c9e89797257a67389a256e466388469fbda0845e2e6cc8484a"
+        },
+        "paraview-install.json": {
+          "bytes": 665,
+          "sha256": "be83468db7bf1e7e782077a9600ed36d2e70a6e60534fa3b31f8e3e4a95336de"
+        },
+        "README.txt": {
+          "bytes": 303,
+          "sha256": "9a39f4480d4c677d42e6d4dea5962268bbc3682fc933c012e6b06a73523992bf"
+        },
+        "saved-state-proof.json": {
+          "bytes": 3827,
+          "sha256": "c39b68f6561e969558dbd658c6dcf9296a2e57ca04137f24e74f230c9975738d"
+        },
+        "vtk-audit.json": {
+          "bytes": 1823,
+          "sha256": "84e3d73fc40f426f67fec8919a29680540bcb22daadf2f0c20c6589940bf9597"
+        },
+        "result/render.json": {
+          "bytes": 4522,
+          "sha256": "73648f95398100234d56a9ab9314308e05ce52a033b9906d656fa934617a6f77"
+        },
+        "result/simulation.gif": {
+          "bytes": 4372529,
+          "sha256": "1069c543b88cc4a84b91fce092f3541750f2a53c8c2e893ead8e36ff8c0593cc"
+        },
+        "result/summary.json": {
+          "bytes": 20283,
+          "sha256": "cc2068b893a57ef16a26e5af156465d75cde684bd0fd29abf054071215b0c15e"
+        },
+        "result/frames/frame_00000.png": {
+          "bytes": 367532,
+          "sha256": "23c615c8c35b0d411178f85cecdcf4d44cc5e71408cbcd9b91cdadc000d8b0a1"
+        },
+        "result/frames/frame_00004.png": {
+          "bytes": 368756,
+          "sha256": "af43a0056e91fdce6b2f08afada549e23c8c8d182a0c21d6094357c095b22d24"
+        },
+        "result/frames/frame_00008.png": {
+          "bytes": 371737,
+          "sha256": "af0bcd8554fd0abdc2fa4f58c56b1d0279faea3b56580314bb376e278672b123"
+        },
+        "result/frames/frame_00012.png": {
+          "bytes": 373044,
+          "sha256": "001a420de43db9dfcfe3ed3b925ed028fd02a9d140c16a79817ea03bde13d3f6"
+        },
+        "result/frames/frame_00016.png": {
+          "bytes": 372859,
+          "sha256": "bc12f8f0094a2639658fc42549231cc26504709dfcb7ac8c132f3ca939cdf556"
+        }
+      }
+    }
+  ],
+  "source_git_blobs_checked": 7,
+  "gif_frames": 17,
+  "gif_dimensions": [
+    1200,
+    1200
+  ],
+  "all_frame_durations_ms": 60,
+  "gif_sha256": "1069c543b88cc4a84b91fce092f3541750f2a53c8c2e893ead8e36ff8c0593cc",
+  "gif_bytes": 4372529,
+  "local_preview": "H:\\test\\mpm\\previews\\metal-5kms-old-model-f16.gif",
+  "solver_executed": false,
+  "physical_validation_passed": false,
+  "public_visual_review_passed": false
+}

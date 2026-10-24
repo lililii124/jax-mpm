@@ -1,0 +1,1 @@
+Historical metal impact model: numerical stage preview only. 17 actual saved states from 0 to 266.667 ns. Phase/EOS extrapolation (temperature reaches about 34,500 K); NOT validated 5 km/s impact physics or a completed protocol. No numerical solver rerun. Original-resolution GIF; uniform display size only.

@@ -1,0 +1,66 @@
+{
+  "files": {
+    "media-audit.json": {
+      "bytes": 395,
+      "sha256": "d6ceb7156fe708c9e89797257a67389a256e466388469fbda0845e2e6cc8484a"
+    },
+    "paraview-install.json": {
+      "bytes": 665,
+      "sha256": "be83468db7bf1e7e782077a9600ed36d2e70a6e60534fa3b31f8e3e4a95336de"
+    },
+    "saved-state-proof.json": {
+      "bytes": 3827,
+      "sha256": "c39b68f6561e969558dbd658c6dcf9296a2e57ca04137f24e74f230c9975738d"
+    },
+    "admission.json": {
+      "bytes": 25854,
+      "sha256": "883f516a7dec4cde5b8593fb7e1b58d4d65ca611976dd11d939722855fcc53a1"
+    },
+    "README.txt": {
+      "bytes": 303,
+      "sha256": "9a39f4480d4c677d42e6d4dea5962268bbc3682fc933c012e6b06a73523992bf"
+    },
+    "vtk-audit.json": {
+      "bytes": 1823,
+      "sha256": "84e3d73fc40f426f67fec8919a29680540bcb22daadf2f0c20c6589940bf9597"
+    },
+    "result/render.json": {
+      "bytes": 4522,
+      "sha256": "73648f95398100234d56a9ab9314308e05ce52a033b9906d656fa934617a6f77"
+    },
+    "result/simulation.gif": {
+      "bytes": 4372529,
+      "sha256": "1069c543b88cc4a84b91fce092f3541750f2a53c8c2e893ead8e36ff8c0593cc"
+    },
+    "result/summary.json": {
+      "bytes": 20283,
+      "sha256": "cc2068b893a57ef16a26e5af156465d75cde684bd0fd29abf054071215b0c15e"
+    },
+    "result/frames/frame_00012.png": {
+      "bytes": 373044,
+      "sha256": "001a420de43db9dfcfe3ed3b925ed028fd02a9d140c16a79817ea03bde13d3f6"
+    },
+    "result/frames/frame_00008.png": {
+      "bytes": 371737,
+      "sha256": "af0bcd8554fd0abdc2fa4f58c56b1d0279faea3b56580314bb376e278672b123"
+    },
+    "result/frames/frame_00004.png": {
+      "bytes": 368756,
+      "sha256": "af43a0056e91fdce6b2f08afada549e23c8c8d182a0c21d6094357c095b22d24"
+    },
+    "result/frames/frame_00000.png": {
+      "bytes": 367532,
+      "sha256": "23c615c8c35b0d411178f85cecdcf4d44cc5e71408cbcd9b91cdadc000d8b0a1"
+    },
+    "result/frames/frame_00016.png": {
+      "bytes": 372859,
+      "sha256": "bc12f8f0094a2639658fc42549231cc26504709dfcb7ac8c132f3ca939cdf556"
+    }
+  },
+  "bytes": 6284129,
+  "bound_bytes": 100000000,
+  "scope": "Historical 5 km/s old shock-model stage only: 17 saved states, 0 to 266.667 ns. Phase/EOS extrapolation; no physical validation or full-impact claim. Damage/failed fields are zero bookkeeping, not fracture predictions.",
+  "solver_executed": false,
+  "raw_preserved_in_exact_cache": true,
+  "permanent_raw_backup_verified": false
+}

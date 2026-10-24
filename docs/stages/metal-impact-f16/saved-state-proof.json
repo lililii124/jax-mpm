@@ -1,0 +1,115 @@
+{
+  "times_s": [
+    0.0,
+    1.6666666666666667e-08,
+    3.3333333333333334e-08,
+    5e-08,
+    6.666666666666667e-08,
+    8.333333333333334e-08,
+    1e-07,
+    1.1666666666666667e-07,
+    1.3333333333333334e-07,
+    1.5e-07,
+    1.6666666666666668e-07,
+    1.8333333333333333e-07,
+    2e-07,
+    2.1666666666666667e-07,
+    2.3333333333333333e-07,
+    2.5e-07,
+    2.6666666666666667e-07
+  ],
+  "saved_states": 17,
+  "raw_source_files": {
+    "continuation.json": {
+      "bytes": 458,
+      "sha256": "39f6fe14d07b55cbddbee94abe2aac05d2a83238301d3148a68462dde3fc02ad"
+    },
+    "parent-receipt.json": {
+      "bytes": 26772,
+      "sha256": "f168ed114efdfe839146454867a0d740f3ae9aa309db59ad226e99cf72a24d48"
+    },
+    "requirements.txt": {
+      "bytes": 200,
+      "sha256": "690251912f2944e17bedf4166e12637c6f31bc02286f531e2cb0ee473e96287f"
+    },
+    "result/checkpoint.json": {
+      "bytes": 1083,
+      "sha256": "450d6441816b3d42322dde9392add447e0d4253587d055481c5be1e8a5b08c3c"
+    },
+    "result/checkpoint.npz": {
+      "bytes": 75666761,
+      "sha256": "d2de06393663482c27f282831a60d7f4697c439e738d3aa04916ff8a640edfa8"
+    },
+    "result/diagnostics.csv": {
+      "bytes": 4067,
+      "sha256": "8b31369295c80299f89f81fdfce5eb0218b745ed98e06886211d8f263b5b76cd"
+    },
+    "result/final_state_0.npz": {
+      "bytes": 75648700,
+      "sha256": "f3082bf2a7b32844d6701d1032b3172269fc6761858ab0ec4488887a839356dc"
+    },
+    "result/observables.csv": {
+      "bytes": 14994,
+      "sha256": "d7ae161f64619dbdacd767bb20709932dcf9985b237e4ffd450f4956e52efe54"
+    },
+    "result/particle_fields.npz": {
+      "bytes": 3704,
+      "sha256": "59b60a0f16888def77466769c04eb31992edc59bc682648976a793a1c2c65741"
+    },
+    "result/plan.json": {
+      "bytes": 9806,
+      "sha256": "2a2ff506530434d0606fe62f81e84c0680402f6540d6b607cc3db90e32b184a3"
+    },
+    "result/reference.npz": {
+      "bytes": 1212666,
+      "sha256": "61bc10e951486fb6f05a54d58fdb76c799f807cdf0e439f968b0dbe1ae3dfd9f"
+    },
+    "result/status.json": {
+      "bytes": 303,
+      "sha256": "04603ce0b48be849d1f522acc2b6381cc6b3b2fd8cc844854a5cf5cf87fbd1cc"
+    },
+    "result/summary.json": {
+      "bytes": 20283,
+      "sha256": "cc2068b893a57ef16a26e5af156465d75cde684bd0fd29abf054071215b0c15e"
+    },
+    "result/trajectory.npz": {
+      "bytes": 2096,
+      "sha256": "1834f85a63cac73037321ddc5d0210ca39073cacca924063bccfaf6642337a3e"
+    },
+    "result/trajectory_damage.npy": {
+      "bytes": 199838080,
+      "sha256": "7071b8513d4f957d3b0f934a2e0a9a81b8b085d9abc454ed482d84e0ec5d9a97"
+    },
+    "result/trajectory_failed.npy": {
+      "bytes": 24979872,
+      "sha256": "d3ad2c0c78f4eb6ef103d263f03aab5eeaf7ee70a018575e77f2c6fd97fd6e97"
+    },
+    "result/trajectory_speed.npy": {
+      "bytes": 199838080,
+      "sha256": "2eb13a334b717be63585c39ba541feac0372c303595eeb9d4c0f2a7b6dd2d451"
+    },
+    "result/trajectory_temperature.npy": {
+      "bytes": 199838080,
+      "sha256": "4a2a780dcc53d94e925b6175de09e4617a2be3f749fa0f94f178a632c72e5084"
+    },
+    "result/trajectory_x.npy": {
+      "bytes": 599513984,
+      "sha256": "119a6fb6312225f5a0bdf009506685977ad67042902d47177e6138b44db2307a"
+    },
+    "runtime.json": {
+      "bytes": 126,
+      "sha256": "42bdf10921825cb220faa713e7e017f7a4b132d4d8f408231fe07c165b6e2bdb"
+    },
+    "source.json": {
+      "bytes": 22427,
+      "sha256": "1f9b1173ad8305faa45cfd1aaf4c162b9482cd9b522bb4bf991b7d4b93311e47"
+    }
+  },
+  "speed_range_m_s": [
+    0,
+    6000
+  ],
+  "actual_maximum_saved_speed_m_s": 5163.816670628801,
+  "scope": "Historical 5 km/s old shock-model stage only: 17 saved states, 0 to 266.667 ns. Phase/EOS extrapolation; no physical validation or full-impact claim. Damage/failed fields are zero bookkeeping, not fracture predictions.",
+  "solver_executed": false
+}

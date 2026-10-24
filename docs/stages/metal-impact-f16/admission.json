@@ -1,0 +1,597 @@
+{
+  "source_receipt_sha256": "9aef7177cb7aecf18eb2bb202077693c901a1b84a29519fb20ff6d7f6bb8c55f",
+  "cache_key": "metal-corrected-continuation-v1-2df4e0ac39937b36e972f473b1db5fd33cebaca2-40076211097-1-f16",
+  "source": {
+    "repository": "lililii124/jax-mpm",
+    "commit": "2df4e0ac39937b36e972f473b1db5fd33cebaca2",
+    "tree": "1124b57df4ec176f80cc8d4bdc66dae9f989d294",
+    "run_id": "40076211097",
+    "attempt": "1",
+    "files": {
+      ".github/workflows/engineering-previews.yml": {
+        "bytes": 5281,
+        "sha256": "7e418890c2db21f2e90dff6ad3766157163a161733249c3d099108ab69e18c41",
+        "git_blob": "f3e6b885b77fae627f8a1bf23f1c93df3b8c23c3"
+      },
+      "examples/__init__.py": {
+        "bytes": 35,
+        "sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+        "git_blob": "305f09eccc274dc582fe9581d8c58908d74f4325"
+      },
+      "examples/adhesion_contrast.py": {
+        "bytes": 2516,
+        "sha256": "838c9bfdb092aa67ad6318d9f90009114189a5437083b203a7309da275d86835",
+        "git_blob": "ab1ce878a9c84ff2f36308d1387e53293ec1d072"
+      },
+      "examples/adhesive_array.py": {
+        "bytes": 17338,
+        "sha256": "a684ef8e298358843d8af2f55962eeb9b78d76c144b62735a6511f6222560f5e",
+        "git_blob": "689ebac153dc605e4cb23490846c3a4ab26e5569"
+      },
+      "examples/adhesive_contact.py": {
+        "bytes": 9665,
+        "sha256": "6cbdc8e6081329c39a830e8fe373f53b738410108d5025dac9e6f56a7071cb2e",
+        "git_blob": "ba7b6438c37c6cccffa24fa5a683eac2e908c7d7"
+      },
+      "examples/adhesive_suite.py": {
+        "bytes": 1803,
+        "sha256": "683aca65ea2365d3822d757565fd0c1a7000707ffc229381015d5936007387dc",
+        "git_blob": "4f21dacc9ab68ef3c3a3221da58066ef49203aea"
+      },
+      "examples/benchmarks.py": {
+        "bytes": 9596,
+        "sha256": "e6d3254670c094a81e72786581509c7d7e2a2b290ace27ad626ea537da1aa15d",
+        "git_blob": "58b495b61e818b8682b38128cfc562c580d9b83c"
+      },
+      "examples/brittle_engineering.py": {
+        "bytes": 36216,
+        "sha256": "23aaa6c5aa88ee21ce8fe4d63ae4942970bc7ddf945d3a85f91405087a120a0d",
+        "git_blob": "541a95aefa5260fdb1586a39bd2f617b4558b97f"
+      },
+      "examples/common.py": {
+        "bytes": 21886,
+        "sha256": "bb5b3ff00b4d4edb54632a11f54b81d2edca767f440d9c6f4a7d52a8a3e5a46f",
+        "git_blob": "b02faabdc00d3fee76a7e285ffe54ee54a831abf"
+      },
+      "examples/contact.py": {
+        "bytes": 935,
+        "sha256": "e475ab3f090d1796ee7f680c58ded359ef54d47452bb92360d6f2ef1a1735f80",
+        "git_blob": "027ca071d1a1b909a1da93cf305f2b8105059858"
+      },
+      "examples/contact_pull_off.py": {
+        "bytes": 10437,
+        "sha256": "eac805dd55dc72cf47909466f357e1d5c2ad1659a019174dd3b53cfc33f106cd",
+        "git_blob": "352e1294096959280a1d9d01373d3206fab84712"
+      },
+      "examples/elastic_models.py": {
+        "bytes": 2617,
+        "sha256": "d8d7ae280fe91227432f9e3213b0cc71d9990817266c1bff8c08fb31a241f47f",
+        "git_blob": "b80e2b2f781ec0bd3d6a2df16c9ea9e38a05507b"
+      },
+      "examples/engineering.py": {
+        "bytes": 9176,
+        "sha256": "566fa9629d007a48393ebee3ddc141691f39587581f1d4e2b09a4394d4be13ec",
+        "git_blob": "a319f6a9303f1b5dab8827d3b51e4f15c82e4faa"
+      },
+      "examples/fibre_pull_off.py": {
+        "bytes": 39551,
+        "sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432",
+        "git_blob": "844fd3aab9f003993daba2d9f8bc393fb50a2087"
+      },
+      "examples/fluids.py": {
+        "bytes": 1084,
+        "sha256": "5ff6e6cbadb921877f5658d187e520126324d14d202dbc66df81eea397819d9d",
+        "git_blob": "8f221753a4a5d534433b68bb8a55ced69fb03642"
+      },
+      "examples/gradient.py": {
+        "bytes": 1462,
+        "sha256": "aac17faf397ce4f56361d9de59edfcaa6512e10a99082fd4c89b0262440f47a6",
+        "git_blob": "30005227e1a6c5297824f052848b3f71e4317579"
+      },
+      "examples/jc_necking.py": {
+        "bytes": 17996,
+        "sha256": "6fce5973ddf465bb929ebf02173c656f645e27847acba3934c491af81475f677",
+        "git_blob": "b7a9c6e01778687261afcfe254373710db808791"
+      },
+      "examples/material_engineering.py": {
+        "bytes": 12190,
+        "sha256": "cf318eee7aa6ed71bdc4e4e435eeceeab13b8612959c2c90075b7bba44a70414",
+        "git_blob": "7dfe3cdd3588e2c0188bf3a7f0fac5c7253306d8"
+      },
+      "examples/material_paths.py": {
+        "bytes": 4987,
+        "sha256": "764ae920856e7c94553ec79d2dec15b4d21bd8927e933c628c87923b98b30974",
+        "git_blob": "be55528da1b445d7823ed4611e1782eed89a1122"
+      },
+      "examples/metal_plate_geometry.py": {
+        "bytes": 3105,
+        "sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+        "git_blob": "1552eed05384cf555debf2b6912d1f172ec84d5c"
+      },
+      "examples/metal_sphere_geometry.py": {
+        "bytes": 7557,
+        "sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+        "git_blob": "58d5e8baecad70894c3bfd934fa759c1d0bf2dcf"
+      },
+      "examples/metal_sphere_impact.py": {
+        "bytes": 29263,
+        "sha256": "2765ef416d48c1d84178331c93abd4cdc4dfc6567b9ea084758c6fae359e0669",
+        "git_blob": "226df9baf168a5aafba9de40e01445db71f10929"
+      },
+      "examples/scenarios.py": {
+        "bytes": 14582,
+        "sha256": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d",
+        "git_blob": "434dea72b10740bc929f63988ae1446ffcda9b9c"
+      },
+      "examples/suite.py": {
+        "bytes": 3850,
+        "sha256": "787f46ad8509808784bba3c32d9a8ef1bd160d7e00f51dfd6939e23ba18c95b0",
+        "git_blob": "4d1a150e6bbd6af15e3c082b0d844265a039e7b6"
+      },
+      "examples/triaxial_failure.py": {
+        "bytes": 56160,
+        "sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+        "git_blob": "1cf032e4134df0d2a7777a8c107976c2717fed61"
+      },
+      "examples/triaxial_fibre_geometry.py": {
+        "bytes": 24405,
+        "sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+        "git_blob": "fc0847e82a63b47bd6d391e3a20e2cb270df0ec8"
+      },
+      "examples/visible_motion.py": {
+        "bytes": 12945,
+        "sha256": "0de51bf641eec60e8ce9313c45155f53dc8b6d4386bb34295ef5aff3d2221e12",
+        "git_blob": "880ed4a4ca65be0ab7c7d442d6954e3a1e5401b0"
+      },
+      "examples/woven_composite.py": {
+        "bytes": 26481,
+        "sha256": "ddc5e2b351e62563b37d6836e1418894821ee541357709fa63bece6939545866",
+        "git_blob": "f491b4bc63f85567efa0b4b9ed114d742092817d"
+      },
+      "examples/woven_geometry.py": {
+        "bytes": 16097,
+        "sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+        "git_blob": "4af53a16a3d745cb4afded6350cd446dde5e8b55"
+      },
+      "examples/woven_hemisphere.py": {
+        "bytes": 3746,
+        "sha256": "13f464445d885e819e55d1966bbf99c21a6f1be8b1ccdb29e6cd4ee9bbd3e4c7",
+        "git_blob": "f09cd3608097d8337df2b94a9fc55da3a2d21224"
+      },
+      "examples/woven_large_geometry.py": {
+        "bytes": 11369,
+        "sha256": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6",
+        "git_blob": "0cb8a80045d393f2ab102bfb35e65be9cda54782"
+      },
+      "examples/woven_large_plate.py": {
+        "bytes": 39228,
+        "sha256": "9384d9b4ca344d8aace1e75d91e73455a0bcd0b3779fad7721eb10966ef011df",
+        "git_blob": "a248e7ebf15923dcab3c6426fd3ad36d69149d9e"
+      },
+      "mpm_jax/__init__.py": {
+        "bytes": 1430,
+        "sha256": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494",
+        "git_blob": "b3582e545eab34fc3c45c2b2689378776a4e8713"
+      },
+      "mpm_jax/__main__.py": {
+        "bytes": 30,
+        "sha256": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+        "git_blob": "4e28416e104515e90fca4b69cc60d0c61fd15d61"
+      },
+      "mpm_jax/adhesion.py": {
+        "bytes": 5515,
+        "sha256": "12cda0bc77b95a8740245050bc2ae86b78018bd2642329efff3920cb8d9f9042",
+        "git_blob": "3d0fac2368cef6b140de1a100cbf8925a8898ffe"
+      },
+      "mpm_jax/boundaries.py": {
+        "bytes": 9959,
+        "sha256": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+        "git_blob": "42bcc2c499d3accbfeb87c92f1ca7b4f583b3cc1"
+      },
+      "mpm_jax/cli.py": {
+        "bytes": 6467,
+        "sha256": "be61ba75adfa3a0fd05892402e1970ef62d7fd7250fce329b63b2c0d8b34f105",
+        "git_blob": "7c33a4d74d865d778296c72ec388dffa34204fe0"
+      },
+      "mpm_jax/cohesive_bem.py": {
+        "bytes": 9560,
+        "sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+        "git_blob": "b206114b94ebd4a4207298d7b6e5fe9688102688"
+      },
+      "mpm_jax/contact.py": {
+        "bytes": 4189,
+        "sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+        "git_blob": "16ca2bd150b7f531ddb334e317256a7d6e84733e"
+      },
+      "mpm_jax/contact_laws.py": {
+        "bytes": 9546,
+        "sha256": "101008865ed200d94d02b88a674c3943fcb82549ca2913961c2649f37df2175a",
+        "git_blob": "bf7e9c398ba12d14300564b329bfb4cacc416b90"
+      },
+      "mpm_jax/contact_patches.py": {
+        "bytes": 5588,
+        "sha256": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+        "git_blob": "9c35c9571c179a0a82fec07a76951e9080438f8b"
+      },
+      "mpm_jax/core.py": {
+        "bytes": 11478,
+        "sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+        "git_blob": "2bfb0e4508f9f56872e136dce27407872754e609"
+      },
+      "mpm_jax/export.py": {
+        "bytes": 6564,
+        "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+        "git_blob": "c63793a32e959c61fcb64eb06456873bdc7b9377"
+      },
+      "mpm_jax/fibre_contact.py": {
+        "bytes": 6846,
+        "sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+        "git_blob": "dc2ace66ed4f1e3513af6607dc9a9d8456205b7d"
+      },
+      "mpm_jax/fibre_coupling.py": {
+        "bytes": 24964,
+        "sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+        "git_blob": "0879ded521683e3bf9651bc7ddbcca28061b5114"
+      },
+      "mpm_jax/fibre_mpm.py": {
+        "bytes": 21592,
+        "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+        "git_blob": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75"
+      },
+      "mpm_jax/fibre_patch_contact.py": {
+        "bytes": 11541,
+        "sha256": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+        "git_blob": "ae66a1ef17e78fe2b0e5f9ee7ac9eed221c6686e"
+      },
+      "mpm_jax/impact_mpm.py": {
+        "bytes": 26016,
+        "sha256": "dcf981413ea0435d80a08e657b2ed7b221476f5961680a6e8fd249f4d4d1589e",
+        "git_blob": "0280d50548002319632c3003690893335e2bd828"
+      },
+      "mpm_jax/initialization.py": {
+        "bytes": 6909,
+        "sha256": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d",
+        "git_blob": "4f48e24e8078f2a4c8636ddc176c78e90107d87b"
+      },
+      "mpm_jax/local_contact_models.py": {
+        "bytes": 8591,
+        "sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+        "git_blob": "e5a725f250cf12b0236801f3554f1b1e07d73796"
+      },
+      "mpm_jax/materials/__init__.py": {
+        "bytes": 1613,
+        "sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+        "git_blob": "1b3d0c61f9a9c77c22b8ba0114527de4bc239ea8"
+      },
+      "mpm_jax/materials/elastic.py": {
+        "bytes": 5652,
+        "sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+        "git_blob": "e1db30fa49ddfefc131c4066d99fd51557a52d9b"
+      },
+      "mpm_jax/materials/history.py": {
+        "bytes": 3323,
+        "sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+        "git_blob": "ca4721d91a8ac752423806cdf2404a76226d9d9e"
+      },
+      "mpm_jax/materials/hjc.py": {
+        "bytes": 6912,
+        "sha256": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35",
+        "git_blob": "43835fa56e77bf6cc87f2ebafc118afdb84870e8"
+      },
+      "mpm_jax/materials/isotropic_brittle.py": {
+        "bytes": 7172,
+        "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+        "git_blob": "887aaeda0466946f0b20563ae32b7614cde34099"
+      },
+      "mpm_jax/materials/jh2.py": {
+        "bytes": 5917,
+        "sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+        "git_blob": "6f37b5080c97e4c0ef48dfb3fd34c20138195b97"
+      },
+      "mpm_jax/materials/johnson_cook.py": {
+        "bytes": 5734,
+        "sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+        "git_blob": "b7ff295cf3208bfe43bf35a8ba78723c19fff1bf"
+      },
+      "mpm_jax/materials/plastic.py": {
+        "bytes": 5076,
+        "sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+        "git_blob": "73aefe879e1c14c6040732489c3099779251ef95"
+      },
+      "mpm_jax/materials/rht.py": {
+        "bytes": 21395,
+        "sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+        "git_blob": "118d64c4141a9dee24db8fa238f3f59491fdc460"
+      },
+      "mpm_jax/materials/shock_metal.py": {
+        "bytes": 11390,
+        "sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+        "git_blob": "e1dc2ae4597d3af91fce412901e66b052588e312"
+      },
+      "mpm_jax/materials/steinberg.py": {
+        "bytes": 4471,
+        "sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+        "git_blob": "54ad9f62c76327b869ced00d7f1b2fc09ee0c6cf"
+      },
+      "mpm_jax/materials/woven.py": {
+        "bytes": 4375,
+        "sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+        "git_blob": "998f014b30c0bb4ccbb5dbd7dcf989f30568c0de"
+      },
+      "mpm_jax/maugis_dugdale.py": {
+        "bytes": 9196,
+        "sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+        "git_blob": "9e1b2036afd80e987e11886c19b463c215c67be3"
+      },
+      "mpm_jax/packed_woven.py": {
+        "bytes": 13893,
+        "sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668",
+        "git_blob": "817aa1408ea4178acebc43d046ae65688048c44d"
+      },
+      "mpm_jax/paraview_scene.py": {
+        "bytes": 35310,
+        "sha256": "300b759949033c707514426b69483894340d638ab58dc8ed07f2cd3421c43958",
+        "git_blob": "509b24213fb39cd0ade49a6abb374d991a9fd676"
+      },
+      "mpm_jax/particle_fields.py": {
+        "bytes": 1622,
+        "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+        "git_blob": "f891d49ac55d1a5107384211f822c64acfd80336"
+      },
+      "mpm_jax/rigid_sphere_contact.py": {
+        "bytes": 6209,
+        "sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f",
+        "git_blob": "fcfe9a2f8124251ada04358504a1373b60d3af9d"
+      },
+      "mpm_jax/saved_tool_motion.py": {
+        "bytes": 7467,
+        "sha256": "62a161077334bb53cd8775233f202bbf397eeb4c29cbbb4a9430e9921be678af",
+        "git_blob": "a41391cf6633a504e4330580aa5e8373ec9fa7a9"
+      },
+      "mpm_jax/visualization.py": {
+        "bytes": 11454,
+        "sha256": "d834330c0fe1c1f55fbe997e0f5e62e7e22c36ed5766ada8d35da2cacc23dd69",
+        "git_blob": "6aedce6a768872a0cc6f56a9df8e1d9c1a2c584d"
+      },
+      "pyproject.toml": {
+        "bytes": 754,
+        "sha256": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+        "git_blob": "48a88b0f91bf8ce340b488c1c6f7bd67ff02e6b9"
+      },
+      "tools/audit_delivery.py": {
+        "bytes": 2680,
+        "sha256": "c34d790bf8a45910526ae713063e58fcf0b1e613d012bd5a7d489db4ecb1027e",
+        "git_blob": "6ec9bc3ed5eda5e05b7f046d698017ff16be69d9"
+      },
+      "tools/audit_triaxial_records.py": {
+        "bytes": 9779,
+        "sha256": "751b3c0a93515cf53e096e29ef106d8fc22b3f40f534da072e31d6566e77e837",
+        "git_blob": "a95191a313f247c43e9ad0231154737839b0a5ca"
+      },
+      "tools/check_paraview_failure.py": {
+        "bytes": 4755,
+        "sha256": "9460dec67d20bbdf8362d16e8543cdffa7d4bf30a29548614643615d941618a0",
+        "git_blob": "35d8e22adb28e3e04cff5872bc39c06fac7e9c01"
+      },
+      "tools/check_vtk.py": {
+        "bytes": 4075,
+        "sha256": "0ad8ffad0f3016af833164ae9348a8b983fd30580b9329395973b99d11acdf6d",
+        "git_blob": "6d6e27c5b82e6916a77c7b9418395347b379dbd7"
+      },
+      "tools/collect_gallery.py": {
+        "bytes": 14865,
+        "sha256": "ff9ec71cbc1b2d295c86c8d70e1f49be7b37014b5a392827357d852579943568",
+        "git_blob": "18fba15001d98586078c8aca058329ffa0b99d84"
+      },
+      "tools/collect_home.py": {
+        "bytes": 11434,
+        "sha256": "5421d5af0b5af4e9d2843d6606da4fa38d20cbba09b368bec29f6abc8960f82d",
+        "git_blob": "9a6a94854160276e789fada843ef6bde30de0963"
+      },
+      "tools/collect_reference_fixtures.py": {
+        "bytes": 3079,
+        "sha256": "655b58ef65981e7ac1255a587edc99940d24b5d09195f89eb7c6516461307a51",
+        "git_blob": "519121230bc81e7a4df54ca804e76a773cd582ea"
+      },
+      "tools/collect_results.py": {
+        "bytes": 42213,
+        "sha256": "ffd20246d616b09e5882b65ccf24ff6744a611a302be0e535734853859c3af9b",
+        "git_blob": "e60b3e55437e98ef74ef1fcdedc712f73042d6fa"
+      },
+      "tools/collect_review.py": {
+        "bytes": 9730,
+        "sha256": "813e4a4b5d1f1eb4ccbde7fe0b1ef1089d7cebe271570dfe194204fb5231d360",
+        "git_blob": "1f6d0782ee61ad38068ed11ea05b53d792b6ce5e"
+      },
+      "tools/encode_video.py": {
+        "bytes": 3297,
+        "sha256": "e182e5bfb66e79f9861d2a9232b1e54432285701bb7f833c427e308bc37a7ae4",
+        "git_blob": "86014ea39e1ea9e90be2370cb2a131eeaee6cb75"
+      },
+      "tools/export_triaxial_cache.py": {
+        "bytes": 28859,
+        "sha256": "84b73d66e709cc729047d0e1046c06255cd432d86c317026ab5a0ac8ed6cb3ec",
+        "git_blob": "c22e8d1325956bd70a8b3fd7e545bb1c8e89189f"
+      },
+      "tools/install_runner_dependencies.py": {
+        "bytes": 4202,
+        "sha256": "4b164e1e83b47faf252d4b8e01cc8e4c3ff46a6bd5f343267d2fe031e56790ea",
+        "git_blob": "ec094b2984e79f8cf02285b638bd36014dc50a76"
+      },
+      "tools/jc_grid_separation.py": {
+        "bytes": 10294,
+        "sha256": "37437f51dea61e2dd7c3973db001d49d478b4ee1f8ae7e7ce5dcd12751a0c568",
+        "git_blob": "483c65c2ed2285dfe926505975c94851b12c43cf"
+      },
+      "tools/pack_woven_gallery.py": {
+        "bytes": 13070,
+        "sha256": "0dee764886eaebd9954f7e84ed51715438db5ea089e8b01855a124b44f814976",
+        "git_blob": "58a7de34f2f5abf27a28ba6336bfd3a3b9b2ea42"
+      },
+      "tools/public_runs.py": {
+        "bytes": 11076,
+        "sha256": "a7bb6c6b6ad3ec836d36535dc0836baef803baa3342404b276449a716fe3f5b0",
+        "git_blob": "70b0f96848e9a42371e64ac44a5c202513b71b1a"
+      },
+      "tools/review_adhesion.py": {
+        "bytes": 19116,
+        "sha256": "a7efea61a652ebf4e965d804d372560f751c2fb2e911ad723c12d5aea51d74ae",
+        "git_blob": "7e0892cf04dc18e295625cdcc40f604c911cb10d"
+      },
+      "tools/review_adhesion_comparison.py": {
+        "bytes": 15788,
+        "sha256": "bc0f277a38625acc957e1265ca4750ffdac980c114fb1256c271e0de39e3118a",
+        "git_blob": "c34faf2c5570759b2968d1933ae673e0888d8f78"
+      },
+      "tools/review_contact.py": {
+        "bytes": 10533,
+        "sha256": "8b0a1e3319b9838ee62d1489225379cb128b9de648030500ec66aafe3a2e7354",
+        "git_blob": "8a15962d88f8dff7f36419c7c60e5a0aad7f1b71"
+      },
+      "tools/review_dynamics.py": {
+        "bytes": 14333,
+        "sha256": "7c4062903a83f3da5cbfed0a1bec0b9689d88f82cc8fa0c2272fa47faf598bf8",
+        "git_blob": "a49fc72519dbeb3ab33a6f8480d2a17a58a86a38"
+      },
+      "tools/review_material_engineering.py": {
+        "bytes": 44476,
+        "sha256": "3a474d4572275d963575a873e0519e0a6a821d30b2b7bd65a86c894f9b01d4d9",
+        "git_blob": "62fa7f9df714d92721fb758bb9a9f2aa1b77e492"
+      },
+      "tools/review_triaxial_state.py": {
+        "bytes": 21911,
+        "sha256": "6aa7b82430c1c76e3c91f33ee79a9a047c300fa39bd8674ca3cd8b24683d5b51",
+        "git_blob": "c0ff512a61fdeb3d3f6fa47b77ebb5b2e74724ea"
+      },
+      "tools/review_visible_motion.py": {
+        "bytes": 14949,
+        "sha256": "877e47d7f462ee41cbe87d5c3acfad74452509788e04cbdf42fe7e56555cc5c8",
+        "git_blob": "792c5b8ec56be6c6ace8c34210ff698c2b41ffa3"
+      },
+      "tools/review_wave_comparison.py": {
+        "bytes": 13438,
+        "sha256": "b4dcbd2720bf3e09276b586afacde1a5a0716e61d91a007627e8aea1d1d9d812",
+        "git_blob": "24e2813026401497a5aad19afb6bfbfbdba85e7c"
+      },
+      "tools/review_woven.py": {
+        "bytes": 40226,
+        "sha256": "f9f1d671526305dcab0a51c90db04a99a46002d46e5991ba44593792d4d14ecf",
+        "git_blob": "becf48054b9d0f4a1c3139447dff77c6665ad7c9"
+      },
+      "tools/review_woven_large.py": {
+        "bytes": 42575,
+        "sha256": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e",
+        "git_blob": "d2dbfc4339baa6049adf35e3bc258142e1533f70"
+      },
+      "tools/run_engineering_preview.py": {
+        "bytes": 47918,
+        "sha256": "f1a602fcd8e56e9353a7beb6c4a6387eb10baff731ba56b7c7a78dc2996025f5",
+        "git_blob": "025bb7499589f3134bf1a2b800d6c1802d5487d1"
+      },
+      "tools/run_jc_continuation.py": {
+        "bytes": 50526,
+        "sha256": "0268a2f9e2447d1da14a08e8fa6e6a2a27f236bf8c4870d1d90aa7315647688b",
+        "git_blob": "a84390fb17564c15ffceb532e37cb67a5c45686f"
+      },
+      "tools/run_jc_refinement.py": {
+        "bytes": 41177,
+        "sha256": "2061763d53dae15924a74c6ffe01c27e0c187324d1c72669d939e80cfd9c5eb8",
+        "git_blob": "1f7c177b016d6b52ce01f6987a8bb8c34fc7f7a7"
+      },
+      "tools/run_metal_corrected_continuation.py": {
+        "bytes": 7224,
+        "sha256": "19388de645c4e0a7182322ed1a810319166a3f717daa211e2b2ad9fcf47c5a78",
+        "git_blob": "2720e12538e253ab1b87d16ab5fdc0cdff8f46b4"
+      },
+      "tools/run_metal_corrected_prefix.py": {
+        "bytes": 16193,
+        "sha256": "0fba2076d8f67df885e92c8a74e05ba646cbff8f05dabfee3235dd738973555d",
+        "git_blob": "271613fc397db6e4ebfd303bff076fe897f9f70b"
+      },
+      "tools/run_triaxial_checks.py": {
+        "bytes": 6216,
+        "sha256": "a196f9a7dcafdb1897cb1f492a86e852debaf04cc435d563ebfeaf0a32ffc0b6",
+        "git_blob": "a9a3dd4cda97bf904b8962a7edb9a82fc0ac7118"
+      },
+      "tools/run_triaxial_segments.py": {
+        "bytes": 42282,
+        "sha256": "521cc65d53f650cbc9e97d9c8ea4d6c135b0ce8642d68495bcba0b12b7e9eec9",
+        "git_blob": "f1927cf93721d9876386431a3e108a5415f75366"
+      },
+      "tools/run_triaxial_study.py": {
+        "bytes": 34835,
+        "sha256": "fae732a68b258d278bbe8eadf837c4f1f2786663ee37158ed860e9f5b70811fb",
+        "git_blob": "854dbc528eebe0d9a958883080b6fca4819cbdec"
+      },
+      "tools/run_woven_large.py": {
+        "bytes": 10921,
+        "sha256": "4568533d2387e08df8825d4ccb608e4de23e8576efd583d7ead4f3e18d736839",
+        "git_blob": "6f234f1e222e0de72c6965814987d151d219b17e"
+      },
+      "tools/run_woven_preview.py": {
+        "bytes": 22694,
+        "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+        "git_blob": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f"
+      },
+      "tools/triaxial_parity.py": {
+        "bytes": 34246,
+        "sha256": "e4fee23f130fe5394cad0579f1700bffdea29bb4871bc3f6095ff3b98f9bb1cd",
+        "git_blob": "367fc04b4e5df6951d98e185f49d3b09fc075c16"
+      }
+    }
+  },
+  "lineage": {
+    "parent_cache_key": "metal-corrected-prefix-v1-21a0f3737f684a09bcdbb1b9388f74ddbc6410ae-40073145856-1-f8",
+    "parent_receipt_sha256": "f168ed114efdfe839146454867a0d740f3ae9aa309db59ad226e99cf72a24d48",
+    "producer_commit": "21a0f3737f684a09bcdbb1b9388f74ddbc6410ae",
+    "producer_run_id": "40073145856",
+    "start_frame": 8,
+    "stop_frame": 16,
+    "old_numeric_cache_restored": false,
+    "physical_validation_passed": false,
+    "production_eligible": false
+  },
+  "original_runtime": {
+    "python": "3.12.13",
+    "numpy": "2.5.4",
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "backend": "cpu",
+    "x64": true
+  },
+  "media_commit": "144751ea25ec7455e08101f10da5648e91c8d5f7",
+  "media_sources": {
+    "tools/render_metal_stage_media.py": {
+      "bytes": 11179,
+      "sha256": "aa0cd282cebe8bef0e0ea38d2a0d7bb37413dda8c24b9d2902ca1afb8e1c7669"
+    },
+    ".github/workflows/metal-stage-media.yml": {
+      "bytes": 3237,
+      "sha256": "2026aa10ccd763fa996b131e226c92614171e0ee1bbd14c3486abc97ce23cdde"
+    },
+    ".github/workflows/engineering-previews.yml": {
+      "bytes": 3237,
+      "sha256": "2026aa10ccd763fa996b131e226c92614171e0ee1bbd14c3486abc97ce23cdde"
+    },
+    "tools/run_woven_preview.py": {
+      "bytes": 22694,
+      "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1"
+    },
+    "mpm_jax/export.py": {
+      "bytes": 6564,
+      "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d"
+    },
+    "mpm_jax/visualization.py": {
+      "bytes": 11454,
+      "sha256": "d834330c0fe1c1f55fbe997e0f5e62e7e22c36ed5766ada8d35da2cacc23dd69"
+    },
+    "mpm_jax/paraview_scene.py": {
+      "bytes": 35310,
+      "sha256": "300b759949033c707514426b69483894340d638ab58dc8ed07f2cd3421c43958"
+    }
+  },
+  "solver_executed": false,
+  "physical_validation_passed": false,
+  "production_eligible": false,
+  "scope": "Historical 5 km/s old shock-model stage only: 17 saved states, 0 to 266.667 ns. Phase/EOS extrapolation; no physical validation or full-impact claim. Damage/failed fields are zero bookkeeping, not fracture predictions."
+}

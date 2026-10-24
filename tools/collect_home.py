@@ -206,7 +206,7 @@ def main():
         expected_render_hash = entry.get("render_lf_sha256", entry["render_sha256"])
         if render_hash != expected_render_hash:
             raise ValueError(f"Rendering record changed: {render_path}")
-        groups[group].append((title, f"![{title}]({entry['gif_path']})<br>[{title}]({result})"))
+        groups[group].append((title, f'<img src="{entry["gif_path"]}" alt="{title}" width="320" height="320"><br>[{title}]({result})'))
         record = {
             key: entry[key] for key in (
                 "id", "gif_path", "gif_sha256", "bytes",
