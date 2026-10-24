@@ -1,0 +1,77 @@
+name: certify retained fibre pair f2 v2
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        type: choice
+        options: [hertz, jkr]
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      MODEL: ${{ inputs.model }}
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: bfaaf43cdca9f7ddedcb9726b35a3fc482aa8206
+          path: .local/producer-source
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2
+      - name: Bind independent certification code to exact current HEAD
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          head=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
+          if head!=os.environ['GITHUB_SHA']:raise ValueError('Certification HEAD differs')
+          files=['tools/certify_fibre_pair_prefix_v2.py','tools/review_fibre_pair_prefix_v2.py','tools/fibre_pair_recovery_admissions.json','.github/workflows/fibre-pair-certify-v2.yml']
+          active='.github/workflows/'+os.environ['GITHUB_WORKFLOW_REF'].split('/.github/workflows/',1)[1].split('@',1)[0]
+          if active not in (files[-1],'.github/workflows/engineering-previews.yml') or Path(active).read_bytes()!=Path(files[-1]).read_bytes():raise ValueError('Certification workflow override differs')
+          record={}
+          for n in set(files+[active]):
+           raw=Path(n).read_bytes()
+           if raw!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Certification source blob differs')
+           record[n]=hashlib.sha256(raw).hexdigest()
+          Path('.local/certification-source.json').write_text(json.dumps({'commit':head,'files':record},indent=2))
+          PY
+      - name: Download exact official retained raw ZIP and verify original failed run identity
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          a=json.loads(Path('tools/fibre_pair_recovery_admissions.json').read_text())[os.environ['MODEL']]
+          repo=os.environ['GITHUB_REPOSITORY']
+          def api(path):return json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/'+path]))
+          run=api('actions/runs/'+a['run_id']);artifact=api('actions/artifacts/'+str(a['artifact_id']))
+          if run['status']!='completed' or run['conclusion']!='failure' or run['head_sha']!=a['producer_commit']:raise ValueError('Exact original failed run differs')
+          if artifact['expired'] or artifact['workflow_run']['id']!=int(a['run_id']) or artifact['digest']!='sha256:'+a['zip_sha256']:raise ValueError('Official artifact identity/digest differs')
+          Path('.local/official-parent.json').write_text(json.dumps({'run':run,'artifact':artifact},indent=2))
+          with Path('.local/original-raw.zip').open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+str(a['artifact_id'])+'/zip'],stdout=f,check=True)
+          PY
+      - name: Independent read-only source raw material and momentum certification without solver
+        run: python tools/certify_fibre_pair_prefix_v2.py --model "$MODEL" --archive .local/original-raw.zip --producer-source .local/producer-source --output .local/certified-v2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fibre-pair-${{ inputs.model }}-independent-certification-v2-${{ github.run_id }}
+          path: |
+            .local/certification-source.json
+            .local/official-parent.json
+            .local/certified-v2/certification-receipt-v2.json
+            .local/certified-v2/independent-f2-review-v2.json
+          if-no-files-found: error
+          retention-days: 30

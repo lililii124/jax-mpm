@@ -1,4 +1,4 @@
-name: actual40ms common-fixture Hertz JKR pair f2
+name: certify retained fibre pair f2 v2
 on:
   workflow_dispatch:
     inputs:
@@ -6,101 +6,72 @@ on:
         type: choice
         options: [hertz, jkr]
         required: true
-        default: hertz
 permissions:
   contents: read
   actions: read
-concurrency:
-  group: fibre-adhesion-pair-f2-${{ inputs.model }}
-  cancel-in-progress: false
 jobs:
-  prefix:
+  certify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 300
+    timeout-minutes: 30
     env:
-      JAX_PLATFORMS: cpu
-      JAX_ENABLE_X64: 'true'
-      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      MODEL: ${{ inputs.model }}
+      GH_TOKEN: ${{ github.token }}
       OPENBLAS_NUM_THREADS: '1'
-      OMP_NUM_THREADS: '2'
-      PYTHONUNBUFFERED: '1'
-      PAIR_MODEL: ${{ inputs.model }}
     steps:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: bfaaf43cdca9f7ddedcb9726b35a3fc482aa8206
+          path: .local/producer-source
+          persist-credentials: false
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Install fixed host planning dependencies
-        run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2
-      - name: Verify exact HEAD registered workflow and unchanged full physical request
-        run: python tools/run_fibre_pair_prefix.py prepare --model "$PAIR_MODEL"
-      - name: Install fixed numerical distributions
+      - run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2
+      - name: Bind independent certification code to exact current HEAD
         run: |
-          python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
-          python -m pip install --no-deps -e .
-      - name: Actual202240-particle same-plan guarded f2 and independent material momentum audit
-        id: numerical
-        run: python tools/run_fibre_pair_prefix.py run --model "$PAIR_MODEL"
-      - name: Archive every original successful or failed raw member in192MiB parts
-        if: always() && steps.numerical.outcome != 'skipped'
-        id: package
-        run: python tools/run_fibre_pair_prefix.py package --model "$PAIR_MODEL"
-      - uses: actions/upload-artifact@v4
-        if: always() && steps.package.outcome == 'success'
-        id: raw_upload
-        with:
-          name: fibre-adhesion-pair-${{ inputs.model }}-f2-complete-raw-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/fibre-pair-f2-delivery/
-          include-hidden-files: true
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 30
-      - uses: actions/download-artifact@v5
-        if: always() && steps.raw_upload.outcome == 'success'
-        id: retrieval
-        with:
-          artifact-ids: ${{ steps.raw_upload.outputs.artifact-id }}
-          path: .local/fibre-pair-f2-retrieved/
-          merge-multiple: true
-      - name: Independently verify complete retrieved raw archive and every original member
-        if: always() && steps.retrieval.outcome == 'success'
-        run: python tools/run_fibre_pair_prefix.py verify --model "$PAIR_MODEL"
-      - name: Install actual offscreen ParaView for fixed low-camera prefix preview
-        if: success() && steps.numerical.outcome == 'success'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
           python - <<'PY'
-          import sys
+          import hashlib,json,os,subprocess
           from pathlib import Path
-          sys.path.insert(0,'tools')
-          import run_woven_preview as p
-          p.LOGS=Path('.local/fibre-pair-pv-install');p.LOGS.mkdir()
-          p.install()
+          head=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
+          if head!=os.environ['GITHUB_SHA']:raise ValueError('Certification HEAD differs')
+          files=['tools/certify_fibre_pair_prefix_v2.py','tools/review_fibre_pair_prefix_v2.py','tools/fibre_pair_recovery_admissions.json','.github/workflows/fibre-pair-certify-v2.yml']
+          active='.github/workflows/'+os.environ['GITHUB_WORKFLOW_REF'].split('/.github/workflows/',1)[1].split('@',1)[0]
+          if active not in (files[-1],'.github/workflows/engineering-previews.yml') or Path(active).read_bytes()!=Path(files[-1]).read_bytes():raise ValueError('Certification workflow override differs')
+          record={}
+          for n in set(files+[active]):
+           raw=Path(n).read_bytes()
+           if raw!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Certification source blob differs')
+           record[n]=hashlib.sha256(raw).hexdigest()
+          Path('.local/certification-source.json').write_text(json.dumps({'commit':head,'files':record},indent=2))
           PY
-      - name: Render only actual saved prefix states at common low elevation
-        if: success() && steps.numerical.outcome == 'success'
-        run: python tools/run_fibre_pair_prefix.py preview --model "$PAIR_MODEL"
+      - name: Download exact official retained raw ZIP and verify original failed run identity
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          a=json.loads(Path('tools/fibre_pair_recovery_admissions.json').read_text())[os.environ['MODEL']]
+          repo=os.environ['GITHUB_REPOSITORY']
+          def api(path):return json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/'+path]))
+          run=api('actions/runs/'+a['run_id']);artifact=api('actions/artifacts/'+str(a['artifact_id']))
+          if run['status']!='completed' or run['conclusion']!='failure' or run['head_sha']!=a['producer_commit']:raise ValueError('Exact original failed run differs')
+          if artifact['expired'] or artifact['workflow_run']['id']!=int(a['run_id']) or artifact['digest']!='sha256:'+a['zip_sha256']:raise ValueError('Official artifact identity/digest differs')
+          Path('.local/official-parent.json').write_text(json.dumps({'run':run,'artifact':artifact},indent=2))
+          with Path('.local/original-raw.zip').open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+str(a['artifact_id'])+'/zip'],stdout=f,check=True)
+          PY
+      - name: Independent read-only source raw material and momentum certification without solver
+        run: python tools/certify_fibre_pair_prefix_v2.py --model "$MODEL" --archive .local/original-raw.zip --producer-source .local/producer-source --output .local/certified-v2
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: fibre-adhesion-pair-${{ inputs.model }}-f2-receipts-preview-${{ github.run_id }}-${{ github.run_attempt }}
+          name: fibre-pair-${{ inputs.model }}-independent-certification-v2-${{ github.run_id }}
           path: |
-            .local/fibre-pair-f2-logs/
-            .local/fibre-pair-f2-plan.json
-            .local/fibre-pair-local-archive-verification.json
-            .local/fibre-pair-cloud-retrieval.json
-            .local/fibre-pair-f2-capsule/receipt.json
-            .local/fibre-pair-f2-capsule/data/*/independent-f2-review.json
-            .local/fibre-pair-f2-capsule/data/*/dynamic-response-review.json
-            .local/fibre-pair-f2-preview/*.json
-            .local/fibre-pair-f2-preview/*.gif
-            .local/fibre-pair-f2-preview/*.log
-            .local/fibre-pair-f2-preview/frames/
-            .local/fibre-pair-pv-install/
-          include-hidden-files: true
-          if-no-files-found: warn
+            .local/certification-source.json
+            .local/official-parent.json
+            .local/certified-v2/certification-receipt-v2.json
+            .local/certified-v2/independent-f2-review-v2.json
+          if-no-files-found: error
           retention-days: 30
