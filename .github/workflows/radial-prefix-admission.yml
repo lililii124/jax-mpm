@@ -1,0 +1,48 @@
+name: Private radial f10 read-only admission
+'on':
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  admit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: actions/checkout@v7
+      with:
+        ref: de2bfea446e66e6245e33329a663996c5d5b9e84
+        path: .local/radial-frozen-producer
+        persist-credentials: false
+    - uses: actions/setup-python@v7
+      with:
+        python-version: 3.12.13
+    - run: 'python -m pip install -r tools/radial_sinusoidal_runtime.txt
+
+        python -m pip install --no-deps -e .local/radial-frozen-producer'
+    - uses: actions/cache/restore@v5
+      with:
+        path: .local/radial-sinusoidal-full
+        key: radial-sinusoidal-v1-2363a43cf6afbd771833e035e0b7703ecd6ff6651306984ca2e7ebf828f2961d-40090780381-1
+        fail-on-cache-miss: true
+    - run: python tools/admit_radial_prefix.py
+      timeout-minutes: 20
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: radial-f10-independent-admission-${{ github.run_id }}-${{ github.run_attempt
+          }}
+        path: .local/radial-prefix-admission/independent-admission.json
+        if-no-files-found: error
+        retention-days: 30
