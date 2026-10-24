@@ -1,0 +1,109 @@
+name: original64mm30ms complete raw low-camera media
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: original64mm30ms-low-camera
+  cancel-in-progress: false
+jobs:
+  media:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 81c57439c71cb3f48c575c4d55ee9fcc89b3aa39
+          path: .local/producer-hertz
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43
+          path: .local/producer-md
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install original fixed audit runtime without running numerical integration
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+      - name: Bind exact renderer source then restore only original complete media artifacts
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          from finalize_original_fibre_low_media import ADMISSIONS
+          head=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
+          if head!=os.environ['GITHUB_SHA']:raise ValueError('Original-rerender HEAD differs')
+          own='.github/workflows/original-fibre-full61-low-media.yml';active='.github/workflows/'+os.environ['GITHUB_WORKFLOW_REF'].split('/.github/workflows/',1)[1].split('@',1)[0]
+          if active not in (own,'.github/workflows/engineering-previews.yml') or Path(active).read_bytes()!=Path(own).read_bytes():raise ValueError('Registered rerender workflow differs')
+          names=['tools/finalize_original_fibre_low_media.py','tools/render_original_fibre_full61_low.py','tools/paraview_fibre_pair_scene.py','tools/package_fibre_final_media.py','tools/finish_fibre_pull_off.py','tools/run_fibre_pair_prefix.py','tools/run_woven_preview.py','mpm_jax/paraview_scene.py','mpm_jax/export.py','mpm_jax/particle_fields.py','mpm_jax/visualization.py',own,active]
+          record={}
+          for n in set(names):
+           raw=Path(n).read_bytes()
+           if raw!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Rerender source differs from exact HEAD')
+           record[n]=hashlib.sha256(raw).hexdigest()
+          Path('.local/original-low-source.json').write_text(json.dumps({'commit':head,'files':record},indent=2))
+          repo=os.environ['GITHUB_REPOSITORY'];official={}
+          def api(p):return json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/'+p]))
+          for model,a in ADMISSIONS.items():
+           media=api('actions/runs/'+a['media_run']);numerical=api('actions/runs/'+a['numerical_run']);artifact=api('actions/artifacts/'+a['artifact_id'])
+           if any(r['status']!='completed' or r['conclusion']!='success' for r in (media,numerical)) or numerical['head_sha']!=a['producer']:raise ValueError('Original numerical/media official source/SUCCESS differs')
+           if artifact['expired'] or artifact['workflow_run']['id']!=int(a['media_run']) or artifact['digest']!='sha256:'+a['zip_sha256'] or artifact['size_in_bytes']>8*1024**3:raise ValueError('Exact original complete media archive differs')
+           path=Path('.local')/('original-'+model+'.zip')
+           with path.open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+a['artifact_id']+'/zip'],stdout=f,check=True)
+           h=hashlib.sha256()
+           with path.open('rb') as f:
+            for b in iter(lambda:f.read(1024**2),b''):h.update(b)
+           if h.hexdigest()!=a['zip_sha256']:raise ValueError('Original complete media ZIP digest differs')
+           official[model]={'numerical_run':numerical,'media_run':media,'artifact':artifact}
+          Path('.local/original-low-official-parents.json').write_text(json.dumps(official,indent=2))
+          PY
+      - name: Install actual ParaView offscreen renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('.local/original-low-pv-install');p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Audit complete original raw/source/runtime/parents then actual original61state lowcamera
+        run: python tools/finalize_original_fibre_low_media.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original64mm30ms-real61-low-camera-${{ github.run_id }}
+          path: |
+            .local/original-low-source.json
+            .local/original-low-official-parents.json
+            .local/original-low/*-original-prefix-review.json
+            .local/original-low/*-material-review.json
+            .local/original-low/original-physical-contrast.json
+            .local/original-low/original-low-media-admission.json
+            .local/original-low/logs/
+            .local/original-low/rendered/*/simulation.gif
+            .local/original-low/rendered/*/preview-receipt.json
+            .local/original-low/rendered/*/render.json
+            .local/original-low/rendered/*/render.log
+            .local/original-low/rendered/*/frames/
+            .local/original-low-pv-install/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
