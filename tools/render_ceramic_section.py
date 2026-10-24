@@ -48,6 +48,8 @@ def audit():
         and r['resolution']==[1200,1200] and r['field']=='damage' and r['color_range']==[0,1]
         and r['selected_particle_ids']==ids.tolist() and len(ids)>0
         and r['reference_plane_x_m']==.125 and r['reference_half_thickness_m']==.00125
+        and r['displayed_vtk_arrays_verified_states']==61
+        and r['animation_pipeline']=='PVDReader with 61 timesteps and active/failed Threshold filters'
         and r['view_scope']=='central material cross section' and len(r['displayed_counts'])==61):
         raise ValueError('Cross section provenance differs')
     expected = [f'frame_{i:05d}.png' for i in range(61)]

@@ -3,12 +3,14 @@ import json
 import sys
 from pathlib import Path
 import numpy as np
-from paraview.simple import (TrivialProducer, CreateView, Show, ColorBy,
+from paraview.simple import (PVDReader, Threshold, CreateView, Show, ColorBy,
     GetColorTransferFunction, SaveScreenshot, SaveState, Render,
     GetParaViewVersion, _DisableFirstRenderCameraReset)
 from vtkmodules.vtkCommonCore import vtkPoints
 from vtkmodules.vtkCommonDataModel import vtkPolyData, vtkCellArray
-from vtkmodules.util.numpy_support import numpy_to_vtk, numpy_to_vtkIdTypeArray
+from vtkmodules.vtkIOXML import vtkXMLPolyDataWriter
+from vtkmodules.util.numpy_support import numpy_to_vtk, numpy_to_vtkIdTypeArray, vtk_to_numpy
+from paraview import servermanager
 
 
 def main(folder):
@@ -25,13 +27,36 @@ def main(folder):
         raise ValueError('Empty material cross section')
     bounds = np.array([np.inf, -np.inf, np.inf, -np.inf])
     counts = []
-    for path in frames:
+    vtk_folder = folder/'section-vtk'
+    vtk_folder.mkdir(exist_ok=True)
+    for i, path in enumerate(frames):
         with np.load(path, allow_pickle=False) as f:
             x = f['x'][ids]
             bounds = [min(bounds[0], x[:, 2].min()), max(bounds[1], x[:, 2].max()),
                       min(bounds[2], x[:, 1].min()), max(bounds[3], x[:, 1].max())]
             failed = f['failed'][ids].astype(bool)
             counts.append(dict(active_particles=int((~failed).sum()), debris_particles=int(failed.sum())))
+            poly = vtkPolyData()
+            points = vtkPoints()
+            points.SetData(numpy_to_vtk(np.ascontiguousarray(x, dtype=np.float32), deep=True))
+            poly.SetPoints(points)
+            cells = vtkCellArray()
+            cells.SetCells(len(ids), numpy_to_vtkIdTypeArray(np.column_stack((np.ones(len(ids), dtype=np.int64), np.arange(len(ids), dtype=np.int64))).ravel(), deep=True))
+            poly.SetVerts(cells)
+            for name, values in [('damage', f['damage'][ids].astype(np.float32)),
+                                 ('failed', failed.astype(np.uint8)), ('source_id', ids.astype(np.int64))]:
+                array = numpy_to_vtk(np.ascontiguousarray(values), deep=True)
+                array.SetName(name)
+                poly.GetPointData().AddArray(array)
+            writer = vtkXMLPolyDataWriter()
+            writer.SetFileName(str(vtk_folder/f'section_{i:05d}.vtp'))
+            writer.SetInputData(poly)
+            if writer.Write()!=1:
+                raise ValueError('Section VTP write failed')
+    pvd = vtk_folder/'section.pvd'
+    pvd.write_text('<?xml version="1.0"?>\n<VTKFile type="Collection" version="0.1" byte_order="LittleEndian"><Collection>\n'+
+        ''.join(f'<DataSet timestep="{i}" group="" part="0" file="section_{i:05d}.vtp"/>\n' for i in range(61))+
+        '</Collection></VTKFile>\n')
     _DisableFirstRenderCameraReset()
     view = CreateView('RenderView')
     view.ViewSize = [1200, 1200]
@@ -45,16 +70,18 @@ def main(folder):
     view.CameraFocalPoint = [.125, cy, cz]
     view.CameraViewUp = [0, 1, 0]
     view.CameraParallelScale = .55*max(bounds[1]-bounds[0], bounds[3]-bounds[2])
-    producers = [TrivialProducer(), TrivialProducer()]
-    # Establish the field schema before ParaView configures the lookup table.
-    for producer in producers:
-        initial = vtkPolyData()
-        initial.SetPoints(vtkPoints())
-        damage = numpy_to_vtk(np.empty(0, dtype=np.float32), deep=True)
-        damage.SetName('damage')
-        initial.GetPointData().AddArray(damage)
-        producer.GetClientSideObject().SetOutput(initial)
-        producer.UpdatePipeline()
+    reader = PVDReader(FileName=str(pvd.resolve()))
+    reader.UpdatePipeline(time=0)
+    if list(reader.TimestepValues)!=list(range(61)):
+        raise ValueError('PVD time series lost saved states')
+    producers = []
+    for value in (0, 1):
+        threshold = Threshold(Input=reader)
+        threshold.Scalars = ['POINTS', 'failed']
+        threshold.LowerThreshold = value
+        threshold.UpperThreshold = value
+        threshold.UpdatePipeline(time=0)
+        producers.append(threshold)
     displays = [Show(p, view) for p in producers]
     for display in displays:
         display.Representation = 'Point Gaussian'
@@ -71,21 +98,16 @@ def main(folder):
     out = folder/'frames'
     out.mkdir(exist_ok=True)
     for i, path in enumerate(frames):
+        view.ViewTime = i
+        reader.UpdatePipeline(time=i)
         with np.load(path, allow_pickle=False) as f:
             failed = f['failed'][ids].astype(bool)
             for producer, selected in zip(producers, (ids[~failed], ids[failed])):
-                poly = vtkPolyData()
-                points = vtkPoints()
-                points.SetData(numpy_to_vtk(np.ascontiguousarray(f['x'][selected], dtype=np.float32), deep=True))
-                poly.SetPoints(points)
-                cells = vtkCellArray()
-                cells.SetCells(len(selected), numpy_to_vtkIdTypeArray(np.column_stack((np.ones(len(selected), dtype=np.int64), np.arange(len(selected), dtype=np.int64))).ravel(), deep=True))
-                poly.SetVerts(cells)
-                damage = numpy_to_vtk(np.ascontiguousarray(f['damage'][selected], dtype=np.float32), deep=True)
-                damage.SetName('damage')
-                poly.GetPointData().AddArray(damage)
-                producer.GetClientSideObject().SetOutput(poly)
-                producer.UpdatePipeline()
+                producer.UpdatePipeline(time=i)
+                actual = servermanager.Fetch(producer)
+                np.testing.assert_array_equal(vtk_to_numpy(actual.GetPointData().GetArray('source_id')), selected)
+                np.testing.assert_array_equal(vtk_to_numpy(actual.GetPoints().GetData()), f['x'][selected].astype(np.float32))
+                np.testing.assert_array_equal(vtk_to_numpy(actual.GetPointData().GetArray('damage')), f['damage'][selected].astype(np.float32))
         Render(view)
         SaveScreenshot(str(out/f'frame_{i:05d}.png'), view, ImageResolution=[1200,1200])
     SaveState(str(folder/'section-scene.pvsm'))
@@ -97,6 +119,8 @@ def main(folder):
         camera_direction='along +x to -x; z horizontal, y vertical',
         selected_particle_ids=ids.tolist(), camera_projected_bounds=list(map(float,bounds)),
         selected_particles=len(ids), displayed_counts=counts,
+        animation_pipeline='PVDReader with 61 timesteps and active/failed Threshold filters',
+        displayed_vtk_arrays_verified_states=61,
         failed_debris_color=[1.,.32,.02], solver_executed=False)
     (folder/'section-render.json').write_text(json.dumps(record, indent=2)+'\n')
 
