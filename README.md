@@ -88,11 +88,11 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/adhesion-visible--nonadhesive-pull-off.gif" alt="Nonadhesive pull-off" width="100%"><br><a href="docs/results/adhesion-visible--nonadhesive-pull-off/summary.json">Nonadhesive pull-off</a></td>
 <td width="33%" align="center"><img src="docs/images/home/adhesion-visible--adhesive-pull-off.gif" alt="Adhesive pull-off" width="100%"><br><a href="docs/results/adhesion-visible--adhesive-pull-off/summary.json">Adhesive pull-off</a></td>
-<td width="33%" align="center"><img src="docs/images/home/adhesion--lateral-release.gif" alt="Lateral release" width="100%"><br><a href="docs/results/adhesion--lateral-release/summary.json">Lateral release</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--radial-sinusoidal-pull-off.gif" alt="Radial sinusoidal pull-off" width="100%"><br><a href="docs/results/completed--radial-sinusoidal-pull-off/summary.json">Radial sinusoidal pull-off</a></td>
 </tr>
 <tr>
+<td width="33%" align="center"><img src="docs/images/home/adhesion--lateral-release.gif" alt="Lateral release" width="100%"><br><a href="docs/results/adhesion--lateral-release/summary.json">Lateral release</a></td>
 <td width="33%" align="center"><img src="docs/images/home/adhesion--three-sphere-array.gif" alt="Three-sphere array" width="100%"><br><a href="docs/results/adhesion--three-sphere-array/summary.json">Three-sphere array</a></td>
-<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>

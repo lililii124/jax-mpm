@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": {
+    "actual_compression": true,
+    "actual_tensile_adhesion_during_retraction": true,
+    "all_independent_observables_match": true,
+    "finite_valid_final_state": true,
+    "fully_separated_at_end": true,
+    "limited_bulk_gap_penetration": true,
+    "no_deeper_unsampled_contact": true,
+    "positive_J_all_saved_diagnostics": true,
+    "same_baseline_physical_protocol": true
+  },
+  "scope": "Full1.3s same-protocol concentric sinusoidal rigid-surface adhesion demonstration; independently reconstructed gap gradient/forces/potential/path at all51 saved states. Warped-coordinate gap, reference-area Dugdale traction; no calibrated adhesion-performance improvement claim."
+}

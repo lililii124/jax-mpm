@@ -1763,5 +1763,30 @@
       "prefix-review.json": "10862e93ecb7f8992daf9ab2e0e401d280ffce73d5e5f8b8086358348bc81058",
       "provenance.json": "f21569b03ce211d26c37ad428922a05f3f71b3f4a9b2c6e7884f37eac1dee7eb"
     }
+  },
+  {
+    "id": "completed--radial-sinusoidal-pull-off",
+    "case": "radial-sinusoidal-pull-off",
+    "source_directory": "outputs/completed/radial-sinusoidal-pull-off",
+    "particles": 367744,
+    "steps": 3700,
+    "simulation_time": 1.3,
+    "min_J": 0.5413005180324936,
+    "max_damage": 0,
+    "solver_seconds": 987.1732286399999,
+    "renderer": "ParaView",
+    "sha256": {
+      "summary.json": "74adcc1449f19e45b8679d5f2f3d11b1faa6c36a6b4e084bb6b32f5e155e19b0",
+      "render.json": "2f9d47aa688c23d756c7651b06101ac28a3bb8e2466e7c3fa07583b79a7c6f62",
+      "publication-review.json": "b18f327bc5c0818f3e7a64db4ee0a4cf678189678e359814c635dd17badd6717",
+      "full-contact-review.json": "fb573c08ef2874cbf890dab39df9b12aeeee504a3d5fa56bb7fdd83c3f670b06",
+      "vtk-full-mesh-audit.json": "c6b5e8e79ba782397fafaed207be41545ab799d6dc879fbc6a3218bde0f3dbe4",
+      "vtk-child-receipt.json": "78867f6a0ad4b145980c19247b7e58059d6db580c1819f10f09e0b6ab85b6271",
+      "read-only-receipt.json": "8a4520603a9d7c433d4d808157963c4188c28f39d5d528877fea1629bb48f54c",
+      "admission.json": "4c516aa6058350e7e1b9f99f74267111b5e9c0a6db4a463221bd638b733ed092",
+      "media-audit.json": "bd9ed61a7cbec524b75ecdd9eb788f7f22b2886fd11f18d10dc09585fa1a011b",
+      "physical-review.json": "37253b46fc55fb44c903171aad9e1ac0f1a9a1b04027a656d24096df8034d505",
+      "provenance.json": "2358ed1afa0aba1dd5cb65ab0cd1b571ca72601b2ce69caacb3a150c3a6d57fd"
+    }
   }
 ]

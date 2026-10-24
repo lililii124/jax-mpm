@@ -309,6 +309,8 @@ def main():
             if identifier.startswith("completed--") and (ROOT / f"docs/images/home/{identifier}.gif").is_file():
                 video_link += f" · [GIF](images/home/{identifier}.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
+            if identifier == "completed--radial-sinusoidal-pull-off":
+                label = "Radial sinusoidal pull-off"
             label = {'completed--crossed-fibre-jkr': 'Crossed fibre JKR contact', 'completed--crossed-fibre-md': 'Crossed fibre MD contact', 'completed--crossed-fibre-self-consistent': 'Crossed fibre SC local BEM contact'}.get(identifier, label)
             cells.append(
                 f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}**<br>'

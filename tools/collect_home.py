@@ -96,6 +96,7 @@ MATERIALS = {
 
 def legacy_describe(identifier):
     completed = {
+        "completed--radial-sinusoidal-pull-off": (GROUPS[8], "Radial sinusoidal pull-off"),
         "completed--woven-plate-impact": (GROUPS[2], "Clamped woven plate impact"),
         "completed--crossed-fibre-hertz": (GROUPS[2], "Crossed fibre Hertz contact"),
         "completed--crossed-fibre-jkr": (GROUPS[2], "Crossed fibre JKR contact"),

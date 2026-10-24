@@ -1,0 +1,20 @@
+{
+  "actual_particle_frames_checked": 51,
+  "expected_particles": 367744,
+  "folder": "/home/runner/work/jax-mpm/jax-mpm/.local/radial-immutable-producer/.local/radial-independent-render",
+  "output_file": "/home/runner/work/jax-mpm/jax-mpm/.local/radial-immutable-producer/.local/radial-independent-render/vtk-full-mesh-audit.json",
+  "output_sha256": "c6b5e8e79ba782397fafaed207be41545ab799d6dc879fbc6a3218bde0f3dbe4",
+  "passed": true,
+  "producer": "/home/runner/work/jax-mpm/jax-mpm/.local/radial-immutable-producer",
+  "renderer_overlay": {
+    "geometry_force_law_modified": false,
+    "numerical_source_modified": false,
+    "original_scene_sha256": "47015e792433ac1c5e86f0b271f6ce1e16ef7c0e16f9605ef57e8597c2da7539",
+    "overlay_sha256": "e5d170af412b20b40f8c4af8116f8af4c6874855b35a2e043d31bf25d45549ca",
+    "patch": "private module namespace; min=builtins.min; max=builtins.max",
+    "schema": "radial-paraview-builtins-overlay-v1"
+  },
+  "review_file": "/home/runner/work/jax-mpm/jax-mpm/tools/radial_sinusoidal_full_review.py",
+  "review_sha256": "f3e8561091f397b98a618e8b104e00fc4f3a38d317f5148730a3b52cbe1bb803",
+  "schema": "radial-actual-vtk-child-v1"
+}

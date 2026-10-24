@@ -1,0 +1,108 @@
+{
+  "numerical_run": 40094841691,
+  "numerical_controller_commit": "93becdf685107c35193b610af231915a58249c52",
+  "producer_commit": "de2bfea446e66e6245e33329a663996c5d5b9e84",
+  "media_run": 40109198668,
+  "media_commit": "646e74fb6e725fb9658d2f92b1ebbb26c48db4c6",
+  "media_zip_sha256": "6f3eea18eeb95b92900e660725a8076743230f550ec760b213e5c52cdcbe3825",
+  "same_run_retrieval": {
+    "artifact_id": "12566181245",
+    "files": {
+      "admission.json": {
+        "bytes": 15955,
+        "sha256": "4c516aa6058350e7e1b9f99f74267111b5e9c0a6db4a463221bd638b733ed092"
+      },
+      "contact-review.guard.json": {
+        "bytes": 127,
+        "sha256": "27d3e09e958fdf4313d67a132155c6b543e7d6003c34b404546f46d3f91d1393"
+      },
+      "contact-review.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "export.guard.json": {
+        "bytes": 128,
+        "sha256": "abd685010d20e45cf7997f35a18b5c362be0dcbb80444e0fffaa7b3eb6a79e79"
+      },
+      "export.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "frame_00010.png": {
+        "bytes": 956291,
+        "sha256": "13d1232333d832ecbc963d663769193167278dabf89e7b45058588a2c8e66713"
+      },
+      "frame_00016.png": {
+        "bytes": 1056399,
+        "sha256": "a94043ec51a968a4e0ab5579d3fe7e21e1714351808343feff9757f4b06c1644"
+      },
+      "frame_00030.png": {
+        "bytes": 1052596,
+        "sha256": "6173a580741f6f0f7a5f9ce6576b1e94b216c55fba99eb2db9a488670aee229e"
+      },
+      "frame_00043.png": {
+        "bytes": 1129913,
+        "sha256": "6c0e227f450d30d6cdd51b6e225d90ce35320b991fba9b7182a3e41497482e31"
+      },
+      "frame_00050.png": {
+        "bytes": 1146456,
+        "sha256": "c7df47844ec99dfba3c8c0f416a54276350776e61697d94e3645813615abb8c5"
+      },
+      "full-contact-review.json": {
+        "bytes": 30982,
+        "sha256": "fb573c08ef2874cbf890dab39df9b12aeeee504a3d5fa56bb7fdd83c3f670b06"
+      },
+      "media-audit.json": {
+        "bytes": 738,
+        "sha256": "bd9ed61a7cbec524b75ecdd9eb788f7f22b2886fd11f18d10dc09585fa1a011b"
+      },
+      "progress.json": {
+        "bytes": 88,
+        "sha256": "7c091f2d3b46b6921f16820ecdaada02be350fc26b4afd5794f778c188fb3f2b"
+      },
+      "read-only-receipt.json": {
+        "bytes": 360,
+        "sha256": "8a4520603a9d7c433d4d808157963c4188c28f39d5d528877fea1629bb48f54c"
+      },
+      "render.guard.json": {
+        "bytes": 128,
+        "sha256": "d4c16749fb6aab1736315c11f45e0ab9812abe990a20e3eb930fb2ae118b345e"
+      },
+      "render.json": {
+        "bytes": 4246,
+        "sha256": "2f9d47aa688c23d756c7651b06101ac28a3bb8e2466e7c3fa07583b79a7c6f62"
+      },
+      "render.log": {
+        "bytes": 231,
+        "sha256": "44c0f2a077f3116e25e455a187dc9dc6454a66f9129c41379349023876978156"
+      },
+      "simulation.gif": {
+        "bytes": 2709604,
+        "sha256": "15874affb477be677d29a50f996397b7c426b19e7c6d4e3ec5db16d98bd9f573"
+      },
+      "summary.json": {
+        "bytes": 12317,
+        "sha256": "74adcc1449f19e45b8679d5f2f3d11b1faa6c36a6b4e084bb6b32f5e155e19b0"
+      },
+      "vtk-audit.guard.json": {
+        "bytes": 126,
+        "sha256": "f7acf7055093dd1ec8e9bd2b04f2b8e8319ce8020eaa2bbd7efaec52e8340e64"
+      },
+      "vtk-audit.log": {
+        "bytes": 158,
+        "sha256": "4103d07f3d291b28723ca8cf6808371a97245454d8ff69a10660557831b339e8"
+      },
+      "vtk-child-receipt.json": {
+        "bytes": 1173,
+        "sha256": "78867f6a0ad4b145980c19247b7e58059d6db580c1819f10f09e0b6ab85b6271"
+      },
+      "vtk-full-mesh-audit.json": {
+        "bytes": 1413,
+        "sha256": "c6b5e8e79ba782397fafaed207be41545ab799d6dc879fbc6a3218bde0f3dbe4"
+      }
+    },
+    "numerical_run": "40094841691",
+    "passed": true
+  },
+  "scope": "Full1.3s same-protocol concentric sinusoidal rigid-surface adhesion demonstration; independently reconstructed gap gradient/forces/potential/path at all51 saved states. Warped-coordinate gap, reference-area Dugdale traction; no calibrated adhesion-performance improvement claim."
+}

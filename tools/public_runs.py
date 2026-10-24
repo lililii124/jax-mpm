@@ -64,6 +64,17 @@ def is_ready_for_publication(folder, identifier, summary):
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
     if canonical in {"completed--woven-plate-impact", "completed--crossed-fibre-hertz", "completed--ceramic-impact-debris", "completed--crossed-fibre-jkr", "completed--crossed-fibre-md", "completed--crossed-fibre-self-consistent"}:
         return is_archived_completed_ready(Path(folder), summary)
+    if canonical == "completed--radial-sinusoidal-pull-off":
+        if not is_archived_completed_ready(Path(folder), summary, expected_frames=51):
+            return False
+        try:
+            contact = json.loads((Path(folder)/"full-contact-review.json").read_text())
+            mesh = json.loads((Path(folder)/"vtk-full-mesh-audit.json").read_text())
+            return (contact["passed"] is True and all(contact["checks"].values())
+                    and contact["frames_checked"] == mesh["actual_particle_frames_checked"] == 51
+                    and mesh["passed"] is True and len(mesh["actual_warped_rigid_mesh_checks"]) == 6)
+        except (OSError, ValueError, KeyError, TypeError):
+            return False
     source = canonical.split("--")[0]
     if source == "woven-preview":
         return is_woven_preview_ready(Path(folder), canonical, summary)
@@ -107,7 +118,7 @@ def is_ready_for_publication(folder, identifier, summary):
     return True
 
 
-def is_archived_completed_ready(folder, summary):
+def is_archived_completed_ready(folder, summary, *, expected_frames=61):
     """Keep imported full-protocol media bound to its reviewed publication files."""
     try:
         review = json.loads((folder / "publication-review.json").read_text(encoding="utf-8"))
@@ -117,7 +128,7 @@ def is_archived_completed_ready(folder, summary):
         if (summary.get("completed") is not True or review.get("schema") != "completed-media-publication-v1"
                 or review.get("passed") is not True or set(review.get("checks", {})) != required
                 or not all(value is True for value in review["checks"].values())
-                or render.get("renderer") != "ParaView" or render.get("frames_rendered") != 61
+                or render.get("renderer") != "ParaView" or render.get("frames_rendered") != expected_frames
                 or render.get("axes") is not False or render.get("annotations") is not False
                 or render.get("geometry_scale") != 1):
             return False

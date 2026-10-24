@@ -1,0 +1,47 @@
+{
+  "actual_particle_frames_checked": 51,
+  "actual_warped_rigid_mesh_checks": [
+    {
+      "frame": 0,
+      "maximum_gap_zero_set_error_m": 5.069055858397675e-08,
+      "mesh_vertices": 48642
+    },
+    {
+      "frame": 10,
+      "maximum_gap_zero_set_error_m": 4.730892158577582e-08,
+      "mesh_vertices": 48642
+    },
+    {
+      "frame": 16,
+      "maximum_gap_zero_set_error_m": 4.9343125058110004e-08,
+      "mesh_vertices": 48642
+    },
+    {
+      "frame": 30,
+      "maximum_gap_zero_set_error_m": 5.066667499442623e-08,
+      "mesh_vertices": 48642
+    },
+    {
+      "frame": 43,
+      "maximum_gap_zero_set_error_m": 5.223949547938922e-08,
+      "mesh_vertices": 48642
+    },
+    {
+      "frame": 50,
+      "maximum_gap_zero_set_error_m": 5.069055858397675e-08,
+      "mesh_vertices": 48642
+    }
+  ],
+  "dataset_scope": "production saved data",
+  "geometry": "concentric cosine corrugation centered on moving y axis",
+  "particles_per_frame": 367744,
+  "passed": true,
+  "renderer_overlay": {
+    "geometry_force_law_modified": false,
+    "numerical_source_modified": false,
+    "original_scene_sha256": "47015e792433ac1c5e86f0b271f6ce1e16ef7c0e16f9605ef57e8597c2da7539",
+    "overlay_sha256": "e5d170af412b20b40f8c4af8116f8af4c6874855b35a2e043d31bf25d45549ca",
+    "patch": "private module namespace; min=builtins.min; max=builtins.max",
+    "schema": "radial-paraview-builtins-overlay-v1"
+  }
+}

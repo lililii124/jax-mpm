@@ -83,11 +83,11 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <tr>
 <td width="33%" align="center"><img src="images/adhesion-visible-nonadhesive-pull-off.png" alt="adhesion-visible-nonadhesive-pull-off" width="100%"><br><strong>adhesion-visible-nonadhesive-pull-off</strong><br><a href="results/adhesion-visible--nonadhesive-pull-off/summary.json">Results</a> · <a href="images/adhesion-visible-nonadhesive-pull-off.mp4">Video</a></td>
 <td width="33%" align="center"><img src="images/adhesion-visible-adhesive-pull-off.png" alt="adhesion-visible-adhesive-pull-off" width="100%"><br><strong>adhesion-visible-adhesive-pull-off</strong><br><a href="results/adhesion-visible--adhesive-pull-off/summary.json">Results</a> · <a href="images/adhesion-visible-adhesive-pull-off.mp4">Video</a></td>
-<td width="33%" align="center"><img src="images/adhesion-lateral-release.png" alt="adhesion-lateral-release" width="100%"><br><strong>adhesion-lateral-release</strong><br><a href="results/adhesion--lateral-release/summary.json">Results</a> · <a href="images/adhesion-lateral-release.mp4">Video</a></td>
+<td width="33%" align="center"><img src="images/radial-sinusoidal-pull-off.png" alt="Radial sinusoidal pull-off" width="100%"><br><strong>Radial sinusoidal pull-off</strong><br><a href="results/completed--radial-sinusoidal-pull-off/summary.json">Results</a> · <a href="images/home/completed--radial-sinusoidal-pull-off.gif">GIF</a></td>
 </tr>
 <tr>
+<td width="33%" align="center"><img src="images/adhesion-lateral-release.png" alt="adhesion-lateral-release" width="100%"><br><strong>adhesion-lateral-release</strong><br><a href="results/adhesion--lateral-release/summary.json">Results</a> · <a href="images/adhesion-lateral-release.mp4">Video</a></td>
 <td width="33%" align="center"><img src="images/adhesion-three-sphere-array.png" alt="adhesion-three-sphere-array" width="100%"><br><strong>adhesion-three-sphere-array</strong><br><a href="results/adhesion--three-sphere-array/summary.json">Results</a> · <a href="images/adhesion-three-sphere-array.mp4">Video</a></td>
-<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
