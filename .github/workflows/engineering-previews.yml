@@ -87,7 +87,10 @@ jobs:
           python -m pip install --no-deps -e .
       - name: Install actual headless ParaView
         timeout-minutes: 15
-        run: python tools/finalize_ceramic_media.py install
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python tools/finalize_ceramic_media.py install
       - name: Render all 61 saved states and audit actual VTK PNG GIF
         timeout-minutes: 90
         run: python tools/finalize_ceramic_media.py render
