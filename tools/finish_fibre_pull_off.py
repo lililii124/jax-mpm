@@ -261,9 +261,10 @@ def audit_worker(args):
 
 def finalize(args):
     cache,output=Path(args.cache).resolve(),Path(args.output).resolve()
+    producer_root = Path(args.producer_root).resolve()
     if output.exists() or cache == output or cache in output.parents or output in cache.parents:
         raise ValueError('Finalization needs a separate new output tree')
-    receipt,binding,original=verify_cache(cache,args.receipt_sha,args.producer_root,args.producer_commit)
+    receipt,binding,original=verify_cache(cache,args.receipt_sha,producer_root,args.producer_commit)
     commit=git(ROOT,'rev-parse','HEAD').decode().strip()
     controller=source_binding(ROOT,commit,names=['tools/finish_fibre_pull_off.py','mpm_jax/visualization.py',
         'mpm_jax/paraview_scene.py','mpm_jax/particle_fields.py','mpm_jax/export.py','tools/check_vtk.py','tools/encode_video.py',
@@ -280,7 +281,7 @@ def finalize(args):
     def command(name,arguments,minutes):
         return original.engine.command(name,['timeout','--signal=TERM','--kill-after=30s',f'{minutes}m',*map(str,arguments)],monitor=True)
     command('independent-full-prefix',[sys.executable,__file__,'--audit-worker','--cache',cache,
-        '--receipt-sha',args.receipt_sha,'--producer-root',args.producer_root,
+        '--receipt-sha',args.receipt_sha,'--producer-root',producer_root,
         '--producer-commit',args.producer_commit,'--output',output/'prefix-review.json'],20)
     folder=original.result_folder(cache,receipt['request'])
     report=independent_material_review(folder)
