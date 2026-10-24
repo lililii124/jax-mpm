@@ -1,0 +1,113 @@
+name: exploratory rejected contact integer topology only
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: theta-zero-exploratory-contact-readonly
+  cancel-in-progress: false
+jobs:
+  explore:
+    if: github.ref == 'refs/heads/work/triaxial-zero-contact-exploratory'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      GH_TOKEN: ${{ github.token }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: b873d277711f5e706b2d57eea1b69f25e6375dc2
+          path: .local/triaxial-zero-contact-frozen
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Bind controller and authenticate whole immutable failed ZIP and every member
+        timeout-minutes: 10
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess,sys,shutil
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import diagnose_triaxial_zero_contact as strict
+          def sha(p):
+           with Path(p).open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
+          head=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
+          if head!=os.environ['GITHUB_SHA'] or os.environ['GITHUB_REF']!='refs/heads/work/triaxial-zero-contact-exploratory':raise ValueError('Exploratory controller identity differs')
+          own='.github/workflows/triaxial-zero-contact-exploratory.yml';active='.github/workflows/engineering-previews.yml'
+          if Path(own).read_bytes()!=Path(active).read_bytes():raise ValueError('Registered override differs')
+          names=[own,active,'tools/explore_triaxial_zero_contact.py','tools/diagnose_triaxial_zero_contact.py','tools/run_triaxial_zero_recovery.py']
+          sources={}
+          for n in names:
+           if Path(n).read_bytes()!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Controller Git bytes differ: '+n)
+           sources[n]=sha(n)
+          base=Path('.local/zero-exploratory');base.mkdir()
+          (base/'controller-source.json').write_text(json.dumps({'commit':head,'files':sources,'production_eligible':False,'mechanical_steps_permitted':0},indent=2))
+          repo=os.environ['GITHUB_REPOSITORY']
+          if repo!='lililii124/jax-mpm':raise ValueError('Wrong repository')
+          official=json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/actions/artifacts/12571135742']))
+          if official['expired'] or official['workflow_run']['id']!=40118368653 or official['digest']!='sha256:'+strict.FAILED_SHA:raise ValueError('Wrong original failed artifact')
+          archive=base/'original-failed.zip'
+          with archive.open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/12571135742/zip'],stdout=f,check=True)
+          if sha(archive)!=strict.FAILED_SHA:raise ValueError('Original whole ZIP SHA differs')
+          with strict.checked_zip(archive) as outer:
+           if set(outer.namelist())!={'capsule.zip','receipt.json'}:raise ValueError('Wrong outer members')
+           receipt=json.loads(outer.read('receipt.json'));inner=base/'capsule.zip'
+           with outer.open('capsule.zip') as s,inner.open('xb') as d:shutil.copyfileobj(s,d,1024**2)
+           if inner.stat().st_size!=receipt['capsule']['bytes'] or sha(inner)!=receipt['capsule']['sha256']:raise ValueError('Inner capsule SHA differs')
+          selected={'checkpoint.npz':'diagnostic/checkpoint.npz','plan.json':'records/plan.json','parent-context.json':'records/context.json','summary.json':'records/current-summary.json','contact-metrics.json':'records/current-contact-metrics.json'}
+          with strict.checked_zip(inner) as z:
+           report=json.loads(z.read('failed-manifest.json'))
+           if report.get('schema')!='triaxial-zero-failed-capsule-v1' or report.get('never_resumable') is not True or report.get('restart_valid') is not False or set(z.namelist())!=set(report['files'])|{'failed-manifest.json'}:raise ValueError('Wrong nonresumable input')
+           for n,r in report['files'].items():
+            with z.open(n) as s:
+             if hashlib.file_digest(s,'sha256').hexdigest()!=r['sha256']:raise ValueError('Original whole member changed: '+n)
+           for n,member in selected.items():
+            with z.open(member) as s,(base/n).open('xb') as d:shutil.copyfileobj(s,d,1024**2)
+          pins=json.loads((base/'parent-context.json').read_text())['environment']['packages']
+          (base/'requirements.txt').write_text('numpy=='+pins['numpy']+'\npsutil=='+pins['psutil']+'\n')
+          (base/'transport-admission.json').write_text(json.dumps({'official':official,'whole_zip_sha256':sha(archive),'inner_sha256':sha(inner),'all_original_members_sha256_verified':True,'checkpoint_sha256':sha(base/'checkpoint.npz'),'never_resumable':True},indent=2))
+          PY
+      - name: Install original NumPy and monitor pins only
+        run: python -m pip install --disable-pip-version-check -r .local/zero-exploratory/requirements.txt
+      - name: Explore exact integer topology and saved rejected state under original resource guard
+        timeout-minutes: 23
+        run: |
+          python - <<'PY'
+          import hashlib,json,sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_triaxial_zero_recovery as guard
+          import explore_triaxial_zero_contact as explorer
+          base=Path('.local/zero-exploratory')
+          def sha(p):
+           with p.open('rb') as f:return hashlib.file_digest(f,'sha256').hexdigest()
+          if sha(base/'checkpoint.npz')!=explorer.CP_SHA:raise ValueError('Wrong original rejected CP')
+          args=[sys.executable,'tools/explore_triaxial_zero_contact.py','--inputs',str(base),'--source','.local/triaxial-zero-contact-frozen','--checkpoint',str(base/'checkpoint.npz')]
+          guard.guarded_command(args,base/'exploratory.log',base/'resource.json',0,wall_seconds=1200)
+          report=json.loads((base/'exploratory.log').read_text())
+          if report['production_eligible'] or not report['never_resumable'] or report['mechanical_steps_executed']!=0 or report['definitive_failure_identity']:raise ValueError('Exploratory scope changed')
+          if sha(base/'checkpoint.npz')!=explorer.CP_SHA:raise ValueError('Original rejected CP changed')
+          (base/'exploratory-report.json').write_text(json.dumps(report,indent=2,allow_nan=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: theta-zero-exploratory-contact-${{ github.run_id }}
+          path: |
+            .local/zero-exploratory/controller-source.json
+            .local/zero-exploratory/transport-admission.json
+            .local/zero-exploratory/resource.json
+            .local/zero-exploratory/exploratory.log
+            .local/zero-exploratory/exploratory-report.json
+          if-no-files-found: warn
+          retention-days: 7
