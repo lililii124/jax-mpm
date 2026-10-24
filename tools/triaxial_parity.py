@@ -143,6 +143,21 @@ def context(left, right, plan):
     return result
 
 
+def contact_history_layout(plan, contact):
+    """Differentiate fixed seed histories from stateless connected-region slots."""
+    if 'contact_regions' not in plan:
+        if 'contact_regions' in contact:
+            raise ValueError('Connected-region metadata is absent from the physical plan')
+        return contact['candidate_pairs'], 'int64'
+    regions = plan['contact_regions']
+    if (not isinstance(regions, dict) or regions.get('mode') != 'connected' or plan.get('law') != 'hertz'
+            or contact.get('contact_regions') != regions
+            or any(type(regions.get(key)) is not int or regions[key] < 1
+                   for key in ('capacity', 'max_patches', 'max_iterations'))):
+        raise ValueError('Connected histories require the same explicit Hertz region contract in plan and summary')
+    return regions['max_patches'], 'int32'
+
+
 def _array_shapes(c, label, data):
     """Validate whole arrays before any fixed-index/group comparison."""
     plan, cp = data['plan'], data['checkpoint.npz']
@@ -153,6 +168,11 @@ def _array_shapes(c, label, data):
         and type(frames) is int and frames >= 2 and type(pairs) is int and pairs >= 0
         and contact['particles'] == n, 'Invalid plan particle/frame/contact counts'):
         return
+    try:
+        slots, segment_dtype = contact_history_layout(plan, contact)
+    except (ValueError, KeyError, TypeError) as error:
+        c.require(label+'.contact-history-contract', False, str(error))
+        return
     state = {key: ((n, 3), 'float64') for key in ('x', 'v')}
     state.update({key: ((n, 3, 3), 'float64') for key in ('F', 'C', 'tau')})
     state.update({key: ((n,), 'float64') for key in ('mass', 'volume', 'history_kappa', 'history_damage')})
@@ -160,8 +180,8 @@ def _array_shapes(c, label, data):
     state.update(fibre_id=((n,), 'int32'), time=((), 'float64'), valid=((), 'bool'),
         boundary_impulse=((3,), 'float64'), external_impulse=((3,), 'float64'), boundary_work=((), 'float64'))
     checkpoint = {('state_'+key if key in STATE_FIELDS else key): spec for key, spec in state.items()}
-    checkpoint.update(contact_active=((pairs,), 'bool'), contact_law_valid=((pairs,), 'bool'),
-        contact_radius=((pairs,), 'float64'), contact_segments=((pairs, 2), 'int64'), contact_valid=((), 'bool'),
+    checkpoint.update(contact_active=((slots,), 'bool'), contact_law_valid=((slots,), 'bool'),
+        contact_radius=((slots,), 'float64'), contact_segments=((slots, 2), segment_dtype), contact_valid=((), 'bool'),
         total_impulse=((2, 3), 'float64'), clamp_work=((2,), 'float64'), grid_ke_work=((2,), 'float64'),
         aggregate=((6,), 'float64'), last_contact=((16,), 'float64'), initial_momentum=((3,), 'float64'),
         frame=((), 'int64'), solver_seconds=((), 'float64'), signature=((), 'text'),

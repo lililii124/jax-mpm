@@ -36,8 +36,8 @@ RUNTIME_NAMES = {'request.json', 'source.json', 'environment.json', 'requirement
                  'geometry.json', 'geometry.npz', 'plan.json', 'numerical-layout.json'}
 
 
-def request(mode='tiny', theta=0, law='hertz', load_transits=10., size='24x16'):
-    case = study.selection(theta, law, load_transits, size)
+def request(mode='tiny', theta=0, law='hertz', load_transits=10., size='24x16', contact_regions='single'):
+    case = study.selection(theta, law, load_transits, size, contact_regions)
     if mode not in ('tiny', 'formal'):
         raise ValueError('Unknown segment mode')
     if mode == 'tiny' and (theta != 0 or load_transits != 10. or size != '24x16'):
@@ -51,6 +51,9 @@ def request(mode='tiny', theta=0, law='hertz', load_transits=10., size='24x16'):
         grip_length=.001 if mode == 'tiny' else .003, diameter=235e-6, pitch=.001,
         crimp=140e-6, clearance=2e-6, young=1e10, poisson=.25, density=1500.,
         tensile_strength=1e8, fracture_energy=100., packing=1., max_particles=1_000_000)
+    if contact_regions == 'connected':
+        kwargs.update(contact_regions='connected', contact_capacity=16384,
+                      max_contact_patches=4096, patch_iterations=128)
     return {'schema': 'triaxial-segment-request-v1', 'mode': mode, 'case': case,
             'plan_kwargs': kwargs, 'stops': [1, 2, 4] if mode == 'tiny' else [20, 40, 60],
             'production_eligible': False}
@@ -77,7 +80,7 @@ def file_record(path):
     return value
 
 
-def inventory(cache, req, excluded=None):
+def inventory(cache, req, excluded=None, *, diagnostic=False):
     cache = Path(cache)
     prefix = result_folder(cache, req).relative_to(cache)
     records = {}
@@ -89,9 +92,14 @@ def inventory(cache, req, excluded=None):
         name = path.relative_to(cache).as_posix()
         if name == excluded:
             continue
-        allowed = ((path.parent == cache/'runtime' and path.name in RUNTIME_NAMES)
-            or (path.parent == cache/prefix and path.name in RESULT_NAMES)
-            or (path.parent == cache/'receipts' and re.fullmatch(r'frame-\d{2}.json', path.name)))
+        results = RESULT_NAMES | ({'failure.json'} if diagnostic else set())
+        runtime = RUNTIME_NAMES
+        if diagnostic:
+            results = results | {name+'.tmp' for name in results}
+            runtime = runtime | {name+'.tmp' for name in runtime}
+        allowed = ((path.parent == cache/'runtime' and path.name in runtime)
+            or (path.parent == cache/prefix and path.name in results)
+            or (path.parent == cache/'receipts' and re.fullmatch(r'(frame|failed-frame)-\d{2}.json', path.name)))
         if not allowed:
             raise ValueError(f'Unexpected cache payload: {name}')
         records[name] = file_record(path)
@@ -254,6 +262,7 @@ def verify_cache(cache, req, source, frame, receipt_sha, key):
         raise ValueError('Parent receipt differs from the preceding job output')
     if not (receipt['cache_key'] == key and receipt['request'] == req and receipt['source'] == source
             and receipt['end_frame'] == frame and receipt['sealed'] is True
+            and receipt.get('kind') == 'accepted-prefix' and receipt.get('never_resumable') is False
             and receipt['production_eligible'] is False):
         raise ValueError('Cache identity, source, request or frame mismatch')
     actual = inventory(cache, req, excluded=relative)
@@ -294,7 +303,8 @@ def seal(cache, context):
     files = inventory(cache, req, excluded=relative)
     parent = context.get('parent')
     prior = parent['cumulative_snapshot_bytes'] if parent else 0
-    receipt = {'schema': 'triaxial-segment-cache-v1', 'sealed': True, 'source': source,
+    receipt = {'schema': 'triaxial-segment-cache-v1', 'kind': 'accepted-prefix', 'never_resumable': False,
+        'sealed': True, 'source': source,
         'segment_runner_sha256': source['files']['tools/run_triaxial_segments.py'],
         'request': req, 'cache_key': context['cache_key'], 'end_frame': frame,
         'parent': {key: parent[key] for key in ('frame', 'receipt_sha256', 'checkpoint_sha256', 'cache_key')} if parent else None,
@@ -319,6 +329,69 @@ def seal(cache, context):
     return receipt, digest(cache/relative)
 
 
+def seal_failure(context):
+    """Retain rejected raw bytes without changing failure flags or enabling resume."""
+    if context['stage'] not in (1, 2, 3):
+        raise ValueError('Finalization already has the immutable full raw cache')
+    if study.source_record() != context['source']:
+        raise ValueError('Diagnostic data cannot be attributed to changed source')
+    req = context['request']
+    folder = result_folder(CACHE, req)
+    if not folder.is_dir() or not any(path.is_file() for path in folder.iterdir()):
+        raise ValueError('No original numerical files were created')
+    relative = f"receipts/failed-frame-{context['end_frame']:02d}.json"
+    if (CACHE/relative).exists():
+        raise FileExistsError('Failed diagnostic receipts are immutable')
+    files = inventory(CACHE, req, diagnostic=True)
+    parent = context.get('parent')
+    prior = parent['cumulative_snapshot_bytes'] if parent else 0
+    receipt = {'schema': 'triaxial-segment-failed-diagnostic-v1', 'kind': 'failed-diagnostic',
+        'never_resumable': True, 'numerically_accepted': False, 'sealed': True,
+        'source': context['source'], 'request': req, 'cache_key': context['cache_key']+'-failed',
+        'requested_end_frame': context['end_frame'], 'parent': parent, 'files': files,
+        'checkpoint_sha256': digest(folder/'checkpoint.npz') if (folder/'checkpoint.npz').is_file() else None,
+        'missing_result_files': sorted(name for name in RESULT_NAMES if not (folder/name).is_file()),
+        'prior_snapshot_bytes': prior, 'raw_snapshot_bytes': 0, 'cumulative_snapshot_bytes': 0,
+        'production_eligible': False, 'full_review_passed': False, 'media_created': False,
+        'scope': 'Original failed bytes, including known atomic-write remnants. This evictable cache is neither a valid continuation nor permanent backup; no failed state or threshold was changed.'}
+    for _ in range(10):
+        save(CACHE/relative, receipt)
+        size = sum(item['bytes'] for item in files.values())+(CACHE/relative).stat().st_size
+        if size == receipt['raw_snapshot_bytes']:
+            break
+        receipt['raw_snapshot_bytes'] = size
+        receipt['cumulative_snapshot_bytes'] = size+prior
+    else:
+        raise ValueError('Diagnostic receipt byte count did not stabilize')
+    if receipt['cumulative_snapshot_bytes'] > CACHE_BUDGET:
+        raise ValueError('Diagnostic raw snapshot exceeds the existing workflow cache budget')
+    context['diagnostic_cache_key'] = receipt['cache_key']
+    context['diagnostic_receipt_sha256'] = digest(CACHE/relative)
+    context['diagnostic_receipt_path'] = relative
+    save(CONTEXT, context)
+    save(LOGS/'failed-diagnostic-receipt.json', receipt)
+    emit(cache_key=receipt['cache_key'], receipt_sha=context['diagnostic_receipt_sha256'])
+    return receipt
+
+
+def confirm_diagnostic_cache(context):
+    key = context.get('diagnostic_cache_key')
+    sha = context.get('diagnostic_receipt_sha256')
+    if (not key or not sha or os.environ.get('CACHE_HIT') != 'true'
+            or os.environ.get('CACHE_MATCH') != key or os.environ.get('RECEIPT_SHA') != sha):
+        raise ValueError('No exact diagnostic cache save was verified')
+    relative = context['diagnostic_receipt_path']
+    receipt = read_json(CACHE/relative)
+    if (digest(CACHE/relative) != sha or receipt.get('kind') != 'failed-diagnostic'
+            or receipt.get('never_resumable') is not True or receipt.get('numerically_accepted') is not False
+            or receipt.get('source') != context['source'] or receipt.get('request') != context['request']
+            or inventory(CACHE, context['request'], relative, diagnostic=True) != receipt['files']):
+        raise ValueError('Diagnostic raw evidence changed after sealing')
+    save(LOGS/'diagnostic-cache-confirmation.json', {'verified': True, 'cache_key': key,
+        'receipt_sha256': sha, 'kind': 'failed-diagnostic', 'never_resumable': True,
+        'scope': 'Exact server key exists; original failed bytes remain diagnostic only.'})
+
+
 def emit(**values):
     if os.environ.get('GITHUB_OUTPUT'):
         with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
@@ -331,7 +404,8 @@ def emit(**values):
 def prepare(args):
     if platform.python_version() != PYTHON_VERSION:
         raise ValueError(f'All jobs require Python {PYTHON_VERSION}')
-    req = request(args.mode, args.theta, args.law, args.load_transits, args.size)
+    req = request(args.mode, args.theta, args.law, args.load_transits, args.size,
+                  getattr(args, 'contact_regions', 'single'))
     source = study.source_record()
     end = req['stops'][min(args.stage, 3)-1]
     previous = req['stops'][args.stage-2] if args.stage > 1 else None
@@ -399,8 +473,9 @@ def worker(context, operation):
         save(LOGS/'cache-budget.json', cache_estimate(plan))
         return
     geometry, plan = read_geometry(runtime), read_json(runtime/'plan.json')
-    if read_json(runtime/'request.json') != context['request'] or driver.source_record() != plan['source']:
+    if read_json(runtime/'request.json') != context['request'] or driver.current_plan_source(plan) != plan['source']:
         raise ValueError('Saved input/source identity mismatch')
+    study.validate_contact_regions(plan, context['request']['case'])
     if driver.descriptor(geometry['x']) != plan['sampling_hash'] or geometry['metadata'] != plan['geometry']:
         raise ValueError('Reference geometry does not match the saved resolved plan')
     # Observe the builders actually called by the driver, without a second build
@@ -508,6 +583,7 @@ def run(context):
     if context['stage'] == 1:
         engine.command('segment-plan', study.bounded([sys.executable, __file__, 'worker', '--operation', 'plan'], 20), monitor=True)
     plan = read_json(CACHE/'runtime/plan.json')
+    study.validate_contact_regions(plan, context['request']['case'])
     if context['request']['mode'] == 'formal':
         study.validate_plan(plan, context['request']['case'], context['source'])
     cache_estimate(plan)
@@ -681,11 +757,13 @@ def small_package(context, case, *, complete_tiny):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=('prepare', 'verify', 'lock', 'run', 'worker', 'install', 'confirm-cache', 'admit-finalize', 'finalize', 'package'))
+    parser.add_argument('action', choices=('prepare', 'verify', 'lock', 'run', 'worker', 'install', 'confirm-cache',
+        'seal-failure', 'confirm-diagnostic', 'admit-finalize', 'finalize', 'package'))
     parser.add_argument('--mode', choices=('tiny', 'formal'), default='tiny')
     parser.add_argument('--stage', type=int, choices=(1, 2, 3, 4), default=1)
     parser.add_argument('--theta', type=int, default=0)
     parser.add_argument('--law', choices=('hertz', 'jkr'), default='hertz')
+    parser.add_argument('--contact-regions', choices=('single', 'connected'), default='single')
     parser.add_argument('--load-transits', type=float, default=10.)
     parser.add_argument('--size', choices=tuple(study.SIZES), default='24x16')
     parser.add_argument('--parent-receipt', default='')
@@ -710,6 +788,8 @@ def main():
         elif args.action == 'worker': worker(context, args.operation)
         elif args.action == 'run': run(context)
         elif args.action == 'confirm-cache': confirm_cache(context)
+        elif args.action == 'seal-failure': seal_failure(context)
+        elif args.action == 'confirm-diagnostic': confirm_diagnostic_cache(context)
         elif args.action == 'admit-finalize': admit_finalization(context)
         elif args.action == 'finalize': finalize(context)
         elif args.action == 'package': package(context)

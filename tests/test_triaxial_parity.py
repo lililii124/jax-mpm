@@ -97,6 +97,54 @@ def test_same_complete_fixture_has_evidence_and_is_never_production(pair):
     assert report['policy']['relative_tolerance'] == 2e-10
 
 
+def connected_pair(pair):
+    for folder in pair:
+        plan = json.loads((folder/'plan.json').read_text())
+        plan.update(law='hertz', contact_regions=dict(mode='connected', capacity=16, max_patches=4, max_iterations=32))
+        _json(folder/'plan.json', plan)
+        summary = json.loads((folder/'summary.json').read_text())
+        summary['definition'] = dict(plan, contact_model=dict(particles=2, candidate_pairs=1,
+                                                              contact_regions=plan['contact_regions']))
+        _json(folder/'summary.json', summary)
+        _replace(folder/'checkpoint.npz', contact_active=np.zeros(4, bool), contact_law_valid=np.ones(4, bool),
+            contact_radius=np.zeros(4), contact_segments=np.full((4, 2), -1, dtype=np.int32))
+    return pair
+
+
+def test_connected_hertz_history_slots_do_not_replace_the_true_seed_count(pair):
+    pair = connected_pair(pair)
+    report = parity.compare_runs(*pair)
+    assert report['passed'], report['errors']
+    assert report['policy']['relative_tolerance'] == 2e-10
+    assert not report['production_eligible']
+
+
+@pytest.mark.parametrize('defect', ['wrong_slots', 'wrong_segment_dtype', 'wrong_law', 'missing_budget',
+                                  'different_summary', 'unknown_mode'])
+def test_connected_contract_is_explicit_and_symmetric_corruption_is_still_rejected(pair, defect):
+    pair = connected_pair(pair)
+    for folder in pair:
+        if defect == 'wrong_slots':
+            _replace(folder/'checkpoint.npz', contact_radius=np.zeros(1))
+        elif defect == 'wrong_segment_dtype':
+            _replace(folder/'checkpoint.npz', contact_segments=np.full((4, 2), -1, dtype=np.int64))
+        else:
+            plan = json.loads((folder/'plan.json').read_text())
+            summary = json.loads((folder/'summary.json').read_text())
+            if defect == 'wrong_law':
+                plan['law'] = 'jkr'
+            elif defect == 'missing_budget':
+                del plan['contact_regions']['capacity']
+            elif defect == 'different_summary':
+                summary['definition']['contact_model']['contact_regions']['max_patches'] = 1
+            else:
+                plan['contact_regions']['mode'] = 'unknown'
+            _json(folder/'plan.json', plan)
+            _json(folder/'summary.json', summary)
+    report = parity.compare_runs(*pair)
+    assert not report['passed']
+
+
 def test_near_zero_vector_components_use_the_same_vector_scale():
     c = parity.Comparison()
     assert c.numeric('velocity', np.array([1., 1e-20, 0.]), np.array([1., 2e-20, 0.]), units='m/s')

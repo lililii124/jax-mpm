@@ -353,4 +353,6 @@ def test_fourth_job_workflow_does_not_run_or_save_a_fourth_segment():
     assert child.count('if: inputs.stage < 4') == 4
     assert 'if: inputs.stage == 4' in child
     assert 'if: inputs.stage == 3' not in child
-    assert child.count('actions/cache/save@v5') == 1
+    assert child.count('actions/cache/save@v5') == 2  # Accepted raw and separate non-resumable failure evidence.
+    assert "steps.run.outcome == 'failure'" in child
+    assert 'confirm-diagnostic' in child

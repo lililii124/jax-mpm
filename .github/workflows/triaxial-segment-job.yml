@@ -15,6 +15,9 @@ on:
       law:
         type: string
         required: true
+      contact_regions:
+        type: string
+        default: single
       load_transits:
         type: string
         required: true
@@ -51,6 +54,7 @@ jobs:
       SEGMENT_STAGE: ${{ inputs.stage }}
       SEGMENT_THETA: ${{ inputs.theta }}
       SEGMENT_LAW: ${{ inputs.law }}
+      SEGMENT_REGIONS: ${{ inputs.contact_regions }}
       SEGMENT_TRANSITS: ${{ inputs.load_transits }}
       SEGMENT_SIZE: ${{ inputs.size }}
       SEGMENT_PARENT: ${{ inputs.parent_receipt }}
@@ -68,6 +72,7 @@ jobs:
           python tools/run_triaxial_segments.py prepare
           --mode "$SEGMENT_MODE" --stage "$SEGMENT_STAGE"
           --theta "$SEGMENT_THETA" --law "$SEGMENT_LAW"
+          --contact-regions "$SEGMENT_REGIONS"
           --load-transits "$SEGMENT_TRANSITS" --size "$SEGMENT_SIZE"
           --parent-receipt "$SEGMENT_PARENT"
       - name: Restore only the preceding exact snapshot
@@ -137,6 +142,35 @@ jobs:
       - name: Admit the complete finalization budget after raw cache save
         if: inputs.stage == 4
         run: python tools/run_triaxial_segments.py admit-finalize
+      - name: Preserve rejected raw state under a never-resumable diagnostic key
+        id: failed
+        if: ${{ always() && inputs.stage < 4 && steps.run.outcome == 'failure' }}
+        timeout-minutes: 8
+        run: python tools/run_triaxial_segments.py seal-failure
+      - name: Save original failed raw history without admitting the next job
+        id: failed-save
+        if: ${{ always() && steps.failed.outcome == 'success' }}
+        timeout-minutes: 20
+        uses: actions/cache/save@v5
+        with:
+          path: .local/triaxial-segment-cache
+          key: ${{ steps.failed.outputs.cache_key }}
+      - name: Verify exact diagnostic cache availability
+        id: failed-lookup
+        if: ${{ always() && steps.failed-save.outcome == 'success' }}
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/triaxial-segment-cache
+          key: ${{ steps.failed.outputs.cache_key }}
+          lookup-only: true
+          fail-on-cache-miss: true
+      - name: Bind diagnostic receipt without releasing a continuation receipt
+        if: ${{ always() && steps.failed-lookup.outcome == 'success' }}
+        env:
+          CACHE_HIT: ${{ steps.failed-lookup.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.failed-lookup.outputs.cache-matched-key }}
+          RECEIPT_SHA: ${{ steps.failed.outputs.receipt_sha }}
+        run: python tools/run_triaxial_segments.py confirm-diagnostic
       - name: Install final-stage rendering dependencies
         if: inputs.stage == 4 && inputs.mode == 'formal'
         timeout-minutes: 30

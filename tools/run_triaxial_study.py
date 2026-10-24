@@ -55,27 +55,34 @@ def save(path, value):
     temporary.replace(path)
 
 
-def selection(theta=0, law="hertz", load_transits=10., size="24x16"):
+def selection(theta=0, law="hertz", load_transits=10., size="24x16", contact_regions="single"):
     if type(theta) is not int or theta not in range(0, 31, 5) or law not in ("hertz", "jkr"):
         raise ValueError("Select theta 0..30 in 5 degree increments and Hertz or JKR")
     if size not in SIZES:
         raise ValueError("Unknown fixed coupon size")
+    if contact_regions not in ("single", "connected") or (contact_regions == "connected" and law != "hertz"):
+        raise ValueError("Connected contact regions currently support stateless Hertz only")
     load_transits = float(load_transits)
     if not math.isfinite(load_transits) or not 0 < load_transits <= 100:
         raise ValueError("load_transits must be finite and in (0,100]; 100 is a runner budget, not a material law")
     tag = str(load_transits).replace(".", "p").replace("+", "")
     output = f"outputs/triaxial-studies/{size}/transits-{tag}"
-    return {"theta": theta, "law": law, "load_transits": load_transits, "size": size,
+    if contact_regions == "connected":
+        output += "/connected"
+    case = {"theta": theta, "law": law, "load_transits": load_transits, "size": size,
             "dimensions_m": list(SIZES[size]), "grip_length_m": .003,
             "max_nodes": 60_000_000 if size == "28x18" else 35_000_000,
             "grid_storage": "tube", "frames": 60, "output": output,
             "folder": f"{output}/formal/theta-{theta:02d}/{law}",
             "production_eligible": False, "media_policy": "Render within the same job only after full numerical review.",
             "interpretation": "One explicit dynamic numerical case. Fixed transit count changes physical loading time and strain rate with gauge length; it is not by itself a size-convergence protocol."}
+    if contact_regions == "connected":
+        case["contact_regions"] = "connected"
+    return case
 
 
 def driver_arguments(case):
-    return [sys.executable, "-m", "examples.triaxial_failure", "--theta", str(case["theta"]),
+    arguments = [sys.executable, "-m", "examples.triaxial_failure", "--theta", str(case["theta"]),
             "--law", case["law"], "--load-transits", str(case["load_transits"]),
             "--dimensions", *map(str, case["dimensions_m"]), "--grip-length", ".003",
             "--grid-storage", "tube", "--frames", "60", "--max-nodes", str(case["max_nodes"]),
@@ -85,6 +92,29 @@ def driver_arguments(case):
             "--density", "1500", "--tensile-strength", "1e8", "--fracture-energy", "100",
             "--max-strain", ".02", "--coverage-skin", ".0005", "--search-window", "6",
             "--work-of-adhesion", ".1", "--output", case["output"]]
+    if case.get("contact_regions", "single") == "connected":
+        arguments += ["--contact-regions", "connected", "--contact-capacity", "16384",
+                      "--max-contact-patches", "4096", "--patch-iterations", "128"]
+    return arguments
+
+
+def validate_contact_regions(plan, case):
+    mode = case.get("contact_regions", "single")
+    regions = plan.get("contact_regions")
+    if mode == "single":
+        if regions is not None:
+            raise ValueError("A single-region request cannot accept a different contact model")
+    elif mode == "connected":
+        expected = {"mode": "connected", "capacity": 16384, "max_patches": 4096, "max_iterations": 128}
+        if (case["law"] != "hertz" or plan.get("law") != "hertz" or not isinstance(regions, dict)
+                or any(regions.get(key) != value for key, value in expected.items())
+                or set(regions) != set(expected) | {"scope"}
+                or not isinstance(regions["scope"], str) or not regions["scope"]
+                or not {"mpm_jax/contact_patches.py", "mpm_jax/fibre_patch_contact.py"}.issubset(plan.get("source", {}).get("files", {}))):
+            raise ValueError("Connected Hertz topology, fixed budgets or actual force source differ")
+    else:
+        raise ValueError("Unknown contact region model")
+    return True
 
 
 def bounded(arguments, minutes):
@@ -153,6 +183,7 @@ def validate_plan(plan, case, source):
             and plan["saved_states"] == 61 and len(plan["frame_steps"]) == 61
             and plan["frame_steps"][-1] == plan["steps"] and plan["max_engineering_strain"] == .02,
         "producer_source": producer_matches(plan["source"], source),
+        "contact_region_model": validate_contact_regions(plan, case),
     }
     if not all(checks.values()):
         raise ValueError(f"Resolved study plan mismatch: {[key for key, value in checks.items() if not value]}")
@@ -537,13 +568,14 @@ def main():
     parser.add_argument("action", nargs="?", choices=("install", "run", "package"), default="run")
     parser.add_argument("--theta", type=int, choices=range(0, 31, 5), default=0)
     parser.add_argument("--law", choices=("hertz", "jkr"), default="hertz")
+    parser.add_argument("--contact-regions", choices=("single", "connected"), default="single")
     parser.add_argument("--load-transits", type=float, default=10.)
     parser.add_argument("--size", choices=tuple(SIZES), default="24x16")
     parser.add_argument("--package-only", action="store_true")
     args = parser.parse_args()
     if os.environ.get("GITHUB_ACTIONS") != "true" or platform.system() != "Linux":
         parser.error("Numerical studies require the independent Linux Actions runner")
-    case = selection(args.theta, args.law, args.load_transits, args.size)
+    case = selection(args.theta, args.law, args.load_transits, args.size, args.contact_regions)
     engine.LOGS = LOGS
     LOGS.mkdir(parents=True, exist_ok=True)
     if args.action == "install":
