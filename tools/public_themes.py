@@ -1,7 +1,7 @@
 """Display order and themes shared by the homepage and gallery."""
 
 THEMES = (
-    "Fibres: contact and pull-off",
+    "Fibres",
     "Woven composites: plate impact",
     "Woven composites: plain weave",
     "Woven composites: triaxial weave",

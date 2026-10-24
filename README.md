@@ -7,7 +7,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 [Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)
 
-### Fibres: contact and pull-off
+### Fibres
 
 <table width="100%">
 <tr>

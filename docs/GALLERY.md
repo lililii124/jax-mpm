@@ -2,7 +2,7 @@
 
 ParaView frames and animations. [Run records](RESULTS.md).
 
-## Fibres: contact and pull-off
+## Fibres
 
 <table width="100%">
 <tr>
