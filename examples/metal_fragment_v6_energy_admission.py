@@ -26,7 +26,7 @@ def compare_fields(original, probe):
         tolerance = 64*np.finfo(np.float64).eps*max(1e-12, float(np.max(np.abs(a), initial=0.)))
         error = float(np.max(np.abs(a.astype(float)-b.astype(float)), initial=0.))
         accepted = exact if discrete else error <= tolerance
-        result[name] = dict(bitwise_equal=exact, max_abs_error=error, tolerance=tolerance, accepted=accepted)
+        result[name] = dict(bitwise_equal=exact, max_abs_error=error, tolerance=tolerance, accepted=bool(accepted))
     return result
 
 
