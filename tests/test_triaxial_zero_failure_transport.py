@@ -3,6 +3,7 @@ import importlib.util
 import json
 from pathlib import Path
 import zipfile
+import sys
 
 import numpy as np
 
@@ -62,3 +63,14 @@ def test_already_sealed_valid_capsule_is_reused_byte_for_byte(tmp_path, monkeypa
     result = fallback.preserve(m)
     assert result['ready'] is True
     assert (tmp_path / 'failure-delivery/capsule.zip').read_bytes() == original
+
+
+def test_prepare_failure_fallback_does_not_require_numpy(tmp_path, monkeypatch):
+    m = load('no_numpy_zero_main', 'run_triaxial_zero_recovery.py')
+    fallback = load('no_numpy_zero_fallback', 'preserve_triaxial_zero_failure.py')
+    monkeypatch.setattr(m, 'BASE', tmp_path)
+    monkeypatch.setitem(sys.modules, 'numpy', None)
+    assert fallback.preserve(m)['ready'] is False
+    monkeypatch.setattr(m, 'verify_controller', lambda: {'commit': 'original-controller'})
+    m.save(tmp_path / 'context.json', {'controller': {'commit': 'original-controller'}})
+    assert fallback.preserve(m)['ready'] is False

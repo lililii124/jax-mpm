@@ -98,6 +98,38 @@ def artifact_usage(pages):
         'other_repository_artifacts': 'Read-only observation; neither gated, deleted nor retired by this controller.'}
 
 
+def authenticate_parent_archive(archive, parent):
+    """Authenticate GitHub transport wrapper before interpreting capsule data."""
+    proof = {'outer_archive': record(archive), 'outer_crc_checked': True}
+    with zipfile.ZipFile(archive) as z:
+        names = z.namelist()
+        if len(names) != len(set(names)) or any(safe_member(name) != name for name in names):
+            raise ValueError('Ambiguous or unsafe parent transport inventory')
+        if z.testzip() is not None:
+            raise ValueError('Parent transport CRC mismatch')
+        if 'capsule.zip' not in names:
+            proof['encoding'] = 'bare original artifact or bare admitted capsule'
+            return Path(archive), proof
+        if set(names) != {'capsule.zip', 'receipt.json'}:
+            raise ValueError('Unexpected members in GitHub capsule transport wrapper')
+        receipt = json.loads(z.read('receipt.json'))
+        item = receipt.get('capsule', {})
+        if (receipt.get('schema') != 'triaxial-zero-cloud-capsule-v1'
+                or receipt.get('never_resumable') is True
+                or type(item.get('bytes')) is not int or not 0 < item['bytes'] <= ARTIFACT_LIMIT
+                or not re.fullmatch('[0-9a-f]{64}', item.get('sha256', ''))
+                or z.getinfo('capsule.zip').file_size != item['bytes']):
+            raise ValueError('Transport receipt is rejected or does not bind one complete admitted capsule')
+        inner = parent / 'authenticated-capsule.zip'
+        with z.open('capsule.zip') as source, inner.open('xb') as output:
+            shutil.copyfileobj(source, output, 1024**2)
+        if record(inner) != {'bytes': item['bytes'], 'sha256': item['sha256']}:
+            raise ValueError('Inner capsule differs from exact transport receipt size/SHA')
+        proof.update(encoding='GitHub outer ZIP with authenticated inner capsule',
+            inner_capsule=item, receipt_end_frame=receipt.get('end_frame'))
+        return inner, proof
+
+
 def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
             repository_count=0, usage_record=None):
     """Verify immutable parent and stage a separate restart; never change it."""
@@ -124,6 +156,7 @@ def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
         'usage_record': record(usage_record) if usage_record is not None else None})
     parent = BASE / 'parent'
     parent.mkdir()
+    archive, transport = authenticate_parent_archive(archive, parent)
     with zipfile.ZipFile(archive) as z:
         names = z.namelist()
         if len(names) != len(set(names)) or any(safe_member(name) != name for name in names):
@@ -158,15 +191,20 @@ def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
             start = 20
             kwargs = job['request']['plan_kwargs']
         else:
+            if 'failed-manifest.json' in names or 'capsule-manifest.json' not in names:
+                raise ValueError('Failed or unclassified capsule is not an admitted parent')
             manifest = json.loads(z.read('capsule-manifest.json'))
             if (manifest.get('schema') != 'triaxial-zero-capsule-v1'
                     or manifest.get('restart_valid') is not True
                     or manifest.get('numerical_commit') != ORIGINAL_COMMIT):
                 raise ValueError('Rejected or unrelated capsule cannot resume')
+            if set(names) != set(manifest.get('files', {})) | {'capsule-manifest.json'}:
+                raise ValueError('Inner capsule has missing or unlisted members')
             for name, item in manifest['files'].items():
                 with z.open(safe_member(name)) as stream:
                     if hashlib.file_digest(stream, 'sha256').hexdigest() != item['sha256']:
                         raise ValueError('Capsule member differs: ' + name)
+            transport['all_inner_members_sha256_and_crc_checked'] = True
             for name in ('checkpoint.npz', 'plan.json', 'context.json'):
                 with z.open('restart/' + name) as source, (parent / name).open('xb') as output:
                     shutil.copyfileobj(source, output, 1024**2)
@@ -176,12 +214,15 @@ def prepare(archive, expected_sha, end_frame, cloud_used, *, repository_bytes=0,
             prior = read(parent / 'context.json')
             plan, kwargs, environment = read(parent / 'plan.json'), prior['kwargs'], prior['environment']
             provenance, start = prior['provenance'], manifest['end_frame']
+            if 'receipt_end_frame' in transport and transport['receipt_end_frame'] != start:
+                raise ValueError('Outer receipt and inner capsule endpoint differ')
     if type(end_frame) is not int or not start < end_frame <= min(60, start + 5):
         raise ValueError('Continue one to five complete frames of the unchanged 60-frame plan')
     if start == 20 and expected_sha == ORIGINAL_ARCHIVE_SHA and end_frame != 21:
         raise ValueError('The first recovered advance must stop at frame 21 to measure actual cost')
     context = {'schema': 'triaxial-zero-recovery-v1', 'parent_archive_sha256': expected_sha,
         'controller': controller,
+        'parent_transport': transport,
         'parent_checkpoint': record(parent / 'checkpoint.npz'), 'start_frame': start,
         'parent_metadata': {name: record(parent / name) for name in RESUME_METADATA},
         'end_frame': end_frame, 'kwargs': kwargs, 'environment': environment,

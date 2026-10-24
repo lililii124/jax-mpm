@@ -31,7 +31,6 @@ def save_output(ready):
 
 
 def preserve(m):
-    import numpy as np
     context_path = m.BASE / 'context.json'
     if not context_path.exists():
         save_output(False)
@@ -61,6 +60,7 @@ def preserve(m):
     if not checkpoint.exists():
         save_output(False)
         return {'ready': False, 'reason': 'No new complete checkpoint exists; original parent is retained.'}
+    import numpy as np
     # This independent capsule deliberately has no accepted-capsule manifest.
     # prepare() cannot consume it as a continuation, regardless of state flags.
     with np.load(checkpoint, allow_pickle=False) as cp:

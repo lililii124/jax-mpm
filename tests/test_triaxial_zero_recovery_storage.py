@@ -67,6 +67,25 @@ def test_complete_capsule_roundtrip_and_cloud_bound(tmp_path, monkeypatch):
     assert m.read(m.BASE / 'context.json')['start_frame'] == 21
     assert m.read(m.BASE / 'context.json')['repository_artifact_bytes_observed'] == 27_440_000_000
     assert m.read(m.BASE / 'artifact-accounting.json')['repository_total_is_not_a_gate'] is True
+    wrapper = tmp_path / 'github-outer.zip'
+    with zipfile.ZipFile(wrapper, 'x') as z:
+        z.write(capsule, 'capsule.zip')
+        z.write(base / 'delivery/receipt.json', 'receipt.json')
+    monkeypatch.setattr(m, 'BASE', tmp_path / 'outer-next')
+    m.prepare(wrapper, m.digest(wrapper), 22, 0)
+    assert (m.BASE / 'parent/checkpoint.npz').read_bytes() == checkpoint_raw
+    transport = m.read(m.BASE / 'context.json')['parent_transport']
+    assert transport['inner_capsule']['sha256'] == m.digest(capsule)
+    assert transport['outer_archive']['sha256'] == m.digest(wrapper)
+    bad = tmp_path / 'bad-receipt-outer.zip'
+    with zipfile.ZipFile(bad, 'x') as z:
+        z.write(capsule, 'capsule.zip')
+        receipt = json.loads((base / 'delivery/receipt.json').read_text())
+        receipt['capsule']['sha256'] = '0' * 64
+        z.writestr('receipt.json', json.dumps(receipt))
+    monkeypatch.setattr(m, 'BASE', tmp_path / 'bad-outer-next')
+    with pytest.raises(ValueError, match='transport receipt size/SHA'):
+        m.prepare(bad, m.digest(bad), 22, 0)
     monkeypatch.setattr(m, 'BASE', tmp_path / 'cloud-rejected')
     with pytest.raises(ValueError, match='500 MiB'):
         m.prepare(capsule, m.digest(capsule), 22, m.CLOUD_LIMIT)
@@ -85,6 +104,22 @@ def test_rolling_pool_excludes_unique_evidence_in_other_artifacts():
     assert usage['repository_artifact_count_observed'] == 3
     assert usage['rolling_pool_used_bytes'] == 100
     assert usage['rolling_pool_artifact_ids'] == [2]
+
+
+def test_failed_manifest_is_rejected_inside_authenticated_outer_wrapper(tmp_path, monkeypatch):
+    m = module()
+    monkeypatch.setattr(m, 'BASE', tmp_path / 'rejected-parent')
+    monkeypatch.setattr(m, 'verify_controller', lambda: {'commit': 'test-controller'})
+    inner = tmp_path / 'failed-inner.zip'
+    with zipfile.ZipFile(inner, 'x') as z:
+        z.writestr('failed-manifest.json', json.dumps({'never_resumable': True}))
+    outer = tmp_path / 'failed-outer.zip'
+    with zipfile.ZipFile(outer, 'x') as z:
+        z.write(inner, 'capsule.zip')
+        z.writestr('receipt.json', json.dumps({'schema': 'triaxial-zero-cloud-capsule-v1',
+            'capsule': m.record(inner), 'end_frame': 21}))
+    with pytest.raises(ValueError, match='Failed or unclassified capsule'):
+        m.prepare(outer, m.digest(outer), 23, 0)
 
 
 def test_first_material_failure_is_not_rupture():

@@ -58,18 +58,12 @@ jobs:
           gh api --allow-escape-sequences "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PARENT_ARTIFACT}/zip" > .local/zero-parent-download.zip
           gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" > .local/zero-artifact-usage.json
           python - <<'PY'
-          import hashlib,importlib.util,json,os,pathlib,shutil,subprocess,sys,zipfile
+          import hashlib,importlib.util,json,os,pathlib,subprocess,sys
           path=pathlib.Path('.local/zero-parent-download.zip')
           expected=os.environ['PARENT_SHA']
           with path.open('rb') as f: actual=hashlib.file_digest(f,'sha256').hexdigest()
           if actual != expected:
-              with zipfile.ZipFile(path) as z:
-                  if z.namelist().count('capsule.zip') != 1:
-                      raise ValueError('Parent must be the admitted original artifact or one complete capsule')
-                  target=pathlib.Path('.local/zero-parent-capsule.zip')
-                  with z.open('capsule.zip') as source,target.open('xb') as output:
-                      shutil.copyfileobj(source,output,1024**2)
-                  path=target
+              raise ValueError('Downloaded outer ZIP differs from the exact admitted GitHub artifact digest')
           pages=json.loads(pathlib.Path('.local/zero-artifact-usage.json').read_text())
           spec=importlib.util.spec_from_file_location('zero_pool_accounting','tools/run_triaxial_zero_recovery.py')
           module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
