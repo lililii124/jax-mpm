@@ -1,39 +1,35 @@
-name: certified fibre pair full40ms continuation
+name: matched full40ms real61 ParaView pair media
 on:
   workflow_dispatch:
     inputs:
-      model:
-        type: choice
-        options: [hertz, jkr]
-        required: true
-      certification_run_id:
+      hertz_artifact_id:
         type: string
         required: true
-      certification_artifact_id:
+      hertz_receipt_sha256:
         type: string
         required: true
-      certification_receipt_sha256:
+      jkr_artifact_id:
+        type: string
+        required: true
+      jkr_receipt_sha256:
         type: string
         required: true
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: certified-fibre-pair-full61-${{ inputs.model }}
+  group: matched-full40ms-pair-media
   cancel-in-progress: false
 jobs:
-  continue:
+  media:
     runs-on: ubuntu-24.04
-    timeout-minutes: 300
+    timeout-minutes: 90
     env:
-      MODEL: ${{ inputs.model }}
-      CERT_RUN: ${{ inputs.certification_run_id }}
-      CERT_ARTIFACT: ${{ inputs.certification_artifact_id }}
-      CERT_SHA: ${{ inputs.certification_receipt_sha256 }}
       GH_TOKEN: ${{ github.token }}
-      JAX_PLATFORMS: cpu
-      JAX_ENABLE_X64: 'true'
-      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      HERTZ_ARTIFACT: ${{ inputs.hertz_artifact_id }}
+      HERTZ_RECEIPT: ${{ inputs.hertz_receipt_sha256 }}
+      JKR_ARTIFACT: ${{ inputs.jkr_artifact_id }}
+      JKR_RECEIPT: ${{ inputs.jkr_receipt_sha256 }}
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
@@ -50,85 +46,69 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Exact pinned original numerical runtime
-        run: |
-          python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
-          python -m pip install --no-deps -e .local/producer-source
-      - name: Exact HEAD source binding and official certified parent download
+      - run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2 pillow==13.0.0
+      - name: Bind actual media HEAD and registered workflow then fetch only official complete successful raw
         run: |
           python - <<'PY'
-          import hashlib,json,os,subprocess,zipfile
+          import hashlib,json,os,subprocess
           from pathlib import Path
           head=subprocess.check_output(['git','rev-parse','HEAD']).decode().strip()
-          if head!=os.environ['GITHUB_SHA']:raise ValueError('Continuation HEAD differs')
-          own='.github/workflows/fibre-pair-full61.yml';active='.github/workflows/'+os.environ['GITHUB_WORKFLOW_REF'].split('/.github/workflows/',1)[1].split('@',1)[0]
-          if active not in (own,'.github/workflows/engineering-previews.yml') or Path(active).read_bytes()!=Path(own).read_bytes():raise ValueError('Continuation registered override differs')
-          names=['tools/run_fibre_pair_full61.py','tools/review_fibre_pair_full61.py','tools/certify_fibre_pair_prefix_v2.py','tools/review_fibre_pair_prefix_v2.py','tools/fibre_pair_recovery_admissions.json','tools/fibre_pair_full61_certifications.json','tools/run_fibre_pair_prefix.py','tools/finish_fibre_pull_off.py','tools/package_fibre_final_media.py',own,active]
-          hashes={}
+          if head!=os.environ['GITHUB_SHA']:raise ValueError('Media HEAD differs')
+          own='.github/workflows/fibre-pair-full61-media.yml';active='.github/workflows/'+os.environ['GITHUB_WORKFLOW_REF'].split('/.github/workflows/',1)[1].split('@',1)[0]
+          if active not in (own,'.github/workflows/engineering-previews.yml') or Path(active).read_bytes()!=Path(own).read_bytes():raise ValueError('Registered media override differs')
+          names=['tools/finalize_fibre_pair_full61_media.py','tools/render_fibre_pair_full61.py','tools/paraview_fibre_pair_scene.py','tools/review_fibre_pair_full61.py','tools/review_fibre_pair_full_hold.py','tools/fibre_pair_full61_certifications.json','tools/package_fibre_final_media.py','tools/run_fibre_pair_prefix.py','tools/finish_fibre_pull_off.py','tools/run_woven_preview.py','mpm_jax/paraview_scene.py','mpm_jax/export.py','mpm_jax/visualization.py','mpm_jax/particle_fields.py',own,active]
+          record={}
           for n in set(names):
            raw=Path(n).read_bytes()
-           if raw!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Continuation source blob differs')
-           hashes[n]=hashlib.sha256(raw).hexdigest()
-          Path('.local/continuation-source.json').write_text(json.dumps({'commit':head,'files':hashes},indent=2))
-          expected=json.loads(Path('tools/fibre_pair_full61_certifications.json').read_text())[os.environ['MODEL']]
-          if [os.environ['CERT_RUN'],os.environ['CERT_ARTIFACT'],os.environ['CERT_SHA']]!=[expected['run_id'],expected['artifact_id'],expected['receipt_sha256']]:raise ValueError('Exact selected certification inputs differ')
-          repo=os.environ['GITHUB_REPOSITORY']
+           if raw!=subprocess.check_output(['git','show',head+':'+n]):raise ValueError('Media source differs from exact HEAD')
+           record[n]=hashlib.sha256(raw).hexdigest()
+          Path('.local/media-source.json').write_text(json.dumps({'commit':head,'files':record},indent=2))
+          repo=os.environ['GITHUB_REPOSITORY'];official={}
           def api(p):return json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/'+p]))
-          run=api('actions/runs/'+os.environ['CERT_RUN']);artifact=api('actions/artifacts/'+os.environ['CERT_ARTIFACT'])
-          if run['status']!='completed' or run['conclusion']!='success' or run['head_sha']!='4aae7a255c1533c23e7be4c932024ff6a510edc8':raise ValueError('Exact independent certification success required')
-          if artifact['expired'] or artifact['workflow_run']['id']!=int(os.environ['CERT_RUN']) or artifact['digest']!='sha256:'+expected['zip_sha256']:raise ValueError('Certification artifact run differs')
-          a=json.loads(Path('tools/fibre_pair_recovery_admissions.json').read_text())[os.environ['MODEL']]
-          original=api('actions/artifacts/'+str(a['artifact_id']));parent=api('actions/runs/'+a['run_id'])
-          if original['expired'] or original['workflow_run']['id']!=int(a['run_id']) or original['digest']!='sha256:'+a['zip_sha256'] or parent['head_sha']!=a['producer_commit'] or parent['status']!='completed' or parent['conclusion']!='failure':raise ValueError('Original failed raw official identity differs')
-          for artifact_id,name,expected in [(os.environ['CERT_ARTIFACT'],'certification.zip',artifact['digest'].split(':')[1]),(str(a['artifact_id']),'original-raw.zip',a['zip_sha256'])]:
-           path=Path('.local')/name
+          for model,runid in [('hertz','40113622359'),('jkr','40113637037')]:
+           artifact_id=os.environ[model.upper()+'_ARTIFACT'];run=api('actions/runs/'+runid);artifact=api('actions/artifacts/'+artifact_id)
+           if run['status']!='completed' or run['conclusion']!='success' or run['head_sha']!='0d3029212c7ad6f494e62637494d1951ba048368':raise ValueError('Original complete run exact SUCCESS/source required')
+           if artifact['expired'] or artifact['workflow_run']['id']!=int(runid) or artifact['name']!='fibre-pair-'+model+'-full61-complete-raw-'+runid or artifact['size_in_bytes']>2*1024**3:raise ValueError('Exact original complete raw artifact identity/budget differs')
+           path=Path('.local')/('full-'+model+'.zip')
            with path.open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+artifact_id+'/zip'],stdout=f,check=True)
-           if hashlib.sha256(path.read_bytes()).hexdigest()!=expected:raise ValueError('Downloaded official ZIP digest differs')
-          with zipfile.ZipFile('.local/certification.zip') as z:
-           if z.testzip() is not None:raise ValueError('Certification CRC failure')
-           for name in ['certification-receipt-v2.json','independent-f2-review-v2.json']:
-            found=[n for n in z.namelist() if n.endswith('/'+name) or n==name]
-            if len(found)!=1:raise ValueError('Ambiguous certification receipt')
-            dest=Path('.local/certification')/name;dest.parent.mkdir(exist_ok=True);dest.write_bytes(z.read(found[0]))
-          Path('.local/official-parent-binding.json').write_text(json.dumps({'certification_run':run,'certification_artifact':artifact,'original_artifact':original},indent=2))
+           h=hashlib.sha256()
+           with path.open('rb') as f:
+            for b in iter(lambda:f.read(1024**2),b''):h.update(b)
+           if artifact['digest']!='sha256:'+h.hexdigest():raise ValueError('Official complete raw ZIP digest differs')
+           official[model]={'run':run,'artifact':artifact,'zip_sha256':h.hexdigest()}
+          Path('.local/media-official-parents.json').write_text(json.dumps(official,indent=2))
           PY
-      - name: Resume actual certified frame2 through frame60 without recomputing prefix
-        id: numerical
-        run: python tools/run_fibre_pair_full61.py --model "$MODEL" --certification-sha256 "$CERT_SHA"
-      - uses: actions/upload-artifact@v4
-        if: always() && steps.numerical.outcome != 'skipped'
-        id: raw_upload
-        with:
-          name: fibre-pair-${{ inputs.model }}-full61-complete-raw-${{ github.run_id }}
-          path: .local/full61/delivery/
-          include-hidden-files: true
-          if-no-files-found: error
-          compression-level: 0
-          retention-days: 30
-      - uses: actions/download-artifact@v5
-        if: always() && steps.raw_upload.outcome == 'success'
-        id: retrieval
-        with:
-          artifact-ids: ${{ steps.raw_upload.outputs.artifact-id }}
-          path: .local/full61/retrieved/
-          merge-multiple: true
-      - name: Verify complete cloud retrieved raw all members and192MiB parts
-        if: always() && steps.retrieval.outcome == 'success'
-        run: python tools/package_fibre_final_media.py verify --delivery .local/full61/retrieved
+      - name: Install actual pinned ParaView offscreen renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('.local/pair-pv-install');p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Complete raw/state audit then actual measured hold gate then real61 frames at identical low camera
+        run: python tools/finalize_fibre_pair_full61_media.py --hertz-receipt-sha256 "$HERTZ_RECEIPT" --jkr-receipt-sha256 "$JKR_RECEIPT"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: fibre-pair-${{ inputs.model }}-full61-receipts-${{ github.run_id }}
+          name: matched-full40ms-real61-pair-media-${{ github.run_id }}
           path: |
-            .local/continuation-source.json
-            .local/official-parent-binding.json
-            .local/full61/logs/
-            .local/full61/capsule/receipt.json
-            .local/full61/capsule/independent-full61-review.json
-            .local/full61/capsule/data/*/dynamic-response-review.json
-            .local/full61/capsule/data/*/summary.json
-            .local/full61/capsule/data/*/observables.csv
-            .local/full61/retrieved/retrieval-receipt.json
+            .local/media-source.json
+            .local/media-official-parents.json
+            .local/pair-media/*-independent-full61-review.json
+            .local/pair-media/actual-pair-hold-gate.json
+            .local/pair-media/media-admission.json
+            .local/pair-media/logs/
+            .local/pair-media/rendered/*/simulation.gif
+            .local/pair-media/rendered/*/preview-receipt.json
+            .local/pair-media/rendered/*/render.json
+            .local/pair-media/rendered/*/render.log
+            .local/pair-media/rendered/*/frames/
+            .local/pair-pv-install/
           include-hidden-files: true
           if-no-files-found: error
           retention-days: 30
