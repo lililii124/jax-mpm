@@ -15,6 +15,11 @@ except ImportError:
     from collect_results import ADHESION_SOURCES, canonical_identifier, catalogue_sources
 
 
+try:
+    from .public_themes import THEMES, theme, order, metal_stage_cell
+except ImportError:
+    from public_themes import THEMES, theme, order, metal_stage_cell
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -183,7 +188,16 @@ def gallery_groups(catalogue):
     groups["Adhesion comparison"].sort(key=lambda entry: ("nonadhesive" not in entry[0], entry[0]))
     for heading, entries in groups.items():
         groups[heading] = [(name, sources.get(canonical_identifier(relative), relative)) for name, relative in entries]
-    return groups
+    symmetry = 'material-engineering--concrete-bending-symmetric--hjc'
+    if symmetry in sources and not any('concrete-bending-symmetric' in name for entries in groups.values() for name, _ in entries):
+        groups['Material engineering'].append(('concrete-bending-symmetric', sources[symmetry]))
+    themed = {heading: [] for heading in THEMES}
+    for entries in groups.values():
+        for name, relative in entries:
+            themed[theme(name + ' ' + relative)].append((name, relative))
+    for entries in themed.values():
+        entries.sort(key=lambda item: order(item[0]))
+    return themed
 
 
 def preview(folder, name, render):
@@ -316,8 +330,10 @@ def main():
                     "auxiliary_geometry": render.get("auxiliary_geometry", []),
                 }
             )
+        if heading == THEMES[0] and (ROOT / "docs/images/stages/metal-impact-f16.gif").is_file():
+            cells.append(metal_stage_cell(""))
         if cells:
-            columns = 3 if heading.startswith("Woven composites") else 2
+            columns = 3
             lines += [f"## {heading}", "", '<table width="100%">']
             for i in range(0, len(cells), columns):
                 pair = cells[i : i + columns]

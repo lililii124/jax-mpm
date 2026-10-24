@@ -94,7 +94,7 @@ MATERIALS = {
 }
 
 
-def describe(identifier):
+def legacy_describe(identifier):
     completed = {
         "completed--woven-plate-impact": (GROUPS[2], "Clamped woven plate impact"),
         "completed--crossed-fibre-hertz": (GROUPS[2], "Crossed fibre Hertz contact"),
@@ -158,6 +158,16 @@ def describe(identifier):
     return GROUPS[4], title
 
 
+try:
+    from .public_themes import THEMES, theme, order, metal_stage_cell
+except ImportError:
+    from public_themes import THEMES, theme, order, metal_stage_cell
+
+def describe(identifier):
+    _, title = legacy_describe(identifier)
+    return theme(identifier), title
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
@@ -182,7 +192,7 @@ def main():
     if len(found) != len(set(found)) or set(found) != expected:
         raise ValueError(f"GIF catalogue mismatch: missing={expected - set(found)}, extra={set(found) - expected}")
     public = []
-    groups = {name: [] for name in GROUPS}
+    groups = {name: [] for name in THEMES}
     paths = set()
     home = (root / "docs/images/home").resolve()
     for entry in entries:
@@ -224,19 +234,19 @@ def main():
             record["source_directory"] = directory
         public.append(record)
     lines = [BEGIN, "", "[Gallery](docs/GALLERY.md) · [Examples](docs/EXAMPLES.md) · [Verification](VALIDATION.md)", ""]
-    for heading in (GROUPS[0], GROUPS[8], GROUPS[9], GROUPS[10], *GROUPS[1:8]):
+    for heading in THEMES:
         items = groups[heading]
         if not items:
             continue
-        columns = 2 if heading == GROUPS[8] else 3
+        columns = 3
         lines += [f"### {heading}", "", '<table width="100%">']
-        ordered = sorted(items, key=lambda item: (not item[0].startswith("Nonadhesive"), item[0])) if heading == GROUPS[8] else sorted(items)
-        if heading in (GROUPS[9], GROUPS[10]):
+        ordered = sorted(items, key=lambda item: order(item[0]))
+        if heading == 'Woven composites':
             ordered = sorted(items, key=lambda item: (
-                tuple(WOVEN_LOADS.values()).index(item[0].split(" · ")[1]),
-                tuple(WOVEN_ARCHITECTURES.values()).index(item[0].split(" · ")[0]),
-            ))
+                WOVEN_LOADS.get(item[0].split(' · ')[-1], item[0]), item[0]))
         cells = [cell for _, cell in ordered]
+        if heading == THEMES[0] and (root / "docs/images/stages/metal-impact-f16.gif").is_file():
+            cells.append(metal_stage_cell())
         for start in range(0, len(cells), columns):
             row = cells[start:start + columns]
             lines.append('<tr>')
