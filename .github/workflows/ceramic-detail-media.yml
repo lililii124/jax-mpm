@@ -1,0 +1,129 @@
+name: feature ceramic read-only detail media
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ceramic-read-only-detail-media
+  cancel-in-progress: false
+
+jobs:
+  media:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 68c311813b11124459b7750f52695c7caa9b6c39
+          path: .local/ceramic-frozen-solver
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Reserve disk for complete raw media and exact artifact retrieval
+        run: |
+          python - <<'PY'
+          import json,shutil,subprocess
+          before=shutil.disk_usage('.').free
+          if before < 32*1024**3:
+              subprocess.run(['sudo','rm','-rf','--','/usr/local/lib/android','/usr/share/dotnet'],check=True)
+          after=shutil.disk_usage('.').free
+          print(json.dumps({'free_before_bytes':before,'free_after_bytes':after,'required_free_bytes':32*1024**3,'removed_only_disposable_runner_sdks_if_needed':True}))
+          assert after >= 32*1024**3,'Insufficient disk for full raw preservation and retrieval'
+          PY
+      - name: Restore exact sealed failed endpoint without fallback
+        id: restore
+        timeout-minutes: 15
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/ceramic-prefix-cache
+          key: ceramic-continuation-v1-68c311813b11124459b7750f52695c7caa9b6c39-df50b47ab8fcda24a924f196b1348609b34f63b9-40069099744-1-f60-failed
+          fail-on-cache-miss: true
+      - name: Retrieve independent original full-review evidence by exact artifact ID
+        timeout-minutes: 5
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: '40074118544'
+          artifact-ids: '12552502562'
+          path: .local/ceramic-independent-probe
+          merge-multiple: true
+      - name: Verify raw/source and reconcile independent full review without solving
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: >-
+          python tools/render_ceramic_detail.py prepare
+          --evidence .local/ceramic-independent-probe
+          --proof evidence/ceramic/independent-physical-review-v2.json
+          --original-review evidence/ceramic/original-full-physical-review.json
+          --review-sha 5e719584ddebe204650ea17b9125f82b21d954b0a512ba99624edae90b9ae61b
+          --provenance-sha 509206e1d5a322ede351eabecb0bfdbfd7f646b4f48e3e3092148c261dda5a61
+      - name: Install renderer dependencies from sealed requirements
+        timeout-minutes: 10
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_ceramic_continuation as c
+          pins=c.dependency_pins((c.CACHE/'requirements.txt').read_text())
+          (c.ROOT/'.local/ceramic-detail-media/renderer-requirements.txt').write_text(''.join(f'{name}=={version}\n' for name,version in sorted(pins.items())))
+          PY
+          python -m pip install -r .local/ceramic-detail-media/renderer-requirements.txt
+          python -m pip install --no-deps -e .
+      - name: Install actual headless ParaView
+        timeout-minutes: 15
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python tools/render_ceramic_detail.py install
+      - name: Render all 61 saved states and audit actual VTK PNG GIF
+        timeout-minutes: 90
+        run: python tools/render_ceramic_detail.py render
+      - name: Verify unchanged raw and package bounded secondary detail delivery
+        run: python tools/render_ceramic_detail.py package
+      - uses: actions/upload-artifact@v4
+        id: upload
+        timeout-minutes: 15
+        with:
+          name: ceramic-detail-media-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ceramic-detail-delivery/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        timeout-minutes: 15
+        with:
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/ceramic-detail-retrieved/
+          merge-multiple: true
+      - name: Hash every retrieved delivery file
+        env:
+          CERAMIC_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+        run: python tools/render_ceramic_detail.py retrieved --retrieved .local/ceramic-detail-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ceramic-detail-media-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/ceramic-detail-media/*receipt.json
+            .local/ceramic-detail-media/admission.json
+            .local/ceramic-detail-media/*audit.json
+            .local/ceramic-detail-media/signature-reconciliation.json
+          if-no-files-found: warn
+          retention-days: 30

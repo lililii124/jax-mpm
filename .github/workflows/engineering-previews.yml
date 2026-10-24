@@ -1,4 +1,4 @@
-name: private ceramic read-only final media
+name: private ceramic read-only detail media
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ceramic-read-only-final-media
+  group: ceramic-read-only-detail-media
   cancel-in-progress: false
 
 jobs:
@@ -66,7 +66,7 @@ jobs:
           CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
           CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
         run: >-
-          python tools/finalize_ceramic_media.py prepare
+          python tools/render_ceramic_detail.py prepare
           --evidence .local/ceramic-independent-probe
           --proof evidence/ceramic/independent-physical-review-v2.json
           --original-review evidence/ceramic/original-full-physical-review.json
@@ -81,27 +81,27 @@ jobs:
           sys.path.insert(0,'tools')
           import run_ceramic_continuation as c
           pins=c.dependency_pins((c.CACHE/'requirements.txt').read_text())
-          (c.ROOT/'.local/ceramic-final-media/renderer-requirements.txt').write_text(''.join(f'{name}=={version}\n' for name,version in sorted(pins.items())))
+          (c.ROOT/'.local/ceramic-detail-media/renderer-requirements.txt').write_text(''.join(f'{name}=={version}\n' for name,version in sorted(pins.items())))
           PY
-          python -m pip install -r .local/ceramic-final-media/renderer-requirements.txt
+          python -m pip install -r .local/ceramic-detail-media/renderer-requirements.txt
           python -m pip install --no-deps -e .
       - name: Install actual headless ParaView
         timeout-minutes: 15
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
-          python tools/finalize_ceramic_media.py install
+          python tools/render_ceramic_detail.py install
       - name: Render all 61 saved states and audit actual VTK PNG GIF
         timeout-minutes: 90
-        run: python tools/finalize_ceramic_media.py render
-      - name: Verify unchanged raw and bound complete delivery
-        run: python tools/finalize_ceramic_media.py package
+        run: python tools/render_ceramic_detail.py render
+      - name: Verify unchanged raw and package bounded secondary detail delivery
+        run: python tools/render_ceramic_detail.py package
       - uses: actions/upload-artifact@v4
         id: upload
         timeout-minutes: 15
         with:
-          name: ceramic-final-media-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/ceramic-final-media/
+          name: ceramic-detail-media-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/ceramic-detail-delivery/
           include-hidden-files: true
           if-no-files-found: error
           compression-level: 0
@@ -110,20 +110,20 @@ jobs:
         timeout-minutes: 15
         with:
           artifact-ids: ${{ steps.upload.outputs.artifact-id }}
-          path: .local/ceramic-final-retrieved/
+          path: .local/ceramic-detail-retrieved/
           merge-multiple: true
       - name: Hash every retrieved delivery file
         env:
           CERAMIC_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
-        run: python tools/finalize_ceramic_media.py retrieved --retrieved .local/ceramic-final-retrieved
+        run: python tools/render_ceramic_detail.py retrieved --retrieved .local/ceramic-detail-retrieved
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ceramic-final-media-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ceramic-detail-media-receipt-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
-            .local/ceramic-final-media/*receipt.json
-            .local/ceramic-final-media/admission.json
-            .local/ceramic-final-media/*audit.json
-            .local/ceramic-final-media/signature-reconciliation.json
+            .local/ceramic-detail-media/*receipt.json
+            .local/ceramic-detail-media/admission.json
+            .local/ceramic-detail-media/*audit.json
+            .local/ceramic-detail-media/signature-reconciliation.json
           if-no-files-found: warn
           retention-days: 30
