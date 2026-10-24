@@ -1,109 +1,135 @@
-name: engineering previews
-
+name: theta zero immutable frame20 recovery
 on:
   workflow_dispatch:
     inputs:
-      preset:
-        description: Reviewed engineering cases or the round-bar density diagnostic
-        type: choice
-        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, adhesion-v4-pair, jc-density-diagnostic, jc-necking-formal]
-        default: all
+      parent_artifact_id:
+        type: string
         required: true
-
+        default: '12556081018'
+      parent_archive_sha:
+        type: string
+        required: true
+        default: b1dc4b9f9c2b9cc9aa3b4f36e906b5e44eff24f920e2bffd17d6703d53ff82d7
+      end_frame:
+        type: string
+        required: true
+        default: '21'
 permissions:
   contents: read
-
+  actions: read
 concurrency:
-  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: theta-zero-immutable-recovery
   cancel-in-progress: false
-
 jobs:
-  engineering:
+  recover:
+    if: github.ref == 'refs/heads/work/triaxial-zero-recovery'
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+    timeout-minutes: 145
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '4'
       OPENBLAS_NUM_THREADS: '1'
-      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
-      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Check out original numerical source, never modify it
+        uses: actions/checkout@v7
+        with:
+          ref: b873d277711f5e706b2d57eea1b69f25e6375dc2
+          path: .local/triaxial-zero-frozen
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - name: Install CPU and rendering dependencies
-        timeout-minutes: 30
-        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
-      - name: Install official ParaView
-        timeout-minutes: 20
-        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
-      - name: Solve and independently review
-        timeout-minutes: 300
-        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
-      - name: Upload reviewed results or the explicitly marked diagnostic
+          python-version: '3.12.13'
+      - name: Download exact immutable parent and audit current cloud usage before compute
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PARENT_ARTIFACT: ${{ inputs.parent_artifact_id }}
+          PARENT_SHA: ${{ inputs.parent_archive_sha }}
+          END_FRAME: ${{ inputs.end_frame }}
+        run: |
+          mkdir -p .local
+          gh api --allow-escape-sequences "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PARENT_ARTIFACT}/zip" > .local/zero-parent-download.zip
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" > .local/zero-artifact-usage.json
+          python - <<'PY'
+          import hashlib,importlib.util,json,os,pathlib,shutil,subprocess,sys,zipfile
+          path=pathlib.Path('.local/zero-parent-download.zip')
+          expected=os.environ['PARENT_SHA']
+          with path.open('rb') as f: actual=hashlib.file_digest(f,'sha256').hexdigest()
+          if actual != expected:
+              with zipfile.ZipFile(path) as z:
+                  if z.namelist().count('capsule.zip') != 1:
+                      raise ValueError('Parent must be the admitted original artifact or one complete capsule')
+                  target=pathlib.Path('.local/zero-parent-capsule.zip')
+                  with z.open('capsule.zip') as source,target.open('xb') as output:
+                      shutil.copyfileobj(source,output,1024**2)
+                  path=target
+          pages=json.loads(pathlib.Path('.local/zero-artifact-usage.json').read_text())
+          spec=importlib.util.spec_from_file_location('zero_pool_accounting','tools/run_triaxial_zero_recovery.py')
+          module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+          usage=module.artifact_usage(pages)
+          print(json.dumps(usage))
+          subprocess.run([sys.executable,'tools/run_triaxial_zero_recovery.py','prepare',
+              '--archive',str(path),'--archive-sha',expected,'--end-frame',os.environ['END_FRAME'],
+              '--pool-used-bytes',str(usage['rolling_pool_used_bytes']),
+              '--repository-artifact-bytes',str(usage['repository_artifact_bytes_observed']),
+              '--repository-artifact-count',str(usage['repository_artifact_count_observed']),
+              '--usage-record','.local/zero-artifact-usage.json'],check=True)
+          PY
+      - name: Install exact original scientific dependency pins
+        timeout-minutes: 15
+        run: python -m pip install --disable-pip-version-check -r .local/triaxial-zero-recovery/requirements.txt
+      - name: Advance one measured prefix or at most five later saved frames under 6 GiB USS
+        timeout-minutes: 115
+        run: python tools/run_triaxial_zero_recovery.py run
+      - name: Stream complete restart and every new real saved field under hard artifact bound
+        if: success()
+        timeout-minutes: 10
+        run: python tools/run_triaxial_zero_recovery.py package
+      - name: Upload bounded immutable capsule, no Actions cache snapshot
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/engineering-delivery/main/
+          name: theta-zero-capsule-f${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/triaxial-zero-recovery/delivery
+          compression-level: 0
           if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
+          retention-days: 2
+      - name: Preserve small diagnostics on failure without calling rejected state resumable
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
-          path: .local/engineering-delivery/final-state/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
-          path: .local/engineering-delivery/final-state-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate media when needed
-        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
-          path: .local/engineering-delivery/media/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second media package when needed
-        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
-          path: .local/engineering-delivery/media-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload diagnostic logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
-          path: .local/engineering-ci/
+          name: theta-zero-recovery-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/triaxial-zero-recovery/context.json
+            .local/triaxial-zero-recovery/memory.json
+            .local/triaxial-zero-recovery/solver.log
+            .local/triaxial-zero-recovery/history-availability.json
+            .local/triaxial-zero-recovery/artifact-accounting.json
+            .local/triaxial-zero-recovery/work/formal/theta-00/hertz/status.json
+            .local/triaxial-zero-recovery/work/formal/theta-00/hertz/failure.json
+            .local/triaxial-zero-recovery/work/formal/theta-00/hertz/contact-metrics.json
           if-no-files-found: warn
-          retention-days: 1
+          retention-days: 2
           compression-level: 6
+      - name: Preserve complete new restart and real new frames after transport or numerical failure
+        id: failure_capsule
+        if: failure()
+        timeout-minutes: 10
+        run: python tools/preserve_triaxial_zero_failure.py
+      - name: Upload bounded failure capsule under the same rolling pool name without overwriting any artifact
+        if: failure() && steps.failure_capsule.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: theta-zero-capsule-f${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/triaxial-zero-recovery/failure-delivery
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 2
+          overwrite: false
