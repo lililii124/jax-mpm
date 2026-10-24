@@ -286,6 +286,40 @@ def review_clamp_owner(owner, reference, *, dx, grid_origin, lower, shape,
             "scope": "static grid mask only; all-component application and absence of other constraints require runtime/source checks"}
 
 
+def accepted_output_steps(plan, summary, status, saved_rows):
+    """Keep the full allocation/protocol separate from a planned accepted prefix."""
+    declared = summary.get('segment_complete') is True or status.get('segment_complete') is True
+    if not declared:
+        return list(plan['output_steps']), False
+    end = summary.get('segment_end_frame')
+    start = summary.get('segment_start_frame')
+    if (type(end) is not int or type(start) is not int or not 0 <= start <= end < len(plan['output_steps'])-1
+            or end != saved_rows-1 or plan['probe_steps'] != 0
+            or summary.get('segment_complete') is not True or status.get('segment_complete') is not True
+            or any(item.get('completed') is not False or item.get('probe_complete') is not False
+                   or item.get('phase') != 'checkpoint-ready' for item in (summary, status))
+            or summary.get('runtime_stop_after_frame') != end or status.get('runtime_stop_after_frame') != end
+            or status.get('segment_start_frame') != start or status.get('segment_end_frame') != end
+            or status.get('frame') != end
+            or summary.get('full_steps') != plan['full_steps'] or status.get('full_steps') != plan['full_steps']
+            or summary.get('target_simulation_time') != plan['duration_s']
+            or summary.get('steps') != plan['output_steps'][end]
+            or status.get('steps') != plan['output_steps'][end]):
+        raise ValueError('Segment metadata does not identify a planned complete saved prefix of the full protocol')
+    return list(plan['output_steps'][:end+1]), True
+
+
+def accepted_clock_matches(final_time, summary_time, status_time, saved_time, steps, dt):
+    """Bind the actual state and metadata to the same accepted physical instant."""
+    try:
+        actual = np.asarray([final_time, summary_time, status_time, saved_time], dtype=float)
+        return bool(actual.shape == (4,) and np.isfinite(actual).all()
+            and np.all(actual == actual[-1])
+            and np.isclose(actual[-1], steps*dt, rtol=5e-12, atol=0.))
+    except (ValueError, TypeError):
+        return False
+
+
 def review_folder(folder):
     folder = Path(folder)
     plan, summary, status, layout = [json.loads((folder/name).read_text(encoding="utf-8"))
@@ -391,7 +425,7 @@ def review_folder(folder):
     expected_contact = ((selected_x[:, None, None]*shape[1]+np.arange(shape[1])[None, :, None])
                         *shape[2]+selected_z[None, None, :]).ravel().astype(np.int32)
     checks["contact_window_nodes_independently_reconstructed"] = np.array_equal(contact_indices, expected_contact)
-    output_steps = plan["output_steps"]
+    output_steps, segment = accepted_output_steps(plan, summary, status, len(rows))
     with np.load(folder/"trajectory.npz", allow_pickle=False) as data:
         times, body = data["time"], data["body"]
     checks["saved_time_prefix_matches_plan"] = bool(len(rows) == len(diagnostics) == len(times) == len(output_steps)
@@ -399,6 +433,9 @@ def review_folder(folder):
         and all(int(float(row["accepted_steps"])) == step for row, step in zip(rows, output_steps))
         and all(float(row["time"]) == t for row, t in zip(rows, times))
         and body.shape == (n,) and np.all(body == 0))
+    checks['accepted_state_clock_matches_saved_frame'] = bool(len(times) > 0 and accepted_clock_matches(
+        float(final['time']), summary.get('simulation_time'), status.get('time'),
+        float(times[-1]), summary['steps'], dt))
     full = bool(summary["completed"] is True and status["completed"] is True and plan["probe_steps"] == 0
                 and summary["steps"] == plan["full_steps"] and len(times) == 61
                 and _near(float(final["time"]), 200e-6, rtol=5e-12))
@@ -408,11 +445,11 @@ def review_folder(folder):
     arrays = {key: np.load(folder/f"trajectory_{key}.npy", mmap_mode="r") for key in ("x", "speed", "damage", "temperature")}
     try:
         checks["mapped_history_shapes_and_dtypes"] = bool(
-            arrays["x"].shape == (len(times), n, 3) and arrays["x"].dtype == np.dtype("float64")
-            and all(arrays[key].shape == (len(times), n) and arrays[key].dtype == np.dtype("float32") for key in ("speed", "damage", "temperature")))
+            arrays["x"].shape == (len(plan['output_steps']), n, 3) and arrays["x"].dtype == np.dtype("float64")
+            and all(arrays[key].shape == (len(plan['output_steps']), n) and arrays[key].dtype == np.dtype("float32") for key in ("speed", "damage", "temperature")))
         checks["first_and_last_coordinates_match_state"] = (np.array_equal(arrays["x"][0], reference["x"])
-            and np.array_equal(arrays["x"][-1], final["x"]))
-        checks["final_speed_matches_state"] = np.array_equal(arrays["speed"][-1], np.linalg.norm(final["v"], axis=1).astype(np.float32))
+            and np.array_equal(arrays["x"][len(times)-1], final["x"]))
+        checks["final_speed_matches_state"] = np.array_equal(arrays["speed"][len(times)-1], np.linalg.norm(final["v"], axis=1).astype(np.float32))
         checks["all_history_finite_and_inside_rectangular_support"] = True
         checks["elastic_damage_and_temperature_fields_are_constant"] = True
         checks["saved_displacements_match_raw_coordinates"] = True
@@ -524,6 +561,9 @@ def review_folder(folder):
              "layout_arrays.npz", "particle_fields.npz", "trajectory.npz", "observables.csv", "diagnostics.csv",
              "trajectory_x.npy", "trajectory_speed.npy", "trajectory_damage.npy", "trajectory_temperature.npy")
     return {"passed": bool(full and all(checks.values())), "probe_passed": bool(probe and all(checks.values())),
+            "segment_passed": bool(segment and all(checks.values())),
+            "segment_end_frame": len(times)-1, "allocated_states": len(plan['output_steps']),
+            "accepted_saved_states": len(times),
             "full_protocol_completed": full, "full_saved_history_checked": True,
             "coarse_preview_eligible": bool(full and all(checks.values())), "production_eligible": False,
             "checks": checks, "reference_review": static, "clamp_review": clamp, "energy_review": energies,
@@ -541,17 +581,19 @@ def main():
     parser.add_argument("folder", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--allow-probe", action="store_true")
+    parser.add_argument("--allow-segment", action="store_true")
     args = parser.parse_args()
     output = args.output or args.folder/"interpretation.json"
     try:
         result = review_folder(args.folder)
     except Exception as error:
-        result = {"passed": False, "probe_passed": False, "production_eligible": False,
+        result = {"passed": False, "probe_passed": False, "segment_passed": False, "production_eligible": False,
                   "full_saved_history_checked": False, "error_type": type(error).__name__, "error": str(error),
                   "review_source_sha256": file_sha256(__file__)}
     output.write_text(json.dumps(result, indent=2, allow_nan=False)+"\n", encoding="utf-8")
     print(json.dumps({key: result[key] for key in ("passed", "probe_passed", "production_eligible")}))
-    raise SystemExit(0 if result["passed"] or (args.allow_probe and result["probe_passed"]) else 1)
+    raise SystemExit(0 if result["passed"] or (args.allow_probe and result["probe_passed"])
+                    or (args.allow_segment and result["segment_passed"]) else 1)
 
 
 if __name__ == "__main__":
