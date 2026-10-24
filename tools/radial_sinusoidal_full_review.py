@@ -32,6 +32,7 @@ PREFIX_RECEIPT='d0af82b261b0433c024b80472cb5da67ee5d0113f11d2876f0510ee8f631c591
 PROOF_SHA='74840b9e9bf12f479787bdfb359bd34098354402fdcf3c13deccee698043836f'
 TEMPLATE='.github/workflows/radial-sinusoidal-full-review-media.yml'
 CONTROLLER='tools/radial_sinusoidal_full_review.py'
+OVERLAY='tools/radial_sinusoidal_paraview_overlay.py'
 REGISTERED='.github/workflows/engineering-previews.yml'
 REF='refs/heads/work/radial-sinusoidal-full'
 REPOSITORY='lililii124/jax-mpm'
@@ -77,7 +78,7 @@ def private_workflow_bytes(root=None):
 
 
 def controller_files():
-    names=[CONTROLLER,TEMPLATE,REGISTERED]
+    names=[CONTROLLER,TEMPLATE,REGISTERED,OVERLAY]
     names += [f'docs/results/adhesion-visible--{name}-pull-off/{file}'
         for name in ('nonadhesive','adhesive') for file in ('summary.json','render.json')]
     names += [f'docs/images/home/adhesion-visible--{name}-pull-off.gif' for name in ('nonadhesive','adhesive')]
@@ -323,17 +324,45 @@ def encode_gif(folder):
     if (folder/'simulation.gif').stat().st_size>=9_000_000:raise ValueError('Public GIF is not below9MB')
 
 
+def export_saved_vtk(folder):
+    """Replay the immutable export stage only; no solver or renderer is called."""
+    import numpy as np
+    sys.path.insert(0,str(PRODUCER))
+    from mpm_jax.visualization import trajectory_arrays
+    from mpm_jax.export import export_series
+    summary=read(folder/'summary.json');config=summary['configs'][0]
+    spacing=config.get('domain_size',1.)/config.get('n_grid',48)
+    spacing/=summary.get('definition',{}).get('particles_per_cell_per_axis',2)
+    spacing=summary.get('definition',{}).get('particle_spacing_m',spacing)
+    if not np.isfinite(spacing) or spacing<=0:raise ValueError('Invalid immutable display spacing')
+    with trajectory_arrays(folder) as data:
+        positions=data['x']
+        fields={name:data[name] for name in ('speed','damage','temperature','body','failed') if name in data}
+        if 'body' not in fields:fields['body']=np.zeros(positions.shape[1],dtype=np.int32)
+        export_series(positions,fields,data['time'],folder,spacing=spacing,dim=config.get('dim',3),displacement=True)
+
+
+def overlay_module():
+    spec=importlib.util.spec_from_file_location('radial_overlay_for_review',ROOT/OVERLAY)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+
 def render_media():
     old=old_helpers();render=PRODUCER/'.local/radial-independent-render'
     if render.exists():raise ValueError('Fresh read-only render copy required')
     shutil.copytree(RAW,render)
-    command=[sys.executable,'-m','mpm_jax.visualization',str(render),'--gif','--field','displacement',
-        '--resolution','1200','--color-range',*[str(x) for x in COLOR_RANGE],'--focus-bounds',*[str(x) for x in FOCUS]]
+    old.guard([sys.executable,str(Path(__file__).resolve()),'export','--folder',str(render)],
+        OUT/'export.log',600,render)
+    command=[os.environ['PARAVIEW_PYTHON'],'--force-offscreen-rendering',str(ROOT/OVERLAY),
+        '--producer',str(PRODUCER),str(render),'--field','displacement','--resolution','1200',
+        '--color-range',*[str(x) for x in COLOR_RANGE],'--focus-bounds',*[str(x) for x in FOCUS]]
     old.guard(command,OUT/'render.log',75*60,render)
     subprocess.run([os.environ['PARAVIEW_PYTHON'],'--force-offscreen-rendering',str(Path(__file__).resolve()),'vtk',
         '--folder',str(render)],cwd=PRODUCER,check=True,timeout=600)
     encode_gif(render)
     record=read(render/'render.json')
+    if record.get('renderer_overlay')!=overlay_module().provenance():raise ValueError('Actual renderer overlay provenance differs')
     if not (record['renderer']=='ParaView' and record['frames_rendered']==51 and record['particles']==367744
         and record['axes'] is False and record['annotations'] is False and record['geometry_scale']==1
         and record['field']=='displacement' and record['color_range']==COLOR_RANGE and record['camera_bounds']==FOCUS):
@@ -353,21 +382,21 @@ def render_media():
     save(OUT/'media-audit.json',{'passed':True,'gif_frames':51,'gif_resolution':[400,400],
         'gif_bytes':(OUT/'simulation.gif').stat().st_size,'axes':False,'text':False,
         'same_camera_and_displacement_color_scale_as_original_pair':True,
-        'actual_radial_mesh_checked':True,'solver_executed':False,'visual_review_pending':True})
+        'actual_radial_mesh_checked':True,'renderer_overlay':overlay_module().provenance(),'solver_executed':False,'visual_review_pending':True})
 
 
-def vtk_mesh_audit(folder):
+def vtk_mesh_audit(folder,producer=None,expected_particles=367744):
+    producer=PRODUCER if producer is None else Path(producer)
     import numpy as np
     from vtkmodules.vtkIOXML import vtkXMLPolyDataReader
     from vtkmodules.util.numpy_support import vtk_to_numpy
     for i in range(51):
         reader=vtkXMLPolyDataReader();reader.SetFileName(str(folder/'vtk'/f'particles_{i:05d}.vtp'));reader.Update()
         data=reader.GetOutput()
-        if data.GetNumberOfPoints()!=367744:raise ValueError('Actual exported VTK particle count differs')
+        if data.GetNumberOfPoints()!=expected_particles:raise ValueError('Actual exported VTK particle count differs')
         with np.load(folder/'frames_data'/f'frame_{i:05d}.npz',allow_pickle=False) as raw:
             np.testing.assert_allclose(vtk_to_numpy(data.GetPoints().GetData()),raw['x'],rtol=1e-6,atol=1e-7)
-    spec=importlib.util.spec_from_file_location('immutable_radial_scene',PRODUCER/'mpm_jax/paraview_scene.py')
-    scene=importlib.util.module_from_spec(spec);spec.loader.exec_module(scene)
+    scene=overlay_module().load_scene(producer)
     from paraview.simple import Sphere,Delete
     from paraview import servermanager
     summary=read(folder/'summary.json');profile=summary['definition']['radial_sinusoid'];path=summary['definition']['rigid_spheres'][0]
@@ -381,7 +410,9 @@ def vtk_mesh_audit(folder):
         if maximum>=1e-7:raise ValueError('Actual rendered rigid mesh does not match force-gap zero set')
         evidence.append({'frame':index,'mesh_vertices':len(points),'maximum_gap_zero_set_error_m':maximum})
     Delete(warped);Delete(sphere)
-    save(folder/'vtk-full-mesh-audit.json',{'passed':True,'actual_particle_frames_checked':51,
+    save(folder/'vtk-full-mesh-audit.json',{'passed':True,'actual_particle_frames_checked':51,'particles_per_frame':expected_particles,
+        'dataset_scope':'production saved data' if expected_particles==367744 else 'minimal render fixture; not a numerical result',
+        'renderer_overlay':overlay_module().provenance(),
         'actual_warped_rigid_mesh_checks':evidence,'geometry':'concentric cosine corrugation centered on moving y axis'})
 
 
@@ -427,7 +458,7 @@ def verify_delivery(folder):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode',choices=['audit','media','vtk','install','verify-delivery','contact'])
+    parser.add_argument('mode',choices=['audit','media','vtk','install','verify-delivery','contact','export'])
     parser.add_argument('--folder',type=Path)
     args=parser.parse_args()
     if args.mode=='audit':run()
@@ -436,6 +467,7 @@ def main():
     elif args.mode=='install':install()
     elif args.mode=='verify-delivery':verify_delivery(args.folder)
     elif args.mode=='contact':audit_contact()
+    elif args.mode=='export':export_saved_vtk(args.folder)
 
 
 if __name__=='__main__':main()
