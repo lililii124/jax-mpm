@@ -29,6 +29,11 @@ def validate_admission(a, allow_pending_readonly=False):
     if a['producer_run_id']!='40087609404' or a['start_frame']!=8 or a['stop_frame']!=16:
         raise ValueError('Only independently admitted original f8 producer may continue to f16')
     if a.get('independent_admission_complete') is not True and not allow_pending_readonly: raise ValueError('Independent whole-raw admission is still pending')
+    if not allow_pending_readonly:
+        proof=ROOT/'evidence/linear-metal/f8-independent-admission.json'
+        if digest(proof)!='09ed2aad2b0c9df5d51924ea1bce55ab25374ada297e71144560687af80055f5' or a.get('independent_admission_proof_sha256')!=digest(proof):raise ValueError('Independent immutable proof required')
+        review=load(proof)
+        if not (review['admitted_prefix'] and review['raw_unchanged'] and not review['solver_executed']):raise ValueError('No valid independent prefix admission')
     artifacts=a['artifacts']
     if not 2<=len(artifacts)<=33 or len({str(x['id']) for x in artifacts})!=len(artifacts):
         raise ValueError('Invalid bounded unique artifact IDs')
@@ -59,7 +64,7 @@ def restore(*, allow_pending_readonly=False):
     if os.environ.get('GITHUB_REF')!='refs/heads/work/metal-linear-full': raise ValueError('Fixed feature ref required')
     commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     if commit!=os.environ.get('GITHUB_SHA'): raise ValueError('Exact dispatched commit required')
-    for name in (*source_record()['files'], 'tools/run_metal_linear_continuation.py', 'tools/admit_metal_linear_f8.py', '.github/workflows/metal-linear-f8-admission.yml', 'tools/metal_linear_f8_admission.json', 'tools/rht_impact_prefix.py', '.github/workflows/metal-linear-continuation.yml', '.github/workflows/engineering-previews.yml'):
+    for name in (*source_record()['files'], 'tools/run_metal_linear_continuation.py', 'evidence/linear-metal/f8-independent-admission.json', 'tools/admit_metal_linear_f8.py', '.github/workflows/metal-linear-f8-admission.yml', 'tools/metal_linear_f8_admission.json', 'tools/rht_impact_prefix.py', '.github/workflows/metal-linear-continuation.yml', '.github/workflows/engineering-previews.yml'):
         if subprocess.check_output(['git','show','HEAD:'+name],cwd=ROOT)!=(ROOT/name).read_bytes(): raise ValueError('Git bytes differ: '+name)
     if DEST.exists(): raise FileExistsError('Original restored raw must never be overwritten')
     if shutil.disk_usage(ROOT).free<8*1024**3: raise ValueError('8GiB disk admission reserve required')
@@ -120,6 +125,7 @@ def restore(*, allow_pending_readonly=False):
 
 
 def run():
+    validate_admission(load(ADMISSION))
     import psutil,jax,jaxlib,numpy as np,platform
     jax.config.update('jax_enable_x64',True)
     runtime=dict(python=platform.python_version(),numpy=np.__version__,jax=jax.__version__,jaxlib=jaxlib.__version__,backend=jax.default_backend(),x64=bool(jax.config.jax_enable_x64))

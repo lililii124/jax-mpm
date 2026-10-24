@@ -3,7 +3,7 @@
   "producer_commit": "72e3d3a560dae3ede7a61c56d731b7abba2ca0ba",
   "start_frame": 8,
   "stop_frame": 16,
-  "independent_admission_complete": false,
+  "independent_admission_complete": true,
   "transport_sha256": "c0435d94afe89de2d3d176eef2e52492db3fbe24edabdd455dbd1a9770321d87",
   "receipt_sha256": "b319b6b0e7ca0ec52b7ba1a989f8426a897cd474c4228c3c190fd7b88d26efbc",
   "artifacts": [
@@ -67,5 +67,8 @@
       "name": "metal-linear-40087609404-1-part-006",
       "sha256": "e5af63b79ab0c9d2c2dda492816c3e0fa10aee9adcd520a571ebd63fbfebcb03"
     }
-  ]
+  ],
+  "independent_admission_proof_sha256": "09ed2aad2b0c9df5d51924ea1bce55ab25374ada297e71144560687af80055f5",
+  "independent_admission_proof": "evidence/linear-metal/f8-independent-admission.json",
+  "admission_scope": "Numerical saved-prefix only;5.602% physical energy loss is separately reported, no calibrated shock/phase validation"
 }
