@@ -221,6 +221,16 @@ def main():
         expected_render_hash = entry.get("render_lf_sha256", entry["render_sha256"])
         if render_hash != expected_render_hash:
             raise ValueError(f"Rendering record changed: {render_path}")
+        if entry.get("display_view_review"):
+            view_path = (root / entry["display_view_review"]).resolve()
+            if not view_path.is_relative_to((root / "docs/views").resolve()):
+                raise ValueError("Display view review must be archived under docs/views")
+            view = json.loads(view_path.read_text(encoding="utf-8"))
+            display = view["media"][entry["id"]]
+            if (view.get("passed") is not True or view.get("visual_review_passed") is not True
+                    or display["gif_sha256"] != entry["gif_sha256"]
+                    or display["source_frames"] != entry["source_frames"]):
+                raise ValueError("Display view differs from its independent media admission")
         if entry["id"] not in HIDDEN_DISPLAY_IDS:
             groups[group].append((title, f'<img src="{entry["gif_path"]}" alt="{title}" width="100%"><br>[{title}]({result})'))
         record = {
@@ -231,6 +241,8 @@ def main():
         }
         record["render_sha256"] = render_hash
         record["source_render_sha256"] = entry.get("source_render_sha256", entry["render_sha256"])
+        if entry.get("display_view_review"):
+            record["display_view_review"] = entry["display_view_review"]
         relative_source = sources[entry["id"]]
         if relative_source.split("/")[0] in CLOUD_ALIASES:
             directory = "outputs/" + relative_source

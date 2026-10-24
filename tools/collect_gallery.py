@@ -259,6 +259,8 @@ def main():
     target = ROOT / "docs/images"
     target.mkdir(exist_ok=True)
     catalogue = json.loads((ROOT / "docs/results/index.json").read_text(encoding="utf-8"))
+    display_views = {entry["id"]: entry["display_view_review"] for entry in json.loads(
+        (ROOT / "docs/images/home/manifest.json").read_text(encoding="utf-8")) if entry.get("display_view_review")}
     selected_ids = {record["id"] for record in homepage_records(ROOT, catalogue)}
     source_ids = {
         record.get("source_directory", "outputs/" + record["id"].replace("--", "/")).removeprefix("outputs/"): record["id"]
@@ -287,6 +289,15 @@ def main():
             if not is_ready_for_publication(folder, identifier, summary):
                 continue
             selected, frame, time = preview(folder, name, render)
+            if identifier in display_views:
+                view = json.loads((ROOT / display_views[identifier]).read_text(encoding="utf-8"))
+                display = view["media"][identifier]
+                selected = ROOT / display["preview_path"]
+                if (view.get("passed") is not True or view.get("visual_review_passed") is not True
+                        or hashlib.sha256(selected.read_bytes()).hexdigest() != display["preview_sha256"]):
+                    raise ValueError("Gallery display view differs from its media admission")
+                frame, time = display["preview_frame"], display["preview_time_s"]
+                render = json.loads((ROOT / display["render_path"]).read_text(encoding="utf-8"))
             copy_if_changed(selected, target / f"{name}.png")
             animation = (
                 (name in ANIMATIONS or identifier.startswith(("adhesion--", "adhesion-visible--", "woven--", "woven-preview--", "completed--")))

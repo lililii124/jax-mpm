@@ -1,0 +1,606 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "style_revision": 8,
+  "frames_rendered": 61,
+  "animation": null,
+  "field": "family_id",
+  "actual_field_range": [
+    0.0,
+    1.0
+  ],
+  "color_range": null,
+  "color_range_source": "fixed categorical yarn-family colors",
+  "color_range_policy": "fixed over the complete saved time history",
+  "magnitude_color_range_includes_zero": false,
+  "geometry_scale": 1.0,
+  "resolution": [
+    400,
+    400
+  ],
+  "axes": false,
+  "annotations": false,
+  "particle_radius": 0.000124,
+  "scene_bounds": [
+    -0.0319,
+    0.0319,
+    -0.002178192809943184,
+    0.008726040763151345,
+    -0.0319,
+    0.0319
+  ],
+  "actual_scene_bounds": [
+    -0.0319,
+    0.0319,
+    -0.002178192809943184,
+    0.008726040763151345,
+    -0.0319,
+    0.0319
+  ],
+  "actual_body_bounds": [
+    -0.0319,
+    0.0319,
+    -0.002178192809943184,
+    0.008726040763151345,
+    -0.0319,
+    0.0319
+  ],
+  "camera_bounds": [
+    -0.003,
+    0.003,
+    -0.0018,
+    0.0042,
+    -0.003,
+    0.003
+  ],
+  "camera_bounds_source": "--focus-bounds",
+  "view_scope": "explicit detail view; geometry outside the camera view may be cropped",
+  "render_overrides": {
+    "source": "renderer command-line arguments",
+    "color_range": null,
+    "scene_bounds": null,
+    "focus_bounds": [
+      -0.003,
+      0.003,
+      -0.0018,
+      0.0042,
+      -0.003,
+      0.003
+    ],
+    "sphere_opacity": null,
+    "matrix_opacity": null
+  },
+  "camera_position": [
+    0.0084,
+    0.0024000000000000002,
+    0.0108
+  ],
+  "camera_focal_point": [
+    0.0,
+    0.0012,
+    0.0
+  ],
+  "camera_parallel_scale": 0.00471506391179459,
+  "particles": 202240,
+  "auxiliary_geometry": [],
+  "woven_display": {
+    "matrix_opacity": 0.008,
+    "matrix_rgb": [
+      0.72,
+      0.78,
+      0.83
+    ],
+    "family_rgb": [
+      [
+        0.045,
+        0.36,
+        0.67
+      ],
+      [
+        0.94,
+        0.36,
+        0.08
+      ]
+    ],
+    "all_particles_retained": true,
+    "displayed_counts": [
+      {
+        "time": 0.0,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0004996938150642961,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.00099938763012859,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0015003061849357309,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0020000000000000586,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0024996938150643063,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0030006123698713585,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0035003061849356062,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.003999999999999854,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.004499693815064102,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.00499938763012835,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.005500306184935402,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.00599999999999965,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.006499693815063897,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.00700061236987095,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.007500306184935197,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.007999999999999445,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.008499693815063693,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.00899938763012794,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.009500306184934993,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.00999999999999924,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.010499693815063488,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.01100061236987054,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.011500306184934788,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.011999999999999036,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.012499693815063283,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.012999387630127531,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.013500306184934583,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.013999999999998831,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.014499693815063079,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.015000612369870131,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.015500306184934379,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.015999999999999157,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.016499693815064113,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.016999387630129068,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.01750030618493683,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.018000000000001785,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.01849969381506674,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.019000612369874503,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.019500306184939458,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.020000000000004414,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02049969381506937,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.020999387630134324,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.021500306184942086,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02200000000000704,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.022499693815071997,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02300061236987976,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.023500306184944714,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02400000000000967,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.024499693815074625,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02499938763013958,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.025500306184947343,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.026000000000012298,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.026499693815077253,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.027000612369885015,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02750030618494997,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.028000000000014926,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.02849969381507988,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.028999387630144837,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.0295003061849526,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      },
+      {
+        "time": 0.030000000000017554,
+        "matrix": 0,
+        "yarn_families": [
+          101120,
+          101120
+        ]
+      }
+    ],
+    "interpretation": "Translucent matrix and opaque yarn particles; actual positions without displacement scaling"
+  },
+  "camera_elevation_policy": 0.2,
+  "camera_direction_policy": [
+    1.4,
+    0.2,
+    1.8
+  ],
+  "camera_policy_source_sha256": "6f254ddbd442af0be9092a12876ce653164cb6c04c60f2b1e2c51d362cd92f89",
+  "base_scene_source_sha256": "47015e792433ac1c5e86f0b271f6ce1e16ef7c0e16f9605ef57e8597c2da7539"
+}

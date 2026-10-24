@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "qualifying_saved_frames": [
+    {
+      "frame": 38,
+      "time_s": 0.019000612369874503,
+      "actual_central_separation_difference_m": 0.00032470852934035046,
+      "hertz_gap_m": 0.00031574647519009777,
+      "md_contact_indentation_m": -8.962054150251503e-06
+    },
+    {
+      "frame": 39,
+      "time_s": 0.019500306184939458,
+      "actual_central_separation_difference_m": 0.0004094324859971539,
+      "hertz_gap_m": 0.0003936467727090288,
+      "md_contact_indentation_m": -1.5785713288122075e-05
+    },
+    {
+      "frame": 40,
+      "time_s": 0.020000000000004414,
+      "actual_central_separation_difference_m": 0.0005046041229987642,
+      "hertz_gap_m": 0.00047718280366597105,
+      "md_contact_indentation_m": -2.7421319332789074e-05
+    },
+    {
+      "frame": 41,
+      "time_s": 0.02049969381506937,
+      "actual_central_separation_difference_m": 0.0005973949663115603,
+      "hertz_gap_m": 0.0005841943762354357,
+      "md_contact_indentation_m": -1.3200590076121316e-05
+    }
+  ],
+  "case": "Original64mm/D4mm/30ms prescribed-grip; new camera only, not32mm40ms compliant fixture."
+}

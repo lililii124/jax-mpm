@@ -1,0 +1,27 @@
+{
+  "schema": "original64mm30ms-real-full61-low-camera-media-v1",
+  "original_frame_count": 61,
+  "live_snapshot_without_completed_job_summary": false,
+  "source_plan_sha256": "b0df7c3c525c991325655454a9b97641dfa67e1bb0688ab501e8e7c465ee3bd9",
+  "source_summary_sha256": "dead38964464fa41e4f8f50c8f2e53432c485a46b622a3cd9cdec728d5627250",
+  "source_checkpoint_sha256": "05f23254dfb473cce344f7c4237b8ed017f3618fac624364f67ff68493d5e186",
+  "actual_renderer": "ParaView",
+  "camera_direction": [
+    1.4,
+    0.2,
+    1.8
+  ],
+  "geometry_scale": 1,
+  "axes": false,
+  "annotations": false,
+  "production_eligible": false,
+  "complete61frame_result": true,
+  "display_gif": "simulation.gif",
+  "display_resolution": [
+    400,
+    400
+  ],
+  "display_palette": "fixed web palette, no dithering",
+  "all_original_states_retained": true,
+  "scope": "Original64mm/D4mm/30ms prescribed-grip case,all61 raw states. New view only; not the new32mm/40ms compliant-fixture experiment.6mm view crops long rods and parts of4mm sections."
+}

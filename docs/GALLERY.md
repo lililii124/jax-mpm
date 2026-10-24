@@ -7,13 +7,13 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="images/crossed-fibre-hertz.png" alt="crossed-fibre-hertz" width="100%"><br><strong>crossed-fibre-hertz</strong><br><a href="results/completed--crossed-fibre-hertz/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-hertz.gif">GIF</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="images/crossed-fibre-md.png" alt="Crossed fibre MD contact" width="100%"><br><strong>Crossed fibre MD contact</strong><br><a href="results/completed--crossed-fibre-md/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-md.gif">GIF</a></td>
+<td width="33%" align="center"><img src="images/crossed-fibre-jkr.png" alt="Crossed fibre JKR contact" width="100%"><br><strong>Crossed fibre JKR contact</strong><br><a href="results/completed--crossed-fibre-jkr/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-jkr.gif">GIF</a></td>
 </tr>
 <tr>
-<td width="33%" align="center"><img src="images/crossed-fibre-jkr.png" alt="Crossed fibre JKR contact" width="100%"><br><strong>Crossed fibre JKR contact</strong><br><a href="results/completed--crossed-fibre-jkr/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-jkr.gif">GIF</a></td>
-<td width="33%" align="center"><img src="images/crossed-fibre-md.png" alt="Crossed fibre MD contact" width="100%"><br><strong>Crossed fibre MD contact</strong><br><a href="results/completed--crossed-fibre-md/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-md.gif">GIF</a></td>
 <td width="33%" align="center"><img src="images/crossed-fibre-self-consistent.png" alt="Crossed fibre SC local BEM contact" width="100%"><br><strong>Crossed fibre SC local BEM contact</strong><br><a href="results/completed--crossed-fibre-self-consistent/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-self-consistent.gif">GIF</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
 </tr>
 </table>
 

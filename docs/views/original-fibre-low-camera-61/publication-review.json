@@ -1,0 +1,69 @@
+{
+  "schema": "original-fibre-complete61-low-camera-publication-review-v1",
+  "passed": true,
+  "visual_review_passed": true,
+  "run_id": 40117066743,
+  "commit": "83da5e153cf80198efca73e57cbd913e918beb29",
+  "artifact_id": 12570426203,
+  "official_zip_sha256": "4ae5f9e6b230e3464c4e20962037bea66cc7c42b3bb6baf59422ebc7c4a3f547",
+  "media": {
+    "completed--crossed-fibre-hertz": {
+      "gif_sha256": "8e82baf909fa484598a6eb3d36d594673c72f3a2a76cecb0d2d7416bec89c4ba",
+      "bytes": 1859385,
+      "source_frames": 61,
+      "gif_frames": 61,
+      "duration_ms": 7320,
+      "distinct_rendered_gif_states": 60,
+      "preview_frame": 40,
+      "preview_time_s": 0.020000000000004414,
+      "preview_path": "docs/views/original-fibre-low-camera-61/hertz/frame-40.png",
+      "preview_sha256": "a2e5b6c45cdfdb29d4460a03927fc85464c09bda6f8ae415ae964748e07fd590",
+      "render_path": "docs/views/original-fibre-low-camera-61/hertz/render.json",
+      "render_sha256": "eff032fe8529cdabd2904f6201d62ed3f7cada7d54258163cff9d72654ad9cae",
+      "original_homepage_media_record": {
+        "id": "completed--crossed-fibre-hertz",
+        "gif_path": "docs/images/home/completed--crossed-fibre-hertz.gif",
+        "gif_sha256": "f9744befb303fa74ad2b695d0fbd7650fef3f12f1272035ea23c25452acb186b",
+        "bytes": 27064583,
+        "dimensions": [
+          1200,
+          1200
+        ],
+        "source_frames": 61,
+        "gif_frames": 61,
+        "render_sha256": "55bdc6006589e34642d438b53c3b9dcfe34f3067f92f66c8681f14d2999c00d2",
+        "source_render_sha256": "55bdc6006589e34642d438b53c3b9dcfe34f3067f92f66c8681f14d2999c00d2"
+      }
+    },
+    "completed--crossed-fibre-md": {
+      "gif_sha256": "e690c431b79eb504c7d66fcb88f832546915a9a8a9a6c4d12774582508f51b23",
+      "bytes": 1867414,
+      "source_frames": 61,
+      "gif_frames": 61,
+      "duration_ms": 7320,
+      "distinct_rendered_gif_states": 60,
+      "preview_frame": 40,
+      "preview_time_s": 0.020000000000004414,
+      "preview_path": "docs/views/original-fibre-low-camera-61/md/frame-40.png",
+      "preview_sha256": "24ce23feef7bdb16eadb4ec7bdd00cbf7ddf871d7e4233d6f1aab56c9d34b009",
+      "render_path": "docs/views/original-fibre-low-camera-61/md/render.json",
+      "render_sha256": "75353e99b75791b78ac6e7d0e3f954df393f011999546a769bffc1db23e837c3",
+      "original_homepage_media_record": {
+        "id": "completed--crossed-fibre-md",
+        "gif_path": "docs/images/home/completed--crossed-fibre-md.gif",
+        "gif_sha256": "35d83b6b45ff4b79416953f5a87b414fbaf0de2c66ce442c5e019e0729cbb4b1",
+        "bytes": 8861123,
+        "dimensions": [
+          1200,
+          1200
+        ],
+        "source_frames": 61,
+        "gif_frames": 61,
+        "render_sha256": "6ed1f532b04367766c1a111ebca138fac521507389fd45884dff5bddbbadf0f0",
+        "source_render_sha256": "6ed1f532b04367766c1a111ebca138fac521507389fd45884dff5bddbbadf0f0"
+      }
+    }
+  },
+  "visual_evidence": "Viewed actual first/frame40/last PNGs in both models. Frame40 shows a clear Hertz gap while MD remains attached; same camera/colors and no axes or text. Actual61 states, no geometry scaling or numerical rerun.",
+  "scope": "Original64mm/D4mm/30ms prescribed-grip Hertz/MD comparison; does not represent new32mm40ms compliant-fixture experiment. Original numerical and original full-scene render reports unchanged."
+}

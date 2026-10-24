@@ -1,0 +1,133 @@
+{
+  "schema": "original64mm30ms-real61-low-camera-v1",
+  "passed": true,
+  "admissions": {
+    "hertz": {
+      "numerical_run": "40064897804",
+      "media_run": "40079634901",
+      "artifact_id": "12554721709",
+      "producer": "81c57439c71cb3f48c575c4d55ee9fcc89b3aa39",
+      "zip_sha256": "12592882ed93e686906e159b3c0c2a22402677e6047f4fbee5757373792e2b73",
+      "receipt_sha256": "bcaa38cddd165fe1a3ab3f1fccc223b7a7383c8ac8a54a8f8bc501acd446b9e9"
+    },
+    "md": {
+      "numerical_run": "40078855654",
+      "media_run": "40092991573",
+      "artifact_id": "12560036573",
+      "producer": "7c6c0e338fd3eb2a0e80b4c39a105dc36238bf43",
+      "zip_sha256": "699515b1280f0d4e4f421165bbbf6e8f1b54eb1da86182685f30d7d111767649",
+      "receipt_sha256": "57d807c69bbe6a5d23f30fde1829d560ed744eb79644bae7de6b2e4a5cce9f0f"
+    }
+  },
+  "raw_transport": {
+    "hertz": {
+      "schema": "fibre-final-retrieved-whole-raw-v1",
+      "passed": true,
+      "raw_archive_sha256": "6afe873b85180daadc3008441bed23afa08de7bd2b7132e82f8259f362f50b32",
+      "original_members_checked": 21,
+      "delivery_files_checked": 82,
+      "original_receipt_sha256": "bcaa38cddd165fe1a3ab3f1fccc223b7a7383c8ac8a54a8f8bc501acd446b9e9",
+      "public_visual_review_passed": false
+    },
+    "md": {
+      "schema": "fibre-final-retrieved-whole-raw-v1",
+      "passed": true,
+      "raw_archive_sha256": "f4b11fc2c44af31262edf7a8cc3464a4532a10fb787e07eba4f6d1f736c2a4d4",
+      "original_members_checked": 21,
+      "delivery_files_checked": 83,
+      "original_receipt_sha256": "57d807c69bbe6a5d23f30fde1829d560ed744eb79644bae7de6b2e4a5cce9f0f",
+      "public_visual_review_passed": false
+    }
+  },
+  "original_case": "64mm-long4mm-diameter/30ms/202240pts/24495steps/61states,original prescribed grips",
+  "numerical_rerun": false,
+  "new_view_only": true,
+  "not_new_40ms_compliant_fixture": true,
+  "same_actual_camera": {
+    "camera_position": [
+      0.0084,
+      0.0024000000000000002,
+      0.0108
+    ],
+    "camera_focal_point": [
+      0.0,
+      0.0012,
+      0.0
+    ],
+    "camera_parallel_scale": 0.00471506391179459,
+    "camera_bounds": [
+      -0.003,
+      0.003,
+      -0.0018,
+      0.0042,
+      -0.003,
+      0.003
+    ],
+    "color_range": null,
+    "actual_field_range": [
+      0.0,
+      1.0
+    ],
+    "particle_radius": 0.000124,
+    "geometry_scale": 1.0,
+    "resolution": [
+      400,
+      400
+    ]
+  },
+  "physical_contrast": [
+    {
+      "frame": 38,
+      "time_s": 0.019000612369874503,
+      "actual_central_separation_difference_m": 0.00032470852934035046,
+      "hertz_gap_m": 0.00031574647519009777,
+      "md_contact_indentation_m": -8.962054150251503e-06
+    },
+    {
+      "frame": 39,
+      "time_s": 0.019500306184939458,
+      "actual_central_separation_difference_m": 0.0004094324859971539,
+      "hertz_gap_m": 0.0003936467727090288,
+      "md_contact_indentation_m": -1.5785713288122075e-05
+    },
+    {
+      "frame": 40,
+      "time_s": 0.020000000000004414,
+      "actual_central_separation_difference_m": 0.0005046041229987642,
+      "hertz_gap_m": 0.00047718280366597105,
+      "md_contact_indentation_m": -2.7421319332789074e-05
+    },
+    {
+      "frame": 41,
+      "time_s": 0.02049969381506937,
+      "actual_central_separation_difference_m": 0.0005973949663115603,
+      "hertz_gap_m": 0.0005841943762354357,
+      "md_contact_indentation_m": -1.3200590076121316e-05
+    }
+  ],
+  "media": {
+    "hertz": {
+      "gif": {
+        "bytes": 1859385,
+        "sha256": "8e82baf909fa484598a6eb3d36d594673c72f3a2a76cecb0d2d7416bec89c4ba"
+      },
+      "render": {
+        "bytes": 11428,
+        "sha256": "eff032fe8529cdabd2904f6201d62ed3f7cada7d54258163cff9d72654ad9cae"
+      }
+    },
+    "md": {
+      "gif": {
+        "bytes": 1867414,
+        "sha256": "e690c431b79eb504c7d66fcb88f832546915a9a8a9a6c4d12774582508f51b23"
+      },
+      "render": {
+        "bytes": 11428,
+        "sha256": "75353e99b75791b78ac6e7d0e3f954df393f011999546a769bffc1db23e837c3"
+      }
+    }
+  },
+  "production_eligible": false,
+  "public_visual_review_passed": false,
+  "scope": "Complete exact original raw/source/runtime/parent/checkpoint/frame/material/contact audit. Actual all61 ParaView particle frames, uniform lowcamera,400px<9MiB GIF. True6mm detail crops64mm rods and parts of4mm sections; human occlusion/frame review required."
+}
