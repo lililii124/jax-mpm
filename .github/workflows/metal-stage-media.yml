@@ -1,0 +1,82 @@
+name: feature metal historical stage read-only media
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: metal-historical-stage-media
+  cancel-in-progress: false
+jobs:
+  media:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 2df4e0ac39937b36e972f473b1db5fd33cebaca2
+          path: .local/metal-stage-source
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Restore exact historical f16 cache without fallback
+        id: restore
+        uses: actions/cache/restore@v5
+        with:
+          path: .local/metal-corrected-continuation-cache
+          key: metal-corrected-continuation-v1-2df4e0ac39937b36e972f473b1db5fd33cebaca2-40076211097-1-f16
+          fail-on-cache-miss: true
+      - name: Verify original receipt source runtime lineage and every raw hash
+        env:
+          CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
+          CACHE_MATCH: ${{ steps.restore.outputs.cache-matched-key }}
+        run: python tools/render_metal_stage_media.py prepare
+      - name: Install rendering dependencies
+        run: |
+          python tools/render_metal_stage_media.py requirements
+          python -m pip install -r .local/metal-stage-media/renderer-requirements.txt
+          python -m pip install --no-deps -e .
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python tools/render_metal_stage_media.py install
+      - name: Render all 17 existing saved states with actual ParaView
+        run: python tools/render_metal_stage_media.py render
+      - name: Audit raw preservation and package under 100 MB
+        run: python tools/render_metal_stage_media.py package
+      - uses: actions/upload-artifact@v4
+        id: upload
+        with:
+          name: metal-stage-media-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/metal-stage-delivery/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        with:
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/metal-stage-retrieved
+          merge-multiple: true
+      - name: Verify same-run delivery retrieval hashes
+        env:
+          METAL_ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+        run: python tools/render_metal_stage_media.py retrieved --retrieved .local/metal-stage-retrieved
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: metal-stage-media-receipt-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/metal-stage-media/*receipt.json
+            .local/metal-stage-media/*audit.json
+            .local/metal-stage-media/admission.json
+          if-no-files-found: warn
+          retention-days: 30
