@@ -261,7 +261,7 @@ def main():
         start, stop = readme.index("| Cellular cushioning |"), readme.index("## Installation")
     readme_path.write_text(readme[:start] + block + "\n" + readme[stop:].lstrip("\n"), encoding="utf-8")
     manifest_path.write_text(json.dumps(public, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"README: {len(entries)} completed runs with GIFs")
+    print(f"README: {sum(len(items) for items in groups.values())} displayed GIFs")
 
 
 if __name__ == "__main__":
