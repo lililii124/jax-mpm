@@ -122,7 +122,10 @@ including five archived coarse woven runs, covering dynamics,
 contact, engineering structures, fluids and FSI. Basic compression and the
 separate elastic-material cantilever comparisons remain local; their material
 implementations and regression fixtures are retained in the repository.
-The homepage shows 50 animations; the eight original small-motion records remain in the numerical catalogue.
+The homepage shows 41 animations; the eight original small-motion records remain in the numerical catalogue.
+The older woven flat-platen compression, two-support bending and small-hemisphere
+loading setups are omitted from the homepage and gallery; their numerical records
+and original media remain archived.
 Each record includes its actual particle count, steps, physical time, material
 parameters, boundary regions, determinant range, damage and diagnostic CSVs.
 The original 48³ suite contains approximately 17,000–119,000 particles per case.
@@ -289,7 +292,7 @@ It is not a mesh-convergence or experimental validation result. The thin support
 loading patches have no full-stencil interior particle samples, so exact particle
 clamping is not asserted. The [source record](docs/results/woven--plain--transverse-bending/numerical-source.json)
 binds the Linux calculation to commit `035897ac34ba3327deadfa6ca839efa75768be3a`.
-The archived coarse run remains available; the homepage now shows the fine-grid animation.
+The coarse and fine-grid runs remain available in the numerical archive.
 
 ## Woven plain · transverse compression
 

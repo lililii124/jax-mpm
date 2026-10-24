@@ -17,6 +17,11 @@ HIDDEN_HOME_IDS = {
     "visible-motion--wave-grid64--neo-hookean",
     "visible-motion--wave-half-dt--neo-hookean",
 }
+HIDDEN_HOME_IDS.update({
+    f"woven--{architecture}--{loading}"
+    for architecture in ("plain", "triaxial", "twill-2x2")
+    for loading in ("transverse-compression", "transverse-bending", "hemispherical-compression")
+})
 
 
 HOME_REPLACEMENTS = {

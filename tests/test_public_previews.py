@@ -92,11 +92,11 @@ def test_archived_previews_are_hidden_without_a_fine_replacement(tmp_path, loadi
 
 
 def test_fine_result_remains_displayed_beside_its_archived_preview(tmp_path):
-    coarse = "woven-preview--plain--transverse-bending"
+    coarse = "woven-preview--plain--warp-tension"
     fine = coarse.replace("woven-preview", "woven", 1)
     folder = tmp_path / "docs/results" / coarse
     folder.mkdir(parents=True)
-    preview(folder)
+    preview(folder, "warp-tension")
     refined = folder.with_name(fine)
     refined.mkdir()
     for name in ("summary.json", "diagnostics.csv", "observables.csv"):
@@ -125,3 +125,39 @@ def test_hidden_concrete_bending_does_not_restore_the_previous_exhibit(tmp_path)
     catalogue = [{"id": previous}, {"id": current}]
     assert homepage_records(tmp_path, catalogue) == []
     assert all((tmp_path / "docs/results" / record["id"] / "interpretation.json").is_file() for record in catalogue)
+
+
+@pytest.mark.parametrize("architecture", ["plain", "triaxial", "twill-2x2"])
+@pytest.mark.parametrize("loading", ["transverse-compression", "transverse-bending", "hemispherical-compression"])
+def test_superseded_woven_loading_stays_archived_but_is_not_displayed(tmp_path, architecture, loading):
+    identifier = f"woven--{architecture}--{loading}"
+    folder = tmp_path / "docs/results" / identifier
+    folder.mkdir(parents=True)
+    summary = {"completed": True, "definition": {"architecture": architecture, "loading": loading}}
+    write(folder / "summary.json", summary)
+    for name in ("diagnostics.csv", "observables.csv"):
+        (folder / name).write_text("time,value\n0,0\n1,1\n", encoding="utf-8")
+    write(folder / "interpretation.json", {
+        "passed": True, "checks": {"independent_review": True},
+        "sources": {name: digest(folder / name) for name in ("summary.json", "diagnostics.csv", "observables.csv")},
+    })
+    before = {path.name: path.read_bytes() for path in folder.iterdir()}
+    assert is_ready_for_publication(folder, identifier, summary)
+    assert homepage_records(tmp_path, [{"id": identifier}]) == []
+    assert before == {path.name: path.read_bytes() for path in folder.iterdir()}
+
+
+def test_gallery_regeneration_keeps_superseded_woven_loadings_hidden(tmp_path, monkeypatch):
+    from tools import collect_gallery
+
+    catalogue = []
+    for architecture in ("plain", "triaxial", "twill-2x2"):
+        for loading in ("transverse-compression", "transverse-bending", "hemispherical-compression"):
+            test_superseded_woven_loading_stays_archived_but_is_not_displayed(tmp_path, architecture, loading)
+            catalogue.append({"id": f"woven--{architecture}--{loading}"})
+    write(tmp_path / "docs/results/index.json", catalogue)
+    monkeypatch.setattr(collect_gallery, "ROOT", tmp_path)
+    collect_gallery.main()
+    assert json.loads((tmp_path / "docs/images/manifest.json").read_text()) == []
+    assert "woven--" not in (tmp_path / "docs/GALLERY.md").read_text()
+    assert json.loads((tmp_path / "docs/results/index.json").read_text()) == catalogue
