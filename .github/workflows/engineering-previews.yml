@@ -1,4 +1,4 @@
-name: Preserve original rejected metal state
+name: Diagnose original metal rejection from accepted frame 4
 on:
   workflow_dispatch:
 permissions:
@@ -8,10 +8,29 @@ concurrency:
   group: metal-impact-resource-prefix
   cancel-in-progress: false
 jobs:
-  extract:
+  diagnostic:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          path: controller
+          persist-credentials: false
+      - name: Require original feature cache scope
+        run: |
+          test "$GITHUB_REF" = refs/heads/work/impact-compatible-first-check
+          test "$GITHUB_REPOSITORY" = lililii124/jax-mpm
       - uses: actions/checkout@v7
         with:
           ref: 07f35f678d60c881701d22dfd0ab4629ea8ee6c4
@@ -26,51 +45,150 @@ jobs:
           path: .local/metal-prefix-cache
           key: metal-prefix-v1-07f35f678d60c881701d22dfd0ab4629ea8ee6c4-40064802642-1-f8-failed
           fail-on-cache-miss: true
-      - name: Verify original source and complete failed cache before copying one state
+      - name: Record raw inventory and verify exact original source and failed cache
+        id: verify
         env:
           CACHE_HIT: ${{ steps.restore.outputs.cache-hit }}
           CACHE_KEY: ${{ steps.restore.outputs.cache-matched-key }}
         run: |
           python - <<'PY'
-          import hashlib,json,os,shutil,subprocess
-          from pathlib import Path,PurePosixPath
-          cache=Path('.local/metal-prefix-cache');producer=Path('producer');out=Path('.local/metal-rejected-delivery');out.mkdir()
-          def digest(path):
+          import hashlib,json,os,re,subprocess
+          from pathlib import Path
+          cache=Path('.local/metal-prefix-cache');out=Path('.local/metal-rejection-records');out.mkdir(parents=True)
+          def entry(p):
               h=hashlib.sha256()
-              with path.open('rb') as f:
+              with p.open('rb') as f:
                   for b in iter(lambda:f.read(1048576),b''):h.update(b)
-              return h.hexdigest()
-          assert os.environ['CACHE_HIT']=='true' and os.environ['CACHE_KEY']=='metal-prefix-v1-07f35f678d60c881701d22dfd0ab4629ea8ee6c4-40064802642-1-f8-failed'
-          raw=(cache/'receipt.json').read_bytes();assert hashlib.sha256(raw).hexdigest()=='561fc8257641b42e8db37dea2317e15e681646131498996e30f5b486cb33b889'
-          receipt=json.loads(raw);assert receipt['cache_key']=='metal-prefix-v1-07f35f678d60c881701d22dfd0ab4629ea8ee6c4-40064802642-1-f8-failed' and receipt['never_resumable'] is True and receipt['prefix_complete'] is False
-          actual={p.relative_to(cache).as_posix() for p in cache.rglob('*') if p.is_file()};assert actual==set(receipt['files'])|{'receipt.json'}
+              return {'bytes':p.stat().st_size,'sha256':h.hexdigest()}
+          assert cache.is_dir()
           assert not any(p.is_symlink() for p in cache.rglob('*'))
-          for name,record in receipt['files'].items():
-              rel=PurePosixPath(name);assert not rel.is_absolute() and '..' not in rel.parts and ':' not in name and '\\' not in name
-              p=cache/name;assert p.stat().st_size==record['bytes'] and digest(p)==record['sha256'],name
-          source=receipt['source'];assert source==json.loads((cache/'source.json').read_text()) and source['commit']=='07f35f678d60c881701d22dfd0ab4629ea8ee6c4' and str(source['run_id'])=='40064802642'
-          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=producer,text=True).strip()=='07f35f678d60c881701d22dfd0ab4629ea8ee6c4'
-          assert subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=producer,text=True).strip()==source['tree']
-          for name,r in source['files'].items():
-              p=producer/name;data=p.read_bytes();blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
-              assert len(data)==r['bytes'] and hashlib.sha256(data).hexdigest()==r['sha256'] and blob==r['git_blob']
-              assert subprocess.check_output(['git','rev-parse','HEAD:'+name],cwd=producer,text=True).strip()==blob
-          selected=['receipt.json','source.json','runtime.json','result/failure.json','result/status.json','result/summary.json','result/failed_state.npz']
-          files={}
-          for name in selected:
-              p=cache/name
-              if not p.is_file():continue
-              target=out/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
-              r={'bytes':p.stat().st_size,'sha256':digest(p)};assert target.stat().st_size==r['bytes'] and digest(target)==r['sha256'];files[name]=r
-          assert files['result/failed_state.npz']==receipt['files']['result/failed_state.npz']
-          assert sum(x['bytes'] for x in files.values())<100*1024**2
-          manifest={'files':files,'omitted':{},'producer':source,'controller':{'commit':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID'],'attempt':os.environ['GITHUB_RUN_ATTEMPT']},'original_receipt_sha256':'561fc8257641b42e8db37dea2317e15e681646131498996e30f5b486cb33b889','cache_key':'metal-prefix-v1-07f35f678d60c881701d22dfd0ab4629ea8ee6c4-40064802642-1-f8-failed','whole_original_cache_verified':True,'selected_complete_state_only':True,'never_resumable':True,'numerical_execution':False,'scope':'Read-only extraction of original rejected state; original failure and raw cache unchanged. No model verdict changed.'}
-          (out/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          before={p.relative_to(cache).as_posix():entry(p) for p in sorted(cache.rglob('*')) if p.is_file()}
+          (out/'raw-before.json').write_text(json.dumps(before,indent=2)+'\n')
+          expected='metal-prefix-v1-07f35f678d60c881701d22dfd0ab4629ea8ee6c4-40064802642-1-f8-failed'
+          assert os.environ['CACHE_HIT']=='true' and os.environ['CACHE_KEY']==expected
+          assert before['receipt.json']['sha256']=='561fc8257641b42e8db37dea2317e15e681646131498996e30f5b486cb33b889'
+          receipt=json.loads((cache/'receipt.json').read_text());source=json.loads((cache/'source.json').read_text())
+          assert receipt['source']==source and receipt['cache_key']==expected
+          assert receipt['never_resumable'] is True and receipt['prefix_complete'] is False
+          assert {k:v for k,v in before.items() if k!='receipt.json'}==receipt['files']
+          assert source['commit']=='07f35f678d60c881701d22dfd0ab4629ea8ee6c4' and str(source['run_id'])=='40064802642' and str(source['attempt'])=='1'
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd='producer',text=True).strip()==source['commit']
+          assert subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd='producer',text=True).strip()==source['tree']
+          for name,record in source['files'].items():
+              path=Path('producer')/name;data=path.read_bytes()
+              blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+              assert entry(path)=={k:record[k] for k in ('bytes','sha256')} and blob==record['git_blob'],name
+              assert subprocess.check_output(['git','rev-parse','HEAD:'+name],cwd='producer',text=True).strip()==blob
+          controller={}
+          assert subprocess.check_output(['git','rev-parse','HEAD'],cwd='controller',text=True).strip()==os.environ['GITHUB_SHA']
+          for name in ['tools/diagnose_metal_rejection.py','.github/workflows/engineering-previews.yml']:
+              path=Path('controller')/name;data=path.read_bytes();blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+              assert subprocess.check_output(['git','rev-parse','HEAD:'+name],cwd='controller',text=True).strip()==blob
+              controller[name]={**entry(path),'git_blob':blob}
+          assert controller['tools/diagnose_metal_rejection.py']['sha256']=='c18d215a2533430098b16f304b6abbf48f531715511d3ce484fe470bef7a58c7'
+          (out/'source-binding.json').write_text(json.dumps({'producer':source,'controller_sha':os.environ['GITHUB_SHA'],'controller_files':controller,'cache_key':expected,'original_receipt_sha256':before['receipt.json']['sha256'],'exact_cache_hit':True},indent=2)+'\n')
+          # Treat freeze as data. No option, URL, command, or editable install
+          # from the original runner is executed. The producer is on PYTHONPATH.
+          pins=[];ignored=[]
+          for line in (cache/'requirements.txt').read_text().splitlines():
+              text=line.strip()
+              if not text or text.startswith('#'):continue
+              if text.startswith('-e '):
+                  assert 'jax-mpm' in text or text.endswith('/jax-mpm'),text
+                  ignored.append(text);continue
+              assert re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*==[A-Za-z0-9][A-Za-z0-9_.+!-]*',text),text
+              pins.append(text)
+          assert pins and any(v.lower().startswith('jax==') for v in pins) and any(v.lower().startswith('numpy==') for v in pins)
+          assert len({v.split('==')[0].lower().replace('_','-') for v in pins})==len(pins)
+          assert any(v.lower().startswith('psutil==') for v in pins),'Original monitoring package pin missing'
+          (out/'safe-requirements.txt').write_text('\n'.join(pins)+'\n')
+          (out/'requirements-policy.json').write_text(json.dumps({'pins':pins,'ignored_local_editable':ignored,'producer_installed':False},indent=2)+'\n')
+          PY
+      - name: Install recorded numerical package versions
+        timeout-minutes: 10
+        run: |
+          python -m pip install --only-binary=:all: --requirement .local/metal-rejection-records/safe-requirements.txt
+      - name: Replay only accepted frame 4 to first rejection
+        timeout-minutes: 22
+        run: |
+          python - <<'PY'
+          import json,os,signal,subprocess,sys,time
+          from pathlib import Path
+          import psutil
+          root=Path.cwd();out=root/'.local/metal-rejection-records';log=out/'replay.log'
+          env=dict(os.environ,PYTHONPATH=str(root/'producer'))
+          cmd=[sys.executable,str(root/'controller/tools/diagnose_metal_rejection.py'),'--cache',str(root/'.local/metal-prefix-cache'),'--output',str(out/'diagnostic')]
+          start=time.monotonic();peak=0;reason=None;samples=[]
+          with log.open('wb') as f:
+              process=subprocess.Popen(cmd,cwd=root/'producer',env=env,stdout=f,stderr=subprocess.STDOUT,start_new_session=True)
+              try:
+                  while process.poll() is None:
+                      total=0
+                      try:
+                          parent=psutil.Process(process.pid)
+                          for child in [parent]+parent.children(recursive=True):
+                              try:total+=child.memory_full_info().uss
+                              except (psutil.NoSuchProcess,psutil.AccessDenied):pass
+                      except psutil.NoSuchProcess:pass
+                      elapsed=time.monotonic()-start;peak=max(peak,total)
+                      samples.append({'elapsed_s':elapsed,'tree_uss_bytes':total})
+                      if elapsed>1200:reason='20 minute wall limit'
+                      if total>6*1024**3:reason='6 GiB process-tree USS limit'
+                      if reason:
+                          os.killpg(process.pid,signal.SIGTERM)
+                          try:process.wait(timeout=10)
+                          except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL)
+                          break
+                      time.sleep(1)
+              finally:
+                  if process.poll() is None:
+                      os.killpg(process.pid,signal.SIGKILL)
+                  code=process.wait()
+                  (out/'monitor.json').write_text(json.dumps({'command':cmd,'cwd':str(root/'producer'),'returncode':code,'elapsed_s':time.monotonic()-start,'peak_tree_uss_bytes':peak,'stop_reason':reason,'samples':samples},indent=2)+'\n')
+          assert code==0 and reason is None,'Diagnostic failed; raw output preserved'
+          PY
+      - name: Record raw post-inventory and seal bounded diagnostic evidence
+        if: always()
+        timeout-minutes: 7
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,shutil,subprocess
+          from pathlib import Path
+          cache=Path('.local/metal-prefix-cache');out=Path('.local/metal-rejection-records');out.mkdir(parents=True,exist_ok=True)
+          def entry(p):
+              h=hashlib.sha256()
+              with p.open('rb') as f:
+                  for b in iter(lambda:f.read(1048576),b''):h.update(b)
+              return {'bytes':p.stat().st_size,'sha256':h.hexdigest()}
+          symlinks=[str(p) for p in cache.rglob('*') if p.is_symlink()]
+          after={p.relative_to(cache).as_posix():entry(p) for p in sorted(cache.rglob('*')) if p.is_file() and not p.is_symlink()}
+          (out/'raw-after.json').write_text(json.dumps(after,indent=2)+'\n')
+          before=json.loads((out/'raw-before.json').read_text()) if (out/'raw-before.json').exists() else None
+          unchanged=before is not None and before==after and not symlinks
+          (out/'cache-immutability.json').write_text(json.dumps({'unchanged':unchanged,'baseline_available':before is not None,'symlinks':symlinks,'no_cache_save':True},indent=2)+'\n')
+          if Path('producer').exists():
+              (out/'producer-status.txt').write_bytes(subprocess.check_output(['git','status','--porcelain'],cwd='producer'))
+          delivery=Path('.local/metal-rejection-delivery');delivery.mkdir(parents=True,exist_ok=True)
+          files={};omitted={};used=0
+          candidates=sorted([p for p in out.rglob('*') if p.is_file()],key=lambda p:(p.suffix=='.npz',p.as_posix()))
+          for p in candidates:
+              assert not p.is_symlink()
+              name=p.relative_to(out).as_posix();record=entry(p)
+              if used+record['bytes']>191*1024**2:
+                  omitted[name]=record;continue
+              target=delivery/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
+              assert entry(target)==record
+              files[name]=record;used+=record['bytes']
+          manifest={'files':files,'omitted':omitted,'cache_unchanged':unchanged,'producer':'07f35f678d60c881701d22dfd0ab4629ea8ee6c4','controller':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID'],'attempt':os.environ['GITHUB_RUN_ATTEMPT'],'never_resumable':True,'production_eligible':False,'physical_validation_passed':False,'scope':'Only original frame4-to-first-rejection diagnostic. Exact array equality gates attribution. Phase extrapolation is not validated phase physics. Listed artifact members are complete files; omissions are explicit.'}
+          (delivery/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
+          (delivery/'manifest.sha256').write_text(entry(delivery/'manifest.json')['sha256']+'  manifest.json\n')
+          assert unchanged,'Missing baseline or original cache changed; diagnostic not admissible'
           PY
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: metal-rejected-state-40064802642-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/metal-rejected-delivery
+          name: metal-rejection-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/metal-rejection-delivery
           include-hidden-files: true
           retention-days: 2
           compression-level: 0
