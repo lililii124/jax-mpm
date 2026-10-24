@@ -1,0 +1,406 @@
+name: Private deep woven impact exact f2 to f10
+
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: Exact accepted deep woven f2 to f10 continuation
+        type: choice
+        options: [woven-deep-f10]
+        default: woven-deep-f10
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: woven-deep-f10-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prefix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 145
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install and record exact numerical runtime
+        timeout-minutes: 10
+        run: |
+          python -m pip install numpy==2.5.4 jax==0.12.0.1 jaxlib==0.12.0.1 psutil==7.2.2
+          python -m pip install --no-deps -e .
+      - name: Retrieve immutable accepted parent run only
+        uses: actions/download-artifact@v5
+        with:
+          github-token: ${{ github.token }}
+          run-id: 40089103544
+          pattern: woven-deep-prefix-40089103544-1-*
+          path: .local/woven-deep-parent/
+          merge-multiple: true
+      - name: Advance exact default physical plan only through frame 10
+        timeout-minutes: 93
+        run: python tools/run_woven_deep_f10.py
+      - name: Package complete raw including failure evidence
+        if: always()
+        timeout-minutes: 10
+        run: python tools/run_woven_deep_f10.py package
+      - name: Upload transport manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-manifest
+          path: .local/woven-deep-f10-delivery/transport.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload raw part 000 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-000.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-000
+          path: .local/woven-deep-f10-delivery/part-000.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 001 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-001.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-001
+          path: .local/woven-deep-f10-delivery/part-001.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 002 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-002.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-002
+          path: .local/woven-deep-f10-delivery/part-002.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 003 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-003.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-003
+          path: .local/woven-deep-f10-delivery/part-003.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 004 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-004.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-004
+          path: .local/woven-deep-f10-delivery/part-004.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 005 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-005.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-005
+          path: .local/woven-deep-f10-delivery/part-005.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 006 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-006.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-006
+          path: .local/woven-deep-f10-delivery/part-006.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 007 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-007.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-007
+          path: .local/woven-deep-f10-delivery/part-007.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 008 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-008.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-008
+          path: .local/woven-deep-f10-delivery/part-008.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 009 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-009.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-009
+          path: .local/woven-deep-f10-delivery/part-009.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 010 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-010.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-010
+          path: .local/woven-deep-f10-delivery/part-010.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 011 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-011.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-011
+          path: .local/woven-deep-f10-delivery/part-011.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 012 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-012.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-012
+          path: .local/woven-deep-f10-delivery/part-012.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 013 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-013.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-013
+          path: .local/woven-deep-f10-delivery/part-013.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 014 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-014.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-014
+          path: .local/woven-deep-f10-delivery/part-014.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 015 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-015.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-015
+          path: .local/woven-deep-f10-delivery/part-015.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 016 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-016.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-016
+          path: .local/woven-deep-f10-delivery/part-016.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 017 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-017.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-017
+          path: .local/woven-deep-f10-delivery/part-017.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 018 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-018.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-018
+          path: .local/woven-deep-f10-delivery/part-018.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 019 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-019.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-019
+          path: .local/woven-deep-f10-delivery/part-019.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 020 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-020.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-020
+          path: .local/woven-deep-f10-delivery/part-020.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 021 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-021.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-021
+          path: .local/woven-deep-f10-delivery/part-021.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 022 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-022.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-022
+          path: .local/woven-deep-f10-delivery/part-022.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 023 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-023.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-023
+          path: .local/woven-deep-f10-delivery/part-023.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 024 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-024.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-024
+          path: .local/woven-deep-f10-delivery/part-024.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 025 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-025.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-025
+          path: .local/woven-deep-f10-delivery/part-025.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 026 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-026.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-026
+          path: .local/woven-deep-f10-delivery/part-026.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 027 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-027.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-027
+          path: .local/woven-deep-f10-delivery/part-027.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 028 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-028.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-028
+          path: .local/woven-deep-f10-delivery/part-028.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 029 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-029.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-029
+          path: .local/woven-deep-f10-delivery/part-029.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 030 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-030.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-030
+          path: .local/woven-deep-f10-delivery/part-030.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Upload raw part 031 bounded to 128 MiB
+        if: always() && hashFiles('.local/woven-deep-f10-delivery/part-031.tarpart') != ''
+        timeout-minutes: 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-part-031
+          path: .local/woven-deep-f10-delivery/part-031.tarpart
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Retrieve exact run raw artifacts
+        if: always()
+        timeout-minutes: 10
+        uses: actions/download-artifact@v5
+        with:
+          pattern: woven-deep-f10-${{ github.run_id }}-${{ github.run_attempt }}-*
+          path: .local/woven-deep-f10-retrieved/
+          merge-multiple: true
+      - name: Verify all parts and every original whole file
+        if: always()
+        timeout-minutes: 8
+        run: python tools/run_woven_deep_f10.py verify .local/woven-deep-f10-retrieved
+      - name: Preserve retrieval receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-impact-retrieval-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/woven-deep-f10-retrieved/retrieval-receipt.json
+          if-no-files-found: warn
+          retention-days: 7
