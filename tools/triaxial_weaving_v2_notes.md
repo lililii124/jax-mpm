@@ -32,3 +32,30 @@ high parked-yarn alignment speeds. Fresh24-yarn duration.0450412054s,
 8stages vs64, unchanged184224 real material points. No actual batch run yet.
 This is a new process version, never a continuation of oldCP664. Actual
 contact, crossing order, strain/work and targeted CFL checks remain required.
+
+## Actual fresh batch CFL diagnostic (73129d1)
+
+One bounded actualJAX container completed both fresh24-yarn184224-point
+cases: CFL.08/360steps and.24/120steps at t=24.1495341569977microseconds.
+Wall347.057s, peakUSS2620424192B. Alloriginal strain/material/contact/
+coverage guards passed; additional explicit case CFLceiling.25 passed.
+Both cases conserved mass/volume/IDs, D=0, histories irreversible, fixture
+speed<=3m/s and griperror<1e-10m. Maxlogstretch.00175357/.00185653;
+energy-minus-machine-work divided byabsolute machinework4.969%/3.045%.
+
+**The predeclared5% relative time-consistency target FAILED.** xincrement
+L2 difference3.476%, v3.690%, F-I7.816%, kineticenergy1.901%, elasticenergy
+10.125%, actualfixturework1.837%. Do not qualify.24 for continuation or
+claim global time convergence. This is only initial opening, no contact or
+woven topology. Raw/audit:
+`.local/triaxial-weaving-v3-batch-cfl-short-audit/independent-equal-time-audit.json`.
+Inputcapsule SHA2569fa6cfe77b1898768dbecc2aa9da370f6ffc3cd4e9706b5af404e9916d81c365.
+
+The read-only24-yarn sameCP66432-step material-spectrum guard comparison
+completed90.783s/peakUSS2891595776B. Same2097152node layout. Replacing
+separate SVD with the existing material `_spectrum(F)` stretches for the
+same12%logstretch condition yielded1.14274x median speedup. Downloaded17
+state/historyfields are allbitexact; both finalNPZ SHA256:
+373e696ad257ad46a57d3b1da6259caca604800eea9bc52cc3fda309dc57c182.
+This does not qualify larger time steps. Production batch driver is still
+unchanged; optimization has only been measured in the diagnostic tool.
