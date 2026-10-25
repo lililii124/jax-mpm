@@ -35,9 +35,11 @@ two damage solves per time step; optimize only after evidence supports it.
 2. On an authorized isolated runner, smoke for two steps first. Check finite
    arrays, KKT, irreversibility, contact gap and reaction sign assertions.
 3. Run h=.04, ell=.08, 1200 steps as the medium candidate. The workflow limits
-   solver time to 90 minutes and virtual address space to 6 GiB, with a 105
-   minute job timeout. These are hard termination bounds, not a validated peak
-   memory prediction. Incomplete runs have no completion summary. No renderer.
+   solver time to 90 minutes, owned-session USS to 5.5 GiB and minimum
+   system-available memory to 2 GiB, with a 105 minute job timeout. Observer
+   failures stop and reap the entire owned session. Source/runtime and exact
+   registered workflow Git blobs are bound before and after computation. These
+   are hard termination bounds, not a validated peak memory prediction. Incomplete runs have no completion summary. No renderer.
 4. Assess actual load-displacement curve, notch-tip damage growth, out-of-band
    damage, support imbalance against inertia, and strain validity. Report
    kinetic/elastic ratio and run a slower loading rate before any quasi-static
