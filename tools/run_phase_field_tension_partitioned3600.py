@@ -24,11 +24,12 @@ PARENT_ZIP_SHA='6095095ba0d5c8f1e1357db635a9022619eccfcc651f1b34d4c55319196dc8c4
 PARENT_HEAD='c6d538b2ebe1df425e733586ecae0382b963b4e6'
 CHECKPOINT_SHA='2f6a9154fa19d47204272904918d40e7f160f94438b14d07a54ff27bb9038a7c'
 PHYSICS_AST={
-  "advance": "2892ca17ba878439f60d1635d97ff2b715a47612c38187f33f6a9d8daf74539e",
-  "strain_of": "183e6d5a2d963e62f5dc3e5c8108a4c3a2f4a29d68fdadcc63419514d794b48d",
-  "particle_state": "ade12d9dbdf68497d86d219835a34711ed9af4a73d76699e594d21b810582d8e",
-  "potential": "b9b6ac1c53280f97f4c4be52455ad47898a98f779e0f2b7b28481737ca9c6539"
+  "advance": "fd187c83d32b5bb93858f4631c58dc0706b1f7337cf54d53ee2d37d5f2faefc7",
+  "strain_of": "ab8b0552a50cce2616c17bdfce6ce661f7d555e040932b3722960dc967c49b37",
+  "particle_state": "265930b8d7df0256ca0628c2ea7cf38d4da8f81c305578fcf41369cee3010aa7",
+  "potential": "b5d67c4c229206fbcc4a8eede5a36dbe915ead5d3121ad54a2f8011073d0e3ce"
 }
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         return None
