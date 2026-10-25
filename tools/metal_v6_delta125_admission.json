@@ -1,12 +1,12 @@
 {
-  "schema": "v6-delta-fixed125-135-v1",
+  "schema": "v6-delta-shared-cfl125-135-v2",
   "source_sha256": {
     "examples/metal_fragment_formal_v6.py": "d0c9c276c9c4144fb1bb83675d3bdbbfc469a5bb874f8473abb946749bb14d9d",
     "examples/metal_fragment_multifield.py": "44210cd5294492f25014e23750a02ec80ba5e303bebc5ba9d15bcc8a28417de6",
     "examples/metal_fragment_multifield_compact.py": "40151803555480dc169c71b20aa9e5d7d470d0dfd16e74b7d6deacc858c31b5d",
     "examples/metal_fragment_multifield_v2.py": "f72383821f7769884a66221d69b4f8ad61b3b33ec7a4bfc407e02e3636348d96",
     "examples/metal_fragment_multifield_v3.py": "4a1fce817f9e93a0a8a031c275b9b7269f774f8df94447b78964b70323505655",
-    "examples/metal_fragment_v6_delta125.py": "ad427f8fc0b5fed22806f15ec53aea73c8a87ca1e5aae31fcbca6dfe573f8f22",
+    "examples/metal_fragment_v6_delta125.py": "0de50bf962ad09298623bcea7fe3a94c146ec8c111bec666bbc0f5fc9d82c8c4",
     "examples/metal_plate_geometry.py": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
     "examples/metal_sphere_geometry.py": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
     "examples/metal_sphere_impact_fracture.py": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
@@ -16,8 +16,10 @@
     "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
     "mpm_jax/fragment_multifield_v6_mpm.py": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
     "mpm_jax/fragment_v6_delta_candidate.py": "343a52e94b121ca8715f3792d0d6204b10256e4a394537a27ac83ed81a1390f0",
-    "mpm_jax/fragment_v6_delta_diagnostic.py": "b846e8674d19542df34295edbdc5a8b0a99c553ae968999d9f5ecb2ffca3ad4c",
+    "mpm_jax/fragment_v6_delta_diagnostic.py": "9712e49cc8108ff5d1df5d7a35ee73e1a0236e8ca7e1c7ee37074394f302fd50",
     "mpm_jax/fragment_v6_delta_transfer.py": "62f26bdfa848f73de85a49cc28249edbc4815431fd8b6c096c3ea4a85664ee10",
+    "mpm_jax/fragment_v6_energy_probe.py": "98d141b12e4f01d672466b00008e7da2c7b97c3989c6575e379d740aaa273932",
+    "mpm_jax/fragment_v6_onset_probe.py": "199f729a11b58adfe234f802704770b4ee5b0b419792985d7fafd97175d915a2",
     "mpm_jax/materials/linear_metal.py": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
     "mpm_jax/materials/shock_metal.py": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
     "tools/audit_metal_fragments.py": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
@@ -63,9 +65,13 @@
   },
   "energy_roundoff_J": 1.414599609375e-08,
   "predeclared_acceptance": {
-    "energy": "Candidate increment <= original dt1 increment minus original dt1 G2P cumulative loss, plus unchanged ledger roundoff. Reduction target is original identified channel, fixed before candidate data.",
-    "shape": "Each x,F,J,C,plastic_strain,damage global Linf and L2 change from dt1 must fit maximum dt2/dt4 original temporal-spread envelope plus64eps roundoff. Diagnostic screen only, not physical validation.",
-    "physical": "All baseline validity and contact gates at every step. Original fixed-schedule replay and candidate instrumented/uninstrumented carries must each match their comparator bitwise.",
-    "scope": "No production, fragment, or public media admission."
-  }
+    "energy": "Candidate increment <= shared-schedule original increment minus shared-schedule original G2P cumulative channel, plus unchanged ledger roundoff. Mechanism-derived target fixed prospectively; invalid updates cannot qualify.",
+    "shape": "Candidate versus shared-schedule original global Linf and L2 errors in x,F,J,C,plastic_strain,damage must fit prior original dt1/dt2/dt4 temporal-spread envelope plus64eps roundoff. Diagnostic screen only.",
+    "physical": "All original physical/contact gates at every real shared step. Authenticate original dt1 replay against saved35 arrays and energy channels. Both candidate runs call the same candidate.step compiled executable; host diagnostics collection cannot change its graph; final35 arrays bitwise required.",
+    "scope": "No production, fragment, or public media admission.",
+    "schedule": "At every real step dt=min(original CFL,candidate CFL,remaining to135ns); both states advance with exactly same dt. Halt after first invalid step;512-step cap. Authenticate old dt1 replay independently.",
+    "baseline_authentication": "Use exact producer original.advance_to and original advance_to_traced wrappers at CFL.1, compare all35 original/probe/saved arrays bitwise, prescribed original dt1 trace bytes exactly, and all original per-step energy channels within64eps. New scan wrappers are excluded from baseline authentication."
+  },
+  "supersedes_failed_run": "40160319691: old fixed original schedule violates candidate CFL from step2; invalid carry never reused.",
+  "prior_compiler_wrapper_finding": "Failed run40160319691 had14 floating fields differ at roundoff scale between paired-scan and candidate-only-scan wrappers. Not admitted. New shared protocol invokes the identical compiled candidate.step API in both primary and independent replay, with diagnostic collection on host."
 }

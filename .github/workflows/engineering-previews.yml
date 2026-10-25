@@ -1,4 +1,4 @@
-name: Private fixed-schedule v6 delta transfer diagnostic
+name: Private shared-CFL v6 delta transfer diagnostic
 on:
   workflow_dispatch:
 permissions:
@@ -33,7 +33,7 @@ jobs:
         run: python -m tools.run_metal_v6_delta125 restore
       - name: Install preserved producer wheel and exact dependencies
         run: python -m tools.run_metal_v6_delta125 install
-      - name: Bounded paired original schedule and candidate equivalence
+      - name: Authenticate original then compare under shared minimum CFL
         timeout-minutes: 28
         run: python -m tools.run_metal_v6_delta125 run
       - name: Preserve whole raw on acceptance or rejection
