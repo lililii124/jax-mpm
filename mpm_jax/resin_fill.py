@@ -8,6 +8,7 @@ import jax
 import jax.numpy as jnp
 from .resin_apic import particle_to_faces,faces_to_particles,cell_mass,kinetic_particle,kinetic_grid,support
 from .resin_mac import viscosity_force,pressure_projection
+from .resin_particle_boundary import advect
 
 
 class FlowState(NamedTuple):
@@ -20,7 +21,7 @@ class FlowState(NamedTuple):
     valid: object
 
 
-def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,dt=.00004,fill_threshold=.25):
+def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,dt=.00004,fill_threshold=.25,solid=None):
     """Freeze an actual voxelized mold/fibre boundary, not final fluid geometry.
 
     Pressure cells have APIC cell mass > threshold*rho*h^3, a documented
@@ -50,18 +51,24 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         projection=pressure_projection(viscous,mass,fixed,fluid,h,dt)
         v,C=faces_to_particles(projection.velocity,supports,layout)
         v=jnp.where(s.active[:,None],v,0.);C=jnp.where(s.active[:,None,None],C,0.)
-        x=jnp.where(s.active[:,None],s.x+dt*v,s.x)
+        Ktransfer=kinetic_particle(s.mass,v,C,s.active,h)
+        wall_loss=jnp.asarray(0.);wall_impulse=jnp.zeros(3);wall_events=jnp.asarray(0);wall_valid=jnp.asarray(True)
+        if solid is None:
+            x=jnp.where(s.active[:,None],s.x+dt*v,s.x)
+        else:
+            collision=advect(s.x,v,s.mass,s.active,solid,layout,dt)
+            x,v=collision.x,collision.v;wall_loss=collision.kinetic_loss;wall_impulse=collision.impulse;wall_events=collision.events;wall_valid=collision.valid
         K1=kinetic_particle(s.mass,v,C,s.active,h)
         Kg1=kinetic_grid(mass,projection.velocity)
         W=Wbc+Wvisc+projection.fixture_work_J
-        losses=K0-Kg0+Lbc+Lvisc+projection.projection_loss_J+Kg1-K1
+        losses=K0-Kg0+Lbc+Lvisc+projection.projection_loss_J+Kg1-Ktransfer+wall_loss
         residual=W-(K1-K0)-losses
         after_support=jnp.all(jnp.stack([support(x,s.active,layout,c).valid for c in range(3)]))
-        valid=s.valid&after_support&cell_valid&jnp.all(jnp.stack([a.valid for a in supports]))&projection.valid&jnp.all(jnp.isfinite(x))&jnp.all(jnp.isfinite(C))&(Lvisc>=-1e-18)
-        fixture_vector=jnp.stack([jnp.sum(I)-dt*jnp.sum(jnp.where(f,F,0.))+jnp.sum(P) for I,f,F,P in zip(fixture_initial,fixed,force,projection.fixture_impulse)])
+        valid=s.valid&wall_valid&after_support&cell_valid&jnp.all(jnp.stack([a.valid for a in supports]))&projection.valid&jnp.all(jnp.isfinite(x))&jnp.all(jnp.isfinite(C))&(Lvisc>=-1e-18)
+        fixture_vector=wall_impulse+jnp.stack([jnp.sum(I)-dt*jnp.sum(jnp.where(f,F,0.))+jnp.sum(P) for I,f,F,P in zip(fixture_initial,fixed,force,projection.fixture_impulse)])
         particle_momentum0=jnp.sum(jnp.where(s.active,s.mass,0.)[:,None]*s.v,axis=0)
         particle_momentum1=jnp.sum(jnp.where(s.active,s.mass,0.)[:,None]*v,axis=0)
         momentum_error=jnp.linalg.norm(particle_momentum1-particle_momentum0-fixture_vector)
-        metrics=dict(momentum_step_residual_Ns=momentum_error,fixture_impulse_x_Ns=fixture_vector[0],fixture_impulse_y_Ns=fixture_vector[1],fixture_impulse_z_Ns=fixture_vector[2],kinetic_before_J=K0,kinetic_after_J=K1,fixture_work_J=W,p2g_loss_J=K0-Kg0,boundary_loss_J=Lbc,viscous_loss_J=Lvisc,pressure_loss_J=projection.projection_loss_J,g2p_loss_J=Kg1-K1,energy_identity_J=residual,pressure_identity_J=projection.work_identity_J,maximum_divergence_per_s=projection.maximum_divergence_per_s,pressure_relative_residual=projection.relative_residual,pressure_coverage_valid=projection.coverage_valid,pressure_cells=jnp.sum(fluid),pressure_volume_m3=h**3*jnp.sum(fluid),particle_volume_m3=jnp.sum(jnp.where(s.active,s.mass/density,0.)),maximum_speed_m_per_s=jnp.max(jnp.linalg.norm(v,axis=1)),valid=valid)
+        metrics=dict(particle_wall_loss_J=wall_loss,particle_wall_events=wall_events,particle_wall_valid=wall_valid,momentum_step_residual_Ns=momentum_error,fixture_impulse_x_Ns=fixture_vector[0],fixture_impulse_y_Ns=fixture_vector[1],fixture_impulse_z_Ns=fixture_vector[2],kinetic_before_J=K0,kinetic_after_J=K1,fixture_work_J=W,p2g_loss_J=K0-Kg0,boundary_loss_J=Lbc,viscous_loss_J=Lvisc,pressure_loss_J=projection.projection_loss_J,g2p_loss_J=Kg1-Ktransfer,energy_identity_J=residual,pressure_identity_J=projection.work_identity_J,maximum_divergence_per_s=projection.maximum_divergence_per_s,pressure_relative_residual=projection.relative_residual,pressure_coverage_valid=projection.coverage_valid,pressure_cells=jnp.sum(fluid),pressure_volume_m3=h**3*jnp.sum(fluid),particle_volume_m3=jnp.sum(jnp.where(s.active,s.mass/density,0.)),maximum_speed_m_per_s=jnp.max(jnp.linalg.norm(v,axis=1)),valid=valid)
         return FlowState(x,v,C,s.mass,s.active,s.time+dt,valid),metrics
     return step

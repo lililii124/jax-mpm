@@ -71,8 +71,11 @@ def obstacle_from_checkpoint(checkpoint,plan,*,allow_partial=False,dx=.00025):
         velocity=np.zeros(mask.shape)
         if component==0:velocity[inlet]=.2*(1-radial[inlet]/.0025**2)
         fixed.append(mask);target.append(velocity)
+    collision_solid=solid.copy()
+    outlet_cells=(grid[...,0]>=right)&(np.sum(grid[...,1:]**2,axis=-1)<.0025**2)
+    collision_solid[outlet_cells]=False
     receipt=dict(checkpoint_sha256=sha256(checkpoint),forming_plan_sha256=plan_sha,actual_forming_step=step,full_turn=step==plan['steps'],fixed_fibres=True,grid_dx_m=dx,grid_origin_m=origin.tolist(),grid_shape=shape.tolist(),conservative_radial_clearance_m=float(radius-radial_bound.max()),cylinder_radius_m=radius,cylinder_limits_m=[left,right],voxelized_fibre_volume_m3=float(fibre.sum()*dx**3),cavity_void_volume_m3=float(open_cells.sum()*dx**3),boundary_scope='Union of actual F-advected quadrature cells evaluated at cell centres; staircase fixed boundary, grid-scale geometry error, not smooth surface/FSI/cure')
-    return dict(origin=origin,shape=shape,dx=dx,solid=solid,open_cells=open_cells,fixed=tuple(fixed),prescribed=tuple(target),fibre_x=x,fibre_id=ids,receipt=receipt)
+    return dict(origin=origin,shape=shape,dx=dx,solid=solid,collision_solid=collision_solid,open_cells=open_cells,fixed=tuple(fixed),prescribed=tuple(target),fibre_x=x,fibre_id=ids,receipt=receipt)
 
 
 def inlet_schedule(*,radius=.0025,spacing=.0002,maximum_speed=.2,duration=.32,left=-.001,density=1100.):
