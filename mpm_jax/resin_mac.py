@@ -62,6 +62,7 @@ class PressureResult(NamedTuple):
     work_identity_J: object
     coverage_valid: object
     valid: object
+    iterations: object
 
 
 def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400,preconditioner=None):
@@ -86,9 +87,21 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
         from .resin_pressure_multigrid import make_preconditioner
         M=make_preconditioner(inverse,fluid,h)
     def solve(_):
-        multiplier,_=cg(operator,rhs,x0=jnp.zeros_like(rhs),M=M,tol=tolerance,atol=0.,maxiter=max_iterations)
-        return multiplier
-    multiplier=jax.lax.cond(coverage&positive&(jnp.linalg.norm(rhs)>0),solve,lambda _:jnp.zeros_like(rhs),None)
+        if preconditioner!='galerkin':
+            value,_=cg(operator,rhs,x0=jnp.zeros_like(rhs),M=M,tol=tolerance,atol=0.,maxiter=max_iterations)
+            return value,jnp.asarray(-1,jnp.int32)
+        # Standard preconditioned CG recurrence, with its actual iteration count.
+        z=M(rhs);rho=jnp.vdot(rhs,z);threshold=tolerance**2*jnp.vdot(rhs,rhs)
+        def condition(carry):
+            k,x,r,p,rho=carry
+            return (k<max_iterations)&(jnp.vdot(r,r)>threshold)&jnp.isfinite(rho)&(rho>0)
+        def body(carry):
+            k,x,r,p,rho=carry;Ap=operator(p);alpha=rho/jnp.vdot(p,Ap)
+            x=x+alpha*p;r=r-alpha*Ap;z=M(r);newrho=jnp.vdot(r,z)
+            return k+1,x,r,z+(newrho/rho)*p,newrho
+        k,value,_,_,_=jax.lax.while_loop(condition,body,(jnp.asarray(0,jnp.int32),jnp.zeros_like(rhs),rhs,z,rho))
+        return value,k
+    multiplier,iterations=jax.lax.cond(coverage&positive&(jnp.linalg.norm(rhs)>0),solve,lambda _:(jnp.zeros_like(rhs),jnp.asarray(0,jnp.int32)),None)
     gradient=transpose_divergence(multiplier,h)
     corrected=tuple(v-i*g for v,i,g in zip(velocity,inverse,gradient))
     fixture=tuple(jnp.where(f,g,0.) for f,g in zip(fixed,gradient))
@@ -99,4 +112,4 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
     relative=jnp.linalg.norm(residual)/jnp.maximum(jnp.linalg.norm(rhs),1e-300)
     div=jnp.where(fluid,divergence(corrected,h),0.)/h**3
     valid=coverage&positive&jnp.isfinite(relative)&(relative<=10*tolerance)&jnp.all(jnp.stack([jnp.all(jnp.isfinite(v)) for v in corrected]))
-    return PressureResult(corrected,-multiplier/dt,fixture,relative,jnp.max(jnp.abs(div)),work,loss,work-change-loss,coverage,valid)
+    return PressureResult(corrected,-multiplier/dt,fixture,relative,jnp.max(jnp.abs(div)),work,loss,work-change-loss,coverage,valid,iterations)

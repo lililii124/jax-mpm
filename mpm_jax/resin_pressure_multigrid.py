@@ -43,6 +43,6 @@ def make_preconditioner(inverse,fluid,h,*,max_levels=6):
     def cycle(i,rhs):
         level=levels[i];mask,edges,anchor,diagonal=level
         def smooth(x):return x+omega*jnp.where(mask,(rhs-apply_graph(level,x))/diagonal,0.)
-        if i==len(levels)-1:return jax.lax.fori_loop(0,80,lambda _,x:smooth(x),jnp.zeros_like(rhs))
-        x=jax.lax.fori_loop(0,4,lambda _,x:smooth(x),jnp.zeros_like(rhs));residual=jnp.where(mask,rhs-apply_graph(level,x),0.);correction=cycle(i+1,block_sum(residual));correction=jnp.repeat(jnp.repeat(jnp.repeat(correction,2,axis=0),2,axis=1),2,axis=2);correction=correction[tuple(slice(0,n) for n in rhs.shape)];x=x+jnp.where(mask,correction,0.);return jax.lax.fori_loop(0,4,lambda _,y:smooth(y),x)
+        if i==len(levels)-1:return jax.lax.fori_loop(0,20,lambda _,x:smooth(x),jnp.zeros_like(rhs))
+        x=omega*jnp.where(mask,rhs/diagonal,0.);residual=jnp.where(mask,rhs-apply_graph(level,x),0.);correction=cycle(i+1,block_sum(residual));correction=jnp.repeat(jnp.repeat(jnp.repeat(correction,2,axis=0),2,axis=1),2,axis=2);correction=correction[tuple(slice(0,n) for n in rhs.shape)];x=x+jnp.where(mask,correction,0.);return smooth(x)
     return lambda rhs:jnp.where(fluid,cycle(0,jnp.where(fluid,rhs,0.)),rhs)
