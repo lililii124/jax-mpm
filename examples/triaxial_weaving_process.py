@@ -48,7 +48,7 @@ def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_s
     return geometry,record
 
 
-def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense",upgrade_work_observer=False):
+def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense",upgrade_work_observer=False,upgrade_allocation=False):
     geometry,plan=plan_process(per_family,dx,pitch,diameter,particle_spacing)
     if not plan['within_initial_resource_limits']:raise ValueError('Need a new resource plan and swept sparse contact/grid strategy for this larger station')
     import jax
@@ -72,6 +72,8 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
     root=Path(__file__).resolve().parents[1]
     sources=[Path(__file__),root/'examples/triaxial_weaving_geometry.py',root/'examples/triaxial_fibre_geometry.py',*sorted((root/'mpm_jax').rglob('*.py'))]
     plan['grid_allocation']=grid
+    plan['tube_allocation_schema']='swept-machine-plus-restored-body-v2'
+    plan['tube_padding_cells']=12
     if grid not in ('dense','tube'):raise ValueError('Unknown grid allocation')
     plan['source_sha256']={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     runtime=dict(jax=jax.__version__,jaxlib=__import__('jaxlib').__version__,numpy=np.__version__,x64=bool(jax.config.jax_enable_x64))
@@ -80,15 +82,16 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
     if resume:
         prior=json.loads((output/'plan.json').read_text())
         if prior['signature']!=signature:
-            if not upgrade_work_observer:raise ValueError('Source signature differs; explicit documented observer upgrade required')
-            omit={'source_sha256','requested_steps','signature','runtime'}
+            if not (upgrade_work_observer or upgrade_allocation):raise ValueError('Source signature differs; explicit documented upgrade required')
+            omit={'source_sha256','requested_steps','signature','runtime','tube_allocation_schema','tube_padding_cells'}
             assert {k:v for k,v in prior.items() if k not in omit}=={k:json_value(v) for k,v in plan.items() if k not in omit}
             old_sources=prior['source_sha256'];new_sources=plan['source_sha256']
-            assert old_sources['examples/triaxial_weaving_process.py']=='d6af5976dae9b1429fdf5601c4230adb172ecefafcdde2b4def2550006d938f4','Only the audited pre-work-observer source may upgrade'
+            expected_old=('b1519840e0df1d7b0dd5116da4df77ea0f2a6ac5e83fdeb55f917b04fd661e39' if upgrade_allocation else 'd6af5976dae9b1429fdf5601c4230adb172ecefafcdde2b4def2550006d938f4')
+            assert old_sources['examples/triaxial_weaving_process.py']==expected_old,'Only an explicitly audited source may upgrade'
             assert set(old_sources)==set(new_sources)
             assert all(old_sources[k]==new_sources[k] for k in old_sources if k!='examples/triaxial_weaving_process.py')
-            (output/'work-observer-upgrade.json').write_text(json.dumps(dict(old_signature=prior['signature'],new_signature=signature,
-                only_changed_source='examples/triaxial_weaving_process.py',scope='Add physical fixture work and projection-loss observer; no solver/material/guide changes'),indent=2))
+            (output/('allocation-upgrade.json' if upgrade_allocation else 'work-observer-upgrade.json')).write_text(json.dumps(dict(old_signature=prior['signature'],new_signature=signature,
+                only_changed_source='examples/triaxial_weaving_process.py',scope=('Reallocate same global lattice: full machine sweep plus restored free body and12-cell margin; no MPM/material/contact/guide change' if upgrade_allocation else 'Add physical fixture work and projection-loss observer; no solver/material/guide changes')),indent=2))
     (output/'plan.json').write_text(json.dumps(json_value(plan),indent=2))
     (output/'geometry.json').write_text(json.dumps(json_value(geometry['metadata']),indent=2))
     np.savez_compressed(output/'reference.npz',reference=geometry['x'],mass=geometry['mass'],volume=geometry['volume'],
@@ -97,7 +100,11 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
         tensile_strength=plan['tensile_strength_Pa'],fracture_energy=plan['fracture_energy_J_m2'],characteristic_length=plan['dx'])
     if grid=='tube':
         seeds,seed_ids=swept_corridor_seeds(geometry,plan['dx'])
-        layout=build_tube_layout(seeds,seed_ids,dx=plan['dx'],padding_cells=6,
+        if resume:
+            with np.load(output/'checkpoint.npz',allow_pickle=False) as cp:restored_points=cp['state_x'].copy()
+            assert restored_points.shape==geometry['x'].shape and np.isfinite(restored_points).all()
+            seeds=np.concatenate([seeds,restored_points]);seed_ids=np.concatenate([seed_ids,geometry['fibre_id']])
+        layout=build_tube_layout(seeds,seed_ids,dx=plan['dx'],padding_cells=plan['tube_padding_cells'],
             reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
     else:
         layout=build_layout(geometry['x'],geometry['fibre_id'],dx=plan['dx'],padding_cells=6,
@@ -150,7 +157,7 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
     observer_start=0;observer_initial_energy=0.;observer_initial_grid_work=0.;observer_initial_abs_work=0.
     if resume:
         with np.load(output/'checkpoint.npz',allow_pickle=False) as cp:
-            assert (str(cp['signature'])==signature or (upgrade_work_observer and str(cp['signature'])==prior['signature'])) and json.loads(str(cp['runtime']))==runtime
+            assert (str(cp['signature'])==signature or ((upgrade_work_observer or upgrade_allocation) and str(cp['signature'])==prior['signature'])) and json.loads(str(cp['runtime']))==runtime
             values={name:jnp.asarray(cp['state_'+name]) for name in state._fields if name!='history'}
             values['history']=BrittleHistory(*(jnp.asarray(cp['history_'+name]) for name in state.history._fields))
             state=FibreState(**values)
@@ -222,10 +229,11 @@ if __name__=='__main__':
     parser.add_argument('--dx',type=float,default=.000075);parser.add_argument('--pitch',type=float,default=.0027)
     parser.add_argument('--diameter',type=float,default=.000225);parser.add_argument('--particle-spacing',type=float,default=.00006)
     parser.add_argument('--upgrade-work-observer',action='store_true')
+    parser.add_argument('--upgrade-allocation',action='store_true')
     parser.add_argument('--grid',choices=['dense','tube'],default='dense')
     parser.add_argument('--saved-frames',type=int,default=8);parser.add_argument('--resume',action='store_true')
     parser.add_argument('--run',action='store_true');parser.add_argument('--steps',type=int)
     parser.add_argument('--output',default='outputs/triaxial-weaving-process');args=parser.parse_args()
     parameters=dict(per_family=args.per_family,dx=args.dx,pitch=args.pitch,diameter=args.diameter,particle_spacing=args.particle_spacing)
-    if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,grid=args.grid,upgrade_work_observer=args.upgrade_work_observer,**parameters)
+    if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,grid=args.grid,upgrade_work_observer=args.upgrade_work_observer,upgrade_allocation=args.upgrade_allocation,**parameters)
     else:print(json.dumps(json_value(plan_process(**parameters)[1]),indent=2))
