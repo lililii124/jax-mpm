@@ -1,0 +1,214 @@
+{
+  "passed": true,
+  "impact_started": false,
+  "checks": {
+    "actual_full_step_force_free_affine": [
+      {
+        "steps": 8,
+        "errors": {
+          "x": 2.168404344971009e-19,
+          "F": 1.3877787807814457e-17,
+          "L_relative": 0.0,
+          "kinetic_J": 0.0
+        },
+        "max_virtual_work_J": 0.0,
+        "max_angular_residual": 4.7190832199378156e-24
+      },
+      {
+        "steps": 16,
+        "errors": {
+          "x": 3.7947076036992655e-19,
+          "F": 1.3877787807814457e-17,
+          "L_relative": 0.0,
+          "kinetic_J": 0.0
+        },
+        "max_virtual_work_J": 0.0,
+        "max_angular_residual": 2.01194028207745e-24
+      },
+      {
+        "steps": 32,
+        "errors": {
+          "x": 8.131516293641283e-19,
+          "F": 4.163336342344337e-17,
+          "L_relative": 0.0,
+          "kinetic_J": 0.0
+        },
+        "max_virtual_work_J": 0.0,
+        "max_angular_residual": 5.832947650951005e-24
+      }
+    ],
+    "objective_rotation_material": {
+      "rotation_error": 1.1102230246251565e-16,
+      "strain_error": 1.848282472697243e-17,
+      "stress_error_Pa": 9.373761713504791e-07,
+      "plastic_heat_J_per_kg": 0.0
+    },
+    "affine_work_time_quadrature": [
+      {
+        "steps": 8,
+        "grid_physical_mismatch": 0.0010685317871360067,
+        "physical_work_error": -2.350651295141004e-06
+      },
+      {
+        "steps": 16,
+        "grid_physical_mismatch": 0.0005325029264935388,
+        "physical_work_error": -5.876842206764543e-07
+      },
+      {
+        "steps": 32,
+        "grid_physical_mismatch": 0.0002658107014187061,
+        "physical_work_error": -1.4692239266866913e-07
+      }
+    ],
+    "virtual_work_and_affine_acceleration": {
+      "virtual_identity": 0.0,
+      "virtual_scale": 301.5611035287902,
+      "velocity_increment_error": 3.469446951953614e-18,
+      "gradient_increment_error": 1.6696713456276768e-17
+    },
+    "general_zero_force_two_cell_crossing": [
+      {
+        "grid_phase": 0.0,
+        "grid_cells_crossed": 2,
+        "remaps": 64,
+        "kinetic_change_J": 0.0,
+        "maximum_ledger_residual_J": 0.0
+      },
+      {
+        "grid_phase": 0.25,
+        "grid_cells_crossed": 2,
+        "remaps": 64,
+        "kinetic_change_J": 0.0,
+        "maximum_ledger_residual_J": 0.0
+      },
+      {
+        "grid_phase": 0.5,
+        "grid_cells_crossed": 2,
+        "remaps": 64,
+        "kinetic_change_J": 0.0,
+        "maximum_ledger_residual_J": 0.0
+      },
+      {
+        "grid_phase": 0.75,
+        "grid_cells_crossed": 2,
+        "remaps": 64,
+        "kinetic_change_J": 0.0,
+        "maximum_ledger_residual_J": 0.0
+      }
+    ],
+    "actual_full_step_rigid_two_cell_crossing": [
+      {
+        "phase": 0.0,
+        "steps": 68,
+        "distance_grid_cells": 2,
+        "x_error_m": 2.6020852139652106e-18,
+        "kinetic_change_J": 0.0,
+        "temperature_K": 300.0,
+        "all_original_and_extra_gates": true,
+        "own_CFL": true
+      },
+      {
+        "phase": 0.25,
+        "steps": 68,
+        "distance_grid_cells": 2,
+        "x_error_m": 2.6020852139652106e-18,
+        "kinetic_change_J": 0.0,
+        "temperature_K": 300.0,
+        "all_original_and_extra_gates": true,
+        "own_CFL": true
+      },
+      {
+        "phase": 0.5,
+        "steps": 68,
+        "distance_grid_cells": 2,
+        "x_error_m": 3.0357660829594124e-18,
+        "kinetic_change_J": 0.0,
+        "temperature_K": 300.0,
+        "all_original_and_extra_gates": true,
+        "own_CFL": true
+      },
+      {
+        "phase": 0.75,
+        "steps": 68,
+        "distance_grid_cells": 2,
+        "x_error_m": 4.7704895589362195e-18,
+        "kinetic_change_J": 0.0,
+        "temperature_K": 300.0,
+        "all_original_and_extra_gates": true,
+        "own_CFL": true
+      }
+    ],
+    "analytic_contact": [
+      {
+        "case": "two_free",
+        "kinetic_loss_J": 11.428571428571427,
+        "analytic_loss_J": 11.428571428571429,
+        "closure": 4.718447854656915e-16,
+        "complementarity": 4.718447854656915e-16
+      },
+      {
+        "case": "fixed_wall",
+        "kinetic_loss_J": 9.0,
+        "analytic_loss_J": 9.0,
+        "closure": 4.440892098500626e-16,
+        "complementarity": 4.440892098500626e-16
+      }
+    ],
+    "actual_full_step_contact": {
+      "gates": {
+        "original": true,
+        "geometry": true,
+        "virtual_work": true,
+        "work_decomposition": true,
+        "angular_momentum": true,
+        "transfer_angular_identity": true,
+        "per_field_transfer_angular_identity": true,
+        "energy_identity": true
+      },
+      "temperature_K": [
+        300.0,
+        300.0
+      ],
+      "grid_physical_work_mismatch_J": 0.0,
+      "material_work_remainder_J": -4.4789702067855096e-45,
+      "virtual_work_identity_J": 0.0,
+      "angular_residual": [
+        0.0,
+        8.099049454598576e-27,
+        1.1711951031464814e-25
+      ]
+    },
+    "actual_nonzero_stress_work": {
+      "gates": {
+        "original": true,
+        "geometry": true,
+        "virtual_work": true,
+        "work_decomposition": true,
+        "angular_momentum": true,
+        "transfer_angular_identity": true,
+        "per_field_transfer_angular_identity": true,
+        "energy_identity": true
+      },
+      "stress_work_J": 7.103405503979884e-14,
+      "virtual_identity_J": -1.8211305698804017e-29,
+      "grid_physical_mismatch_J": 9.65944977247773e-16,
+      "material_remainder_J": -8.86444759138326e-19,
+      "original_constitutive_defect_J": 9.650585324886347e-16,
+      "decomposition_identity_J": 9.244463733058732e-32
+    }
+  },
+  "source_sha256": {
+    "mpm_jax/fragment_v6_geometric_delta_candidate.py": "bda95dbcdd37af61f8bf93f925c8749de73a9bbba4e48716f0f01ea70ceab5bd",
+    "mpm_jax/fragment_v6_geometric_delta_diagnostic.py": "0e690f5d0d5457da713457ad7f953b43f0a6fad435bb9be494d102ecce13aecb",
+    "mpm_jax/fragment_v6_geometric_kinematics.py": "98f6e45dff75cf4f7020d02eb6d0a4177a5375ac4c683c7157d05087d66194f6",
+    "tools/prove_metal_geometric_delta.py": "1b3da5d7efea68a6a83f8f5ecd88aa2ebb70e6a8a7f7cfb77214d9c1c9a12855",
+    "mpm_jax/fragment_v6_delta_transfer.py": "62f26bdfa848f73de85a49cc28249edbc4815431fd8b6c096c3ea4a85664ee10",
+    "mpm_jax/fragment_multifield_v6_mpm.py": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792"
+  },
+  "runtime": {
+    "python": "3.12.13",
+    "jax": "0.12.1.dev20261022",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4"
+  }
+}

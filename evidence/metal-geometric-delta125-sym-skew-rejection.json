@@ -1,0 +1,842 @@
+{
+  "scope": "Operator-only, arbitrary nonaffine fields with two independent physical bodies. No impact continuation.",
+  "numpy_jax_max_v_error": 4.440892098500626e-16,
+  "numpy_jax_max_C_error": 1.7763568394002505e-15,
+  "numpy_diagnostics": {
+    "momentum_defect": [
+      -4.440892098500626e-16,
+      3.3306690738754696e-16,
+      -2.7755575615628914e-16
+    ],
+    "angular_defect": [
+      6.38378239159465e-16,
+      -7.771561172376096e-16,
+      -5.551115123125783e-16
+    ],
+    "p2g_J": 45.10367325437823,
+    "g2p_signed_J": -44.131880791170275,
+    "particle_delta_J": 0.17198827570925346,
+    "grid_work_J": 1.1437807389172066,
+    "ledger_identity_residual_J": 1.3322676295501878e-15,
+    "symmetric_affine_change_from_delta_J": 0.5779139484415386,
+    "orthogonal_identity_residual_J": -4.773959005888173e-15,
+    "correction_identity_residual_J": 7.105427357601002e-15
+  },
+  "jax_diagnostics": {
+    "linear_defect_by_field": [
+      [
+        -2.927745103697668e-16,
+        1.704242571797518e-16,
+        -3.8373787272558196e-16
+      ],
+      [
+        1.0286671692960053e-16,
+        -1.3842723519905827e-16,
+        6.379972950521701e-17
+      ]
+    ],
+    "angular_defect_by_field": [
+      [
+        7.922807375437824e-17,
+        2.2985086056692694e-17,
+        -2.959871930885427e-17
+      ],
+      [
+        2.211772431870429e-17,
+        2.5045070184415152e-17,
+        9.107298248878237e-17
+      ]
+    ],
+    "symmetric_affine_change_from_delta_J": 0.5779139484415396,
+    "orthogonal_identity_residual_J": -6.661338147750939e-16,
+    "correction_identity_residual_J": 7.771561172376096e-16
+  },
+  "zero_force": {
+    "initial_kinetic_J": 61.86885505362709,
+    "first_increment_J": 2.823082593342548,
+    "maximum_kinetic_J": 76.94001584969563,
+    "final_kinetic_J": 76.94001584969563,
+    "velocity_bitwise_unchanged": true,
+    "rows": [
+      {
+        "remap": 1,
+        "kinetic_J": 64.69193764696963,
+        "increment_J": 2.823082593342548,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 2,
+        "kinetic_J": 68.18089394641254,
+        "increment_J": 3.488956299442904,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 3,
+        "kinetic_J": 70.85124135776383,
+        "increment_J": 2.670347411351287,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 4,
+        "kinetic_J": 72.73028707681681,
+        "increment_J": 1.8790457190529821,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 5,
+        "kinetic_J": 74.02151309934132,
+        "increment_J": 1.291226022524512,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 6,
+        "kinetic_J": 74.90492559450975,
+        "increment_J": 0.8834124951684288,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 7,
+        "kinetic_J": 75.51121300917627,
+        "increment_J": 0.6062874146665251,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 8,
+        "kinetic_J": 75.92987024585156,
+        "increment_J": 0.418657236675287,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 9,
+        "kinetic_J": 76.22105898628769,
+        "increment_J": 0.29118874043612664,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 10,
+        "kinetic_J": 76.42509630206473,
+        "increment_J": 0.2040373157770432,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 11,
+        "kinetic_J": 76.56909697925187,
+        "increment_J": 0.14400067718713672,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 12,
+        "kinetic_J": 76.67141628723328,
+        "increment_J": 0.10231930798141775,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 13,
+        "kinetic_J": 76.74457643080457,
+        "increment_J": 0.07316014357128608,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 14,
+        "kinetic_J": 76.79718959503379,
+        "increment_J": 0.05261316422921425,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 15,
+        "kinetic_J": 76.83522626965755,
+        "increment_J": 0.03803667462376836,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 16,
+        "kinetic_J": 76.86285728714063,
+        "increment_J": 0.02763101748307406,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 17,
+        "kinetic_J": 76.88301729719302,
+        "increment_J": 0.020160010052393318,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 18,
+        "kinetic_J": 76.89778502038055,
+        "increment_J": 0.014767723187532056,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 19,
+        "kinetic_J": 76.90864203586851,
+        "increment_J": 0.010857015487957256,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 20,
+        "kinetic_J": 76.91665035940139,
+        "increment_J": 0.00800832353287717,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 21,
+        "kinetic_J": 76.9225752587363,
+        "increment_J": 0.0059248993349143575,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 22,
+        "kinetic_J": 76.92697082881054,
+        "increment_J": 0.004395570074237298,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 23,
+        "kinetic_J": 76.93024003619094,
+        "increment_J": 0.0032692073803985977,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 24,
+        "kinetic_J": 76.9326771248448,
+        "increment_J": 0.002437088653863384,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 25,
+        "kinetic_J": 76.93449774651282,
+        "increment_J": 0.0018206216680169973,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 26,
+        "kinetic_J": 76.9358604894931,
+        "increment_J": 0.001362742980276721,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 27,
+        "kinetic_J": 76.93688234142436,
+        "increment_J": 0.0010218519312701346,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 28,
+        "kinetic_J": 76.93764984860081,
+        "increment_J": 0.0007675071764481345,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 29,
+        "kinetic_J": 76.9382272052332,
+        "increment_J": 0.0005773566323910018,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 30,
+        "kinetic_J": 76.93866214124448,
+        "increment_J": 0.00043493601127408965,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 31,
+        "kinetic_J": 76.93899022388108,
+        "increment_J": 0.00032808263659944714,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 32,
+        "kinetic_J": 76.9392380113874,
+        "increment_J": 0.00024778750632492574,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 33,
+        "kinetic_J": 76.93942537249588,
+        "increment_J": 0.0001873611084732829,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 34,
+        "kinetic_J": 76.93956719742813,
+        "increment_J": 0.0001418249322568954,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 35,
+        "kinetic_J": 76.93967466348039,
+        "increment_J": 0.00010746605225619987,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 36,
+        "kinetic_J": 76.93975617350372,
+        "increment_J": 8.151002333534052e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 37,
+        "kinetic_J": 76.93981805344335,
+        "increment_J": 6.187993962214478e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 38,
+        "kinetic_J": 76.93986507191104,
+        "increment_J": 4.701846769705753e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 39,
+        "kinetic_J": 76.93990082796782,
+        "increment_J": 3.575605677497151e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 40,
+        "kinetic_J": 76.93992804107994,
+        "increment_J": 2.7213112119284233e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 41,
+        "kinetic_J": 76.93994876829899,
+        "increment_J": 2.072721905221897e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 42,
+        "kinetic_J": 76.93996456719137,
+        "increment_J": 1.5798892377461016e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 43,
+        "kinetic_J": 76.93997661824986,
+        "increment_J": 1.2051058490669675e-05,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 44,
+        "kinetic_J": 76.93998581699097,
+        "increment_J": 9.198741111049458e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 45,
+        "kinetic_J": 76.93999284333435,
+        "increment_J": 7.026343382676714e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 46,
+        "kinetic_J": 76.93999821393164,
+        "increment_J": 5.370597293108403e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 47,
+        "kinetic_J": 76.9400023216797,
+        "increment_J": 4.107748054593685e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 48,
+        "kinetic_J": 76.94000546558868,
+        "increment_J": 3.1439089838158907e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 49,
+        "kinetic_J": 76.94000787338204,
+        "increment_J": 2.4077933602484336e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 50,
+        "kinetic_J": 76.94000971861323,
+        "increment_J": 1.8452311820738032e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 51,
+        "kinetic_J": 76.94001113364119,
+        "increment_J": 1.415027966800153e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 52,
+        "kinetic_J": 76.94001221947482,
+        "increment_J": 1.0858336310093364e-06,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 53,
+        "kinetic_J": 76.94001305324815,
+        "increment_J": 8.33773327713061e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 54,
+        "kinetic_J": 76.94001369390068,
+        "increment_J": 6.406525301372312e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 55,
+        "kinetic_J": 76.94001418649717,
+        "increment_J": 4.925964844915143e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 56,
+        "kinetic_J": 76.94001456551499,
+        "increment_J": 3.7901781979599036e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 57,
+        "kinetic_J": 76.94001485734758,
+        "increment_J": 2.918325918699338e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 58,
+        "kinetic_J": 76.94001508221211,
+        "increment_J": 2.2486453588044242e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 59,
+        "kinetic_J": 76.94001525560421,
+        "increment_J": 1.7339209534839028e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 60,
+        "kinetic_J": 76.9400153894078,
+        "increment_J": 1.3380359575876355e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 61,
+        "kinetic_J": 76.94001549274252,
+        "increment_J": 1.0333471323065169e-07,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 62,
+        "kinetic_J": 76.94001557261097,
+        "increment_J": 7.986845673713105e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 63,
+        "kinetic_J": 76.94001563439363,
+        "increment_J": 6.178265721246134e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 64,
+        "kinetic_J": 76.94001568222714,
+        "increment_J": 4.78335095976945e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 65,
+        "kinetic_J": 76.94001571929397,
+        "increment_J": 3.7066826052978286e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 66,
+        "kinetic_J": 76.94001574804408,
+        "increment_J": 2.875010807201761e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 67,
+        "kinetic_J": 76.94001577036482,
+        "increment_J": 2.232074791663763e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 68,
+        "kinetic_J": 76.94001578771119,
+        "increment_J": 1.7346366121273604e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 69,
+        "kinetic_J": 76.94001580120558,
+        "increment_J": 1.3494386053025664e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 70,
+        "kinetic_J": 76.94001581171452,
+        "increment_J": 1.0508941272746597e-08,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 71,
+        "kinetic_J": 76.9400158199075,
+        "increment_J": 8.192984068955411e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 72,
+        "kinetic_J": 76.94001582630217,
+        "increment_J": 6.394671459020174e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 73,
+        "kinetic_J": 76.9400158312991,
+        "increment_J": 4.99693442179705e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 74,
+        "kinetic_J": 76.94001583520856,
+        "increment_J": 3.909448764716217e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 75,
+        "kinetic_J": 76.940015838271,
+        "increment_J": 3.062439191126032e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 76,
+        "kinetic_J": 76.94001584067301,
+        "increment_J": 2.402018139946449e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 77,
+        "kinetic_J": 76.94001584255952,
+        "increment_J": 1.886505174297781e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 78,
+        "kinetic_J": 76.94001584404316,
+        "increment_J": 1.4836416539765196e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 79,
+        "kinetic_J": 76.94001584521158,
+        "increment_J": 1.1684164746839087e-09,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 80,
+        "kinetic_J": 76.94001584613306,
+        "increment_J": 9.214886631525587e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 81,
+        "kinetic_J": 76.94001584686083,
+        "increment_J": 7.27766291674925e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 82,
+        "kinetic_J": 76.94001584743644,
+        "increment_J": 5.756106702392572e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 83,
+        "kinetic_J": 76.94001584789241,
+        "increment_J": 4.559694843919715e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 84,
+        "kinetic_J": 76.94001584825413,
+        "increment_J": 3.617230959207518e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 85,
+        "kinetic_J": 76.94001584854153,
+        "increment_J": 2.874003257602453e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 86,
+        "kinetic_J": 76.94001584877023,
+        "increment_J": 2.2869528493174585e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 87,
+        "kinetic_J": 76.94001584895248,
+        "increment_J": 1.822542117224657e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 88,
+        "kinetic_J": 76.94001584909796,
+        "increment_J": 1.454765197195229e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 89,
+        "kinetic_J": 76.94001584921426,
+        "increment_J": 1.163016349892132e-10,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 90,
+        "kinetic_J": 76.94001584930737,
+        "increment_J": 9.310952009400353e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 91,
+        "kinetic_J": 76.94001584938204,
+        "increment_J": 7.466383067367133e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 92,
+        "kinetic_J": 76.940015849442,
+        "increment_J": 5.996980689815246e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 93,
+        "kinetic_J": 76.94001584949022,
+        "increment_J": 4.82174300486804e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 94,
+        "kinetic_J": 76.94001584952906,
+        "increment_J": 3.8838265936647076e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 95,
+        "kinetic_J": 76.9400158495604,
+        "increment_J": 3.133493464702042e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 96,
+        "kinetic_J": 76.9400158495857,
+        "increment_J": 2.530953224777477e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 97,
+        "kinetic_J": 76.94001584960618,
+        "increment_J": 2.0477841644606087e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 98,
+        "kinetic_J": 76.94001584962277,
+        "increment_J": 1.6584067452640738e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 99,
+        "kinetic_J": 76.94001584963623,
+        "increment_J": 1.3457679415296298e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 100,
+        "kinetic_J": 76.94001584964714,
+        "increment_J": 1.0913936421275139e-11,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 101,
+        "kinetic_J": 76.94001584965602,
+        "increment_J": 8.881784197001252e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 102,
+        "kinetic_J": 76.94001584966325,
+        "increment_J": 7.23332505003782e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 103,
+        "kinetic_J": 76.94001584966915,
+        "increment_J": 5.8975047068088315e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 104,
+        "kinetic_J": 76.94001584967396,
+        "increment_J": 4.803268893738277e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 105,
+        "kinetic_J": 76.94001584967788,
+        "increment_J": 3.922195901395753e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 106,
+        "kinetic_J": 76.94001584968109,
+        "increment_J": 3.211653165635653e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 107,
+        "kinetic_J": 76.94001584968372,
+        "increment_J": 2.6290081223123707e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 108,
+        "kinetic_J": 76.94001584968586,
+        "increment_J": 2.1458390619955026e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 109,
+        "kinetic_J": 76.94001584968764,
+        "increment_J": 1.7763568394002505e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 110,
+        "kinetic_J": 76.94001584968909,
+        "increment_J": 1.4495071809506044e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 111,
+        "kinetic_J": 76.94001584969027,
+        "increment_J": 1.1795009413617663e-12,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 112,
+        "kinetic_J": 76.94001584969125,
+        "increment_J": 9.805489753489383e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 113,
+        "kinetic_J": 76.94001584969206,
+        "increment_J": 8.100187187665142e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 114,
+        "kinetic_J": 76.94001584969271,
+        "increment_J": 6.536993168992922e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 115,
+        "kinetic_J": 76.94001584969325,
+        "increment_J": 5.400124791776761e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 116,
+        "kinetic_J": 76.94001584969371,
+        "increment_J": 4.547473508864641e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 117,
+        "kinetic_J": 76.94001584969408,
+        "increment_J": 3.694822225952521e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 118,
+        "kinetic_J": 76.94001584969439,
+        "increment_J": 3.126388037344441e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 119,
+        "kinetic_J": 76.94001584969463,
+        "increment_J": 2.4158453015843406e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 120,
+        "kinetic_J": 76.94001584969484,
+        "increment_J": 2.1316282072803006e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 121,
+        "kinetic_J": 76.94001584969502,
+        "increment_J": 1.7053025658242404e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 122,
+        "kinetic_J": 76.94001584969516,
+        "increment_J": 1.4210854715202004e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 123,
+        "kinetic_J": 76.94001584969527,
+        "increment_J": 1.1368683772161603e-13,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 124,
+        "kinetic_J": 76.94001584969537,
+        "increment_J": 9.947598300641403e-14,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 125,
+        "kinetic_J": 76.94001584969546,
+        "increment_J": 8.526512829121202e-14,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 126,
+        "kinetic_J": 76.94001584969553,
+        "increment_J": 7.105427357601002e-14,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 127,
+        "kinetic_J": 76.94001584969558,
+        "increment_J": 5.684341886080802e-14,
+        "ledger_identity_residual_J": 0.0
+      },
+      {
+        "remap": 128,
+        "kinetic_J": 76.94001584969563,
+        "increment_J": 4.263256414560601e-14,
+        "ledger_identity_residual_J": 0.0
+      }
+    ]
+  },
+  "conservation_and_accounting_passed": true,
+  "zero_force_kinetic_nonincrease_passed": false,
+  "verdict": "Do not admit this candidate as energy-stable. Signed numerical-reservoir closure does not remove force-free affine energy creation.",
+  "dynamic_trial_prepared": false,
+  "production_restart_allowed": false,
+  "public_media_allowed": false,
+  "source_sha256": {
+    "tools/prove_metal_sym_delta_transfer.py": "0f0a5c93d6d3bec11f9752a1238626cbd360271586d5a3b2e83e7771da353d2c",
+    "tools/metal_sym_delta_transfer_numpy.py": "238aaa37c2a0a534ff5d6417131f5694a704f43f8d8ec72e5d0eab68b17bcedf",
+    "mpm_jax/fragment_v6_sym_delta_transfer.py": "e89b945d6591d29470ac03d8cf6f11dc019b46985c59669fd9461038ab59d9d8"
+  }
+}

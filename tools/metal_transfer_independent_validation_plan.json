@@ -1,0 +1,90 @@
+{
+  "schema": "metal-transfer-independent-physics-validation-v1",
+  "status": "executable dual-carry candidate and analytic coupling checks complete; bounded impact diagnostic not yet started",
+  "scope": "Same 5 km/s problem and authenticated 125 ns initial value state. No long continuation or fragment media is admitted.",
+  "historical_evidence": {
+    "old_fixed_schedule_DELTA_40160319691": {
+      "genuine_failure": "Step2 prescribed dt exceeded candidate CFL by10.136percent. Later invalid-carry arithmetic is not a trajectory.",
+      "may_be_reclassified_as_valid": false
+    },
+    "shared_CFL_DELTA_40160965769": {
+      "all_reported_physical_replay_source_and_energy_gates": true,
+      "failed_reported_gate": "shape_screen relative to old APIC temporal spread",
+      "baseline_numerical_increment_J": 1.4261220952750184,
+      "candidate_numerical_increment_J": 0.5527161981067144,
+      "newly_found_independent_defect": "Its physical velocity gradient freezes in zero-force affine flight, so F converges to the wrong exponential limit. The short-segment gates did not check consistency."
+    },
+    "complete_convex_blend_40162353049": {
+      "reported_physical_contact_mass_momentum_and_ledger_gates": true,
+      "failed_gates": ["old_APIC_shape_screen", "baseline_saved_bitwise"],
+      "baseline_authentication_scope": "Computed F/tau/boundary work roundoff differences are preserved. Exact ZIP/raw state integrity and candidate replay passed; this does not establish a candidate material failure.",
+      "baseline_numerical_increment_J": 1.3364061143068255,
+      "candidate_numerical_increment_J": 0.6909260174331653,
+      "rerun_same_failed_trial": false
+    }
+  },
+  "old_APIC_envelope": {
+    "scientific_use": "An observed method-discrepancy and temporal-sensitivity diagnostic, tied to the old APIC operator, grid, interval and nonsmooth trajectory.",
+    "not_a_definition_of_new_method_correctness": true,
+    "retain_original_rejected_reports_unchanged": true,
+    "cannot_infer_from_an_exceedance": ["material or contact failure", "violation of a continuous balance law", "failure of the new method's own dt convergence"],
+    "cannot_infer_from_an_acceptance": ["a correct continuous-time limit", "grid independence", "validated fragmentation"]
+  },
+  "rejected_sym_skew_candidate": {
+    "operator": "v=DELTA_v; C=sym(APIC_C)+skew(DELTA_C)",
+    "momenta_and_signed_ledger": "passed for general nonaffine two-field data",
+    "zero_force_energy": "failed:61.86885505362709J ->64.69193764696964J on the first force-free remap;76.94001584969563J after128remaps",
+    "dynamic_trial": false
+  },
+  "geometric_correction": {
+    "separate_carries": "C_t is the APIC transfer coefficient, whose fixed D=dx^2 I/4 defines affine momentum and kinetic energy. L is the physical spatial velocity gradient used for F, objective strain and physical compression. They must not silently be identified after DELTA transport.",
+    "fixed_initialization": "For the same125ns initial value problem, initialize the new L carry from the authenticated original C bytes, which the original producer itself used as its material gradient. Preserve every original state array. Record the new carry's hash and this initialization assumption; do not fit it to135ns outcomes.",
+    "proposed_split": [
+      "Compute the old APIC P2G grid once. Apply unchanged stress/contact/boundary increments exactly once.",
+      "Update transfer state by complete DELTA: v_star=v+I(delta_u), C_t_star=C_t+A(delta_u).",
+      "Update physical gradient at the old coordinates: L_star=L+A(delta_u).",
+      "For x_new=x_old+dt*v_star, A_map=I+dt*L_star; F_new=A_map F_old and L_new=L_star A_map^-1.",
+      "Use L_mid=L_star(I+dt L_star/2)^-1 in the existing objective rotation/strain quadrature. Do not replace conserved-transfer C_t by L_new.",
+      "Use physical compression trace(L) for viscosity, while keeping C_t in affine velocity/CFL bounds. A prospective CFL must be no weaker than both the original bound and the actual new physical-compression bound."
+    ],
+    "operator_proofs": [".local/sym-delta-operator-proof.json", ".local/affine-ballistic-numpy-jax-proof.json"],
+    "not_yet_proved": [
+      "General nonaffine moving-support consistency of L_star=L+A(delta_u)",
+      "Compatibility of the physical strain update with the existing grid stress-power allocation",
+      "Objectivity/affine reproduction after many grid crossings",
+      "An acceptable actual impact numerical reservoir or any mesh-objective damage law"
+    ],
+    "forbidden_shortcut": "Geometrically transport C_t itself while retaining the fixed APIC energy and spin metric. The explicit counterexample changes affine spin and energy without force."
+  },
+  "unchanged_hard_gates": {
+    "seed": "Exact original125ns checkpoint and all input/source/runtime hashes; no restart from an invalid or altered carry.",
+    "physical": "All existing material/EOS positive bounded-J and temperature domains, finite arrays, irreversible plastic/damage histories, contact coverage, actual CFL, and positive mass/volume gates remain mandatory at every update.",
+    "contact": "1024iteration cap and existing0.005m/s closure/complementarity tolerance. No omitted pairs or merged fields.",
+    "energy_roundoff_J": 1.414599609375e-08,
+    "energy_roundoff_scope": "Accounting identity tolerance only. This number is not a justified error tolerance for nonlinear F/damage trajectories or unresolved numerical dissipation.",
+    "energy_channels": "Keep P2G, signed G2P, contact allocation, viscosity, constitutive work defect, boundary work and numerical reservoir separately. Never turn numerical loss into heat.",
+    "momenta": "Unchanged original momentum gate; additionally compute arbitrary-field transfer angular closure and boundary/contact torque contributions. A global angular change without boundary torque is not a conservation residual.",
+    "replay": "Replay each new candidate's saved dt trace through the exact same compiled step API; save all state arrays and the new L carry. No pruned-wrapper fusion changes. Input bitwise integrity and computed cross-platform ULP differences are separate facts."
+  },
+  "stage1_before_impact": {
+    "force_free_affine": "Known L0, arbitrary affine translation and nonsymmetric L0; exact x=(I+tL0)x0+t b, F=(I+tL0)F0 and L=L0(I+tL0)^-1. Test8/16/32/64steps; the affine kinematic identities must hold at scaled floating-point roundoff, not merely approach the wrong limit.",
+    "force_free_general_and_grid_crossing": "Hold physical stress/contact/boundary increments at zero. Use arbitrary nonaffine velocities/C_t and rigid translation over at least2cells with4grid phases0,1/4,1/2,3/4cell. Resolved v and C_t must be unchanged under DELTA, and translation+affine kinetic energy may not increase beyond the fixed energy accounting tolerance.",
+    "known_acceleration": "Uniform grid acceleration must give the analytic velocity increment, zero gradient increment and the exact midpoint impulse/work identities. Add a linear acceleration field to test the geometric gradient increment against the known affine map.",
+    "analytic_contact": "Two independent bodies sharing coincident nodes: compare the exact frictionless normal impulse, opposite linear impulses, zero spurious tangential impulse, angular impulse about a common origin, and analytic kinetic loss. Use the existing contact tolerance and exact masses. Contact numerical allocation must not heat material.",
+    "stress_work": "Before any impact test, verify homogeneous affine virtual work and objective rotation using the corrected material gradient against the stress force's actual discrete work. A signed-reservoir identity alone does not pass this test.",
+    "on_failure": "Preserve evidence; do not start125--135ns or loosen a gate."
+  },
+  "stage2_bounded_125_135ns": {
+    "requires": "All stage1 checks and reviewed coupling derivation; source/runtime/admission frozen before any cloud results.",
+    "method": "Geometrically corrected complete DELTA with its own adaptive CFL; no APIC-based shared time restriction and no old-APIC shape acceptance envelope.",
+    "CFL_levels": [0.1, 0.05, 0.025],
+    "endpoints_ns": [125, 135],
+    "caps": "512updates per level, existing5.5GiB/2GiB-free memory guard, at most900seconds per level, one process at a time. Stop on the first rejected update; preserve the candidate and all raw state/diagnostic prefixes.",
+    "records": "All original state arrays plus independent L, dt trace, every original diagnostic, actual boundary/contact torque, exact grid/coverage metadata, and independently replayed endpoints. No public media.",
+    "self_convergence": "Compare consecutive own-method CFL levels in mass-weighted L1/L2 and Linf for x,v,C_t,L,F,J,plastic strain,damage and all energy/work channels. Require contraction or roundoff indistinguishability for a convergence claim; otherwise report unresolved temporal sensitivity. No Richardson order for nonsmooth shocks/contact without evidence.",
+    "no_invented_accuracy_budget": "The source has an accounting tolerance but no established absolute F/damage solution-error budget. A contracting three-level sequence is evidence for a bounded diagnostic, not automatic production admission. Do not relabel accounting tolerance as physical convergence tolerance or choose a fitted percentage after seeing outputs.",
+    "next_if_passed": "Review actual contraction, channel reduction and force/work compatibility; then predeclare spatial/particle-resolution and grid-phase controls before a long continuation. Damage localization without fracture-energy/length-scale calibration remains a separate physical limitation."
+  },
+  "production_restart_allowed": false,
+  "public_media_allowed": false
+}

@@ -1,0 +1,193 @@
+{
+  "scope": "Pure zero-force ballistic affine kinematics; no constitutive/contact/cloud continuation.",
+  "initial_gradient_per_s": [
+    [
+      10000000.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      -5000000.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      2000000.0
+    ]
+  ],
+  "duration_s": 1e-08,
+  "exact_F": [
+    [
+      1.1,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.95,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.02
+    ]
+  ],
+  "exact_final_spatial_gradient_per_s": [
+    [
+      9090909.09090909,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      -5263157.894736842,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1960784.3137254901
+    ]
+  ],
+  "old_limit_F": [
+    [
+      1.1051709180756477,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.951229424500714,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0202013400267558
+    ]
+  ],
+  "rows": [
+    {
+      "steps": 8,
+      "old_F": [
+        [
+          1.1051723571349457,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.951229269677322,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0202013506538639
+        ]
+      ],
+      "old_F_linf_error": 0.005172357134945571,
+      "geometric_F_linf_error": 2.220446049250313e-16,
+      "geometric_L_relative_error": 1.0244548320770265e-16
+    },
+    {
+      "steps": 16,
+      "old_F": [
+        [
+          1.1051712778339764,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.9512293857950331,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0202013426835328
+        ]
+      ],
+      "old_F_linf_error": 0.005171277833976307,
+      "geometric_F_linf_error": 4.440892098500626e-16,
+      "geometric_L_relative_error": 2.048909664154053e-16
+    },
+    {
+      "steps": 32,
+      "old_F": [
+        [
+          1.105171008014816,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.9512294148243042,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0202013406909523
+        ]
+      ],
+      "old_F_linf_error": 0.005171008014815959,
+      "geometric_F_linf_error": 8.881784197001252e-16,
+      "geometric_L_relative_error": 8.195638656616212e-16
+    },
+    {
+      "steps": 64,
+      "old_F": [
+        [
+          1.105170940560406,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.9512294220816023,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0202013401928052
+        ]
+      ],
+      "old_F_linf_error": 0.005170940560405901,
+      "geometric_F_linf_error": 6.661338147750939e-16,
+      "geometric_L_relative_error": 4.097819328308106e-16
+    }
+  ],
+  "actual_old_cayley_F_is_inconsistent_with_delta_particle_motion": true,
+  "separate_physical_gradient_map_passed": true,
+  "arbitrary_noncommuting_numpy_jax_errors": {
+    "F": 0.0,
+    "L_per_s": 0.0,
+    "rotation": 0.0,
+    "strain": 0.0
+  },
+  "naive_C_overwrite": {
+    "unscaled_affine_spin_change": [
+      0.0,
+      0.0,
+      0.8847736625514404
+    ],
+    "unscaled_affine_squared_norm_change": -2.8772108512204966,
+    "forbidden": "Do not replace conserved-transfer C by transported physical L under fixed D."
+  },
+  "production_integration_prepared": false,
+  "production_restart_allowed": false,
+  "remaining": "Independent L carry must be initialized from the authenticated seed, used for material kinematics/compression, and coupled to compatible stress work. C remains a transfer coefficient. No dynamic admission follows from this algebraic map alone.",
+  "source_sha256": {
+    "tools/prove_metal_affine_kinematics.py": "f39abcb6890b5498ab0674e5c2fb3ac0e86e91868d483bc58d100a7d73a00fc1",
+    "tools/metal_geometric_kinematics_numpy.py": "190b019a0be997e833c800ce0d7172b52c730056df2d581446c5b6ed9994c777",
+    "mpm_jax/fragment_v6_geometric_kinematics.py": "3d21ed2381caa678620b02caf4fd32c70ba9f24cecad7280b1f09876fa33171a",
+    "mpm_jax/fragment_v6_delta_candidate.py": "343a52e94b121ca8715f3792d0d6204b10256e4a394537a27ac83ed81a1390f0",
+    "mpm_jax/fragment_multifield_v6_mpm.py": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792"
+  }
+}
