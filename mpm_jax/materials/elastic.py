@@ -146,6 +146,8 @@ def kirchhoff_stress(F, material, kind):
     dim = F.shape[-1]
     J = jnp.linalg.det(F)
     eye = jnp.eye(dim, dtype=F.dtype)
+    if kind == "orthotropic-svk":
+        return stvenant_kirchhoff_stress(F, material)
     if kind == "fluid":
         return (material.bulk * J * (J - 1))[..., None, None] * eye
     if kind == "blatz-ko":
@@ -164,3 +166,19 @@ def kirchhoff_stress(F, material, kind):
     B = F @ jnp.swapaxes(F, -1, -2)
     logJ = jnp.log(jnp.maximum(J, jnp.finfo(F.dtype).tiny))
     return material.mu * (B - eye) + material.lam * logJ[..., None, None] * eye
+
+
+def stvenant_kirchhoff_energy(F, material):
+    """Reference-volume energy for the3D orthotropic MAT002 solid branch."""
+    if F.shape[-2:] != (3, 3):
+        raise ValueError("St.Venant-Kirchhoff requires3D deformation gradients")
+    strain = .5 * (jnp.swapaxes(F, -1, -2) @ F - jnp.eye(3, dtype=F.dtype))
+    return .5 * jnp.sum(strain * linear_stress(strain, material), axis=(-2, -1))
+
+
+def stvenant_kirchhoff_stress(F, material):
+    """Kirchhoff stress F S F^T, S=C:E, E=(F^T F-I)/2."""
+    if F.shape[-2:] != (3, 3):
+        raise ValueError("St.Venant-Kirchhoff requires3D deformation gradients")
+    strain = .5 * (jnp.swapaxes(F, -1, -2) @ F - jnp.eye(3, dtype=F.dtype))
+    return F @ linear_stress(strain, material) @ jnp.swapaxes(F, -1, -2)

@@ -30,6 +30,7 @@ def setup(name, grid=48):
     materials = {
         "linear": linear_elastic(2e4, 0.2),
         "orthotropic": orthotropic((8e4, 2e4, 3e4), (0.2, 0.15, 0.25), (1e4, 1.5e4, 8e3), Q),
+        "orthotropic-svk": orthotropic((8e4, 2e4, 3e4), (0.2, 0.15, 0.25), (1e4, 1.5e4, 8e3)),
         "transverse-isotropic": transverse_isotropic(8e4, 2e4, 0.25, 0.3, 1.2e4, Q_ti),
         "neo-hookean": neo_hookean(2e4, 0.2),
         "blatz-ko": blatz_ko(8e3),
@@ -38,7 +39,7 @@ def setup(name, grid=48):
     state = block(cfg, (0.35,) * 3, (0.65,) * 3, density=1000.0, dtype=jnp.float64)
     stretches = (
         jnp.array([1.12, 0.96, 0.98])
-        if name in ("neo-hookean", "blatz-ko")
+        if name in ("neo-hookean", "blatz-ko", "orthotropic-svk")
         else jnp.array([1.01, 0.997, 0.998])
     )
     F = jnp.diag(stretches)
@@ -50,7 +51,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--model",
-        choices=("all", "linear", "orthotropic", "transverse-isotropic", "neo-hookean", "blatz-ko"),
+        choices=("all", "linear", "orthotropic", "orthotropic-svk", "transverse-isotropic", "neo-hookean", "blatz-ko"),
         default="all",
     )
     parser.add_argument("--grid", type=int, default=48)
@@ -61,7 +62,7 @@ def main():
     args = parser.parse_args()
     jax.config.update("jax_enable_x64", True)
     names = (
-        ("linear", "orthotropic", "transverse-isotropic", "neo-hookean", "blatz-ko")
+        ("linear", "orthotropic", "orthotropic-svk", "transverse-isotropic", "neo-hookean", "blatz-ko")
         if args.model == "all"
         else (args.model,)
     )
