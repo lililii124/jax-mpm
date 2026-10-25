@@ -4,16 +4,17 @@ Unlike the old diagonal-only incomplete125ns solve, this includes exact body
 polynomial deflation. It first checks one saved physical contact impulse; a
 failed P0 action stops before the contact QP. Iteration bounds are not raised.
 """
-import hashlib,json,time
+import argparse,hashlib,json,time
 from pathlib import Path
 import numpy as np
 import jax
 jax.config.update('jax_enable_x64',True)
 import jax.numpy as jnp
-from mpm_jax.fragment_v6_matrixfree_projection import quadratic_reconstruction,polynomial_modes,reconstructed_apply,reconstructed_transpose,consistent_project,physical_contact,physical_sample,physical_adjoint,cone_project,intersect_project
+from mpm_jax.fragment_v6_matrixfree_projection import quadratic_reconstruction,polynomial_modes,reconstructed_apply,reconstructed_transpose,consistent_project,physical_contact,physical_sample,physical_adjoint,cone_project,intersect_project,block_ssor,ssor_right,ssor_right_transpose
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--ssor',action='store_true');args=parser.parse_args()
     begun=time.monotonic();out=Path('/work/result');out.mkdir();parent=Path('/original/result/step-22/accepted.npz');gold_path=Path('/gold/result/midpoint-raw.npz')
     parent_sha=hashlib.file_digest(parent.open('rb'),'sha256').hexdigest();assert parent_sha=='3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809'
     with np.load(parent,allow_pickle=False) as z:old={k:z[k] for k in z.files}
@@ -22,14 +23,26 @@ def main():
     allowed=quadratic_reconstruction(*(convert(k) for k in ('x','mass','body_id','F','reference_root')),dx,convert('candidate_fixed_particles'))
     modes,_,mode_report=jax.jit(polynomial_modes)(allowed,dx);assert bool(allowed['valid']) and bool(mode_report['valid'])
     rows=len(allowed['column_norm'])
-    def projector(y,p,T):
-        return consistent_project(y,lambda z:reconstructed_apply(p,z),lambda z:reconstructed_transpose(p,z,rows),T,lambda z:z,lambda z:z,iterations=64)
-    action=jax.jit(projector);probe=jnp.asarray(gold['physical']);t=time.monotonic();probe_result,probe_report=action(probe,allowed,modes);probe_result.block_until_ready();probe_seconds=time.monotonic()-t
+    pc=None;pc_report=dict(kind='Column equilibration and exact polynomial deflation; no LDL/regularization')
+    if args.ssor:
+        t=time.monotonic();pc=block_ssor(allowed);assert bool(pc['valid'])
+        a=reconstructed_transpose(allowed,jnp.asarray(gold['physical']),rows);b=reconstructed_transpose(allowed,jnp.asarray(gold['trial']),rows)
+        check=jax.jit(lambda a,b,p,c:(ssor_right(p,c,a),ssor_right_transpose(p,c,b)))
+        Ra,RTb=check(a,b,allowed,pc);Ra.block_until_ready()
+        numerator=jnp.abs(jnp.sum(Ra*b)-jnp.sum(a*RTb));denominator=jnp.linalg.norm(Ra)*jnp.linalg.norm(b)+jnp.linalg.norm(a)*jnp.linalg.norm(RTb)
+        adjoint_error=float(numerator/jnp.maximum(denominator,jnp.finfo(a.dtype).tiny));assert adjoint_error<=1e-12
+        pc_report=dict(kind='Matrix-free8-color4-cubed block SSOR',blocks=int(pc['block_count']),block_capacity=2048,shift_preconditioner_only=float(pc['shift']),objective_regularization=float(pc['objective_regularization']),right_transpose_relative_defect=adjoint_error,prepare_and_adjoint_check_seconds=time.monotonic()-t)
+    (out/'preconditioner-review.json').write_text(json.dumps(pc_report,indent=2)+'\n');print(json.dumps(dict(stage='preconditioner-ready',preconditioner=pc_report)),flush=True)
+    def projector(y,p,T,c):
+        right=(lambda z:ssor_right(p,c,z)) if c is not None else (lambda z:z)
+        transpose=(lambda z:ssor_right_transpose(p,c,z)) if c is not None else (lambda z:z)
+        return consistent_project(y,lambda z:reconstructed_apply(p,z),lambda z:reconstructed_transpose(p,z,rows),T,right,transpose,iterations=64)
+    action=jax.jit(projector);probe=jnp.asarray(gold['physical']);t=time.monotonic();probe_result,probe_report=action(probe,allowed,modes,pc);probe_result.block_until_ready();probe_seconds=time.monotonic()-t
     value=np.asarray(probe_result);expected=gold['physical']+gold['reaction'];error=value-expected
     normal=max(np.asarray(probe_report['physical_normal_relative_residual']));state_relative=float(np.linalg.norm(error)/np.linalg.norm(gold['trial']));work=float(np.sum(error*gold['following']))
     tol=1.414599609375e-8
     probe_valid=bool(normal<=1e-10 and state_relative<=1e-10 and abs(work)<=tol)
-    initial=dict(stage='single-physical-impulse-projection',passed=probe_valid,source_checkpoint_sha256=parent_sha,iterations=np.asarray(probe_report['iterations']).tolist(),solver_flags=np.asarray(probe_report['converged']).tolist(),physical_normal_relative_residual=float(normal),combined_state_relative_difference=state_relative,actual_work_difference_J=work,compile_and_solve_seconds=probe_seconds,iteration_cap=64,preconditioner='Column equilibration and exact polynomial deflation; no LDL/regularization',scope='Saved actual impulse only; no force/material/trajectory replay. A failed probe is not retried with more iterations.')
+    initial=dict(stage='single-physical-impulse-projection',passed=probe_valid,source_checkpoint_sha256=parent_sha,iterations=np.asarray(probe_report['iterations']).tolist(),solver_flags=np.asarray(probe_report['converged']).tolist(),physical_normal_relative_residual=float(normal),combined_state_relative_difference=state_relative,actual_work_difference_J=work,compile_and_solve_seconds=probe_seconds,iteration_cap=64,preconditioner=pc_report,scope='Saved actual impulse only; no force/material/trajectory replay. A failed probe is not retried with more iterations.')
     (out/'probe-review.json').write_text(json.dumps(initial,indent=2)+'\n');np.savez_compressed(out/'probe-raw.npz',input=gold['physical'],reference=expected,following=value)
     print(json.dumps(initial),flush=True)
     if not probe_valid:
@@ -38,9 +51,9 @@ def main():
     full=quadratic_reconstruction(jnp.asarray(config['x']),convert('mass'),convert('body_id'),jnp.asarray(config['F']),convert('reference_root'),dx,jnp.zeros(len(old['mass']),bool))
     T,poly,mode_report=jax.jit(polynomial_modes)(full,dx);assert bool(mode_report['valid'])
     contact=physical_contact(full,T,poly,dx,allowed['fixed_grid_keys']);assert bool(contact['valid'])
-    parameters=dict(allowed=allowed,modes=modes,full=full,contact=contact)
+    parameters=dict(allowed=allowed,modes=modes,full=full,contact=contact,preconditioner=pc)
     def kernel(y,p):
-        project_range=lambda x:projector(x,p['allowed'],p['modes'])
+        project_range=lambda x:projector(x,p['allowed'],p['modes'],p['preconditioner'])
         sample=lambda x:physical_sample(p['full'],p['contact'],x)
         adjoint=lambda x:physical_adjoint(p['full'],p['contact'],x)
         project_cone=lambda x:cone_project(x,sample,adjoint,p['contact']['mobility'],sweeps=512,tolerance=1e-7,physical_rows=p['contact']['pair_count'])

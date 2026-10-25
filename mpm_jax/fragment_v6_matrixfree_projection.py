@@ -10,6 +10,7 @@ from functools import partial
 from itertools import product
 import jax
 import jax.numpy as jnp
+from jax.scipy.linalg import solve_triangular
 
 
 def _grid_keys(body,nodes):
@@ -153,6 +154,80 @@ def physical_adjoint(reconstruction,contact,multiplier):
     grid=jnp.zeros((n,3),impulse.dtype).at[contact['first']].add(impulse).at[contact['second']].add(-impulse)
     grid=grid/jnp.where(contact['grid_mass']>0,contact['grid_mass'],1.)[:,None]
     return raw_reconstructed_apply(reconstruction,grid)+contact['modes']@(contact['correction'].T@impulse)
+
+
+@partial(jax.jit,static_argnames=('block_capacity','batch_size'))
+def block_ssor(reconstruction,*,block_capacity=2048,batch_size=1024,shift=1e-8):
+    """8-color4³ block-SSOR right factor; shifts its preconditioner only.
+
+    Only local diagonal blocks of the normalized Gram are assembled. Off-block
+    couplings are applied as Q^T(Q z), never stored. Same-color blocks cannot
+    couple:27-point quadratic supports span at most2 grid intervals, whereas
+    distinct4-cell blocks of the same parity are separated by at least5.
+    """
+    keys=reconstruction['node_keys'];active=reconstruction['node_active'];coords=keys[:,1:]
+    blocks=jnp.floor_divide(coords,4);encoded=_grid_keys(keys[:,0],blocks);sentinel=jnp.iinfo(jnp.int64).max
+    unique,inverse=jnp.unique(jnp.where(active,encoded,sentinel),size=block_capacity,fill_value=sentinel,return_inverse=True)
+    coverage=jnp.all(jnp.where(active,jnp.take(unique,inverse,mode='fill',fill_value=-1)==encoded,True))
+    owners=jnp.where(active,jnp.minimum(inverse,block_capacity-1),0).astype(jnp.int32)
+    local=jnp.mod(coords,4);local=(16*local[:,0]+4*local[:,1]+local[:,2]).astype(jnp.int32)
+    occupied=jnp.zeros((block_capacity,64),jnp.int32).at[jnp.where(active,owners,block_capacity),local].max(1,mode='drop')>0
+    width=1<<20;bias=1<<19
+    bx=(unique//(1<<40))%width-bias;by=(unique//width)%width-bias;bz=unique%width-bias
+    color=(4*jnp.mod(bx,2)+2*jnp.mod(by,2)+jnp.mod(bz,2)).astype(jnp.int32);block_active=unique!=sentinel
+    nodes=reconstruction['slots'];particle_blocks=owners[nodes];particle_local=local[nodes]
+    n=len(nodes);padding=(-n)%batch_size
+    weights=jnp.pad(reconstruction['scale'],((0,padding),(0,0)));basis=jnp.pad(reconstruction['basis'],((0,padding),(0,0),(0,0)))
+    particle_blocks=jnp.pad(particle_blocks,((0,padding),(0,0)));particle_local=jnp.pad(particle_local,((0,padding),(0,0)))
+    def accumulate(i,flat):
+        start=i*batch_size;w=jax.lax.dynamic_slice(weights,(start,0),(batch_size,27));b=jax.lax.dynamic_slice(basis,(start,0,0),(batch_size,27,4))
+        owner=jax.lax.dynamic_slice(particle_blocks,(start,0),(batch_size,27));slot=jax.lax.dynamic_slice(particle_local,(start,0),(batch_size,27))
+        gram=jnp.einsum('pkb,plb->pkl',b,b)*w[:,:,None]*w[:,None,:]
+        gram=jnp.where(owner[:,:,None]==owner[:,None,:],gram,0.)
+        index=(owner[:,:,None]*64+slot[:,:,None])*64+slot[:,None,:]
+        return flat.at[index.ravel()].add(gram.ravel())
+    diagonal=jax.lax.fori_loop(0,(n+padding)//batch_size,accumulate,jnp.zeros(block_capacity*64*64,weights.dtype)).reshape(block_capacity,64,64)
+    diagonal=.5*(diagonal+jnp.swapaxes(diagonal,-1,-2))
+    diagonal=diagonal+jnp.eye(64)[None,:,:]*jnp.where(occupied,shift,1.)[:,None,:]
+    factor=jnp.linalg.cholesky(diagonal)
+    valid=reconstruction['valid']&coverage&jnp.all(jnp.isfinite(factor))&(shift>0)&(shift<1)
+    return dict(factor=factor,owners=owners,local=local,active=active,colors=color,block_active=block_active,valid=valid,block_count=jnp.sum(block_active),shift=shift,objective_regularization=jnp.asarray(0.,weights.dtype))
+
+
+def _ssor_pack(preconditioner,z):
+    owners=jnp.where(preconditioner['active'],preconditioner['owners'],len(preconditioner['colors']))
+    return jnp.zeros((len(preconditioner['colors']),64,z.shape[-1]),z.dtype).at[owners,preconditioner['local']].add(z,mode='drop')
+
+
+def _ssor_unpack(preconditioner,blocks,ghost):
+    values=blocks[preconditioner['owners'],preconditioner['local']]
+    return jnp.where(preconditioner['active'][:,None],values,ghost)
+
+
+def _ssor_solve(reconstruction,preconditioner,rhs,upper):
+    size=len(reconstruction['column_norm']);packed_rhs=_ssor_pack(preconditioner,rhs);factor=preconditioner['factor']
+    def body(i,solved):
+        color=7-i if upper else i
+        known=_ssor_unpack(preconditioner,solved,jnp.zeros_like(rhs))
+        action=reconstructed_transpose(reconstruction,reconstructed_apply(reconstruction,known),size)
+        residual=packed_rhs-_ssor_pack(preconditioner,action)
+        local=solve_triangular(factor,residual,lower=True)
+        local=solve_triangular(jnp.swapaxes(factor,-1,-2),local,lower=False)
+        selected=(preconditioner['colors']==color)&preconditioner['block_active']
+        return jnp.where(selected[:,None,None],local,solved)
+    solved=jax.lax.fori_loop(0,8,body,jnp.zeros_like(packed_rhs))
+    return _ssor_unpack(preconditioner,solved,rhs)
+
+
+def ssor_right(reconstruction,preconditioner,z):
+    root=jnp.einsum('bij,bjc->bic',preconditioner['factor'],_ssor_pack(preconditioner,z))
+    return _ssor_solve(reconstruction,preconditioner,_ssor_unpack(preconditioner,root,z),True)
+
+
+def ssor_right_transpose(reconstruction,preconditioner,z):
+    value=_ssor_solve(reconstruction,preconditioner,z,False)
+    root=jnp.einsum('bji,bjc->bic',preconditioner['factor'],_ssor_pack(preconditioner,value))
+    return _ssor_unpack(preconditioner,root,z)
 
 
 def _bounded_loop(body,state,limit,stopped):
