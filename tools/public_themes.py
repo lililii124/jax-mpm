@@ -17,7 +17,7 @@ THEMES = (
     "Structural elasticity",
 )
 
-HIDDEN_DISPLAY_IDS = frozenset({"contact-models--jkr-footprint", "material-engineering--jc-tension--johnson-cook"})
+HIDDEN_DISPLAY_IDS = frozenset({"contact-models--jkr-footprint", "material-engineering--jc-tension--johnson-cook", "completed--crossed-fibre-self-consistent"})
 
 
 def theme(value):

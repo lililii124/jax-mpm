@@ -15,11 +15,6 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="33%" align="center"><img src="docs/images/home/completed--crossed-fibre-md.gif" alt="Crossed fibre MD contact" width="100%"><br><a href="docs/results/completed--crossed-fibre-md/summary.json">Crossed fibre MD contact</a></td>
 <td width="33%" align="center"><img src="docs/images/home/completed--crossed-fibre-jkr.gif" alt="Crossed fibre JKR contact" width="100%"><br><a href="docs/results/completed--crossed-fibre-jkr/summary.json">Crossed fibre JKR contact</a></td>
 </tr>
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/completed--crossed-fibre-self-consistent.gif" alt="Crossed fibre SC local BEM contact" width="100%"><br><a href="docs/results/completed--crossed-fibre-self-consistent/summary.json">Crossed fibre SC local BEM contact</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
 </table>
 
 ### Woven composites: plate impact
