@@ -17,7 +17,7 @@ def records(*identifiers):
 
 
 def beam_entries(catalogue):
-    return [(name, source) for name, source in collect_gallery.gallery_groups(catalogue)["Material engineering"]
+    return [(name, source) for name, source in collect_gallery.gallery_groups(catalogue)["Concrete"]
             if name.startswith("concrete-bending")]
 
 
@@ -46,7 +46,7 @@ def test_replacement_cycle_is_rejected(monkeypatch, mapping):
 def test_existing_single_replacement_keeps_its_cloud_source():
     old = "material-engineering--ceramic-indentation--jh2"
     new = "material-engineering--ceramic-indentation-wide--jh2"
-    entries = collect_gallery.gallery_groups(records(old, new))["Material engineering"]
+    entries = collect_gallery.gallery_groups(records(old, new))["Ceramics"]
     assert ("ceramic-indentation-wide", "material-engineering-cloud/ceramic-indentation-wide/jh2") in entries
     assert all(name != "ceramic-indentation" for name, _ in entries)
 

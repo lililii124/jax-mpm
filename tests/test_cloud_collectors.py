@@ -140,8 +140,8 @@ def test_verified_material_cloud_preferred_without_touching_local_checkpoint(tmp
     assert records[0]["source_directory"] == cloud.relative_to(tmp_path).as_posix()
     assert before == {path.name: raw(path) for path in local.iterdir() if path.is_file()}
     groups = collect_gallery.gallery_groups(records)
-    assert ("ceramic-indentation-wide", cloud.relative_to(tmp_path / "outputs").as_posix()) in groups["Material engineering"]
-    assert collect_home.describe(records[0]["id"])[0] == "Material engineering"
+    assert ("ceramic-indentation-wide", cloud.relative_to(tmp_path / "outputs").as_posix()) in groups["Ceramics"]
+    assert collect_home.describe(records[0]["id"])[0] == "Ceramics"
 
 
 @pytest.mark.parametrize("problem", ["missing-receipt", "malformed-receipt", "missing-frame", "changed-frame", "failed-physics", "wrong-source", "wrong-vtk-checker"])
@@ -182,7 +182,9 @@ def test_cloud_pair_and_comparison_are_selected_from_the_same_root(tmp_path, mon
     comparison = json.loads((tmp_path / "docs/results/adhesion-visible-comparison.json").read_text())
     assert comparison["csv"]["filename"] == "adhesion-visible-comparison.csv"
     assert all("outputs/adhesion-visible-cloud/" in value["source_directory"] for value in comparison["sources"].values())
-    entries = collect_gallery.gallery_groups(records)["Adhesion comparison"]
+    entries = [(name, source) for name, source in collect_gallery.gallery_groups(records)["Adhesive surface contact"]
+               if name.startswith("adhesion-visible-")]
+    assert len(entries) == 2
     assert all(relative.startswith("adhesion-visible-cloud/") for _, relative in entries)
     selected, frame, _ = collect_gallery.preview(cloud[0], "adhesion-visible-nonadhesive-pull-off", {"frames_rendered": 2})
     assert selected.parent == cloud[0] / "frames" and frame in (0, 1)
@@ -239,7 +241,8 @@ def test_v3_pair_priority_and_atomic_fallback(tmp_path, monkeypatch, invalid_v3)
     assert {item["source_directory"] for item in records} == {folder.relative_to(tmp_path).as_posix() for folder in expected}
     assert {item["id"] for item in records} == {"adhesion-visible--" + name for name in collect_results.ADHESION_ROLES.values()}
     assert all(raw(Path(path)) == digest for path, digest in prior.items())
-    entries = collect_gallery.gallery_groups(records)["Adhesion comparison"]
+    entries = [(name, source) for name, source in collect_gallery.gallery_groups(records)["Adhesive surface contact"]
+               if name.startswith("adhesion-visible-")]
     assert {relative for _, relative in entries} == {folder.relative_to(tmp_path / "outputs").as_posix() for folder in expected}
     image, _, _ = collect_gallery.preview(expected[0], "adhesion-visible-nonadhesive-pull-off", {"frames_rendered": 2})
     assert image.parent == expected[0] / "frames"
@@ -273,7 +276,8 @@ def test_v4_priority_is_atomic_and_failed_older_pairs_stay_private(tmp_path, mon
         expected = pairs[-2] if problem else pairs[-1]
         assert {item["source_directory"] for item in records} == {folder.relative_to(tmp_path).as_posix() for folder in expected}
         assert {item["id"] for item in records} == {"adhesion-visible--" + name for name in collect_results.ADHESION_ROLES.values()}
-        entries = collect_gallery.gallery_groups(records)["Adhesion comparison"]
+        entries = [(name, source) for name, source in collect_gallery.gallery_groups(records)["Adhesive surface contact"]
+                   if name.startswith("adhesion-visible-")]
         assert {relative for _, relative in entries} == {folder.relative_to(tmp_path / "outputs").as_posix() for folder in expected}
     assert all(raw(Path(path)) == digest for path, digest in prior.items())
 

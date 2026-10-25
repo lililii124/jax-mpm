@@ -189,7 +189,8 @@ def gallery_groups(catalogue):
     for heading, entries in groups.items():
         groups[heading] = [(name, sources.get(canonical_identifier(relative), relative)) for name, relative in entries]
     symmetry = 'material-engineering--concrete-bending-symmetric--hjc'
-    if symmetry in sources and not any('concrete-bending-symmetric' in name for entries in groups.values() for name, _ in entries):
+    if (symmetry in sources and symmetry not in HIDDEN_HOME_IDS and symmetry not in HIDDEN_DISPLAY_IDS
+            and not any('concrete-bending-symmetric' in name for entries in groups.values() for name, _ in entries)):
         groups['Material engineering'].append(('concrete-bending-symmetric', sources[symmetry]))
     themed = {heading: [] for heading in THEMES}
     for entries in groups.values():
@@ -261,8 +262,9 @@ def main():
     target = ROOT / "docs/images"
     target.mkdir(exist_ok=True)
     catalogue = json.loads((ROOT / "docs/results/index.json").read_text(encoding="utf-8"))
-    display_views = {entry["id"]: entry["display_view_review"] for entry in json.loads(
-        (ROOT / "docs/images/home/manifest.json").read_text(encoding="utf-8")) if entry.get("display_view_review")}
+    home_manifest = ROOT / "docs/images/home/manifest.json"
+    home_entries = json.loads(home_manifest.read_text(encoding="utf-8")) if home_manifest.exists() else []
+    display_views = {entry["id"]: entry["display_view_review"] for entry in home_entries if entry.get("display_view_review")}
     selected_ids = {record["id"] for record in homepage_records(ROOT, catalogue)}
     source_ids = {
         record.get("source_directory", "outputs/" + record["id"].replace("--", "/")).removeprefix("outputs/"): record["id"]
