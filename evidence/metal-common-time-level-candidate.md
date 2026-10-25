@@ -35,3 +35,11 @@ production solver.
 The seven returned material fields match the prior saved evaluation exactly.
 The volume-work checks cover compression, tension, crossing `J=1`, zero
 increment, torque symmetry and a common rigid rotation.
+
+The first 2 ps run completed in 120.18 s with 1.03 GB peak USS and three
+nonlinear evaluations. Its reported total energy residual is `4.26e-13 J`,
+and angular residual norm is below the original `2.47e-18` tolerance.
+Independent raw-state review remains separate from these solver checks.
+The next continuation uses the accepted state, retains all tolerances, and
+advances in steps up to 200 ps with cumulative balances. The in-process JAX
+material evaluator retains the compiled update between nonlinear evaluations.

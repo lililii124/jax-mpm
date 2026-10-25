@@ -1,0 +1,103 @@
+{
+  "source_commit": "3e2d4ae30011bf482555407fe5f311d161db3e0e",
+  "input_sha256": "cb3da5037c6060772b501bd668d9ee3b946e93d0ecd69da1c1b9b54f9c44e523",
+  "dt_s": 2e-12,
+  "solver_status": "bounded-window-passed",
+  "independent_raw_audit": "pending",
+  "scope": "one 125 to125.002ns reference step; no production or fragment-cloud admission",
+  "numerical_evaluations": 3,
+  "coupled": {
+    "material_work_J": 6.269588630707901e-05,
+    "material_change_J": 6.269588630716948e-05,
+    "material_identity_J": -9.047667129391535e-17,
+    "viscosity_work_J": 0.00021658836752962444,
+    "contact_work_J": 3.5236570605778894e-19,
+    "boundary_work_J": 2.6125206598753836e-16,
+    "coupled_defect_J": -7.011135649912653e-14,
+    "contact_torque": [
+      3.0942213650597327e-27,
+      -1.9431727853340823e-26,
+      1.4804264388732064e-25
+    ]
+  },
+  "ledger": {
+    "grid": 2.276767907747674e-10,
+    "boundary": 5.569462185261384e-14,
+    "contact": 7.30652182038075e-10,
+    "viscosity": 0.00021658836752962444,
+    "dynamic_contact": -3.5236570605778894e-19
+  },
+  "energy_residual_J": 4.263256414560601e-13,
+  "momentum_residual": [
+    -1.8664791078715437e-18,
+    -4.163336342344337e-17,
+    -3.1664752158460046e-20
+  ],
+  "angular_residual": [
+    -4.591382026294076e-22,
+    4.914168406459498e-23,
+    -3.504609998896877e-21
+  ],
+  "angular_tolerance": 2.4658362587046083e-18,
+  "min_J": 0.773832613502756,
+  "max_temperature": 315.0331682168255,
+  "max_damage": 0.5350788939069242,
+  "collection_sha256": "52cd31ea795ba85791fde7cb8da61c9a690748e6bc3d2ee98dc59af96e1130ad",
+  "accepted_state_sha256": "4ca270bcaff58e46df19765e6c48500edcd68e289f749d8bca8cd74fbb64d78d",
+  "runtime": {
+    "source_commit": "3e2d4ae30011bf482555407fe5f311d161db3e0e",
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "jaxlib": "0.12.0.1",
+      "jax": "0.12.1.dev20261022",
+      "ml_dtypes": "0.6.0",
+      "opt_einsum": "3.4.0",
+      "psutil": "7.2.2"
+    },
+    "cpu_affinity": [
+      56,
+      57,
+      58,
+      59
+    ],
+    "image_from_immutable_launch": "sha256:639be564c801378d4dd43ea5ea630a3c378c2d2a745177c8a52857656e954180",
+    "command": [
+      "/usr/local/bin/python",
+      "-m",
+      "tools.run_metal_affine_midpoint125",
+      "--state",
+      "/work/inputs/post-contact.npz",
+      "--admission",
+      "/work/inputs/admission.json",
+      "--output",
+      "/work/result",
+      "--dt",
+      "2e-12"
+    ]
+  },
+  "resource": {
+    "started_utc": "2026-10-25T12:48:25.903662+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "start.py"
+    ],
+    "cpu_affinity": [
+      56,
+      57,
+      58,
+      59
+    ],
+    "memory_headroom_at_start": 12875837440,
+    "limit_seconds": 1200.0,
+    "uss_limit_bytes": 9663676416,
+    "peak_uss_bytes": 1031483392,
+    "minimum_memory_headroom": 11653701632,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 120.1829549819231,
+    "returncode": 0
+  }
+}

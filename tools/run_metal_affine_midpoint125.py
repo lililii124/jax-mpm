@@ -5,8 +5,10 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import sys
+import time
 
 os.environ['OPENBLAS_NUM_THREADS'] = '1'
 os.environ['OMP_NUM_THREADS'] = '1'
@@ -22,29 +24,41 @@ def main():
     parser.add_argument('--admission', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--dt', type=float, default=2e-12)
+    parser.add_argument('--state-sha256', default='cb3da5037c6060772b501bd668d9ee3b946e93d0ecd69da1c1b9b54f9c44e523')
+    parser.add_argument('--inprocess-material', action='store_true')
     args = parser.parse_args()
-    if hashlib.sha256(args.state.read_bytes()).hexdigest() != 'cb3da5037c6060772b501bd668d9ee3b946e93d0ecd69da1c1b9b54f9c44e523':
+    if not re.fullmatch('[0-9a-f]{64}', args.state_sha256) or hashlib.sha256(args.state.read_bytes()).hexdigest() != args.state_sha256:
         raise ValueError('Audited post-contact seed required')
     if hashlib.sha256(args.admission.read_bytes()).hexdigest() != '02f7f83880ea9e5afb4faadfb2cad17106a1c2a9aea3a6ec52b51482ef83b28d':
         raise ValueError('Original material and tolerance record required')
-    if not 0 < args.dt <= 2e-12:
-        raise ValueError('First common-time-level window is bounded to 2 ps')
+    if not 0 < args.dt <= 2e-10:
+        raise ValueError('Current continuation steps are bounded to 200 ps')
     args.output.mkdir(parents=True, exist_ok=False)
     with np.load(args.state) as data:
         state = {k: data[k] for k in data.files}
+    if not 125e-9-1e-20 <= float(state['time']) < float(state['time'])+args.dt <= 126.01e-9+1e-20:
+        raise ValueError('Only the declared continuation through126.01 ns is admitted')
     admission = json.loads(args.admission.read_text())
     p, tol = admission['material'], admission['energy_roundoff_J']
     fixed = state['candidate_fixed_particles']
     y = whiten(state)
     initial_energy = kinetic(y) + float(np.sum(state['mass'] * state['internal_energy']))
+    reference_total_energy = float(state.get('candidate_reference_total_energy',
+        initial_energy+float(state['numerical_reservoir'])+float(state['boundary_reservoir'])))
     initial_momentum, initial_angular = moments(state, y)
+    origin_momentum = state.get('candidate_origin_momentum', initial_momentum).copy()
+    origin_angular = state.get('candidate_origin_angular', initial_angular).copy()
+    prior_boundary_impulse = state.get('candidate_cumulative_boundary_impulse', np.zeros(3)).copy()
+    prior_boundary_torque = state.get('candidate_cumulative_boundary_torque', np.zeros(3)).copy()
     ledger = dict(grid=0., boundary=0., contact=0., viscosity=0., dynamic_contact=0.)
     boundary_impulse = np.zeros(3)
     boundary_torque = np.zeros(3)
     report = dict(schema='metal-common-time-level125-v1', dt_s=args.dt, status='running',
+                  material_backend='jax-in-process' if args.inprocess_material else 'isolated-jax-worker',
                   input_sha256=hashlib.sha256(args.state.read_bytes()).hexdigest(),
                   energy_roundoff_J=tol, iterations=[], stages=[], production_admitted=False)
     frame = None
+    started = time.monotonic()
 
     def encode(value):
         if isinstance(value, np.ndarray):
@@ -114,7 +128,7 @@ def main():
         np.savez_compressed(args.output/(label+'.npz'), white_before=before, white=y, physical=physical, reaction=reaction)
 
     def progress(phase):
-        print(json.dumps({'phase': phase}), flush=True)
+        print(json.dumps({'phase': phase, 'elapsed_s': time.monotonic()-started}), flush=True)
 
     try:
         require_commit_headroom()
@@ -135,14 +149,20 @@ def main():
             request = args.output/f'iteration-{iteration}-request.npz'
             response = args.output/f'iteration-{iteration}-response.npz'
             np.savez_compressed(request, **request_state)
-            child = subprocess.run([sys.executable, '-m', 'tools.metal_affine_midpoint_material_worker',
-                '--request', str(request.resolve()), '--admission', str(args.admission.resolve()),
-                '--output', str(response.resolve())], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                text=True, timeout=120, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
-            (args.output/f'iteration-{iteration}-worker.log').write_text(child.stdout+child.stderr)
-            gate(child.returncode == 0, 'Material worker rejected; raw evaluation preserved')
-            with np.load(response) as data:
-                candidate = {k: data[k] for k in data.files}
+            if args.inprocess_material:
+                from tools.metal_affine_midpoint_material_worker import evaluate
+                candidate = evaluate(request_state, p)
+                np.savez_compressed(response, **candidate)
+                gate(candidate['candidate_material_valid'], 'Material update rejected; raw evaluation preserved')
+            else:
+                child = subprocess.run([sys.executable, '-m', 'tools.metal_affine_midpoint_material_worker',
+                    '--request', str(request.resolve()), '--admission', str(args.admission.resolve()),
+                    '--output', str(response.resolve())], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                    text=True, timeout=120, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
+                (args.output/f'iteration-{iteration}-worker.log').write_text(child.stdout+child.stderr)
+                gate(child.returncode == 0, 'Material worker rejected; raw evaluation preserved')
+                with np.load(response) as data:
+                    candidate = {k: data[k] for k in data.files}
             Fmid = .5 * (old['F'] + candidate['F'])
             inverse = np.linalg.inv(Fmid)
             _, Wmid = unpack(old, midpoint_y)
@@ -250,7 +270,22 @@ def main():
         state['boundary_projection_loss'] += ledger['boundary']
         state['boundary_impulse'] += boundary_impulse
         state['candidate_white'] = y
-        state['candidate_accepted_steps'] = np.asarray(1)
+        state['candidate_accepted_steps'] = old['candidate_accepted_steps']+1
+        state['candidate_reference_total_energy'] = np.asarray(reference_total_energy)
+        total_energy_residual = (kinetic(y)+float(np.sum(state['mass']*state['internal_energy']))+
+            float(state['numerical_reservoir'])+float(state['boundary_reservoir'])-reference_total_energy)
+        report['cumulative_energy_residual_J'] = total_energy_residual
+        gate(abs(total_energy_residual) <= tol, 'Cumulative original energy tolerance failed')
+        state['candidate_origin_momentum'] = origin_momentum
+        state['candidate_origin_angular'] = origin_angular
+        state['candidate_cumulative_boundary_impulse'] = prior_boundary_impulse+boundary_impulse
+        state['candidate_cumulative_boundary_torque'] = prior_boundary_torque+boundary_torque
+        final_momentum, final_angular = moments(state, y)
+        cumulative_dp = final_momentum-origin_momentum-state['candidate_cumulative_boundary_impulse']
+        cumulative_dl = final_angular-origin_angular-state['candidate_cumulative_boundary_torque']
+        report.update(cumulative_momentum_residual=cumulative_dp, cumulative_angular_residual=cumulative_dl)
+        gate(np.linalg.norm(cumulative_dp) <= 1e-10*max(momentum_scale, 1e-30), 'Cumulative momentum gate failed')
+        gate(np.linalg.norm(cumulative_dl) <= report['angular_tolerance'], 'Cumulative angular momentum gate failed')
         np.savez_compressed(args.output/'accepted.npz', **state)
         report['status'] = 'bounded-window-passed'
     except Exception as error:
