@@ -55,7 +55,7 @@ def main(output):
         jax.block_until_ready(reference.stress);full_seconds=time.monotonic()-started
         started=time.monotonic();result=jax.jit(compact)(rho,energy,dt,trial,history)
         jax.block_until_ready(result.stress);compact_seconds=time.monotonic()-started
-        errors={};bitwise=True
+        errors={};initial_errors={};bitwise=True
         for field,a,b,c in zip(result._fields,reference,result,initial):
             a,b,c=np.asarray(a),np.asarray(b),np.asarray(c)
             assert a.shape==b.shape and a.dtype==b.dtype and np.isfinite(b).all(),(name,field)
@@ -68,15 +68,21 @@ def main(output):
                 scale=max(1.,float(np.max(np.abs(a))))
                 assert error<=1e-12*scale,(name,field,error,scale)
                 errors[field]=error
-            # Non-yielding output must be the full initial update, not old history.
-            np.testing.assert_array_equal(b[~yielding],c[~yielding],err_msg=name+':inactive:'+field)
+            # The eager initial update can round differently from the fused JIT.
+            if a.dtype.kind in 'biu':
+                np.testing.assert_array_equal(b[~yielding],c[~yielding],err_msg=name+':inactive:'+field)
+                initial_errors[field]=0.
+            else:
+                initial_errors[field]=float(np.max(np.abs(b[~yielding]-c[~yielding])))
+                assert initial_errors[field]<=1e-12*scale,(name,'inactive',field,initial_errors[field],scale)
         if n<=batch or not len(active):assert bitwise,name
         if len(active):assert np.count_nonzero(np.asarray(result.valid)&yielding)>0,name
         # In particular real point0 must survive every padded scatter.
         if len(active):np.testing.assert_allclose(np.asarray(result.stress[0]),np.asarray(reference.stress[0]),rtol=1e-12,atol=1e-5)
         records.append(dict(name=name,n=n,yielding=int(yielding.sum()),stage=stage,vector_dt=vector_dt,
             full_seconds=full_seconds,compact_seconds=compact_seconds,all_fields_bitwise_equal=bool(bitwise),
-            field_max_absolute_errors=errors,non_yielding_equal_full_initial=True,point0_padding_preserved=True,
+            field_max_absolute_errors=errors,non_yielding_eager_initial_max_errors=initial_errors,
+            non_yielding_full_initial_within_stated_tolerance=True,point0_padding_preserved=True,
             valid_count=int(np.count_nonzero(np.asarray(result.valid)))))
     output.parent.mkdir(parents=True,exist_ok=True)
     result=dict(passed=True,scope='Focused return-map optimization checks only; no MPM/time/energy qualification.',
