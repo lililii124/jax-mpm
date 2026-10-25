@@ -1,17 +1,17 @@
-name: AT2 C3 matched-time eight-dt operator diagnostic only
+name: AT2 observed production800 to1200 bounded segment
 on:
   workflow_dispatch:
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: at2-bending-c3-window
+  group: at2-observed-production-prefix1200
   cancel-in-progress: false
 jobs:
-  diagnostic:
+  segment:
     if: github.ref == 'refs/heads/work/phase-field-bending'
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -23,42 +23,43 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 2
+          fetch-depth: 3
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Authenticate exactly the preserved step800 source run
+      - name: Require authentic original800 state and accepted C3 observation proof
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           gh api "repos/$GITHUB_REPOSITORY/actions/runs/40165005721" > /tmp/parent-run.json
-          python -c "import json; r=json.load(open('/tmp/parent-run.json')); assert r['head_sha']=='7c8261cf2a008638fae25a86a964775e9bc735b4' and r['head_branch']=='work/phase-field-bending'; assert r['conclusion']=='failure'; assert r['path'] in ('.github/workflows/phase-field-persistent-grid-prefix800.yml','.github/workflows/engineering-previews.yml')"
-      - name: Install unchanged qualified runtime
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/40169060267" > /tmp/c3-run.json
+          python -c "import json; p=json.load(open('/tmp/parent-run.json')); q=json.load(open('/tmp/c3-run.json')); assert p['head_sha']=='7c8261cf2a008638fae25a86a964775e9bc735b4' and p['conclusion']=='failure'; assert q['head_sha']=='1a04b4153d1920184c05f9583458ec7b0543bfbb' and q['conclusion']=='success'; assert p['head_branch']==q['head_branch']=='work/phase-field-bending'"
+      - name: Install unchanged physical runtime
         run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
-      - name: Preserve exact old and new source closure
+      - name: Preserve complete source and runtime provenance
         run: |
           set -euo pipefail
-          mkdir -p outputs/at2-c3
-          git rev-parse HEAD > outputs/at2-c3/source-head.txt
-          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-c3/source-sha256.txt
-          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py examples/phase_field_bending_cfl_diagnostic.py tools/prove_phase_field_bending_restart.py tools/phase_field_bending_diagnostics.py tools/run_phase_field_bending_prefix800.py tools/run_phase_field_bending_c3_window.py .github/workflows/phase-field-bending-c3-window.yml .github/workflows/engineering-previews.yml >> outputs/at2-c3/source-sha256.txt
-          python -m pip freeze > outputs/at2-c3/runtime.txt
-      - name: Read-only telemetry control and .04/.02/.01 same-window runs only
-        timeout-minutes: 26
+          mkdir -p outputs/at2-prefix1200
+          git rev-parse HEAD > outputs/at2-prefix1200/source-head.txt
+          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-prefix1200/source-sha256.txt
+          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py examples/phase_field_bending_observed_production.py tools/prove_phase_field_bending_restart.py tools/phase_field_bending_diagnostics.py tools/phase_field_bending_connectivity.py tools/run_phase_field_bending_c3_window.py tools/run_phase_field_bending_prefix1200.py .github/workflows/phase-field-bending-prefix1200.yml .github/workflows/engineering-previews.yml >> outputs/at2-prefix1200/source-sha256.txt
+          python -m pip freeze > outputs/at2-prefix1200/runtime.txt
+      - name: Continue exactly400 original-dt production steps with qualified observations
+        timeout-minutes: 43
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           ulimit -v 6291456
-          /usr/bin/time -v -o outputs/at2-c3/resources.txt timeout --signal=KILL 25m python tools/run_phase_field_bending_c3_window.py --output outputs/at2-c3/evidence 2>&1 | tee outputs/at2-c3/run.log
-      - name: Retain all old input, control, raw states and partial diagnostics
+          /usr/bin/time -v -o outputs/at2-prefix1200/resources.txt timeout --signal=KILL 42m python tools/run_phase_field_bending_prefix1200.py --output outputs/at2-prefix1200/evidence 2>&1 | tee outputs/at2-prefix1200/run.log
+      - name: Retain all raw states, step ledgers, connectivity and failure evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: at2-c3-window-${{ github.run_id }}
-          path: outputs/at2-c3/
+          name: at2-prefix1200-${{ github.run_id }}
+          path: outputs/at2-prefix1200/
           compression-level: 0
           if-no-files-found: warn
           retention-days: 14
