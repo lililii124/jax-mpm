@@ -1,4 +1,4 @@
-name: AT2 single two-step observer-on off diagnostic
+name: AT2 fresh ideal-brittle tension prefix2400
 on:
   workflow_dispatch:
 permissions:
@@ -11,7 +11,7 @@ jobs:
   pilot:
     if: github.ref == 'refs/heads/work/phase-field-tension-localization'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 45
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -34,21 +34,19 @@ jobs:
           mkdir -p outputs/tension
           git rev-parse HEAD > outputs/tension/source-head.txt
           python -m pip freeze > outputs/tension/runtime.txt
-      - name: Exactly two steps on and two steps off
-        timeout-minutes: 12
+      - name: Fresh new material from zero through2400
+        timeout-minutes: 40
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          timeout --signal=KILL 11m python tools/run_phase_field_tension_observer_check.py --output outputs/tension/observer 2>&1 | tee outputs/tension/proof.log
+          timeout --signal=KILL 39m python tools/run_phase_field_tension_brittle_prefix.py --output outputs/tension/brittle 2>&1 | tee outputs/tension/proof.log
       - name: Preserve all raw fields and resource evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: at2-tension-observer-${{ github.run_id }}
-          path: |
-            outputs/tension/
-            !outputs/tension/observer/parent.zip
+          name: at2-tension-brittle2400-${{ github.run_id }}
+          path: outputs/tension/
           if-no-files-found: warn
           compression-level: 0
           retention-days: 14
