@@ -1,6 +1,11 @@
-name: HJC40 complete official raw read-only audit
+name: HJC complete official raw read-only audit
 on:
   workflow_dispatch:
+    inputs:
+      specification:
+        type: string
+        required: true
+        description: Exact parent/child run artifact commit bytes SHA frame and parent_review JSON
 permissions:
   contents: read
   actions: read
@@ -10,6 +15,7 @@ jobs:
     timeout-minutes: 25
     env:
       GH_TOKEN: ${{ github.token }}
+      AUDIT_SPECIFICATION: ${{ inputs.specification }}
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
     steps:
@@ -21,20 +27,28 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Fetch exact parent and child source commits
+      - name: Fetch exact independently specified parent and child source commits
         run: |
-          git fetch --no-tags --depth=1 origin 52cea038373934b8c80596f5c42518bb37a0e9fc
-          git fetch --no-tags --depth=1 origin d857cec8d682446a1f4821ebd0fb3b713ef761a2
+          python - <<'PYCODE'
+          import json,os,pathlib,subprocess
+          spec=json.loads(os.environ['AUDIT_SPECIFICATION'])
+          for role in ('parent','child'):
+              commit=spec[role]['commit']
+              assert len(commit)==40 and all(x in '0123456789abcdef' for x in commit)
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',commit],check=True)
+          pathlib.Path('.local').mkdir(exist_ok=True)
+          pathlib.Path('.local/hjc-audit-spec.json').write_text(json.dumps(spec))
+          PYCODE
       - name: Install NumPy only
         run: python -m pip install numpy==2.5.4
       - name: Complete official ZIP CRC source state and parent audit zero physical steps
-        run: python tools/audit_hjc_complete_prefix.py --output .local/hjc40-audit
+        run: python tools/audit_hjc_complete_prefix.py --specification .local/hjc-audit-spec.json --output .local/hjc40-audit
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: hjc40-independent-readonly-receipt-${{ github.run_id }}
           path: |
-            .local/hjc40-audit/independent-hjc40-review.json
+            .local/hjc40-audit/independent-hjc*-review.json
             .local/hjc40-audit/parent/archive-review.json
             .local/hjc40-audit/child/archive-review.json
             .local/hjc40-audit/delivery/delivery-manifest.json

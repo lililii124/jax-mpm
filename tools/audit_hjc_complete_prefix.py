@@ -132,7 +132,9 @@ def provenance_and_state(folder, specification):
     status = load(folder/'raw/status.json')
     frame = specification['frame']
     assert plan['stop_frame'] == cp['frame'] == status['frame'] == frame
-    assert status['phase'] == 'checkpoint-ready' and status['segment_complete'] and not status['completed']
+    full = frame == 60
+    assert status['phase'] == ('completed' if full else 'checkpoint-ready')
+    assert status['segment_complete'] is (not full) and status['completed'] is full
     assert status['signature'] == cp['signature']
     assert plan['frames'] == status['frames'] == 60 and plan['substeps'] == 175
     assert plan['particles'] == 121104 and status['steps_completed'] == frame*175
@@ -229,7 +231,7 @@ def frames_and_mirrors(folder, state, expected_frame):
 
 
 def parent_continuity(parent, child, pstate, cstate):
-    embedded = child/'parents/frame-00020'
+    embedded = child/'parents'/f"frame-{PARENT['frame']:05d}"
     assert sha(parent/'prefix-review.json') == PARENT_REVIEW
     for name in ('source.json','plan.json','prefix-review.json','resource-guard.json'):
         assert sha(parent/name) == sha(embedded/name), name
@@ -237,11 +239,11 @@ def parent_continuity(parent, child, pstate, cstate):
     for name in pstate['checkpoint']['states']:
         assert sha(parent/'raw'/name) == sha(embedded/name)
     assert sha(parent/'initial_state.npz') == sha(child/'initial_state.npz')
-    for frame in range(21):
+    for frame in range(PARENT['frame']+1):
         name = f'raw/frames_data/frame_{frame:05d}.npz'
         assert sha(parent/name) == sha(child/name)
     for key in ('rows','observations'):
-        assert cstate['checkpoint'][key][:21] == pstate['checkpoint'][key]
+        assert cstate['checkpoint'][key][:PARENT['frame']+1] == pstate['checkpoint'][key]
     assert cstate['checkpoint']['signature'] == pstate['checkpoint']['signature']
     assert cstate['plan']['definition'] == pstate['plan']['definition']
     allowed = {'.github/workflows/engineering-previews.yml','.github/workflows/hjc-mat111-beam-continue.yml'}
@@ -251,7 +253,7 @@ def parent_continuity(parent, child, pstate, cstate):
         if name not in allowed:
             assert pfiles[name] == cfiles[name], name
     assert np.all(cstate['final']['history_damage'] >= pstate['final']['history_damage'])
-    return dict(parent_review_sha256=PARENT_REVIEW,preserved_raw_frames=21,
+    return dict(parent_review_sha256=PARENT_REVIEW,preserved_raw_frames=PARENT['frame']+1,
         parent_checkpoint_sha256=sha(parent/'raw'/pstate['checkpoint']['states'][0]),
         numerical_and_noncontroller_source_unchanged=True,
         allowed_controller_differences=sorted(allowed))
@@ -265,7 +267,7 @@ def delivery(child, state, output):
     checkpoint_names = [name for name in checkpoint_names if (child/name).is_file()]
     render_names = ['source.json','plan.json','prefix-review.json','raw/summary.json','raw/status.json','raw/trajectory.npz']
     render_names = [name for name in render_names if (child/name).is_file()]
-    render_names += [f'raw/frames_data/frame_{frame:05d}.npz' for frame in range(41)]
+    render_names += [f'raw/frames_data/frame_{frame:05d}.npz' for frame in range(CHILD['frame']+1)]
     def pack(name, files):
         path = output/name
         with tarfile.open(path,'w:gz',compresslevel=6) as bundle:
@@ -292,15 +294,21 @@ def delivery(child, state, output):
         original_artifact=CHILD, checkpoint=dict(file=checkpoint.name,bytes=checkpoint.stat().st_size,sha256=sha(checkpoint)),
         rendering=dict(concatenated_file=render.name,bytes=render.stat().st_size,sha256=sha(render),parts=parts),
         original_member_files={name:dict(bytes=(child/name).stat().st_size,sha256=sha(child/name)) for name in selected},
-        frames=41,particles=121104,physical_steps_executed=0,all_parts_below100MB=True)
+        frames=CHILD['frame']+1,particles=121104,physical_steps_executed=0,all_parts_below100MB=True)
     save(output/'delivery-manifest.json',report)
     return report
 
 
 def main():
     parser = argparse.ArgumentParser()
+    global PARENT, CHILD, PARENT_REVIEW
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--specification',type=Path)
     args = parser.parse_args()
+    if args.specification:
+        specification = load(args.specification)
+        PARENT, CHILD, PARENT_REVIEW = specification['parent'],specification['child'],specification['parent_review']
+        assert 0 < PARENT['frame'] < CHILD['frame'] <= 60
     output = args.output.resolve()
     if output.exists():
         raise ValueError('Fresh audit directory required')
@@ -309,15 +317,15 @@ def main():
     child, czip = official_archive('child',CHILD,output)
     pstate = provenance_and_state(parent,PARENT)
     cstate = provenance_and_state(child,CHILD)
-    precords = frames_and_mirrors(parent,pstate,20)
-    records = frames_and_mirrors(child,cstate,40)
+    precords = frames_and_mirrors(parent,pstate,PARENT['frame'])
+    records = frames_and_mirrors(child,cstate,CHILD['frame'])
     continuity = parent_continuity(parent,child,pstate,cstate)
     spare = []
     for path in sorted((child/'raw').glob('checkpoint_*.npz')):
         values = npz(path)
         determinant = checked_state(values,cstate['initial'])
         frame = round(float(values['time'])/25e-6)
-        assert 0 <= frame <= 40
+        assert 0 <= frame <= CHILD['frame']
         snapshot = npz(child/'raw/frames_data'/f'frame_{frame:05d}.npz')
         assert np.array_equal(values['x'],snapshot['x'])
         assert np.array_equal(values['history_damage'],snapshot['damage'])
@@ -334,18 +342,18 @@ def main():
         numerical_commit=CHILD['commit'],verifier_commit=os.environ.get('GITHUB_SHA'),
         parent_verified_sources=len(pstate['source']['files']),child_verified_sources=len(cstate['source']['files']),
         child_review_sha256=sha(child/'prefix-review.json'),final_checkpoint_sha256=sha(child/'raw'/cstate['checkpoint']['states'][0]),
-        frames=41,steps=7000,particles=121104,final_time_s=float(cstate['final']['time']),
+        frames=CHILD['frame']+1,steps=CHILD['frame']*175,particles=121104,final_time_s=float(cstate['final']['time']),
         min_J=cstate['min_J'],mass_kg=float(cstate['final']['mass'].sum()),
         final_damage_max=float(cstate['final']['history_damage'].max()),all_saved_damage_irreversible=True,
         parent_frame_observations=precords,frame_observations=records,all_raw_checkpoint_states=spare,
         guard=cstate['guard'],integration_solver_seconds_this_segment=solver_delta,
         continuation_to60=dict(integrity_admitted=True,resource_screen_passed=bool(resource_ok),
-            allowed_under_existing_guard=bool(resource_ok),additional_steps=3500,
+            allowed_under_existing_guard=bool(resource_ok),additional_steps=(60-CHILD['frame'])*175,
             projected_wall_seconds_with25percent_margin=projected_wall,
             scope='Same frozen numerical equations/loading; retain runtime/source/state and existing wall/USS guards. No automatic dispatch.'),
         delivery=checkpoint_delivery,structural_energy_certified=False,temporal_convergence_certified=False,
         physical_steps_executed=0,jax_initialized=False,public_visual_review_passed=False)
-    save(output/'independent-hjc40-review.json',report)
+    save(output/f"independent-hjc{CHILD['frame']}-review.json",report)
     print(json.dumps({k:v for k,v in report.items() if k not in ('frame_observations','parent_frame_observations','delivery')},indent=2))
 
 
