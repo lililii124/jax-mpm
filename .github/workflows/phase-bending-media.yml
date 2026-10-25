@@ -1,0 +1,77 @@
+name: Private AT2 bending13 actual-state review media
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: phase-bending-readonly-media
+  cancel-in-progress: false
+jobs:
+  media:
+    if: github.ref == 'refs/heads/work/phase-field-bending'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: 5277566890f01d867a064580efaaabea50c8efdc
+          path: .local/bending-producer
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install exact host dependencies
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
+      - name: Restore and authenticate only complete original13 saved states
+        run: python tools/finalize_phase_bending_media.py prepare
+      - name: Install actual offscreen ParaView
+        timeout-minutes: 12
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('.local/phase-bending-media/paraview-install');p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Render13 real states and verify decoded PNG mapping
+        timeout-minutes: 17
+        run: python tools/finalize_phase_bending_media.py render
+      - name: Bound and preserve actual derivative or failure evidence
+        if: always()
+        id: package
+        run: python tools/finalize_phase_bending_media.py package
+      - uses: actions/upload-artifact@v4
+        if: always()
+        id: upload
+        with:
+          name: at2-bending13-review-${{ github.run_id }}
+          path: .local/phase-bending-media/delivery/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+      - uses: actions/download-artifact@v5
+        if: always() && steps.upload.outcome == 'success'
+        with:
+          artifact-ids: ${{ steps.upload.outputs.artifact-id }}
+          path: .local/phase-bending-media/retrieved
+      - name: Verify producer-pinned whole derivative retrieved
+        if: always() && steps.upload.outcome == 'success'
+        env:
+          EXPECTED_MANIFEST: ${{ steps.package.outputs.manifest_sha }}
+        run: python tools/finalize_phase_bending_media.py verify --folder .local/phase-bending-media/retrieved
