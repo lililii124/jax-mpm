@@ -23,7 +23,7 @@ class FlowState(NamedTuple):
     valid: object
 
 
-def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,dt=.00004,fill_threshold=.25,solid=None,transport='point-toi',capture_pressure=False):
+def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,dt=.00004,fill_threshold=.25,solid=None,transport='point-toi',capture_pressure=False,outlet_x=None):
     """Freeze an actual voxelized mold/fibre boundary, not final fluid geometry.
 
     Pressure cells have APIC cell mass > threshold*rho*h^3, a documented
@@ -61,8 +61,8 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         if transport=='rt0':
             if solid is None:raise ValueError('RT0 requires the actual fixed voxel boundary')
             extension=Extension(projection.velocity,fluid,jnp.asarray(0.),projection.maximum_divergence_per_s,jnp.asarray(0.),jnp.asarray(0.),domain_valid)
-            transport_data=advect_rt0(s.x,extension.velocity,s.active,solid,extension.cells,layout,dt)
-            x=transport_data.x;wall_valid=transport_data.valid&extension.valid&jnp.all(~s.active|(transport_data.projected_time>=dt*(1-1e-12)))
+            transport_data=advect_rt0(s.x,extension.velocity,s.active,solid,extension.cells,layout,dt,outlet_x=outlet_x)
+            x=transport_data.x;wall_valid=transport_data.valid&extension.valid&jnp.all(~s.active|(transport_data.projected_time>=transport_data.tracked_time*(1-1e-12)))
         elif solid is None:
             x=jnp.where(s.active[:,None],s.x+dt*v,s.x)
         else:
@@ -96,7 +96,7 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
                     cross=jnp.cross(jax.nn.one_hot(r,3),jax.nn.one_hot(c,3));torque=torque+moment*cross
             transport_torque=jnp.sum(effective[:,None]*jnp.cross(x-s.x,v),axis=0)
             actual=angular(x,v,C)-angular(s.x,s.v,s.C)-torque
-            metrics.update(physical_pressure_domain_added_cells=domain_added,physical_pressure_domain_valid=domain_valid,transport_extension_relative_residual=extension.relative_residual,transport_extension_max_divergence_per_s=extension.maximum_divergence,transport_extension_protected_face_change=extension.protected_change,transport_extension_compatibility_residual=extension.compatibility_residual,transport_extension_valid=extension.valid,transport_angular_remainder_norm=jnp.linalg.norm(transport_torque),transport_angular_identity_norm=jnp.linalg.norm(actual-transport_torque),fixture_torque_norm=jnp.linalg.norm(torque),transport_torque_x=transport_torque[0],transport_torque_y=transport_torque[1],transport_torque_z=transport_torque[2],fixture_torque_x=torque[0],fixture_torque_y=torque[1],fixture_torque_z=torque[2],transport_logJ_mean=jnp.sum(effective*transport_data.logJ)/jnp.maximum(jnp.sum(effective),1e-300),transport_logJ_max=jnp.where(jnp.any(s.active),jnp.max(jnp.where(s.active,transport_data.logJ,-jnp.inf)),0.),transport_logJ_min=jnp.where(jnp.any(s.active),jnp.min(jnp.where(s.active,transport_data.logJ,jnp.inf)),0.),transport_maximum_roundoff_distance_m=jnp.max(transport_data.roundoff_distance),transport_maximum_path_over_h=jnp.max(transport_data.path_bound)/h,transport_maximum_crossings=jnp.max(transport_data.crossings),transport_unprojected_particle_fraction=jnp.sum(s.active&(transport_data.projected_time<dt*(1-1e-12)))/jnp.maximum(jnp.sum(s.active),1))
-            return (new,metrics,transport_data.logJ,(viscous,mass,fixed,fluid,projection.impulse_potential_base,projection.impulse_potential_correction)) if capture_pressure else (new,metrics,transport_data.logJ)
+            metrics.update(physical_pressure_domain_added_cells=domain_added,physical_pressure_domain_valid=domain_valid,transport_extension_relative_residual=extension.relative_residual,transport_extension_max_divergence_per_s=extension.maximum_divergence,transport_extension_protected_face_change=extension.protected_change,transport_extension_compatibility_residual=extension.compatibility_residual,transport_extension_valid=extension.valid,transport_angular_remainder_norm=jnp.linalg.norm(transport_torque),transport_angular_identity_norm=jnp.linalg.norm(actual-transport_torque),fixture_torque_norm=jnp.linalg.norm(torque),transport_torque_x=transport_torque[0],transport_torque_y=transport_torque[1],transport_torque_z=transport_torque[2],fixture_torque_x=torque[0],fixture_torque_y=torque[1],fixture_torque_z=torque[2],transport_logJ_mean=jnp.sum(effective*transport_data.logJ)/jnp.maximum(jnp.sum(effective),1e-300),transport_logJ_max=jnp.where(jnp.any(s.active),jnp.max(jnp.where(s.active,transport_data.logJ,-jnp.inf)),0.),transport_logJ_min=jnp.where(jnp.any(s.active),jnp.min(jnp.where(s.active,transport_data.logJ,jnp.inf)),0.),transport_maximum_roundoff_distance_m=jnp.max(transport_data.roundoff_distance),transport_maximum_path_over_h=jnp.max(transport_data.path_bound)/h,transport_maximum_crossings=jnp.max(transport_data.crossings),transport_outlet_exits=jnp.sum(transport_data.exited),transport_unprojected_particle_fraction=jnp.sum(s.active&(transport_data.projected_time<transport_data.tracked_time*(1-1e-12)))/jnp.maximum(jnp.sum(s.active),1))
+            return (new,metrics,transport_data.logJ,(viscous,mass,fixed,fluid,projection.impulse_potential_base,projection.impulse_potential_correction,transport_data.exited)) if capture_pressure else (new,metrics,transport_data.logJ)
         return new,metrics
     return step

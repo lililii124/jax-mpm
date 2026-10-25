@@ -17,6 +17,8 @@ class Transport(NamedTuple):
     path_bound: object
     roundoff_distance: object
     valid: object
+    exited: object
+    tracked_time: object
 
 
 def represent(position,index,layout):
@@ -35,7 +37,7 @@ def represent(position,index,layout):
     return adjusted,jnp.max(jnp.abs(adjusted-position),axis=1),valid
 
 
-def advect(x,velocity,active,solid,projected,layout,dt,*,max_crossings=8):
+def advect(x,velocity,active,solid,projected,layout,dt,*,max_crossings=8,outlet_x=None):
     origin=jnp.asarray(layout.origin,dtype=x.dtype);shape=jnp.asarray(layout.shape);h=layout.dx
     index=jnp.floor((x-origin)/h).astype(jnp.int32)
     def cell_value(field,index):
@@ -43,8 +45,10 @@ def advect(x,velocity,active,solid,projected,layout,dt,*,max_crossings=8):
         return field[safe[:,0],safe[:,1],safe[:,2]],inside
     wall,inside=cell_value(solid,index);valid=jnp.all(~active|(inside&~wall));left=jnp.where(active,dt,0.)
     logJ=jnp.zeros(len(x),dtype=x.dtype);projected_time=jnp.zeros_like(logJ);crossings=jnp.zeros(len(x),dtype=jnp.int32);path=jnp.zeros_like(logJ);roundoff=jnp.zeros_like(logJ)
+    exit_index=int(round((outlet_x-layout.origin[0])/h)) if outlet_x is not None else None
+    exited=jnp.zeros(len(x),dtype=bool);tracked_time=jnp.where(active,dt,0.)
     def body(_,carry):
-        position,index,left,logJ,projected_time,count,path,roundoff,ok=carry
+        position,index,left,logJ,projected_time,count,path,roundoff,ok,exited,tracked_time=carry
         fraction=(position-origin)/h-index;L=[];R=[]
         for c in range(3):
             lo=index;hi=index+jax.nn.one_hot(c,3,dtype=jnp.int32);fs=jnp.asarray(velocity[c].shape);lo=jnp.clip(lo,0,fs-1);hi=jnp.clip(hi,0,fs-1)
@@ -61,9 +65,12 @@ def advect(x,velocity,active,solid,projected,layout,dt,*,max_crossings=8):
         logJ=logJ+segment*jnp.sum(rate,axis=1);is_projected,_=cell_value(projected,index);projected_time=projected_time+jnp.where(is_projected,segment,0.)
         selector=jax.nn.one_hot(axis,3,dtype=jnp.int32);direction=jnp.sum(sign*selector,axis=1,dtype=jnp.int32);next_index=index+selector*direction[:,None];next_wall,next_inside=cell_value(solid,next_index)
         ok=ok&jnp.all(~event|(next_inside&~next_wall))
-        index=jnp.where(event[:,None],next_index,index);count=count+event.astype(jnp.int32)
-        position,rounding,side_valid=represent(position,index,layout);roundoff=jnp.maximum(roundoff,rounding);ok=ok&side_valid
-        return position,index,left,logJ,projected_time,count,path,roundoff,ok
-    position,index,left,logJ,projected_time,count,path,roundoff,valid=jax.lax.fori_loop(0,max_crossings,body,(x,index,left,logJ,projected_time,crossings,path,roundoff,valid))
+        hit_exit=jnp.zeros(len(x),dtype=bool) if exit_index is None else event&(axis==0)&(direction>0)&(index[:,0]<exit_index)&(next_index[:,0]>=exit_index)&next_inside&~next_wall
+        tracked_time=jnp.where(hit_exit,dt-left,tracked_time);exited=exited|hit_exit;left=jnp.where(hit_exit,0.,left)
+        index=jnp.where((event&~hit_exit)[:,None],next_index,index);count=count+event.astype(jnp.int32)
+        physical_exit_position=position
+        position,rounding,side_valid=represent(position,index,layout);position=jnp.where(exited[:,None],physical_exit_position,position);roundoff=jnp.maximum(roundoff,rounding);ok=ok&side_valid
+        return position,index,left,logJ,projected_time,count,path,roundoff,ok,exited,tracked_time
+    position,index,left,logJ,projected_time,count,path,roundoff,valid,exited,tracked_time=jax.lax.fori_loop(0,max_crossings,body,(x,index,left,logJ,projected_time,crossings,path,roundoff,valid,exited,tracked_time))
     wall,inside=cell_value(solid,index);valid=valid&jnp.all(~active|(inside&~wall))&jnp.all(left<=dt*1e-12)&jnp.all(jnp.where(active,path/h,0.)<=.25)&jnp.all(jnp.isfinite(position))
-    return Transport(position,logJ,projected_time,count,path,roundoff,valid)
+    return Transport(position,logJ,projected_time,count,path,roundoff,valid,exited,tracked_time)
