@@ -22,10 +22,10 @@ def fixture_position(time, times, positions, xp=np):
 
 
 def make_process(*,per_family=2,pitch=.0027,diameter=.000225,spacing=.00006,
-                 density=1500.,shed_diameters=2.,feed_time=.0018,
+                 density=1500.,shed_diameters=2.,feed_time=.0036,maximum_feed_speed=3.,
                  opening_time=.0004,closing_time=.0004,hold_time=.00015):
     if not isinstance(per_family,int) or not 1<=per_family<=12:raise ValueError('Finite station supports1..12 cords per family')
-    if min(pitch,diameter,spacing,density,feed_time,opening_time,closing_time,hold_time)<=0:
+    if min(pitch,diameter,spacing,density,feed_time,maximum_feed_speed,opening_time,closing_time,hold_time)<=0:
         raise ValueError('Positive geometry/material/timing required')
     if diameter/pitch>.09:raise ValueError('Pitch must leave a slender bending span')
     radius=diameter/2;span=4*pitch;origin=np.array([.025,.004,.025])
@@ -110,7 +110,9 @@ def make_process(*,per_family=2,pitch=.0027,diameter=.000225,spacing=.00006,
         current[2*incoming:2*incoming+2,1]=origin[1]
         append(f'open_and_align_yarn_{incoming}',opening_time)
         d=fibres[incoming]['direction'];current[2*incoming:2*incoming+2,[0,2]]+=fibres[incoming]['feed_distance_m']*d
-        append(f'feed_yarn_{incoming}',feed_time)
+        duration=max(feed_time,np.pi*fibres[incoming]['feed_distance_m']/(2*maximum_feed_speed))
+        append(f'feed_yarn_{incoming}',duration)
+        stages[-1].update(fibre_id=incoming,feed_distance_m=fibres[incoming]['feed_distance_m'],half_cosine_peak_speed_m_s=np.pi*fibres[incoming]['feed_distance_m']/(2*duration))
         for i in installed:
             if fibres[i]['family_id']!=fibres[incoming]['family_id']:closed[i]+=1
         closed[incoming]=len([i for i in installed if fibres[i]['family_id']!=fibres[incoming]['family_id']])
@@ -132,7 +134,8 @@ def make_process(*,per_family=2,pitch=.0027,diameter=.000225,spacing=.00006,
         i=fibre['id'];sample=np.concatenate([x[fibre_id==i],positions_knots[:,2*i:2*i+2].reshape(-1,3)])
         margin=np.array([.2*pitch,2*diameter,.2*pitch])+radius
         swept.append(np.column_stack([sample.min(0)-margin,sample.max(0)+margin]))
-    metadata=dict(case='finite-triaxial-weaving-process-v1',matrix_present=False,
+    metadata=dict(case='finite-triaxial-weaving-process-v2-rate-limited',matrix_present=False,
+        process_version='v2 independent fresh state after v1 axial-wave failure',minimum_feed_time_s=feed_time,maximum_feed_speed_m_s=maximum_feed_speed,
         nominal_family_angles_deg=[0.,60.,-60.],weave_plane='XZ',thickness_axis='Y',
         fibres=fibres,cross_section_particles=cross_count,cross_section_ring_counts=rings,
         diameter_m=diameter,pitch_m=pitch,origin_m=origin,particle_count=len(x),

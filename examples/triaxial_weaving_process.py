@@ -19,8 +19,8 @@ def json_value(value):
     return value
 
 
-def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006):
-    geometry=make_process(per_family=per_family,pitch=pitch,diameter=diameter,spacing=particle_spacing)
+def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,minimum_feed_time=.0036,maximum_feed_speed=3.):
+    geometry=make_process(per_family=per_family,pitch=pitch,diameter=diameter,spacing=particle_spacing,feed_time=minimum_feed_time,maximum_feed_speed=maximum_feed_speed)
     young,poisson,density=10e6,.25,1500.
     lam=young*poisson/((1+poisson)*(1-2*poisson));mu=young/(2*(1+poisson))
     wavespeed=np.sqrt((lam+2*mu)/density);dt=.08*dx/wavespeed
@@ -28,9 +28,10 @@ def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_s
     nodes=int(np.prod(shape,axis=1).sum());segments=[f['longitudinal_sections']-1 for f in geometry['metadata']['fibres']]
     candidates=sum(segments[a]*segments[b] for a,b in [c['fibre_ids'] for c in geometry['contact_candidates']])
     maximum=geometry['metadata']['maximum_fixture_displacement_m']
-    record=dict(case='finite-dry-triaxial-weaving-process-v1',particles=len(geometry['x']),
+    record=dict(case='finite-dry-triaxial-weaving-process-v2-rate-limited',particles=len(geometry['x']),
         fibres=len(segments),per_family=per_family,dx=dx,dt=float(dt),nominal_elastic_cfl=.08,
         duration_s=geometry['metadata']['duration_s'],full_steps=int(np.ceil(geometry['metadata']['duration_s']/dt)),
+        minimum_feed_time_s=minimum_feed_time,maximum_feed_speed_m_s=maximum_feed_speed,elastic_wave_speed_m_s=float(wavespeed),maximum_feed_mach=maximum_feed_speed/float(wavespeed),elastic_bar_reflection_strain_estimate=2*maximum_feed_speed/float(wavespeed),
         young_Pa=young,poisson=poisson,density_kg_m3=density,tensile_strength_Pa=.2*young,fracture_energy_J_m2=1000.,
         swept_dense_nodes=nodes,seven_grid_scalars_subtotal_bytes=nodes*7*8,
         coverage_pair_upper_bound=candidates,coverage_skin_m=2*maximum+2*geometry['metadata']['diameter_m'],
@@ -48,8 +49,8 @@ def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_s
     return geometry,record
 
 
-def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense",upgrade_work_observer=False,upgrade_allocation=False,checkpoint_search_skin=None,upgrade_search=False):
-    geometry,plan=plan_process(per_family,dx,pitch,diameter,particle_spacing)
+def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense",upgrade_work_observer=False,upgrade_allocation=False,checkpoint_search_skin=None,upgrade_search=False,minimum_feed_time=.0036,maximum_feed_speed=3.):
+    geometry,plan=plan_process(per_family,dx,pitch,diameter,particle_spacing,minimum_feed_time,maximum_feed_speed)
     if not plan['within_initial_resource_limits']:raise ValueError('Need a new resource plan and swept sparse contact/grid strategy for this larger station')
     import jax
     jax.config.update('jax_enable_x64',True)
@@ -261,6 +262,7 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
 if __name__=='__main__':
     parser=argparse.ArgumentParser(__doc__);parser.add_argument('--per-family',type=int,default=2)
     parser.add_argument('--dx',type=float,default=.000075);parser.add_argument('--pitch',type=float,default=.0027)
+    parser.add_argument('--minimum-feed-time',type=float,default=.0036);parser.add_argument('--maximum-feed-speed',type=float,default=3.)
     parser.add_argument('--diameter',type=float,default=.000225);parser.add_argument('--particle-spacing',type=float,default=.00006)
     parser.add_argument('--upgrade-work-observer',action='store_true')
     parser.add_argument('--upgrade-allocation',action='store_true')
@@ -270,6 +272,6 @@ if __name__=='__main__':
     parser.add_argument('--saved-frames',type=int,default=8);parser.add_argument('--resume',action='store_true')
     parser.add_argument('--run',action='store_true');parser.add_argument('--steps',type=int)
     parser.add_argument('--output',default='outputs/triaxial-weaving-process');args=parser.parse_args()
-    parameters=dict(per_family=args.per_family,dx=args.dx,pitch=args.pitch,diameter=args.diameter,particle_spacing=args.particle_spacing)
+    parameters=dict(per_family=args.per_family,dx=args.dx,pitch=args.pitch,diameter=args.diameter,particle_spacing=args.particle_spacing,minimum_feed_time=args.minimum_feed_time,maximum_feed_speed=args.maximum_feed_speed)
     if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,grid=args.grid,upgrade_work_observer=args.upgrade_work_observer,upgrade_allocation=args.upgrade_allocation,checkpoint_search_skin=args.checkpoint_search_skin,upgrade_search=args.upgrade_search,**parameters)
     else:print(json.dumps(json_value(plan_process(**parameters)[1]),indent=2))

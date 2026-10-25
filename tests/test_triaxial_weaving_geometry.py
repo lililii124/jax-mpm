@@ -28,3 +28,15 @@ def test_machine_knots_move_only_end_fixture_targets():
         # Each initial circular section lies on a straight uncrimped centreline.
         centres=p.reshape(fibre['longitudinal_sections'],meta['cross_section_particles'],3).mean(1)
         assert np.ptp(centres[:,1])<1e-15
+
+
+def test_v2_feed_speed_is_bounded_by_actual_fixture_motion():
+    from examples.triaxial_weaving_geometry import fixture_position
+    geometry=make_process(per_family=2)
+    metadata=geometry['metadata']
+    for stage in metadata['stages']:
+        if stage['name'].startswith('feed_yarn_'):
+            middle=(stage['start']+stage['end'])/2;delta=1e-9
+            velocity=(fixture_position(middle+delta,metadata['fixture_times'],metadata['fixture_positions'])-fixture_position(middle-delta,metadata['fixture_times'],metadata['fixture_positions']))/(2*delta)
+            assert np.linalg.norm(velocity,axis=1).max()<=3.000001
+            assert stage['end']-stage['start']>=.0036-1e-14
