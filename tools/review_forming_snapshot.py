@@ -17,9 +17,18 @@ def inspect(state,plan,geometry):
     pairs=[]
     # Frobenius norm bounds each advected Cartesian cell's circumradius.
     radius_bound=.5*np.sqrt(3)*spacing*np.linalg.norm(F,axis=(1,2)).max()
+    trees={}
     for a,b in ((0,1),(0,2),(1,2)):
-        xa=x[ids==a];xb=x[ids==b];Fa=F[ids==a];tree=cKDTree(xa)
-        distance,index=tree.query(xb,k=1,workers=1);candidate=np.flatnonzero(distance<=radius_bound)
+        xa=x[ids==a];xb=x[ids==b];Fa=F[ids==a]
+        if a not in trees:trees[a]=cKDTree(xa)
+        tree=trees[a]
+        # If any bounded query is finite, its minimum is the exact global
+        # minimum: excluded distances exceed this upper bound. The bound
+        # also contains every possible advected-cell intrusion candidate.
+        bound=max(2*dx,radius_bound)
+        distance,index=tree.query(xb,k=1,workers=1,distance_upper_bound=bound)
+        if not np.isfinite(distance).any():distance,index=tree.query(xb,k=1,workers=1)
+        candidate=np.flatnonzero(distance<=radius_bound)
         inside=deep=0;worst=0.
         for first in range(0,len(candidate),2048):
             selection=candidate[first:first+2048];_,near=tree.query(xb[selection],k=8,workers=1)
