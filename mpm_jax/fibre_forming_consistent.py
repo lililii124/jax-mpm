@@ -69,6 +69,12 @@ def make_step(material,layout,config,masks,duration):
         angular_error=jnp.linalg.norm(angular_vector)
         transport=jnp.linalg.norm(jnp.sum(s.mass[:,None]*jnp.cross(x-s.x,v),axis=0))
         momentum_error=jnp.linalg.norm(jnp.sum(s.mass[:,None]*(v-s.v),axis=0)-impulse)
-        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew,contact.exact_nodes,contact.exact_successes,contact.capacity_valid,contact.rank_rejections])
+        normal_impulse=jnp.linalg.norm(contact.pair_impulse,axis=2)
+        pair_force=jnp.sum(normal_impulse,axis=1)/config.dt
+        pair_nodes=jnp.sum(normal_impulse>0,axis=1)
+        node_x=coordinates[:nodes,0]
+        pair_xmin=jnp.where(pair_nodes>0,jnp.min(jnp.where(normal_impulse>0,node_x[None,:],jnp.inf),axis=1),0.)
+        pair_xmax=jnp.where(pair_nodes>0,jnp.max(jnp.where(normal_impulse>0,node_x[None,:],-jnp.inf),axis=1),0.)
+        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew,contact.exact_nodes,contact.exact_successes,contact.capacity_valid,contact.rank_rejections,*pair_force,*pair_nodes,*pair_xmin,*pair_xmax])
         return new,metrics,U1
     return step
