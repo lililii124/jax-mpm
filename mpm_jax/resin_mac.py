@@ -97,8 +97,12 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
             return (k<max_iterations)&(jnp.vdot(r,r)>threshold)&jnp.isfinite(rho)&(rho>0)
         def body(carry):
             k,x,r,p,rho=carry;Ap=operator(p);alpha=rho/jnp.vdot(p,Ap)
-            x=x+alpha*p;r=r-alpha*Ap;z=M(r);newrho=jnp.vdot(r,z)
-            return k+1,x,r,z+(newrho/rho)*p,newrho
+            x=x+alpha*p;r=r-alpha*Ap
+            replace=jnp.vdot(r,r)<=threshold
+            r=jax.lax.cond(replace,lambda _:rhs-operator(x),lambda _:r,None)
+            z=M(r);newrho=jnp.vdot(r,z)
+            direction=jnp.where(replace,z,z+(newrho/rho)*p)
+            return k+1,x,r,direction,newrho
         k,value,_,_,_=jax.lax.while_loop(condition,body,(jnp.asarray(0,jnp.int32),jnp.zeros_like(rhs),rhs,z,rho))
         return value,k
     multiplier,iterations=jax.lax.cond(coverage&positive&(jnp.linalg.norm(rhs)>0),solve,lambda _:(jnp.zeros_like(rhs),jnp.asarray(0,jnp.int32)),None)
