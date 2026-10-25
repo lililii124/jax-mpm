@@ -1,0 +1,154 @@
+name: Lossless geometric evidence transport only
+on:
+  workflow_dispatch:
+    inputs:
+      source_run:
+        required: true
+        type: string
+      artifact:
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: geometric-evidence-transport
+  cancel-in-progress: false
+jobs:
+  transport:
+    if: github.ref == 'refs/heads/work/metal-geometric-evidence-transport'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Verify complete original ZIP and preserve unchanged original parts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN: ${{ inputs.source_run }}
+          SOURCE_ARTIFACT: ${{ inputs.artifact }}
+        run: python -m tools.repack_geometric_evidence --run "$SOURCE_RUN" --artifact "$SOURCE_ARTIFACT" --output transfer
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-metadata
+          path: transfer/*.json
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-000.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part000
+          path: transfer/part-000.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-001.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part001
+          path: transfer/part-001.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-002.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part002
+          path: transfer/part-002.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-003.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part003
+          path: transfer/part-003.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-004.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part004
+          path: transfer/part-004.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-005.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part005
+          path: transfer/part-005.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-006.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part006
+          path: transfer/part-006.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-007.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part007
+          path: transfer/part-007.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-008.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part008
+          path: transfer/part-008.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-009.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part009
+          path: transfer/part-009.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-010.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part010
+          path: transfer/part-010.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-011.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part011
+          path: transfer/part-011.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-012.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part012
+          path: transfer/part-012.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('transfer/part-013.tarpart') != ''
+        with:
+          name: geometric-evidence-${{ inputs.source_run }}-${{ github.run_id }}-part013
+          path: transfer/part-013.tarpart
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
