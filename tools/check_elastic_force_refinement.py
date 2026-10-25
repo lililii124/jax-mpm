@@ -141,7 +141,7 @@ def check_case(name,grid):
     analytic=reference(probes,name,C,Q,amplitude)[4]
     fd_error=float(np.linalg.norm(fd-analytic)/np.linalg.norm(analytic))
     result=dict(model=name,grid=grid,particles=len(X),spacing_m=spacing,amplitude_m=amplitude,minimum_J=minJ,
-        acceleration_relative_L2=np.sqrt(error2/reference2),stress_relative_max=stress_error/max(stress_scale,1e-30),
+        acceleration_relative_L2=float(np.sqrt(error2/reference2)),stress_relative_max=stress_error/max(stress_scale,1e-30),
         independent_divergence_FD_relative=fd_error,mass_relative_error=mass_error,net_force_relative=linear,net_torque_relative=angular,
         full_support=support_valid,elapsed_s=time.monotonic()-begin)
     result['checks']=dict(finite=all(np.isfinite(v) for v in result.values() if isinstance(v,(int,float))),positive_J=minJ>0,
