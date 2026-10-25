@@ -45,7 +45,7 @@ def record_source():
     save("source.json", {"commit": head, "files": hashes})
 
 
-def worker(stop_frame):
+def worker(stop_frame, resume=False):
     import jax
     from examples.brittle_engineering import setup
     from examples.common import run, _state_arrays
@@ -57,11 +57,45 @@ def worker(stop_frame):
     save("plan.json", {"definition": case.description, "particles": len(case.states[0].x),
                       "frames": 60, "substeps": substeps, "stop_frame": stop_frame,
                       "full_duration_s": case.duration})
-    np.savez_compressed(OUT / "initial_state.npz", **_state_arrays(case.states[0]))
+    if not resume:
+        np.savez_compressed(OUT / "initial_state.npz", **_state_arrays(case.states[0]))
     print(f"Solving {stop_frame * substeps} prefix steps of {60 * substeps}", flush=True)
     run(case.states, case.materials, case.configs, frames=60, substeps=substeps,
         output=RAW, label="concrete-bending-mat111 / hjc", observer=case.observer,
-        metadata=case.description, render_output=False, stop_after_frame=stop_frame)
+        metadata=case.description, render_output=False, stop_after_frame=stop_frame, resume=resume)
+
+
+def admit_parent(expected_review, stop_frame, *, check_only=False):
+    review_bytes = (OUT / "prefix-review.json").read_bytes()
+    if hashlib.sha256(review_bytes).hexdigest() != expected_review:
+        raise RuntimeError("Parent review differs from the independently admitted prefix")
+    review = json.loads(review_bytes)
+    if not review["passed"]:
+        raise RuntimeError("Parent prefix failed")
+    for name, expected in review["files"].items():
+        path = (OUT / name).resolve()
+        if not path.is_relative_to(OUT.resolve()):
+            raise RuntimeError("Parent path escapes result directory")
+        with path.open("rb") as stream:
+            if hashlib.file_digest(stream, "sha256").hexdigest() != expected:
+                raise RuntimeError("Parent file differs: " + name)
+    source = json.loads((OUT / "source.json").read_bytes())
+    for name, expected in source["files"].items():
+        if name.startswith(("mpm_jax/", "examples/")):
+            if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != expected:
+                raise RuntimeError("Numerical source changed across continuation: " + name)
+    checkpoint = json.loads((RAW / "checkpoint.json").read_bytes())
+    if not checkpoint["frame"] < stop_frame:
+        raise RuntimeError("Continuation must advance beyond its parent")
+    if check_only:
+        return
+    parent = OUT / "parents" / f"frame-{checkpoint['frame']:05d}"
+    parent.mkdir(parents=True, exist_ok=False)
+    for name in ("source.json", "plan.json", "prefix-review.json", "resource-guard.json"):
+        (parent / name).write_bytes((OUT / name).read_bytes())
+    (parent / "checkpoint.json").write_bytes((RAW / "checkpoint.json").read_bytes())
+    for name in checkpoint["states"]:
+        (parent / name).write_bytes((RAW / name).read_bytes())
 
 
 def audit():
@@ -117,14 +151,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--worker", action="store_true")
     parser.add_argument("--audit-only", action="store_true")
-    parser.add_argument("--stop-frame", type=int, default=4, choices=range(1, 13))
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--parent-review-sha256")
+    parser.add_argument("--stop-frame", type=int, default=4, choices=range(1, 61))
     args = parser.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     if args.worker:
-        return worker(args.stop_frame)
+        return worker(args.stop_frame, args.resume)
     if args.audit_only:
         return audit()
-    if RAW.exists():
+    if args.resume:
+        if args.parent_review_sha256 is None:
+            parser.error("--resume requires the independently admitted parent review SHA-256")
+        admit_parent(args.parent_review_sha256, args.stop_frame)
+    elif RAW.exists():
         raise RuntimeError("Existing prefix must be reviewed before another run")
     record_source()
     import ctypes
@@ -134,6 +174,8 @@ def main():
               "minimum_available_bytes": 2 * 1024**3, "peak_uss_bytes": 0, "guard_reason": None}
     started = time.monotonic()
     command = [sys.executable, "tools/run_hjc_mat111_beam.py", "--worker", "--stop-frame", str(args.stop_frame)]
+    if args.resume:
+        command.append("--resume")
     process = None
     with (OUT / "solver.log").open("wb") as log:
         try:

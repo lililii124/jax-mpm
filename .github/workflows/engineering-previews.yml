@@ -1,10 +1,11 @@
-name: HJC MAT111 beam prefix
+name: HJC MAT111 beam continuation
 
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: hjc-mat111-beam-${{ github.ref }}
@@ -31,10 +32,16 @@ jobs:
       - name: Install pinned CPU environment
         timeout-minutes: 15
         run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
-      - name: Solve prefix and check saved states
+      - uses: actions/download-artifact@v5
+        with:
+          name: hjc-mat111-beam-40168432414-1
+          run-id: 40168432414
+          github-token: ${{ github.token }}
+          path: outputs/hjc-mat111-qualification/
+      - name: Verify parent and continue to frame 20
         timeout-minutes: 32
-        run: python tools/run_hjc_mat111_beam.py --stop-frame 4
-      - name: Preserve raw prefix and diagnostics
+        run: python tools/run_hjc_mat111_beam.py --resume --stop-frame 20 --parent-review-sha256 5461a12f6f0091043e49b39286d8c2a22c113212179a30d750830e047a716bb2
+      - name: Preserve complete prefix and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
