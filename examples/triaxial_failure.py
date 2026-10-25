@@ -416,7 +416,8 @@ def _run_runtime(geometry, plan, folder, signature, resume, stop_after_frame=Non
     capture_range = (plan['local_contact_parameters']['interaction_range_m']
                      if plan['law'] in ('md', 'self-consistent') and plan['work_of_adhesion_J_per_m2'] > 0 else 0.)
     data = build_contact_data(geometry, search_window=plan['search_window'],
-                              coverage_skin=plan['coverage_skin_m'], proximity_margin=capture_range)
+                              coverage_skin=plan['coverage_skin_m'], proximity_margin=capture_range,
+                              register_cross_family_coverage=plan.get('contact_regions', {}).get('mode') == 'connected')
     parameters = dict(effective_modulus=material.young/(2*(1-material.poisson**2)),
         effective_radius=geometry['metadata']['diameter_m']/2, work_of_adhesion=plan['work_of_adhesion_J_per_m2'])
     if plan['law'] in ('hertz', 'jkr'):

@@ -150,13 +150,16 @@ def _coverage_neighbours(centres, segments, owners, radii, skin, margin, max_pai
 
 
 def build_contact_data(geometry, *, search_window=4, coverage_skin=None, proximity_margin=0.,
-                       coverage_positions=None, max_coverage_pairs=2_000_000):
+                       coverage_positions=None, max_coverage_pairs=2_000_000,
+                       register_cross_family_coverage=False):
     """Build section membership and audited search coverage without a shared grid.
 
     ``coverage_positions`` can refresh the skin reference after a controlled host
     rebuild. Preserve the existing coupling history when refreshing identical
     fibre/seed IDs. New candidate pairs need explicitly initialized histories.
     """
+    if type(register_cross_family_coverage) is not bool:
+        raise ValueError("register_cross_family_coverage must be boolean")
     x = np.asarray(geometry['x'], dtype=np.float64)
     mass = np.asarray(geometry['mass'], dtype=np.float64)
     ids = np.asarray(geometry['fibre_id'])
@@ -215,6 +218,28 @@ def build_contact_data(geometry, *, search_window=4, coverage_skin=None, proximi
         raise ValueError("coverage_positions must match the finite particle coordinates")
     reference = _host_centres(reference_x, mass, sections, section_offset)
     near = _coverage_neighbours(reference, segments, owners, radii, skin, proximity_margin, max_coverage_pairs)
+    if register_cross_family_coverage:
+        # The reference crossing list does not enumerate all legal future
+        # contacts. Register every cross-family owner pair already covered by
+        # the same finite capsule skin; do not expand or bypass that coverage.
+        # Original seed IDs stay fixed. Connected stateless Hertz stores its
+        # history per active patch, so added inactive owner IDs create no force
+        # or adhesive history. Same-family contacts remain unregistered/rejected.
+        families = np.asarray([item['family_id'] for item in fibres])
+        near_owners = owners[near]
+        legal = families[near_owners[:, 0]] != families[near_owners[:, 1]]
+        for pair_array in np.unique(near_owners[legal], axis=0):
+            pair = tuple(int(i) for i in pair_array)
+            if pair in lookup:
+                continue
+            cells = np.flatnonzero(np.all(near_owners == pair_array, axis=1))
+            candidate = near[cells]
+            endpoints = segments[candidate]
+            distances = _closest_segments(reference[endpoints[:, 0, 0]], reference[endpoints[:, 0, 1]],
+                reference[endpoints[:, 1, 0]], reference[endpoints[:, 1, 1]], np)[-1]
+            lookup[pair] = len(seeds)
+            seeds.append(pair)
+            seed_segments.append(candidate[int(np.argmin(distances))].tolist())
     coverage_seed = np.array([lookup.get(tuple(owners[pair]), -1) for pair in near], dtype=np.int32)
     arrays = (sections, section_owners, segments, owners, bounds, radii,
               np.array([item['family_id'] for item in fibres], dtype=np.int32),
