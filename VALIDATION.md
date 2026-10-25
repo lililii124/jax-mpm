@@ -1,5 +1,8 @@
 # Verification and executed examples
 
+The [local-refinement operators](docs/MULTIRESOLUTION.md) have separate spatial
+transfer and virtual-work checks. They are not yet a validated dynamic solver.
+
 The Windows CPU test run passed **124 tests** with Python 3.12.13 and
 the PyPI release JAX 0.12.0.1. The suite covers 2D/3D transfers,
 constitutive integration, formal boundary conditions, contact, elastic gradients
