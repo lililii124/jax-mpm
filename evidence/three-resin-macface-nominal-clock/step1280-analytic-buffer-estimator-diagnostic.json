@@ -1,0 +1,168 @@
+{
+  "step": 1280,
+  "nominal_time_s": 0.0512,
+  "actual_state_time_s": 0.05119999999999859,
+  "checkpoint_sha256": "05e35973cbfa7651c2ce09b4e75b6bbcbc68fbd9d82c9b2227dbb2d25e20ad2c",
+  "source": {
+    "packet_volume_m3": 8.000000000000001e-12,
+    "mac_dx_m": 0.00025,
+    "axial_packet_thickness_m": 0.00012800000000000002,
+    "face_count": 316,
+    "emitted_at_1280": 12401,
+    "actual_emitted_match": true,
+    "max_speed_m_per_s": 0.2
+  },
+  "parallel_stream_quantization": {
+    "count": 12085,
+    "thickness_m": 0.00012800000000000002,
+    "actual_spacing_over_thickness_min": 0.9549999999999932,
+    "actual_spacing_over_thickness_max": 1.0571875000000097,
+    "ideal_spacing_over_thickness_min": 0.9999999999999835,
+    "ideal_spacing_over_thickness_max": 1.0000000000000173,
+    "actual_overlap_volume_fraction_of_pair_packet_volume": 0.007353382292097618,
+    "actual_gap_volume_fraction_of_pair_packet_volume": 0.007250724038063676,
+    "ideal_overlap_volume_fraction": 1.8602133170544274e-15,
+    "ideal_gap_volume_fraction": 1.9136566453358838e-15,
+    "max_birth_delay_s": 3.999999999999924e-05,
+    "mean_birth_delay_s": 2.0060842584388164e-05,
+    "max_compensation_m": 7.880000000000152e-06,
+    "max_compensation_over_thickness": 0.06156250000000117,
+    "corrected_vs_continuous_ideal_max_error_m": 1.734723475976807e-18
+  },
+  "buffer_admissibility": {
+    "max_axial_shift_m": 7.880000000000152e-06,
+    "axial_shift_range_m": [
+      0.0,
+      7.880000000000152e-06
+    ],
+    "source_x_m": -0.000936,
+    "shifted_x_range_m": [
+      -0.000936,
+      -0.0009281199999999998
+    ],
+    "all_points_inside_grid": true,
+    "solid_voxel_hits": 0,
+    "open_voxel_misses": 0,
+    "same_mac_cell_fraction": 1.0,
+    "destination_cell_supported_by_current_active_particle_centres_fraction": 0.9673413434400452,
+    "unsupported_destination_count": 405,
+    "scope": "Candidate analytic inlet-buffer displacement only; no particle state changed and no pressure step executed."
+  },
+  "constant_rho_estimator_reference": {
+    "definition": "Deterministic cubic 200um marker lattice (phase=half-spacing in x,y,z), marker mass rho*spacing^3, clipped to formed open cells; exact reference field is rho in each open cell. Apply unchanged cell_mass kernel, >0.25 rho h^3 mask, two 26-neighbour erosions, and distance>2h bulk rule.",
+    "marker_count": 75828,
+    "analytic_open_volume_m3": 6.1003125e-07,
+    "bulk_count": 2008,
+    "kernel_density_on_own_bulk": {
+      "count": 2008,
+      "mean": 1.0014552977848605,
+      "quantiles": [
+        0.9761914879999932,
+        0.976191487999994,
+        1.0079354879999947,
+        1.0241925120000086,
+        1.0241925120000166
+      ]
+    },
+    "owned_density_on_own_bulk": {
+      "count": 2008,
+      "mean": 1.0596972111553786,
+      "quantiles": [
+        0.512,
+        0.512,
+        1.024,
+        4.096,
+        4.096
+      ]
+    },
+    "kernel_density_error_vs_rho_on_shared_geometric_core": {
+      "count": 2008,
+      "mean_over_rho": 1.0014552977848605,
+      "mean_relative_bias": 0.001455297784860532,
+      "quantiles_over_rho": [
+        0.9761914879999932,
+        0.976191487999994,
+        1.0079354879999947,
+        1.0241925120000086,
+        1.0241925120000166
+      ]
+    },
+    "owned_density_error_vs_rho_on_shared_geometric_core": {
+      "count": 2008,
+      "mean_over_rho": 1.0596972111553786,
+      "mean_relative_bias": 0.05969721115537863,
+      "quantiles_over_rho": [
+        0.512,
+        0.512,
+        1.024,
+        4.096,
+        4.096
+      ]
+    },
+    "selected_bulk_reference_density_mean_error_kernel": 0.001455297784860532,
+    "selected_bulk_reference_density_mean_error_owned": 0.05969721115537863,
+    "marker_volume_m3": 6.066240000000001e-07,
+    "marker_volume_relative_to_open_geometry": -0.0055853696019670775
+  },
+  "actual_1280_same_estimator": {
+    "active_particles": 12401,
+    "reference_volume_m3": 9.920800000000001e-08,
+    "true_material_volume_m3": 9.920800000022482e-08,
+    "kernel_density_on_own_bulk": {
+      "count": 228,
+      "mean": 1.024231611792756,
+      "quantiles": [
+        0.9060377744468154,
+        0.9349264586687223,
+        1.0184503371347837,
+        1.1983446542735139,
+        1.2504057045091888
+      ]
+    },
+    "owned_density_on_own_bulk": {
+      "count": 228,
+      "mean": 1.057684210526316,
+      "quantiles": [
+        0.0,
+        0.0,
+        1.024,
+        2.048,
+        3.072
+      ]
+    },
+    "bulk_count": 228,
+    "geometric_core_kernel_density_over_rho": {
+      "count": 2008,
+      "mean_over_rho": 0.25199884360404096,
+      "mean_relative_bias": -0.748001156395959,
+      "quantiles_over_rho": [
+        0.0,
+        0.0,
+        0.0,
+        1.1800419726099276,
+        1.591332294902667
+      ]
+    },
+    "geometric_core_owned_density_over_rho": {
+      "count": 2008,
+      "mean_over_rho": 0.2516653386454184,
+      "mean_relative_bias": -0.7483346613545816,
+      "quantiles_over_rho": [
+        0.0,
+        0.0,
+        0.0,
+        2.048,
+        3.072
+      ]
+    }
+  },
+  "physical_steps_executed": 0,
+  "candidate_compensation_applied": false,
+  "qualification": "Diagnostic only; no new fill qualification or completion claim",
+  "interpretation": {
+    "owned_estimator": "The deterministic constant-rho reference has +5.97% owned-density mean bias on the estimator-selected bulk; actual 1280 is +5.77%, only 0.20 percentage points lower. The earlier 1.006-to-1.058 comparison therefore cannot be read as a physical density deterioration.",
+    "kernel_estimator": "The same constant-rho reference kernel mean bias is +0.146%; actual selected-bulk kernel mean is +2.423%, suggesting a modest remaining local density excess/nonuniformity that is distinct from the owned-cell quantization bias.",
+    "birth_quantization": "Uncompensated tick rounding produces adjacent-pair center spacings 0.955\u20131.057 times packet thickness; pair-volume overlap and gap fractions are 0.735% and 0.725%. A continuous-flow buffer shift u*delay is at most 7.88 um (6.16% of 128 um thickness) and reconstructs ideal centers to numerical precision in the analytic model.",
+    "buffer_scope": "All candidate compensated positions remain inside the obstacle-free open inlet voxel and within the same MAC cell (zero fibre/solid hits). However 405/12401 (3.27%) destinations lack current active-particle-center support. Therefore do not apply compensation directly to the existing projected MAC field; any future implementation must be a separate prescribed-velocity analytic inlet buffer ending at the existing MAC cell, with newborn mass entering P2G before the next solve and original pressure-coverage guards still enforced. This diagnostic does not certify the next-step pressure solve."
+  }
+}
