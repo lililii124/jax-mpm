@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "task": "metal-objective-contact-step23",
+  "source_commit": "1d2fda7ce56c66431b572f519dfa4afe144e9304",
+  "input_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+  "particles": 26336,
+  "physical_dt_s": 6.893234477481192e-10,
+  "docker_wall_seconds": 827.59,
+  "days_per_physical_microsecond": 13.89563635801782,
+  "contact_torque": [
+    -1.7115252417419907e-24,
+    -5.2083168300715145e-23,
+    1.0030119811966193e-22
+  ],
+  "angular_residual": [
+    1.7887586876003156e-20,
+    -5.870993499243419e-23,
+    -1.783675404242236e-20
+  ],
+  "cumulative_angular_relative_error": 8.268674815297303e-11,
+  "cumulative_angular_roundoff_passed": false,
+  "cumulative_energy_residual_J": 7.924825240479549e-10,
+  "consistent_endpoint": {
+    "position_error": 8.673439972260863e-19,
+    "deformation_error": 1.1102060839662115e-16,
+    "position_tolerance": 1.403321903126198e-16,
+    "deformation_tolerance": 1.6571401653193988e-14,
+    "velocity_relative_residual": 9.414910445031912e-11,
+    "coupled_defect_J": -1.52011443363409e-10,
+    "material_identity_J": 2.0816681711721685e-17,
+    "contact_work_J": 1.2129186544029835e-13,
+    "boundary_work_J": 3.0357660829594124e-16,
+    "viscosity_work_J": 0.03746467387271128,
+    "original_sample_closing_m_s": 6.966502041905187e-09,
+    "restricted_sample_difference_m_s": 1.2306600183364935e-11,
+    "complementarity_m_s": 4.606604875334597e-08,
+    "original_contact_gates_passed": true
+  },
+  "scope": "Exactly one new physical step after accepted22; inherited drift preserved. Original final gates and 64eps geometry retained. NumPy/SciPy reference cost is unsuitable for long production; no long reference continuation authorized by this receipt."
+}
