@@ -1,13 +1,18 @@
-name: Private RHT immutable frame-3 continuation
+name: Private RHT immutable frame-3 one-frame qualification
 
 on:
   workflow_dispatch:
     inputs:
       preset:
-        description: Immutable original frame-3 to frame-8 continuation only
+        description: Immutable original frame-3 to frame-4 qualification only
         type: choice
         options: [rht-impact-continue]
         default: rht-impact-continue
+        required: true
+      runner:
+        description: Configured runner label with >=8 logical CPUs and >=12 GiB available RAM; standard runner is rejected
+        type: string
+        default: ubuntu-24.04
         required: true
 
 permissions:
@@ -20,7 +25,7 @@ concurrency:
 
 jobs:
   prefix:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.runner }}
     timeout-minutes: 300
     env:
       JAX_PLATFORMS: cpu
@@ -58,7 +63,7 @@ jobs:
           python -m tools.rht_impact_continue requirements --parent .local/rht-parent-transport --destination .local/rht-parent-requirements.txt
           python -m pip install -r .local/rht-parent-requirements.txt
           python -m pip install --no-deps -e .
-      - name: Admit original full raw and resume exact plan through frame 8
+      - name: Admit original full raw and qualify exact plan through frame 4
         timeout-minutes: 190
         run: python -m tools.rht_impact_continue run --parent .local/rht-parent-transport --destination .local/rht-impact-continuation
       - name: Package complete raw including failure evidence

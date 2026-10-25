@@ -4,8 +4,10 @@ No execution happens without explicit ``run``. ``admit`` validates transport,
 source and runtime only. Numerical modules are imported solely from archived source.
 """
 import argparse
+import csv
 import importlib.metadata
 import json
+import math
 import os
 import re
 from pathlib import Path
@@ -22,11 +24,39 @@ TRANSPORT = '9508e80e500dcd106a728db25161ffb770ed11e6f1f6c832a2e62a44d6d5038f'
 CASE = 'a1fe8fdc3b0726097f7e8008fd55ad174dbe28d2ce58e566833c0168856fb8da'
 GIB = 1024 ** 3
 GUARD_SECONDS = 10800
+END_FRAME = 4
+MIN_LOGICAL_CPUS = 8
+MIN_AVAILABLE_MEMORY = 12 * GIB
 OUTPUT_BYTES = 3 * GIB
 ENVIRONMENT = {'JAX_PLATFORMS': 'cpu', 'JAX_ENABLE_X64': 'true',
                'XLA_PYTHON_CLIENT_PREALLOCATE': 'false',
                'OPENBLAS_NUM_THREADS': '1', 'OMP_NUM_THREADS': '2',
                'PYTHONUNBUFFERED': '1'}
+
+
+def resource_admission(cpus, available):
+    if (cpus or 0) < MIN_LOGICAL_CPUS or available < MIN_AVAILABLE_MEMORY:
+        raise RuntimeError('One-frame qualification requires >=8 logical CPUs and >=12 GiB available RAM')
+    return {'logical_cpus': cpus, 'available_memory_bytes': available}
+
+
+def prefix_engineering_audit(path):
+    with Path(path).open(newline='') as stream:
+        rows = list(csv.DictReader(stream))
+    keys = ('projectile_tip_y_m', 'projectile_center_vy_m_per_s', 'tip_past_rear_m',
+            'target_failed_reference_volume_fraction', 'target_failed_count',
+            'target_maximum_damage', 'corridor_intact_count', 'target_minimum_J')
+    values = [{key: float(row[key]) for key in keys} for row in rows]
+    if not values or any(not math.isfinite(v) for row in values for v in row.values()):
+        raise RuntimeError('Nonfinite or missing engineering history')
+    if any(row['target_minimum_J']<=0 or not 0<=row['target_maximum_damage']<=1
+           or not 0<=row['target_failed_reference_volume_fraction']<=1 for row in values):
+        raise RuntimeError('Physical engineering history rejected')
+    return {'saved_rows':len(rows), 'last':values[-1],
+            'tip_has_crossed_original_rear_plane':values[-1]['tip_past_rear_m']>0,
+            'failed_points_present':values[-1]['target_failed_count']>0,
+            'perforation_validated':False,'fragments_validated':False,
+            'limitation':'Tip crossing and failed points alone do not establish a through hole or separated fragments.'}
 
 
 def controller_identity():
@@ -161,6 +191,7 @@ def run(parent, destination):
     index, metadata = admit(parent)
     binding = controller_identity()
     import psutil
+    resources = resource_admission(psutil.cpu_count(logical=True), psutil.virtual_memory().available)
     destination = Path(destination).resolve()
     if destination.exists():
         raise RuntimeError('Continuation destination must be absent')
@@ -171,7 +202,9 @@ def run(parent, destination):
               'transport_code_sha256': transport.digest(Path(transport.__file__)),
               'status': 'preparing', 'parent_transport_sha256': TRANSPORT,
               'original_commit': COMMIT, 'guard_seconds': GUARD_SECONDS,
-              'scope': 'Private exact-plan frame-3 to frame-8 continuation; no full perforation claim'}
+              'resources': resources, 'start_frame': 3, 'end_frame': END_FRAME,
+              'incremental_steps': (END_FRAME-3)*35,
+              'scope': 'Private exact-plan frame-3 to frame-4 resource qualification; no perforation or fragment validation claim'}
     process = None
     start = time.monotonic()
     peak = 0
@@ -205,11 +238,11 @@ def run(parent, destination):
             return subprocess.check_output([sys.executable, '-I', '-c',
                 "import sys;sys.path.insert(0,sys.argv.pop(1));" + VALIDATE,
                 str(source), str(raw), str(frame)], cwd=source,
-                env=environment, text=True)
+                env=environment, text=True, timeout=600)
         record['parent_validation'] = json.loads(validate(3))
         command = [sys.executable, '-I', '-c',
                    "import sys,runpy;sys.path.insert(0,sys.argv.pop(1));runpy.run_module('examples.rht_pointed_impact',run_name='__main__')",
-                   str(source), '--resume', '--stop-after-frame', '8', '--output', str(raw)]
+                   str(source), '--resume', '--stop-after-frame', str(END_FRAME), '--output', str(raw)]
         record['command'] = command
         record['status'] = 'running'
         with (destination / 'solver.log').open('wb') as log:
@@ -237,16 +270,24 @@ def run(parent, destination):
                 time.sleep(2)
         if process.returncode:
             raise RuntimeError('Continuation solver failed; all raw retained')
-        record['endpoint_validation'] = json.loads(validate(8))
+        record['endpoint_validation'] = json.loads(validate(END_FRAME))
         if record['endpoint_validation']['contact_impulse'][1] <= 0:
-            raise RuntimeError('No positive projectile contact impulse at frame 8')
+            raise RuntimeError('No positive projectile contact impulse at planned endpoint')
         segment = json.loads((raw / 'segment.json').read_text())
-        if segment.get('frame') != 8 or segment.get('segment_complete') is not True:
+        if segment.get('frame') != END_FRAME or segment.get('segment_complete') is not True:
             raise RuntimeError('Missing valid planned endpoint')
+        record['engineering_audit'] = prefix_engineering_audit(raw/'observables.csv')
         for name, expected in index['files'].items():
             if transport.digest(evidence / name) != expected['sha256']:
                 raise RuntimeError('Immutable original evidence changed')
         record['status'] = 'valid-impact-prefix'
+        record['engineering_claims'] = {'full_48_frame_plan_completed': False,
+            'perforation_validated': False, 'fragments_validated': False,
+            'required_before_publication': [
+                'Complete exact 48-frame history with valid positive-J states and conserved body mass accounting',
+                'Projectile rear-face crossing with residual forward velocity and through-thickness open-path audit',
+                'Failed-particle ballistic escape and surviving ligament audit; failure count alone is not fragmentation',
+                'Whole-history contact impulse, energy, bounded penetration and numerical-resolution audit']}
         if controller_identity() != binding:
             raise RuntimeError('Controller source changed during continuation')
     except BaseException as exc:

@@ -1,0 +1,57 @@
+{
+  "schema": "rht-one-frame-control-source-freeze-v1",
+  "files": {
+    "tools/rht_impact_continue.py": {
+      "sha256": "30b89496b8564069d8fbd5b286b52984b9a14fec1a3bfc86ca28e10bd60db329",
+      "bytes": 18555
+    },
+    ".github/workflows/rht-impact-continue.yml": {
+      "sha256": "114aa61b76ba6c0f353c0f9d0584640f92b71c6f4ed20e94e8915e09527dc9a5",
+      "bytes": 19123
+    },
+    "tests/test_rht_impact_continue.py": {
+      "sha256": "dcb18075bb902a551035a1560ad48da994f7a7aab0a0d53a7ed698097b69dd19",
+      "bytes": 3025
+    },
+    "evidence/rht/continuation-40080651820-log-excerpt.txt": {
+      "sha256": "110c632c6bfa529f5223a74bf5d9a3ce3e9f471af80ff58a6f71d2614dbe839c",
+      "bytes": 241
+    }
+  },
+  "failed_run": 40080651820,
+  "job": 120833310099,
+  "controller_commit": "b506af52bff585738afea0621de4c095c7e0bb22",
+  "manifest_artifact_id": 12560140099,
+  "manifest_sha256": "a6bd21b6be37cefaa68abf9c3b31b3385cd923732bb9f98a40c10668f43dd4a9",
+  "verified_remote_failure": "RuntimeError: 3 hour continuation guard exceeded",
+  "checkpoint_unchanged_from_admitted_f3": true,
+  "status_unchanged_from_admitted_f3": true,
+  "physical_invalid_or_OOM_reported_in_job_log": false,
+  "failure_raw_package_and_same_run_retrieval_verification": "success (GitHub job steps8/42/43/44)",
+  "parts_count": 21,
+  "whole_archive_not_downloaded": true,
+  "next_qualification": {
+    "start_frame": 3,
+    "end_frame": 4,
+    "incremental_steps": 35,
+    "minimum_logical_cpus": 8,
+    "minimum_available_memory_GiB": 12,
+    "minimum_initial_free_disk_GiB": 8,
+    "maximum_child_USS_GiB": 6,
+    "maximum_destination_GiB": 3,
+    "guard_seconds": 10800,
+    "runner_label_must_already_be_configured": true,
+    "standard_runner_will_fail_resource_preflight": true
+  },
+  "engineering_status": {
+    "perforation_validated": false,
+    "fragmentation_validated": false,
+    "full_plan_frames": 48,
+    "latest_admitted_frame": 3
+  },
+  "numerical_source_unchanged": "0c99377fac0ff77b376958dff2e124e2a4691f21 archived source only",
+  "targeted_tests_passed": 10,
+  "mpm_solver_executed_locally": false,
+  "cloud_dispatched": false,
+  "cache_note": "No Actions cache read/write exists in either workflow; transport admission/restoration is artifact based."
+}

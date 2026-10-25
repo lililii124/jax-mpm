@@ -1,13 +1,21 @@
-name: Private RHT immutable frame-3 continuation
+name: Private RHT explicit measured-resource original-arm qualification
 
 on:
   workflow_dispatch:
     inputs:
-      preset:
-        description: Immutable original frame-3 to frame-8 continuation only
+      arm:
         type: choice
-        options: [rht-impact-continue]
-        default: rht-impact-continue
+        options: [original, no-warmup]
+        default: original
+        required: true
+      weekly_used:
+        description: Fresh publisher-confirmed weekly Codex percentage below90
+        type: string
+        required: true
+      runner:
+        description: Experimental policy >=2 effectiveCPUs/>=4GiB available; strict3GiB owned-session USS
+        type: string
+        default: ubuntu-24.04
         required: true
 
 permissions:
@@ -20,9 +28,11 @@ concurrency:
 
 jobs:
   prefix:
-    runs-on: ubuntu-24.04
+    runs-on: ${{ inputs.runner }}
     timeout-minutes: 300
     env:
+      QUAL_ARM: ${{ inputs.arm }}
+      WEEKLY_USED: ${{ inputs.weekly_used }}
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
@@ -37,6 +47,12 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
+      - name: Bind wrapper and experimentally qualify resource policy
+        run: |
+          git diff --exit-code HEAD -- tools/rht_resume_qualification.py tools/rht_qualification_child.py .github/workflows/rht-resume-qualification.yml .github/workflows/engineering-previews.yml
+          cmp .github/workflows/rht-resume-qualification.yml .github/workflows/engineering-previews.yml
+          python -m pip install psutil==7.2.2
+          python -c "from tools.rht_resume_qualification import snapshot,admission; print(admission(snapshot(),'measured-experimental'))"
       - name: Retrieve immutable original transport and all raw parts
         uses: actions/download-artifact@v4
         with:
@@ -58,13 +74,21 @@ jobs:
           python -m tools.rht_impact_continue requirements --parent .local/rht-parent-transport --destination .local/rht-parent-requirements.txt
           python -m pip install -r .local/rht-parent-requirements.txt
           python -m pip install --no-deps -e .
-      - name: Admit original full raw and resume exact plan through frame 8
+      - name: Admit original full raw and qualify exact plan through frame 4
         timeout-minutes: 190
-        run: python -m tools.rht_impact_continue run --parent .local/rht-parent-transport --destination .local/rht-impact-continuation
+        run: python -m tools.rht_resume_qualification arm --parent .local/rht-parent-transport --destination .local/rht-impact-continuation --arm "$QUAL_ARM" --policy measured-experimental --weekly-used "$WEEKLY_USED"
       - name: Package complete raw including failure evidence
+        id: package
         if: always()
         timeout-minutes: 15
-        run: python -m tools.rht_impact_continue package --destination .local/rht-impact-continuation --delivery .local/rht-impact-delivery
+        run: |
+          python -m tools.rht_impact_continue package --destination .local/rht-impact-continuation --delivery .local/rht-impact-delivery
+          python - <<'PYCODE'
+          import hashlib,os
+          from pathlib import Path
+          value=hashlib.sha256(Path('.local/rht-impact-delivery/transport.json').read_bytes()).hexdigest()
+          with open(os.environ['GITHUB_OUTPUT'],'a') as stream:stream.write('manifest_sha='+value+'\n')
+          PYCODE
       - name: Upload transport manifest
         if: always()
         uses: actions/upload-artifact@v4
@@ -404,7 +428,11 @@ jobs:
       - name: Verify all parts and every original whole file
         if: always()
         timeout-minutes: 8
-        run: python tools/rht_impact_prefix.py verify .local/rht-impact-retrieved
+        env:
+          EXPECTED_MANIFEST: ${{ steps.package.outputs.manifest_sha }}
+        run: |
+          python -c "import os,hashlib;from pathlib import Path;assert hashlib.sha256(Path('.local/rht-impact-retrieved/transport.json').read_bytes()).hexdigest()==os.environ['EXPECTED_MANIFEST']"
+          python tools/rht_impact_prefix.py verify .local/rht-impact-retrieved
       - name: Preserve retrieval receipt
         if: always()
         uses: actions/upload-artifact@v4
