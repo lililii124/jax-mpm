@@ -1,0 +1,285 @@
+{
+  "period_s": 0.04,
+  "accuracy_target_relative": 0.05,
+  "records": [
+    {
+      "task": "elastic-dynamic-blatz32",
+      "model": "blatz-ko",
+      "grid": 32,
+      "time_refinement": 1,
+      "steps": 160,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.2117696807931667,
+        "position": 0.1382529597021284,
+        "velocity": 0.17949421638677404
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "915eef7ae21c5416bb00818b176d8659f9d4753e26a64bd305ce11097fab32dd",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-blatz32/review.json"
+    },
+    {
+      "task": "elastic-dynamic-blatz48",
+      "model": "blatz-ko",
+      "grid": 48,
+      "time_refinement": 1,
+      "steps": 240,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.09236825293501168,
+        "position": 0.0552623227519076,
+        "velocity": 0.08094928254711865
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "9bb2f4096b224d24cf52171fbdebd4b6f21055e46b34ecf70cbca9fd1def7d55",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-blatz48/review.json"
+    },
+    {
+      "task": "elastic-dynamic-blatz64",
+      "model": "blatz-ko",
+      "grid": 64,
+      "time_refinement": 1,
+      "steps": 320,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.047183884375399554,
+        "position": 0.026102534443517973,
+        "velocity": 0.042249388593559686
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": true,
+      "checkpoint_sha256": "5e71024fac2e0266df209d6fa338a5212d35b85c1224f7b1c077627217df3cde",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-blatz64/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ortho32",
+      "model": "orthotropic",
+      "grid": 32,
+      "time_refinement": 1,
+      "steps": 160,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.17791341632002158,
+        "position": 0.11866874378420288,
+        "velocity": 0.2153988780426277
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "f04a19bd023de08f0df258c95f57379f2816f86dad695363a0add13c50dba363",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ortho32/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ortho48",
+      "model": "orthotropic",
+      "grid": 48,
+      "time_refinement": 1,
+      "steps": 240,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.08530476480877548,
+        "position": 0.05586597539643569,
+        "velocity": 0.09072326635203402
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "15738f050441098507e58b4ac1bbc4f533d009a0df3eca33c2d760afe316f0b6",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ortho48/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ortho64",
+      "model": "orthotropic",
+      "grid": 64,
+      "time_refinement": 1,
+      "steps": 320,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.045722546026195854,
+        "position": 0.03076987738366322,
+        "velocity": 0.046589887077726384
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": true,
+      "checkpoint_sha256": "3596d03e7506bbed59c3c92eb0e5635f23ca24ed683bf0698f3b521c5c1334f9",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ortho64/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ti32",
+      "model": "transverse-isotropic",
+      "grid": 32,
+      "time_refinement": 1,
+      "steps": 160,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.22822712010109322,
+        "position": 0.14792325127433031,
+        "velocity": 0.21487510107298627
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "13c4c35d5d8f134fc9d10514812685cd0c8541b5aaa9d783cfac903b434627f9",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ti32/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ti48",
+      "model": "transverse-isotropic",
+      "grid": 48,
+      "time_refinement": 1,
+      "steps": 240,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.09447143951585191,
+        "position": 0.056851605364122086,
+        "velocity": 0.09836048311170693
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "c68d41f7e11655e3695eee46c95118356e2d10455d1dbd39c771bbd19dbc1148",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ti48/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ti64",
+      "model": "transverse-isotropic",
+      "grid": 64,
+      "time_refinement": 1,
+      "steps": 320,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.05140377004114152,
+        "position": 0.03361504691393502,
+        "velocity": 0.050223104286307586
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "fecad7d04d6bb808a9265f3790d55da9b3a999aca2737abe81c61fec8aa0e17e",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ti64/review.json"
+    },
+    {
+      "task": "elastic-dynamic-ti64-halfdt",
+      "model": "transverse-isotropic",
+      "grid": 64,
+      "time_refinement": 2,
+      "steps": 640,
+      "backend": "APIC",
+      "errors": {
+        "F": 0.0794391832884236,
+        "position": 0.04821930983952007,
+        "velocity": 0.08141130619544863
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "22071d0abc2ade5c0ef548a8f5c51f04e90001120f841b0e360a05edf5dd130c",
+      "report": "evidence/elastic-dynamics/elastic-dynamic-ti64-halfdt/review.json"
+    },
+    {
+      "task": "elastic-tl-blatz64",
+      "model": "blatz-ko",
+      "grid": 64,
+      "time_refinement": 1,
+      "steps": 320,
+      "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+      "errors": {
+        "F": 0.032281897780345015,
+        "position": 0.020804076321153064,
+        "velocity": 0.03150764749387811
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": true,
+      "checkpoint_sha256": "14d3146bce8f05678cfc540c1544d49c7ad2b5a3b22a7f9a43be840d8c26a45f",
+      "report": "evidence/elastic-dynamics/elastic-tl-blatz64/review.json"
+    },
+    {
+      "task": "elastic-tl-ortho64",
+      "model": "orthotropic",
+      "grid": 64,
+      "time_refinement": 1,
+      "steps": 320,
+      "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+      "errors": {
+        "F": 0.033465343132642406,
+        "position": 0.023346549169116184,
+        "velocity": 0.03791953050047613
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": true,
+      "checkpoint_sha256": "eb11aad8ddbbbe1fe605a99885b3c8b661c8a3df0054244e7b01ed0f80e714b2",
+      "report": "evidence/elastic-dynamics/elastic-tl-ortho64/review.json"
+    },
+    {
+      "task": "elastic-tl-ti32",
+      "model": "transverse-isotropic",
+      "grid": 32,
+      "time_refinement": 1,
+      "steps": 160,
+      "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+      "errors": {
+        "F": 0.1422932494338902,
+        "position": 0.09490288354541597,
+        "velocity": 0.1330041594395943
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "97aef584125fb07431df1bf201af756915837e0468a541a586e3a5787c2cfff0",
+      "report": "evidence/elastic-dynamics/elastic-tl-ti32/review.json"
+    },
+    {
+      "task": "elastic-tl-ti48",
+      "model": "transverse-isotropic",
+      "grid": 48,
+      "time_refinement": 1,
+      "steps": 240,
+      "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+      "errors": {
+        "F": 0.06662441522308729,
+        "position": 0.043933450563397466,
+        "velocity": 0.062002652998446345
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": false,
+      "checkpoint_sha256": "54c62b3b396a1edea74c034437d414ef753917c707d0f3f19cc9e2aab617236b",
+      "report": "evidence/elastic-dynamics/elastic-tl-ti48/review.json"
+    },
+    {
+      "task": "elastic-tl-ti64",
+      "model": "transverse-isotropic",
+      "grid": 64,
+      "time_refinement": 1,
+      "steps": 320,
+      "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+      "errors": {
+        "F": 0.03860227612919003,
+        "position": 0.025185508874091163,
+        "velocity": 0.036003815061186516
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": true,
+      "checkpoint_sha256": "f63148789b728839e0c7c0d137ffe09590364841fd3e1a05c8c4e0d42fc8efd9",
+      "report": "evidence/elastic-dynamics/elastic-tl-ti64/review.json"
+    },
+    {
+      "task": "elastic-tl-ti64-halfdt",
+      "model": "transverse-isotropic",
+      "grid": 64,
+      "time_refinement": 2,
+      "steps": 640,
+      "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+      "errors": {
+        "F": 0.0386242741576912,
+        "position": 0.025398868786890967,
+        "velocity": 0.036000640427935986
+      },
+      "physical_checks_passed": true,
+      "accuracy_target_met": true,
+      "checkpoint_sha256": "fb378b4dd86f91c6b520d0caede5da47af019dee97dabc4cb27aceb767ef7099",
+      "report": "evidence/elastic-dynamics/elastic-tl-ti64-halfdt/review.json"
+    }
+  ],
+  "error_scope": "Maximum errors at accepted 20-step report times, normalized by exact full-cycle amplitudes. The displacement-gradient error uses F-I, not the norm of I.",
+  "constraints": "Same manufactured continuum fields, independent body force, original materials/density/amplitudes; APIC and reference-grid MPM use different semidiscrete inertia. No trajectory-equivalence claim.",
+  "source_commits": {
+    "apic": "5abee6f8a6e8eb18ba24556f7c78dcce10e804d1",
+    "reference_grid": "82d3edd7ba1904a0e24cdbe15eb7ee5261755026"
+  },
+  "scope": "Elastic manufactured solutions and isolated nodal boundary controls. Does not validate contact, finite-strain linear-elastic energy, fracture separation, or metal fragmentation."
+}

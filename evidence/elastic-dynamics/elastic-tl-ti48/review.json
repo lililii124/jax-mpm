@@ -1,0 +1,335 @@
+{
+  "contract": {
+    "model": "transverse-isotropic",
+    "grid": 48,
+    "particles": 373248,
+    "planned_steps": 240,
+    "dt_s": 0.00016666666666666666,
+    "period_s": 0.04,
+    "time_refinement": 1,
+    "reference_review": {
+      "amplitude_m": 2e-05,
+      "minimum_exact_J": 0.9996112421919645,
+      "independent_forcing_relative_error": 4.883440830322885e-16
+    },
+    "tolerances": {
+      "finest_position_velocity_F_relative": 0.05,
+      "momentum_relative": 1e-10,
+      "angular_momentum_relative": 1e-10,
+      "forcing_reference_relative": 5e-10
+    },
+    "backend": "Total-Lagrangian quadratic MPM; reference quadrature, lumped nodal inertia, velocity-Verlet",
+    "mass_metric": "Nodal lumped kinetic energy/angular momentum, not particle APIC affine inertia",
+    "boundary": "Traction-free outer material faces, compact exact deformation; material-coordinate reference grid",
+    "source_sha256": {
+      "tools/check_elastic_tl_mms.py": "dfc056d025651dcba2dd377189b9627b872aeca1a34519ecaf0be423a59efa27",
+      "tools/check_elastic_dynamic_mms.py": "c7a70f96f25bcfe65f79fe5645adcf91f71874cb377a02cb5332bb9a004cd3f2",
+      "tools/check_elastic_force_refinement.py": "2154c764f426016f7dad0668bf45711bd0331a3b4d1dc02b5b612769eb6e1794",
+      "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+      "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+      "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+    },
+    "scope": "New spatial semidiscretization of the same continuum forcing/material data; not an APIC trajectory-equivalence claim"
+  },
+  "steps": 240,
+  "full_cycle_complete": true,
+  "history": [
+    {
+      "step": 20,
+      "time_s": 0.0033333333333333327,
+      "elapsed_s": 23.408907867968082,
+      "errors": {
+        "F": 0.0035665831735104516,
+        "position": 0.002393743681320959,
+        "velocity": 0.017771129772107035
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9999756241477651,
+      "momentum_error_relative": 1.19459549657005e-18,
+      "angular_momentum_error_relative": 1.9308521618993705e-18,
+      "kinetic_J": 4.657277977068252e-06,
+      "elastic_J": 4.966877323408763e-08,
+      "external_work_J": 4.7077389273158045e-06,
+      "energy_remainder_J": 7.921770134651553e-10
+    },
+    {
+      "step": 40,
+      "time_s": 0.006666666666666664,
+      "elapsed_s": 36.71669688075781,
+      "errors": {
+        "F": 0.01294104051450797,
+        "position": 0.00872505081981657,
+        "velocity": 0.029227307074142467
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9999086925986169,
+      "momentum_error_relative": 5.040003921384675e-18,
+      "angular_momentum_error_relative": 3.472555756729473e-18,
+      "kinetic_J": 1.4004136138113393e-05,
+      "elastic_J": 6.938018613700581e-07,
+      "external_work_J": 1.4700319276854026e-05,
+      "energy_remainder_J": 2.3812773705746105e-09
+    },
+    {
+      "step": 60,
+      "time_s": 0.010000000000000005,
+      "elapsed_s": 50.44833568483591,
+      "errors": {
+        "F": 0.024585712501786646,
+        "position": 0.016713513201714988,
+        "velocity": 0.030134845509427237
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.999816231707699,
+      "momentum_error_relative": 9.066342364178928e-18,
+      "angular_momentum_error_relative": 3.9978811994311406e-18,
+      "kinetic_J": 1.876492019082593e-05,
+      "elastic_J": 2.7895040505794157e-06,
+      "external_work_J": 2.155761390416886e-05,
+      "energy_remainder_J": 3.1896627635148722e-09
+    },
+    {
+      "step": 80,
+      "time_s": 0.013333333333333353,
+      "elapsed_s": 63.8944161683321,
+      "errors": {
+        "F": 0.033925186665381295,
+        "position": 0.02337550745839206,
+        "velocity": 0.02021805974970724
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9997217889767529,
+      "momentum_error_relative": 9.923055458343243e-18,
+      "angular_momentum_error_relative": 4.405450515643779e-18,
+      "kinetic_J": 1.4229493569345685e-05,
+      "elastic_J": 6.3265076768378975e-06,
+      "external_work_J": 2.0558422020181332e-05,
+      "energy_remainder_J": 2.420773997749797e-09
+    },
+    {
+      "step": 100,
+      "time_s": 0.01666666666666669,
+      "elapsed_s": 78.07621455937624,
+      "errors": {
+        "F": 0.03691326907917601,
+        "position": 0.026005471363048337,
+        "velocity": 0.01186287456715039
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.999649428001383,
+      "momentum_error_relative": 9.206914194520951e-18,
+      "angular_momentum_error_relative": 3.472555756729473e-18,
+      "kinetic_J": 4.910472921586493e-06,
+      "elastic_J": 9.90730795080531e-06,
+      "external_work_J": 1.4818631074592476e-05,
+      "energy_remainder_J": 8.502022006729603e-10
+    },
+    {
+      "step": 120,
+      "time_s": 0.020000000000000004,
+      "elapsed_s": 89.40298362076283,
+      "errors": {
+        "F": 0.03170582728832998,
+        "position": 0.023216344915755912,
+        "velocity": 0.030134365677075114
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.999617530459262,
+      "momentum_error_relative": 1.0265878572797315e-17,
+      "angular_momentum_error_relative": 2.6745336475977525e-18,
+      "kinetic_J": 1.8868411384759855e-08,
+      "elastic_J": 1.1584611272173645e-05,
+      "external_work_J": 1.1603528659299123e-05,
+      "energy_remainder_J": 4.897574071791586e-11
+    },
+    {
+      "step": 140,
+      "time_s": 0.023333333333333317,
+      "elapsed_s": 102.83633071184158,
+      "errors": {
+        "F": 0.021389504827482586,
+        "position": 0.01637388503754059,
+        "velocity": 0.05035628877194221
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.999616887884829,
+      "momentum_error_relative": 9.571684768488435e-18,
+      "angular_momentum_error_relative": 2.4225560203532215e-18,
+      "kinetic_J": 4.288654744614294e-06,
+      "elastic_J": 1.0368361459036287e-05,
+      "external_work_J": 1.4657832023210771e-05,
+      "energy_remainder_J": 8.158195601902729e-10
+    },
+    {
+      "step": 160,
+      "time_s": 0.02666666666666663,
+      "elapsed_s": 116.6015820428729,
+      "errors": {
+        "F": 0.022350042818105407,
+        "position": 0.014223416201042937,
+        "velocity": 0.062002652998446345
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9996360700825773,
+      "momentum_error_relative": 1.0896387424986179e-17,
+      "angular_momentum_error_relative": 2.8769669310695203e-18,
+      "kinetic_J": 1.330232947525934e-05,
+      "elastic_J": 7.0236659051467625e-06,
+      "external_work_J": 2.03283785470679e-05,
+      "energy_remainder_J": 2.3831666617981663e-09
+    },
+    {
+      "step": 180,
+      "time_s": 0.029999999999999943,
+      "elapsed_s": 129.78872521966696,
+      "errors": {
+        "F": 0.03971999965078685,
+        "position": 0.024131003857357725,
+        "velocity": 0.06118036555903186
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9996981091847708,
+      "momentum_error_relative": 1.1704597662493258e-17,
+      "angular_momentum_error_relative": 3.9978811994311406e-18,
+      "kinetic_J": 1.795736521748976e-05,
+      "elastic_J": 3.4239681512261882e-06,
+      "external_work_J": 2.1384520927252236e-05,
+      "energy_remainder_J": 3.1875585362881108e-09
+    },
+    {
+      "step": 200,
+      "time_s": 0.0333333333333333,
+      "elapsed_s": 143.51210977882147,
+      "errors": {
+        "F": 0.05701327692143968,
+        "position": 0.035814757147608116,
+        "velocity": 0.04874733930785997
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.99978680232321,
+      "momentum_error_relative": 1.1557364157965326e-17,
+      "angular_momentum_error_relative": 5.040003921384675e-18,
+      "kinetic_J": 1.3583516716103282e-05,
+      "elastic_J": 1.0781441352506853e-06,
+      "external_work_J": 1.4664093389766795e-05,
+      "energy_remainder_J": 2.4325384128276037e-09
+    },
+    {
+      "step": 220,
+      "time_s": 0.03666666666666668,
+      "elapsed_s": 154.0016821026802,
+      "errors": {
+        "F": 0.06662441522308729,
+        "position": 0.04316700840631886,
+        "velocity": 0.0333860476174852
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9998787526979838,
+      "momentum_error_relative": 1.013647891679512e-17,
+      "angular_momentum_error_relative": 6.867625509159692e-18,
+      "kinetic_J": 4.592404712836541e-06,
+      "elastic_J": 1.9297550673826847e-07,
+      "external_work_J": 4.786262183644466e-06,
+      "energy_remainder_J": 8.81964069656174e-10
+    },
+    {
+      "step": 240,
+      "time_s": 0.04000000000000006,
+      "elapsed_s": 166.34393768012524,
+      "errors": {
+        "F": 0.06587382864816936,
+        "position": 0.043933450563397466,
+        "velocity": 0.03609752215265011
+      },
+      "checks": {
+        "valid": true,
+        "positive_J": true,
+        "finite": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      },
+      "min_J": 0.9999498450373667,
+      "momentum_error_relative": 8.514374125067124e-18,
+      "angular_momentum_error_relative": 6.737825714838166e-18,
+      "kinetic_J": 2.7389204942993085e-08,
+      "elastic_J": 4.808766802611346e-08,
+      "external_work_J": 7.556944180160106e-08,
+      "energy_remainder_J": 9.256883249451428e-11
+    }
+  ],
+  "maximum_errors": {
+    "F": 0.06662441522308729,
+    "position": 0.043933450563397466,
+    "velocity": 0.062002652998446345
+  },
+  "physical_checks_passed": true,
+  "finest_accuracy_target_met": false,
+  "maximum_energy_remainder_over_peak_work": 0.00014795991697847636,
+  "energy_scope": "Exact finite-strain energy branch only for Blatz-Ko; infinitesimal strain-energy diagnostic for the two linear Cauchy laws"
+}

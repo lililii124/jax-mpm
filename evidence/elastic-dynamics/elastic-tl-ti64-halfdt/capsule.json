@@ -1,0 +1,17 @@
+{
+  "source_commit": "82d3edd7ba1904a0e24cdbe15eb7ee5261755026",
+  "source_tar_sha256": "2763b41ce10d7e4fa4272998f064e7633463b9a1700828fef5665c93fdbca90f",
+  "model": "transverse-isotropic",
+  "grid": 64,
+  "time_refinement": 2,
+  "controls": false,
+  "temporal_control": false,
+  "parent": null,
+  "steps": null,
+  "cpu_affinity": [
+    20,
+    21,
+    22,
+    23
+  ]
+}

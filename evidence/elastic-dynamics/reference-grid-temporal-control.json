@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "dt_s": 0.001,
+      "steps": 20,
+      "position_error_m": 2.8708543488785085e-09,
+      "velocity_error_m_per_s": 2.7159387535354577e-07
+    },
+    {
+      "dt_s": 0.0005,
+      "steps": 40,
+      "position_error_m": 7.176705270760761e-10,
+      "velocity_error_m_per_s": 6.78971108401586e-08
+    },
+    {
+      "dt_s": 0.00025,
+      "steps": 80,
+      "position_error_m": 1.7941496057419802e-10,
+      "velocity_error_m_per_s": 1.69741928389036e-08
+    }
+  ],
+  "observed_orders": {
+    "position_error_m": [
+      2.000086558928667,
+      2.000021479205645
+    ],
+    "velocity_error_m_per_s": [
+      2.0000288548023955,
+      2.0000072134717777
+    ]
+  },
+  "scope": "Uniform harmonic acceleration, exact spatial rigid mode; temporal order control separate from material-wave spatial refinement"
+}
