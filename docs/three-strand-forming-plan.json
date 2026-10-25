@@ -1,0 +1,84 @@
+{
+  "case": "three-strand-forming",
+  "particles": 227520,
+  "dx": 0.0002,
+  "dt": 3.872966692486445e-06,
+  "steps": 5164,
+  "duration": 0.02,
+  "frames": 60,
+  "geometry": {
+    "length_m": 0.024,
+    "radius_m": 0.001,
+    "initial_orbit_m": 0.0014,
+    "spacing_m": 0.0001,
+    "initial_state": "three parallel straight stress-free fibres; F=I"
+  },
+  "material": {
+    "young": 50000.0,
+    "poisson": 0.25,
+    "density": 1000.0,
+    "tensile_strength": 100000.0,
+    "fracture_energy": 100.0,
+    "characteristic_length": 0.0002
+  },
+  "protocol": {
+    "turns": 1,
+    "rotation_ramp_s": 0.001,
+    "axial_extension_m": 0.000105,
+    "extension_ramp_s": 0.002,
+    "collar_length_m": 0.0015
+  },
+  "contact": {
+    "model": "three-field mass-gradient nodal unilateral normal projection",
+    "friction": 0.0,
+    "adhesion": 0.0,
+    "tolerance_m_per_s": 1e-08,
+    "max_sweeps": 64,
+    "spatial_accuracy": "grid-scale, h=0.2mm; no resolved Hertz pressure claim"
+  },
+  "bounds": [
+    [
+      -0.001,
+      0.025
+    ],
+    [
+      -0.0035,
+      0.0035
+    ],
+    [
+      -0.0035,
+      0.0035
+    ]
+  ],
+  "source": {
+    "examples/three_strand_forming.py": "d546463e297fc561b66816a94469d819c50faaab9e7105aaede010b5b0dcfc92",
+    "mpm_jax/fibre_forming_contact.py": "21978d29cb076f3a2062b541ff431a3841aee424045a11f4f5389ad9cc134041",
+    "mpm_jax/fibre_forming_boundary.py": "33b62b25bc567f7cc8d772236460b2f94a04a24fabb12ab880e114829e58ea3e",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+  },
+  "production_eligible": false,
+  "resin_stage": "not implemented; future actual viscous filling around fixed formed fibres, no curing/full FSI",
+  "resource": {
+    "state_bytes_estimate": 91008000,
+    "stencil_bytes_estimate": 221149440,
+    "uss_limit_bytes": 5368709120
+  },
+  "colors_rgb": [
+    [
+      0.045,
+      0.36,
+      0.67
+    ],
+    [
+      0.94,
+      0.36,
+      0.08
+    ],
+    [
+      0.32,
+      0.66,
+      0.48
+    ]
+  ]
+}
