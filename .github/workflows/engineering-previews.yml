@@ -1,109 +1,65 @@
-name: engineering previews
-
+name: private JKR compliant pull-off bounded pilot
 on:
   workflow_dispatch:
     inputs:
-      preset:
-        description: Reviewed engineering cases or the round-bar density diagnostic
+      model:
         type: choice
-        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, adhesion-v4-pair, jc-density-diagnostic, jc-necking-formal]
-        default: all
+        options: [jkr, hertz, md]
+        default: jkr
         required: true
-
+      endpoint:
+        type: choice
+        options: [prefix, hold]
+        default: prefix
+        required: true
 permissions:
   contents: read
-
 concurrency:
-  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: jkr-compliant-pilot-${{ inputs.model }}
   cancel-in-progress: false
-
 jobs:
-  engineering:
+  pilot:
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+    timeout-minutes: 25
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '4'
       OPENBLAS_NUM_THREADS: '1'
-      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
-      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
+      PILOT_MODEL: ${{ inputs.model }}
+      PILOT_ENDPOINT: ${{ inputs.endpoint }}
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - name: Install CPU and rendering dependencies
-        timeout-minutes: 30
-        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
-      - name: Install official ParaView
-        timeout-minutes: 20
-        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
-      - name: Solve and independently review
-        timeout-minutes: 300
-        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
-      - name: Upload reviewed results or the explicitly marked diagnostic
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/engineering-delivery/main/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
-          path: .local/engineering-delivery/final-state/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
-          path: .local/engineering-delivery/final-state-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate media when needed
-        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
-          path: .local/engineering-delivery/media/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second media package when needed
-        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
-          path: .local/engineering-delivery/media-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload diagnostic logs
+          python-version: '3.12.13'
+      - name: Fixed numerical environment
+        run: |
+          python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+      - name: Freeze isolated source and common physical request
+        run: python tools/run_jkr_compliant_pilot.py prepare --root .local/jkr-compliant-linux-pilot
+      - name: Actual202240-particle64-step resource and stability prefix
+        run: python tools/run_jkr_compliant_pilot.py run --root .local/jkr-compliant-linux-pilot --model "$PILOT_MODEL" --stage prefix --timeout 180
+      - name: Bounded actual hold prefix only after resource admission
+        if: inputs.endpoint == 'hold' && inputs.model != 'md'
+        run: python tools/run_jkr_compliant_pilot.py run --root .local/jkr-compliant-linux-pilot --model "$PILOT_MODEL" --stage hold --timeout 900
+      - name: Record exact workflow controller
         if: always()
-        uses: actions/upload-artifact@v4
+        run: |
+          mkdir -p .local/jkr-compliant-linux-pilot/controller
+          git rev-parse HEAD > .local/jkr-compliant-linux-pilot/controller/commit.txt
+          sha256sum tools/run_jkr_compliant_pilot.py .github/workflows/jkr-compliant-pilot.yml > .local/jkr-compliant-linux-pilot/controller/files.sha256
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
-          path: .local/engineering-ci/
-          if-no-files-found: warn
-          retention-days: 1
-          compression-level: 6
+          name: private-jkr-compliant-${{ inputs.model }}-${{ inputs.endpoint }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/jkr-compliant-linux-pilot/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 1
