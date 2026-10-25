@@ -25,13 +25,13 @@ def make_solver(material,dt,dx,times,cross_count,steps=4,active_capacity=65536):
         return P,R,inverse,trace,energy,valid
     @jax.jit
     def block(state,layout,positions):
-        node_coordinates,_=grid_coordinates(layout)
+        node_coordinates,_=grid_coordinates(layout,jnp.arange(layout.node_count,dtype=jnp.int32))
         cap=3*cross_count;end_ids=jnp.asarray(np.r_[np.arange(cap),np.arange(len(state.x)-cap,len(state.x))]);labels=jnp.repeat(jnp.arange(2),cap*27)
         def single(carry,_):
             old,path=carry;support=stencil(old.x,old.fibre_id,layout)
             mass,predictor=particle_to_grid(old._replace(tau=jnp.zeros_like(old.tau)),layout,config,support)
             occupied=mass>0;positive=jnp.nonzero(occupied,size=active_capacity,fill_value=layout.node_count)[0]
-            remap=jnp.full(layout.node_count+1,active_capacity,jnp.int32).at[positive].set(jnp.arange(active_capacity),mode='drop')
+            remap=jnp.full(layout.node_count+1,active_capacity,jnp.int32).at[positive].set(jnp.arange(active_capacity,dtype=jnp.int32),mode='drop')
             indices=remap[support.indices];m=jnp.take(mass,positive,mode='fill',fill_value=0.);p=jnp.take(predictor,positive,axis=0,mode='fill',fill_value=0.)
             nodes=indices[end_ids].reshape(-1);low=jnp.full(active_capacity,2,jnp.int32).at[nodes].min(labels,mode='drop');high=jnp.full(active_capacity,-1,jnp.int32).at[nodes].max(labels,mode='drop')
             clamped=(high>=0)&(m>0);free=(m>0)&~clamped;owners=jnp.maximum(high,0)
