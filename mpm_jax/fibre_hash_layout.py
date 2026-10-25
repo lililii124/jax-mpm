@@ -68,7 +68,7 @@ def lookup(indices,keys,values):
 
 def build_hash_tube_layout(x,fibre_id,*,dx,padding_cells=6,reference_bounds=None,
                            origin=(0.,0.,0.),max_active_nodes=30_000_000,
-                           max_dense_addresses=2**31-1,max_hash_bytes=1024**3):
+                           max_dense_addresses=2**31-1,max_hash_bytes=1024**3,capacity=None,capacity_factor=None):
     """Same padded occupancy as build_tube_layout without its full dense map.
 
     One local per-fibre Boolean AABB is materialised at a time. Its active
@@ -93,10 +93,32 @@ def build_hash_tube_layout(x,fibre_id,*,dx,padding_cells=6,reference_bounds=None
         found=np.flatnonzero(occupied.ravel())+int(offsets[fibre]);active.append(found.astype(np.int32));total+=len(found)
         if total>max_active_nodes:raise ValueError('Active-node budget exceeded')
         del occupied,local,base
-    inverse=np.concatenate(active);keys,values,rounds=build_tables(inverse,max_hash_bytes)
+    inverse=np.concatenate(active);occupied_count=total
+    if capacity is None and capacity_factor is not None:
+        capacity=1<<int((int(np.ceil(total*capacity_factor))-1).bit_length())
+    if capacity is not None:
+        capacity=int(capacity)
+        if capacity<total or capacity>max_active_nodes:raise ValueError('Fixed packed capacity exceeded; preserve the last valid checkpoint')
+        # Make every padding key a distinct, real but currently unused node.
+        shape_copy=np.asarray(dense.shape).copy();dense_total=dense.node_count
+        if dense_total<capacity:
+            extra=int(np.ceil((capacity-dense_total)/int(np.asarray(dense.strides)[-1,0])))
+            shape_copy[-1,0]+=extra;dense_total+=extra*int(np.asarray(dense.strides)[-1,0])
+            if dense_total>=2**31:raise ValueError('Padded address range exceeds int32')
+            dense=PackedLayout(dense.lower,jnp.asarray(shape_copy),dense.strides,dense.offsets,dense.origin,dense.dx,dense_total,dense.fibre_count)
+        if capacity>total:
+            remaining=capacity-total;unused=[]
+            for first in range(0,dense.node_count,262144):
+                candidates=np.arange(first,min(first+262144,dense.node_count),dtype=np.int32)
+                selected=candidates[~np.isin(candidates,inverse,assume_unique=True)][:remaining]
+                unused.append(selected);remaining-=len(selected)
+                if not remaining:break
+            if remaining:raise RuntimeError('Not enough distinct empty padding nodes')
+            inverse=np.sort(np.concatenate([inverse,*unused]));total=capacity
+    keys,values,rounds=build_tables(inverse,max_hash_bytes)
     if not np.array_equal(lookup_numpy(inverse,keys,values),np.arange(total,dtype=np.int32)):
         raise RuntimeError('Hash fails its independent complete occupied-node lookup')
     layout=PackedLayout(dense.lower,dense.shape,dense.strides,dense.offsets,dense.origin,dense.dx,total,dense.fibre_count,
         None,jnp.asarray(inverse),jnp.asarray(keys),jnp.asarray(values))
-    return layout,dict(active_nodes=total,dense_address_count=dense.node_count,hash_capacity=len(keys),
+    return layout,dict(active_nodes=total,occupied_nodes=occupied_count,dense_address_count=dense.node_count,hash_capacity=len(keys),
         hash_bytes=keys.nbytes+values.nbytes,maximum_insert_probe_rounds=rounds,complete_occupied_lookup_exact=True)
