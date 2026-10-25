@@ -1,0 +1,100 @@
+# Source-only: publisher copies this file to .github/workflows/ and the companion
+# Python/JSON bundle to tools/three_strand_exact_probe/. No dispatch performed.
+name: original three-strand f12 standard-Linux resource qualification
+on:
+  workflow_dispatch:
+    inputs:
+      runner_label:
+        description: Linux runner label for measured-resource qualification (>=2CPU,>=5GiB free)
+        type: string
+        default: ubuntu-24.04
+        required: true
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: three-strand-exact-f12-diagnostic
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ${{ inputs.runner_label }}
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: '1'
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      CONTROLLER_SHA: ${{ github.sha }}
+      WORKFLOW_SOURCE_SHA: ${{ github.workflow_sha }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: lililii124/jax-mpm
+          ref: ${{ github.sha }}
+          path: controller
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: lililii124/jax-mpm
+          ref: 253e11d7762a6914c3b5f225d1e646d8622c548f
+          path: original
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install lightweight monitor and record controller binding
+        run: |
+          mkdir -p evidence
+          test "$CONTROLLER_SHA" = "$WORKFLOW_SOURCE_SHA"
+          test "$(git -C controller rev-parse HEAD)" = "$CONTROLLER_SHA"
+          git -C controller rev-parse HEAD > evidence/controller-sha.txt
+          sha256sum controller/tools/three_strand_exact_probe/* > evidence/controller-files.sha256
+          python controller/tools/three_strand_exact_probe/bind_controller.py
+          python -m pip install psutil==7.2.2
+      - name: Check headroom before acquiring raw or importing JAX
+        run: >-
+          python controller/tools/three_strand_exact_probe/guarded_replay.py
+          --repo original --data recovered/data --output evidence/exact.json
+          --resource-profile standard-linux-qualification
+          --preflight-only > evidence/preflight.json
+      - name: Acquire exact original failed diagnostic artifact
+        uses: actions/download-artifact@v5
+        with:
+          artifact-ids: '12569841297'
+          run-id: '40116768349'
+          github-token: ${{ github.token }}
+          path: delivery
+          merge-multiple: true
+      - name: Verify pinned source, full archive, every member and recover original f12
+        id: recovery
+        run: >-
+          python controller/tools/three_strand_exact_probe/recover_original.py
+          --repo original --delivery delivery --output recovered --evidence evidence
+      - name: Install exact original numerical dependency lock
+        run: |
+          python -m pip install -r recovered/requirements.txt
+          python -m pip install --no-deps -e original
+          python controller/tools/three_strand_exact_probe/recover_original.py --repo original --delivery delivery --output recovered --evidence evidence --runtime-only
+          python -m pip freeze > evidence/pip-freeze.txt
+      - name: Qualify exact32-step probe under4GiB USS,1GiB reserve and12 minutes
+        run: |
+          python controller/tools/three_strand_exact_probe/bind_controller.py
+          python controller/tools/three_strand_exact_probe/guarded_replay.py --repo original --data recovered/data --output evidence/exact.json --resource-profile standard-linux-qualification --timeout-seconds 720
+      - name: Recheck original source and runtime after diagnostic
+        if: always() && steps.recovery.outcome == 'success'
+        run: >-
+          python controller/tools/three_strand_exact_probe/recover_original.py
+          --repo original --delivery delivery --output recovered --evidence evidence --runtime-only
+      - name: Preserve scalar evidence on success or failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: three-strand-f12-exact-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            evidence/
+            delivery/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 1

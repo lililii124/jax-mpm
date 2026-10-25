@@ -1,0 +1,63 @@
+{
+  "source_commit": "253e11d7762a6914c3b5f225d1e646d8622c548f",
+  "source_files": {
+    ".github/workflows/engineering-previews.yml": "97335c465a752669d06e04476b3641e681577662951dacaff42d6af649fe2b8d",
+    ".github/workflows/three-strand-tension.yml": "97335c465a752669d06e04476b3641e681577662951dacaff42d6af649fe2b8d",
+    "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+    "examples/three_strand_tension.py": "727de44bbcfb80340ec7f154278f2cf5b3cd2a7f1fa4fb65f4ab96483047587c",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/fibre_jkr_regions.py": "c026c30e5607a4bf97a8eeb6b328aca0b9a7b08582b76bec4f7d99223faecd71",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+    "mpm_jax/fibre_region_identity.py": "f79fc321c42a51547308978cc0094561ee94e2f937ba0638c16e6b954942052d",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "mpm_jax/rope_hertz_contact.py": "ebad45842575db30c6af45745af07e0309d163bdbfd4d924752c911bca36d527",
+    "pyproject.toml": "f3f8611f81df114df1b459950cd13bfb4ff4be854e92a3458898fabf0c606637",
+    "tools/audit_three_strand_tension.py": "7593bdfb3ef6945bce2805eba5e81a851b49ebefc175d47f73aea85d23b75959",
+    "tools/finish_fibre_pull_off.py": "8d665e9c0bbc4129b48bac9f1a24dea47eeba6ed6d530e6ecf8c48afb040fa8d",
+    "tools/package_fibre_final_media.py": "6eb3f054674b303c459738594300a64009e0c333b4aa682408b8c5ad7a4b7984",
+    "tools/package_three_strand_raw.py": "9fbc4577e17308f7fee1d9a5c8b4ee81a8f6c53556db6fa32104c550d8cf1aee",
+    "tools/run_three_strand_tension.py": "796ebcc796924a2f96d80f946c473ee0208c747763cb5f965c1287414c5d1bab"
+  },
+  "environment": {
+    "python": "3.12.13",
+    "packages": {
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "ml-dtypes": "0.6.0",
+      "numpy": "2.5.4",
+      "opt-einsum": "3.4.0",
+      "pillow": "13.0.0",
+      "psutil": "7.2.2",
+      "scipy": "1.18.1"
+    }
+  },
+  "run_id": "40116768349",
+  "artifact_id": "12569841297",
+  "archive_manifest_sha256": "3d91eb0ddac6e1c494846512909c6c6a7f0184c6502a03e251bf15ab2cc446b2",
+  "archive_sha256": "696049bff977f0b12a437c3dcbfa0b2734389dd3eeef6353ea01238fb07d2660",
+  "checkpoint_sha256": "4152797ee8f85ab2b551bf721efeaabd48402775ee74bd08d5c1fea3dc8d316e",
+  "source_git_blobs": {
+    ".github/workflows/engineering-previews.yml": "7d6475b961f0b62134ba446368b8a4107dd8013c",
+    ".github/workflows/three-strand-tension.yml": "7d6475b961f0b62134ba446368b8a4107dd8013c",
+    "examples/single_fibre_tension.py": "bdf73360c97259d2ad69564b34693d0a0bca101c",
+    "examples/three_strand_tension.py": "1ed6ae8707ff702b12794c6813bdd9bd8b3c1c39",
+    "mpm_jax/contact_patches.py": "9c35c9571c179a0a82fec07a76951e9080438f8b",
+    "mpm_jax/fibre_contact.py": "dc2ace66ed4f1e3513af6607dc9a9d8456205b7d",
+    "mpm_jax/fibre_coupling.py": "0879ded521683e3bf9651bc7ddbcca28061b5114",
+    "mpm_jax/fibre_jkr_regions.py": "5b7fcae2963130a3d2d2acc3a18e4c7046551a08",
+    "mpm_jax/fibre_mpm.py": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75",
+    "mpm_jax/fibre_patch_contact.py": "ae66a1ef17e78fe2b0e5f9ee7ac9eed221c6686e",
+    "mpm_jax/fibre_region_identity.py": "fac4deeba83adc3108267671be095c86bc4d5283",
+    "mpm_jax/materials/isotropic_brittle.py": "887aaeda0466946f0b20563ae32b7614cde34099",
+    "mpm_jax/rope_hertz_contact.py": "d818f8a5b21b638af0abdbc3a7ec90bd4959029d",
+    "pyproject.toml": "48a88b0f91bf8ce340b488c1c6f7bd67ff02e6b9",
+    "tools/audit_three_strand_tension.py": "17ce2653851d5234eac2280dcf928fac4c3bd752",
+    "tools/finish_fibre_pull_off.py": "c5be282e9d127382ddc1ae1dcae5cb48806e51a3",
+    "tools/package_fibre_final_media.py": "85d2e3bd1343f7b8806630b57eb323e00cf77e5e",
+    "tools/package_three_strand_raw.py": "0205d082e7938d1799c4227548b981f9e58e6566",
+    "tools/run_three_strand_tension.py": "a4d95c655fdfa0ca3ae40cbffaefdb9756f630a3"
+  }
+}
