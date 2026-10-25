@@ -14,7 +14,9 @@ from examples.phase_field_tension_qualification import POLICY, immutable_unit_se
 
 def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
         displacement=.0018, steps=None, output='outputs/at2-tension-grid', cfl=.04,
-        restart=None):
+        restart=None,seed_half_width=None):
+    seed_half_width=dx if seed_half_width is None else float(seed_half_width)
+    if not np.isfinite(seed_half_width) or seed_half_width<dx-1e-14:raise ValueError('Positive seed coefficient half-width >=dx required')
     if length < 3*dx-1e-14 or density <= 0 or gc <= 0 or speed <= 0 or displacement <= 0 or cfl not in (.04,.02,.01):
         raise ValueError('Positive parameters and ell/h >=3 required')
     import jax
@@ -63,9 +65,9 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
     fixed_mask = jnp.zeros((n,3),bool).at[:,1].set(bottom|top)
     fixed_mask = fixed_mask.at[:,0].set(pin_a).at[:,2].set(pin_a|pin_b)
     zeros = jnp.zeros(n)
-    # Three coefficient rows are necessary to obtain an actual d=1 trace
-    # with this quadratic basis; this finite seed is measured, never hidden.
-    seed = (q[:,0] <= .3+1e-10) & (jnp.abs(q[:,1]-.3) <= dx+1e-10)
+    # A finite discrete coefficient band is prescribed, never a zero-thickness trace.
+    # Its physical cutoff is explicit and its realised native profile is measured.
+    seed = (q[:,0] <= .3+1e-10) & (jnp.abs(q[:,1]-.3) <= seed_half_width+1e-10)
     no_fixed_damage = seed
     damage_values = jnp.where(seed,1.,0.)
     def strain_of(u):
@@ -83,7 +85,7 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
         raise RuntimeError('Precrack minimum-energy initial solve failed')
     damage = initial.damage
     initial_fracture_energy = float(potential(u,history,damage))
-    initial_unit_seed = immutable_unit_seed(x,np.asarray(interpolate(damage,basis)[0]),dx)
+    initial_unit_seed = immutable_unit_seed(x,np.asarray(interpolate(damage,basis)[0]),seed_half_width)
     damping = 0.  # expose undamped dynamics; do not mask energy with damping
 
     @jax.jit
@@ -139,7 +141,7 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
                     *sorted((source_root/'mpm_jax').rglob('*.py'))]
     source_hashes = {str(path.relative_to(source_root)).replace('\\', '/'):
                      hashlib.sha256(path.read_bytes()).hexdigest() for path in source_files}
-    binding = dict(schema=1, strain_qualification_policy=POLICY, dx=dx, length=length, density=density, gc=gc,
+    binding = dict(schema=1, seed_coefficient_half_width=seed_half_width, strain_qualification_policy=POLICY, dx=dx, length=length, density=density, gc=gc,
         speed=speed, displacement=displacement, cfl=cfl, dt=dt, ramp=ramp,
         duration=duration, required_steps=required, particles=len(x), nodes=n,
         source_hashes=source_hashes, jax_version=jax.__version__,
@@ -267,7 +269,7 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
         transfer='persistent nodal unknowns; zero repeated P2G/G2P velocity reset',
         method='reference-grid lumped-mass Galerkin/MPM quadrature; symplectic Euler',
         validated_crack_propagation=False, energy_accuracy_validated=False,
-        reference_geometry=preflight(dx), strain_qualification_policy=POLICY, immutable_initial_unit_seed_points=int(initial_unit_seed.sum()), initial_fracture_energy=initial_fracture_energy, boundary='normal-only top/bottom; tangential pins Ax Az Bz', seed='quadratic coefficient rows abs(y-.3)<=h, x<=.3; finite seed, not new damage')
+        reference_geometry=preflight(dx), strain_qualification_policy=POLICY, immutable_initial_unit_seed_points=int(initial_unit_seed.sum()), initial_fracture_energy=initial_fracture_energy, boundary='normal-only top/bottom; tangential pins Ax Az Bz', seed=f'quadratic coefficient rows abs(y-.3)<={seed_half_width}, x<=.3; finite seed, not new damage', seed_coefficient_half_width=seed_half_width, actual_seed_node_y=np.unique(np.asarray(q)[np.asarray(seed),1]).tolist())
     (destination/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False))
     return summary
 
@@ -278,6 +280,7 @@ if __name__ == '__main__':
                           ('speed',.02),('displacement',.0018)]:
         p.add_argument('--'+name,type=float,default=default)
     p.add_argument('--steps',type=int)
+    p.add_argument('--seed-half-width',type=float)
     p.add_argument('--cfl',type=float,choices=(.04,.02,.01),default=.04)
     p.add_argument('--output',default='outputs/at2-tension-grid')
     p.add_argument('--restart',help='Exact checkpoint; --steps remains an absolute global stop step')
@@ -287,7 +290,9 @@ if __name__ == '__main__':
         dt=a.cfl*a.dx/np.sqrt(1111.111111111111/a.density)
         duration = (np.sqrt(.12*a.displacement/a.speed) if a.displacement < .03*a.speed
                     else a.displacement/a.speed+.03)
-        print(json.dumps(dict(**preflight(a.dx),dt=dt,
-            target_steps=int(np.ceil(duration/dt)))))
+        record=dict(**preflight(a.dx),dt=dt,target_steps=int(np.ceil(duration/dt)))
+        record['seed_coefficient_half_width']=a.dx if a.seed_half_width is None else a.seed_half_width
+        record['discrete_seed_coefficient_width']=2*record['seed_coefficient_half_width']
+        print(json.dumps(record))
     else:
-        run(a.dx,a.length,a.density,a.gc,a.speed,a.displacement,a.steps,a.output,a.cfl,a.restart)
+        run(a.dx,a.length,a.density,a.gc,a.speed,a.displacement,a.steps,a.output,a.cfl,a.restart,a.seed_half_width)
