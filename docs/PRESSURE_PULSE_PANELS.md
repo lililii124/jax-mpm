@@ -9,8 +9,22 @@ thickness, leaving a 160 × 160 mm free span. There is no backing plate or
 bottom support. Gravity is omitted over the short dynamic interval.
 
 The assumed mechanical input is a spatially uniform positive pressure
-`p(t)=p0 sin²(pi t/T)` for `0<t<T`, zero afterward. Defaults are p0=5 MPa,
-T=80 µs and a 200 µs observation interval. This is a prescribed equivalent
+`p(t)=p0 sin²(pi t/T)` for `0<t<T`, zero afterward. Defaults use
+T=80 µs and a 200 µs observation interval, with material-specific assumed
+engineering severity:
+
+| Preset | Peak pressure | I=p0 T/2 | I/(rho ×12 mm) |
+|---|---:|---:|---:|
+| JC aluminum | 50 MPa | 2000 Pa·s | 60.17 m/s |
+| HJC concrete | 15 MPa | 600 Pa·s | 20.49 m/s |
+| JH-2 ceramic | 80 MPa | 3200 Pa·s | 106.67 m/s |
+| RHT concrete | 15 MPa | 600 Pa·s | 21.61 m/s |
+
+The last column is an unconstrained flat-sheet impulse/areal-mass scale,
+not a prediction of the clamped panel's deformation or speed. These loads
+provide appreciable dynamic bending/plasticity opportunities; the actual
+response and admissibility require calculation. `--pressure` overrides p0.
+This is a prescribed equivalent
 load, without explosive chemistry, JWL, surrounding gas or blast-flow coupling.
 The setup is not experimentally or IJIE calibrated.
 
@@ -18,9 +32,9 @@ The loaded surface is the topmost reference material-particle layer (+Y).
 Its discrete area is `A0=V0/dY`, using the actual seeded layer thickness;
 the weights sum to 0.0324 m². Newton forces are
 `f=-p(t) A0 cross(F e_z,F e_x)=-p(t) A0 cofactor(F)e_y`.
-This follower traction uses the current surface normal and area, rather than
-holding the force direction fixed in space. At F=I the peak resultant is
-162 kN toward −Y and the continuous reference impulse is 6.48 N·s.
+This follower traction uses the current surface normal and area. At F=I the
+JC peak resultant is 1.62 MN toward −Y, with continuous reference impulse
+64.8 N·s; the other presets scale with their tabulated pressure impulse.
 The metadata also records the actual left-end sampled reference impulse for
 the selected dt. Other unrestrained faces are traction-free. The original
 material face remains the loaded face through local damage; no resolved

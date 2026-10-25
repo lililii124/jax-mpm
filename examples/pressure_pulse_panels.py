@@ -9,11 +9,13 @@ import jax.numpy as jnp
 import numpy as np
 from mpm_jax import Config,block,fixed_box
 from mpm_jax.pressure_pulse import pressure,pressure_integral,surface_force
+from mpm_jax.particle_fields import material_metadata
 from .common import run
 from .material_engineering import tensile_aluminum
 from .scenarios import Case,material_model
 
 MODELS=('jc','hjc','jh2','rht')
+PEAK_PRESSURES={'jc':50e6,'hjc':15e6,'jh2':80e6,'rht':15e6}
 DOMAIN=.24
 LOWER=(.03,.114,.03)
 UPPER=(.21,.126,.21)
@@ -25,8 +27,9 @@ SOURCE=('examples/pressure_pulse_panels.py','mpm_jax/pressure_pulse.py','example
         'mpm_jax/materials/jh2.py','mpm_jax/materials/rht.py')
 
 
-def setup(model, *,grid=128,ppc=2,peak_pressure=5e6,pulse_duration=80e-6,duration=200e-6):
+def setup(model, *,grid=128,ppc=2,peak_pressure=None,pulse_duration=80e-6,duration=200e-6):
     if model not in MODELS:raise ValueError('Unknown material preset')
+    peak_pressure=PEAK_PRESSURES[model] if peak_pressure is None else peak_pressure
     if type(grid) is not int or grid<64 or type(ppc) is not int or ppc<1:raise ValueError('Use grid>=64 and positive integer ppc; engineering defaults128/2')
     if not np.isfinite([peak_pressure,pulse_duration,duration]).all() or not 0<peak_pressure or not 0<pulse_duration<duration:raise ValueError('Require positive pressure and0<pulse-duration<duration')
     if model=='jc':
@@ -80,11 +83,14 @@ def setup(model, *,grid=128,ppc=2,peak_pressure=5e6,pulse_duration=80e-6,duratio
 
     root=Path(__file__).resolve().parents[1]
     source={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in SOURCE}
-    definition=dict(case='pressure-pulse-panel',model=model,material_note=material_note,units='m,s,kg,Pa,N,J,K',
+    definition=dict(case='pressure-pulse-panel',model=model,material_note=material_note,material_parameters_SI=material_metadata(material),units='m,s,kg,Pa,N,J,K',
                     geometry=dict(lower_m=LOWER,upper_m=UPPER,plate_size_m=[.18,.012,.18],free_span_m=[.16,.16],clamp_width_m=grip,backing=False),
                     boundary_condition='Four grid-node edge strips fixed in all3 velocity components through full thickness; no backing or bottom support; remaining faces traction-free except loaded +Y face',
                     load=dict(law='p(t)=p0*sin(pi*t/T)^2 for0<t<T, zero otherwise; positive pressure acts inward',peak_pressure_Pa=peak_pressure,pulse_duration_s=pulse_duration,
                               pressure_impulse_Pa_s=peak_pressure*pulse_duration/2,flat_reference_resultant_impulse_Ns=reference_area*peak_pressure*pulse_duration/2,
+                              free_areal_mass_velocity_scale_m_per_s=peak_pressure*pulse_duration/(2*density*(UPPER[1]-LOWER[1])),
+                              velocity_scale_scope='I/(rho*thickness) for an unconstrained flat sheet; dimensional load scale, not clamped-panel response prediction',
+                              preset_status='Assumed engineering pressure severity, not a fitted experimental or explosive-source pressure',
                               discrete_flat_reference_impulse_Ns=float(reference_area*dt*np.asarray(pressure(jnp.arange(steps)*dt,peak_pressure,pulse_duration)).sum()),
                               reference_face_area_m2=reference_area,face_particles=int(top.sum()),surface_quadrature='Topmost material particle layer; A0=particle reference volume / actual reference layer thickness',
                               follower_traction='f_p=-p(t)*A0_p*cross(F_p*e_z,F_p*e_x) in Newtons; cofactor(F)*e_y includes current area and normal',
@@ -101,7 +107,7 @@ def setup(model, *,grid=128,ppc=2,peak_pressure=5e6,pulse_duration=80e-6,duratio
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--model',choices=MODELS,required=True);p.add_argument('--grid',type=int,default=128);p.add_argument('--ppc',type=int,default=2)
-    p.add_argument('--peak-pressure',type=float,default=5e6);p.add_argument('--pulse-duration',type=float,default=80e-6);p.add_argument('--duration',type=float,default=200e-6)
+    p.add_argument('--pressure','--peak-pressure',dest='peak_pressure',type=float,help='Peak compressive Pa; defaults JC50/HJC15/JH2 80/RHT15MPa');p.add_argument('--pulse-duration',type=float,default=80e-6);p.add_argument('--duration',type=float,default=200e-6)
     p.add_argument('--output',type=Path,default=Path('outputs/pressure-pulse-panels'));p.add_argument('--resume',action='store_true');p.add_argument('--stop-after-steps',type=int)
     a=p.parse_args();jax.config.update('jax_enable_x64',True)
     case=setup(a.model,grid=a.grid,ppc=a.ppc,peak_pressure=a.peak_pressure,pulse_duration=a.pulse_duration,duration=a.duration)
