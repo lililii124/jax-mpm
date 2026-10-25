@@ -74,6 +74,17 @@ pulse. Small reflected tails and closed energy records do not establish an
 accurate transmitted pulse. Spatial refinement and a qualified fine reference
 are required before engineering use of the prototype.
 
+The [0.5 mm uniform reference](results/hierarchical-wave-refined-reference.json)
+completed 1,500 steps for the same pulse. Independent checks of the full archive,
+source hashes, every recorded step and the final field reproduce a 5.83%
+velocity error, down from 26.68%. This still exceeds the unchanged 5% target.
+Total energy decreases by 0.51%; the Gaussian peak is 98.54% of its reference
+amplitude. A best-fit position shift of -0.276 mm accounts for part of the error,
+but even the shifted shape has 3.64% error. No shift is applied to the acceptance
+metric. Peak USS is 4.22 GiB and the bounded Linux run takes 1,051 seconds.
+Further work must resolve propagation error before a hierarchical engineering
+comparison is accepted.
+
 Both grids accept inclusive integer `node_bounds` for removing empty background
 storage. All retained material points still require complete basis support.
 Cropping checks compare the retained mass, momentum and internal forces against

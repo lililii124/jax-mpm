@@ -1,0 +1,45 @@
+{
+  "run": 40173802327,
+  "source": "c06fbac8dc69ebbd325b4336d48e96c7f1901f81",
+  "artifact_sha256": "459b47a95cbd7e6b0b0879f514cd32b64030f7411cd16a452b8dc96d1dd9b52a",
+  "integrity_and_state_checks_passed": true,
+  "validated_steps": 1500,
+  "uniform_fine_reference_qualified": false,
+  "accuracy_limit_relative_L2": 0.05,
+  "relative_L2": 0.058288030891590556,
+  "relative_energy_change": -0.00505798232745004,
+  "independent_initial_energy_J": 3.612800271661275e-07,
+  "independent_final_energy_J": 3.594526791734606e-07,
+  "final_min_J": 0.999868221175885,
+  "max_cfl": 0.1627476873633149,
+  "max_step_ledger_error_J": 5.7140085751514615e-21,
+  "ledger_reduction_tolerance_J": 1.0268195955124143e-20,
+  "max_reported_vs_recomputed_ledger_difference_J": 5.717475625140795e-21,
+  "linear_momentum_drift_Ns": [
+    6.5357062210141814e-18,
+    0.0,
+    0.0
+  ],
+  "cross_section_velocity_spread_m_s": 1.696285206572718e-13,
+  "gaussian_peak_amplitude_ratio": 0.9854202885020573,
+  "best_fit_gaussian_shift_m": -0.0002759431971728979,
+  "best_shifted_relative_L2": 0.036389957440017315,
+  "scope": "Finite, stable complete uniform reference; velocity error exceeds the unchanged 5% criterion. No hierarchical or engineering acceptance.",
+  "resource": {
+    "source": "c06fbac8dc69ebbd325b4336d48e96c7f1901f81",
+    "seconds_limit": 2400,
+    "uss_limit_bytes": 5905580032,
+    "minimum_available_bytes": 1610612736,
+    "peak_uss_bytes": 4530954240,
+    "guard_reason": null,
+    "returncode": 0,
+    "wall_seconds": 1050.6551499999998
+  },
+  "source_files": {
+    "examples/hierarchical_wave.py": "3488edfb211a469a6ffea601d64a45b3ec6284753aa395094ead7faf81fc3d15",
+    "mpm_jax/hierarchical_grid.py": "eef4c89e9384db1a45bc26f5ffa2de6adcf6a3e0d2494aab1d4beeddebf44ae4",
+    "mpm_jax/hierarchical_dynamics.py": "82ecfee23fbcd55c03ffa4d59b30b7ba8acbae87c2d956f866115bb4e1313337",
+    "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+    "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0"
+  }
+}
