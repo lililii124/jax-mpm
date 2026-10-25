@@ -98,6 +98,7 @@ jobs:
       OMP_NUM_THREADS: '1'
       REVIEW_SPECIFICATION: ${{ inputs.review_specification }}
       FROZEN_REVIEW: ${{ inputs.frozen_review_only }}
+      GRID_COMPARISON: ${{ inputs.grid_comparison_only }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -116,8 +117,16 @@ jobs:
           python - <<'PYCODE'
           import json,os,pathlib,subprocess,sys
           if os.environ.get('FROZEN_REVIEW')=='true':
-              subprocess.run(['git','fetch','--no-tags','--depth=1','origin','e53dfd5f30503f056131088333edcc63dcdb11e9'],check=True)
-              subprocess.run([sys.executable,'tools/review_hjc_frozen_transfer.py','--output','.local/hjc-frozen-transfer-independent'],check=True)
+              if os.environ.get('GRID_COMPARISON')=='true':
+                  commit='24bd5850e11537899bc9476830fc28a5744a6271'
+                  script='tools/review_hjc_transfer_grids.py'
+                  output='.local/hjc-frozen-grid-independent'
+              else:
+                  commit='e53dfd5f30503f056131088333edcc63dcdb11e9'
+                  script='tools/review_hjc_frozen_transfer.py'
+                  output='.local/hjc-frozen-transfer-independent'
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',commit],check=True)
+              subprocess.run([sys.executable,script,'--output',output],check=True)
               sys.exit(0)
           raw=os.environ.get('REVIEW_SPECIFICATION','')
           command=[sys.executable,'tools/review_hjc_step_work.py','--output','.local/hjc-step-work-independent']
@@ -141,6 +150,8 @@ jobs:
             .local/hjc-step-work-independent/diagnostic/archive-review.json
             .local/hjc-frozen-transfer-independent/independent-frozen-transfer-review.json
             .local/hjc-frozen-transfer-independent/*/archive-review.json
+            .local/hjc-frozen-grid-independent/independent-frozen-grid-review.json
+            .local/hjc-frozen-grid-independent/*/archive-review.json
           if-no-files-found: warn
   frozen-transfer:
     if: inputs.frozen_transfer_only == 'true' && inputs.review_only != 'true'
