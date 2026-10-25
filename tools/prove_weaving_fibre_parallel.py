@@ -113,7 +113,7 @@ def main():
             with ThreadPoolExecutor(max_workers=8) as pool:result=list(pool.map(execute,local))
         samples[mode]=dict(wall_seconds=time.perf_counter()-wall,cpu_seconds=time.process_time()-cpu)
         samples[mode]['cpu_wall_ratio']=samples[mode]['cpu_seconds']/samples[mode]['wall_seconds'];samples[mode]['seconds_per_step']=samples[mode]['wall_seconds']/nsteps
-        results[mode]=result
+        results[mode]=result;print(json.dumps(dict(mode=mode,timing=samples[mode])),flush=True)
     original=results['global'][0];comparisons={}
     def payload(s):
         result={'state_'+k:np.asarray(getattr(s,k)) for k in FibreState._fields if k!='history'};result.update({'history_'+k:np.asarray(getattr(s.history,k)) for k in BrittleHistory._fields});return result
@@ -133,10 +133,12 @@ def main():
                 acc_scale=np.array([max(abs(global_acc[4]),1e-30)]*5+[float(state.mass.sum())*plan['elastic_wave_speed_m_s']]*2+[1.]);normalized=float(np.max(abs(output[k]-value)/acc_scale))
             else:normalized=difference/scale
             comparison[k]=dict(exact=bool(np.array_equal(output[k],value)),max_absolute_difference=difference,dimensionless=normalized)
-            assert normalized<=1e-12,(mode,k,normalized)
+            comparison[k]['passes_predeclared_gate']=normalized<=1e-12
         comparisons[mode]=comparison
-    report=dict(scope='One real fresh-batch fineCP360;16steps, no contact only. Future coupled contact needs synchronized global force before every per-fibre step.',checkpoint_sha256=hashlib.sha256(a.checkpoint.read_bytes()).hexdigest(),input_arrays_exact=exact,same_world_grid=True,same_stencil_weights_and_offsets=True,same_family_support_intersections=overlaps,global_resource=resource,local_resources=allocations,local_occupied_nodes_sum=sum(r['occupied_nodes'] for r in allocations),local_capacity_sum=sum(r['active_nodes'] for r in allocations),local_map_bytes_sum=sum(r['direct_map_bytes'] for r in allocations),global_capacity=capacity,compile_shape_count=len(signatures),steps=nsteps,timing=samples,parallel_speedup=samples['global']['wall_seconds']/samples['fibre_parallel']['wall_seconds'],comparison=comparisons,absolute_path_bound_m=max(float(row[1].max()) for row in results['fibre_parallel']))
+    admitted=all(v['passes_predeclared_gate'] for mode in comparisons.values() for v in mode.values())
+    report=dict(admitted=admitted,scope='One real fresh-batch fineCP360;16steps, no contact only. Future coupled contact needs synchronized global force before every per-fibre step.',checkpoint_sha256=hashlib.sha256(a.checkpoint.read_bytes()).hexdigest(),input_arrays_exact=exact,same_world_grid=True,same_stencil_weights_and_offsets=True,same_family_support_intersections=overlaps,global_resource=resource,local_resources=allocations,local_occupied_nodes_sum=sum(r['occupied_nodes'] for r in allocations),local_capacity_sum=sum(r['active_nodes'] for r in allocations),local_map_bytes_sum=sum(r['direct_map_bytes'] for r in allocations),global_capacity=capacity,compile_shape_count=len(signatures),steps=nsteps,timing=samples,parallel_speedup=samples['global']['wall_seconds']/samples['fibre_parallel']['wall_seconds'],comparison=comparisons,absolute_path_bound_m=max(float(row[1].max()) for row in results['fibre_parallel']))
     (a.output/'parallel-proof.json').write_text(json.dumps(report,indent=2));print(json.dumps({k:v for k,v in report.items() if k not in ['comparison','same_family_support_intersections','local_resources','input_arrays_exact']},indent=2))
+    if not admitted:raise RuntimeError('Original predeclared audit tolerance failed; full raw/timing saved, numerical acceptance remains independent')
 
 
 if __name__=='__main__':main()
