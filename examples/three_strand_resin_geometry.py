@@ -92,6 +92,40 @@ def inlet_schedule(*,radius=.0025,spacing=.0002,maximum_speed=.2,duration=.32,le
     order=np.argsort(birth,kind='stable');return dict(x=x[order],v=v[order],birth_time=birth[order],mass=np.full(len(order),density*spacing**3),nominal_flow_m3_per_s=float(np.sum(u)*spacing**2),capacity=len(order))
 
 
+def mac_face_inlet_schedule(*,radius=.0025,packet_spacing=.0002,maximum_speed=.2,duration=.32,left=-.001,density=1100.,dx=.00025):
+    """Birth fixed-volume parcels from the actual prescribed inlet MAC faces.
+
+    Each stream is one inlet face-centred normal-velocity degree of freedom.
+    Its parcel interval is packet volume divided by that face's integrated
+    volumetric flux, so spatial allocation follows MAC face area and flux.
+    The face-centred transverse coordinates also remove the legacy 200/250 um
+    nearest-cell remapping. Births remain finite, explicit source events.
+    """
+    origin=-radius-3*dx
+    face_axis=origin+(np.arange(int(np.ceil((2*radius+6*dx)/dx)))+.5)*dx
+    y,z=np.meshgrid(face_axis,face_axis,indexing='ij');radial=y*y+z*z
+    keep=radial<radius**2;y=y[keep];z=z[keep];u=maximum_speed*(1-radial[keep]/radius**2)
+    face_flux=u*dx**2;packet_volume=packet_spacing**3
+    counts=np.floor(duration*face_flux/packet_volume).astype(int)
+    stream=np.repeat(np.arange(len(u)),counts);layer=np.concatenate([np.arange(n) for n in counts])
+    birth=(layer+.5)*packet_volume/face_flux[stream]
+    x=np.column_stack((np.full(len(stream),left+packet_spacing*.5),y[stream],z[stream]))
+    v=np.column_stack((u[stream],np.zeros((len(stream),2))))
+    order=np.argsort(birth,kind='stable')
+    return dict(x=x[order],v=v[order],birth_time=birth[order],mass=np.full(len(order),density*packet_volume),nominal_flow_m3_per_s=float(face_flux.sum()),capacity=len(order),face_count=int(len(u)),packet_volume_m3=float(packet_volume),mac_spacing_m=float(dx))
+
+
+def continued_mac_face_inlet_schedule(horizons,**kwargs):
+    """Append only future MAC-flux births while preserving earlier IDs."""
+    horizons=list(horizons);assert horizons and all(b>a for a,b in zip(horizons,horizons[1:]))
+    source=mac_face_inlet_schedule(duration=horizons[0],**kwargs)
+    for previous,end in zip(horizons,horizons[1:]):
+        extra=mac_face_inlet_schedule(duration=end,**kwargs);future=extra['birth_time']>previous+1e-12
+        for name in ['x','v','mass','birth_time']:source[name]=np.concatenate((source[name],extra[name][future]),axis=0)
+        source['capacity']=len(source['mass'])
+    return source
+
+
 def continued_inlet_schedule(horizons,**kwargs):
     """Append future physical births, preserving every previous particle ID."""
     horizons=list(horizons);assert horizons and all(b>a for a,b in zip(horizons,horizons[1:]))

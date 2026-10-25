@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "physical_replay": false,
+  "checkpoint_step": 8256,
+  "time_s": 0.33024000000000275,
+  "birth_rows": 81086,
+  "birth_times_quantized_by_runner": true,
+  "source_particle_volume_m3": 6.486880000000001e-07,
+  "mac_integrated_inlet_volume_m3": 6.486739200000054e-07,
+  "global_relative_volume_difference": 2.1705820999695646e-05,
+  "active_mac_faces": 316,
+  "faces_with_zero_parcels": 0,
+  "face_parcel_to_mac_flux_ratio_quantiles": {
+    "0": 0.3875968992247965,
+    "0.1": 0.614987080103354,
+    "0.5": 0.7235142118862992,
+    "0.9": 1.5753938484621048,
+    "1": 3.385012919896614
+  },
+  "face_relative_l1_mismatch": 0.40628018465733706,
+  "face_max_relative_mismatch": 2.385012919896614,
+  "source_spacing_m": 0.0002,
+  "mac_spacing_m": 0.00025,
+  "spatial_mapping": "nearest transverse inlet MAC face centre",
+  "source_rows_per_face_aggregated": true,
+  "scope": "Read-only inlet birth table versus prescribed MAC face cumulative flux through actual 8256 time; no pressure solve or trajectory replay"
+}
