@@ -63,6 +63,8 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier):
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical == "fibres--three-strand-forming":
+        return is_three_strand_forming_ready(Path(folder), summary)
     if canonical == "fibres--three-strand-tension":
         return is_three_strand_prefix_ready(Path(folder), summary)
     if summary.get("completed") is False:
@@ -179,6 +181,60 @@ def is_ready_for_publication(folder, identifier, summary):
     except (OSError, ValueError, TypeError, KeyError, AttributeError):
         return False
     return True
+
+
+def is_three_strand_forming_ready(folder, summary):
+    """Admit a complete illustrative process with explicit accuracy limits."""
+    try:
+        read = lambda name: json.loads((folder / name).read_text())
+        review, physical, media, render, snapshots = map(read, (
+            "publication-review.json", "physical-review.json", "media-review.json",
+            "render.json", "source-snapshots.json"))
+        checkpoint = "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2"
+        required = {"complete_saved_process", "source_bound_states", "physical_scope_explicit",
+                    "actual_paraview", "source_bound_media", "visual_review"}
+        if not (summary["completed"] is True and summary["production_eligible"] is False
+                and summary["steps"] == snapshots["last_step"] == 5164
+                and summary["frames"] == render["frames_rendered"] == media["frames"] == 63
+                and summary["source_checkpoint_sha256"] == physical["checkpoint_sha256"] == snapshots["checkpoint_sha256"] == checkpoint
+                and summary["source_commit"] == physical["source"] == "ab410cfdb4b864f4481c2d3254752df9b0e53049"
+                and snapshots["full_turn_completed"] is True and physical["full_turn_completed"] is True
+                and physical["all_geometry_valid"] is True and physical["all_capacity_valid"] is True
+                and physical["latest_geometry"]["full_support"] is True
+                and physical["latest_geometry"]["collar_error_m"] < 1e-9
+                and physical["minJ"] > 0 and physical["contact_loss_negative_steps"] == 0
+                and physical["production_eligible"] is False
+                and summary["min_J"] == physical["minJ"]
+                and summary["accuracy_scope"]["energy_temporal_spatial_convergence_certified"] is False
+                and summary["accuracy_scope"]["final_deceleration_energy_remainder_ratio"] == physical["remainder_ratio"]
+                and summary["accuracy_scope"]["manufacturing_accuracy_certified"] is False
+                and review["schema"] == "illustrative-process-publication-v1" and review["passed"] is True
+                and set(review["checks"]) == required and all(review["checks"].values())
+                and render["renderer"] == "ParaView" and render["geometry_scale"] == 1
+                and render["resolution"] == media["resolution"] == [400, 400]
+                and render["axes"] is False and render["annotations"] is False
+                and render["full_turn_completed"] is True
+                and render["actual_steps"] == [f["step"] for f in snapshots["frames"]]
+                and render["actual_times_s"] == [f["time_s"] for f in snapshots["frames"]]
+                and render["actual_steps"][0] == 0 and render["actual_steps"][-1] == 5164
+                and media["passed"] is True and media["visual_review_passed"] is True
+                and media["source_manifest_sha256"] == hashlib.sha256((folder/"source-snapshots.json").read_bytes()).hexdigest()
+                and media["position_interpolation"] is False and media["decoded_frames"] == 63
+                and media["all_frame_timings_match"] is True and media["loop"] == 0
+                and media["distinct_decoded_frames"] == 63):
+            return False
+        for name, digest in review["sources"].items():
+            if Path(name).name != name or hashlib.sha256((folder/name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() != digest:
+                return False
+        if not {"summary.json", "physical-review.json", "media-review.json", "render.json", "provenance.json", "source-snapshots.json", "original-render-review.json"} <= set(review["sources"]):
+            return False
+        images = folder.parents[1] / "images"
+        gif, cover = images/"home/fibres--three-strand-forming.gif", images/"three-strand-forming.png"
+        return (gif.stat().st_size == media["gif_bytes"]
+                and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
+                and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])
+    except (OSError, ValueError, KeyError, TypeError, IndexError):
+        return False
 
 
 def is_three_strand_prefix_ready(folder, summary):

@@ -76,6 +76,8 @@ def order(value):
         else 0 if "nonadhesive-pull-off" in value or "nonadhesive pull-off" in value
         else 1 if "adhesive-pull-off" in value or "adhesive pull-off" in value
         else 2 if "sinusoid" in value
+        else 4 if "three-strand tension" in value or "three-strand-tension" in value
+        else 5 if "three-strand forming" in value or "three-strand-forming" in value
         else 3
     )
     return rank, value

@@ -1,0 +1,45 @@
+{
+  "id": "fibres--three-strand-forming",
+  "case": "Three-strand forming",
+  "completed": true,
+  "production_eligible": false,
+  "publication_scope": "Complete illustrative dynamic forming process; manufacturing accuracy unqualified",
+  "particles": [
+    227520
+  ],
+  "steps": 5164,
+  "frames": 63,
+  "simulation_time": 0.019999999999999147,
+  "min_J": 0.612436930610824,
+  "max_damage": 0.0,
+  "source_commit": "ab410cfdb4b864f4481c2d3254752df9b0e53049",
+  "source_checkpoint_sha256": "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2",
+  "full_turn_completed": true,
+  "final_angle_rad": 6.283185307179586,
+  "solver_seconds_scope": "Final4929..5164 segment only; not whole trajectory runtime",
+  "final_segment_solver_wall_seconds": 370.1579867899418,
+  "accuracy_scope": {
+    "manufacturing_accuracy_certified": false,
+    "energy_temporal_spatial_convergence_certified": false,
+    "final_deceleration_interval_steps": [
+      4929,
+      5164
+    ],
+    "final_deceleration_energy_remainder_ratio": 0.21120677124914564,
+    "final_min_J": 0.612436930610824,
+    "final_max_J": 1.275231517593704,
+    "principal_stretch": [
+      0.6118494700776245,
+      1.5592088903270396
+    ],
+    "J_below_point8_fraction": 0.0030458860759493673,
+    "maximum_stretch_above1point3_fraction": 0.003146976090014065,
+    "contact_scope": "Actual point distances plus local F-advected quadrature-cell intrusion diagnostic at0.1mm spacing/0.2mm grid; not exact reconstructed surface or sub-grid nonpenetration proof. Deep intrusion means a foreign centre inside0.8 of the cell half-width; rejection is diagnostic, not an altered force law.",
+    "limitations": [
+      "Final deceleration segment energy remainder is21.12% of its absolute fixture work; this is a local segment ratio, not whole-run energy creation.",
+      "Local compression reaches J=.6124 and maximum principal stretch1.559; original finite/material/contact/BC guards pass, with no spatial/time convergence established.",
+      "Contact is grid-scale nodal projection; cell-intrusion diagnostics are not a resolved surface nonpenetration proof.",
+      "Finite-rotation end motion completes2pi; it does not certify manufacturing accuracy or quasistatic forming."
+    ]
+  }
+}

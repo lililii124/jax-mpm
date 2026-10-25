@@ -42,6 +42,7 @@ def main():
         if hashlib.sha256(destination.read_bytes()).hexdigest()!=digest:raise IOError('Copied frame hash differs')
         frames.append(dict(file=name,kind='frame',sha256=digest,step=step,time_s=step*reference['dt'],source=str(path.resolve())))
     manifest=dict(schema='three-strand-forming-render-input-v1',frames=frames,source_plans=plans,
+                  planned_steps=reference['steps'],full_turn_completed=frames[0]['step']==0 and frames[-1]['step']==reference['steps'],
                   actual_saved_states_only=True,position_interpolation=False,physical_steps_executed=0,
                   scope='Media input preparation; numerical admission and convergence remain separate')
     (args.output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

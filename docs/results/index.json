@@ -1863,5 +1863,29 @@
       "summary.json": "33c57425a9dd9a33a9d17a647eea8ff2ef51efdb88e6da49ebcea3ab695e3796",
       "vtk_metadata.json": "fb002d77ddbd2afabe2715bc187fdeb0791fa028d8b684eb2bf139d7115ab14d"
     }
+  },
+  {
+    "id": "fibres--three-strand-forming",
+    "case": "Three-strand forming",
+    "source_directory": "outputs/fibres/three-strand-forming",
+    "particles": 227520,
+    "steps": 5164,
+    "simulation_time": 0.019999999999999147,
+    "min_J": 0.612436930610824,
+    "max_damage": 0.0,
+    "renderer": "ParaView",
+    "publication_scope": "Complete illustrative dynamic forming process; manufacturing accuracy unqualified",
+    "sha256": {
+      "media-review.json": "d9022518b379dbdaf849ff8bccbe798724c42c34b24a97e0e78ec9bb12fe8d50",
+      "original-render-review.json": "70cf2e3e00a4806238bc81156bbe4232def4a5719c323e33ad63920cce05635b",
+      "original-render.json": "0cc4d2b597c204799a440e1495ebba9604c33eecd6ad803525f5e4f39fe5d9f4",
+      "physical-review.json": "30ae5fe0a8c48d42b5d8a4bf28a682e543356bebc1c897e4e056e8af5f2b4940",
+      "provenance.json": "f27a07657a2276c4f21072e3da995755831ef82059d2f9056eb357aa4700d949",
+      "publication-review.json": "8e3e02c9054fdff794b574b9d453da1f17c4ca77d246a8d0b886217f7bd62a51",
+      "render-job-status.json": "09b31ae68a8315623dc931a5180e06f7fc8c3b29f63a30711593e106acbe60b6",
+      "render.json": "e044705e4b2b494cf9faa3d70513a66bad66ed3f27aa58a68e9825daa4899b16",
+      "source-snapshots.json": "198ed1f0a4de69d843d4dfef09ccc037bdb88fdb9e41b172796d86f540811eee",
+      "summary.json": "151f0ce8a67b174da4c129aa4ae489b0fd6e14047bb5d148f75f3fd86ad6c2fa"
+    }
   }
 ]

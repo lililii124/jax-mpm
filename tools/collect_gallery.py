@@ -284,7 +284,7 @@ def main():
             if not is_public_run(identifier) or identifier not in selected_ids or identifier in HIDDEN_DISPLAY_IDS:
                 continue
             folder = ROOT / "outputs" / relative
-            prefix = identifier == "fibres--three-strand-tension"
+            prefix = identifier in {"fibres--three-strand-tension", "fibres--three-strand-forming"}
             if prefix:
                 folder = ROOT / "docs/results" / identifier
             required_files = ("summary.json", "render.json") if prefix else ("summary.json", "render.json", "final.png")
@@ -296,7 +296,7 @@ def main():
             summary = json.loads((folder / "summary.json").read_text())
             if not is_ready_for_publication(folder, identifier, summary):
                 continue
-            selected, frame, time = ((ROOT / "docs/images/three-strand-tension.png", 12, summary["simulation_time"])
+            selected, frame, time = ((ROOT / f"docs/images/{name}.png", summary["frames"]-1, summary["simulation_time"])
                                      if prefix else preview(folder, name, render))
             if identifier in display_views:
                 view = json.loads((ROOT / display_views[identifier]).read_text(encoding="utf-8"))
@@ -332,7 +332,7 @@ def main():
             if identifier == "completed--radial-sinusoidal-pull-off":
                 label = "Radial sinusoidal pull-off"
             if prefix:
-                label = "Three-strand tension"
+                label = "Three-strand forming" if identifier.endswith("forming") else "Three-strand tension"
             label = {'completed--jc-necking-refined': 'JC round-bar necking', 'completed--crossed-fibre-jkr': 'Crossed fibre JKR contact', 'completed--crossed-fibre-md': 'Crossed fibre MD contact', 'completed--crossed-fibre-self-consistent': 'Crossed fibre SC local BEM contact'}.get(identifier, label)
             cells.append(
                 f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}**<br>'

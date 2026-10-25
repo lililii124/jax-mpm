@@ -1,0 +1,128 @@
+{
+  "task": "three-forming-to5164",
+  "source": "ab410cfdb4b864f4481c2d3254752df9b0e53049",
+  "verified_source_files": 52,
+  "interval": [
+    4929,
+    5164
+  ],
+  "time_s": 0.019999999999999147,
+  "wall_seconds": 370.1579867899418,
+  "peak_uss_bytes": 2157842432,
+  "timings": {
+    "numeric_seconds": 341.7094848379493,
+    "geometry_seconds": 10.120650298893452,
+    "checkpoint_seconds": 2.9115707874298096,
+    "frame_seconds": 1.1796233430504799
+  },
+  "absolute_work_J": 4.155987276795801e-06,
+  "remainder_J": 8.777726540845704e-07,
+  "remainder_ratio": 0.21120677124914564,
+  "contact_loss_min_J": 1.614977008858022e-09,
+  "contact_loss_negative_steps": 0,
+  "minJ": 0.612436930610824,
+  "maxJ": 1.275231517593704,
+  "principal_stretch": [
+    0.6118494700776245,
+    1.5592088903270396
+  ],
+  "true_energy_numpy_J": 0.00013847057099811592,
+  "diagnostic_energy_cache_J": 0.0001384705709981159,
+  "cache_error_J": -2.710505431213761e-20,
+  "parent": {
+    "mass_volume_ids_exact": true,
+    "true_parent_energy_J": 0.00013259122669433406,
+    "elastic_increment_sum_error_J": -2.710505431213761e-20
+  },
+  "cumulative_angular_error": 2.964420669392192e-11,
+  "net_fixture_torque_impulse": 2.8946037372453005e-08,
+  "absolute_step_fixture_torque_impulse": 2.9175084995377502e-08,
+  "angular_error_over_net": 0.0010241196856234746,
+  "angular_error_over_absolute": 0.0010160795315118617,
+  "angular_error_over_final_L": 0.0005696580785666739,
+  "latest_geometry": {
+    "time_s": 0.019999999999999147,
+    "right_angle_rad": 6.283185307179586,
+    "full_support": true,
+    "collar_error_m": 5.301521579119257e-16,
+    "pairs": [
+      {
+        "strands": [
+          0,
+          1
+        ],
+        "minimum_particle_distance_m": 0.000170781946745998,
+        "other_centres_inside_advected_cells": 0,
+        "deep_cell_intrusions": 0,
+        "maximum_material_cell_intrusion_m": 0.0
+      },
+      {
+        "strands": [
+          0,
+          2
+        ],
+        "minimum_particle_distance_m": 0.000177520378828363,
+        "other_centres_inside_advected_cells": 0,
+        "deep_cell_intrusions": 0,
+        "maximum_material_cell_intrusion_m": 0.0
+      },
+      {
+        "strands": [
+          1,
+          2
+        ],
+        "minimum_particle_distance_m": 0.00017830976042717804,
+        "other_centres_inside_advected_cells": 0,
+        "deep_cell_intrusions": 0,
+        "maximum_material_cell_intrusion_m": 0.0
+      }
+    ],
+    "geometry_valid": true,
+    "scope": "Actual point distances plus local F-advected quadrature-cell intrusion diagnostic at0.1mm spacing/0.2mm grid; not exact reconstructed surface or sub-grid nonpenetration proof. Deep intrusion means a foreign centre inside0.8 of the cell half-width; rejection is diagnostic, not an altered force law."
+  },
+  "all_geometry_valid": true,
+  "exact_nodes": 24.0,
+  "exact_successes": 24.0,
+  "max_exact_nodes": 1.0,
+  "all_capacity_valid": true,
+  "rank_rejections": 0.0,
+  "contact_force_latest": {
+    "normal_contact_force_01_N": 0.022322445775996777,
+    "normal_contact_force_02_N": 0.022262856527917853,
+    "normal_contact_force_12_N": 0.022525294888411
+  },
+  "checkpoint_sha256": "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2",
+  "frame_checks": {
+    "frame-004929.npz": "b958dcbfc8d059af938fcada8abedcfb42ddede2d6d3534325dc93a726b3bec8",
+    "frame-004992.npz": "2ef68d0f52032508f63bfff15488e9f5e6a1074c08e9732ee721bdca970f818c",
+    "frame-005078.npz": "083028a23f0b82268b3a1826a5bfcbe66c6533381d3e4dc7a683238462876a4a",
+    "frame-005164.npz": "b0122a8cb696e9b56273ee9e2f25e2f5f7748c4547154f86c23acf097d596a82"
+  },
+  "production_eligible": false,
+  "full_turn_completed": true,
+  "planned_steps": 5164,
+  "total_fixture_work_J": 0.00016083020579161714,
+  "total_K_J": 1.3696723486583969e-05,
+  "total_U_J": 0.00013847057099811592,
+  "total_W_minus_K_minus_U_J": 8.662911306917264e-06,
+  "final_angle_rad": 6.283185307179586,
+  "angle_error_from_one_turn_rad": 0.0,
+  "minJ_position_m": [
+    0.012873361458045914,
+    -0.000576010523968783,
+    3.308622641768644e-05
+  ],
+  "maxstretch_position_m": [
+    0.0017530597418607015,
+    -0.0001082687281777321,
+    0.001940142661597454
+  ],
+  "J_below_point8_fraction": 0.0030458860759493673,
+  "maxstretch_above1point3_fraction": 0.003146976090014065,
+  "maximum_stretch_quantiles": [
+    1.1188220476765736,
+    1.2803792498379793,
+    1.335835225167489,
+    1.5592088903270396
+  ]
+}

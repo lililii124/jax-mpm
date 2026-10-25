@@ -67,8 +67,15 @@ Frames are copied without changing arrays; no positions are interpolated.
 The renderer produces PNGs, a private GIF and render receipts. A render receipt
 is a media check; numerical admission and publication review remain separate.
 
-The available baseline is a partial dynamic forming process, not a certified
-full turn, quasistatic result or converged solution. Section-center gaps are
+The [complete illustrative process](results/fibres--three-strand-forming/summary.json)
+records 5,164 actual steps over 20 ms and a full 2π end rotation. Its 63 saved
+states pass the recorded finite-state, contact, support and collar checks.
+The final deceleration segment has a 21.12% signed energy remainder relative
+to its absolute fixture work, and local compression reaches J≈0.612 with a
+maximum principal stretch of 1.559. These limits remain visible in the
+[physical review](results/fibres--three-strand-forming/physical-review.json).
+Manufacturing accuracy, quasistatic behavior and spatial/time convergence
+remain unqualified. Section-center gaps are
 proxies; the F-advected particle-cell intrusion check is a finite-resolution
 diagnostic. Stored history and full signed energy records remain necessary.
 Resin filling and curing are outside this frozen baseline.

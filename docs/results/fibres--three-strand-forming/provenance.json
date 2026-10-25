@@ -1,0 +1,40 @@
+{
+  "source_commit": "ab410cfdb4b864f4481c2d3254752df9b0e53049",
+  "source_files_sha256": {
+    "examples/three_strand_forming.py": "4d23e0d4897682b658904d9f784cca0bb18816af0e714c1d7b1c387c2c61b864",
+    "mpm_jax/fibre_forming_boundary.py": "43c46d189cbc49c4ec78162ecbd965658611d3919d19dc2a64131af090859f16",
+    "mpm_jax/fibre_forming_contact.py": "eb7b78323641bd9d13013357d854daff40f3698f5264d50b8bee28f1c372b983",
+    "mpm_jax/fibre_forming_active_set.py": "d57777c7091d71d32827992f2c24a51cb51e6cf0bd0781058c5217384e76a77c",
+    "mpm_jax/fibre_forming_contact_packed.py": "444ee549e21c696f0120f52b6fa726dce2c74056246125db4b7fcb3af77cd80a",
+    "mpm_jax/fibre_forming_consistent.py": "3bf57d7596c93437fd3bac90abec5e4328c3252b0667e894410370b1912ad9c2",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "tools/run_forming_consistency.py": "79f946d0c0237f6c8cb4cd994e46956d1e19855869b47ac33fb4369743de1b68",
+    "tools/review_forming_snapshot.py": "6242b12961663914821fe01a26dc14095e56972a85cbf6949c52032d7eb54d84"
+  },
+  "checkpoint_sha256": "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2",
+  "snapshot_manifest": "source-snapshots.json",
+  "source_tasks": [
+    "three-forming-consistent256",
+    "three-forming-consistent64",
+    "three-forming-contact-recover2497",
+    "three-forming-to1280",
+    "three-forming-to1985",
+    "three-forming-to2497",
+    "three-forming-to2881",
+    "three-forming-to3265",
+    "three-forming-to3777",
+    "three-forming-to4289",
+    "three-forming-to4673",
+    "three-forming-to4929",
+    "three-forming-to5164"
+  ],
+  "history_scope": "Accepted original prefix0..1280, then boundary-aware midpoint candidate and packed active-set contact continuations; source snapshots preserve each actual task. Failed2163 state excluded; accepted states retained. Final frozen candidate sourceab410cf; not a claim that one uninterrupted kernel produced the entire chain.",
+  "raw_records": {
+    "source_render": "0cc4d2b597c204799a440e1495ebba9604c33eecd6ad803525f5e4f39fe5d9f4",
+    "original_media_review": "70cf2e3e00a4806238bc81156bbe4232def4a5719c323e33ad63920cce05635b",
+    "physical_review": "30ae5fe0a8c48d42b5d8a4bf28a682e543356bebc1c897e4e056e8af5f2b4940"
+  },
+  "display_scope": "Illustrative complete forming process; no manufacturing, temporal or spatial accuracy certification",
+  "publication_authorization": "Root requested full-GIF/gallery integration; source media private_only/published flags are preserved as historical render-stage metadata, not numerical admission flags."
+}
