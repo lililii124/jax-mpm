@@ -1,0 +1,43 @@
+{
+  "schema": "metal-affine-real-short-window-conclusion-v1",
+  "source_capsule_commit": "4b911b48e843ced2f7622adb06fe11654403e7f2",
+  "physical_window_ns": [
+    125,
+    125.002
+  ],
+  "dt_ps": [
+    2,
+    1,
+    0.5
+  ],
+  "steps": [
+    1,
+    2,
+    4
+  ],
+  "original_inputs_unchanged": true,
+  "independent_raw_audits_passed": true,
+  "selected_physical_fields": 11,
+  "all_mass_L1_L2_Linf_contract": true,
+  "observed_contraction": "About 0.5 for kinematics, stress/internal energy and 0.53 for plasticity/damage; first-order trend over this tiny window only.",
+  "energy_residual_J": [
+    -7.350990927079692e-10,
+    -3.672084858408198e-10,
+    -1.8252421796205454e-10
+  ],
+  "original_energy_tolerance_J": 1.414599609375e-08,
+  "numerical_heat_added_J": 0,
+  "initial_contact_projection_J": 0.2291875130706747,
+  "initial_contact_projection_distinguished_from_dynamic_loss": true,
+  "new_cell_replays_required": false,
+  "metadata_correction": "Old contact warmstart/maxima cache unused by solve; first 2ps physical result preserved. New two cells record actual multipliers and maxima. Comparison excludes diagnostic-only fields.",
+  "remaining_risks": [
+    "Only 2ps real dynamics have been admitted, not a long impact trajectory.",
+    "Force/time work defect contracts approximately linearly with dt; derive more complete force/contact/material time compatibility before enlarging window rather than relying on dt alone.",
+    "Spatial convergence, grid crossing and objective fracture remain unvalidated for this candidate.",
+    "Initial zero-time contact projection is a noncalorimetric loss; it must not be reassigned as thermal energy."
+  ],
+  "next_action": "Pause metal compute per new task priority. Preserve raw and plan a bounded coupling refinement before any long impact window.",
+  "production_admitted": false,
+  "fragment_media_allowed": false
+}

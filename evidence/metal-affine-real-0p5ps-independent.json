@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "dt_s": 5e-13,
+  "steps": 4,
+  "time_ns": 125.00199999999994,
+  "verified_output_files": 43,
+  "verified_stage_checkpoints": 27,
+  "coverage": [
+    {
+      "stage": "001-initial-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "stage": "005-step-0-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "stage": "011-step-1-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "stage": "017-step-2-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "stage": "023-step-3-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    }
+  ],
+  "fixed_particles": 4864,
+  "fixed_positions_F_preserved": true,
+  "fixed_v_W_exact_zero": true,
+  "maximum_contact_closing_m_s": 3.6689680052403424e-11,
+  "maximum_complementarity_m_s": 5.2039158339498996e-11,
+  "maximum_joint_power_identity_J": 2.879513872827764e-14,
+  "maximum_boundary_virtual_work_J": 1.2198650869001213e-15,
+  "plastic_heat_weighted_L1_error_J": 1.5123758378622436e-15,
+  "cold_work_weighted_L1_error_J": 1.5078274182085324e-19,
+  "F_drift_residual": 1.1101840027558567e-16,
+  "x_drift_residual_m": 4.336102736839561e-19,
+  "independently_derived_channels_J": {
+    "grid_projection": 2.5982983763812663e-06,
+    "boundary_projection": 1.0456404335691535e-11,
+    "contact_projection": 0.22918751325333642,
+    "viscosity": 0.00021659743904424742
+  },
+  "global_energy_residual_J": -1.8249579625262413e-10,
+  "global_momentum_residual": [
+    -1.1740042178742374e-19,
+    -1.222939606540282e-16,
+    1.2588929348879207e-19
+  ],
+  "global_angular_residual": [
+    -6.75326414393893e-22,
+    3.4473552111299884e-24,
+    -4.296748021354205e-20
+  ],
+  "new_replays_required": false,
+  "numerical_heat_added_J": 0.0,
+  "production_admitted": false
+}

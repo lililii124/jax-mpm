@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "dt_s": 1e-12,
+  "steps": 2,
+  "time_ns": 125.002,
+  "verified_output_files": 25,
+  "verified_stage_checkpoints": 15,
+  "coverage": [
+    {
+      "stage": "001-initial-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "stage": "005-step-0-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "stage": "011-step-1-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    }
+  ],
+  "fixed_particles": 4864,
+  "fixed_positions_F_preserved": true,
+  "fixed_v_W_exact_zero": true,
+  "maximum_contact_closing_m_s": 3.6689680052403424e-11,
+  "maximum_complementarity_m_s": 5.2039158339498996e-11,
+  "maximum_joint_power_identity_J": 4.46499581861911e-14,
+  "maximum_boundary_virtual_work_J": 1.5915931190991963e-15,
+  "plastic_heat_weighted_L1_error_J": 1.5501339077315262e-15,
+  "cold_work_weighted_L1_error_J": 1.4352676545140703e-19,
+  "F_drift_residual": 1.1101469924903779e-16,
+  "x_drift_residual_m": 4.33101901804949e-19,
+  "independently_derived_channels_J": {
+    "grid_projection": 2.598355299425286e-06,
+    "boundary_projection": 1.0470329559240133e-11,
+    "contact_projection": 0.2291875134360002,
+    "viscosity": 0.0002165990045110378
+  },
+  "global_energy_residual_J": -3.6718006413138937e-10,
+  "global_momentum_residual": [
+    9.657359724847215e-19,
+    -7.664618819412714e-17,
+    -1.8972235815152833e-21
+  ],
+  "global_angular_residual": [
+    -7.033144589157749e-22,
+    -4.7949912395935085e-23,
+    -3.876851049199324e-20
+  ],
+  "new_replays_required": false,
+  "numerical_heat_added_J": 0.0,
+  "production_admitted": false
+}
