@@ -10,8 +10,35 @@ from mpm_jax.materials.elastic import neo_hookean
 from mpm_jax.total_lagrangian import reference_grid,initial_state,step,NodalBoundary,momentum,sample_particles
 
 
+def harmonic_control():
+    axes=np.arange(.25+1/32,.75,1/16);X=np.stack(np.meshgrid(axes,axes,axes,indexing='ij'),axis=-1).reshape(-1,3)
+    a=jnp.array([.1,-.05,.02]);omega=40.;duration=.02;mat=neo_hookean(2e4,.2);records=[]
+    for dt in [.001,.0005,.00025]:
+        cfg=Config(n_grid=8,dim=3,dt=dt,gravity=(0,0,0),boundary_cells=0,material='neo-hookean')
+        ref=reference_grid(X,jnp.full(len(X),(1/16)**3),1000.,cfg);assert ref.valid
+        def body(t):return jnp.broadcast_to(a*jnp.cos(omega*t),X.shape)
+        s=initial_state(ref,mat,cfg,body(0.))
+        @jax.jit
+        def advance(s):return step(s,ref,mat,cfg,body(s.time),body(s.time+dt))
+        for _ in range(round(duration/dt)):s,_=advance(s)
+        exact_u=a*(1-np.cos(omega*duration))/omega**2;exact_v=a*np.sin(omega*duration)/omega
+        sample=sample_particles(s,ref)
+        u=float(jnp.linalg.norm(sample.x-jnp.asarray(X)-exact_u)/jnp.sqrt(len(X)))
+        v=float(jnp.linalg.norm(sample.v-exact_v)/jnp.sqrt(len(X)))
+        assert s.valid
+        records.append(dict(dt_s=dt,steps=round(duration/dt),position_error_m=u,velocity_error_m_per_s=v))
+    orders={key:[float(np.log(records[i][key]/records[i+1][key])/np.log(2)) for i in [0,1]]
+        for key in ['position_error_m','velocity_error_m_per_s']}
+    assert all(1.98<value<2.02 for pair in orders.values() for value in pair)
+    return dict(passed=True,records=records,observed_orders=orders,
+        scope='Uniform harmonic acceleration, exact spatial rigid mode; temporal order control separate from material-wave spatial refinement')
+
+
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--temporal-only',action='store_true');a=p.parse_args()
+    if a.temporal_only:
+        report=harmonic_control();a.output.mkdir(parents=True,exist_ok=False)
+        (a.output/'review.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report));return
     cfg=Config(n_grid=8,dim=3,dt=1e-3,gravity=(0,0,0),boundary_cells=0,material='neo-hookean')
     axes=np.arange(.25+1/32,.75,1/16);X=np.stack(np.meshgrid(axes,axes,axes,indexing='ij'),axis=-1).reshape(-1,3)
     ref=reference_grid(X,jnp.full(len(X),(1/16)**3),1000.,cfg);assert ref.valid
