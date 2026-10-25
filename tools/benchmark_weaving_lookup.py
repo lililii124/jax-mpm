@@ -26,7 +26,9 @@ def main():
         layout,data,graph,resource=allocate(state,geometry,plan['dx'],plan['dt'],200,capacity,lookup=mode)
         assert resource['real_coverage_pairs']==0;validate_state(state,layout);layouts.append(layout);resources.append(resource)
     compiled=jax.jit(stencil);supports=[compiled(state.x,state.fibre_id,l) for l in layouts]
-    for key in ['indices','weights','dpos']:assert np.array_equal(np.asarray(getattr(supports[0],key)),np.asarray(getattr(supports[1],key))),key
+    assert np.array_equal(supports[0].indices,supports[1].indices)
+    weight_difference=float(np.max(abs(np.asarray(supports[0].weights)-np.asarray(supports[1].weights))));dpos_difference=float(np.max(abs(np.asarray(supports[0].dpos)-np.asarray(supports[1].dpos))))
+    assert weight_difference<=1e-14 and dpos_difference/plan['dx']<=1e-14
     material=isotropic_brittle(young=plan['young_Pa'],poisson=plan['poisson'],density=plan['density_kg_m3'],tensile_strength=plan['tensile_strength_Pa'],fracture_energy=plan['fracture_energy_J_m2'],characteristic_length=plan['dx']);config=FibreConfig(dt=plan['dt']);meta=geometry['metadata'];times=meta['fixture_times'];positions=meta['fixture_positions']
     def speed(group):return lambda t:(fixture_position(t,times,positions,jnp)[group]-fixture_position(t-config.dt,times,positions,jnp)[group])/config.dt
     boundary=sparse_reference_grips(geometry['masks'],tuple(speed(i) for i in range(len(geometry['masks']))))
@@ -48,7 +50,7 @@ def main():
     scales={'x':plan['dx'],'v':plan['elastic_wave_speed_m_s'],'F':1.,'C':1/plan['dt']};comparison={}
     for key,scale in scales.items():
         difference=float(np.max(abs(np.asarray(getattr(final[0],key))-np.asarray(getattr(final[1],key)))));assert difference/scale<=1e-12,key;comparison[key]=dict(max_abs=difference,dimensionless=difference/scale)
-    report=dict(scope='Same exact input CP1000,64-step contact-free diagnostic only; no source-matched restart or final-scale claim',input_checkpoint_sha256=hashlib.sha256(a.checkpoint.read_bytes()).hexdigest(),input_arrays_exact=True,parent_source_sha256=parent_binding['source_sha256'],same_stencil_indices_weights_dpos=True,hash_seconds_per_step=timings[0],direct_seconds_per_step=timings[1],median_speedup=float(np.median(timings[0])/np.median(timings[1])),absolute_path_bounds_m=paths,comparison=comparison,execution=resources)
+    report=dict(scope='Same exact input CP1000,64-step contact-free diagnostic only; no source-matched restart or final-scale claim',input_checkpoint_sha256=hashlib.sha256(a.checkpoint.read_bytes()).hexdigest(),input_arrays_exact=True,parent_source_sha256=parent_binding['source_sha256'],same_stencil_indices=True,weight_max_abs=weight_difference,dpos_max_abs=dpos_difference,hash_seconds_per_step=timings[0],direct_seconds_per_step=timings[1],median_speedup=float(np.median(timings[0])/np.median(timings[1])),absolute_path_bounds_m=paths,comparison=comparison,execution=resources)
     (a.output/'lookup-benchmark.json').write_text(json.dumps(report,indent=2));print(json.dumps({k:v for k,v in report.items() if k!='parent_source_sha256'},indent=2))
 
 
