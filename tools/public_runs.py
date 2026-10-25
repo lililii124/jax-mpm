@@ -68,6 +68,7 @@ def is_ready_for_publication(folder, identifier, summary):
             metadata = json.loads((folder / "metadata.json").read_text(encoding="utf-8"))
             crack = json.loads((folder / "crack-checks.json").read_text(encoding="utf-8"))
             media = json.loads((folder / "media-review.json").read_text(encoding="utf-8"))
+            home = json.loads((folder / "homepage-media-review.json").read_text(encoding="utf-8"))
             image_root = folder.parents[1] / "images"
             gif = image_root / "home" / (canonical + ".gif")
             cover = image_root / (canonical + ".png")
@@ -80,7 +81,23 @@ def is_ready_for_publication(folder, identifier, summary):
                     and media["passed"] is True and media["annotations"] is False
                     and media["axes"] is False and media["resolution"] == [400, 400]
                     and media["all_decoded_frames_equal_exact_png_quantization"] is True
-                    and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
+                    and home["passed"] is True
+                    and home["full_113_gif_sha256"] == media["gif_sha256"]
+                    and home["full_113_frames"] == 113 and home["home_gif_frames"] == 57
+                    and home["source_indices"] == list(range(0, 113, 2))
+                    and home["physical_steps"] == list(range(0, 2801, 50))
+                    and home["resolution"] == media["resolution"]
+                    and home["all_selected_frames_rgb_exact"] is True
+                    and home["maximum_channel_error"] == home["changed_pixels"] == 0
+                    and home["no_interpolation_or_fabricated_frames"] is True
+                    and home["white_background_no_text_no_axes_unchanged"] is True
+                    and home["threshold_and_geometry_unchanged"] is True
+                    and home["first_saved_geometric_admission"]["retained"] is True
+                    and home["last_frame"]["retained"] is True
+                    and home["total_duration_ms"] == 11300
+                    and home["home_gif_bytes"] < 10_000_000
+                    and gif.stat().st_size == home["home_gif_bytes"]
+                    and hashlib.sha256(gif.read_bytes()).hexdigest() == home["home_gif_sha256"]
                     and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])
         except (OSError, ValueError, KeyError, IndexError, TypeError):
             return False
