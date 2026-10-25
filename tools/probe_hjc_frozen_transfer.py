@@ -76,7 +76,7 @@ def run(output,parent):
     output.mkdir(parents=True,exist_ok=False)
     case=setup('concrete-bending-mat111',grid=64,ppc=3,frames=60)
     config,material=case.configs[0],case.materials[0]
-    assert case.description==json.loads((parent/'plan.json').read_text())['definition']
+    assert json.loads(json.dumps(case.description))==json.loads((parent/'plan.json').read_text())['definition']
     assert config.dt==1.4285714285714285e-7
     checkpoint=json.loads((parent/'raw/checkpoint.json').read_text())
     assert checkpoint['frame']==40 and checkpoint['states']==['checkpoint_0_0.npz']
