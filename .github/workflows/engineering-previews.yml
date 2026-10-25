@@ -2,6 +2,10 @@ name: Bounded HJC step boundary work diagnostic
 on:
   workflow_dispatch:
     inputs:
+      frozen_review_only:
+        type: choice
+        options: ['false','true']
+        default: 'false'
       frozen_transfer_only:
         type: choice
         options: ['false','true']
@@ -89,6 +93,7 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
       REVIEW_SPECIFICATION: ${{ inputs.review_specification }}
+      FROZEN_REVIEW: ${{ inputs.frozen_review_only }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -106,6 +111,10 @@ jobs:
         run: |
           python - <<'PYCODE'
           import json,os,pathlib,subprocess,sys
+          if os.environ.get('FROZEN_REVIEW')=='true':
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin','e53dfd5f30503f056131088333edcc63dcdb11e9'],check=True)
+              subprocess.run([sys.executable,'tools/review_hjc_frozen_transfer.py','--output','.local/hjc-frozen-transfer-independent'],check=True)
+              sys.exit(0)
           raw=os.environ.get('REVIEW_SPECIFICATION','')
           command=[sys.executable,'tools/review_hjc_step_work.py','--output','.local/hjc-step-work-independent']
           if raw:
@@ -126,6 +135,8 @@ jobs:
           path: |
             .local/hjc-step-work-independent/independent-step-work-review.json
             .local/hjc-step-work-independent/diagnostic/archive-review.json
+            .local/hjc-frozen-transfer-independent/independent-frozen-transfer-review.json
+            .local/hjc-frozen-transfer-independent/*/archive-review.json
           if-no-files-found: warn
   frozen-transfer:
     if: inputs.frozen_transfer_only == 'true' && inputs.review_only != 'true'
