@@ -88,6 +88,12 @@ def main():
                   iteration_records=args.iteration_records,
                   input_sha256=hashlib.sha256(args.state.read_bytes()).hexdigest(),
                   energy_roundoff_J=tol, iterations=[], stages=[], production_admitted=False)
+    report['nonlinear_contract'] = dict(
+        endpoint='Material-consistent Picard guess; proposal remains a force-balance diagnostic',
+        velocity_relative_tolerance=1e-10,
+        stopping_work='Actual coupled work defect <= original total energy tolerance',
+        old_work_bound_budget_J=.025*tol, old_norm_work_bound_diagnostic_only=True,
+        original_64eps_kinematic_gates_unchanged=True)
     frame = None
     started = time.monotonic()
 
@@ -242,6 +248,39 @@ def main():
                        residual_work_bound_J=float(residual_work_bound), contact=contact_row,
                        position_error=position_error, deformation_error=deformation_error,
                        force_projection=force_rows)
+            # The material solve used midpoint_y=(y0+guess)/2. Retain that
+            # endpoint; replacing it by the next Picard proposal breaks the
+            # common-time kinematics once projection roundoff dominates.
+            consistent_v, consistent_W = unpack(old, midpoint_y)
+            consistent_x_error = float(np.max(abs(candidate['x']-old['x']-args.dt*consistent_v)))
+            consistent_F_error = float(np.max(abs(candidate['F']-old['F']-args.dt*consistent_W)))
+            candidate_reaction = args.dt*reaction_force+reaction_contact
+            actual_contact_work = float(np.sum(midpoint_y*physical_contact))
+            actual_boundary_work = float(np.sum(midpoint_y*candidate_reaction))
+            actual_viscosity_work = args.dt*float(np.sum(old['volume'][:, None, None]*viscous*Wmid))
+            actual_material_work = float(np.sum(old['volume']*candidate['candidate_material_work_density']))
+            actual_material_change = float(np.sum(old['mass']*(candidate['internal_energy']-old['internal_energy'])))
+            actual_coupled = (kinetic(guess)-kinetic(y0)+actual_material_work+actual_viscosity_work
+                              -actual_contact_work-actual_boundary_work)
+            velocity_scale = max(np.linalg.norm(y0), np.linalg.norm(guess), 1.)
+            checked_velocity = midpoint_y if args.contact_time_level == 'midpoint' else guess
+            original_closing = frame.contact.sample(checked_velocity)
+            restricted_closing = frame.restricted.sample(checked_velocity)
+            multiplier = frame.restricted.last_multiplier
+            complementarity = float(np.max(np.where(multiplier>0, abs(restricted_closing),
+                                                    np.maximum(restricted_closing, 0)), initial=0))
+            sampler_difference = float(np.max(abs(restricted_closing-original_closing), initial=0))
+            original_closing_max = float(np.max(original_closing, initial=0))
+            consistent_contact_valid = (contact_row['valid'] and original_closing_max<=.005 and
+                                        sampler_difference<=.005 and complementarity<=.005)
+            row['consistent_endpoint'] = dict(position_error=consistent_x_error, deformation_error=consistent_F_error,
+                position_tolerance=position_tolerance, deformation_tolerance=deformation_tolerance,
+                velocity_relative_residual=float(np.linalg.norm(residual)/velocity_scale),
+                coupled_defect_J=actual_coupled, material_identity_J=actual_material_work-actual_material_change,
+                contact_work_J=actual_contact_work, boundary_work_J=actual_boundary_work,
+                viscosity_work_J=actual_viscosity_work, original_sample_closing_m_s=original_closing_max,
+                restricted_sample_difference_m_s=sampler_difference, complementarity_m_s=complementarity,
+                original_contact_gates_passed=bool(consistent_contact_valid))
             report['iterations'].append(row)
             last_force_payload = dict(midpoint_white=midpoint_y,
                 guessed_white=guess, proposed_white=proposed, raw_force=raw, projected_force=force,
@@ -252,9 +291,17 @@ def main():
             record()
             gate(contact_row['valid'] and contact_row['original_sample_closing_m_s'] <= .005 and
                  contact_row['restricted_sample_difference_m_s'] <= .005, 'Original contact tolerance failed in coupled iteration')
-            if (residual_work_bound <= .025 * tol and position_error <= position_tolerance and
-                    deformation_error <= deformation_tolerance):
+            if (np.linalg.norm(residual)<=1e-10*velocity_scale and abs(actual_coupled)<=tol and
+                    abs(actual_material_work-actual_material_change)<=tol and abs(actual_boundary_work)<=tol and
+                    actual_contact_work<=tol and actual_viscosity_work>=-tol and consistent_contact_valid and
+                    consistent_x_error<=position_tolerance and consistent_F_error<=deformation_tolerance):
                 converged = True
+                accepted_endpoint = guess.copy()
+                report['accepted_endpoint_contract'] = row['consistent_endpoint']
+                contact_row = dict(contact_row, valid=True, original_sample_closing_m_s=original_closing_max,
+                    final_closing_m_s=float(np.max(restricted_closing, initial=0)),
+                    restricted_sample_difference_m_s=sampler_difference, complementarity_m_s=complementarity,
+                    diagnostic_scope='QP proposal diagnostics with original sampler/KKT rechecked on the material-consistent endpoint')
                 break
             guess = proposed
             progress('iteration-'+str(iteration))
@@ -264,7 +311,7 @@ def main():
             save_coupled_iteration(args.output, iteration, old, midpoint_y, args.dt, old_entropy, candidate, last_force_payload)
             report['retained_iteration_io_seconds'] = time.monotonic()-io_started
             report['retained_iteration'] = iteration
-        y = proposed
+        y = accepted_endpoint
         midpoint_actual = .5 * (y0 + y)
         midstate = {**old, 'x': .5*(old['x']+candidate['x']), 'F': Fmid}
         reaction = args.dt*reaction_force + reaction_contact
