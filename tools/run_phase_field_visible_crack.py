@@ -1,4 +1,5 @@
 """Guarded CPU producer; incomplete solves never receive a completion certificate."""
+import argparse
 import hashlib
 import importlib.metadata as metadata
 import json
@@ -95,16 +96,16 @@ def terminate_owned_group(child):
         time.sleep(.02)
 
 
-def source_gate():
+def source_gate(require_dispatch=True):
     repo="lililii124/jax-mpm"
     ref="refs/heads/work/phase-field-visible-crack"
-    if os.environ.get("GITHUB_REPOSITORY") != repo or os.environ.get("GITHUB_REF") != ref:
+    if require_dispatch and (os.environ.get("GITHUB_REPOSITORY") != repo or os.environ.get("GITHUB_REF") != ref):
         raise RuntimeError("Exact repository and feature ref required")
     head=subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip()
-    if head != os.environ.get("GITHUB_SHA"):
+    if require_dispatch and head != os.environ.get("GITHUB_SHA"):
         raise RuntimeError("Dispatched HEAD differs")
     own=".github/workflows/phase-field-visible-crack.yml"
-    actual=os.environ["GITHUB_WORKFLOW_REF"].split("@",1)[0]
+    actual=os.environ["GITHUB_WORKFLOW_REF"].split("@",1)[0] if require_dispatch else repo+"/"+own
     allowed=[repo+"/"+own,repo+"/.github/workflows/engineering-previews.yml"]
     if actual not in allowed:
         raise RuntimeError("Unregistered workflow")
@@ -114,6 +115,13 @@ def source_gate():
     names=sorted(set([str(p.relative_to(ROOT)).replace("\\","/") for p in (ROOT/"mpm_jax").rglob("*.py")]+["examples/__init__.py","examples/phase_field_visible_crack.py","tools/run_phase_field_visible_crack.py","tools/render_phase_field_visible_crack.py","tools/encode_phase_field_visible_crack.py","tools/run_woven_preview.py","tools/audit_phase_field_visible_crack.py","tools/phase_field_bspline_sampling.py",own,actual]))
     files={}
     for name in names:
+        committed=subprocess.run(["git","cat-file","-e",head+":"+name],cwd=ROOT,
+            capture_output=True)
+        if committed.returncode:
+            raise RuntimeError("Required source absent from committed checkout: "+name+
+                "; include this dependency in the feature commit before dispatch")
+        if not (ROOT/name).is_file():
+            raise RuntimeError("Required committed source missing from working checkout: "+name)
         raw=(ROOT/name).read_bytes()
         if raw != subprocess.check_output(["git","show",head+":"+name],cwd=ROOT):
             raise RuntimeError("Source differs from Git blob: "+name)
@@ -204,4 +212,11 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(__doc__)
+    parser.add_argument('--source-preflight', action='store_true',
+        help='Verify committed source closure and exact working bytes without starting a solve')
+    args = parser.parse_args()
+    if args.source_preflight:
+        print(json.dumps(source_gate(require_dispatch=False), indent=2))
+    else:
+        main()
