@@ -90,3 +90,18 @@ checkpoint, retaining the original rejection journal separately. Only after
 necessary incremental validation may a single clean corrected fill begin from
 the same physical empty-fluid initial state. Neither numeric completion nor an
 incremental logJ result by itself proves a filled, volume-qualified composite.
+
+The pressure candidate now has an explicit mixed finite-precision contract.
+JAX LSQR operates on B=D M^(-1/2); actual velocity uses its primal correction,
+and pressure/fixture counter-impulse use the dual from the same iteration.
+Admission checks divergence on that actual velocity (relative<=1e-7),
+mass-whitened stationarity (relative<=1e-10, absolute retained), pressure work,
+fixture momentum and exact fixed-face retention. Reconstructing a velocity by
+subtracting the rounded scalar pressure again is retained as a conditioning
+diagnostic, not substituted for the mixed primal residual. A bounded rectangular
+dual correction minimizes stationarity for the same primal; it does not fit work
+or add a reservoir. Primary1472 plus dual128 iterations bound total work at1600.
+Four compatible two-cell Neumann components were found in the saved5532 input;
+their constant pressure gauges are legitimate, with exactly zero component net
+rhs. No incompatible component flux is projected away. Incremental qualification
+and any later clean empty-fluid fill remain distinct from the rejected old run.
