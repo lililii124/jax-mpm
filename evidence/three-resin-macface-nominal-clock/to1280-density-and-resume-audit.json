@@ -1,0 +1,93 @@
+{
+  "step": 1280,
+  "time_s": 0.05119999999999859,
+  "active_particles": 12401,
+  "checkpoint_sha256": "05e35973cbfa7651c2ce09b4e75b6bbcbc68fbd9d82c9b2227dbb2d25e20ad2c",
+  "particle_reference_volume_m3": 9.920800000000001e-08,
+  "true_material_volume_m3": 9.920800000022482e-08,
+  "maximum_cumulative_abs_logJ": 2.485439045239083e-10,
+  "bulk_definition": "open cells with cell_mass >0.25*rho*h^3; two full 26-neighbour erosions; additionally distance_transform_edt(open_cells)>2h",
+  "bulk_cell_count": 228,
+  "bulk_kernel_density_over_rho": {
+    "count": 228,
+    "mean": 1.024231611792756,
+    "quantiles": [
+      0.9060377744468154,
+      0.9349264586687224,
+      1.0184503371347842,
+      1.1983446542735139,
+      1.2504057045091885
+    ]
+  },
+  "bulk_cell_owned_density_over_rho": {
+    "count": 228,
+    "mean": 1.057684210526316,
+    "quantiles": [
+      0.0,
+      0.0,
+      1.024,
+      2.048,
+      3.072
+    ]
+  },
+  "pressure_mask_over_particle_volume": 1.0279853943230384,
+  "occupied_mask_over_cavity": 0.1671789355053532,
+  "resume_continuity": {
+    "parent_step": 1024,
+    "parent_transport_logJ_active_stats": {
+      "mean": 8.996295923013796e-13,
+      "min": -2.0486348142533797e-10,
+      "max": 2.390542372510361e-10
+    },
+    "first_child_pretransport_reference_stats": {
+      "mean": 9.118503704135012e-13,
+      "min": -2.049390604350553e-10,
+      "max": 2.394233499914087e-10
+    },
+    "reference_minus_parent_stats": {
+      "mean": 1.2220778112121617e-14,
+      "min": -7.557900971733191e-14,
+      "max": 3.6911274037263327e-13
+    },
+    "cumulative_mass_energy_first_row_minus_parent": {
+      "mean_difference": 1.2220778112121617e-14,
+      "min_difference": -7.557900971733191e-14,
+      "max_difference": 3.6911274037263327e-13,
+      "source_mass_kg_difference": 1.0560000000000116e-07,
+      "outflow_mass_kg_difference": 0.0,
+      "source_energy_J_difference": 7.370000000000151e-10,
+      "outflow_energy_J_difference": 0.0
+    }
+  },
+  "qualification": "Midcourse quantities only; not completed fill",
+  "resume_continuity_interpretation": "A separate restore-only reconstruction from the exact accepted 1024 parent checkpoint compared the restored arrays directly: x, v, C, mass, active, transport_logJ, emitted, cumulative source/outflow mass and energy all match exactly; per-face remainder matches within 1e-24. The first 1025 observation is after one RT0 increment and 12 new births, so its logJ extrema shift by <=3.7e-13 and its source mass/energy rise by the corresponding 12 births. The final near-zero logJ is subsequent evolution, not a reset.",
+  "step1024_restore_reconstruction": {
+    "parent_checkpoint_sha256": "9ee23564ff2b704ac847f14d726b7b74802d201244986c4f9395f84312fe5ec6",
+    "step": 1024,
+    "actual_time_s": 0.040959999999999004,
+    "nominal_source_time_s": 0.04096,
+    "existing_array_prefix_exact": {
+      "x": true,
+      "v": true,
+      "C": true,
+      "mass": true,
+      "active": true,
+      "transport_logJ": true,
+      "emitted": true
+    },
+    "cumulative_mass_energy_exact": {
+      "source_mass_kg": 8.704960000000012e-05,
+      "outflow_mass_kg": 0.0,
+      "source_energy_J": 8.755452464000003e-07,
+      "outflow_energy_J": 0.0
+    },
+    "per_face_remainder_exact_within_1e-24": true,
+    "initial_active_logJ_range": [
+      -2.0486348142533797e-10,
+      2.390542372510361e-10
+    ],
+    "source_capacity": 78412,
+    "parent_capacity": 78412,
+    "all_existing_fields_retained": true
+  }
+}

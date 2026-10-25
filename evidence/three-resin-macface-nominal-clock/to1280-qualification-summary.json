@@ -1,0 +1,29 @@
+{
+  "task": "three-resin-macface-to1280-strict",
+  "accepted_steps": [
+    1024,
+    1280
+  ],
+  "accepted_rows": 256,
+  "invalid_rows": 0,
+  "all_pressure_coverage_valid": true,
+  "all_physical_pressure_domain_valid": true,
+  "all_face_remainders_valid": true,
+  "all_mass_identities_within_guard": true,
+  "maximum_pressure_relative_residual": 1.2381871919591935e-08,
+  "maximum_pressure_stationarity_relative": 1.0215993136438074e-11,
+  "maximum_abs_source_clock_error_s": 1.4155343563970746e-15,
+  "maximum_birth_delay_s": 3.999999999999143e-05,
+  "maximum_volume_balance_error_m3": 2.1920286232655233e-23,
+  "intrusion_count": 0,
+  "escaped_count": 0,
+  "endpoint_logJ_min": -3.2844968700374012e-12,
+  "endpoint_logJ_max": 6.970086445790003e-12,
+  "endpoint_mass_error_kg": -4.0657581468206416e-19,
+  "endpoint_energy_identity_J": 4.319868030996932e-20,
+  "endpoint_source_mass_kg": 0.00010912880000000041,
+  "endpoint_source_energy_J": 1.0956389355999998e-06,
+  "endpoint_active_particles": 12401,
+  "checkpoint_sha256": "05e35973cbfa7651c2ce09b4e75b6bbcbc68fbd9d82c9b2227dbb2d25e20ad2c",
+  "not_filled": true
+}

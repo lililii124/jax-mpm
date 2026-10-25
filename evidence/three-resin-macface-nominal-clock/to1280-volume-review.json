@@ -1,0 +1,63 @@
+{
+  "step": 1280,
+  "time_s": 0.05119999999999859,
+  "checkpoint_sha256": "05e35973cbfa7651c2ce09b4e75b6bbcbc68fbd9d82c9b2227dbb2d25e20ad2c",
+  "physical_particle_volume_m3": 9.920800000000001e-08,
+  "total_basis_mass_volume_m3": 9.920800000000001e-08,
+  "open_cavity_volume_m3": 6.1003125e-07,
+  "pressure_mask_volume_m3": 1.01984375e-07,
+  "pressure_mask_over_particle_volume": 1.0279853943230384,
+  "basis_mass_fraction_outside_open_geometry": 0.04141249590939407,
+  "pressure_cell_density_over_rho": {
+    "count": 6527,
+    "mean": 0.9138139948607142,
+    "quantiles": [
+      0.2500603960546709,
+      0.2680497284863868,
+      0.950459085842456,
+      2.1303802672674204,
+      4.135551294065589
+    ]
+  },
+  "bulk_density_over_rho": {
+    "count": 228,
+    "mean": 1.024231611792756,
+    "quantiles": [
+      0.9060377744468154,
+      0.9349264586687223,
+      1.0184503371347837,
+      1.1983446542735139,
+      1.2504057045091888
+    ]
+  },
+  "bulk_definition": "two full26-neighbour erosions of pressure-fluid cells; exclude immediate free-surface and fixed-obstacle bands",
+  "assessment_time": "end particle checkpoint; stored last-step grid metrics refer to pre-advection positions",
+  "physical_steps_executed": 0,
+  "scope": "Actual checkpoint JAX basis-mass reconstruction only; no physical time replay and no convergence certificate",
+  "reference_volume_over_cavity": 0.1626277342349265,
+  "occupied_mask_over_cavity": 0.1671789355053532,
+  "transport_logJ_reference": null,
+  "transport_logJ": {
+    "count": 12401,
+    "mean": 2.265878129965659e-12,
+    "quantiles": [
+      -2.2311330525609228e-10,
+      -7.827541859676787e-11,
+      1.132672338896352e-12,
+      8.48692191028727e-11,
+      2.485439045239083e-10
+    ]
+  },
+  "transport_J": {
+    "count": 12401,
+    "mean": 1.000000000002266,
+    "quantiles": [
+      0.9999999997768867,
+      0.9999999999217246,
+      1.0000000000011326,
+      1.0000000000848692,
+      1.0000000002485439
+    ]
+  },
+  "integrated_incremental_transport_volume_m3": 9.920800000022482e-08
+}

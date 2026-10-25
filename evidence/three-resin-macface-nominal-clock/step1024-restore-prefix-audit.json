@@ -1,0 +1,29 @@
+{
+  "parent_checkpoint_sha256": "9ee23564ff2b704ac847f14d726b7b74802d201244986c4f9395f84312fe5ec6",
+  "step": 1024,
+  "actual_time_s": 0.040959999999999004,
+  "nominal_source_time_s": 0.04096,
+  "existing_array_prefix_exact": {
+    "x": true,
+    "v": true,
+    "C": true,
+    "mass": true,
+    "active": true,
+    "transport_logJ": true,
+    "emitted": true
+  },
+  "cumulative_mass_energy_exact": {
+    "source_mass_kg": 8.704960000000012e-05,
+    "outflow_mass_kg": 0.0,
+    "source_energy_J": 8.755452464000003e-07,
+    "outflow_energy_J": 0.0
+  },
+  "per_face_remainder_exact_within_1e-24": true,
+  "initial_active_logJ_range": [
+    -2.0486348142533797e-10,
+    2.390542372510361e-10
+  ],
+  "source_capacity": 78412,
+  "parent_capacity": 78412,
+  "all_existing_fields_retained": true
+}
