@@ -86,3 +86,29 @@ contact-free parallel blocks. A real coverage pair switches to the original
 global every-dtHertz/contact-history/APIC operator. Fixed-IDreassembly and
 original strain/material/CFL/geometry guards remain. LargerCFL.24 is still
 rejected by the separate predeclared time-sensitivity test.
+
+## Independent implicit dynamical attempts: actual failures retained
+
+BE(factor50) and genuine implicit midpoint(factor50) each evolved one actual
+CP16360->16560 interval using4candidate steps vs saved200fine steps, no fine
+replay. Both preserve3D/inertia/material/guide time law and the exactzeroHertz
+force certified by empty real coverage and path<skin/2. Neither is admitted.
+BE stress error10.263%>5%. Midpoint fixes static near-zero momentum
+normalization: parked cords take0Newton iterations, moving<=2Newton/76CG,
+residual<=6.35e-8relative, maximumabsolute5.49e-16N s. Midpoint linear
+momentum closes6.49e-15Mc, angular impulse6.15e-17kg m2/s and nodal kick
+work1.88e-18J. But midpoint stress error8.048% stillfails unchanged5% target;
+v.675%,F-I1.023%,kappa2.397%,K.0114%,U3.251%,absolute work.686% pass.
+
+Midpoint APIC transfer defect-2.5743e-7J dominates material time-quadrature
+defect-4.44e-12J; originalfine totalenergy-minuswork defect-2.0637e-8J.
+The remaining coarse-step discrepancy is not explained by nonlinear failure
+or material tangent roundoff. Do not deploy or conceal it by changing gates.
+
+The midpoint observer failed JSONserialization after saving full raw. Its
+55.5678s totaljobwall is known, compile/dispatch splits were not serialized
+and remain unavailable. No timing is invented and no numeric replay was run
+to recover it. A source-only observer correction now saves timing immediately
+and serializesNumPy scalar values. The priorraw/sourcecapsules remain intact.
+Compact exact reviews are committed alongside. A next algorithm should address
+repeated APIC transfer dissipation, not just scan step sizes orCG limits.

@@ -1,0 +1,60 @@
+{
+  "numerical_gates_pass": false,
+  "checks": {
+    "nonlin_and_physical": true,
+    "field_targets": false,
+    "position": true,
+    "time": true,
+    "mass_volume_ID_exact": true,
+    "history_irreversible": true,
+    "momentum": true,
+    "kick_work": true
+  },
+  "comparisons": {
+    "state_v": 0.006747270996305916,
+    "state_F": 0.01023479506414285,
+    "state_tau": 0.08047727315721491,
+    "history_kappa": 0.02397336781398216,
+    "max_position_difference_over_h": 0.00575203934378559,
+    "K": 0.00011405346990675412,
+    "U": 0.0325056794541619,
+    "absolute_fixture_work": 0.006860439271132947
+  },
+  "max_residual_over_original_scale": 6.346771077185845e-08,
+  "moving_residual_max": 6.346771077185845e-08,
+  "parked_Newton_max": 0.0,
+  "parked_absolute_residual_max": 1.3021011586173412e-19,
+  "max_absolute_residual": 5.485966923852008e-16,
+  "max_residual_over_Mc": 2.682717339223043e-12,
+  "max_Newton": 2.0,
+  "max_CG_total": 76.0,
+  "momentum_closure_over_Mc": 6.4868415379098365e-15,
+  "angular_change": [
+    -1.2112940405124124e-09,
+    1.6318130303535724e-11,
+    -4.6508486919986715e-10
+  ],
+  "midpoint_boundary_torque": [
+    -1.2112940278284133e-09,
+    1.6318190448436502e-11,
+    -4.6508487182928076e-10
+  ],
+  "angular_midpoint_closure_absolute": 6.152403382842114e-17,
+  "angular_old_grid_closure_absolute": 2.427202407887457e-15,
+  "kick_closure_absolute": 1.884158616718187e-18,
+  "material_time_quadrature_defect": -4.438291619884894e-12,
+  "APIC_transfer_defect": -2.574306003344656e-07,
+  "max_logstrain": 0.0883675814591209,
+  "observer_failure": "numpy bool JSON serialization after raw saved; postprocessed only, no solver replay",
+  "actual_entire_job_seconds": 55.56783043593168,
+  "warm_dispatch_timing": "not serialized; unavailable",
+  "reference_measured_advance_plus_rebuild_seconds": 49.78142922371626,
+  "candidate_sha256": "8077ab6273422c2436c9569dc7355de53cea081817fa834c36e6dd338da166a9",
+  "K": 1.192783858724785e-05,
+  "Kfine": 1.192647833101043e-05,
+  "U": 7.200121238727564e-06,
+  "Ufine": 7.442029462938264e-06,
+  "fine_total_energy_minus_work_increment": -2.0636641392544392e-08,
+  "implicit_total_energy_minus_work_increment": -2.5743503862595725e-07,
+  "diagnosis": "Midpoint nonlinear/physical gates and momentum/work pass. Stress8.0477% remains over5%, with APIC transfer defect dominating material midpoint quadrature defect. No candidate admission or replay."
+}
