@@ -30,6 +30,7 @@ def render(source, output):
               for name in ('x','damage','failed','speed','temperature')}
     with np.load(source/'particle_fields.npz') as labels:
         fields = {name:np.array(labels[name]) for name in labels.files}
+    assert np.all(fields['phase'] == 1) and set(np.unique(fields['family_id'])) == {0,1}
     fields.update({name:arrays[name] for name in ('damage','failed','speed','temperature')})
     fields['body'] = np.zeros(plan['particles'], dtype=np.int32)
     output.mkdir(parents=True)
