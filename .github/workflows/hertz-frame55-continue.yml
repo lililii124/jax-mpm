@@ -1,0 +1,111 @@
+name: exact saved Hertz55 to60 flat continuation
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: exact-hertz55to60-continuation
+  cancel-in-progress: false
+jobs:
+  continue:
+    if: github.ref == 'refs/heads/work/fibre-adhesion-pair-dynamic'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      GH_TOKEN: ${{ github.token }}
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          ref: bfaaf43cdca9f7ddedcb9726b35a3fc482aa8206
+          path: .local/producer-source
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install exact original eight runtime distributions
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+      - name: Fetch immutable official guard-paused55 and original certified2 artifacts
+        timeout-minutes: 12
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          from run_hertz_frame55_continue import source
+          proof=source();Path('.local/hertz55-dispatch-source.json').write_text(json.dumps(proof,indent=2))
+          repo='lililii124/jax-mpm'
+          def api(p):return json.loads(subprocess.check_output(['gh','api','repos/'+repo+'/'+p]))
+          identities=[(40113622359,12575926499,'fibre-pair-hertz-full61-complete-raw-40113622359','f9170b65467c8264adb60e3f0c396134c9cef8b9490b8a1bec9fdaff10a39728','hertz55-raw.zip','0d3029212c7ad6f494e62637494d1951ba048368'),(40113622359,12576211030,'fibre-pair-hertz-full61-receipts-40113622359','d5f57dfc34a49129e049659b54b7b92212b9ae689cd5fd1975983cba9421f4b9','hertz55-receipts.zip','0d3029212c7ad6f494e62637494d1951ba048368'),(40111348145,12567260764,None,'bfbb4da3273e92af96ed334a450c8568cc24342c544d9bbe3599ac0859ad1780','hertz-original-f2.zip','bfaaf43cdca9f7ddedcb9726b35a3fc482aa8206')]
+          official=[]
+          for run_id,aid,name,expected,destination,head in identities:
+           run=api('actions/runs/'+str(run_id));a=api('actions/artifacts/'+str(aid))
+           if run['status']!='completed' or run['conclusion']!='failure' or run['head_sha']!=head or a['expired'] or a['workflow_run']['id']!=run_id or a['workflow_run']['head_sha']!=head or a['digest']!='sha256:'+expected or (name and a['name']!=name) or a['size_in_bytes']>2*1024**3:raise ValueError('Exact official original artifact identity differs')
+           p=Path('.local')/destination
+           with p.open('wb') as f:subprocess.run(['gh','api','--allow-escape-sequences','repos/'+repo+'/actions/artifacts/'+str(aid)+'/zip'],stdout=f,check=True)
+           h=hashlib.sha256()
+           with p.open('rb') as f:
+            for b in iter(lambda:f.read(1024**2),b''):h.update(b)
+           if h.hexdigest()!=expected:raise ValueError('Whole official ZIP SHA differs')
+           official.append({'run':run,'artifact':a,'sha256':expected})
+          Path('.local/hertz55-official-originals.json').write_text(json.dumps(official,indent=2))
+          PY
+      - name: Repeat independent whole55 audit then resume only frames56 to60 from copied exact checkpoint
+        id: numerical
+        run: python tools/run_hertz_frame55_continue.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        id: raw
+        with:
+          name: hertz55to60-flat-complete-raw-${{ github.run_id }}
+          path: .local/hertz55/delivery/
+          include-hidden-files: true
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - uses: actions/download-artifact@v5
+        if: always() && steps.raw.outcome == 'success'
+        with:
+          artifact-ids: ${{ steps.raw.outputs.artifact-id }}
+          path: .local/hertz55-retrieved
+      - name: Verify same-run retrieved entire flat raw and every member
+        if: always() && steps.raw.outcome == 'success'
+        run: |
+          python - <<'PY'
+          import sys,hashlib,json
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import package_fibre_final_media as p
+          original=Path('.local/hertz55/delivery/delivery-manifest.json');got=Path('.local/hertz55-retrieved/delivery-manifest.json')
+          if original.read_bytes()!=got.read_bytes():raise ValueError('Retrieved original delivery manifest differs')
+          if Path('.local/hertz55/delivery/raw-archive/archive-manifest.json').read_bytes()!=Path('.local/hertz55-retrieved/raw-archive/archive-manifest.json').read_bytes():raise ValueError('Retrieved original archive manifest differs')
+          result=p.verify(Path('.local/hertz55-retrieved'));Path('.local/hertz55-retrieval.json').write_text(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hertz55to60-receipts-${{ github.run_id }}
+          path: |
+            .local/hertz55-dispatch-source.json
+            .local/hertz55-official-originals.json
+            .local/hertz55/continuation-source.json
+            .local/hertz55/independent-parent55-review.json
+            .local/hertz55/isolated-status-reconstruction.json
+            .local/hertz55/capsule/receipt.json
+            .local/hertz55/capsule/certified-parent55.json
+            .local/hertz55/capsule/independent-full61-review.json
+            .local/hertz55/logs/
+            .local/hertz55-retrieval.json
+          if-no-files-found: warn
+          retention-days: 30

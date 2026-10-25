@@ -1,0 +1,125 @@
+{
+  "schema": "hertz-frame55-copy-only-physical-admission-v1",
+  "passed": true,
+  "checks": {
+    "exact_saved_frame_steps": true,
+    "all56_saved_states_and_f2_lineage": true,
+    "exact_runtime": true,
+    "all_saved_state_finite_valid": true,
+    "independent_material_stress": true,
+    "independent_stored_energy": true,
+    "positive_orientation": true,
+    "undamaged": true,
+    "per_body_momentum": true,
+    "mass_conserved": true,
+    "constraints": true,
+    "contact_valid": true,
+    "original15percent_work_energy_gate": true,
+    "clock": true
+  },
+  "frame": 55,
+  "steps": 26778,
+  "remaining_steps": 2434,
+  "saved_states": 56,
+  "time_s": 0.03666712310009068,
+  "source_commit": "bfaaf43cdca9f7ddedcb9726b35a3fc482aa8206",
+  "original_controller": "0d3029212c7ad6f494e62637494d1951ba048368",
+  "original_failed_receipt_sha256": "f79566f27d36acdca36456bbee17544c4e5f06cc5875fdf8b58da21806d763a0",
+  "original_receipt_remains_never_resumable": true,
+  "checkpoint_sha256": "e920557546cd74b456f3f82f8fad7514e68414f12b2434e0286ae871facd78e0",
+  "original_f2_checkpoint_sha256": "533140bc58f03198c31e3c5bfb5864b7b569c710dd99bbae2a455b5579234e21",
+  "raw_files": {
+    "data/hertz/checkpoint.npz": {
+      "bytes": 34059911,
+      "sha256": "e920557546cd74b456f3f82f8fad7514e68414f12b2434e0286ae871facd78e0"
+    },
+    "data/hertz/diagnostics.csv": {
+      "bytes": 25882,
+      "sha256": "07aeb4c9b3803c4a059ab66a4433e821286ba798b57ca833bd3bbe037e60681f"
+    },
+    "data/hertz/dynamic-response-review.json": {
+      "bytes": 2448,
+      "sha256": "8230691ec11ea4448a3f56935211e48aa1a7e475c837368549aba3f29afdb775"
+    },
+    "data/hertz/final_state_0.npz": {
+      "bytes": 34030798,
+      "sha256": "b8a9f2b0661453049b1737c1f061a157bfbbce3514e9e6c5023c5f7e232ae452"
+    },
+    "data/hertz/observables.csv": {
+      "bytes": 25882,
+      "sha256": "07aeb4c9b3803c4a059ab66a4433e821286ba798b57ca833bd3bbe037e60681f"
+    },
+    "data/hertz/particle_fields.npz": {
+      "bytes": 3273,
+      "sha256": "72ed841956fba547847ff72ee1bb4f95c3e113951e46ecbe23f93c16230b7ab2"
+    },
+    "data/hertz/plan.json": {
+      "bytes": 12083,
+      "sha256": "3986d5d557dead68cfbcdb98fc4de6c4b395738145483772e6c95db12d040160"
+    },
+    "data/hertz/status.json": {
+      "bytes": 147,
+      "sha256": "8f5e3622efa6dde29e2c5fb4be7212fc82a7ef1df705c20fb11094da0ebd4ed4"
+    },
+    "data/hertz/summary.json": {
+      "bytes": 19311,
+      "sha256": "70bc5f3ce34b282f119215cc1ecc75cc4c9f0514881a0ece40cd97045dd948e5"
+    },
+    "data/hertz/trajectory.npz": {
+      "bytes": 1636,
+      "sha256": "90ae004785aee277cf8025e4abb44ac116891bb9ecbaae91e14f50c71279f115"
+    },
+    "data/hertz/trajectory_damage.npy": {
+      "bytes": 98693248,
+      "sha256": "d9a58f8751048ecaa62793b4cdb795bff7accffae58a33ea265c1a4233a543a2"
+    },
+    "data/hertz/trajectory_failed.npy": {
+      "bytes": 12336768,
+      "sha256": "e8e52b90d6518f4f323a8dd3fb7c2cb76a4cab44478c77d99d37cca6a340a09b"
+    },
+    "data/hertz/trajectory_speed.npy": {
+      "bytes": 98693248,
+      "sha256": "a4c4061f711c2fe8fb13c29761fb16ebb9d3b3b72dfe82769dd2083283496853"
+    },
+    "data/hertz/trajectory_temperature.npy": {
+      "bytes": 49346688,
+      "sha256": "7ef59aecda3be859f15af0a87b7ef53eaf432f0d31c98bb1a3a8e082c43fd37f"
+    },
+    "data/hertz/trajectory_x.npy": {
+      "bytes": 296079488,
+      "sha256": "59c70d39feefec12ce345ffbd8563f8833fd8f9ab0651ec53a5613fc61954363"
+    }
+  },
+  "runtime": {
+    "packages": {
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1"
+    },
+    "python": "3.12.13"
+  },
+  "stress_error_Pa": 2.0249411036843412e-09,
+  "stored_energy_error_J": 8.106370003019671e-23,
+  "momentum_error_Ns": [
+    1.5881867761018131e-21,
+    2.248025442012913e-18
+  ],
+  "momentum_budget_Ns": [
+    1.740886875489058e-15,
+    8.352597939897146e-15
+  ],
+  "maximum_energy_residual_J": 3.118642028867771e-11,
+  "maximum_work_scale_J": 2.1339774618340394e-07,
+  "stale_status_original_sha256": "8f5e3622efa6dde29e2c5fb4be7212fc82a7ef1df705c20fb11094da0ebd4ed4",
+  "isolated_resume_status": {
+    "phase": "checkpoint-ready",
+    "frame": 55,
+    "signature": "96e2de2c949cce1b3748d18dea1920e1e2a0fe319eb44e4b2bdbd765f1472daf",
+    "steps": 26778
+  },
+  "allow_resume_complete_saved_checkpoint": true,
+  "full61_protocol_complete": false,
+  "public_media_allowed": false,
+  "scope": "Guard-paused complete saved frame55 is independently certified; failed original receipt remains immutable and nonresumable. Only a copied checkpoint with explicit versioned copy-only credential and isolated status reconstruction may advance55to60; no earlier step may be recomputed."
+}
