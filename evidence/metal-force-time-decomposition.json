@@ -1,0 +1,27 @@
+{
+  "scope": "Read-only decomposition of saved physical states; no new accepted time step",
+  "step": 0,
+  "dt_s": 2e-12,
+  "terms_J": {
+    "kick_velocity": 7.664067294733704e-10,
+    "endpoint_geometry": 2.4029182050287127e-14,
+    "stress_quadrature": -9.240401073972414e-12,
+    "damage_endpoint_part": -9.240241260705433e-12,
+    "stress_quadrature_except_endpoint_damage": -1.598132669803666e-16
+  },
+  "kick_velocity_parts_J": {
+    "first_kick": 5.943143240288644e-10,
+    "last_kick": -6.001745210219401e-10,
+    "between_kicks_projection_contact": 7.72266926466852e-10
+  },
+  "reconstructed_remainder_J": 7.571903575814483e-10,
+  "saved_remainder_J": 7.571903576283076e-10,
+  "reconstruction_error_J": -4.685936811082274e-20,
+  "source_sha256": "4aeedb887558b692b1a09607284e09e7a13f5f184f5dad4bc7ded3cfbd471f5f",
+  "input_sha256": {
+    "first": "757ef8c6234e4f7a7db2fdb0f1197a055d21234850996389ed6cb5d0150d719e",
+    "last": "daf052b32fafac752e4c4ee6741c6eae1c43cfefc6059d14a63d3b6103488b54",
+    "request": "f84b752f1188daf064d2ec325e13ed1cc179ff2546562dd7ca1e89b5ef16e56a",
+    "response": "7daf6224ef633a5cc83e9680887a49d0d25827708a99b1638ba02213ad1a86ea"
+  }
+}
