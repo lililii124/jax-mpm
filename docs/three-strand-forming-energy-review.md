@@ -53,3 +53,21 @@ advection adds angular transport truncation:6.60e-14 kg m^2/s in that step.
 A subsequent bounded64-step candidate window measures this term and actual
 angular/fixture torque balance explicitly. Exact angular conservation is not
 claimed, and the old trajectory is not overwritten or mixed with the candidate.
+
+
+Actual step2163 stopped because one shared node failed the unchanged PGS64
+KKT gate(3.13647e-5m/s versus1e-8). The full rejected state is preserved. A
+bounded8-active-set fallback solves the identical mass metric QP only on
+unconverged nodes, rejects rank-deficient active sets and capacity overflow,
+and never discards small positive masses. Actual16-node KKT, independent
+whitened-primal SLSQP, fixture work, rank, objectivity, padding and capacity
+certificates passed. Recovery2161->2497 completed with6 exact node solves.
+
+Actual step2881 contact-operator comparison found2095 shared nodes among253313.
+Packing every node with at least two positive material masses preserves the
+complete QP; remaining nodes have no contact constraints. Padding has zero mass
+and scatter uses out-of-bounds drop, with explicit16384 shared-node capacity.
+Full/packed projection both take42 sweeps and have the same9.032348e-9m/s
+residual; velocity differs at most1.39e-16m/s, impulses5.17e-25Ns, fixture0.
+One post-compilation contact-operator execution took1.9355s versus0.11639s;
+this is not a whole-step or whole-trajectory speed claim.
