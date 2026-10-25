@@ -19,7 +19,7 @@ def make_step(material,layout,config,masks,duration):
         return .5*jnp.sum(s.mass*jnp.sum(v*v,axis=1))+layout.dx**2/8*jnp.sum(s.mass*jnp.sum(C*C,axis=(1,2)))
     def grid_energy(m,v):return .5*jnp.sum(m*jnp.sum(v*v,axis=1))
     @jax.jit
-    def step(s):
+    def step(s,energy_old):
         support=stencil(s.x,s.fibre_id,layout)
         mass,p0=particle_to_grid(s._replace(tau=jnp.zeros_like(s.tau)),layout,config,support)
         _,pforce=particle_to_grid(s,layout,config,support)
@@ -52,7 +52,7 @@ def make_step(material,layout,config,masks,duration):
         impulse=jnp.sum(fixture,axis=0)
         new=FibreState(x,v,F,C,s.mass,s.volume,s.fibre_id,history,tau,s.time+config.dt,valid,s.boundary_impulse+impulse,s.external_impulse,s.boundary_work+work)
         K0=particle_energy(s,s.v,s.C);K1=particle_energy(s,v,C)
-        U0=jnp.sum(s.volume*brittle_energy(s.F,s.history,material));U1=jnp.sum(s.volume*brittle_energy(F,history,material))
+        U0=energy_old;U1=jnp.sum(s.volume*brittle_energy(F,history,material))
         S=config.dt*jnp.sum(s.volume*jnp.sum(s.tau*Cadv,axis=(1,2)))
         forcework=jnp.sum(force_impulse*midpoint)
         p2gloss=K0-grid_energy(mass,pre);g2ploss=grid_energy(mass,post)-K1
@@ -69,5 +69,5 @@ def make_step(material,layout,config,masks,duration):
         transport=jnp.linalg.norm(jnp.sum(s.mass[:,None]*jnp.cross(x-s.x,v),axis=0))
         momentum_error=jnp.linalg.norm(jnp.sum(s.mass[:,None]*(v-s.v),axis=0)-impulse)
         metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew])
-        return new,metrics
+        return new,metrics,U1
     return step
