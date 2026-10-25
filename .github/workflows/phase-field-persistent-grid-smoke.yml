@@ -1,0 +1,64 @@
+name: corrected-geometry AT2 persistent-grid smoke only
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: at2-persistent-grid-corrected-smoke
+  cancel-in-progress: false
+jobs:
+  smoke:
+    if: github.ref == 'refs/heads/work/phase-field-bending'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install qualification runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
+      - name: Record exact source and run geometry/algebra checks
+        run: |
+          mkdir -p outputs/at2-persistent-smoke
+          git rev-parse HEAD > outputs/at2-persistent-smoke/source-head.txt
+          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-persistent-smoke/source-sha256.txt
+          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py tools/qualify_phase_field_bending_algebra.py tools/qualify_phase_field_bending_refinement.py .github/workflows/phase-field-persistent-grid-smoke.yml >> outputs/at2-persistent-smoke/source-sha256.txt
+          python -m pip freeze > outputs/at2-persistent-smoke/runtime.txt
+          python -m examples.phase_field_bending_geometry > outputs/at2-persistent-smoke/geometry.json
+          python tools/qualify_phase_field_bending_algebra.py > outputs/at2-persistent-smoke/manufactured.json
+      - name: Actual JAX two-step kernel smoke
+        timeout-minutes: 10
+        run: |
+          set -euo pipefail
+          ulimit -v 6291456
+          timeout --signal=KILL 9m python -m examples.phase_field_bending_persistent_grid --steps 2 --output outputs/at2-persistent-smoke/two-step 2>&1 | tee outputs/at2-persistent-smoke/two-step.log
+      - name: Short equal-displacement CFL refinement only
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          ulimit -v 6291456
+          for cfl in .04 .02 .01; do
+            timeout --signal=KILL 9m python -m examples.phase_field_bending_persistent_grid --cfl "$cfl" --displacement .00005 --output "outputs/at2-persistent-smoke/cfl$cfl" 2>&1 | tee "outputs/at2-persistent-smoke/cfl$cfl.log"
+          done
+      - name: Admit only matched short-interval numerical evidence
+        run: python tools/qualify_phase_field_bending_refinement.py outputs/at2-persistent-smoke
+      - name: Preserve partial qualification evidence (no renderer or publication)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: at2-persistent-grid-smoke-${{ github.run_id }}
+          path: outputs/at2-persistent-smoke/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
