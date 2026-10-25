@@ -4,23 +4,37 @@ on:
     inputs:
       model:
         type: choice
-        options: [jkr, hertz, md]
+        options: [jkr]
         default: jkr
         required: true
       endpoint:
         type: choice
-        options: [prefix, hold]
+        options: [prefix, segment]
         default: prefix
         required: true
+      stop_after_frame:
+        type: string
+        default: '2'
+      parent_run_id:
+        type: string
+        default: ''
+      parent_artifact_id:
+        type: string
+        default: ''
+      segment_timeout_seconds:
+        type: choice
+        options: ['1800', '3600', '7200']
+        default: '1800'
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: jkr-compliant-pilot-${{ inputs.model }}
   cancel-in-progress: false
 jobs:
   pilot:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 160
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -30,6 +44,10 @@ jobs:
       PYTHONUNBUFFERED: '1'
       PILOT_MODEL: ${{ inputs.model }}
       PILOT_ENDPOINT: ${{ inputs.endpoint }}
+      PILOT_STOP: ${{ inputs.stop_after_frame }}
+      PILOT_TIMEOUT: ${{ inputs.segment_timeout_seconds }}
+      PARENT_RUN_ID: ${{ inputs.parent_run_id }}
+      PARENT_ARTIFACT_ID: ${{ inputs.parent_artifact_id }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -43,11 +61,23 @@ jobs:
           python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
       - name: Freeze isolated source and common physical request
         run: python tools/run_jkr_compliant_pilot.py prepare --root .local/jkr-compliant-linux-pilot
+      - uses: actions/download-artifact@v5
+        if: inputs.parent_artifact_id != ''
+        with:
+          artifact-ids: ${{ inputs.parent_artifact_id }}
+          run-id: ${{ inputs.parent_run_id }}
+          github-token: ${{ github.token }}
+          path: .local/jkr-parent-retrieved
+          merge-multiple: true
+      - name: Verify complete parent source physical request raw records and material state
+        if: inputs.parent_artifact_id != ''
+        run: python tools/run_jkr_compliant_pilot.py restore --root .local/jkr-compliant-linux-pilot --parent .local/jkr-parent-retrieved
       - name: Actual202240-particle64-step resource and stability prefix
+        if: inputs.parent_artifact_id == ''
         run: python tools/run_jkr_compliant_pilot.py run --root .local/jkr-compliant-linux-pilot --model "$PILOT_MODEL" --stage prefix --timeout 180
-      - name: Bounded actual hold prefix only after resource admission
-        if: inputs.endpoint == 'hold' && inputs.model != 'md'
-        run: python tools/run_jkr_compliant_pilot.py run --root .local/jkr-compliant-linux-pilot --model "$PILOT_MODEL" --stage hold --timeout 900
+      - name: Bounded actual segment only after numerical parent admission
+        if: inputs.endpoint == 'segment'
+        run: python tools/run_jkr_compliant_pilot.py run --root .local/jkr-compliant-linux-pilot --model "$PILOT_MODEL" --stage segment --stop-after-frame "$PILOT_STOP" --timeout "$PILOT_TIMEOUT"
       - name: Record exact workflow controller
         if: always()
         run: |

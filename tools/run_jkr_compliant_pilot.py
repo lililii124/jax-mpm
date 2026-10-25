@@ -1,9 +1,4 @@
-"""Isolated 202240-particle compliant JKR demonstration pilot; never publish.
-
-Hertz/JKR share this pilot's physical request. This fixture differs from the
-existing public displacement-controlled examples and must be labeled as such.
-MD can receive a resource prefix, but is not admitted as visibly distinct JKR.
-"""
+"""Isolated202240-particle standalone JKR compliant pull-off; never publish."""
 import argparse
 import csv
 import hashlib
@@ -18,6 +13,12 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+FIXTURE = .35
+DAMPING = .003
+DURATION = .09
+FRAMES = 60
+PROTOCOL_TIMES = [0., .006, .010, .030, .055, .060, .090]
+PROTOCOL_VALUES = [0., -.00015, -.00015, .00045, .00045, .0012, .0012]
 
 
 def sha(path):
@@ -55,12 +56,12 @@ def prepare(root):
     for name, expected in manifest.items():
         assert sha(snapshot/name) == expected
     plans = {}
-    for model in ('hertz', 'jkr', 'md'):
+    for model in ('jkr',):
         geometry, plan = plan_case(model=model, young=4e5, work=.08, tabor=5.,
-            fixture_stiffness=.7056029424546741, fixture_damping=.015, duration=.05, frames=8)
+            fixture_stiffness=FIXTURE, fixture_damping=DAMPING, duration=DURATION, frames=FRAMES)
         assert plan['particles'] == 202240
         # All models use identical new timing: longer true hold, same camera.
-        protocol = dict(plan['protocol'], times_s=[0., .006, .010, .020, .045, .050])
+        protocol = dict(plan['protocol'], times_s=PROTOCOL_TIMES, actuator_y_m=PROTOCOL_VALUES)
         plan['protocol'] = protocol
         plan['physical_common']['protocol'] = protocol
         plan['camera'] = dict(plan['camera'], direction=[1.4, .2, 1.8], projection='parallel', resolution=400,
@@ -69,10 +70,16 @@ def prepare(root):
         plan['physical_common']['camera'] = plan['camera']
         plan['common_request_sha256'] = hashlib.sha256(json.dumps(
             plan['physical_common'], sort_keys=True).encode()).hexdigest()
-        plan['frame_steps'] = [0, 64]+[round(t/plan['dt']) for t in (.006, .010, .020, .030, .0375, .045, .05)]
-        plan['comparison_group'] = 'clearly-labeled-compliant-pull-off-demonstration'
+        plan['frame_steps'][1] = 64
+        plan['frame_steps'][7] = round(.010/plan['dt'])
+        plan['frame_steps'][37] = round(.055/plan['dt'])
+        plan['comparison_group'] = 'standalone-jkr-compliant-pull-off'
+        plan['public_title'] = 'Crossed-fibre JKR compliant pull-off'
+        plan['public_comparison_disclosure'] = ('Independent L32mm/R1mm, k=.35N/m, c=.003Ns/m case; '
+            'original public Hertz/MD use L64mm/R2mm and displacement-controlled collars. '
+            'Same homepage400-square low camera; not a same-geometry/load quantitative three-model comparison.')
         plan['scope'] = ('Private new compliant-fixture demonstration; differs from original public direct-displacement '
-                         'Hertz/MD fixtures. Hertz/JKR pilot share all physical inputs; no quantitative identity with old examples.')
+                         'Hertz/MD fixtures and geometry. No quantitative identity with old examples.')
         write(root/'plans'/f'{model}.json', plan)
         plans[model] = plan
     assert len({p['common_request_sha256'] for p in plans.values()}) == 1
@@ -99,36 +106,75 @@ def prepare(root):
         static_hold_difference_projected_pixels=projected_pixels(
             plans['jkr']['pair_reduced_screen']['actual_centre_separation_difference_m'], plans['jkr']['camera']),
         static_compressed_radius_over_R=qstate['radius_m']/.001,
-        MD_applicability='Same mu=5 finite-range MD is physically screenable, but MD-vs-JKR distinction is subpixel; no visible three-model quantitative claim.',
-        prefix_steps=64, hold_endpoint_s=.045, full_61_authorized=False,
+        MD_applicability='Independent mu1--2 screen rejected visible three-model contrast; only the clearly named standalone JKR case is produced.',
+        prefix_steps=64, hold_endpoint_s=.055, rebound_endpoint_s=.09, full_61_authorized=False,
         private_only=True, production_eligible=False, public_visual_review_passed=False)
     write(root/'preflight.json', screen)
     print(json.dumps({k:v for k,v in screen.items() if k != 'source_files'}, indent=2))
 
 
-def worker(root, model, stage):
+def worker(root, model, stage, stop_after_frame):
     from examples.fibre_adhesion_contrast import plan_case, run_case
     plan = json.loads((root/'plans'/f'{model}.json').read_text())
-    if stage == 'hold' and model == 'md':
-        raise ValueError('MD hold needs separate applicability/history review; not a visible JKR discriminator')
     geometry, _ = plan_case(model=model, young=4e5, work=.08, tabor=5.,
-        fixture_stiffness=.7056029424546741, fixture_damping=.015, duration=.05, frames=8)
-    run_case(geometry, plan, root/'data'/model, resume=stage == 'hold',
-             stop_after_frame=1 if stage == 'prefix' else 7)
+        fixture_stiffness=FIXTURE, fixture_damping=DAMPING, duration=DURATION, frames=FRAMES)
+    endpoint = 1 if stage == 'prefix' else stop_after_frame
+    run_case(geometry, plan, root/'data'/model, resume=stage != 'prefix', stop_after_frame=endpoint)
 
 
-def guarded_run(root, model, stage, timeout):
+def restore_parent(root, parent):
+    current = json.loads((root/'preflight.json').read_text())
+    previous = json.loads((parent/'preflight.json').read_text())
+    assert current['source_files'] == previous['source_files'], 'parent numerical/controller source differs'
+    assert current['common_request_sha256'] == previous['common_request_sha256'], 'parent physical request differs'
+    expected = os.environ.get('GITHUB_SHA')
+    if expected:
+        assert (parent/'controller/commit.txt').read_text().strip() == expected
+    for name, expected_sha in previous['source_files'].items():
+        assert sha(parent/'source'/name) == expected_sha
+    assert (parent/'plans/jkr.json').read_bytes() == (root/'plans/jkr.json').read_bytes()
+    status = json.loads((parent/'data/jkr/status.json').read_text())
+    assert status['phase'] == 'checkpoint-ready' and not status.get('never_resumable', False)
+    shutil.copytree(parent/'data/jkr', root/'data/jkr')
+    write(root/'parent-link.json', dict(parent_run_id=os.environ.get('PARENT_RUN_ID'),
+        parent_artifact_id=os.environ.get('PARENT_ARTIFACT_ID'), accepted_frame=status['frame'],
+        parent_checkpoint_sha256=sha(parent/'data/jkr/checkpoint.npz'),
+        source_and_physical_request_verified=True, independent_parent_review_required=True))
+    from tools.review_jkr_compliant_pilot import review
+    review(root/'data/jkr', root/'logs/independent-parent-review.json')
+
+
+def guarded_run(root, model, stage, timeout, stop_after_frame):
     import psutil
+    if not math.isfinite(timeout) or not 0 < timeout <= 7200:
+        raise ValueError('Numerical guard must lie in0..7200 seconds')
     screen = json.loads((root/'preflight.json').read_text())
     for name, expected in screen['source_files'].items():
         assert sha(root/'source'/name) == expected, 'frozen source changed: '+name
+    plan = json.loads((root/'plans'/f'{model}.json').read_text())
+    endpoint = 1 if stage == 'prefix' else stop_after_frame
+    if not 1 <= endpoint <= FRAMES:
+        raise ValueError('Saved endpoint outside frozen plan')
+    start_frame = 0
+    if stage != 'prefix':
+        status = json.loads((root/'data'/model/'status.json').read_text())
+        start_frame = int(status['frame'])
+        if endpoint > 37:
+            from tools.review_jkr_compliant_pilot import review
+            admission = review(root/'data'/model, root/'logs/post-hold-admission.json')
+            if start_frame < 37 or not admission['actual_hold_available'] or admission['hold_attached_samples'] < 3:
+                raise ValueError('Post-hold integration requires actual sustained attached hold admission')
+    remaining = plan['frame_steps'][endpoint]-plan['frame_steps'][start_frame]
+    if not 0 < remaining <= 10000:
+        raise ValueError('Each reviewed segment must advance1..10000 physical steps')
     logs = root/'logs'
     logs.mkdir(exist_ok=True)
-    log = logs/f'{model}-{stage}.log'
+    log = logs/f'{model}-{stage}-f{endpoint}.log'
     env = dict(os.environ, JAX_ENABLE_X64='true', XLA_PYTHON_CLIENT_PREALLOCATE='false',
                OPENBLAS_NUM_THREADS='1', OMP_NUM_THREADS='2', PYTHONUNBUFFERED='1')
     command = [sys.executable, str(root/'source/tools/run_jkr_compliant_pilot.py'),
-        'worker', '--root', str(root), '--model', model, '--stage', stage]
+        'worker', '--root', str(root), '--model', model, '--stage', stage,
+        '--stop-after-frame', str(endpoint)]
     # Windows currently shares the machine with ParaView: USS alone does not
     # capture pagefile/commit exhaustion. Never start near commit exhaustion.
     def commit_headroom():
@@ -186,7 +232,7 @@ def guarded_run(root, model, stage, timeout):
                         pass
                 child.kill()
             code = child.wait(timeout=15)
-    report = dict(model=model, stage=stage, seconds=time.monotonic()-start,
+    report = dict(model=model, stage=stage, endpoint=endpoint, planned_steps=remaining, seconds=time.monotonic()-start,
         peak_tree_uss_bytes=peak, complete_samples=samples, reason=reason,
         uss_limit_bytes=limit,
         returncode=code, passed=reason is None and code == 0,
@@ -200,24 +246,28 @@ def guarded_run(root, model, stage, timeout):
                            termination_reason=reason or 'nonzero_worker_returncode'))
         raise SystemExit(1)
     from tools.review_jkr_compliant_pilot import review
-    review(root/'data'/model, root/'logs'/f'{model}-{stage}.independent.json')
+    review(root/'data'/model, root/'logs'/f'{model}-{stage}-f{endpoint}.independent.json')
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('phase', choices=('prepare', 'run', 'worker'))
+    parser.add_argument('phase', choices=('prepare', 'run', 'worker', 'restore'))
     parser.add_argument('--root', type=Path, required=True)
-    parser.add_argument('--model', choices=('hertz', 'jkr', 'md'), default='jkr')
-    parser.add_argument('--stage', choices=('prefix', 'hold'), default='prefix')
+    parser.add_argument('--model', choices=('jkr',), default='jkr')
+    parser.add_argument('--stage', choices=('prefix', 'segment'), default='prefix')
+    parser.add_argument('--stop-after-frame', type=int, default=2)
+    parser.add_argument('--parent', type=Path)
     parser.add_argument('--timeout', type=float, default=120.)
     args = parser.parse_args()
     root = args.root.resolve()
     if args.phase == 'prepare':
         prepare(root)
+    elif args.phase == 'restore':
+        restore_parent(root, args.parent.resolve())
     elif args.phase == 'worker':
-        worker(root, args.model, args.stage)
+        worker(root, args.model, args.stage, args.stop_after_frame)
     else:
-        guarded_run(root, args.model, args.stage, args.timeout)
+        guarded_run(root, args.model, args.stage, args.timeout, args.stop_after_frame)
 
 
 if __name__ == '__main__':
