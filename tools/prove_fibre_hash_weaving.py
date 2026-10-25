@@ -19,8 +19,9 @@ def main():
     dense=build_layout(x,ids,dx=.1,padding_cells=2);tube=build_tube_layout(x,ids,dx=.1,padding_cells=2)
     hashed,resource=build_hash_tube_layout(x,ids,dx=.1,padding_cells=2)
     assert np.array_equal(tube.dense_indices,hashed.dense_indices)
-    ds=stencil(jnp.asarray(x),jnp.asarray(ids),dense);ts=stencil(jnp.asarray(x),jnp.asarray(ids),tube)
-    hs=jax.jit(stencil)(jnp.asarray(x),jnp.asarray(ids),hashed)
+    compiled_stencil=jax.jit(stencil)
+    ds=compiled_stencil(jnp.asarray(x),jnp.asarray(ids),dense);ts=compiled_stencil(jnp.asarray(x),jnp.asarray(ids),tube)
+    hs=compiled_stencil(jnp.asarray(x),jnp.asarray(ids),hashed)
     assert bool(ds.valid&ts.valid&hs.valid)
     for name in ['indices','weights','dpos']:assert np.array_equal(np.asarray(getattr(ts,name)),np.asarray(getattr(hs,name))),name
     assert np.array_equal(np.asarray(ds.indices),np.asarray(hashed.dense_indices)[np.asarray(hs.indices)])
