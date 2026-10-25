@@ -37,3 +37,33 @@ relative residual 6.32e−9, divergence 2.95e−6 s⁻¹ and work identity 1.55e
 affine APIC velocity/gradient errors 6.94e−18 / 4.45e−14 and mass error
 6.35e−22 kg. The full source/obstacle/inlet flow has not been run. A 64-step
 physical pilot and measured memory/throughput are required before long filling.
+
+
+The main tensor path is JAX, not a NumPy reference solver: staggered APIC scatter
+and gather, generalized kinetic energy, symmetric-gradient Newtonian forces,
+D/D-transpose pressure projection with JAX CG, particle v/C/x/time updates, and
+bounded voxel-face TOI events all execute inside a jitted step. TOI uses actual
+linear-flight intersection time, e=0 normal impulse and unchanged tangential
+velocity/affine C; stationary-wall work is zero and positive collision loss is
+separate from grid/viscous losses. Normalized-grid representable side selection
+addresses world-coordinate cancellation at x=0; it creates no finite safety gap.
+
+Host NumPy/SciPy constructs static fixed-fibre voxel geometry and inlet birth
+coordinates once. Python schedules bounded segments, activates inlet slots,
+removes measured outlet particles, maintains scalar source/sink ledgers and
+writes/checks arrays. These host controls do not perform MAC/APIC/viscous/
+pressure/time integration. The one-phase free-surface approximation assumes
+ambient air pressure and does not model gas trapping, wetting or curing.
+
+Original actual flow reached160steps/6.4ms, then rejected step168 because one
+particle crossed a fixed voxel face. The rejected state is preserved. A directed
+face/edge/corner and physical zero-face check passed; continuation of the same
+accepted160 state through the eight necessary steps captured one real collision
+and passed the unchanged penetration guard. Original particle11 overshot the
+wall by .46778micrometres at vx=.05013m/s; TOI sets vx=0, retains tangential
+velocity and accounts1.10573e-11J collision loss. Corrected boundary position is
+-2.22e-19m, a representable floating side of the x=0 face. This is an event
+constraint, not arbitrary position projection. Subsequent actual flow reaches
+30.72ms/768steps with7547 active particles; pressure-mask/particle-volume ratio
+is1.06856, down from1.567 at the first thin inlet layer. These are bounded
+experimental results, not a completed filling or convergence certificate.
