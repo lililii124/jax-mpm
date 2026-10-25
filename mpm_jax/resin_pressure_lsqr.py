@@ -32,18 +32,18 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
     # This minimizes stationarity error, not pressure work or a ledger residual.
     def refine(_):
         error=x-BT(multiplier);beta=j.linalg.norm(error);u=error/beta;v=A(u);alpha=j.linalg.norm(v);v=v/j.maximum(alpha,1e-300)
-        initial=(j.asarray(0,j.int32),u,v,v,j.zeros_like(multiplier),alpha,beta,alpha,multiplier,j.linalg.norm(error))
+        initial=(j.asarray(0,j.int32),u,v,v,j.zeros_like(multiplier),alpha,beta,alpha,j.zeros_like(multiplier),j.linalg.norm(error))
         def condition(z):return (z[0]<128)&(z[-1]>1e-10*j.linalg.norm(x))
         def body(z):
             k,u,v,w,q,alpha,phibar,rhobar,best,best_error=z
             u=AT(v)-alpha*u;beta=j.linalg.norm(u);u=u/j.maximum(beta,1e-300);vn=A(u)-beta*v;alpha=j.linalg.norm(vn);v=vn/j.maximum(alpha,1e-300);rho=j.hypot(rhobar,beta);c=rhobar/rho;sn=beta/rho;theta=sn*alpha;rhobar=-c*alpha;phi=c*phibar;phibar=sn*phibar;q=q+(phi/rho)*w;w=v-(theta/rho)*w
-            candidate=multiplier+scale*q;error=j.linalg.norm(x-BT(candidate));better=error<best_error;best=j.where(better,candidate,best);best_error=j.minimum(best_error,error)
+            candidate=scale*q;error=j.linalg.norm(x-BT(multiplier)-BT(candidate));better=error<best_error;best=j.where(better,candidate,best);best_error=j.minimum(best_error,error)
             return k+1,u,v,w,q,alpha,phibar,rhobar,best,best_error
         z=jax.lax.while_loop(condition,body,initial);return z[-2],z[0]
     need=(j.linalg.norm(x-BT(multiplier))>1e-10*j.maximum(j.linalg.norm(x),1e-300))&j.all(j.isfinite(multiplier))
-    multiplier,refinement_iterations=jax.lax.cond(need,refine,lambda _:(multiplier,j.asarray(0,j.int32)),None);iterations=iterations+refinement_iterations
-    gradient=transpose_divergence(multiplier,h);corrected=tuple(v-r*z for v,r,z in zip(velocity,root,split(x)));fixture=tuple(j.where(f,g,0.) for f,g in zip(fixed,gradient));work=sum(j.sum(I*v) for I,v in zip(fixture,velocity));change=.5*sum(j.sum(m*(b*b-a*a)) for m,a,b in zip(mass,velocity,corrected));loss=.5*sum(j.sum(m*(b-a)**2) for m,a,b in zip(mass,velocity,corrected));identity=work-change-loss
-    residual=j.where(fluid,divergence(corrected,h),0.);relative=j.linalg.norm(residual)/j.maximum(norm,1e-300);absolute=j.linalg.norm(x-BT(multiplier));stationarity=absolute/j.maximum(j.linalg.norm(x),1e-300);reconstruction=j.linalg.norm(B(BT(multiplier))-rhs)/j.maximum(norm,1e-300)
+    correction,refinement_iterations=jax.lax.cond(need,refine,lambda _:(j.zeros_like(multiplier),j.asarray(0,j.int32)),None);iterations=iterations+refinement_iterations
+    gradient=tuple(a+b for a,b in zip(transpose_divergence(multiplier,h),transpose_divergence(correction,h)));corrected=tuple(v-r*z for v,r,z in zip(velocity,root,split(x)));fixture=tuple(j.where(f,g,0.) for f,g in zip(fixed,gradient));work=sum(j.sum(I*v) for I,v in zip(fixture,velocity));change=.5*sum(j.sum(m*(b*b-a*a)) for m,a,b in zip(mass,velocity,corrected));loss=.5*sum(j.sum(m*(b-a)**2) for m,a,b in zip(mass,velocity,corrected));identity=work-change-loss
+    residual=j.where(fluid,divergence(corrected,h),0.);relative=j.linalg.norm(residual)/j.maximum(norm,1e-300);absolute=j.linalg.norm(x-BT(multiplier)-BT(correction));stationarity=absolute/j.maximum(j.linalg.norm(x),1e-300);reconstruction=j.linalg.norm(B(BT(multiplier+correction))-rhs)/j.maximum(norm,1e-300)
     momentum=j.stack([j.sum(m*(b-a))-j.sum(I) for m,a,b,I in zip(mass,velocity,corrected,fixture)]);momentum_scale=sum(j.sum(j.abs(m*(b-a)))+j.sum(j.abs(I)) for m,a,b,I in zip(mass,velocity,corrected,fixture));work_scale=j.maximum(j.maximum(j.abs(work),j.abs(change)),j.maximum(loss,1e-300));finite=j.all(j.stack([j.all(j.isfinite(v)) for v in corrected]));fixed_change=j.max(j.stack([j.max(j.abs(j.where(f,b-a,0.))) for f,a,b in zip(fixed,velocity,corrected)]))
     valid=coverage&positive&finite&(relative<=10*tolerance)&(stationarity<=1e-10)&(j.abs(identity)<=10*tolerance*work_scale)&(j.linalg.norm(momentum)<=10*tolerance*j.maximum(momentum_scale,1e-300))&(fixed_change==0)
-    return PressureResult(corrected,-multiplier/dt,fixture,relative,j.max(j.abs(residual))/h**3,work,loss,identity,coverage,valid,iterations,stationarity,absolute,reconstruction)
+    return PressureResult(corrected,-(multiplier+correction)/dt,fixture,relative,j.max(j.abs(residual))/h**3,work,loss,identity,coverage,valid,iterations,stationarity,absolute,reconstruction,multiplier,correction)

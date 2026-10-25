@@ -26,7 +26,7 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
     step=make_step(layout,boundary,target,jnp.asarray(geometry['open_cells']),density=density,viscosity=viscosity,dt=dt,solid=jnp.asarray(geometry['collision_solid']),transport='rt0',capture_pressure=True)
     state=FlowState(jnp.asarray(source['x']),jnp.zeros((count,3)),jnp.zeros((count,3,3)),jnp.asarray(source['mass']),jnp.zeros(count,dtype=bool),jnp.asarray(0.),jnp.asarray(True))
     emitted=np.zeros(count,dtype=bool);source_mass=0.;outflow_mass=0.;source_energy=0.;outflow_energy=0.;rows=[];h=layout.dx;work_total=0.;loss_total=0.
-    start=0;transport_logJ=np.zeros(count);transport_reference=None
+    start=0;transport_logJ=np.zeros(count);transport_reference=None;pressure_components=None
     if resume_from:
         with np.load(resume_from/'checkpoint.npz',allow_pickle=False) as cp:
             state=FlowState(*(jnp.asarray(cp[name]) for name in FlowState._fields));start=int(cp['step']);emitted=cp['emitted'].copy()
@@ -45,7 +45,9 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
     meta=dict(transport_reference_checkpoint_sha256=transport_reference,transport_scope='RT0 exact frozen-grid characteristics wholly inside real mass-supported pressure domain; no air extension or artificial mass. APIC momentum unchanged; accumulated logJ never corrects old density',particle_boundary='RT0 shared zero-flux voxel faces; no finite particle position projection or momentum impulse',case='three-strand-resin-fill-rt0-candidate',experimental=True,forming=geometry['receipt'],density_kg_m3=density,viscosity_Pa_s=viscosity,dt_s=dt,source_particle_capacity=count,nominal_flow_m3_per_s=source['nominal_flow_m3_per_s'],explicit_viscous_number=12*viscosity*dt/(density*h*h),nominal_advective_CFL=.2*dt/h,nominal_inlet_Reynolds=density*.1*.005/viscosity,pressure='mass-metric mixed JAX LSQR; original threshold plus complete positive-face owned/reachable domain closure; true primal residual<=1e-7, stationarity<=1e-10; pressure reconstruction diagnosed separately',physical_scope='Fixed actual fibre obstacles; laminar Newtonian filling, no cure, no full FSI, no prescribed final resin geometry',production_eligible=False)
     (folder/'plan.json').write_text(json.dumps(meta,indent=2));np.savez(folder/'fixed-fibres.npz',x=geometry['fibre_x'],fibre_id=geometry['fibre_id'])
     def save(k,rejected=False):
-        leaves={name:np.asarray(v) for name,v in state._asdict().items()};np.savez(folder/('rejected-state.npz' if rejected else 'checkpoint.tmp.npz'),**leaves,transport_logJ=transport_logJ,step=k,emitted=emitted,source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,source_energy_J=source_energy,outflow_energy_J=outflow_energy)
+        leaves={name:np.asarray(v) for name,v in state._asdict().items()}
+        if pressure_components is not None:leaves.update(last_pressure_multiplier_base=np.asarray(pressure_components[0]),last_pressure_multiplier_correction=np.asarray(pressure_components[1]),last_pressure_dt_s=dt,last_pressure_scope='Pre-advection last-step physical impulse potentials; use D.T(base)+D.T(correction), no rounded-potential collapse')
+        np.savez(folder/('rejected-state.npz' if rejected else 'checkpoint.tmp.npz'),**leaves,transport_logJ=transport_logJ,step=k,emitted=emitted,source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,source_energy_J=source_energy,outflow_energy_J=outflow_energy)
         if not rejected:(folder/'checkpoint.tmp.npz').replace(folder/'checkpoint.npz')
         (folder/'observables.json').write_text(json.dumps(rows,indent=2))
     save(start)
@@ -57,7 +59,7 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
         born=(source['birth_time']<=k*dt)&~emitted;emitted|=born
         source_mass+=float(source['mass'][born].sum());source_energy+=float(.5*np.sum(source['mass'][born,None]*source['v'][born]**2))
         state=state._replace(active=state.active|jnp.asarray(born),v=jnp.where(jnp.asarray(born)[:,None],jnp.asarray(source['v']),state.v))
-        state,metrics,increment,pressure_input=step(state);transport_logJ+=np.asarray(increment);values={name:(bool(v) if name.endswith('valid') else float(v)) for name,v in metrics.items()}
+        state,metrics,increment,pressure_input=step(state);pressure_components=pressure_input[4:];transport_logJ+=np.asarray(increment);values={name:(bool(v) if name.endswith('valid') else float(v)) for name,v in metrics.items()}
         xyz=np.asarray(state.x);active=np.asarray(state.active);v=np.asarray(state.v);C=np.asarray(state.C)
         exits=active&(xyz[:,0]>.025);outflow_mass+=float(source['mass'][exits].sum());outflow_energy+=float(.5*np.sum(source['mass'][exits]*(np.sum(v[exits]**2,axis=1)+h*h/4*np.sum(C[exits]**2,axis=(1,2)))))
         active=active&~exits;state=state._replace(active=jnp.asarray(active))
@@ -71,7 +73,7 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
         valid=bool(state.valid) and intrusion==0 and escaped==0 and abs(mass_error)<1e-12*max(source_mass,1e-30) and row['maximum_speed_m_per_s']*dt/h<.25
         if not valid:
             
-            velocity_input,mass_input,fixed_input,fluid_input=pressure_input
+            velocity_input,mass_input,fixed_input,fluid_input=pressure_input[:4]
             np.savez(folder/'rejected-pressure-input.npz',**{f'{prefix}{i}':np.asarray(value) for prefix,fields in [('velocity',velocity_input),('mass',mass_input),('fixed',fixed_input)] for i,value in enumerate(fields)},fluid=np.asarray(fluid_input),h=h,dt=dt,step=k)
             save(k,True);raise FloatingPointError(f'Rejected filling candidate at {k}; all diagnostics retained')
         if k%16==0 or k==start+steps:
