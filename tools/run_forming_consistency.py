@@ -29,36 +29,44 @@ def main():
     geometry_records=[inspect(state,p,g)]
     if not geometry_records[-1]['geometry_valid']:raise FloatingPointError('Parent geometry diagnostic rejected')
     (a.output/'plan.json').write_text(json.dumps(p,indent=2))
+    timings=dict(numeric_seconds=0.,geometry_seconds=0.,checkpoint_seconds=0.,frame_seconds=0.)
     def checkpoint(name,current_step):
+        io_started=time.monotonic()
         leaves={'state_'+key:np.asarray(value) for key,value in state._asdict().items() if key!='history'}
         leaves.update({'history_'+key:np.asarray(value) for key,value in state.history._asdict().items()})
         temporary=a.output/(name+'.tmp.npz')
-        np.savez_compressed(temporary,**leaves,step=current_step,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
+        np.savez(temporary,**leaves,step=current_step,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
         temporary.replace(a.output/(name+'.npz'))
+        timings['checkpoint_seconds']+=time.monotonic()-io_started
     frame_steps=set(np.rint(np.linspace(0,p['steps'],61)).astype(int))
     def frame(current_step):
+        io_started=time.monotonic()
         np.savez_compressed(a.output/f'frame-{current_step:06d}.npz',x=np.asarray(state.x),fibre_id=np.asarray(state.fibre_id),time=np.asarray(state.time))
+        timings['frame_seconds']+=time.monotonic()-io_started
     frame(start)
     rows=[];begun=time.monotonic()
     for k in range(a.steps):
+        numeric_started=time.monotonic()
         state,metrics=step(state);metrics=np.asarray(metrics)
+        timings['numeric_seconds']+=time.monotonic()-numeric_started
         if not bool(state.valid):
             checkpoint('rejected-state',start+k+1)
             raise FloatingPointError('Candidate state invalid; last accepted checkpoint and rejected diagnostic preserved')
         rows.append(dict(step=start+k+1,**dict(zip(names,map(float,metrics)))))
         if start+k+1 in frame_steps or k+1==a.steps:frame(start+k+1)
         if (k+1)%16==0 or k+1==a.steps:
+            geometry_started=time.monotonic()
             geometry_records.append(inspect(state,p,g))
+            timings['geometry_seconds']+=time.monotonic()-geometry_started
             progress=dict(step=start+k+1,rows=rows,geometry_records=geometry_records,geometry_valid=geometry_records[-1]['geometry_valid'])
             (a.output/'progress.json').write_text(json.dumps(progress,indent=2))
-            print(json.dumps(dict(step=start+k+1,time_s=float(state.time),geometry=geometry_records[-1],solver_seconds=time.monotonic()-begun)),flush=True)
+            print(json.dumps(dict(step=start+k+1,time_s=float(state.time),geometry=geometry_records[-1],solver_seconds=time.monotonic()-begun,timings=timings)),flush=True)
             if not geometry_records[-1]['geometry_valid']:
                 checkpoint('rejected-state',start+k+1)
                 raise FloatingPointError('Actual particle geometry diagnostic rejected; original parent and last accepted checkpoint preserved')
             checkpoint('checkpoint',start+k+1)
-    leaves={'state_'+k:np.asarray(v) for k,v in state._asdict().items() if k!='history'};leaves.update({'history_'+k:np.asarray(v) for k,v in state.history._asdict().items()})
-    np.savez_compressed(a.output/'checkpoint.npz',**leaves,step=start+a.steps,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
-    receipt=dict(parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),original_plan=p,accepted_steps=[start,start+a.steps],solver_seconds=time.monotonic()-begun,rows=rows,geometry_records=geometry_records,production_eligible=False,scope='Isolated explicit candidate; initial boundary projection then midpoint configuration. Signed contact work and material endpoint defect remain explicit; no unconditional stability claim.')
+    checkpoint('checkpoint',start+a.steps)
+    receipt=dict(parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),original_plan=p,accepted_steps=[start,start+a.steps],solver_seconds=time.monotonic()-begun,rows=rows,geometry_records=geometry_records,timings=timings,checkpoint_encoding="uncompressed NumPy NPZ; same full array fields",production_eligible=False,scope='Isolated explicit candidate; initial boundary projection then midpoint configuration. Signed contact work and material endpoint defect remain explicit; no unconditional stability claim.')
     (a.output/'plan.json').write_text(json.dumps(p,indent=2))
     (a.output/'review.json').write_text(json.dumps(receipt,indent=2));print(json.dumps(receipt,indent=2),flush=True)
 
