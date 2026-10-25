@@ -1,0 +1,86 @@
+{
+  "case": "three-strand-forming",
+  "particles": 227520,
+  "dx": 0.0002,
+  "dt": 3.872966692486445e-06,
+  "steps": 5164,
+  "duration": 0.02,
+  "frames": 60,
+  "geometry": {
+    "length_m": 0.024,
+    "radius_m": 0.001,
+    "initial_orbit_m": 0.0014,
+    "spacing_m": 0.0001,
+    "initial_state": "three parallel straight stress-free fibres; F=I"
+  },
+  "material": {
+    "young": 50000.0,
+    "poisson": 0.25,
+    "density": 1000.0,
+    "tensile_strength": 100000.0,
+    "fracture_energy": 100.0,
+    "characteristic_length": 0.0002
+  },
+  "protocol": {
+    "turns": 1,
+    "rotation_ramp_s": 0.001,
+    "axial_extension_m": 0.000105,
+    "extension_ramp_s": 0.002,
+    "collar_length_m": 0.0015
+  },
+  "contact": {
+    "model": "three-field mass-gradient nodal unilateral normal projection",
+    "friction": 0.0,
+    "adhesion": 0.0,
+    "tolerance_m_per_s": 1e-08,
+    "max_sweeps": 64,
+    "spatial_accuracy": "grid-scale, h=0.2mm; no resolved Hertz pressure claim"
+  },
+  "bounds": [
+    [
+      -0.001,
+      0.025
+    ],
+    [
+      -0.0035,
+      0.0035
+    ],
+    [
+      -0.0035,
+      0.0035
+    ]
+  ],
+  "source": {
+    "examples/three_strand_forming.py": "4d23e0d4897682b658904d9f784cca0bb18816af0e714c1d7b1c387c2c61b864",
+    "mpm_jax/fibre_forming_contact.py": "eb7b78323641bd9d13013357d854daff40f3698f5264d50b8bee28f1c372b983",
+    "mpm_jax/fibre_forming_boundary.py": "43c46d189cbc49c4ec78162ecbd965658611d3919d19dc2a64131af090859f16",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+  },
+  "production_eligible": false,
+  "resin_stage": "not implemented; future actual viscous filling around fixed formed fibres, no curing/full FSI",
+  "resource": {
+    "state_bytes_estimate": 91008000,
+    "stencil_bytes_estimate": 221149440,
+    "uss_limit_bytes": 5368709120
+  },
+  "colors_rgb": [
+    [
+      0.045,
+      0.36,
+      0.67
+    ],
+    [
+      0.94,
+      0.36,
+      0.08
+    ],
+    [
+      0.32,
+      0.66,
+      0.48
+    ]
+  ],
+  "source_commit": "7b6ea1020b1b431c210e588c6bd0e42dfa8d542d",
+  "source_hash_scope": "Canonical Git blob bytes used by Linux original runs; physical plan unchanged."
+}

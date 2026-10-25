@@ -1,0 +1,66 @@
+{
+  "schema": "forming-source-entry-check-v1",
+  "frozen_feature": "ab410cf",
+  "base": "53cafd2",
+  "syntax_checked": [
+    "examples/three_strand_forming.py",
+    "mpm_jax/fibre_forming_boundary.py",
+    "mpm_jax/fibre_forming_contact.py",
+    "mpm_jax/fibre_forming_active_set.py",
+    "mpm_jax/fibre_forming_contact_packed.py",
+    "mpm_jax/fibre_forming_consistent.py",
+    "tools/run_three_strand_forming.py",
+    "tools/run_forming_consistency.py",
+    "tools/review_forming_snapshot.py",
+    "tools/paraview_three_strand_forming.py",
+    "tools/render_three_strand_forming_private.py",
+    "tools/prepare_three_strand_forming_manifest.py"
+  ],
+  "frozen_numeric_and_shared_entry_bytes_exact": {
+    "examples/three_strand_forming.py": true,
+    "mpm_jax/fibre_forming_boundary.py": true,
+    "mpm_jax/fibre_forming_contact.py": true,
+    "mpm_jax/fibre_forming_active_set.py": true,
+    "mpm_jax/fibre_forming_contact_packed.py": true,
+    "mpm_jax/fibre_forming_consistent.py": true,
+    "tools/run_three_strand_forming.py": true,
+    "tools/run_forming_consistency.py": true,
+    "tools/review_forming_snapshot.py": true,
+    "tools/paraview_three_strand_forming.py": true
+  },
+  "argparse_help": [
+    {
+      "module": "examples.three_strand_forming",
+      "exit_code": 0,
+      "help_shown": true,
+      "stderr": ""
+    },
+    {
+      "module": "tools.run_three_strand_forming",
+      "exit_code": 0,
+      "help_shown": true,
+      "stderr": ""
+    },
+    {
+      "module": "tools.run_forming_consistency",
+      "exit_code": 0,
+      "help_shown": true,
+      "stderr": ""
+    },
+    {
+      "module": "tools.render_three_strand_forming_private",
+      "exit_code": 0,
+      "help_shown": true,
+      "stderr": ""
+    },
+    {
+      "module": "tools.prepare_three_strand_forming_manifest",
+      "exit_code": 0,
+      "help_shown": true,
+      "stderr": ""
+    }
+  ],
+  "physical_steps_executed": 0,
+  "paraview_entry_scope": "PV scene compiled only; its runtime requires separate ParaView6.2 environment",
+  "new_media_manifest_scope": "Syntax and CLI checked; actual saved-state render validation remains in publication review"
+}
