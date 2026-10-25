@@ -22,6 +22,8 @@ WOVEN_MATERIAL = {
     "yarn_shear": [1.5e9, 2e9, 2e9], "yarn_density": 1400.,
 }
 SOURCE_FILES = (
+    "examples/woven_deep_impact.py",
+    "tools/review_woven_large.py",
     "examples/woven_large_plate.py", "examples/woven_large_geometry.py",
     "examples/woven_geometry.py", "mpm_jax/packed_woven.py",
     "mpm_jax/rigid_sphere_contact.py", "mpm_jax/fibre_mpm.py",
