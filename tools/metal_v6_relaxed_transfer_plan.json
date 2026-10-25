@@ -1,0 +1,62 @@
+{
+  "schema": "v6-conservative-relaxation-prospective-v1",
+  "status": "bounded dynamic source/controller/workflow prepared; quota check and review before one dispatch",
+  "operators": {
+    "APIC": "z_A=(I(u_final),A(u_final))",
+    "DELTA": "z_D=z_old+(I(u_final-u_old),A(u_final-u_old))",
+    "complete_blend": "z_b=(1-alpha) z_A+alpha z_D, z=(v,C); same scalar for all particles/fields and both components"
+  },
+  "coefficient": {
+    "rule": "alpha(dt)=exp(-dt/tau0)",
+    "tau0_s": 1.1851711891412993e-08,
+    "reference": "tau0=original exact125ns stable_dt/CFL; CFL=.1; one grid-cell crossing under original maximum characteristic/affine/viscous signal speed",
+    "original_trace_sha256": "70af07dbc315988d0aed3ed0f04ed5d9ac3cd91bb04ca15980cb6044a5c45099",
+    "original_parent_checkpoint_sha256": "d4bf55782826adf4e4e03a3836961a8c9e753208e0723a51a3513d30cc55cfbc",
+    "no_tuning": "No free multiplier, alpha sweep, candidate-cloud fitting or shape-envelope fitting. Freeze tau0 for whole125--135ns study; use actual shared admissible dt each step."
+  },
+  "proof": {
+    "momentum": "At frozen support both complete APIC and complete delta have particle final linear/angular momentum equal to final grid momentum/angular momentum. Each invariant is linear in (v,C), including affine spin D=dx^2 I/4. One common scalar convex blend therefore has the same invariants for arbitrary nonaffine fields and arbitrary grid increments. x_new=x_old+dt v_new adds no orbital torque because v cross v=0.",
+    "kinetic_metric": "K(z)=1/2 sum_p m_p (|v_p|^2+(dx^2/4)|C_p|_F^2).",
+    "convex_energy_identity": "K(z_b)=(1-alpha)K(z_A)+alpha K(z_D)-alpha(1-alpha)K(z_D-z_A).",
+    "signed_G2P": "g_b=K_grid(final)-K(z_b)=(1-alpha)g_A+alpha g_D+alpha(1-alpha)K(z_D-z_A). It is signed, not an APIC variance identity.",
+    "work_balance": "Original P2G correction K(z_old)-K_grid(old) plus signed G2P equals grid midpoint work minus particle kinetic change. Original stress/contact/boundary work signs remain unchanged; numerical corrections never become material heat.",
+    "remap_limit": "For fixed support zero-force T=APIC round-trip, delta=I; B_dt=alpha I+(1-alpha)T=I+(dt/tau0)(T-I)+O(dt^2). Over fixed duration t, B_dt^(t/dt) -> exp[(t/tau0)(T-I)], so remap filtering has finite duration-based loss instead of O(1) loss repeated per timestep. T is a contraction in the APIC kinetic metric, hence the zero-force blend is nonexpansive."
+  },
+  "gates": {
+    "physical": "All original material/EOS/contact/coverage/CFL/mass/momentum/energy gates unchanged. Same compiled step executable for primary and independent replay; all35 final arrays bitwise.",
+    "additional": "Per-field angular residual <=64eps times absolute angular contribution scale. Convex kinetic identity <=64eps times current ledger scale; alpha in[0,1]; nonnegative blending variance.",
+    "energy_and_shape": "Keep exact previous shared-original G2P-channel reduction requirement and original dt1/dt2/dt4 spread screens for x,F,J,C,plastic_strain,damage. Failure cannot tune tau0 or relax screens.",
+    "scope": "Numerical transfer-filter hypothesis, not calibrated physical dissipation or proven repair; no fragment/public media claim."
+  },
+  "source_sha256": {
+    "mpm_jax/fragment_v6_relaxed_transfer.py": "6a7437cab6edfa87248ef5c87338ee8606001d18105cd2cd6ccc575282da64fb",
+    "mpm_jax/fragment_v6_relaxed_candidate.py": "40773cac1e58420041e486713acce20274d79b56ff934f88bfb46fca0061832b",
+    "mpm_jax/fragment_v6_relaxed_diagnostic.py": "b9da4ce828964e72569acd9b92811820874ba5903e98ef27587f7c29df888653",
+    "tools/metal_relaxed_transfer_numpy.py": "0daae653df2ab1e972b9215862367c442ab95fa60504b9ff6cf45eb7624e6b3c",
+    "tests/test_metal_relaxed_transfer.py": "72ea45dd7d4f0dacbce6dddb5f7bd4e07b65e13f32ab06245fb8e4e531f471e5",
+    "tools/metal_frozen_transfer.py": "10124913e0b8a5bc6dfee0cd545168af6d4aa5c0decf856f3da9d0083691f4fe",
+    "tools/metal_split_transfer_numpy.py": "47cf55d1dbffe8614cf5237217711710980210cc02b69e3498378c4aee303ce1"
+  },
+  "production_restart_allowed": false,
+  "public_media_allowed": false,
+  "frozen_baseline_source_sha256": {
+    "mpm_jax/fragment_multifield_v6_mpm.py": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
+    "examples/metal_fragment_formal_v6.py": "d0c9c276c9c4144fb1bb83675d3bdbbfc469a5bb874f8473abb946749bb14d9d",
+    "tools/check_multifield_accelerated_contact.py": "e4891316c30cb8c6b47cf89bf440b808498d67161235f1d185702861d556d7c2",
+    "examples/metal_fragment_multifield_v3.py": "4a1fce817f9e93a0a8a031c275b9b7269f774f8df94447b78964b70323505655",
+    "examples/metal_fragment_multifield_compact.py": "40151803555480dc169c71b20aa9e5d7d470d0dfd16e74b7d6deacc858c31b5d",
+    "examples/metal_fragment_multifield_v2.py": "f72383821f7769884a66221d69b4f8ad61b3b33ec7a4bfc407e02e3636348d96",
+    "tools/prove_metal_formal_v6.py": "506b40e1d1adc546b3a54616f50f357102519d72d3d217af0d54e68d48ca7f6a",
+    "examples/metal_fragment_multifield.py": "44210cd5294492f25014e23750a02ec80ba5e303bebc5ba9d15bcc8a28417de6",
+    "tools/audit_metal_fragments.py": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
+    "mpm_jax/materials/linear_metal.py": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
+    "mpm_jax/materials/shock_metal.py": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/contact.py": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+    "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+    "examples/metal_sphere_impact_fracture.py": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
+    "examples/metal_sphere_geometry.py": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+    "examples/metal_plate_geometry.py": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+    "examples/woven_geometry.py": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a"
+  }
+}

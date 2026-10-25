@@ -1,4 +1,4 @@
-name: Private shared-CFL v6 delta transfer diagnostic
+name: Private conservative relaxed transfer125 diagnostic
 on:
   workflow_dispatch:
 permissions:
@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   diagnostic:
-    if: github.ref == 'refs/heads/work/metal-fragment-v6-cloud'
+    if: github.ref == 'refs/heads/work/metal-conservative-transfer'
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:
@@ -27,23 +27,23 @@ jobs:
           artifact-ids: '12585028870,12584968927'
           run-id: '40159167374'
           github-token: ${{ github.token }}
-          path: .local/metal-v6-delta-input
+          path: .local/metal-v6-relaxed-input
           merge-multiple: true
       - name: Authenticate whole evidence and deploy frozen source
-        run: python -m tools.run_metal_v6_delta125 restore
+        run: python -m tools.run_metal_v6_relaxed125 restore
       - name: Install preserved producer wheel and exact dependencies
-        run: python -m tools.run_metal_v6_delta125 install
-      - name: Authenticate original then compare under shared minimum CFL
+        run: python -m tools.run_metal_v6_relaxed125 install
+      - name: Authenticate original then test conservative complete-map relaxation
         timeout-minutes: 28
-        run: python -m tools.run_metal_v6_delta125 run
+        run: python -m tools.run_metal_v6_relaxed125 run
       - name: Preserve whole raw on acceptance or rejection
         if: always()
-        run: python -m tools.run_metal_v6_delta125 package
+        run: python -m tools.run_metal_v6_relaxed125 package
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: metal-v6-delta125-${{ github.run_id }}-${{ github.run_attempt }}-whole-delivery
-          path: .local/metal-v6-delta-delivery/*
+          name: metal-v6-relaxed125-${{ github.run_id }}-${{ github.run_attempt }}-whole-delivery
+          path: .local/metal-v6-relaxed-delivery/*
           compression-level: 0
           if-no-files-found: error
           retention-days: 30
