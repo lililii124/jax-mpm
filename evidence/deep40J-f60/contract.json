@@ -1,0 +1,17 @@
+{
+  "source_commit": "118c3400e1c9ba69f26a71d11554b62e69b342a3",
+  "physics_commit": "c5eccddd9d0857ecc3e0af6e3bfa356409817986",
+  "parent_task": "woven-deep-f58",
+  "parent_frame": 58,
+  "target_frame": 60,
+  "parent_checkpoint_sha256": "b68df773ea21063e9801affe7e7b7ff379e19f43a113642fdb81ac563330b816",
+  "versions": {
+    "numpy": "2.5.4",
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "psutil": "7.2.2"
+  },
+  "historical_coordinates_complete": false,
+  "source_run": 40113303961,
+  "user_depth_goal_m": 0.005
+}

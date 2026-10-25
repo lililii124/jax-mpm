@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "frame": 60,
+  "steps": 14460,
+  "time_s": 0.00019999999999996746,
+  "completed": true,
+  "checkpoint_sha256": "ef4dcb98bb77108ec8404f210361c2c52a22dd9271cf8a2aad8579a7e103791e",
+  "parent_checkpoint_sha256": "b68df773ea21063e9801affe7e7b7ff379e19f43a113642fdb81ac563330b816",
+  "original_source_and_physical_plan_unchanged": true,
+  "parent_trajectory_descriptors_preserved": true,
+  "available_saved_frame_hashes_verified": true,
+  "historical_coordinates_independently_verified": false,
+  "review": {
+    "peak_center_indentation_m": 0.006467665645935958,
+    "target_m": 0.002,
+    "stable": true,
+    "clamp_passed": true,
+    "material_energy_passed": true,
+    "independent_final_material_energy_J": 4.6839855107733355,
+    "final_yarn_green_strain_norm": 0.03343887971985487,
+    "max_relative_energy_error": 0.008765559056995543,
+    "energy_passed": true,
+    "completed": true,
+    "accepted": true,
+    "scope": "Saved-frame peak center ROI displacement; deeper peaks between saved frames are not resolved. Elastic demonstration only."
+  },
+  "user_depth_goal_m": 0.005,
+  "user_depth_goal_passed": true,
+  "publication_admitted": false,
+  "scope": "Actual original40J free impact continued only; five-millimetre user goal assessed separately from original two-millimetre exploratory criterion"
+}
