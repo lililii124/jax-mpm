@@ -15,7 +15,7 @@ from .materials.isotropic_brittle import (
 
 
 @partial(jax.tree_util.register_dataclass,
-         data_fields=("lower", "shape", "strides", "offsets", "origin", "node_map", "dense_indices"),
+         data_fields=("lower", "shape", "strides", "offsets", "origin", "node_map", "dense_indices", "hash_keys", "hash_values"),
          meta_fields=("dx", "node_count", "fibre_count"))
 @dataclass(frozen=True)
 class PackedLayout:
@@ -29,6 +29,8 @@ class PackedLayout:
     fibre_count: int
     node_map: jax.Array | None = None
     dense_indices: jax.Array | None = None
+    hash_keys: jax.Array | None = None
+    hash_values: jax.Array | None = None
 
 
 @dataclass(frozen=True)
@@ -211,6 +213,10 @@ def stencil(x, fibre_id, layout):
                           mode='fill', fill_value=-1)
         inside = inside & (mapped >= 0)
         indices = mapped
+    elif layout.hash_keys is not None:
+        from .fibre_hash_layout import lookup
+        mapped=lookup(indices,layout.hash_keys,layout.hash_values)
+        inside=inside&(mapped>=0);indices=mapped
     indices = jnp.where(inside, indices, layout.node_count)
     weights = jnp.prod(weights_axis[:, offsets, jnp.arange(3)], axis=-1)
     dpos = (offsets-fraction[:, None, :])*layout.dx
@@ -312,7 +318,7 @@ def _step(state, material, layout, config, force, force_fn, boundary):
     history, tau = update_brittle(state.history, F, material)
     future_base = jnp.floor((x-layout.origin)/layout.dx-.5).astype(jnp.int32)-layout.lower[state.fibre_id]
     future_inside = jnp.all((future_base >= 0) & (future_base+2 < layout.shape[state.fibre_id]))
-    if layout.node_map is not None:
+    if layout.node_map is not None or layout.hash_keys is not None:
         future_inside = future_inside & stencil(x, state.fibre_id, layout).valid
     valid = (state.valid & support.valid & future_inside & result.valid & jnp.all(history.valid)
              & jnp.all(jnp.isfinite(force)) & jnp.all(jnp.isfinite(v)) & jnp.all(jnp.isfinite(C))
@@ -386,6 +392,16 @@ def validate_state(state, layout):
             if missing.any():
                 particle = start+int(np.flatnonzero(missing)[0])
                 raise FloatingPointError(f"Particle {particle} in fibre {int(ids[particle])} has a quadratic stencil outside its active tube; rebuild the layout before further integration")
+    if layout.hash_keys is not None:
+        # Independently audit every physical stencil against the sorted node set.
+        active=np.asarray(layout.dense_indices);neighbours=np.array(list(product(range(3),repeat=3)),dtype=np.int64)
+        strides,offsets=np.asarray(layout.strides),np.asarray(layout.offsets)
+        for start in range(0,len(x),65536):
+            selected=slice(start,start+65536);local=base[selected,None,:]+neighbours
+            dense_ids=offsets[ids[selected],None]+np.sum(local*strides[ids[selected],None,:],axis=-1)
+            positions=np.searchsorted(active,dense_ids);safe=np.minimum(positions,len(active)-1)
+            missing=np.any((positions==len(active))|(active[safe]!=dense_ids),axis=1)
+            if missing.any():raise FloatingPointError(f"Particle {start+int(np.flatnonzero(missing)[0])} has an incomplete hashed quadratic stencil")
     if not bool(state.valid) or not np.asarray(state.history.valid).all():
         raise FloatingPointError("Fibre MPM state is invalid; inspect deformation, boundary overlap, material length and applied forces")
     if any(not np.isfinite(np.asarray(value)).all() for value in jax.tree.leaves(state)):

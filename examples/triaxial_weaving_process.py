@@ -77,7 +77,7 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
     plan['grid_allocation']=grid
     plan['tube_allocation_schema']='swept-machine-plus-restored-body-v2'
     plan['tube_padding_cells']=12
-    if grid not in ('dense','tube'):raise ValueError('Unknown grid allocation')
+    if grid not in ('dense','tube','hash'):raise ValueError('Unknown grid allocation')
     plan['source_sha256']={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     runtime=dict(jax=jax.__version__,jaxlib=__import__('jaxlib').__version__,numpy=np.__version__,x64=bool(jax.config.jax_enable_x64))
     signature=hashlib.sha256(json.dumps(json_value(dict(plan=plan,geometry=geometry['metadata'],runtime=runtime)),sort_keys=True).encode()).hexdigest()
@@ -102,14 +102,20 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
         fibre_id=geometry['fibre_id'],family_id=geometry['family_id'],grip_masks=np.asarray(geometry['masks']))
     material=isotropic_brittle(young=plan['young_Pa'],poisson=plan['poisson'],density=plan['density_kg_m3'],
         tensile_strength=plan['tensile_strength_Pa'],fracture_energy=plan['fracture_energy_J_m2'],characteristic_length=plan['dx'])
-    if grid=='tube':
+    if grid in ('tube','hash'):
         seeds,seed_ids=swept_corridor_seeds(geometry,plan['dx'])
         if resume:
             with np.load(output/'checkpoint.npz',allow_pickle=False) as cp:restored_points=cp['state_x'].copy()
             assert restored_points.shape==geometry['x'].shape and np.isfinite(restored_points).all()
             seeds=np.concatenate([seeds,restored_points]);seed_ids=np.concatenate([seed_ids,geometry['fibre_id']])
-        layout=build_tube_layout(seeds,seed_ids,dx=plan['dx'],padding_cells=plan['tube_padding_cells'],
-            reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
+        if grid=='hash':
+            from mpm_jax.fibre_hash_layout import build_hash_tube_layout
+            layout,hash_resource=build_hash_tube_layout(seeds,seed_ids,dx=plan['dx'],padding_cells=plan['tube_padding_cells'],
+                reference_bounds=geometry['swept_reference_bounds'],max_active_nodes=30_000_000)
+            (output/'hash-layout.json').write_text(json.dumps(hash_resource,indent=2))
+        else:
+            layout=build_tube_layout(seeds,seed_ids,dx=plan['dx'],padding_cells=plan['tube_padding_cells'],
+                reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
     else:
         layout=build_layout(geometry['x'],geometry['fibre_id'],dx=plan['dx'],padding_cells=6,
             reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
@@ -260,7 +266,7 @@ if __name__=='__main__':
     parser.add_argument('--upgrade-allocation',action='store_true')
     parser.add_argument('--checkpoint-search-skin',type=float)
     parser.add_argument('--upgrade-search',action='store_true')
-    parser.add_argument('--grid',choices=['dense','tube'],default='dense')
+    parser.add_argument('--grid',choices=['dense','tube','hash'],default='dense')
     parser.add_argument('--saved-frames',type=int,default=8);parser.add_argument('--resume',action='store_true')
     parser.add_argument('--run',action='store_true');parser.add_argument('--steps',type=int)
     parser.add_argument('--output',default='outputs/triaxial-weaving-process');args=parser.parse_args()
