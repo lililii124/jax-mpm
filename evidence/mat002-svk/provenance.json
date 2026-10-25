@@ -1,0 +1,26 @@
+{
+  "task": "mat002-svk-native-release20",
+  "source_commit": "5b6abed345d4111314a33d86d7bbab7e78f0a036",
+  "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+  "files": {
+    "constitutive-arrays.npz": {
+      "bytes": 16504,
+      "sha256": "cf7fa641173e487624ead78ec4745f180e6caf658956c53e208299335033bce5"
+    },
+    "final-state.npz": {
+      "bytes": 63285551,
+      "sha256": "1a742f4ea30fb1046a5b3a355e7a15209e9504379e446e99ec009aaa77796118"
+    },
+    "initial-state.npz": {
+      "bytes": 1674249,
+      "sha256": "bccd5b9e5edea8ab61d07f1d6526cdb7c9146f6e3d3cf9addfd130eb7aa39e5a"
+    },
+    "review.json": {
+      "bytes": 1952,
+      "sha256": "9ad9d79a8b30d87768b14e273aca181ee4309d5540c9c2083d8ec43016ecbbfe"
+    }
+  },
+  "raw_state_download_sha256_verified": true,
+  "native_reference_sha256": "1341268cd0fa5583ef60655d336521cff3695899f0cfcf245138150f76372ba1",
+  "scope": "Native outputs only; no private Fortran implementation included; targeted one-run checks, no converged simulation claim"
+}
