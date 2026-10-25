@@ -13,17 +13,18 @@ jax.config.update('jax_enable_x64',True)
 import jax.numpy as jnp
 import numpy as np
 from examples.single_fibre_tension import plan_case,motion,save_json,save_npz
-from mpm_jax.fibre_mpm import (FibreConfig,build_layout,make_state,reference_grips,
+from mpm_jax.fibre_mpm import (FibreConfig,FibreState,build_layout,make_state,reference_grips,
     stencil,particle_to_grid,step_with_diagnostics,stored_energy,validate_state)
-from mpm_jax.materials.isotropic_brittle import isotropic_brittle,brittle_energy
+from mpm_jax.materials.isotropic_brittle import BrittleHistory,isotropic_brittle,brittle_energy
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--steps',type=int,default=2000)
     p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--resume-from',type=Path)
     a=p.parse_args()
-    if not 100<=a.steps<=4000 or a.steps%100:p.error('Use100-step blocks, at most4000 actual steps')
+    if not 100<=a.steps<=19600 or a.steps%100:p.error('Use100-step blocks within the original physical plan')
     a.output.mkdir(exist_ok=False,parents=True)
     geometry,plan=plan_case();material=isotropic_brittle(**plan['material'])
     layout=build_layout(geometry['x'],geometry['fibre_id'],dx=plan['grid']['dx_m'],
@@ -59,10 +60,31 @@ def main():
             kinetic_J=K1,elastic_J=U1,min_J=jnp.min(jnp.linalg.det(following.F)),
             max_damage=jnp.max(following.history.damage),valid=following.valid)
         return following,parts
+    chunks=[];start_step=0;resume_proof=None
+    if a.resume_from is not None:
+        parent=a.resume_from
+        old_contract=json.loads((parent/'contract.json').read_text())
+        if old_contract['plan']!=plan:raise ValueError('Resume physical plan or core source differs')
+        with np.load(parent/'checkpoint.npz',allow_pickle=False) as cp:
+            start_step=int(cp['step'])
+            history=BrittleHistory(*(jnp.asarray(cp['history_'+k]) for k in BrittleHistory._fields))
+            state=FibreState(**{k:jnp.asarray(cp[k]) for k in FibreState._fields if k!='history'},history=history)
+        validate_state(state,layout)
+        if abs(float(state.time)-start_step*config.dt)>1e-14:raise ValueError('Resume step/clock differs')
+        if not np.array_equal(state.mass,geometry['mass']) or not np.array_equal(state.volume,geometry['volume']):raise ValueError('Resume reference mass/volume differs')
+        with np.load(parent/'step_records.npz',allow_pickle=False) as old:
+            previous={k:old[k] for k in old.files}
+        if not all(len(v)==start_step and np.isfinite(v).all() for v in previous.values()) or not previous['valid'].all():raise ValueError('Incomplete or invalid previous history')
+        chunks.append(previous)
+        resume_proof=dict(parent_step=start_step,parent_checkpoint_sha256=hashlib.sha256((parent/'checkpoint.npz').read_bytes()).hexdigest(),
+            parent_contract_sha256=hashlib.sha256((parent/'contract.json').read_bytes()).hexdigest(),
+            core_material_geometry_loading_sources_identical=True,prior_steps_replayed=0,
+            bridge='Observer runner adds restore only; original numerical step and physical plan unchanged')
+    if not start_step<a.steps<=min(plan['steps'],start_step+2000):p.error('Advance at most2000 steps within original plan')
     compiled=jax.jit(lambda s:jax.lax.scan(lambda carry,_:observed(carry),s,None,length=100)).lower(state).compile()
     # One independent direct-step control establishes that telemetry preserves carry.
-    direct,_=step_with_diagnostics(state,material,layout,config,boundary=boundary)
-    instrumented,_=jax.jit(observed)(state)
+    direct,_=step_with_diagnostics(state,material,layout,config,boundary=boundary) if start_step==0 else (state,None)
+    instrumented,_=jax.jit(observed)(state) if start_step==0 else (state,None)
     velocity_scale=plan['wave_speed_m_per_s'];mass_scale=float(geometry['mass'].sum())
     scales=dict(x=plan['geometry']['length_m'],v=velocity_scale,F=1.,C=velocity_scale/layout.dx,
         mass=float(geometry['mass'].max()),volume=float(geometry['volume'].max()),fibre_id=1.,
@@ -72,8 +94,9 @@ def main():
         values={k:v for k,v in s._asdict().items() if k!='history'}
         values.update({'history_'+k:v for k,v in s.history._asdict().items()})
         return values
-    parity={}
+    parity={} if start_step==0 else json.loads((a.resume_from/'first-step-control.json').read_text())
     for key,x in fields(direct).items():
+        if start_step:break
         x,y=np.asarray(x),np.asarray(fields(instrumented)[key])
         exact=bool(np.array_equal(x,y));difference=float(np.max(np.abs(x.astype(float)-y.astype(float)),initial=0))
         scaled=difference/scales.get(key,1.)
@@ -84,9 +107,9 @@ def main():
     save_json(a.output/'contract.json',dict(plan=plan,steps=a.steps,source_sha256={
         name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in
         (*plan['source']['files'],'tools/observe_single_fibre_energy.py')},
-        first_step_control=parity,scope='Numerical error diagnosis only; no relaxation of original15% acceptance'))
-    chunks=[];start=time.monotonic()
-    for end in range(100,a.steps+1,100):
+        first_step_control=parity,resume=resume_proof,scope='Numerical error diagnosis only; no relaxation of original15% acceptance'))
+    start=time.monotonic()
+    for end in range(start_step+100,a.steps+1,100):
         state,rows=compiled(state);jax.block_until_ready(state)
         host=jax.tree.map(np.asarray,rows)
         if not host['valid'].all() or any(not np.isfinite(v).all() for v in host.values()):raise ValueError('Original state invalid or nonfinite telemetry')
