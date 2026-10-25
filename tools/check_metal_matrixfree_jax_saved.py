@@ -4,7 +4,7 @@ The current migration boundary is explicit: reference sparse geometry and LDL
 preconditioner construction remain SciPy. Every iterative solve below is JAX;
 no restricted146-column Schur construction or SciPy callback is used in JIT.
 """
-import json,time
+import hashlib,json,time
 from pathlib import Path
 import numpy as np
 import jax
@@ -27,30 +27,43 @@ def triangular_blocks(matrix,size=128):
         if r//size==c//size:dense[r//size,r%size,c%size]=v
         else:off[r//size].append((r%size,c,v))
     for r in range(n,N):dense[r//size,r%size,r%size]=1.
-    cap=max(map(len,off),default=0);row=np.zeros((blocks,cap),np.int32);col=row.copy();data=np.zeros((blocks,cap))
-    for b,entries in enumerate(off):
-        for i,(r,c,v) in enumerate(entries):row[b,i]=r;col[b,i]=c;data[b,i]=v
-    dense,row,col,data=map(jnp.asarray,(dense,row,col,data))
+    counts=np.asarray(list(map(len,off)),np.int32);cap=int(counts.max(initial=0));offsets=np.concatenate(([0],np.cumsum(counts[:-1]))).astype(np.int32)
+    entries=[e for block in off for e in block];padding=1<<max(0,(max(cap,1)-1).bit_length())
+    row=np.zeros(len(entries)+padding,np.int32);col=row.copy();data=np.zeros(len(entries)+padding)
+    for i,(r,c,v) in enumerate(entries):row[i]=r;col[i]=c;data[i]=v
+    dense,row,col,data,offsets,counts=map(jnp.asarray,(dense,row,col,data,offsets,counts))
     lower=bool(np.any(coo.row>coo.col));assert not (lower and np.any(coo.row<coo.col))
-    parameters=(dense,row,col,data)
+    parameters=(dense,row,col,data,offsets,counts)
     def solve(rhs,parameters=parameters):
-        dense,row,col,data=parameters
+        dense,row,col,data,offsets,counts=parameters
         padded=jnp.pad(rhs,((0,N-n),(0,0)))
+        def make_bucket(width):
+            def accumulate(operand):
+                x,start,count=operand
+                r=jax.lax.dynamic_slice(row,(start,),(width,));c=jax.lax.dynamic_slice(col,(start,),(width,));v=jax.lax.dynamic_slice(data,(start,),(width,))
+                v=jnp.where(jnp.arange(width)<count,v,0.)
+                return jnp.zeros((size,rhs.shape[1]),rhs.dtype).at[r].add(v[:,None]*x[c])
+            return accumulate
+        buckets=tuple(make_bucket(1<<i) for i in range(padding.bit_length()))
         def body(i,x):
             b=i if lower else blocks-1-i;offset=b*size
-            correction=jnp.zeros((size,rhs.shape[1]),rhs.dtype).at[row[b]].add(data[b,:,None]*x[col[b]])
+            bucket=32-jax.lax.clz(jnp.maximum(counts[b]-1,0).astype(jnp.uint32))
+            correction=jax.lax.switch(bucket,buckets,(x,offsets[b],counts[b]))
             value=jax.lax.dynamic_slice(padded,(offset,0),(size,rhs.shape[1]))-correction
             answer=solve_triangular(dense[b],value,lower=lower)
             return jax.lax.dynamic_update_slice(x,answer,(offset,0))
         return jax.lax.fori_loop(0,blocks,body,jnp.zeros_like(padded))[:n]
-    return solve,dict(blocks=blocks,block_size=size,off_diagonal_capacity=cap,exact_triangular_blocks=True),parameters
+    return solve,dict(blocks=blocks,block_size=size,maximum_off_diagonal_entries=cap,actual_off_diagonal_entries=len(entries),old_padded_entries=blocks*cap,exact_triangular_blocks=True),parameters
 
 
 def main():
     started=time.monotonic();out=Path('/work/result');out.mkdir()
     def load(path):
         with np.load(path,allow_pickle=False) as z:return {k:z[k] for k in z.files}
-    old=load(Path('/original/result/step-22/accepted.npz'));gold=load(Path('/gold/result/midpoint-raw.npz'))
+    parent=Path('/original/result/step-22/accepted.npz');gold_path=Path('/gold/result/midpoint-raw.npz')
+    parent_sha=hashlib.file_digest(parent.open('rb'),'sha256').hexdigest();assert parent_sha=='3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809'
+    old=load(parent)
+    with np.load(gold_path,allow_pickle=False) as z:gold={k:z[k] for k in ('trial','following','normals','geometry_x','geometry_F')}
     args=(old['x'],old['mass'],old['body_id'],.00025,old['F'],old['reference_root'])
     allowed=ConsistentAffineProjection(*args,clamped_particles=old['candidate_fixed_particles'])
     config=dict(old,x=gold['geometry_x'],F=gold['geometry_F'])
@@ -97,7 +110,7 @@ def main():
     tol=1.414599609375e-8;torquetol=1.5782228774332438e-14
     passed=bool(report['converged'] and relative<=1e-10 and kkt<=.005 and abs(boundarywork)<=tol and contactwork<=tol and np.linalg.norm(L)<=torquetol)
     np.savez_compressed(out/'jax-raw.npz',trial=np.asarray(trial),following=following,physical=physical,reaction=reaction,multiplier=lam)
-    result=dict(status='passed' if passed else 'failed',source_input='Original accepted22 and already-solved same frozen qmid golden; no replay',particles=len(old['mass']),prepare_seconds=prepare_seconds,compile_seconds=compile_seconds,solve_seconds=solve_seconds,relative_velocity_difference=relative,original_KKT_m_s=kkt,physical_dual_difference=dualdifference,physical_momentum=P.tolist(),physical_torque=L.tolist(),boundary_work_J=boundarywork,contact_work_J=contactwork,report=report,preconditioner=pc,migration_boundary='Geometry and exact sparse LDL setup still SciPy. All LSQR, triangular application, cone and Dykstra iterations JAX64; no146-column Schur, no JIT callbacks. Not yet an all-JAX impact step.')
+    result=dict(status='passed' if passed else 'failed',parent_checkpoint_sha256=parent_sha,golden_npz_sha256=hashlib.file_digest(gold_path.open('rb'),'sha256').hexdigest(),source_input='Original accepted22 and already-solved same frozen qmid golden; no replay',particles=len(old['mass']),prepare_seconds=prepare_seconds,compile_seconds=compile_seconds,solve_seconds=solve_seconds,relative_velocity_difference=relative,original_KKT_m_s=kkt,physical_dual_difference=dualdifference,physical_momentum=P.tolist(),physical_torque=L.tolist(),boundary_work_J=boundarywork,contact_work_J=contactwork,report=report,preconditioner=pc,migration_boundary='Geometry and exact sparse LDL setup still SciPy. All LSQR, triangular application, cone and Dykstra iterations JAX64; no146-column Schur, no JIT callbacks. Not yet an all-JAX impact step.')
     (out/'review.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True)
     assert passed,'Bounded frozen-input migration failed; preserve raw and diagnose, do not integrate'
 
