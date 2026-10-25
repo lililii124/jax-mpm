@@ -90,6 +90,7 @@ and a positive determinant establish numerical admissibility, not experimental v
 | [completed--radial-sinusoidal-pull-off](results/completed--radial-sinusoidal-pull-off/summary.json) | 367,744 | 3,700 | 1.3 | 0.541301 | 0 | ParaView |
 | [completed--jc-necking-refined](results/completed--jc-necking-refined/summary.json) | 341,584 | 57,900 | 0.00015 | 0.993381 | 1 | ParaView |
 | [completed--phase-field-at2-tension](results/completed--phase-field-at2-tension/summary.json) | 28,800 | 2,800 | 0.168 | n/a | 0.996361 | ParaView |
+| [fibres--dry-three-strand-forming](results/fibres--dry-three-strand-forming/summary.json) | 119,808 | 12,394 | 0.06 | 0.758671 | 0 | ParaView |
 
 The catalogue contains completed runs only. An active run's `status.json` and checkpoints
 are progress records and are not included here. [VALIDATION.md](../VALIDATION.md)

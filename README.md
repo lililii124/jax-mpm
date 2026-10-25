@@ -18,7 +18,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/fibres--three-strand-tension.gif" alt="Three-strand tension" width="100%"><br><a href="docs/results/fibres--three-strand-tension/summary.json">Three-strand tension</a></td>
 <td width="33%" align="center"><img src="docs/images/home/fibres--three-strand-forming.gif" alt="Three-strand forming" width="100%"><br><a href="docs/results/fibres--three-strand-forming/summary.json">Three-strand forming</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/home/fibres--dry-three-strand-forming.gif" alt="Dry three-strand forming" width="100%"><br><a href="docs/results/fibres--dry-three-strand-forming/summary.json">Dry three-strand forming</a></td>
 </tr>
 </table>
 

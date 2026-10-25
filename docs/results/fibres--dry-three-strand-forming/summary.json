@@ -1,0 +1,73 @@
+{
+  "id": "fibres--dry-three-strand-forming",
+  "case": "Dry three-strand forming",
+  "completed": true,
+  "production_eligible": false,
+  "publication_scope": "Complete60ms dry dynamic forming process stage; stronger tight-contact coverage and manufacturing/time-space accuracy unqualified",
+  "particles": [
+    119808
+  ],
+  "steps": 12394,
+  "frames": 61,
+  "simulation_time": 0.05999999999999442,
+  "min_J": 0.758671221372588,
+  "max_damage": 0.0,
+  "source_commit": "5d2e4149f588c5455052d18c39cc58e45782615f",
+  "source_checkpoint_sha256": "06ff311f05f4e06bee30c08fb75353babf68fbfce9d9e9b3439e2adbb11366c5",
+  "full_turn_completed": true,
+  "final_angle_rad": 6.283185307179586,
+  "parameters": {
+    "length_m": 0.024,
+    "radius_m": 0.001,
+    "initial_orbit_radius_m": 0.001174124516,
+    "spacing_m": 0.000125,
+    "grid_dx_m": 0.00025,
+    "E_Pa": 50000.0,
+    "nu": 0.25,
+    "density_kg_m3": 1000.0,
+    "duration_s": 0.06,
+    "rotation_ramp_s": 0.005,
+    "future_arc_tension": 0.03,
+    "tension_ramp_interval_s": [
+      0.005,
+      0.015
+    ],
+    "final_free_span_m": 0.020333056873,
+    "contact": "frictionless three independent material velocity fields; mass-metric nodal normal QP; no adhesion",
+    "material_model": "isotropic_brittle",
+    "tensile_strength_Pa": 100000.0,
+    "fracture_energy_J_m2": 100.0,
+    "characteristic_length_m": 0.00025
+  },
+  "accuracy_scope": {
+    "manufacturing_accuracy_certified": false,
+    "energy_temporal_spatial_convergence_certified": false,
+    "three_pair_70percent_tight_contact_screen_passed": false,
+    "free_span_contact_fractions": [
+      0.7592592592592593,
+      0.5740740740740741,
+      0.5740740740740741
+    ],
+    "whole_trajectory_energy_remainder_over_absolute_work": 0.04440299082473177,
+    "final_segment_energy_remainder_over_absolute_work": 0.3238052608644844,
+    "final_segment_steps": [
+      12097,
+      12394
+    ],
+    "principal_stretch": [
+      0.6637656185760618,
+      1.4117863323735753
+    ],
+    "final_J_range": [
+      0.758671221372588,
+      1.2057879864432524
+    ],
+    "contact_scope": "Read-only h=.25mm grid-scale contact coverage screen. Closest-centre projected cell gaps are directional envelope diagnostics, not exact smooth-surface distances. >=70percent free-span bins with finite significant force and nearest-point spacing<=h is a candidate for review, not an automatic media or continuum-contact certification.",
+    "limitations": [
+      "All three70percent tight-coverage screen remains false:75.93/57.41/57.41percent actual force-and-distance coverage.",
+      "Whole12394-step energy remainder4.4403percent of absolute fixture work; last298-step interval32.38percent. Ledger closure is not convergence.",
+      "Grid-scale particle/cell intrusion diagnostics do not prove exact smooth-surface nonpenetration.",
+      "Initial geometry, feed,60ms loading and discretization differ from the original20ms forming baseline."
+    ]
+  }
+}

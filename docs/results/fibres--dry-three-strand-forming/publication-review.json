@@ -1,0 +1,25 @@
+{
+  "schema": "dry-forming-process-publication-v1",
+  "passed": true,
+  "checks": {
+    "complete_saved_process": true,
+    "source_bound_states": true,
+    "physical_scope_explicit": true,
+    "actual_paraview": true,
+    "source_bound_media": true,
+    "visual_review": true,
+    "mechanical_screen_false_preserved": true
+  },
+  "sources": {
+    "full-trajectory-ledger.json": "2deb7956aedbe48bab625f90e425b5c64ffd5dac06c38acd16253270e3c36eed",
+    "media-review.json": "6753e6d5c6338d5f1655862e1d29c1b6bad6a82c48ad0e49722d78540175821e",
+    "original-render-review.json": "18ebde5d57245a45114e115bfd1369ccdbd824af2801ccdbb7cf35c3c605e45e",
+    "original-render.json": "02117986ca520e9dfbed2e2123c4dae88f392adccaa2494ba2e7acb5670a7c73",
+    "physical-review.json": "6f59d865545cbe4f96347ba8036065a09add7f71b066f71558da190da3966e5c",
+    "provenance.json": "028d631837523ae11ab932b4e352cae45e5ef71a4263c4aceabfb25e976b2fe7",
+    "render.json": "ee5d4185dce05943670cb4a57bc90bc997e4b8cc6c94157e5efd608ca41f9f4b",
+    "source-snapshots.json": "0a9890c29aed0a31db55359951e8381c0760bc4aeb4a8610a10b5ab88d45b4b6",
+    "summary.json": "a3fa0539772333dc10ff795f645765a4ffd849dd11aadea6a07792144f43cb1f"
+  },
+  "scope": "Complete60ms dry dynamic forming process stage; stronger tight-contact coverage and manufacturing/time-space accuracy unqualified"
+}
