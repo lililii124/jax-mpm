@@ -10,21 +10,27 @@
     "visual_review": true
   },
   "sources": {
-    "diagnostics.csv": "b0675e6d00e2d3a4855bfe2b3ce952fe79b6d646354014b064799ab0d2dcc143",
-    "media-check.json": "d97cdc559758558eec942320ce52014db87856445f31762eb17bc2c1c6d6da25",
-    "observables.csv": "9e3383d2eb2049a1ed24c82c84f6d09a920e1f28a540b6a44b27463edf2460bc",
-    "physical-review.json": "90cf53617169faed107d7adccbf04204d1fc7b7c9c6a085e71b5a7bbda341baf",
-    "provenance.json": "adf2ef8f13040cbfee3580cbfd01f4a976a4e1b342684c7b6ebde88cbe385ab5",
-    "render.json": "5485bf54381757ba8d17a658a8a763542ca12b3f8238f32c8979b30299836a95",
-    "summary.json": "33633f117cd1a4d063cf72c264e1cdf6894f4b57f1ecef0c3b40b452080db765",
-    "video.json": "281024fc82d72f02c3c0e109c29103b9861d94145d29e5eb4821c9bb329d9333",
-    "vtk_check.json": "64d250a01048de46068e87b39ee12f28abe547bdc3b4ac542e6af94780ea4e93",
-    "vtk_metadata.json": "6054d03629b3fe89f556ee56bdce9c788dbca8c33b0f7576a901a341db86b786"
+    "continuation-windows.json": "d053086f10d6664c6ff827d534b751f49fb78ab5d8bc79dd335fb545ebb56d42",
+    "diagnostics.csv": "633a201540bfb7cd56da94172cd5b269f41590069f08bfc7f7a526b3d4d64e71",
+    "export-saved-history.py": "2865671a2ac7d15ba93416c756c0ef66e12f3a967eaf98e28ec9644dcd326b4d",
+    "media-check.json": "e609d5f4a573ddcdc62743f8cf25c67432471ab9bb43e375ac0e9f5c79ca4fbe",
+    "observables.csv": "3b17b8c1aef434054ef2e06ebd9dc3ded2f740d14259270e005fc270474397e8",
+    "original-raw-recovery.json": "37ef2ea5ab0fd22af7ff618cb2ead30fca4a8206814af251120b773d657b8c99",
+    "physical-review.json": "486f8662cba3e8c8ad1333d825bf198f7815be89033e79e0adbc4cc183c50b19",
+    "plan.json": "cbaf646a7a1dc04eb15bfb708e18701731215154637cd36c51a50009df9cc904",
+    "provenance.json": "5e2e5bceb7e9b4ff616478bb06841e9f4af5acddc1cd222bf97d73624123ab73",
+    "render-saved-history.py": "eefcf611270fec2eff7aaff86c90bb2549d3326348200370a64bf90640ab4074",
+    "render.json": "6342f5685a4b432fd72fe85e21d05e1d4a0e9550d6dd21d651cbc1212f00544d",
+    "source-bridge.json": "a50fd913ef146a5067fa9397fae7ae390e3ccd43031df4de53f450cd793e321f",
+    "source-frame-review.json": "90fc18c308ff2ef2da503655dccbf7a1e2a441fb9ca041b739956717028ee621",
+    "summary.json": "d5a6d57b5b5219ab71ab623eeeec01aa59b255ad03042229a6e95c9b5fb4d574",
+    "vtk_check.json": "9ab19c3fc088b7efdfe42b8e7e729e418700afc8bb9c2f8b42c8e6d8d553d790",
+    "vtk_metadata.json": "5c6802e8462d143a63fd845b3cdefbf6c946cea1d8340c5910bf5cc49ad019c5"
   },
   "catalogue_metrics": {
-    "min_J": 0.9579414242509963,
-    "max_damage": 0.0
+    "min_J": 0.9431016383583906,
+    "max_damage": 0
   },
-  "scope": "Coarse fully bonded elastic woven plate with four clamped edges and a freely moving sphere. No damage, yarn separation, resolved yarn-thickness or calibrated material-strength claim.",
+  "scope": "Completed original40J,200us elastic demonstration; saved peak exceeds5mm. This finite observation window does not establish eventual rebound/equilibrium, damage, yarn separation or experimental accuracy.",
   "experimental_material_validation": false
 }

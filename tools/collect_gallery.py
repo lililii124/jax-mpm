@@ -285,9 +285,10 @@ def main():
                 continue
             folder = ROOT / "outputs" / relative
             prefix = identifier in {"fibres--single-fibre-tension", "fibres--three-strand-tension", "fibres--three-strand-forming", "fibres--dry-three-strand-forming"}
-            if prefix:
+            deep_woven = identifier == "completed--woven-plate-impact" and (ROOT / "docs/results" / identifier / "source-frame-review.json").is_file()
+            if prefix or deep_woven:
                 folder = ROOT / "docs/results" / identifier
-            required_files = ("summary.json", "render.json") if prefix else ("summary.json", "render.json", "final.png")
+            required_files = ("summary.json", "render.json") if prefix or deep_woven else ("summary.json", "render.json", "final.png")
             if not all((folder / f).exists() for f in required_files):
                 continue
             render = json.loads((folder / "render.json").read_text())
@@ -297,7 +298,7 @@ def main():
             if not is_ready_for_publication(folder, identifier, summary):
                 continue
             selected, frame, time = ((ROOT / f"docs/images/{name}.png", summary["frames"]-1, summary["simulation_time"])
-                                     if prefix else preview(folder, name, render))
+                                     if prefix or deep_woven else preview(folder, name, render))
             if identifier in display_views:
                 view = json.loads((ROOT / display_views[identifier]).read_text(encoding="utf-8"))
                 display = view["media"][identifier]
@@ -328,12 +329,16 @@ def main():
             video_link = f" · [Video](images/{name}.mp4)" if animation else ""
             if (identifier.startswith("completed--") or prefix) and (ROOT / f"docs/images/home/{identifier}.gif").is_file():
                 video_link += f" · [GIF](images/home/{identifier}.gif)"
+            if deep_woven:
+                video_link += " · [Detail GIF](images/woven-plate-impact-detail.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             if identifier == "completed--radial-sinusoidal-pull-off":
                 label = "Radial sinusoidal pull-off"
             if prefix:
                 label = "Single fibre tension" if identifier == "fibres--single-fibre-tension" else "Dry three-strand forming" if identifier == "fibres--dry-three-strand-forming" else "Three-strand forming" if identifier.endswith("forming") else "Three-strand tension"
             label = {'completed--jc-necking-refined': 'JC round-bar necking', 'completed--crossed-fibre-jkr': 'Crossed fibre JKR contact', 'completed--crossed-fibre-md': 'Crossed fibre MD contact', 'completed--crossed-fibre-self-consistent': 'Crossed fibre SC local BEM contact'}.get(identifier, label)
+            if deep_woven:
+                label = "Deep woven plate impact"
             cells.append(
                 f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}**<br>'
                 f"[Results](results/{identifier}/summary.json){video_link}"

@@ -26,7 +26,7 @@ ParaView frames and animations. [Run records](RESULTS.md).
 
 <table width="100%">
 <tr>
-<td width="33%" align="center"><img src="images/woven-plate-impact.png" alt="woven-plate-impact" width="100%"><br><strong>woven-plate-impact</strong><br><a href="results/completed--woven-plate-impact/summary.json">Results</a> · <a href="images/woven-plate-impact.mp4">Video</a> · <a href="images/home/completed--woven-plate-impact.gif">GIF</a></td>
+<td width="33%" align="center"><img src="images/woven-plate-impact.png" alt="Deep woven plate impact" width="100%"><br><strong>Deep woven plate impact</strong><br><a href="results/completed--woven-plate-impact/summary.json">Results</a> &middot; <a href="images/home/completed--woven-plate-impact.gif">GIF</a> &middot; <a href="images/woven-plate-impact-detail.gif">Detail GIF</a></td>
 <td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>

@@ -132,6 +132,8 @@ def is_ready_for_publication(folder, identifier, summary):
         except (OSError, ValueError, KeyError, TypeError):
             return False
     if canonical in {"completed--woven-plate-impact", "completed--crossed-fibre-hertz", "completed--ceramic-impact-debris", "completed--crossed-fibre-jkr", "completed--crossed-fibre-md", "completed--crossed-fibre-self-consistent"}:
+        if canonical == "completed--woven-plate-impact" and summary.get("publication_protocol") == "deep40j-original-f60":
+            return is_archived_completed_ready(Path(folder), summary) and is_deep_woven_ready(Path(folder), summary)
         return is_archived_completed_ready(Path(folder), summary)
     if canonical == "completed--radial-sinusoidal-pull-off":
         if not is_archived_completed_ready(Path(folder), summary, expected_frames=51):
@@ -400,6 +402,54 @@ def is_three_strand_prefix_ready(folder, summary):
                 and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
                 and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])
     except (OSError, ValueError, KeyError, TypeError):
+        return False
+
+
+def is_deep_woven_ready(folder, summary):
+    """Bind the recovered/resumed full history and actual rigid-tool poses."""
+    import csv
+    try:
+        source = json.loads((folder/"source-frame-review.json").read_text())
+        physical = json.loads((folder/"physical-review.json").read_text())
+        media = json.loads((folder/"media-check.json").read_text())
+        render = json.loads((folder/"render.json").read_text())
+        poses = media["poses"]
+        with (folder/"observables.csv").open(newline="") as stream:
+            rows = list(csv.DictReader(stream))
+        final_sha = "ef4dcb98bb77108ec8404f210361c2c52a22dd9271cf8a2aad8579a7e103791e"
+        if (source.get("passed") is not True or source.get("frames") != 61
+                or source.get("original_future_slots_used") is not False
+                or source.get("all_saved_descriptors_verified") is not True
+                or source.get("final_checkpoint_sha256") != final_sha
+                or source.get("original_checkpoint_sha256") != "5b58b2cafb9da612297d77e130a54c7c9609cc6f76fdb796da3611062fbea0d0"
+                or physical.get("status") != "passed" or physical.get("completed") is not True
+                or physical.get("checkpoint_sha256") != final_sha
+                or physical.get("user_depth_goal_passed") is not True
+                or not all(physical["review"][key] is True for key in ("stable", "clamp_passed", "material_energy_passed", "energy_passed"))
+                or media.get("source_checkpoint_sha256") != final_sha
+                or media.get("sphere_pose_binding_passed") is not True
+                or media.get("all_frame_integrity_passed") is not True
+                or len(rows) != 61 or len(poses) != 61
+                or media.get("radius_m") != .05 or media.get("mass_kg") != .05
+                or render.get("tool_rendered") is not True
+                or summary.get("displayed_saved_frames") != [0, 60]):
+            return False
+        for i, (pose, row) in enumerate(zip(poses, rows)):
+            if (pose["frame"] != i or pose["time_s"] != float(row["time"])
+                    or pose["center"] != [float(row[f"ball_center_{a}_m"]) for a in "xyz"]
+                    or pose["velocity"] != [float(row[f"ball_velocity_{a}_m_s"]) for a in "xyz"]):
+                return False
+        if render.get("source_media_check_sha256") != hashlib.sha256((folder/"media-check.json").read_bytes().replace(b"\r\n", b"\n")).hexdigest():
+            return False
+        images = folder.parents[1]/"images"
+        for name, path in (("overview", images/"home/completed--woven-plate-impact.gif"), ("detail", images/"woven-plate-impact-detail.gif")):
+            if hashlib.sha256(path.read_bytes()).hexdigest() != media["views"][name]["gif_sha256"] or len(media["views"][name]["frames"]) != 61:
+                return False
+            cover = images/("woven-plate-impact.png" if name == "overview" else "woven-plate-impact-detail.png")
+            if hashlib.sha256(cover.read_bytes()).hexdigest() != media["views"][name]["frames"][-1]["png_sha256"]:
+                return False
+        return True
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
         return False
 
 

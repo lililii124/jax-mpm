@@ -31,7 +31,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 <table width="100%">
 <tr>
-<td width="33%" align="center"><img src="docs/images/home/completed--woven-plate-impact.gif" alt="Clamped woven plate impact" width="100%"><br><a href="docs/results/completed--woven-plate-impact/summary.json">Clamped woven plate impact</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--woven-plate-impact.gif" alt="Deep woven plate impact" width="100%"><br><a href="docs/results/completed--woven-plate-impact/summary.json">Deep woven plate impact</a></td>
 <td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>

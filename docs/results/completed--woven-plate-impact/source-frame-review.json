@@ -1,0 +1,2267 @@
+{
+  "passed": true,
+  "frames": 61,
+  "original_checkpoint_sha256": "5b58b2cafb9da612297d77e130a54c7c9609cc6f76fdb796da3611062fbea0d0",
+  "final_checkpoint_sha256": "ef4dcb98bb77108ec8404f210361c2c52a22dd9271cf8a2aad8579a7e103791e",
+  "original_future_slots_used": false,
+  "all_saved_descriptors_verified": true,
+  "source_frames": [
+    {
+      "source_frame": 0,
+      "time_s": 0.0,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2e90c5dfbcad93034bf16b5139591b031cffe3402581f8ee0596ad6a1bbe35ed"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a404344c4ff822cc595441bf44b07777175ccf78f3f0737d1d75fc8456cc3c75",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 1,
+      "time_s": 3.3333333333333147e-06,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2e90c5dfbcad93034bf16b5139591b031cffe3402581f8ee0596ad6a1bbe35ed"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a404344c4ff822cc595441bf44b07777175ccf78f3f0737d1d75fc8456cc3c75",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 2,
+      "time_s": 6.666666666666601e-06,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2e90c5dfbcad93034bf16b5139591b031cffe3402581f8ee0596ad6a1bbe35ed"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a404344c4ff822cc595441bf44b07777175ccf78f3f0737d1d75fc8456cc3c75",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 3,
+      "time_s": 1.0000000000000031e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2e90c5dfbcad93034bf16b5139591b031cffe3402581f8ee0596ad6a1bbe35ed"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a404344c4ff822cc595441bf44b07777175ccf78f3f0737d1d75fc8456cc3c75",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 4,
+      "time_s": 1.3333333333333521e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "7acfeadc6908a2394d48df7004b39791c6042071b3db22e92660f3dfd46b611a"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "7084ee3eea436a3600cd0d67c038ed6edc419812245f7a74d97e5f88f1631d2a"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a1acc673292e26ece0989a03fd2758fe701c6c1fc4f6d05dfd678b0f94a415d5",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 5,
+      "time_s": 1.666666666666701e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "fd0cf6d4b2dbc03865d4db736abb494973416bc693c45c4939420566d6b03d4b"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "48e456ddf38586b968927ad028142505db3300a35f4f0450eeae663b473ded1f"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "3d301c97711af8182ac537079330e6313d5c22746d9020e45cd6000d0ac600ab",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 6,
+      "time_s": 2.00000000000005e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d6cf2f9dbfe1bb47e4c125565b2fb68537681e2901aec68507e1365c7e4511b2"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "e71911d4fad32d31553724edfdf9989832b902d65ed73d09130514540bdb5bc6"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "b8fc8ab0b0084c151407c096d84fc500945bf5a9bcda1bd15dd0d2386abdbcf2",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 7,
+      "time_s": 2.333333333333399e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "f46c656f19b14f7143530215c88e22c09d6301c101f8290d5bce1408e44c8df8"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "c57221a198979a8ad203fc127544b2422b4e143501e27f2e864157ebc71f02cc"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "337f3883663e1177c54ce7762cc575fa99e51b7be3704019c616a6f244dabc3c",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 8,
+      "time_s": 2.666666666666748e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "2f6ad13c4a9061ee43e39855e2d2ffa3cf85ba7f41ad87b3449397113344ae98"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "5f844306e378567d8f786fcc4263407d7c3fad4377ab4a3101c0ec7e44b6c295"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "ec98b639bdd42af49b6b98ba8d0d939d14102852704b075d3db7c37ab6d213c3",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 9,
+      "time_s": 3.000000000000097e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "304701e262e2a662511afd3aa1ef1cc68c4416e139b2b8620938bcd3d55a3440"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "79e227b08feae1e55b69eb9c136fb209d2863bd9fb420d20125ff5a114c77300"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a837ae3d70eb9f8d3ef89eac1c1530f1bd39df0c941f5b0cdd7fb8ae3f286a6e",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 10,
+      "time_s": 3.333333333333377e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "ded32362a9feece996a1cb3e05f5f77270786e9a9c11079b8ed4bf5fbb0d4fa0"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "922911c324aff9e4bdd5efbd85399f6aaf1931c7799fc14b4d0d92f66daaac63"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "fbba75d54d6835110c1b16b6e05e1c78849303cf3907e770103a04241d737abc",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 11,
+      "time_s": 3.666666666666644e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d062e928043c8a2a119363a55023c50856c2908125749f9d3ad5e1c35b1e0313"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "f6b59f9622772d7c5fb5a6fdd0714f2a54033abc2e8478d9d9cbbe2de732ea3f"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "7c994bce733f27484992205a39e95a7b6bc6bf80505932ad026fd6f79aa12d1c",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 12,
+      "time_s": 3.9999999999999116e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "1251be8ddfe4a804618b24f8438bb0691ef52bae860d136c8c8911771e938ade"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "2f740ba0aae54f5f36f7939684d803c6c7add1f6810510beb5f448146afd8d02"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "c969a34ec96354a5e5d92eeace6251b669e133435242e0abbf7d45a0477d03b4",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 13,
+      "time_s": 4.333333333333179e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "a2f79780faa4d181a074ca17275cc9df48e6efc7833be37a9eabc82953709a4f"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "5f6a9064d42682259a8a1e31e8bb220dcf9c1020808bd1fe251a153547f31146"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "1ec8cf2279650e7222b41cc987a0cd063dcd609318a39496f21daae85e599d62",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 14,
+      "time_s": 4.666666666666446e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "fe0364fe1091aefc5be3f047433b916158940ed179f1ffc48b2de8cf5e220a21"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "c74f53027cd8a3895da5607678431050e745d33cabef99868cb846b404596eab"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "69e4f72b0c568b7c8e5a5c01525f5d44d1b4083d84593f8b05bbd0be86f2ebb3",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 15,
+      "time_s": 4.9999999999997136e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "ac04b96feba426235366fab01b0245e49bf24ce97403503c01de6e7fd35a7f20"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "fd672249ad4e44659a9bc521351591441a727f7f0301a2d22f399517bc976d31"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "4d4389a492adc08ec29e1753ce3c5cb99a1d94cad14a6233a3f557c1f74bb4f4",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 16,
+      "time_s": 5.333333333332981e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "3c0920e227b8f8c5d371c6afd4cd87c585fcde9a35e68bf80647cc1039c3d2ba"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "4d2cd64f768f4c42f53aa66e55823cee9798d70c5782425e3c57a0bff37737bb"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "de83175deac7af566309d4705833cfb49a0d88be22ce64503e28ec2cee52d2d6",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 17,
+      "time_s": 5.666666666666248e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "e71f0dcf7208ebf35733776ac256f38c02758f1e9e88799b2f45f55439e44b7b"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "45916b917d5943b7ed75c62d4bfb77f7c4d741c49a58063f446d3059ed286b6b"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "01f469b6a22a4b9c27f62ff2816a6795d26fa5bf95be77b456f00a425aa8bbb9",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 18,
+      "time_s": 5.9999999999995156e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "1aa07fd6fc3381f902bd4fe16635db2d4967537d24252878d2bec622c5520ba0"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "a6b733f130e9345ade29ebd2a899974bc396ce4b3f096976767164e71877b233"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "b2b04746b93372dd2f24a75e8d514e4fc9a60ec8f8a08cb9be34a55a09395f27",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 19,
+      "time_s": 6.333333333332783e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "e7629effad9e904631aabfa07f0bbd17d35963e63fe9da17f73a6cea0450fabd"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "45b344e0cf84d3dfa81680e84cab9a4cd8e4db977b798b04f0b5b381fe861ce3"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "48c5358a3cdcf95b2a8bbfdcb4cf503e416c45d7e0203128eac2ea7fd730a5b2",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 20,
+      "time_s": 6.66666666666605e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "fcb59607e5af97b5a4a31414db30597ed90fe2e096844bcc59d379bdb6f18f0c"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "6fd2095807514dc30f14b615738eced7b7a0f4b72d5c85f86175c0d35104f6f6"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "d05d684b7db53b1c1fbfe0c6cfece830270aef061eea319baa7705c8a97318c7",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 21,
+      "time_s": 6.999999999999318e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d306fa7f136a49a69c57765572c034cc1555bc3077962dcba5b22479b0747cfc"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "536fcb61b5a7cf34097512d6b203a50c0dd6daef8d67dcd92c01a6d8ea04a888"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "5425bb2b86697adc16108e1fde3231344ee02d7c7dad522047d3dcffa7f42269",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 22,
+      "time_s": 7.333333333332585e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "f2469a20e40da35e777d1b1092a25acdb3f0388c7bba49f6906401a34af7096b"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "1da03f4138da156b1ace92ef0ecab59a063adabc8a68e7ebf9e989a606004518"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "5cd369d8980e91001c91bfe6659e7230261acb82903e2f78c22f884d36017ca6",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 23,
+      "time_s": 7.666666666665852e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "7ae8e93042d69ebbe2f62192dfc2e17daebd5248db54d1ba5fc56ed87b1f9a53"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "eed45445bd562b8523b25378f9162280ca4ec9a32fdbbeeeb835a78c4a6b0d50"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "82fd365ab09fe5f396157d209c22d5b41e9ddab7c34cd16612e28fb43eddfcd1",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 24,
+      "time_s": 7.99999999999912e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "8c71b1c2364e69d14a41ba2570cec8b27d4ae2a2f0ae2aa6452e80e1fd6abd3e"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "70f55cb12a4167f366f26d169666b4bccb7375d91d800e8cc2fdb998220162dd"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "20a21dcdf904cc4db169a2c17fa1ad8d0de5f505f38984af0ede86b1c234c765",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 25,
+      "time_s": 8.333333333332387e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "47fff7d1405a79da843c63452d37ad4bed41207a81d7527e5f0cd69a0c0a2773"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "0b4377f4b7e29ac30c12891e6bbaf0118e0ae4b917d17aa2cbdced6435f1cf23"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "debfca8085075a83f388700dfa449a3abc69bbd15d1ff301b3a351218ec9f56f",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 26,
+      "time_s": 8.666666666665654e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "6c83afa2ab8cbf6f01d6ee77548c3666d2b038dd8734d57fe57523f6c36ae3ff"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "8b1fbd50272859fafd2bab89d542a82ca071bc81e71547e10786bc831d5ec9a1"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "e8c75a2cb86ce0eb01c2472b113180bbbf38b6cf4fe210af1b337a38bfaace1d",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 27,
+      "time_s": 8.999999999998922e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "1ac54bc3b730cb257c0978a37e26ec4dc651f313d56198b0cbb6e554af99dc29"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "ab46d94f96cb83141d44ee693c4264d0df7ffcd4808d0bf38704d31e1b1b27ef"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "59a3f6e1f5c2fbdec5deff685ad8cddb6ef641c6c09d0f7269dfa71431f5772f",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 28,
+      "time_s": 9.333333333332189e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d232fb61a153e64ba7667888c49cac8a1bc0df18179564f1282dc27d33fbf334"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "7925c42b6f5fd4b08f91a97b8ecb8713e9b6bd3d27563c670aa411a57fd2c613"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "4b4f5e70d3ea812cc852f3f77e10c31fa7e0a94aeae98bc0a68c33cb62b71d4b",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 29,
+      "time_s": 9.666666666665456e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "dd0496570c9f8d2be78772975b4699b989fb587e94744549ba3ad16ce939727a"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "19e71db4e4f91bd072e7b363154a8934d3ca28504ffc0d9627f23a68a401cf21"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "ff5f9b374b6e5f39b222d80fe411d725c4c744c133b850baef744a4fbdd9626e",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 30,
+      "time_s": 9.999999999998724e-05,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "0b05c3857bbde8cbbee756b5be3e1e5aeb7c0730528456f869cda1da615f35e9"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "a8249bd0ae8830e89ae7fb44c6d898921ee050fb5cce94465fe390dd177d4976"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "e6afb8f6e0c838c6757e906e03a8576be0a580d97e2a5eb9e15c7938bf29833d",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 31,
+      "time_s": 0.00010333333333331991,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d1932ba771d4ae684bec130bc270e6f00b9492f2691a79c5f83ef73cc4057be8"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "ef2058d9dcb5a84966ca8c38ffd0be25fceab88b21917b895c1e1cf6115c4b76"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "f1a0409236b2de57a490bdb9ebac1861d2b1ea326345359d9483c67b1dad6834",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 32,
+      "time_s": 0.00010666666666665259,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "693697d7bed852665c8489999d8276812b506955357089a551a03352e8cab063"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "df7c22f7621639fa7558feb1dec0b48f78aa7375969c9035db2ef9b8528ae74c"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "4dfe72b576d29319e8252b0e2e6a48b47e205155d15d26bcfd8417527685b8b8",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 33,
+      "time_s": 0.00010999999999998526,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "6a27e7d92d84be916b7819ce691c9c7474f737557d450b7dd8093a1142c394e2"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "68596a62ee7498fac6619f719866b483b32646a4c78d19fb7e45dd4c6f38b05b"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "ca961a39f02b3fb78ac5ac85f324a15443967fe3e4b2a6cc9d409daeccbaac15",
+      "source": "original recovered f34 raw, admitted saved prefix only"
+    },
+    {
+      "source_frame": 34,
+      "time_s": 0.00011333333333331793,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "ced76db62b19473016b4814c2aa2bf8e7a54bab268066e2771f34b281325f2bd"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "b5bf989fe81136a5182e1c4ad14b4bb1c0ff8bd9446deb7fba5dc218c83c22a2"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "b2e217425c5552fdb6e85c5eaa109dcc694d445328ca5387fdd77026a4aa9c6b",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 35,
+      "time_s": 0.0001166666666666506,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "4e1be503007055e33bf008f40889ca1b028a890d82476bf27e33ff4ac4285cc3"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "595fa6fa9cf89e1093a1499d2b10e0752eeabc5ca7900102c6ec4f6783f827d9"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "ccd902c8c73a254c2aea28bc1e902056a360942521bc371a9ce460a7118412a5",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 36,
+      "time_s": 0.00011999999999998328,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d188336dca08959c4204d1173f48e4ddb5ba98428b110e4837359e513b3148e7"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "f6a511b272d17d5038944db806aa5ccedd5e7d81e14ad68add64b700f2cec59c"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "c75fb7bf8872e4a7cb2eb34f34cd989ded42d0693f8b4d92eeed9fed6a4ee0e8",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 37,
+      "time_s": 0.00012333333333331597,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "5a12009579a5da2f402638254a1f467afb0aa839a1fe428b1a33ae8eef63f92e"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "d06b1f5d503d86e59fbaf5e7f7535f0035ab29a745b04e6738211d4e524cfef2"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "11036500e3a63e0d84d1c9db5fd3ef495d11123df843e793f4957a2eb1f93a0f",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 38,
+      "time_s": 0.00012666666666664864,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "f10e900d6142c0538184518f473be0d7c9b67457b84b18d63cc95de17362de7f"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "f74be0cd2805e449ac648ac0eb90439707d7c2453ffb25a51ebfe2ff2c78dd45"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "35cf1cece0fdb3b3f835846788b67a4690654c636b968fe06244d399f715dfd5",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 39,
+      "time_s": 0.0001299999999999813,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "0c85c78ae3ca139bc5a47fb4da281440d6171324a61d5ed3bc72c5cd221ba82c"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "8739f3faa1adaf48a5425a967b2398de1305536e69449022d806d9f022db901c"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "b814f1bc41f9b4a8616108f686c5734f38541452c93ad87fc23830a174246352",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 40,
+      "time_s": 0.000133333333333314,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "bb73d778cc4830241eebad641c12aae4cb629f7e03e5afd409822cab9a15e261"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "1bf401f398bf8a8102bae7546bdf0cfaf865c0cdeeb3a4475d341d28b0b36bbc"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "2b64fff7b1e804fbeadbdfc8c5fac206baa82340572a25b89ebc6ca97b5ae3ec",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 41,
+      "time_s": 0.00013666666666664666,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "10639382d421d22c3a9604b36531667f9776ed482a7d0e6dffd33a991f7bdef0"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "9a2d2e23233089f4f94a9b1311874679fa47a8de84ea9f57a37a19f320ad17a4"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "96857f163d4d0471266af1625f4b1bfb8849b63dbccf3e407ff976450f531331",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 42,
+      "time_s": 0.00013999999999997933,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "706427a787a9ddf9344a9ba6db3c3e374ccf00924c9a8f8eca8f8aab2fea9103"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "626ceeef238c6e897bed8709e69904c356599d1a8f7b26e53ea956e43a76a2a5"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "7161960301f2b8f7944caac0c640956e1620529c83bcee9eba8fb2e3371f931c",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 43,
+      "time_s": 0.000143333333333312,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "8e77de7c201437bc266a00246d59d4700eb307b6dd96e5819766a5e58fe2cd0a"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "dfb8be4619ac87e3acf242982d9b1c14f62a6729bd889967661fd4c78ceab9bc"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "e67d6a30e2bf15ceeb95cdfbf3189aa0bc5b10b53804d1aee463705c71d046c9",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 44,
+      "time_s": 0.00014666666666664468,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "69ec2d55fffc521a7252476de85e77b0f491c4614165a12688879ddd6a758d8f"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "9e5b7b594cf27cfd405c25c86b252459fc09d52170f34f765e093e69cc77899b"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "d7ae0131f2fe12bc9b6cc296c676fb6588fe877d4020cc1aa79b473fe37f5e88",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 45,
+      "time_s": 0.00014999999999997735,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "4e498c2e4b8e0187621c5370190385a5d34b04118ebf1997d093decabcab73ef"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "f5bcefc5176cebfdfdc3f3eb0e959864211cfc23491e3c2f7cacdc22c958a111"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "db85ab0d499f876a51df32d935aefa2ec80040c35eef5f260c44dd5866f879e1",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 46,
+      "time_s": 0.00015333333333331003,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "8c54f0a8cb85ba1033153b613e884c3335a592ca646554be638fec028e52e7e8"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "4a8fa891007594aa9a923650d9dedca6c7ebb095b11e38bfd898e242e6621967"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "334088a808769f259611fb92383e9e7a623c770dc7c760d503da1636203de45b",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 47,
+      "time_s": 0.0001566666666666427,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b22a6e79a849b733c43715541943d40d8b974bb3400d09459f2ea312dda7d98e"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "7e3f8dc69291f3c320d4502e5518c3560c301f4c95bfec35ec291aea20471a84"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "66bca5c5f4ef815e780e27c56203ace95d6fa3644cd86bbc798cf846db76f385",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 48,
+      "time_s": 0.00015999999999997537,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "3f2261dcb3580559359f5f25f2ca1747170c38dd3fb9f91e3626c9dcd47b29a2"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "2d13e862920846b3c20152ec212f6ac5a8dac99f6af7c05669d2474a20770579"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a94f56bb6a22600268152a9ee9724cd16cca28c4c30967eb072a09a6e5a20b7f",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 49,
+      "time_s": 0.00016333333333330805,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d5f3cdaba09d2a59888636d56d0ebcae58e98af6c504e5ecdced58ad6801d8d5"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "d1d773f61389e905fa2adde3ace5fd1dece059cd38c16ed172c334c8bb18db1b"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "89900e743ba95d244d5d582695c80d50f1d32658621aba9d09f048ff0ac445e8",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 50,
+      "time_s": 0.00016666666666664072,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "80d7dd9763b10c74deaed293851c679e440876c921c43851150b4054f2f0710f"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "8e8d39941aa656a6f2c4fabbb53a73602b3188ab04576cd13e4452870b48f340"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "475eb0641f8e2d33f88b9791791cc242317a2c484d5c4e031e8c78b5ce1cde26",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 51,
+      "time_s": 0.0001699999999999734,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "71475c38c6f0e5e34ea4faef6ff0f658b32b5bc391c81fcf3b391990b8400a74"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "242e4cc0ea3653069219badd0d1bded2d8109e256feb425a27a5a14d4009c4a7"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "b80706063cd5083426d5a71abb22e8ec608d56fdf533d4cb61b0cb8125b9f573",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 52,
+      "time_s": 0.00017333333333330607,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "6edb8906b494a58f6417c512bfef0b678dcc86b12e946858bc575c1aa94e0d21"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "8ec9235d5b0bec97d89d1214695d84137eda3e1f5325bdc551f5ea6fa0807182"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "7cd9aeb40fa29ca4a5d0696058cd61ac35838d026197f19a3b0c93932f376b01",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 53,
+      "time_s": 0.00017666666666663874,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "d41ec6946bdaac089dbb8aac34c3ec2dd183107c0c686cbf5400d37aea044afd"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "9aa41b8d0edbfc068bdf20cc2ca75eecb3b846b801f46189479d2cf60a7d1ff8"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "9b358b994fb0698b04de2de4eec175b8b8c984ae31417b1d1bda0e63d1cd75e4",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 54,
+      "time_s": 0.00017999999999997142,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "22ecb7c4e73c580130baa0eaa81707592528cf7354da869a12131f69abc3523f"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "5963b5d660e4c9be0f19c5227d1aef6247af522dcca023a6f000668797a919fb"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "d030f8db84fec4c12692dfcd209cbac702a5cd2656fdd24245fe959ab26c3f17",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 55,
+      "time_s": 0.0001833333333333041,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "b5fc02510df835873f52a9b22b8e60b658b04807c7533b43aed7eb6330f8bd67"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "56a85b4494792be130bb4b6195ed34f8a3a371468a00b04e74c7b3ec1677e0d0"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "f224feb15c435bf5f2e011ded6b12b1c5f9a7e75411a12514916ee6cb75a4b94",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 56,
+      "time_s": 0.00018666666666663676,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "dba76e8aca81fcb870527186280759f8530b49f708e25d860afd6c3c6d5905e5"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "101fd8a8182e1c378bd553c247321ac70bcade34b7819cdc09aad53c4689e444"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "bf6d44b35c8f151c1a6563e4ef6ab141df2e67bd2ffb435129857fa11ffa560a",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 57,
+      "time_s": 0.00018999999999996944,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "739605b0db401ab7fa2db539d648651e04318f06f6eb187840c5f8ae9beaf6d5"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "cf3b0ec6da7994944cbc7770439d3106f1381520ee65e588edde1818820df3f0"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "fbcdc26bb6a6825ca8396f26d7bc258a8a98f65610a0a30a09ec81db860adfb2",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 58,
+      "time_s": 0.0001933333333333021,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "7513c3f107c74804561304032b74c95f69948fd03a3fbda23b998dd83484613e"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "d88b2754209b88d5fa00489bd6471eef19b8839b9344f34ed8aa23d52c3d8b92"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "d582bea66a2679199e108bc93d027d3c45cdc0f4cd7c8a3b33251cb81df24869",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 59,
+      "time_s": 0.00019666666666663478,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "a2416a5ae657dc186cfe0e1e131d848abdae663786c8054ec0cda0bf90bd5951"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "5e40df74b575059580df5cf4093dedda2480f6164e0a9abdd953cf366c93e478"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "a6fb456a9bd4b68f3c0f0421da1a0f3557d55ff760f496be53ff5a4599e7bee7",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    },
+    {
+      "source_frame": 60,
+      "time_s": 0.00019999999999996746,
+      "descriptor": {
+        "x": {
+          "shape": [
+            819200,
+            3
+          ],
+          "dtype": "float64",
+          "sha256": "e8c6a23061c98c5e3c10aef6c4277afb51ddcca0c5d16c938d1dfeddbcde853b"
+        },
+        "speed": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "e421f1b5b8a2dff9b588125b2a25834a2b2f640b2341563593cabf18457f9535"
+        },
+        "damage": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "3ef04f217d88298e8da77db7e129918f67bbc6964edff6095483c89aca6e017d"
+        },
+        "temperature": {
+          "shape": [
+            819200
+          ],
+          "dtype": "float32",
+          "sha256": "15d30cbc762535a9836e8c28b24b6d36f04d7e5a51de1aef65430981fe9990e3"
+        }
+      },
+      "vtp_sha256": "562d02211c4dced7d5309fa7c437d70a0df0907d405185aa92f4709cc70837b7",
+      "source": "actual resumed f34..60 saved state, authenticated by previous render receipt"
+    }
+  ]
+}

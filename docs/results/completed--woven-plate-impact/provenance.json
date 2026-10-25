@@ -1,17 +1,42 @@
 {
   "schema": "completed-run-provenance-v1",
-  "title": "Clamped woven plate impact",
-  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40072947783",
-  "media_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40079918893",
-  "numerical_source_commit": "81c57439c71cb3f48c575c4d55ee9fcc89b3aa39",
-  "raw_receipt_sha256": "b383d38c539e08f2dbbfdb94a3016436940604fb3fa9577fc641ec4b9925520f",
-  "source_files_checked": 28,
-  "transport": {
-    "artifact_id": 12554717429,
-    "zip_sha256": "97f22cb7e4568ce0573429cf381b79e3fac7c6154c033195a61de0669c536b7c",
-    "whole_zip_locally_verified": true,
-    "whole_archive_backup_locally_verified": false
+  "title": "Deep woven plate impact",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40113303961",
+  "numerical_source_commit": "c5eccddd9d0857ecc3e0af6e3bfa356409817986",
+  "continuation_source_commit": "118c3400e1c9ba69f26a71d11554b62e69b342a3",
+  "continuation_branch": "work/woven-deep-linux",
+  "continuation_final_task": "woven-deep-f60",
+  "media_task": "woven-deep-full-tool-media",
+  "original_checkpoint_sha256": "5b58b2cafb9da612297d77e130a54c7c9609cc6f76fdb796da3611062fbea0d0",
+  "final_checkpoint_sha256": "ef4dcb98bb77108ec8404f210361c2c52a22dd9271cf8a2aad8579a7e103791e",
+  "original_transport_sha256": "52641545227d9513dd048291af4b238dd80f45525fba79cb251b5b6d9c095fe6",
+  "source_files": {
+    "files": {
+      "examples/woven_deep_impact.py": "8422e5e459f5abd73c6a2f1e2f0c07ce50f1c078967963e5c7ef5f13ee9998e6",
+      "tools/review_woven_large.py": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e",
+      "examples/woven_large_plate.py": "10d22d58685f6998c3bcea7f92fa406b0cb1d3feb2a77b3a946579b50685387a",
+      "examples/woven_large_geometry.py": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6",
+      "examples/woven_geometry.py": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "mpm_jax/packed_woven.py": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668",
+      "mpm_jax/rigid_sphere_contact.py": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/materials/woven.py": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "mpm_jax/particle_fields.py": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+    },
+    "fingerprint": "ffd3465dc3a459b00523e6a9b49e86bb1f92c8f5a5a4a42be261b54058c40ccf"
   },
-  "scope": "Coarse fully bonded elastic woven plate with four clamped edges and a freely moving sphere. No damage, yarn separation, resolved yarn-thickness or calibrated material-strength claim.",
-  "experimental_material_validation": false
+  "full_plan_completed": true,
+  "displayed_saved_frames": [
+    0,
+    60
+  ],
+  "physical_parameters_unchanged": true,
+  "numerical_source_unchanged": true,
+  "io_source_bridge": "source-bridge.json",
+  "experimental_material_validation": false,
+  "scope": "Completed original40J,200us elastic demonstration; saved peak exceeds5mm. This finite observation window does not establish eventual rebound/equilibrium, damage, yarn separation or experimental accuracy."
 }
