@@ -20,7 +20,7 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
     def solve(_):
         beta=j.linalg.norm(scale*rhs);u=scale*rhs/beta;v=AT(u);alpha=j.linalg.norm(v);v=v/alpha;t=u/alpha
         initial=(j.asarray(0,j.int32),u,v,t,v,t,j.zeros_like(v),j.zeros_like(u),alpha,beta,alpha,j.asarray(j.inf),j.asarray(j.inf))
-        def cond(z):return (z[0]<max_iterations)&((z[-2]>tolerance)|(z[-1]>1e-10))
+        def cond(z):return (z[0]<max_iterations-128)&((z[-2]>tolerance)|(z[-1]>1e-10))
         def body(z):
             k,u,v,t,w,tw,x,q,alpha,phibar,rhobar,primal,stationarity=z
             u=A(v)-alpha*u;beta=j.linalg.norm(u);u=u/j.maximum(beta,1e-300);vn=AT(u)-beta*v;alpha=j.linalg.norm(vn);v=vn/j.maximum(alpha,1e-300);t=u/j.maximum(alpha,1e-300)-(beta/j.maximum(alpha,1e-300))*t;rho=j.hypot(rhobar,beta);c=rhobar/rho;sn=beta/rho;theta=sn*alpha;rhobar=-c*alpha;phi=c*phibar;phibar=sn*phibar;x=x+(phi/rho)*w;q=q+(phi/rho)*tw;w=v-(theta/rho)*w;tw=t-(theta/rho)*tw
@@ -28,6 +28,20 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
             return k+1,u,v,t,w,tw,x,q,alpha,phibar,rhobar,primal,stationarity
         z=jax.lax.while_loop(cond,body,initial);return z[0],z[6],scale*z[7]
     iterations,x,multiplier=jax.lax.cond(coverage&positive&(norm>0),solve,lambda _:(j.asarray(0,j.int32),j.zeros(sum(sizes)),j.zeros_like(rhs)),None)
+    # Recover the dual of this same primal with a bounded rectangular correction.
+    # This minimizes stationarity error, not pressure work or a ledger residual.
+    def refine(_):
+        error=x-BT(multiplier);beta=j.linalg.norm(error);u=error/beta;v=A(u);alpha=j.linalg.norm(v);v=v/j.maximum(alpha,1e-300)
+        initial=(j.asarray(0,j.int32),u,v,v,j.zeros_like(multiplier),alpha,beta,alpha,multiplier,j.linalg.norm(error))
+        def condition(z):return (z[0]<128)&(z[-1]>1e-10*j.linalg.norm(x))
+        def body(z):
+            k,u,v,w,q,alpha,phibar,rhobar,best,best_error=z
+            u=AT(v)-alpha*u;beta=j.linalg.norm(u);u=u/j.maximum(beta,1e-300);vn=A(u)-beta*v;alpha=j.linalg.norm(vn);v=vn/j.maximum(alpha,1e-300);rho=j.hypot(rhobar,beta);c=rhobar/rho;sn=beta/rho;theta=sn*alpha;rhobar=-c*alpha;phi=c*phibar;phibar=sn*phibar;q=q+(phi/rho)*w;w=v-(theta/rho)*w
+            candidate=multiplier+scale*q;error=j.linalg.norm(x-BT(candidate));better=error<best_error;best=j.where(better,candidate,best);best_error=j.minimum(best_error,error)
+            return k+1,u,v,w,q,alpha,phibar,rhobar,best,best_error
+        z=jax.lax.while_loop(condition,body,initial);return z[-2],z[0]
+    need=(j.linalg.norm(x-BT(multiplier))>1e-10*j.maximum(j.linalg.norm(x),1e-300))&j.all(j.isfinite(multiplier))
+    multiplier,refinement_iterations=jax.lax.cond(need,refine,lambda _:(multiplier,j.asarray(0,j.int32)),None);iterations=iterations+refinement_iterations
     gradient=transpose_divergence(multiplier,h);corrected=tuple(v-r*z for v,r,z in zip(velocity,root,split(x)));fixture=tuple(j.where(f,g,0.) for f,g in zip(fixed,gradient));work=sum(j.sum(I*v) for I,v in zip(fixture,velocity));change=.5*sum(j.sum(m*(b*b-a*a)) for m,a,b in zip(mass,velocity,corrected));loss=.5*sum(j.sum(m*(b-a)**2) for m,a,b in zip(mass,velocity,corrected));identity=work-change-loss
     residual=j.where(fluid,divergence(corrected,h),0.);relative=j.linalg.norm(residual)/j.maximum(norm,1e-300);absolute=j.linalg.norm(x-BT(multiplier));stationarity=absolute/j.maximum(j.linalg.norm(x),1e-300);reconstruction=j.linalg.norm(B(BT(multiplier))-rhs)/j.maximum(norm,1e-300)
     momentum=j.stack([j.sum(m*(b-a))-j.sum(I) for m,a,b,I in zip(mass,velocity,corrected,fixture)]);momentum_scale=sum(j.sum(j.abs(m*(b-a)))+j.sum(j.abs(I)) for m,a,b,I in zip(mass,velocity,corrected,fixture));work_scale=j.maximum(j.maximum(j.abs(work),j.abs(change)),j.maximum(loss,1e-300));finite=j.all(j.stack([j.all(j.isfinite(v)) for v in corrected]));fixed_change=j.max(j.stack([j.max(j.abs(j.where(f,b-a,0.))) for f,a,b in zip(fixed,velocity,corrected)]))
