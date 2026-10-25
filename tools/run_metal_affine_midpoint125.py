@@ -18,6 +18,18 @@ from tools.metal_affine_dynamic_numpy import DynamicFrame, kinetic, moments, syn
 from tools.metal_affine_resource import require_commit_headroom
 
 
+def save_coupled_iteration(output, index, old, midpoint, dt, entropy, candidate, force_payload):
+    request_state = dict(old)
+    synchronize(request_state, midpoint)
+    request_state['candidate_requested_dt_s'] = np.asarray(dt)
+    request_state['candidate_previous_entropy'] = entropy
+    np.savez_compressed(output/f'iteration-{index}-request.npz', **request_state)
+    if candidate is not None:
+        np.savez_compressed(output/f'iteration-{index}-response.npz', **candidate)
+    if force_payload is not None:
+        np.savez_compressed(output/f'iteration-{index}-force.npz', **force_payload)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--state', type=Path, required=True)
@@ -31,7 +43,10 @@ def main():
     parser.add_argument('--end-time-limit', type=float, default=126.01e-9)
     parser.add_argument('--angular-relative-tolerance', type=float, default=1e-10)
     parser.add_argument('--max-iterations', type=int, default=12)
+    parser.add_argument('--iteration-records', choices=('all', 'final'), default='all')
     args = parser.parse_args()
+    if args.iteration_records == 'final' and not args.inprocess_material:
+        parser.error('Final-only iteration records require the in-process material evaluator')
     if not re.fullmatch('[0-9a-f]{64}', args.state_sha256) or hashlib.sha256(args.state.read_bytes()).hexdigest() != args.state_sha256:
         raise ValueError('Audited post-contact seed required')
     if hashlib.sha256(args.admission.read_bytes()).hexdigest() != '02f7f83880ea9e5afb4faadfb2cad17106a1c2a9aea3a6ec52b51482ef83b28d':
@@ -70,6 +85,7 @@ def main():
                   direct_projection=args.direct_projection, end_time_limit_s=args.end_time_limit,
                   angular_relative_tolerance=args.angular_relative_tolerance,
                   nonlinear_iteration_cap=args.max_iterations,
+                  iteration_records=args.iteration_records,
                   input_sha256=hashlib.sha256(args.state.read_bytes()).hexdigest(),
                   energy_roundoff_J=tol, iterations=[], stages=[], production_admitted=False)
     frame = None
@@ -164,6 +180,8 @@ def main():
         old_entropy = thermal(old, p)[2]
         converged = False
         for iteration in range(args.max_iterations):
+            candidate = None
+            last_force_payload = None
             midpoint_y = .5 * (y0 + guess)
             request_state = {k: value.copy() for k, value in old.items()}
             synchronize(request_state, midpoint_y)
@@ -171,11 +189,13 @@ def main():
             request_state['candidate_previous_entropy'] = old_entropy
             request = args.output/f'iteration-{iteration}-request.npz'
             response = args.output/f'iteration-{iteration}-response.npz'
-            np.savez_compressed(request, **request_state)
+            if args.iteration_records == 'all':
+                np.savez_compressed(request, **request_state)
             if args.inprocess_material:
                 from tools.metal_affine_midpoint_material_worker import evaluate
                 candidate = evaluate(request_state, p)
-                np.savez_compressed(response, **candidate)
+                if args.iteration_records == 'all':
+                    np.savez_compressed(response, **candidate)
                 gate(candidate['candidate_material_valid'], 'Material update rejected; raw evaluation preserved')
             else:
                 child = subprocess.run([sys.executable, '-m', 'tools.metal_affine_midpoint_material_worker',
@@ -218,10 +238,12 @@ def main():
                        position_error=position_error, deformation_error=deformation_error,
                        force_projection=force_rows)
             report['iterations'].append(row)
-            np.savez_compressed(args.output/f'iteration-{iteration}-force.npz', midpoint_white=midpoint_y,
+            last_force_payload = dict(midpoint_white=midpoint_y,
                 guessed_white=guess, proposed_white=proposed, raw_force=raw, projected_force=force,
                 reaction_force=reaction_force, reaction_contact=reaction_contact, physical_contact=physical_contact,
                 viscosity_piola=viscous, multiplier=multiplier_scale*frame.restricted.last_multiplier)
+            if args.iteration_records == 'all':
+                np.savez_compressed(args.output/f'iteration-{iteration}-force.npz', **last_force_payload)
             record()
             gate(contact_row['valid'] and contact_row['original_sample_closing_m_s'] <= .005 and
                  contact_row['restricted_sample_difference_m_s'] <= .005, 'Original contact tolerance failed in coupled iteration')
@@ -232,6 +254,11 @@ def main():
             guess = proposed
             progress('iteration-'+str(iteration))
         gate(converged, 'Common-time-level nonlinear solve reached its declared evaluation limit')
+        if args.iteration_records == 'final':
+            io_started = time.monotonic()
+            save_coupled_iteration(args.output, iteration, old, midpoint_y, args.dt, old_entropy, candidate, last_force_payload)
+            report['retained_iteration_io_seconds'] = time.monotonic()-io_started
+            report['retained_iteration'] = iteration
         y = proposed
         midpoint_actual = .5 * (y0 + y)
         midstate = {**old, 'x': .5*(old['x']+candidate['x']), 'F': Fmid}
@@ -337,14 +364,20 @@ def main():
     except Exception as error:
         report.update(status='rejected', first_error={'type': type(error).__name__, 'message': str(error)})
         if 'response' in locals():
-            report['last_material_evaluation'] = response.name
-            report['last_force_evaluation'] = f'iteration-{iteration}-force.npz'
+            if args.iteration_records == 'final' and not response.is_file():
+                save_coupled_iteration(args.output, iteration, old, midpoint_y, args.dt, old_entropy, candidate, last_force_payload)
+            if response.is_file():
+                report['last_material_evaluation'] = response.name
+            force_path = args.output/f'iteration-{iteration}-force.npz'
+            if force_path.is_file():
+                report['last_force_evaluation'] = force_path.name
         report['rejected_context_is_not_a_complete_physical_checkpoint'] = True
         state['valid'] = np.asarray(False)
         np.savez_compressed(args.output/'rejected.npz', **state, rejected_white=y)
     finally:
         if frame is not None:
             frame.release()
+        report['total_elapsed_s'] = time.monotonic()-started
         record()
     print(json.dumps({'status': report['status'], 'error': report.get('first_error')}), flush=True)
     if report['status'] != 'bounded-window-passed':
