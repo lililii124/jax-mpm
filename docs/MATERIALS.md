@@ -37,6 +37,9 @@ integration convention of this package. Material-point replay tests bypass
 that kinematic conversion and therefore do not establish equivalence of an
 entire MPM solver to the source host solver.
 
+The RHT return solver uses yielding-point batches for large arrays; the
+[implementation comparison](RHT_RETURN_MAP.md) records its equivalence checks.
+
 ### HJC profiles
 
 `hjc()` and `hjc(profile="legacy-v3")` preserve the supplied v3 conventions,

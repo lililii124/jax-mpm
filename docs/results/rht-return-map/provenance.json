@@ -1,0 +1,22 @@
+{
+  "baseline_commit": "0acea12cdc064e368f14bbe58137efea93ae92aa",
+  "baseline_kernel_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+  "batched_kernel_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+  "implementation_source": "48bbe519cb6ef2714baaf30bd4cfb368508ed81a",
+  "batch_size": 256,
+  "original_function_and_all_other_material_functions_ast_unchanged": true,
+  "runtime_numerical_dependencies_match_frozen_impact_source": true,
+  "runtime": {
+    "python": "3.12.13",
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4"
+  },
+  "comparison_tolerance": "1e-12 * max(1, maximum absolute reference value of each field); booleans exact",
+  "evidence": {
+    "focused-checks.json": "3139eebda8c577b8f2f066980357439cf92d5bf3912592803078910477806fa0",
+    "step106-comparison.json": "93adf7949f21728a8ea75c2c847f4101c758585c0f7a5c5ab29fa9548e68296e",
+    "step110-comparison.json": "83f417dbc85e0345d9a3cd35ce221da3f089a87aff671b11e33d9eb8c53d602e"
+  },
+  "scope": "Return-map implementation equivalence; no full impact or experimental calibration claim"
+}

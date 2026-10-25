@@ -390,7 +390,7 @@ def _at_multiplier(z, density, energy, dt, trial, old, p, context, stage):
     return new, residual
 
 
-def _return_branch(density, energy, dt, trial, old, p, context, stage):
+def _return_branch_full(density, energy, dt, trial, old, p, context, stage):
     zero = jnp.zeros_like(density)
     scale = jnp.maximum(p.fc, jnp.max(jnp.abs(trial), axis=(-2, -1)))
     tol = _tolerance(trial.dtype) * scale
@@ -430,6 +430,90 @@ def _return_branch(density, energy, dt, trial, old, p, context, stage):
     return jax.tree.map(
         lambda a, b: jnp.where(yielding.reshape((-1,) + (1,) * (a.ndim - 1)), b, a), initial, solved
     )
+
+
+
+# Static solve width; small material-point calls retain the original path.
+_RETURN_BATCH_SIZE = 256
+
+
+def _solve_return_active(density, energy, dt, trial, old, p, context, stage, active, tol):
+    """Original return solve on packed yielding points; inactive lanes are padding."""
+    zero = jnp.zeros_like(density)
+
+    def at(z):
+        # Padding gathers point0 but must not activate a fictitious tensile root.
+        return _at_multiplier(jnp.where(active, z, zero), density, energy, dt, trial, old, p, context, stage)
+
+    def probe(z):
+        return at(z)[1]
+
+    def grow_cond(carry):
+        i, hi, f = carry
+        return (i < 60) & jnp.any(active & (f > 0))
+
+    def grow(carry):
+        i, hi, f = carry
+        hi = jnp.where(active & (f > 0), hi * 2, hi)
+        return i + 1, hi, probe(hi)
+
+    hi = jnp.full_like(zero, 0.01)
+    _, hi, fhi = jax.lax.while_loop(grow_cond, grow, (0, hi, probe(hi)))
+
+    def body(_, bracket):
+        lo, hi = bracket
+        mid = 0.5 * (lo + hi)
+        f = probe(mid)
+        return jnp.where(f > 0, mid, lo), jnp.where(f > 0, hi, mid)
+
+    lo, hi = jax.lax.fori_loop(0, 56, body, (zero, hi))
+    result, f = at(0.5 * (lo + hi))
+    return result._replace(valid=result.valid & (fhi <= tol) & (jnp.abs(f) <= 10 * tol))
+
+
+def _return_branch(density, energy, dt, trial, old, p, context, stage):
+    """Full initial update, then solve only the original yielding-point mask."""
+    n = density.shape[0]
+    batch = _RETURN_BATCH_SIZE
+    if n <= batch:
+        return _return_branch_full(density, energy, dt, trial, old, p, context, stage)
+    zero = jnp.zeros_like(density)
+    scale = jnp.maximum(p.fc, jnp.max(jnp.abs(trial), axis=(-2, -1)))
+    tol = _tolerance(trial.dtype) * scale
+    initial, f0 = _at_multiplier(zero, density, energy, dt, trial, old, p, context, stage)
+    yielding = f0 > tol
+    count = jnp.sum(yielding, dtype=jnp.int32)
+    # Extra static tail prevents dynamic_slice from clamping a partial last batch.
+    packed = jnp.nonzero(yielding, size=n + batch - 1, fill_value=n)[0]
+
+    def pending(carry):
+        cursor, _ = carry
+        return cursor < count
+
+    def solve_batch(carry):
+        cursor, result = carry
+        indices = jax.lax.dynamic_slice_in_dim(packed, cursor, batch)
+        active = indices < n
+        gather_indices = jnp.where(active, indices, 0)
+        scatter_indices = jnp.where(active, indices, n)
+
+        def gather(value):
+            # Preserve scalar/size1 broadcasts, including material parameters.
+            if hasattr(value, 'ndim') and value.ndim and value.shape[0] == n:
+                return jnp.asarray(value)[gather_indices]
+            return value
+
+        rho, specific_energy, step_dt, stress, history, parameters, local_context, tolerance = jax.tree.map(
+            gather, (density, energy, dt, trial, old, p, context, tol)
+        )
+        solved = _solve_return_active(
+            rho, specific_energy, step_dt, stress, history, parameters, local_context, stage, active, tolerance
+        )
+        # No arithmetic blend, duplicate valid indices, or padding write to point0.
+        result = jax.tree.map(lambda a, b: a.at[scatter_indices].set(b, mode='drop'), result, solved)
+        return cursor + batch, result
+
+    return jax.lax.while_loop(pending, solve_batch, (jnp.array(0, dtype=jnp.int32), initial))[1]
 
 
 def _single_step(old, strain, density, energy, dt, p):
