@@ -91,8 +91,9 @@ def verify(run_id, artifact_id, commit, output):
         np.testing.assert_array_equal(index['time'], tables['times'])
     summary = json.loads((folder/'summary.json').read_text())
     status = json.loads((folder/'status.json').read_text())
-    assert status['phase'] == 'checkpoint-ready' and not status.get('never_resumable',False)
+    assert status['phase'] in ('checkpoint-ready','completed') and not status.get('never_resumable',False)
     assert status['frame'] == frame and status['signature'] == signature
+    assert (status['phase'] == 'completed') == (frame == plan['frames'] and steps == plan['steps'])
     assert summary['definition'] == plan and summary['steps'] == steps
     assert summary['runtime'] == runtime
     assert summary['common_request_sha256'] == plan['common_request_sha256'] == preflight['common_request_sha256']
