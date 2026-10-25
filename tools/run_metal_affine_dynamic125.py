@@ -146,7 +146,7 @@ def main():
         return dict(min_J=float(J.min()),max_J=float(J.max()),max_temperature=float(T.max()),minimum_cfl_limit_s=cfl_limit(s,params),max_damage=float(s['damage'].max()))
     try:
         save('mapped-initial')
-        frame=DynamicFrame(s,fixed,progress);project_geometry('initial-space-boundary');instantaneous_contact('initial-impact-contact')
+        frame=DynamicFrame(s,fixed,y,progress);project_geometry('initial-space-boundary');instantaneous_contact('initial-impact-contact')
         gate(abs(energy()-initial_energy)<=tol,'Initial projection/contact energy ledger failed')
         for step in range(a.steps):
             require_commit_headroom();start_energy=energy();start_time=float(s['time']);start_state_J=np.linalg.det(s['F']);start_material=float(np.sum(s['mass']*s['internal_energy']))
@@ -168,7 +168,7 @@ def main():
             material_work=float(np.sum(s['volume']*s['candidate_material_work_density']))
             material_change=float(np.sum(s['mass']*s['internal_energy']))-start_material
             save(f'step-{step}-drift-material')
-            frame=DynamicFrame(s,fixed,progress);project_geometry(f'step-{step}-new-space-boundary');instantaneous_contact(f'step-{step}-geometric-contact')
+            frame=DynamicFrame(s,fixed,y,progress);project_geometry(f'step-{step}-new-space-boundary');instantaneous_contact(f'step-{step}-geometric-contact')
             kick1=coupled_kick(f'step-{step}-final-half-kick',a.dt/2)
             diagnostics=validate_state();end_energy=energy();residual=end_energy-start_energy;global_residual=end_energy-initial_energy
             momentum,angular=moments(s,y);momentum_residual=momentum-initial_momentum-ledger['boundary_impulse']
@@ -185,7 +185,6 @@ def main():
             angular_scale=float(np.sum(s['mass']*(np.linalg.norm(s['x'],axis=1)*(np.linalg.norm(s['v'],axis=1)+np.linalg.norm(seed['v'],axis=1))))+np.linalg.norm(ledger['boundary_torque']))
             gate(np.linalg.norm(angular_residual)<=64*np.finfo(float).eps*max(angular_scale,1e-30),'Angular momentum with boundary torque failed')
             report['accepted_steps']+=1;save(f'step-{step}-accepted')
-            if step+1<a.steps:frame.release();frame=None;frame=DynamicFrame(s,fixed,progress)
         report['status']='bounded-window-passed'
     except Exception as error:
         report['status']='rejected';report['first_error']=dict(type=type(error).__name__,message=str(error),stage=stage)

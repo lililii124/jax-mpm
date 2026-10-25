@@ -53,12 +53,18 @@ def stress_force(state,y,p):
 
 
 class DynamicFrame:
-    def __init__(self,state,fixed,progress=lambda phase:None):
+    def __init__(self,state,fixed,incoming_y,progress=lambda phase:None):
         require_commit_headroom()
         args=(state['x'],state['mass'],state['body_id'],.00025,state['F'],state['reference_root'])
         self.full=ConsistentAffineProjection(*args)
         progress('free-factor-ready')
         self.contact=CompatibleContact(self.full)
+        self.incoming_y=incoming_y.copy()
+        self.free_state,self.free_projection_rows=self.full.project(incoming_y)
+        # Only the known affine modes and assembled contact sampler survive.
+        # Do not hold two large SuperLU factors at once.
+        self.full.tri=None;self.full.A=None;self.full.Q=None;self.full.Qp=None;self.full.Q0=None
+        gc.collect();progress('free-state-projected-factor-released')
         self.allowed=ConsistentAffineProjection(*args,clamped_particles=fixed)
         progress('fixed-node-factor-ready')
         self.restricted=DirichletContact(self.contact,self.allowed)
@@ -77,15 +83,22 @@ class DynamicFrame:
             coverage_valid=True,occupied_shared_nodes=shared,stencil_partition_error=partition,stencil_first_moment_error=first_moment,
             free_factor=self.full.factor_report,constrained_factor=self.allowed.factor_report)
     def project(self,y):
-        free,free_rows=self.full.project(y);allowed,bc_rows=self.allowed.project(free)
+        if not np.array_equal(y,self.incoming_y):raise ValueError('Stale free-state projection')
+        free,free_rows=self.free_state,self.free_projection_rows;allowed,bc_rows=self.allowed.project(free)
         grid_loss=float(.5*np.sum((free-y)**2));boundary_loss=float(.5*np.sum((allowed-free)**2))
         return allowed,dict(grid_projection_loss_J=grid_loss,boundary_projection_loss_J=boundary_loss,
             grid_projection_identity_J=kinetic(free)-kinetic(y)+grid_loss,
             boundary_projection_identity_J=kinetic(allowed)-kinetic(free)+boundary_loss,
             free_projection=free_rows,constrained_projection=bc_rows),allowed-free
     def force(self,raw):
-        free,free_rows=self.full.project(raw);allowed,bc_rows=self.allowed.project(raw)
-        return allowed,allowed-free,dict(free=free_rows,constrained=bc_rows)
+        allowed,bc_rows=self.allowed.project(raw)
+        # This residual includes both the unconstrained Galerkin-orthogonal
+        # force and the fixed-node reaction. The former has zero global
+        # impulse/torque because the full space reproduces rigid fields.
+        # Thus global impulse/torque of this residual is the boundary reaction;
+        # both parts do zero admissible virtual work. No free inverse needed.
+        return allowed,allowed-raw,dict(constrained=bc_rows,
+            reaction_scope='fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque')
     def release(self):
         for op in (self.full,self.allowed):op.tri=None;op.A=None
         self.restricted=None;self.contact=None;self.full=None;self.allowed=None;gc.collect()
