@@ -7,8 +7,64 @@ Geometry/preconditioner preparation and impact integration are not installed
 by this module; a successful frozen-operator check is not production approval.
 """
 from functools import partial
+from itertools import product
 import jax
 import jax.numpy as jnp
+
+
+def _grid_keys(body,nodes):
+    body=jnp.asarray(body,jnp.int64);nodes=jnp.asarray(nodes,jnp.int64)
+    width=1<<20;bias=1<<19
+    return body*(1<<60)+(nodes[...,0]+bias)*(1<<40)+(nodes[...,1]+bias)*width+(nodes[...,2]+bias)
+
+
+@partial(jax.jit,static_argnames=('capacity',))
+def quadratic_reconstruction(x,mass,body,F,reference_root,dx,fixed_particles,ordered_node_keys,*,capacity=65536):
+    """Build the original27-point Hermite reconstruction entirely in JAX.
+
+    The supplied node roster belongs to the fixed-step preconditioner. Exact
+    coverage is checked; storage overflow or a different roster cannot silently
+    drop physical nodes. No Gram, COO reconstruction, or inverse is assembled.
+    """
+    offsets=jnp.asarray(tuple(product(range(3),repeat=3)),dtype=jnp.int64)
+    base=jnp.floor(x/dx-.5).astype(jnp.int64);nodes=base[:,None,:]+offsets
+    fraction=x/dx-base
+    one=jnp.stack((.5*(1.5-fraction)**2,.75-(fraction-1)**2,.5*(fraction-.5)**2),axis=1)
+    weights=jnp.prod(jnp.stack(tuple(one[:,offsets[:,a],a] for a in range(3)),axis=-1),axis=-1)
+    keys=_grid_keys(body[:,None],nodes)
+    unique,inverse=jnp.unique(keys.ravel(),size=capacity,fill_value=jnp.iinfo(jnp.int64).max,return_inverse=True)
+    ids=inverse.reshape(weights.shape)
+    gm=jnp.zeros(capacity,x.dtype).at[ids].add(mass[:,None]*weights,mode='drop')
+    fixed=jnp.zeros(capacity,jnp.int32).at[ids].max(jnp.broadcast_to(fixed_particles[:,None],ids.shape).astype(jnp.int32),mode='drop')>0
+    free=(gm>0)&~fixed
+    ordered=_grid_keys(ordered_node_keys[:,0],ordered_node_keys[:,1:])
+    selected=jnp.searchsorted(unique,ordered)
+    selected_keys=jnp.take(unique,selected,mode='fill',fill_value=-1)
+    selected_free=jnp.take(free,selected,mode='fill',fill_value=False)
+    roster=jnp.full(capacity,-1,jnp.int32).at[selected].set(jnp.arange(len(ordered),dtype=jnp.int32),mode='drop')
+    slots=jnp.take(roster,ids,mode='fill',fill_value=-1);mask=slots>=0;safe=jnp.maximum(slots,0)
+    r=nodes*dx-x[:,None,:]
+    gradient=4/dx**2*jnp.einsum('pki,pij->pkj',r,F@reference_root)
+    basis=jnp.concatenate((jnp.ones(weights.shape+(1,),x.dtype),gradient),axis=-1)
+    raw=jnp.sqrt(mass)[:,None]*weights
+    norm2=jnp.zeros(capacity,x.dtype).at[ids].add(raw**2*jnp.sum(basis*basis,axis=-1),mode='drop')
+    norm=jnp.sqrt(jnp.take(norm2,selected,mode='fill',fill_value=0))
+    scale=jnp.where(mask,raw/jnp.maximum(norm[safe],jnp.finfo(x.dtype).tiny),0.)
+    encoded_safe=jnp.all((body>=0)&(body<2))&jnp.all(jnp.abs(nodes)<(1<<19))
+    coverage=jnp.all(jnp.take(unique,ids,mode='fill',fill_value=-1)==keys)
+    valid=encoded_safe&coverage&jnp.all(selected_keys==ordered)&jnp.all(selected_free)&(jnp.sum(free)==len(ordered))&jnp.all(norm>0)
+    return dict(slots=safe,scale=scale,basis=basis,column_norm=norm,valid=valid,free_node_count=jnp.sum(free),mass_error=jnp.sum(gm)-jnp.sum(mass))
+
+
+def reconstructed_apply(parameters,z):
+    samples=z[parameters['slots']]
+    values=jnp.einsum('pk,pkb,pkc->pbc',parameters['scale'],parameters['basis'],samples)
+    return values.reshape(-1,z.shape[-1])
+
+
+def reconstructed_transpose(parameters,y,nodes):
+    values=jnp.einsum('pk,pkb,pbc->pkc',parameters['scale'],parameters['basis'],y.reshape(-1,4,y.shape[-1]))
+    return jnp.zeros((nodes,y.shape[-1]),y.dtype).at[parameters['slots']].add(values)
 
 
 def _bounded_loop(body,state,limit,stopped):

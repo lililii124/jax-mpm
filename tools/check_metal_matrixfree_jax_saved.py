@@ -14,23 +14,21 @@ from jax.scipy.linalg import solve_triangular
 from tools.metal_affine_projection_numpy import ConsistentAffineProjection
 from tools.metal_affine_contact_numpy import CompatibleContact
 from tools.metal_affine_dynamic_numpy import moments
-from mpm_jax.fragment_v6_matrixfree_projection import sparse_apply,consistent_project,cone_project,intersect_project
+from mpm_jax.fragment_v6_matrixfree_projection import sparse_apply,consistent_project,cone_project,intersect_project,quadratic_reconstruction,reconstructed_apply,reconstructed_transpose
 
 
 def triangular_blocks(matrix,size=128):
     """Exact block triangular solve preparation; not an approximate objective."""
-    from scipy.sparse import eye
     n=matrix.shape[0];blocks=(n+size-1)//size;N=blocks*size
-    dense=np.zeros((blocks,size,size));off=[[] for _ in range(blocks)]
+    dense=np.zeros((blocks,size,size))
     coo=matrix.tocoo()
-    for r,c,v in zip(coo.row,coo.col,coo.data):
-        if r//size==c//size:dense[r//size,r%size,c%size]=v
-        else:off[r//size].append((r%size,c,v))
-    for r in range(n,N):dense[r//size,r%size,r%size]=1.
-    counts=np.asarray(list(map(len,off)),np.int32);cap=int(counts.max(initial=0));offsets=np.concatenate(([0],np.cumsum(counts[:-1]))).astype(np.int32)
-    entries=[e for block in off for e in block];padding=1<<max(0,(max(cap,1)-1).bit_length())
-    row=np.zeros(len(entries)+padding,np.int32);col=row.copy();data=np.zeros(len(entries)+padding)
-    for i,(r,c,v) in enumerate(entries):row[i]=r;col[i]=c;data[i]=v
+    block_rows=coo.row//size;inside=block_rows==coo.col//size
+    dense[block_rows[inside],coo.row[inside]%size,coo.col[inside]%size]=coo.data[inside]
+    padding_rows=np.arange(n,N);dense[padding_rows//size,padding_rows%size,padding_rows%size]=1.
+    outside=~inside;order=np.argsort(block_rows[outside],kind='stable')
+    counts=np.bincount(block_rows[outside],minlength=blocks).astype(np.int32);cap=int(counts.max(initial=0));offsets=np.concatenate(([0],np.cumsum(counts[:-1]))).astype(np.int32)
+    count=int(np.sum(outside));padding=1<<max(0,(max(cap,1)-1).bit_length())
+    row=np.pad((coo.row[outside][order]%size).astype(np.int32),(0,padding));col=np.pad(coo.col[outside][order].astype(np.int32),(0,padding));data=np.pad(coo.data[outside][order],(0,padding))
     dense,row,col,data,offsets,counts=map(jnp.asarray,(dense,row,col,data,offsets,counts))
     lower=bool(np.any(coo.row>coo.col));assert not (lower and np.any(coo.row<coo.col))
     parameters=(dense,row,col,data,offsets,counts)
@@ -53,7 +51,7 @@ def triangular_blocks(matrix,size=128):
             answer=solve_triangular(dense[b],value,lower=lower)
             return jax.lax.dynamic_update_slice(x,answer,(offset,0))
         return jax.lax.fori_loop(0,blocks,body,jnp.zeros_like(padded))[:n]
-    return solve,dict(blocks=blocks,block_size=size,maximum_off_diagonal_entries=cap,actual_off_diagonal_entries=len(entries),old_padded_entries=blocks*cap,exact_triangular_blocks=True),parameters
+    return solve,dict(blocks=blocks,block_size=size,maximum_off_diagonal_entries=cap,actual_off_diagonal_entries=count,old_padded_entries=blocks*cap,exact_triangular_blocks=True),parameters
 
 
 def main():
@@ -79,14 +77,24 @@ def main():
         m=matrix.tocoo();data,row,col=map(jnp.asarray,(m.data,m.row.astype(np.int32),m.col.astype(np.int32)))
         parameters=(data,row,col)
         return (lambda x,p=parameters:sparse_apply(p[0],p[1],p[2],x,m.shape[0]),lambda x,p=parameters:sparse_apply(p[0],p[2],p[1],x,m.shape[1]),parameters)
-    Q,QT,q_parameters=sparse(allowed.Qp);B,BT,b_parameters=sparse(contact.B0)
+    B,BT,b_parameters=sparse(contact.B0)
+    native_started=time.monotonic()
+    native=quadratic_reconstruction(*(jnp.asarray(old[k]) for k in ('x','mass','body_id','F','reference_root')),jnp.asarray(.00025),jnp.asarray(old['candidate_fixed_particles']),jnp.asarray(allowed.node_keys[allowed.order]))
+    assert bool(native['valid']), 'Native node roster/finite storage coverage failed; do not solve'
+    trial_np=gold['trial'];probe=allowed.Qp.T@trial_np
+    q_actual=np.asarray(jax.jit(reconstructed_apply)(native,jnp.asarray(probe)))
+    qt_actual=np.asarray(jax.jit(lambda p,y:reconstructed_transpose(p,y,allowed.nodes))(native,jnp.asarray(trial_np)))
+    q_error=float(np.linalg.norm(q_actual-allowed.Qp@probe)/np.linalg.norm(allowed.Qp@probe));qt_error=float(np.linalg.norm(qt_actual-probe)/np.linalg.norm(probe))
+    assert max(q_error,qt_error)<=1e-12
+    native_report=dict(valid=True,free_nodes=int(native['free_node_count']),capacity=65536,mass_error=float(native['mass_error']),forward_relative_difference=q_error,transpose_relative_difference=qt_error,setup_and_probe_seconds=time.monotonic()-native_started,source='JAX quadratic stencil, node discovery, clamp coverage, mass/column metrics and tensor reconstruction; no assembled reconstruction COO in solver')
     T=jnp.asarray(allowed.T);currentT=jnp.asarray(current.T);C=jnp.asarray(contact.C);M=jnp.asarray(contact.mobility)
     def sample(y):return B(y.ravel())+C@(currentT.T@y).ravel()
     def adjoint(lam):return BT(lam).reshape(-1,3)+currentT@(C.T@lam).reshape(currentT.shape[1],3)
     trial=jnp.asarray(gold['trial']);prepare_seconds=time.monotonic()-started
-    parameters=dict(upper=upper_parameters,lower=lower_parameters,q=q_parameters,b=b_parameters,root=root,T=T,currentT=currentT,C=C,M=M)
+    nodes=allowed.nodes
+    parameters=dict(upper=upper_parameters,lower=lower_parameters,reconstruction=native,b=b_parameters,root=root,T=T,currentT=currentT,C=C,M=M)
     def kernel(y,p):
-        q=lambda x:Q(x,p['q']);qt=lambda x:QT(x,p['q'])
+        q=lambda x:reconstructed_apply(p['reconstruction'],x);qt=lambda x:reconstructed_transpose(p['reconstruction'],x,nodes)
         right=lambda x:upper(p['root'][:,None]*x,p['upper'])
         rightT=lambda x:p['root'][:,None]*lower(x,p['lower'])
         sample=lambda x:B(x.ravel(),p['b'])+p['C']@(p['currentT'].T@x).ravel()
@@ -110,7 +118,7 @@ def main():
     tol=1.414599609375e-8;torquetol=1.5782228774332438e-14
     passed=bool(report['converged'] and relative<=1e-10 and kkt<=.005 and abs(boundarywork)<=tol and contactwork<=tol and np.linalg.norm(L)<=torquetol)
     np.savez_compressed(out/'jax-raw.npz',trial=np.asarray(trial),following=following,physical=physical,reaction=reaction,multiplier=lam)
-    result=dict(status='passed' if passed else 'failed',parent_checkpoint_sha256=parent_sha,golden_npz_sha256=hashlib.file_digest(gold_path.open('rb'),'sha256').hexdigest(),source_input='Original accepted22 and already-solved same frozen qmid golden; no replay',particles=len(old['mass']),prepare_seconds=prepare_seconds,compile_seconds=compile_seconds,solve_seconds=solve_seconds,relative_velocity_difference=relative,original_KKT_m_s=kkt,physical_dual_difference=dualdifference,physical_momentum=P.tolist(),physical_torque=L.tolist(),boundary_work_J=boundarywork,contact_work_J=contactwork,report=report,preconditioner=pc,migration_boundary='Geometry and exact sparse LDL setup still SciPy. All LSQR, triangular application, cone and Dykstra iterations JAX64; no146-column Schur, no JIT callbacks. Not yet an all-JAX impact step.')
+    result=dict(status='passed' if passed else 'failed',parent_checkpoint_sha256=parent_sha,golden_npz_sha256=hashlib.file_digest(gold_path.open('rb'),'sha256').hexdigest(),source_input='Original accepted22 and already-solved same frozen qmid golden; no replay',particles=len(old['mass']),prepare_seconds=prepare_seconds,compile_seconds=compile_seconds,solve_seconds=solve_seconds,relative_velocity_difference=relative,original_KKT_m_s=kkt,physical_dual_difference=dualdifference,physical_momentum=P.tolist(),physical_torque=L.tolist(),boundary_work_J=boundarywork,contact_work_J=contactwork,report=report,preconditioner=pc,native_reconstruction=native_report,migration_boundary='Reconstruction preparation and all iterative solves JAX64. Current physical contact sampler, polynomial deflation modes and exact sparse LDL setup remain reference-prepared. No146-column Schur or JIT callbacks. Not yet an all-JAX impact step.')
     (out/'review.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True)
     assert passed,'Bounded frozen-input migration failed; preserve raw and diagnose, do not integrate'
 

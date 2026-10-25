@@ -88,6 +88,7 @@ class ConsistentAffineProjection:
         valid=ids>=0
         coords[ids[valid]]=(x[:,None,:]+r)[valid]
         nodebody[ids[valid]]=np.broadcast_to(body[:,None],ids.shape)[valid]
+        self.node_keys=np.column_stack((nodebody,np.rint(coords/dx).astype(np.int64)))
         modes=[]
         for b in np.unique(nodebody):
             mask=nodebody==b;center=np.mean(coords[mask],axis=0)
