@@ -2963,17 +2963,5 @@
     "preview_frame": 15,
     "preview_time": 3.75e-05,
     "auxiliary_geometry": []
-  },
-  {
-    "name": "phase-field-at2-tension",
-    "source": "completed/phase-field-at2-tension",
-    "particles": 28800,
-    "field": "damage",
-    "renderer": "ParaView",
-    "version": "6.2.0",
-    "animation": false,
-    "preview_frame": 112,
-    "preview_time": 0.168,
-    "auxiliary_geometry": []
   }
 ]

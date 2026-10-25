@@ -18,7 +18,7 @@ THEMES = (
     "Fracture",
 )
 
-HIDDEN_DISPLAY_IDS = frozenset({"contact-models--jkr-footprint", "material-engineering--jc-tension--johnson-cook", "completed--crossed-fibre-self-consistent"})
+HIDDEN_DISPLAY_IDS = frozenset({"contact-models--jkr-footprint", "material-engineering--jc-tension--johnson-cook", "completed--crossed-fibre-self-consistent", "completed--phase-field-at2-tension"})
 
 
 def theme(value):

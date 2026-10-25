@@ -1,6 +1,6 @@
 {
   "id": "completed--phase-field-at2-tension",
-  "title": "AT2 high-damage crack in notched plate tension",
+  "title": "AT2 diffuse damage in notched plate tension",
   "status": "completed",
   "run_id": 40162337602,
   "source_commit": "3b7bdd5060e59ee0cd541c275c337b4cbb2cf135",
@@ -20,5 +20,7 @@
     "Dynamic small-strain total-Lagrangian PIC experiment; not a convergence study.",
     "Black region shows exact native B-spline high damage in reference coordinates, not an opening or fragment separation.",
     "2000 displacement was reconstructed with conservative roundoff bound3.33e-16; displacement is passive in mechanics; 4 vs2+2 parity passed. Subsequent restarts use exact exported displacement."
-  ]
+  ],
+  "publication_status": "withdrawn",
+  "publication_review": "publication-review.json"
 }

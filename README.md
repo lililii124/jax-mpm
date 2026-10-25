@@ -157,16 +157,6 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
-### Fracture
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/completed--phase-field-at2-tension.gif" alt="AT2 phase-field crack" width="100%"><br><a href="docs/results/completed--phase-field-at2-tension/summary.json">AT2 phase-field crack</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
-</table>
-
 <!-- END EXAMPLE GIFS -->
 
 ## Installation

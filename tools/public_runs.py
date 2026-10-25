@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 HIDDEN_HOME_IDS = {
+    "completed--phase-field-at2-tension",
     "material-engineering--concrete-bending-large--hjc",
     "refinement--grid32--wave--neo-hookean",
     "refinement--grid64--wave--linear",
@@ -66,6 +67,8 @@ def is_ready_for_publication(folder, identifier, summary):
         try:
             folder = Path(folder)
             metadata = json.loads((folder / "metadata.json").read_text(encoding="utf-8"))
+            if metadata.get("publication_status") == "withdrawn":
+                return False
             crack = json.loads((folder / "crack-checks.json").read_text(encoding="utf-8"))
             media = json.loads((folder / "media-review.json").read_text(encoding="utf-8"))
             home = json.loads((folder / "homepage-media-review.json").read_text(encoding="utf-8"))

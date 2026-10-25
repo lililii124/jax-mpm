@@ -82,16 +82,6 @@ ParaView frames and animations. [Run records](RESULTS.md).
 </tr>
 </table>
 
-## Fracture
-
-<table width="100%">
-<tr>
-<td width="33%" align="center"><img src="images/completed--phase-field-at2-tension.png" alt="AT2 phase-field crack" width="100%"><br><strong>AT2 phase-field crack</strong><br><a href="results/completed--phase-field-at2-tension/summary.json">Results</a> &middot; <a href="images/home/completed--phase-field-at2-tension.gif">GIF</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
-</table>
-
 ## Adhesive surface contact
 
 <table width="100%">

@@ -1,0 +1,13 @@
+{
+  "status": "withdrawn",
+  "reason": "The displayed d >= 0.99 region forms a broad damage lobe rather than a localized crack band.",
+  "previous_review_scope": "Connectivity, load reduction, algebraic conditions and media provenance; crack-band width was not qualified.",
+  "required_review": [
+    "High-damage band width and volume across multiple thresholds",
+    "Phase-field length relative to mesh spacing, notch geometry and ligament dimensions",
+    "Spatial localization and mesh/length-scale sensitivity",
+    "Reference and deformed damage representations"
+  ],
+  "numerical_records": "Retained unchanged for investigation",
+  "rendering": "Increasing the display threshold or narrowing the black geometry does not qualify the physical result"
+}
