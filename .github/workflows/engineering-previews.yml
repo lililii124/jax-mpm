@@ -14,13 +14,17 @@ on:
         type: string
         default: '28e11e7060ae6333bc53ccabcd6dbc5fa7959f93'
         required: true
+      render_private_prefix:
+        type: choice
+        options: ['false','true']
+        default: 'false'
 permissions:
   contents: read
   actions: read
 jobs:
   verify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
       RAW_RUN: ${{ inputs.run_id }}
@@ -43,6 +47,24 @@ jobs:
         run: python -m pip install numpy==2.5.4
       - name: Official whole ZIP digest CRC complete source and accepted-state audit
         run: python tools/verify_jkr_complete_artifact.py --run-id "$RAW_RUN" --artifact-id "$RAW_ARTIFACT" --numerical-commit "$NUMERICAL_COMMIT" --output .local/jkr-whole-verification
+      - name: Install private actual-state renderer only
+        if: inputs.render_private_prefix == 'true'
+        run: |
+          python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          from pathlib import Path
+          import tools.run_woven_preview as renderer
+          renderer.LOGS=Path('.local/jkr-render-install')
+          renderer.install()
+          PY
+      - name: Private400-square real saved frames no numerical integration
+        if: inputs.render_private_prefix == 'true'
+        env:
+          JAX_ENABLE_X64: 'true'
+          JAX_PLATFORMS: cpu
+        run: python tools/render_jkr_compliant_pilot.py .local/jkr-whole-verification/restored/data/jkr .local/jkr-private-preview
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -50,6 +72,11 @@ jobs:
           path: |
             .local/jkr-whole-verification/whole-artifact-final-review.json
             .local/jkr-whole-verification/independent-state-review.json
+            .local/jkr-render-install/
+            .local/jkr-private-preview/*.json
+            .local/jkr-private-preview/*.log
+            .local/jkr-private-preview/*.gif
+            .local/jkr-private-preview/frames/
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14
