@@ -3,7 +3,7 @@
 All body motion is APIC. Only material endcaps follow actual guide commands.
 Grid/hash/search rebuilds change scratch indexing, never mechanical carry.
 """
-import argparse,hashlib,json,time
+import argparse,hashlib,json,time,platform,importlib.metadata
 from pathlib import Path
 from types import SimpleNamespace
 import numpy as np
@@ -28,7 +28,7 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
     root=Path(__file__).resolve().parents[1]
     sources=[Path(__file__),*[root/'examples'/name for name in ['triaxial_weaving_process.py','triaxial_weaving_geometry.py','triaxial_weaving_execution.py','triaxial_fibre_geometry.py']],*sorted((root/'mpm_jax').rglob('*.py'))]
     hashes={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
-    runtime=dict(jax=jax.__version__,jaxlib=__import__('jaxlib').__version__,numpy=np.__version__,x64=bool(jax.config.jax_enable_x64))
+    runtime=dict(python=platform.python_version(),versions={name:importlib.metadata.version(name) for name in ['jax','jaxlib','numpy','scipy','ml-dtypes','opt-einsum']},x64=bool(jax.config.jax_enable_x64))
     binding=dict(schema='weaving-v2-moving-hash-v1',physical_plan=json_value(plan),runtime=runtime,source_sha256=hashes,window_steps=window_steps,padding_cells=3,search_skin_m=.0003)
     signature=hashlib.sha256(json.dumps(binding,sort_keys=True).encode()).hexdigest();output=Path(output)
     material=isotropic_brittle(young=plan['young_Pa'],poisson=plan['poisson'],density=plan['density_kg_m3'],tensile_strength=plan['tensile_strength_Pa'],fracture_energy=plan['fracture_energy_J_m2'],characteristic_length=plan['dx'])
