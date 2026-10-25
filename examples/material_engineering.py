@@ -16,7 +16,7 @@ from .scenarios import Case
 
 SCENES = (
     "jc-tension", "jc-necking", "concrete-bending", "concrete-bending-large",
-    "concrete-bending-symmetric",
+    "concrete-bending-symmetric", "concrete-bending-mat111",
     "ceramic-indentation", "ceramic-indentation-wide",
 )
 
@@ -220,6 +220,7 @@ def main():
     parser.add_argument("--no-render", action="store_true")
     parser.add_argument("--gif", action="store_true")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--stop-after-frame", type=int)
     args = parser.parse_args()
     jax.config.update("jax_enable_x64", True)
     try:
@@ -234,6 +235,7 @@ def main():
         output=args.output / args.case / model, label=f"{args.case} / {model}",
         observer=case.observer, metadata=case.description, render_output=not args.no_render,
         gif=args.gif, resume=args.resume,
+        stop_after_frame=args.stop_after_frame,
     )
 
 

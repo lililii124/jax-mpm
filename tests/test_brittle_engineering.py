@@ -25,7 +25,7 @@ def test_bending_fixtures_allow_axial_slide_and_reach_prescribed_displacement():
     np.testing.assert_allclose(case.states[0].mass.sum(), material.density * 0.3 * 0.06**2)
 
 
-@pytest.mark.parametrize("scene", ["concrete-bending", "concrete-bending-large", "concrete-bending-symmetric", "ceramic-indentation"])
+@pytest.mark.parametrize("scene", ["concrete-bending", "concrete-bending-large", "concrete-bending-symmetric", "concrete-bending-mat111", "ceramic-indentation"])
 def test_boundary_reactions_balance_specimen_momentum(scene):
     case = setup(scene, grid=16, ppc=1, frames=4)
     state, material, config = case.states[0], case.materials[0], case.configs[0]
@@ -157,3 +157,22 @@ def test_symmetric_bending_reuses_the_large_initial_state_material_and_loading()
     for name in symmetric.description["boundary_names"]:
         assert f"{name}_reaction_y_N" in observed
     assert "lateral_anchor_reaction_y_N" not in observed
+
+
+def test_mat111_beam_keeps_the_symmetric_boundary_value_problem():
+    from mpm_jax.materials.hjc import MAT111_SOURCE_SHA256
+
+    base = setup("concrete-bending-symmetric", grid=16, ppc=1, frames=4)
+    case = setup("concrete-bending-mat111", grid=16, ppc=1, frames=4)
+    assert case.configs == base.configs
+    assert case.duration == base.duration
+    for expected, actual in zip(jax.tree.leaves(base.states), jax.tree.leaves(case.states)):
+        np.testing.assert_array_equal(actual, expected)
+    changed = {name for name in base.materials[0]._fields
+               if float(getattr(base.materials[0], name)) != float(getattr(case.materials[0], name))}
+    assert changed == {"legacy_v3", "mat111_compacted_tension", "mat111_compatible"}
+    assert case.description["material_profile"] == "mat111-compatible"
+    assert case.description["purpose"] == "concrete-bending-mat111"
+    assert case.description["comparison_baseline_case"] == "concrete-bending-symmetric"
+    assert case.description["material_source_sha256"] == MAT111_SOURCE_SHA256
+    assert case.description["material_parameters_SI"]["mat111_compatible"] is True

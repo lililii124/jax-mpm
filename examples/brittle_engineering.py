@@ -15,7 +15,8 @@ from .scenarios import Case, material_model
 
 
 SCENES = (
-    "concrete-bending", "concrete-bending-large", "concrete-bending-symmetric", "ceramic-indentation",
+    "concrete-bending", "concrete-bending-large", "concrete-bending-symmetric",
+    "concrete-bending-mat111", "ceramic-indentation",
     "ceramic-indentation-wide",
 )
 
@@ -306,8 +307,8 @@ def concrete_bending(*, grid=64, ppc=3, model="hjc", frames=40):
 
 def concrete_bending_large(*, grid=80, ppc=3, model="hjc", frames=60,
                            displacement=0.012, loading_duration=0.0012,
-                           hold_duration=0.0003):
-    """A 12 mm loading and hold of the same beam using the strain-floor profile."""
+                           hold_duration=0.0003, profile="strain-floor"):
+    """A 12 mm loading and hold with an explicitly selected HJC profile."""
     if model != "hjc":
         raise ValueError("concrete-bending-large requires model='hjc'")
     if not np.isfinite(displacement) or not 0 < displacement <= 0.03:
@@ -319,7 +320,7 @@ def concrete_bending_large(*, grid=80, ppc=3, model="hjc", frames=60,
     return _concrete_beam(
         grid=grid, ppc=ppc, model=model, frames=frames, displacement=displacement,
         loading_duration=loading_duration, hold_duration=hold_duration,
-        ramp_time=loading_duration / 4, profile="strain-floor",
+        ramp_time=loading_duration / 4, profile=profile,
     )
 
 
@@ -400,11 +401,12 @@ def _concrete_symmetry_observables(current, reference, pairs, center):
     return result
 
 
-def concrete_bending_symmetric(*, grid=64, ppc=3, model="hjc", frames=60):
+def concrete_bending_symmetric(*, grid=64, ppc=3, model="hjc", frames=60,
+                               profile="strain-floor"):
     """The 12 mm beam with two rollers and two explicit symmetry planes."""
     if not isinstance(grid, int) or grid < 12 or grid % 2:
         raise ValueError("concrete-bending-symmetric requires an even grid >= 12")
-    base = concrete_bending_large(grid=grid, ppc=ppc, model=model, frames=frames)
+    base = concrete_bending_large(grid=grid, ppc=ppc, model=model, frames=frames, profile=profile)
     original_config = base.configs[0]
     boundaries = _symmetric_concrete_boundaries(original_config.boundaries, grid, original_config.domain_size)
     cfg = replace(original_config, boundaries=boundaries)
@@ -460,6 +462,15 @@ def concrete_bending_symmetric(*, grid=64, ppc=3, model="hjc", frames=60):
             for axis, name in ((0, "x"), (2, "z"))
         },
     })
+    if profile == "mat111-compatible":
+        from mpm_jax.materials.hjc import MAT111_SOURCE_SHA256
+
+        definition.update(
+            purpose="concrete-bending-mat111",
+            comparison_baseline_case="concrete-bending-symmetric",
+            comparison_scope="same geometry, loading and symmetry constraints; different HJC profile",
+            material_source_sha256=MAT111_SOURCE_SHA256,
+        )
 
     def observe(states, time):
         current = states[0]
@@ -662,6 +673,9 @@ def setup(scene, *, grid=64, ppc=3, model=None, frames=40):
         return concrete_bending_large(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
     if scene == "concrete-bending-symmetric":
         return concrete_bending_symmetric(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
+    if scene == "concrete-bending-mat111":
+        return concrete_bending_symmetric(grid=grid, ppc=ppc, model=model or "hjc", frames=frames,
+                                          profile="mat111-compatible")
     if scene == "ceramic-indentation":
         return ceramic_indentation(grid=grid, ppc=ppc, model=model or "jh2", frames=frames)
     if scene == "ceramic-indentation-wide":
@@ -680,6 +694,7 @@ def main():
     parser.add_argument("--no-render", action="store_true")
     parser.add_argument("--gif", action="store_true")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--stop-after-frame", type=int)
     args = parser.parse_args()
     jax.config.update("jax_enable_x64", True)
     try:
@@ -705,6 +720,7 @@ def main():
         render_output=not args.no_render,
         gif=args.gif,
         resume=args.resume,
+        stop_after_frame=args.stop_after_frame,
     )
 
 

@@ -96,6 +96,13 @@ These checks cover finite,
 fixed-axis material-point updates; host failure/erosion and structural
 validation remain separate. The source Final Check does not transfer to JAX.
 
+`python -m examples.material_engineering --case concrete-bending-mat111 --grid 64 --ppc 3 --frames 60 --no-render`
+runs this profile on the 12 mm symmetry-constrained beam. Its geometry, supports,
+loading and initial state match `concrete-bending-symmetric`; the material profile
+and output directory differ. `--stop-after-frame 4` saves a resumable prefix;
+repeat with `--resume` to continue. This is a structural comparison case, with
+full-loading and energy verification still pending.
+
 The strength profile and compacted unloading option are stored as Boolean
 material fields `legacy_v3`, `mat111_compacted_tension`, and
 `mat111_compatible` for JAX and serialization. Material signatures include
