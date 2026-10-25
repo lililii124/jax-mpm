@@ -63,6 +63,9 @@ class PressureResult(NamedTuple):
     coverage_valid: object
     valid: object
     iterations: object
+    stationarity_relative: object
+    stationarity_absolute: object
+    reconstruction_relative: object
 
 
 def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400,preconditioner=None):
@@ -74,6 +77,9 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
     a,b,c=inverse
     diagonal=h**4*(a[1:]+a[:-1]+b[:,1:]+b[:,:-1]+c[:,:,1:]+c[:,:,:-1])
     positive=jnp.all(~fluid|(diagonal>0))
+    if preconditioner=='mixed-lsqr':
+        from .resin_pressure_lsqr import project
+        return project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,max_iterations)
     # Nonfluid pressure unknowns are explicitly fixed to0 by identity rows;
     # fluid rows receive no regularization, pseudoinverse or inertia floor.
     diag=jnp.where(fluid,diagonal,1.)
@@ -116,4 +122,4 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
     relative=jnp.linalg.norm(residual)/jnp.maximum(jnp.linalg.norm(rhs),1e-300)
     div=jnp.where(fluid,divergence(corrected,h),0.)/h**3
     valid=coverage&positive&jnp.isfinite(relative)&(relative<=10*tolerance)&jnp.all(jnp.stack([jnp.all(jnp.isfinite(v)) for v in corrected]))
-    return PressureResult(corrected,-multiplier/dt,fixture,relative,jnp.max(jnp.abs(div)),work,loss,work-change-loss,coverage,valid,iterations)
+    return PressureResult(corrected,-multiplier/dt,fixture,relative,jnp.max(jnp.abs(div)),work,loss,work-change-loss,coverage,valid,iterations,jnp.asarray(0.),jnp.asarray(0.),relative)
