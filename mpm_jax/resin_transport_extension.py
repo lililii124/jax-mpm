@@ -23,7 +23,7 @@ class Extension(NamedTuple):
 
 def extend(x,active,velocity,fixed,fluid,solid,layout,physical_divergence,*,tolerance=1e-8,max_iterations=400):
     shape=layout.shape;h=layout.dx;index=jnp.floor((x-jnp.asarray(layout.origin))/h).astype(jnp.int32);inside=jnp.all((index>=0)&(index<jnp.asarray(shape)),axis=1);linear=jnp.sum(index*jnp.asarray((shape[1]*shape[2],shape[2],1)),axis=1);linear=jnp.where(inside,linear,shape[0]*shape[1]*shape[2]);owned=jnp.zeros(shape[0]*shape[1]*shape[2],dtype=jnp.int32).at[linear].max(active.astype(jnp.int32),mode='drop').reshape(shape)>0
-    halo=jax.lax.reduce_window(owned.astype(jnp.int32),0,jax.lax.max,(3,3,3),(1,1,1),'SAME')>0
+    halo=jax.lax.reduce_window(owned.astype(jnp.int32),jnp.int32(0),jax.lax.max,(3,3,3),(1,1,1),'SAME')>0
     cells=(halo|fluid)&~solid;unknown=cells&~fluid;protected=[]
     for c in range(3):
         left=jnp.pad(fluid,tuple((1,0) if k==c else (0,0) for k in range(3)));right=jnp.pad(fluid,tuple((0,1) if k==c else (0,0) for k in range(3)));protected.append(fixed[c]|left|right)
