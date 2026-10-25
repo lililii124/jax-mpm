@@ -1,16 +1,23 @@
-name: AT2 bending exact restart parity only
+name: AT2 production-mesh exact restart and resource pilot only
 on:
   workflow_dispatch:
+    inputs:
+      parity_run_id:
+        description: Audited successful exact restart parity source
+        required: true
+        default: '40161022224'
+        type: string
 permissions:
   contents: read
+  actions: read
 concurrency:
-  group: at2-persistent-grid-restart-parity
+  group: at2-persistent-grid-capacity-pilot
   cancel-in-progress: false
 jobs:
-  parity:
+  pilot:
     if: github.ref == 'refs/heads/work/phase-field-bending'
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -26,29 +33,51 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Install exact qualification runtime
-        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
-      - name: Record complete source closure and runtime
+      - name: Verify successful exact parity workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PARITY_RUN: ${{ inputs.parity_run_id }}
         run: |
           set -euo pipefail
-          mkdir -p outputs/at2-restart
-          git rev-parse HEAD > outputs/at2-restart/source-head.txt
-          printf '%s\n' "$GITHUB_REF" > outputs/at2-restart/source-ref.txt
-          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-restart/source-sha256.txt
-          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py tools/prove_phase_field_bending_restart.py .github/workflows/phase-field-persistent-grid-restart-parity.yml >> outputs/at2-restart/source-sha256.txt
-          python -m pip freeze > outputs/at2-restart/runtime.txt
-      - name: Actual JAX four-step versus two-plus-two exact state proof only
-        timeout-minutes: 14
+          [[ "$PARITY_RUN" =~ ^[0-9]+$ ]]
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PARITY_RUN" > /tmp/parity-run.json
+          python -c "import json; r=json.load(open('/tmp/parity-run.json')); assert r['conclusion']=='success'; assert r['path'] in ('.github/workflows/phase-field-persistent-grid-restart-parity.yml','.github/workflows/engineering-previews.yml'); assert r['head_branch']=='work/phase-field-bending'"
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: ${{ inputs.parity_run_id }}
+          name: at2-restart-parity-${{ inputs.parity_run_id }}
+          path: qualification
+      - name: Require identical qualified solver and prior exact proof
+        run: |
+          set -euo pipefail
+          python -c "import json,pathlib; r=json.load(open('/tmp/parity-run.json')); assert r['head_sha']==pathlib.Path('qualification/source-head.txt').read_text().strip()"
+          sha256sum -c qualification/source-sha256.txt
+          python -c "import json; r=json.load(open('qualification/proof/restart-parity.json')); assert r['status']=='exact_checkpoint_continuation_parity_passed'; assert r['exact_array_checks']==36 and r['altered_binding_rejected']"
+      - name: Install exact qualified runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
+      - name: Preserve complete source closure and prior proof
+        run: |
+          set -euo pipefail
+          mkdir -p outputs/at2-capacity
+          cp -r qualification outputs/at2-capacity/qualification
+          git rev-parse HEAD > outputs/at2-capacity/source-head.txt
+          printf '%s\n' "$GITHUB_REF" > outputs/at2-capacity/source-ref.txt
+          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-capacity/source-sha256.txt
+          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py tools/prove_phase_field_bending_restart.py tools/probe_phase_field_bending_capacity.py .github/workflows/phase-field-persistent-grid-capacity-pilot.yml >> outputs/at2-capacity/source-sha256.txt
+          python -m pip freeze > outputs/at2-capacity/runtime.txt
+      - name: Actual 100-step versus 50-plus-50 production-mesh pilot only
+        timeout-minutes: 26
         run: |
           set -euo pipefail
           ulimit -v 6291456
-          /usr/bin/time -v -o outputs/at2-restart/resources.txt timeout --signal=KILL 13m python tools/prove_phase_field_bending_restart.py --output outputs/at2-restart/proof 2>&1 | tee outputs/at2-restart/proof.log
-      - name: Preserve parity arrays, checkpoints, timings and sampled USS
+          /usr/bin/time -v -o outputs/at2-capacity/resources.txt timeout --signal=KILL 25m python tools/probe_phase_field_bending_capacity.py --output outputs/at2-capacity/pilot 2>&1 | tee outputs/at2-capacity/pilot.log
+      - name: Preserve complete and partial pilot evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: at2-restart-parity-${{ github.run_id }}
-          path: outputs/at2-restart/
+          name: at2-capacity-pilot-${{ github.run_id }}
+          path: outputs/at2-capacity/
           if-no-files-found: warn
           compression-level: 0
           retention-days: 14
