@@ -1,0 +1,51 @@
+{
+  "case": "three-strand-forming-tight-dry",
+  "status": "design_only_not_run",
+  "geometry": {
+    "length_m": 0.024,
+    "radius_m": 0.001,
+    "initial_orbit_m": 0.001174124516259575,
+    "initial_pair_surface_gap_m": 3.3643316573813906e-05,
+    "collar_length_m": 0.0015,
+    "free_material_length_m": 0.021,
+    "spacing_m": 0.000125,
+    "grid_dx_m": 0.00025
+  },
+  "material": {
+    "young_Pa": 50000,
+    "poisson": 0.25,
+    "density_kg_m3": 1000,
+    "damage_rejected": true
+  },
+  "protocol": {
+    "duration_s": 0.06,
+    "turns": 1,
+    "rotation_ramp_s": 0.005,
+    "final_free_span_m": 0.019661543729085983,
+    "total_axial_feed_m": 0.0013384562709140187,
+    "feed_rule": "free span sqrt(ell^2-(angle*orbit)^2), symmetric moving end collars",
+    "static_helix_minimum_centre_distance_m": 0.0019950000000000002
+  },
+  "contact": {
+    "model": "independent three-field mass-gradient frictionless unilateral mass-metric projection",
+    "adhesion": 0,
+    "friction": 0,
+    "minimum_mass_cutoff": 0,
+    "tolerance_m_per_s": 1e-08
+  },
+  "acceptance": {
+    "major_free_length_all_pair_contact_required": true,
+    "actual_gap_and_intrusion_checks": true,
+    "normal_force_and_contact_length_required": true,
+    "energy_J_localization_checks": true,
+    "scope": "Grid-scale contact, no Hertz claim or subgrid penetration certificate"
+  },
+  "resource": {
+    "estimated_particles": 116000,
+    "estimated_steps": 12400,
+    "pilot_steps": 64,
+    "next_segment_steps": 256,
+    "not_dispatched": true
+  },
+  "scope": "Independent dry actual forming candidate. Analytic helix only designs initial orbit/feed; interior positions remain dynamic. No finished tight-contact claim before actual trajectory review."
+}
