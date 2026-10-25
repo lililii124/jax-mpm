@@ -1,16 +1,23 @@
-name: guarded AT2 full1200 real49 ParaView
+name: isolated AT2 three-point bending candidate
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Candidate qualification only
+        type: choice
+        options: [smoke, medium]
+        default: smoke
 permissions:
   contents: read
+  actions: read
 concurrency:
-  group: phase-field-full1200
+  group: phase-field-three-point-bending-candidate
   cancel-in-progress: false
 jobs:
-  solve:
-    if: github.ref == 'refs/heads/work/phase-field-full'
+  candidate:
+    if: github.ref == 'refs/heads/work/phase-field-bending'
     runs-on: ubuntu-24.04
-    timeout-minutes: 300
+    timeout-minutes: 105
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -18,7 +25,6 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
-      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v7
         with:
@@ -27,45 +33,19 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Install exact qualification runtime
-        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
-      - name: Full1200 CPU solve with resource guard
-        timeout-minutes: 273
-        run: python tools/run_phase_field_full.py
-      - name: Preserve raw arrays and receipts before rendering
+      - name: Install qualification runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
+      - name: Bounded candidate run (no publication or solver certificate)
+        env:
+          MODE: ${{ inputs.mode }}
+        run: |
+          python tools/run_phase_field_bending.py
+      - name: Preserve partial or completed raw evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: phase-field-full1200-raw-${{ github.run_id }}
-          path: outputs/phase-field-full/
+          name: at2-bending-candidate-${{ github.run_id }}
+          path: outputs/at2-bending/
           if-no-files-found: warn
           compression-level: 0
-          retention-days: 30
-      - name: Install ParaView only after full solve passes
-        timeout-minutes: 10
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
-          python - <<'PY'
-          import sys
-          from pathlib import Path
-          sys.path.insert(0, 'tools')
-          import run_woven_preview as p
-          p.LOGS=Path('outputs/phase-field-full/paraview-install')
-          p.LOGS.mkdir()
-          p.install()
-          PY
-      - name: Render 49 actual saved states then encode local review GIF
-        timeout-minutes: 8
-        run: |
-          "$PARAVIEW_PYTHON" --force-offscreen-rendering tools/render_phase_field_full.py outputs/phase-field-full > outputs/phase-field-full/render.log 2>&1
-          python tools/encode_phase_field_full.py outputs/phase-field-full
-      - name: Preserve complete media and any renderer failure logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: phase-field-full1200-review-${{ github.run_id }}
-          path: outputs/phase-field-full/
-          if-no-files-found: warn
-          compression-level: 0
-          retention-days: 30
+          retention-days: 14
