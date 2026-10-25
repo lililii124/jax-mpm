@@ -17,14 +17,19 @@ def audit(root,seed,output):
     data=root/'result';record=json.loads((data/'result.json').read_text());cp=json.loads((data/'checkpoint.json').read_text())
     initial=json.loads((seed/'checkpoint.json').read_text());proof=json.loads((data/'source-review.json').read_text())
     case=json.loads((data/'case.json').read_text());status=json.loads((root/'job/status.json').read_text())
-    download=json.loads((root/'download-review.json').read_text());manifest=json.loads((root/'raw-output-manifest.json').read_text())
-    for name,item in download['downloaded_files'].items():assert digest(root/name)==item['sha256']
+    transport=(root/'download-review.json').exists()
+    if transport:
+        download=json.loads((root/'download-review.json').read_text());manifest=json.loads((root/'raw-output-manifest.json').read_text())
+        for name,item in download['downloaded_files'].items():assert digest(root/name)==item['sha256']
     assert proof['seed_checkpoint_sha256']==digest(seed/'checkpoint.json')
     assert proof['seed_state_raw_files']==initial['raw_files']
     for name,item in initial['raw_files'].items():assert digest(seed/name)==item['sha256']
     assert cp['signature']==initial['signature']==hashlib.sha256(json.dumps(case,sort_keys=True).encode()).hexdigest()
     assert cp['candidate_rht_sha256']==initial['candidate_rht_sha256']==proof['candidate_rht_sha256']
-    for name,value in proof['runtime_source_manifest'].items():assert manifest['result/runtime-source/'+name]['sha256']==value
+    assert proof['candidate_rht_sha256']=='4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844'
+    for name,value in proof['runtime_source_manifest'].items():
+        if transport:assert manifest['result/runtime-source/'+name]['sha256']==value
+        else:assert digest(data/'runtime-source'/name)==value
     assert not cp['original_full_run_completed'] and 'early numerical contact' in proof['contact_scope']
     complete=record['checkpoints'];assert [c['step'] for c in complete]==list(range(initial['step'],cp['step']+1,5))
     assert cp['step']==record['last_complete_step'] and cp['raw_files']==complete[-1]['raw_files']
@@ -77,6 +82,7 @@ def audit(root,seed,output):
     projectile_residual=final_P[1]-initial_P[1]-np.asarray(cp['contact_impulse'])
     assert np.max(abs(projectile_residual))<=1e-12*max(1.,float(np.max(abs(initial_P[1]))))
     result=dict(saved_prefix_verified=True,segment_target_reached=record['target_reached'],physical_gate_failure=physical_failure,
+        audited_actual_readonly_task=not transport,
         start_step=initial['step'],last_complete_step=cp['step'],target_step=record['target_step'],complete_state_pairs=len(complete),all28_fields_verified=True,
         mass_volume_exact=True,finite_positive_orientation=True,irreversible_histories=True,cumulative_contact_exact=True,
         maximum_recomputed_energy_error_J=max_energy_error,maximum_density_relative_error=max_density_error,

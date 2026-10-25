@@ -22,7 +22,8 @@ def digest(path):
 def run(capsule,output,stop_step):
     output.mkdir(parents=True,exist_ok=False)
     seed=capsule/'seed';old=json.loads((seed/'checkpoint.json').read_text())
-    start_step=old['step'];assert start_step%5==0 and start_step<stop_step<=280 and stop_step%35==0
+    plan=json.loads((seed/'case.json').read_text())
+    start_step=old['step'];assert start_step%5==0 and start_step<stop_step<=plan['frames']*plan['substeps'] and stop_step%plan['substeps']==0
     oldproof=json.loads((seed/'source-review.json').read_text())
     for name,item in old['raw_files'].items():assert digest(seed/name)==item['sha256'],name
     runtime=output/'runtime-source';shutil.copytree(capsule/'runtime-source',runtime)
