@@ -10,7 +10,7 @@ from .resin_apic import particle_to_faces,faces_to_particles,cell_mass,kinetic_p
 from .resin_mac import viscosity_force,pressure_projection
 from .resin_particle_boundary import advect
 from .resin_transport_rt0 import advect as advect_rt0
-from .resin_transport_extension import extend as extend_transport
+from .resin_transport_extension import extend as extend_transport,support_closed_domain
 
 
 class FlowState(NamedTuple):
@@ -50,6 +50,8 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         Lvisc=dt*power-.5*dt*dt*sum(jnp.sum(i*F*F) for i,F in zip(inverse,force))
         cm,cell_valid=cell_mass(s.x,s.mass,s.active,layout)
         fluid=open_cells&(cm>fill_threshold*density*h**3)
+        domain_added=jnp.asarray(0);domain_valid=jnp.asarray(True)
+        if transport=='rt0':fluid,domain_added,domain_valid=support_closed_domain(s.x,s.active,mass,fixed,fluid,open_cells,layout)
         projection=pressure_projection(viscous,mass,fixed,fluid,h,dt)
         v,C=faces_to_particles(projection.velocity,supports,layout)
         v=jnp.where(s.active[:,None],v,0.);C=jnp.where(s.active[:,None,None],C,0.)
@@ -72,7 +74,7 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         losses=K0-Kg0+Lbc+Lvisc+projection.projection_loss_J+Kg1-Ktransfer+wall_loss
         residual=W-(K1-K0)-losses
         after_support=jnp.all(jnp.stack([support(x,s.active,layout,c).valid for c in range(3)]))
-        valid=s.valid&wall_valid&after_support&cell_valid&jnp.all(jnp.stack([a.valid for a in supports]))&projection.valid&jnp.all(jnp.isfinite(x))&jnp.all(jnp.isfinite(C))&(Lvisc>=-1e-18)
+        valid=s.valid&domain_valid&wall_valid&after_support&cell_valid&jnp.all(jnp.stack([a.valid for a in supports]))&projection.valid&jnp.all(jnp.isfinite(x))&jnp.all(jnp.isfinite(C))&(Lvisc>=-1e-18)
         fixture_vector=wall_impulse+jnp.stack([jnp.sum(I)-dt*jnp.sum(jnp.where(f,F,0.))+jnp.sum(P) for I,f,F,P in zip(fixture_initial,fixed,force,projection.fixture_impulse)])
         particle_momentum0=jnp.sum(jnp.where(s.active,s.mass,0.)[:,None]*s.v,axis=0)
         particle_momentum1=jnp.sum(jnp.where(s.active,s.mass,0.)[:,None]*v,axis=0)
@@ -94,7 +96,7 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
                     cross=jnp.cross(jax.nn.one_hot(r,3),jax.nn.one_hot(c,3));torque=torque+moment*cross
             transport_torque=jnp.sum(effective[:,None]*jnp.cross(x-s.x,v),axis=0)
             actual=angular(x,v,C)-angular(s.x,s.v,s.C)-torque
-            metrics.update(transport_extension_relative_residual=extension.relative_residual,transport_extension_max_divergence_per_s=extension.maximum_divergence,transport_extension_protected_face_change=extension.protected_change,transport_extension_compatibility_residual=extension.compatibility_residual,transport_extension_valid=extension.valid,transport_angular_remainder_norm=jnp.linalg.norm(transport_torque),transport_angular_identity_norm=jnp.linalg.norm(actual-transport_torque),fixture_torque_norm=jnp.linalg.norm(torque),transport_torque_x=transport_torque[0],transport_torque_y=transport_torque[1],transport_torque_z=transport_torque[2],fixture_torque_x=torque[0],fixture_torque_y=torque[1],fixture_torque_z=torque[2],transport_logJ_mean=jnp.sum(effective*transport_data.logJ)/jnp.maximum(jnp.sum(effective),1e-300),transport_logJ_max=jnp.where(jnp.any(s.active),jnp.max(jnp.where(s.active,transport_data.logJ,-jnp.inf)),0.),transport_logJ_min=jnp.where(jnp.any(s.active),jnp.min(jnp.where(s.active,transport_data.logJ,jnp.inf)),0.),transport_maximum_roundoff_distance_m=jnp.max(transport_data.roundoff_distance),transport_maximum_path_over_h=jnp.max(transport_data.path_bound)/h,transport_maximum_crossings=jnp.max(transport_data.crossings),transport_unprojected_particle_fraction=jnp.sum(s.active&(transport_data.projected_time<dt*(1-1e-12)))/jnp.maximum(jnp.sum(s.active),1))
+            metrics.update(physical_pressure_domain_added_cells=domain_added,physical_pressure_domain_valid=domain_valid,transport_extension_relative_residual=extension.relative_residual,transport_extension_max_divergence_per_s=extension.maximum_divergence,transport_extension_protected_face_change=extension.protected_change,transport_extension_compatibility_residual=extension.compatibility_residual,transport_extension_valid=extension.valid,transport_angular_remainder_norm=jnp.linalg.norm(transport_torque),transport_angular_identity_norm=jnp.linalg.norm(actual-transport_torque),fixture_torque_norm=jnp.linalg.norm(torque),transport_torque_x=transport_torque[0],transport_torque_y=transport_torque[1],transport_torque_z=transport_torque[2],fixture_torque_x=torque[0],fixture_torque_y=torque[1],fixture_torque_z=torque[2],transport_logJ_mean=jnp.sum(effective*transport_data.logJ)/jnp.maximum(jnp.sum(effective),1e-300),transport_logJ_max=jnp.where(jnp.any(s.active),jnp.max(jnp.where(s.active,transport_data.logJ,-jnp.inf)),0.),transport_logJ_min=jnp.where(jnp.any(s.active),jnp.min(jnp.where(s.active,transport_data.logJ,jnp.inf)),0.),transport_maximum_roundoff_distance_m=jnp.max(transport_data.roundoff_distance),transport_maximum_path_over_h=jnp.max(transport_data.path_bound)/h,transport_maximum_crossings=jnp.max(transport_data.crossings),transport_unprojected_particle_fraction=jnp.sum(s.active&(transport_data.projected_time<dt*(1-1e-12)))/jnp.maximum(jnp.sum(s.active),1))
             return new,metrics,transport_data.logJ
         return new,metrics
     return step

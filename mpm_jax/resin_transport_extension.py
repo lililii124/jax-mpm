@@ -21,6 +21,20 @@ class Extension(NamedTuple):
     valid: object
 
 
+
+def support_closed_domain(x,active,mass,fixed,baseline,open_cells,layout):
+    shape=layout.shape;index=jnp.floor((x-jnp.asarray(layout.origin))/layout.dx).astype(jnp.int32);inside=jnp.all((index>=0)&(index<jnp.asarray(shape)),axis=1);linear=jnp.sum(index*jnp.asarray((shape[1]*shape[2],shape[2],1)),axis=1);linear=jnp.where(inside,linear,shape[0]*shape[1]*shape[2]);owned=jnp.zeros(shape[0]*shape[1]*shape[2],dtype=jnp.int32).at[linear].max(active.astype(jnp.int32),mode='drop').reshape(shape)>0
+    reachable=jax.lax.reduce_window(owned.astype(jnp.int32),jnp.int32(0),jax.lax.max,(3,3,3),(1,1,1),'SAME')>0
+    a,b,c=tuple((m>0)|f for m,f in zip(mass,fixed));complete=a[1:]&a[:-1]&b[:,1:]&b[:,:-1]&c[:,:,1:]&c[:,:,:-1]
+    a,b,c=tuple((m>0)&~f for m,f in zip(mass,fixed));movable=a[1:]|a[:-1]|b[:,1:]|b[:,:-1]|c[:,:,1:]|c[:,:,:-1]
+    # Every non-Dirichlet face has real positive particle mass; fixed zero-mass
+    # walls retain their existing prescribed velocity and zero inverse mass.
+    # Entirely fixed empty cells need no physical pressure unknown.
+    domain=baseline|(reachable&open_cells&complete&movable)
+    valid=jnp.all(~active|inside)&jnp.all(~owned|domain)
+    return domain,jnp.sum(domain&~baseline),valid
+
+
 def extend(x,active,velocity,fixed,fluid,solid,layout,physical_divergence,*,tolerance=1e-8,max_iterations=400):
     shape=layout.shape;h=layout.dx;index=jnp.floor((x-jnp.asarray(layout.origin))/h).astype(jnp.int32);inside=jnp.all((index>=0)&(index<jnp.asarray(shape)),axis=1);linear=jnp.sum(index*jnp.asarray((shape[1]*shape[2],shape[2],1)),axis=1);linear=jnp.where(inside,linear,shape[0]*shape[1]*shape[2]);owned=jnp.zeros(shape[0]*shape[1]*shape[2],dtype=jnp.int32).at[linear].max(active.astype(jnp.int32),mode='drop').reshape(shape)>0
     halo=jax.lax.reduce_window(owned.astype(jnp.int32),jnp.int32(0),jax.lax.max,(3,3,3),(1,1,1),'SAME')>0
@@ -36,6 +50,6 @@ def extend(x,active,velocity,fixed,fluid,solid,layout,physical_divergence,*,tole
         grad=DT(jnp.where(solve_mask,p,0.));return jnp.where(solve_mask,D(tuple(f*g for f,g in zip(free,grad))),p)
     def solve(_):
         potential,_=cg(operator,rhs,x0=jnp.zeros_like(rhs),M=lambda z:z/diag,tol=tolerance,atol=0.,maxiter=max_iterations);return potential
-    potential=jax.lax.cond(jnp.linalg.norm(rhs)>0,solve,lambda _:jnp.zeros_like(rhs),None);gradient=DT(potential);extended=tuple(u-f*g for u,f,g in zip(velocity,free,gradient));residual=operator(potential)-rhs;relative=jnp.linalg.norm(residual)/jnp.maximum(jnp.linalg.norm(rhs),1e-300)
+    potential=jax.lax.cond((jnp.linalg.norm(rhs)>0)&(compatibility<=compatibility_tolerance),solve,lambda _:jnp.zeros_like(rhs),None);gradient=DT(potential);extended=tuple(u-f*g for u,f,g in zip(velocity,free,gradient));residual=operator(potential)-rhs;relative=jnp.linalg.norm(residual)/jnp.maximum(jnp.linalg.norm(rhs),1e-300)
     maxdiv=jnp.max(jnp.where(cells,jnp.abs(D(extended)),0.));change=jnp.max(jnp.stack([jnp.max(jnp.where(p,jnp.abs(b-a),0.)) for a,b,p in zip(velocity,extended,protected)]));valid=jnp.all(~active|inside)&jnp.isfinite(relative)&(relative<=10*tolerance)&(compatibility<=compatibility_tolerance)&(change==0.)&jnp.all(jnp.stack([jnp.all(jnp.isfinite(u)) for u in extended]))
     return Extension(extended,cells,relative,maxdiv,change,compatibility,valid)
