@@ -27,7 +27,13 @@ def main():
     assert momentum_error<1e-14 and abs(energy_error)<1e-14 and angular_error<1e-14 and float(result.kinetic_loss)==6.
     free=solve(jnp.full((4,3),2.9),jnp.ones((4,3)),jnp.zeros(layout.shape,dtype=bool));assert bool(free.valid) and int(free.events)==0 and float(jnp.max(jnp.abs(free.x-3.04)))<2e-15
     invalid=solve(x,10*v,solid);assert not bool(invalid.valid)
-    record=dict(passed=True,physical_steps=0,collision_events=int(result.events),position_error_grid_units=position_error,momentum_error=momentum_error,energy_error=energy_error,angular_error=angular_error,loss_J=float(result.kinetic_loss),wall_work_J=0.,tangential_velocities_unchanged=True,normal_restitution=0,free_three_face_crossing_passed=True,excess_CFL_rejected=True,scope='Face/edge/corner algebra; no physical inlet trajectory replay')
+    physical_layout=MACLayout((6,6,6),(-.00075,-.00075,-.00075),.00025)
+    physical_x=jnp.asarray([[-1e-6,-.0004,-.0004]])
+    physical_v=jnp.asarray([[.05,0.,0.]])
+    physical_wall=jnp.asarray(np.indices((6,6,6))[0]>=3)
+    zero=advect(physical_x,physical_v,jnp.ones(1),jnp.ones(1,dtype=bool),physical_wall,physical_layout,.00004)
+    assert bool(zero.valid) and int(zero.events)==1 and float(zero.x[0,0])<0 and abs(float(zero.x[0,0]))<1e-18
+    record=dict(passed=True,physical_steps=0,collision_events=int(result.events),position_error_grid_units=position_error,momentum_error=momentum_error,energy_error=energy_error,angular_error=angular_error,loss_J=float(result.kinetic_loss),wall_work_J=0.,tangential_velocities_unchanged=True,normal_restitution=0,free_three_face_crossing_passed=True,excess_CFL_rejected=True,physical_zero_face_position_m=float(zero.x[0,0]),scope='Face/edge/corner algebra; no physical inlet trajectory replay')
     Path('resin-wall-review.json').write_text(json.dumps(record,indent=2));print(json.dumps(record,indent=2))
 
 if __name__=='__main__':main()

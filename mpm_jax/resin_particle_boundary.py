@@ -46,9 +46,23 @@ def advect(x,v,mass,active,solid,layout,dt):
         velocity=velocity+delta
         # One floating-point neighbour selects the correct side of the exact
         # event face. No finite safety gap or arbitrary position clipping.
-        boundary=jnp.sum(face*selector,axis=1)
-        toward=boundary+jnp.where(hit,-1.,1.)*sign*layout.dx
-        boundary=jnp.nextafter(boundary,toward)
+        face_index=jnp.sum((index+(direction>0).astype(jnp.int32))*selector,axis=1)
+        side=jnp.where(hit,-1.,1.)*sign
+        target_index=jnp.sum(jnp.where(hit[:,None],index,next_index)*selector,axis=1).astype(jnp.int32)
+        origin_axis=jnp.sum(origin*selector,axis=1)
+        toward=face_index+side
+        coordinate=jnp.nextafter(face_index,toward)
+        # Work in normalized grid coordinates: nextafter(world x=0) is
+        # subnormal and disappears when subtracting a nonzero grid origin.
+        # Select the closest representable grid-side point, not a finite gap.
+        def roundoff_side(_,q):
+            physical=origin_axis+q*layout.dx
+            back=jnp.floor((physical-origin_axis)/layout.dx).astype(jnp.int32)
+            return jnp.where(back==target_index,q,jnp.nextafter(q,toward))
+        coordinate=jax.lax.fori_loop(0,4,roundoff_side,coordinate)
+        boundary=origin_axis+coordinate*layout.dx
+        back=jnp.floor((boundary-origin_axis)/layout.dx).astype(jnp.int32)
+        ok=ok&jnp.all(~event|(back==target_index))
         position=jnp.where(event[:,None]&selector.astype(bool),boundary[:,None],position)
         index=jnp.where((event&~wall)[:,None],next_index,index)
         return position,velocity,index,left,I,T,L,count,ok
