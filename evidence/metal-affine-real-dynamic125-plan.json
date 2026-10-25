@@ -1,0 +1,46 @@
+{
+  "schema": "metal-affine-real-dynamic125-frozen-plan-v1",
+  "status": "first bounded real dynamic diagnostic prepared; no result yet",
+  "initial_sha256": "3abe31b2fde3f8d93ec63b138e0d868011aef53ca18e5f3162c0b145b0dc2817",
+  "reference_sha256": "19af75c3bfe85364d90e8deeda778df107e42ceb34b369204d938fc4529db333",
+  "first": {
+    "dt_s": 2e-12,
+    "steps": 1,
+    "final_time_ns": 125.002
+  },
+  "own_dt_controls": {
+    "fixed_duration_s": 2e-12,
+    "dt_s": [
+      2e-12,
+      1e-12,
+      5e-13
+    ],
+    "steps": [
+      1,
+      2,
+      4
+    ],
+    "conditional": "Audit first attempt; diagnose any rejection before continuing. No fitted state/shape threshold."
+  },
+  "bounds": {
+    "maximum_dt_s": 2e-12,
+    "maximum_steps": 4,
+    "maximum_duration_s": 8e-12,
+    "contact_iterations": 1024,
+    "contact_tolerance_m_s": 0.005,
+    "original_CFL": 0.1,
+    "energy_accounting_tolerance_J": 1.414599609375e-08,
+    "system_commit_headroom_minimum_bytes": 1610612736
+  },
+  "method": [
+    "Original reference-coordinate fixed-particle stencil nodes are eliminated from the reconstruction.",
+    "Joint stress/contact half-kick uses the final admissible midpoint velocity for both work terms.",
+    "Ballistic x/F drift uses constant material-affine W, followed by the reviewed midpoint material return in an isolated worker.",
+    "Rebuild original occupied-grid/contact coverage; explicit orthogonal grid/boundary projections and instantaneous geometric contact.",
+    "Final joint half-kick and complete energy/momentum/torque/state/CFL gates."
+  ],
+  "energy": "Only projection variance, zero-time contact variance, boundary variance and actual viscosity power update derived loss channels. No residual or material remainder updates heat/reservoirs.",
+  "correction_notice": "evidence/metal-affine-original-be-correction-notice.json",
+  "production_admitted": false,
+  "public_media_allowed": false
+}

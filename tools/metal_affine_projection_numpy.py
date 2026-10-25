@@ -14,13 +14,22 @@ from tools.metal_affine_resource import require_commit_headroom
 
 
 class ConsistentAffineProjection:
-    def __init__(self,x,mass,body,dx,F,reference_root,preconditioner_shift=1e-8):
+    def __init__(self,x,mass,body,dx,F,reference_root,preconditioner_shift=1e-8,clamped_particles=None):
         self.x,self.mass,self.body,self.dx=map(np.asarray,(x,mass,body,dx))
         self.F,self.reference_root=F,reference_root
         self.n=len(x)
         w,r,ids,_,gm=support(x,body,mass,float(dx))
         active=gm>0;lookup=np.full(len(gm),-1,int);lookup[active]=np.arange(active.sum())
-        ids=lookup[ids];self.nodes=int(active.sum())
+        ids=lookup[ids];self.full_node_count=int(active.sum())
+        free=np.ones(self.full_node_count,bool)
+        if clamped_particles is not None:
+            clamped_particles=np.asarray(clamped_particles,bool)
+            if clamped_particles.shape!=(self.n,):raise ValueError('Original fixed-particle mask required')
+            indices=ids[clamped_particles].ravel();free[indices[indices>=0]]=False
+        self.free_nodes=np.flatnonzero(free);self.clamped_nodes=np.flatnonzero(~free)
+        mapping=np.full(self.full_node_count,-1,int);mapping[free]=np.arange(free.sum())
+        ids=np.where(ids>=0,mapping[np.maximum(ids,0)],-1);self.nodes=int(free.sum())
+        if self.nodes==0:raise ValueError('No unconstrained grid degrees of freedom')
         rows=np.broadcast_to(np.arange(len(x))[:,None,None]*4+np.arange(4)[None,None,:],(len(x),27,4))
         cols=np.broadcast_to(ids[:,:,None],rows.shape)
         gradient=4/float(dx)**2*np.einsum('pki,pij->pkj',r,F@reference_root)
@@ -70,12 +79,17 @@ class ConsistentAffineProjection:
         coords[ids[valid]]=(x[:,None,:]+r)[valid]
         nodebody[ids[valid]]=np.broadcast_to(body[:,None],ids.shape)[valid]
         modes=[]
-        for b in np.unique(body):
+        for b in np.unique(nodebody):
             mask=nodebody==b;center=np.mean(coords[mask],axis=0)
             modes.append(mask.astype(float))
             modes.extend(mask*(coords[:,j]-center[j])/float(dx) for j in range(3))
         K=Q0@np.array(modes).T
-        self.T,_=np.linalg.qr(K,mode='reduced')
+        # Exact structural zero rows occur for particles entirely supported
+        # on fixed nodes. Excluding those rows from QR keeps their prescribed
+        # v=W=0 exact instead of introducing Householder roundoff there.
+        active_rows=np.diff(Q0.indptr)>0
+        self.T=np.zeros_like(K)
+        self.T[active_rows],_=np.linalg.qr(K[active_rows],mode='reduced')
         self.A=LinearOperator(Q.shape,matvec=lambda z:self.orth(self.Qp@self.right(z)),
             rmatvec=lambda z:self.right_transpose(self.Qp.T@self.orth(z)),dtype=float)
 
@@ -92,7 +106,7 @@ class ConsistentAffineProjection:
         if not 1<=maxiter<=512:raise ValueError('Bounded 1..512 iterations required')
         known=self.T@(self.T.T@y);rhs=self.orth(y)
         projected=np.zeros_like(y);reports=[]
-        for a in range(3):
+        for a in range(y.shape[1]):
             # The right factor comes from a Gram LDL factorization. Its
             # resolvable singular condition is bounded by eps^(-1/2): above
             # this, squared singular values lie at the factor's roundoff

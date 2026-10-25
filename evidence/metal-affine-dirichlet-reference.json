@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "eliminated_nodes": 27,
+  "clamped_particle_velocity_exact_zero": true,
+  "clamped_particle_W_exact_zero": true,
+  "boundary_projection_loss_J": 11.884438554374313,
+  "contact": {
+    "valid": true,
+    "pairs": 27,
+    "mobility_rank": 20,
+    "mobility_nullity": 7,
+    "initial_closing_m_s": 2.1308579444103115,
+    "final_closing_m_s": 5.2562121322097255e-15,
+    "complementarity_m_s": 1.8278781266367616e-14,
+    "kinetic_loss_J": 1.4760239077729693,
+    "instantaneous_work_identity_J": 4.942807233140873e-15,
+    "affine_reconstruction_error": 1.4206936337124054e-15,
+    "maximum_affine_correction": 0.3015076738967871,
+    "boundary_virtual_work_J": 1.553051100733605e-16,
+    "physical_contact_work_J": -1.476023907772975,
+    "original_sample_closing_m_s": 5.259681579161679e-15,
+    "restricted_sample_difference_m_s": 4.440892098500626e-16
+  },
+  "reaction_random_admissible_virtual_work": 2.711827313046823e-16,
+  "production_admitted": false
+}

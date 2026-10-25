@@ -32,6 +32,7 @@ class CompatibleContact:
             if np.max(abs(np.linalg.norm(normals,axis=1)-1),initial=0)>1e-12:raise ValueError('Unit fixture normals required')
             self.normal=normals
         self.pairs=pairs;count=len(pairs)
+        self.node_coordinates,self.node_body,self.grid_mass=coords,body,gm
         polynomials=[]
         for b in np.unique(body):
             mask=body==b;c=np.mean(coords[mask]*dx,axis=0);polynomials.append(mask.astype(float))
@@ -59,7 +60,7 @@ class CompatibleContact:
     def sample(self,y):return self.B0@y.ravel()+self.C@(self.op.T.T@y).ravel()
     def adjoint(self,impulse):
         return (self.B0.T@impulse).reshape(4*self.op.n,3)+self.op.T@(self.C.T@impulse).reshape(self.op.T.shape[1],3)
-    def project(self,y,tolerance=.005):
+    def project(self,y,tolerance=.005,return_impulse=False):
         closing=self.sample(y)
         eig,V=np.linalg.eigh(self.mobility)
         threshold=max(self.mobility.shape)*np.finfo(float).eps*float(eig.max(initial=0))
@@ -71,9 +72,10 @@ class CompatibleContact:
         delta=-self.adjoint(multiplier);following=y+delta;final=self.sample(following)
         residual=np.where(multiplier>0,abs(final),np.maximum(final,0.))
         identity=float(.5*np.sum(following**2)-.5*np.sum(y*y)+.5*np.sum(delta**2)+np.dot(multiplier,final))
-        return following,dict(valid=bool(np.max(residual,initial=0)<=tolerance),pairs=len(self.pairs),
+        report=dict(valid=bool(np.max(residual,initial=0)<=tolerance),pairs=len(self.pairs),
             mobility_rank=int(keep.sum()),mobility_nullity=int((~keep).sum()),
             initial_closing_m_s=float(np.max(closing,initial=0)),final_closing_m_s=float(np.max(final,initial=0)),
             complementarity_m_s=float(np.max(residual,initial=0)),kinetic_loss_J=float(.5*np.sum(y*y)-.5*np.sum(following**2)),
             instantaneous_work_identity_J=identity,affine_reconstruction_error=self.affine_reconstruction_error,
             maximum_affine_correction=float(np.max(abs(self.C),initial=0)))
+        return (following,report,multiplier) if return_impulse else (following,report)
