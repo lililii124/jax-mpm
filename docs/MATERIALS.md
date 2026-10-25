@@ -9,6 +9,9 @@ stresses, lengths, times, and temperatures use kg/m³, Pa, m, s, and K.
 See the [elastic model and 3D example map](ELASTIC_MODEL_MAP.md) for runnable
 commands, existing verification and remaining spatial validation gaps.
 
+The [MAT002 finite-strain solid](MAT002_SVK.md) adds the separate
+`orthotropic-svk` Green-strain branch and its native-kernel check.
+
 - `linear_elastic(E, nu)` uses infinitesimal strain sym(F)−I.
 - `orthotropic(E, nu, G, Q)` takes E=(E1,E2,E3), nu=(nu12,nu13,nu23),
   G=(G12,G13,G23). nu_ij is −epsilon_j/epsilon_i in uniaxial stress along i.

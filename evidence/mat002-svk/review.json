@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "native_reference_sha256": "1341268cd0fa5583ef60655d336521cff3695899f0cfcf245138150f76372ba1",
+  "native_source_sha256": "1c7bd28b31df78c3eb5905e9f59cf53a0e880f5a5cc710b89be5678cf2d933fb",
+  "native_cases": 64,
+  "tolerance": 2e-12,
+  "normalized_errors": {
+    "native_stress": 7.143743474783392e-16,
+    "energy_AD_stress": 1.5874985499518649e-16,
+    "stress_objectivity": 1.1553405336905955e-15,
+    "energy_objectivity": 1.4864361369307184e-15
+  },
+  "native_orientation_scope": "Identity material axes only; superposed spatial rotations are covered, rotated material-axis adapter is not native-certified",
+  "release": {
+    "grid": 128,
+    "particles": 456533,
+    "steps": 20,
+    "force": "none",
+    "initial": {
+      "time_s": 0.0,
+      "mass_kg": 26.999999999999996,
+      "momentum_kg_m_per_s": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "minimum_J": 1.053696,
+      "kinetic_energy_J": 0.0,
+      "strain_energy_J": 17.53426439617684
+    },
+    "final": {
+      "time_s": 0.004000000000000001,
+      "mass_kg": 26.999999999999996,
+      "momentum_kg_m_per_s": [
+        1.1248502671847016e-14,
+        4.5151938286337734e-17,
+        1.6093625997831706e-20
+      ],
+      "minimum_J": 0.9224120955518712,
+      "kinetic_energy_J": 4.288546314929963,
+      "strain_energy_J": 12.714056664075448
+    },
+    "momentum_error": 1.1248593292333911e-14,
+    "momentum_scale": 8.38086964272097,
+    "energy_change_J": -0.5316614171714313,
+    "relative_energy_change": -0.03032128438118878,
+    "compile_seconds": 0.768817350268364,
+    "solve_seconds": 10.606839217245579,
+    "finite_positive_J_mass_history_passed": true
+  },
+  "runtime": {
+    "jax": "0.12.0.1",
+    "numpy": "2.5.4",
+    "devices": [
+      "cpu:0"
+    ]
+  },
+  "scope": "MAT002 finite-strain solid constitutive comparison and one free prestrain-release prefix; no temporal/spatial convergence or large-compression stability claim"
+}
