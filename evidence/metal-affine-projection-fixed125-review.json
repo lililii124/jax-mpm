@@ -1,0 +1,32 @@
+{
+  "scope": "fixed-original-state operator checks only",
+  "fixed_state_checks_passed": true,
+  "checks": {
+    "dense_full_rank_and_nullmode_references": true,
+    "positive_projection_loss": true,
+    "projection_loss_identity": true,
+    "idempotence_energy_bound": true,
+    "preconditioner_scale_energy_bound": true,
+    "linear_momentum": true,
+    "angular_momentum": true,
+    "no_physical_columns_removed": true,
+    "original_normal_backward_error": true
+  },
+  "momentum_tolerance_64eps": 8.171023914153126e-16,
+  "angular_tolerance_64eps": 1.2348239457133346e-18,
+  "original_energy_tolerance_J": 1.414599609375e-08,
+  "production_admitted": false,
+  "short_window_started": false,
+  "limitations": [
+    "Residual and inter-preconditioner differences do not constitute a rigorous global exact-projector error bound in an unknown near-nullspace.",
+    "Compatible material time discretization and scalable rigid-gauge contact remain to be integrated and checked."
+  ],
+  "evidence_sha256": {
+    "evidence/metal-affine-projection-reference.json": "ff6292703f8d52c5229197eb30518050a2a044b2a32f720f7b244e438d9c63d4",
+    "evidence/metal-affine-projection-fixed125-mu1e8.json": "e7a5fe0472a0f444f4e62aa1292cd07fd48b6180d8ad4722e5f0b197d852a4f4",
+    "evidence/metal-affine-projection-fixed125-mu1e6.json": "0fa57f15941fb431158d570be842913f7069e1c03b62b4764a8bcce0d162045b"
+  },
+  "original_Q_frobenius_norm": 0.016436998719655895,
+  "original_normal_residual_max": 1.8149407950753754e-18,
+  "original_normal_backward_error_budget": 8.764503179991628e-16
+}

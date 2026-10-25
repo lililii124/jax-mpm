@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "fixtures": [
+    {
+      "fixture": "random",
+      "rank": 27,
+      "nullity": 0,
+      "dense_SVD_error": 1.1272501803671551e-13,
+      "idempotence": 9.142472555993787e-14,
+      "projection_identity_J": -2.1316282072803006e-14
+    },
+    {
+      "fixture": "singular",
+      "rank": 20,
+      "nullity": 7,
+      "dense_SVD_error": 1.2003159958715996e-14,
+      "idempotence": 4.501048196141944e-15,
+      "projection_identity_J": 3.552713678800501e-15
+    },
+    {
+      "fixture": "crossing-0.13",
+      "rank": 20,
+      "nullity": 7,
+      "dense_SVD_error": 1.0737258805239644e-14,
+      "idempotence": 4.754394452329998e-15,
+      "projection_identity_J": -7.105427357601002e-15
+    },
+    {
+      "fixture": "crossing-0.27",
+      "rank": 24,
+      "nullity": 12,
+      "dense_SVD_error": 3.116352871530862e-13,
+      "idempotence": 1.2809192508290346e-14,
+      "projection_identity_J": -1.7763568394002505e-14
+    },
+    {
+      "fixture": "crossing-0.6",
+      "rank": 28,
+      "nullity": 20,
+      "dense_SVD_error": 5.788657417384408e-14,
+      "idempotence": 1.601871273284762e-14,
+      "projection_identity_J": -3.1530333899354446e-14
+    }
+  ],
+  "production_admitted": false,
+  "source_sha256": {
+    "H:\\temp\\jax-mpm-metal-conservative-20261025\\tools\\prove_metal_affine_projection_reference.py": "4178b0dd116299674404357debea0cc3f382afbd05aa5e7aa67953205b015dd7",
+    "tools\\metal_affine_projection_numpy.py": "7548b0f8bef6f5e5f2c75d2aa47da1287c9e3f5e67049cec44aae53968b13850"
+  }
+}
