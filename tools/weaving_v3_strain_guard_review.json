@@ -1,0 +1,100 @@
+{
+  "task": "triaxial-weaving-v3-parallel52960-to59960",
+  "terminal": "Original12%logstretch guard; no resource guard/OOM, no relaunch",
+  "last_valid_CP": 53760,
+  "checkpoint_sha256": "bbf7fce5526dc10939a489cfd449162f89d20c40f5febbef27643137ed938de6",
+  "accepted_extreme": {
+    "index": 115199,
+    "fibre_id": 15,
+    "family_id": 1,
+    "periodic_line_index": 3,
+    "longitudinal_section": 4,
+    "sections_from_nearest_end": 4,
+    "clamped": false,
+    "clamp_ids": [],
+    "max_log_stretch": 0.11501143564221035,
+    "principal_stretches": [
+      1.1218862669885319,
+      0.9867986276276297,
+      0.9712303194225713
+    ],
+    "x": [
+      -0.011398713702218488,
+      0.004082086357525602,
+      -0.019214843878180028
+    ],
+    "v": [
+      0.40746501799869844,
+      -0.050903547833221305,
+      0.714639801618414
+    ],
+    "displacement_from_initial_m": [
+      0.0003043441144022444,
+      -0.003827777396416412,
+      0.0005270204890184503
+    ]
+  },
+  "rejected_forensic_extreme": {
+    "index": 115199,
+    "fibre_id": 15,
+    "family_id": 1,
+    "periodic_line_index": 3,
+    "longitudinal_section": 4,
+    "sections_from_nearest_end": 4,
+    "clamped": false,
+    "clamp_ids": [],
+    "max_log_stretch": 0.12001440833915882,
+    "principal_stretches": [
+      1.1275130970534486,
+      0.9855835170198805,
+      0.9670989240117361
+    ],
+    "x": [
+      -0.011394171345221246,
+      0.004081431336142882,
+      -0.019206859956098957
+    ],
+    "v": [
+      0.42868893331972246,
+      -0.06998475605798612,
+      0.755493857994434
+    ],
+    "displacement_from_initial_m": [
+      0.0003088864713994867,
+      -0.0038284324177991326,
+      0.0005350044110995211
+    ]
+  },
+  "time_caveat": "Parallel per-fibre scans stop individually after failure; saved global time is firstfibre time, not certified common physical time nor exact failing step. OnlyCP53760 is accepted synchronous carry; failure lies in next200step block.",
+  "stage": {
+    "name": "parallel_feed_family_1",
+    "start": 0.002002765316663494,
+    "end": 0.021970602696907666,
+    "maximum_fixture_travel_m": 0.03813576026305178,
+    "peak_fixture_speed_m_s": 3.0,
+    "fibre_ids": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "endpoint_motion": {
+    "fibre_id": 15,
+    "initial_span_m": 0.038121148300088406,
+    "stage_start_span_m": 0.038121148300088406,
+    "stage_end_span_m": 0.038121148300088406,
+    "two_endpoint_speed_m_s": [
+      0.7488754760809326,
+      0.7488754760809326
+    ],
+    "two_endpoint_relative_speed_m_s": 0.0
+  },
+  "interpretation": "Free fourth section next to three-section clamp; physical end distance does not increase, no contact/D. Prior large parked-layer alignment and feed produce local dynamic/clamp disturbance. Raw alone does not separate physical wave concentration from unresolved APIC/spatial effects. Do not raise strain guard or call this completed interlacing.",
+  "remaining_original_fine_steps": 617675,
+  "unchanged_history": "All earlier process versions, failed diagnostic and raw retained; only completeCP53760 may restore this trajectory, no rejected forensic restart."
+}
