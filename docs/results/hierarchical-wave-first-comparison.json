@@ -1,0 +1,216 @@
+{
+  "adopt_for_engineering": false,
+  "reason": "Uniform fine reference and hierarchical comparison fail the fixed velocity accuracy targets",
+  "fine_reference_qualified": false,
+  "hierarchical_vs_fine_qualified": false,
+  "hierarchical_vs_fine_velocity_relative_L2": 0.21857631993604468,
+  "comparison_method": "Reference-coordinate section averages; piecewise-linear interpolation of fine velocity onto mixed sampling",
+  "resource_scope": "Sequential runs on a shared Windows CPU; indicative measurements, not a controlled speedup benchmark",
+  "plan": {
+    "case": "Right-going small-amplitude plane-strain elastic pulse through coarse/fine/coarse region",
+    "same_physics": "0.16 x 0.01 x 0.01 m bar, E=20 MPa, nu=0.3, rho=1200 kg/m3, amplitude=0.02 m/s, Gaussian width=6 mm, duration=650 us, 600 shared steps",
+    "fine_reference_velocity_relative_L2_limit": 0.05,
+    "hierarchical_against_fine_velocity_relative_L2_limit": 0.05,
+    "left_residual_velocity_energy_fraction_limit": 0.01,
+    "minimum_requirements": [
+      "All states finite, positive J, complete support and conservative acoustic CFL <= 0.25",
+      "Fine reference must meet its own analytical small-amplitude accuracy check",
+      "Hierarchical and uniform fine use identical constitutive, time integration and transfer formulations",
+      "Memory and execution time are measured separately from compilation",
+      "Energy components remain separate; exact bookkeeping does not certify solution accuracy"
+    ],
+    "scope": "Interface propagation qualification only, not plate indentation or nonlinear engineering validation",
+    "baseline_observation": "The completed coarse run already fails the analytical L2 target; fine and hierarchical are not yet reviewed"
+  },
+  "runs": {
+    "coarse": {
+      "resolution": "coarse",
+      "particles": 8192,
+      "grid_nodes": 531441,
+      "steps": 600,
+      "duration_s": 0.00065,
+      "dt_s": 1.0833333333333333e-06,
+      "wave_speed_m_s": 149.78617237881951,
+      "physical_case": "0.16 x 0.01 x 0.01 m bar; transverse velocities fixed, axial end faces free",
+      "reference": "Linear plane-strain right-going Gaussian; neo-Hookean amplitude/c = 1.34e-4",
+      "initial_energy_J": 3.688010060502887e-07,
+      "final_energy_J": 2.6087426689221146e-07,
+      "relative_energy_change": -0.29264220375624633,
+      "linear_reference_velocity_relative_L2": 0.4852313933693161,
+      "left_residual_velocity_energy_fraction": 8.06147338152051e-07,
+      "max_ledger_error_relative_initial_energy": 1.956922764885586e-16,
+      "summed_ledger_error_relative_initial_energy": 2.3510758869605894e-15,
+      "max_force_gradient_remainder_J": 3.755928495321997e-24,
+      "min_J": 0.9998664601836129,
+      "max_cfl_bound": 0.08137374328183859,
+      "energy_components_J": {
+        "p2g_change": -5.395055222057791e-08,
+        "g2p_change": -5.3864978620174905e-08,
+        "moment_advection": 2.117582368135751e-22,
+        "body_work": 0.0,
+        "boundary_work": 0.0,
+        "boundary_loss": 1.4333097785119852e-07,
+        "material_remainder": 3.430713854802425e-08,
+        "force_time_remainder": 1.0891263098578475e-07,
+        "force_gradient_remainder": 2.368767029196604e-23
+      },
+      "compile_seconds": 0.4198014999856241,
+      "solve_and_checkpoint_seconds": 20.962918899953365,
+      "versions": {
+        "jax": "0.12.0.1",
+        "numpy": "2.5.4"
+      },
+      "source": {
+        "examples/hierarchical_wave.py": "179edf27e836f7ff2ec927ad6d8c30f627d8a8afcfefd7118183d03c2ce8ee12",
+        "mpm_jax/hierarchical_grid.py": "bfad3f0154656b24e81f2222854ff79a62c9f786f414c0d15bad80ee0e05b08f",
+        "mpm_jax/hierarchical_dynamics.py": "82ecfee23fbcd55c03ffa4d59b30b7ba8acbae87c2d956f866115bb4e1313337",
+        "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+        "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0"
+      },
+      "resource_measurement": {
+        "exit_code": 0,
+        "termination": null,
+        "peak_uss_bytes": 336609280,
+        "peak_rss_bytes": 430792704,
+        "wall_seconds": 24.135758599964902,
+        "sample_seconds": 0.25,
+        "limits": {
+          "uss_GiB": 5.5,
+          "min_available_GiB": 2,
+          "wall_seconds": 600
+        }
+      },
+      "raw_files": {
+        "checkpoint.npz": "5f479d4bbd9ad0555670acb250600f5255ddf333e734d7574e136a7230511355",
+        "initial.npz": "c9269eab9dd0ca8e81e86e8933c12b2b1b1325ac2bdc81a3a9ce2f45c9262571",
+        "step_records.npz": "945d7c44f723f0399d77b88ad118ec65b654e3cf73bc7ade6426a9b900b8cdb6"
+      }
+    },
+    "fine": {
+      "resolution": "fine",
+      "particles": 65536,
+      "grid_nodes": 4173281,
+      "steps": 600,
+      "duration_s": 0.00065,
+      "dt_s": 1.0833333333333333e-06,
+      "wave_speed_m_s": 149.78617237881951,
+      "physical_case": "0.16 x 0.01 x 0.01 m bar; transverse velocities fixed, axial end faces free",
+      "reference": "Linear plane-strain right-going Gaussian; neo-Hookean amplitude/c = 1.34e-4",
+      "initial_energy_J": 3.629252408633792e-07,
+      "final_energy_J": 3.4144272926192346e-07,
+      "relative_energy_change": -0.05919266334397133,
+      "linear_reference_velocity_relative_L2": 0.2667699523268313,
+      "left_residual_velocity_energy_fraction": 1.8641108117303197e-09,
+      "max_ledger_error_relative_initial_energy": 2.2029929880841784e-16,
+      "summed_ledger_error_relative_initial_energy": 3.899931492484616e-16,
+      "max_force_gradient_remainder_J": 3.393810605526206e-24,
+      "min_J": 0.999866648478541,
+      "max_cfl_bound": 0.16274766530162432,
+      "energy_components_J": {
+        "p2g_change": -1.0769190303657324e-08,
+        "g2p_change": -1.0766162359141715e-08,
+        "moment_advection": 2.6469779601696886e-23,
+        "body_work": 0.0,
+        "boundary_work": 0.0,
+        "boundary_loss": 3.0611602868282495e-07,
+        "material_remainder": 6.736504796701344e-08,
+        "force_time_remainder": 2.3880382177709e-07,
+        "force_gradient_remainder": -2.982564083787372e-23
+      },
+      "compile_seconds": 0.4265610000002198,
+      "solve_and_checkpoint_seconds": 191.18227540003136,
+      "versions": {
+        "jax": "0.12.0.1",
+        "numpy": "2.5.4"
+      },
+      "source": {
+        "examples/hierarchical_wave.py": "179edf27e836f7ff2ec927ad6d8c30f627d8a8afcfefd7118183d03c2ce8ee12",
+        "mpm_jax/hierarchical_grid.py": "bfad3f0154656b24e81f2222854ff79a62c9f786f414c0d15bad80ee0e05b08f",
+        "mpm_jax/hierarchical_dynamics.py": "82ecfee23fbcd55c03ffa4d59b30b7ba8acbae87c2d956f866115bb4e1313337",
+        "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+        "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0"
+      },
+      "resource_measurement": {
+        "exit_code": 0,
+        "termination": null,
+        "peak_uss_bytes": 1375006720,
+        "peak_rss_bytes": 1468198912,
+        "wall_seconds": 193.84595119999722,
+        "sample_seconds": 0.25,
+        "limits": {
+          "uss_GiB": 5.5,
+          "min_available_GiB": 2,
+          "wall_seconds": 600
+        }
+      },
+      "raw_files": {
+        "checkpoint.npz": "e1e52fdfca4c53ef12661834aba74e17be9f9394302cd08d95bce7d517cf2d6c",
+        "initial.npz": "146ab654f8efd67cae7412b8f91c3b8663218ede4dbb87dc440361cc772c3dd9",
+        "step_records.npz": "daf231cca932ec49513ac0f53e8cc1e3e90a9272bae235d9e17af9d7e7bf9b0b"
+      }
+    },
+    "hierarchical": {
+      "resolution": "hierarchical",
+      "particles": 29696,
+      "grid_nodes": 548778,
+      "steps": 600,
+      "duration_s": 0.00065,
+      "dt_s": 1.0833333333333333e-06,
+      "wave_speed_m_s": 149.78617237881951,
+      "physical_case": "0.16 x 0.01 x 0.01 m bar; transverse velocities fixed, axial end faces free",
+      "reference": "Linear plane-strain right-going Gaussian; neo-Hookean amplitude/c = 1.34e-4",
+      "initial_energy_J": 3.6880100594353643e-07,
+      "final_energy_J": 2.967996398283149e-07,
+      "relative_energy_change": -0.1952309374292893,
+      "linear_reference_velocity_relative_L2": 0.3748649700311713,
+      "left_residual_velocity_energy_fraction": 1.3032492244620461e-05,
+      "max_ledger_error_relative_initial_energy": 2.4654283049704596e-16,
+      "summed_ledger_error_relative_initial_energy": -1.725642110176232e-15,
+      "max_force_gradient_remainder_J": 2.885310017205065e-24,
+      "min_J": 0.9998664601836129,
+      "max_cfl_bound": 0.16274748656367719,
+      "energy_components_J": {
+        "p2g_change": -3.583017760707225e-08,
+        "g2p_change": -3.589252165053615e-08,
+        "moment_advection": -4.472774365695719e-15,
+        "body_work": 0.0,
+        "boundary_work": 0.0,
+        "boundary_loss": 2.2651568930694957e-07,
+        "material_remainder": 4.124251331744964e-08,
+        "force_time_remainder": 1.8499451360461014e-07,
+        "force_gradient_remainder": -1.8322235725266658e-23
+      },
+      "compile_seconds": 0.5352689999854192,
+      "solve_and_checkpoint_seconds": 101.43497560004471,
+      "versions": {
+        "jax": "0.12.0.1",
+        "numpy": "2.5.4"
+      },
+      "source": {
+        "examples/hierarchical_wave.py": "179edf27e836f7ff2ec927ad6d8c30f627d8a8afcfefd7118183d03c2ce8ee12",
+        "mpm_jax/hierarchical_grid.py": "bfad3f0154656b24e81f2222854ff79a62c9f786f414c0d15bad80ee0e05b08f",
+        "mpm_jax/hierarchical_dynamics.py": "82ecfee23fbcd55c03ffa4d59b30b7ba8acbae87c2d956f866115bb4e1313337",
+        "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+        "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0"
+      },
+      "resource_measurement": {
+        "exit_code": 0,
+        "termination": null,
+        "peak_uss_bytes": 518717440,
+        "peak_rss_bytes": 613232640,
+        "wall_seconds": 104.37866650003707,
+        "sample_seconds": 0.25,
+        "limits": {
+          "uss_GiB": 5.5,
+          "min_available_GiB": 2,
+          "wall_seconds": 600
+        }
+      },
+      "raw_files": {
+        "checkpoint.npz": "64741586420bf8250542980207751164ea7f38e08e5b8405d433c79ec3824240",
+        "initial.npz": "bdddc21b8d0d7d67b9e1eecd808a5977823ebcdaa3507eca47f1fdc94adc473c",
+        "step_records.npz": "0bc91936ca5e7388b8921d27bde55d5ac8d0be8fe8c23a13342bb9297c4ca03f"
+      }
+    }
+  }
+}

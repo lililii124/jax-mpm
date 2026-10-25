@@ -27,6 +27,25 @@ class HierarchicalStencil(NamedTuple):
     valid: jax.Array
 
 
+class UniformGrid(NamedTuple):
+    positions: jax.Array
+    spacing: jax.Array
+    origin: jax.Array
+
+
+def uniform_grid(*, cells, domain_size, offset=0., dtype=jnp.float64):
+    """Uniform reference grid; offset is measured in cells along all three axes."""
+    if type(cells) is not int or cells < 8 or not np.isfinite(domain_size) or domain_size <= 0:
+        raise ValueError("A positive domain and at least eight cells are required")
+    if not np.isfinite(offset) or not 0 <= offset < 1:
+        raise ValueError("Grid offset must be in [0, 1)")
+    h = domain_size / cells
+    axis = (np.arange(cells + 1) + offset) * h
+    positions = np.stack(np.meshgrid(axis, axis, axis, indexing="ij"), -1).reshape(-1, 3)
+    return UniformGrid(jnp.asarray(positions, dtype), jnp.asarray(h, dtype),
+                       jnp.full(3, offset * h, dtype))
+
+
 def hierarchical_grid(*, cells, domain_size, refined_lower, refined_upper, dtype=jnp.float64):
     """Create a fixed interior refinement box whose faces lie on coarse knots."""
     if type(cells) is not int or cells < 8 or not np.isfinite(domain_size) or domain_size <= 0:
@@ -78,6 +97,29 @@ def _tensor_product(values, derivatives, offsets):
                           factors[..., 0] * slopes[..., 1] * factors[..., 2],
                           factors[..., 0] * factors[..., 1] * slopes[..., 2]), -1)
     return jnp.prod(factors, axis=-1), gradient
+
+
+@jax.jit
+def uniform_stencil(x, grid):
+    offsets = jnp.array(list(product(range(3), repeat=3)), dtype=jnp.int32)
+    coordinate = (x - grid.origin) / grid.spacing
+    base = jnp.floor(coordinate - .5).astype(jnp.int32)
+    axis = base[:, None, :] + jnp.arange(3)[None, :, None]
+    value, slope = _quadratic(coordinate[:, None, :] - axis)
+    weights, gradients = _tensor_product(value, slope / grid.spacing, offsets)
+    nodes = base[:, None, :] + offsets
+    side = round(len(grid.positions)**(1 / 3))
+    inside = jnp.all((nodes >= 0) & (nodes < side), axis=-1)
+    nodes = jnp.clip(nodes, 0, side - 1)
+    indices = (nodes[..., 0] * side + nodes[..., 1]) * side + nodes[..., 2]
+    return HierarchicalStencil(indices, jnp.where(inside, weights, 0.),
+                               jnp.where(inside[..., None], gradients, 0.),
+                               grid.positions[indices] - x[:, None, :],
+                               jnp.all(inside) & jnp.all(jnp.isfinite(x)))
+
+
+def grid_stencil(x, grid):
+    return uniform_stencil(x, grid) if isinstance(grid, UniformGrid) else hierarchical_stencil(x, grid)
 
 
 @jax.jit
