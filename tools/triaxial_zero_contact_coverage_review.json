@@ -1,0 +1,299 @@
+{
+  "scope": "Original0degree dynamic tensile failure scan; connected Hertz owner-registry repair, not a complete case or macroscopic rupture claim",
+  "original_source": "b873d277711f5e706b2d57eea1b69f25e6375dc2",
+  "repair_source": "6b7cd85",
+  "continuation_source": "1a373a5",
+  "readonly_geometry": {
+    "schema": "triaxial-zero-rejected-contact-registry-v1",
+    "rejected_attempt_step": 7219,
+    "last_accepted_steps": 7218,
+    "time_s": 2.8709419199651427e-05,
+    "mechanical_state_valid": true,
+    "driver_aggregate_valid_unchanged": false,
+    "reason_code": 1,
+    "saved_contact_metrics": {
+      "search_boundary_pairs": 0.0,
+      "uncovered_near_pairs": 1.0,
+      "same_family_near_pairs": 0.0,
+      "coverage_motion_exceeded": 0.0,
+      "maximum_nonrigid_displacement_m": 7.626837461994159e-05,
+      "minimum_gap_m": -1.0663161697934776e-06,
+      "active_pairs": 243.0,
+      "minimum_force_N": 0.0,
+      "maximum_force_N": 0.08488983576659856,
+      "failed_section_contacts": 0.0,
+      "unsupported_end_contacts": 0.0,
+      "degenerate_pairs": 0.0,
+      "force_residual_N": 7.850462293418876e-17,
+      "torque_residual_Nm": 9.326659742954563e-19,
+      "potential_J": 1.0516787942380336e-06,
+      "valid": 0.0
+    },
+    "reference_geometry_hash_verified": false,
+    "whole_coverage_hash_verified": true,
+    "reference_registered_fibre_pairs": 980,
+    "coverage_cells": 1200704,
+    "unseeded_coverage_cells": 11288,
+    "unseeded_close_cells": [
+      {
+        "coverage_cell": 442245,
+        "segment_ids": [
+          13346,
+          19489
+        ],
+        "fibre_ids": [
+          27,
+          47
+        ],
+        "family_ids": [
+          1,
+          2
+        ],
+        "periodic_line_indices": [
+          -3,
+          -11
+        ],
+        "closest_weights": [
+          0.25964551114377077,
+          0.45379794263483286
+        ],
+        "current_closest_points_m": [
+          [
+            0.019443409624699516,
+            0.00033512258446319803,
+            0.01581952755838031
+          ],
+          [
+            0.019631220766631374,
+            0.00019391665261905171,
+            0.015822948566774075
+          ]
+        ],
+        "current_surface_gap_m": -2.4606083023719343e-09,
+        "reference_surface_gap_m": 8.882777271028669e-06,
+        "segments_from_nearest_physical_end": [
+          0,
+          0
+        ],
+        "failed_endpoint_sections": [
+          [
+            false,
+            false
+          ],
+          [
+            false,
+            false
+          ]
+        ],
+        "failed_particles_per_fibre": [
+          0,
+          0
+        ],
+        "pair_registered_in_reference_crossings": false
+      }
+    ],
+    "numpy_count_matches_saved_rejection": true,
+    "mechanical_steps_executed": 0,
+    "saved_final_macroscopic_observation": {
+      "time": 2.8709419199651427e-05,
+      "accepted_steps": 7218,
+      "prescribed_engineering_strain": 0.008470572834591787,
+      "left_applied_force_x_N": -10.622849483836154,
+      "right_applied_force_x_N": 10.628966784303195,
+      "mean_grip_tensile_force_N": 10.625908134069675,
+      "peak_step_dynamic_grip_force_N": 14.83068587968831,
+      "peak_step_dynamic_grip_force_time_s": 2.5340497329035628e-05,
+      "first_material_failure_time_s": 2.5443911695784165e-05,
+      "failed_particles": 1175,
+      "max_damage": 1.0,
+      "damaged_reference_volume_fraction": 0.0037664676201869247,
+      "kinetic_energy_J": 0.0004401134289072327,
+      "kinetic_translational_energy_J": 0.000438747544725128,
+      "kinetic_apic_affine_energy_J": 1.365884182104734e-06,
+      "elastic_energy_J": 0.0008388277974604238,
+      "kinetic_to_elastic_ratio": 0.5246767336987272,
+      "actual_clamp_work_J": 0.001564179724550187,
+      "grid_kinetic_correction_J": 0.0012760042857467746,
+      "contact_potential_J": 1.0516787942380336e-06,
+      "active_contact_pairs": 243,
+      "minimum_contact_gap_m": -1.0663161697934776e-06,
+      "contact_force_balance_N": 7.850462293418876e-17,
+      "contact_torque_balance_Nm": 9.326659742954563e-19,
+      "coverage_nonrigid_displacement_m": 7.626837461994159e-05,
+      "sampled_section_graph_connects_grips": true,
+      "active_fibre_x_support_cuts": 0,
+      "grip_velocity_error_m_per_s": 1.7763568394002505e-15,
+      "grip_position_error_m": 8.731532555103093e-09,
+      "left_accumulated_impulse_x_Ns": -0.00024150693708539642,
+      "left_applied_force_y_N": -0.1345961840719031,
+      "left_accumulated_impulse_y_Ns": -7.384501852191369e-08,
+      "left_applied_force_z_N": -0.00578257291296802,
+      "left_accumulated_impulse_z_Ns": -2.122694857236456e-08,
+      "right_accumulated_impulse_x_Ns": 0.00024150321828689597,
+      "right_applied_force_y_N": 0.10227260148440076,
+      "right_accumulated_impulse_y_Ns": 3.0907434512919206e-08,
+      "right_applied_force_z_N": -0.003960688025812295,
+      "right_accumulated_impulse_z_Ns": -2.0979927118506524e-09
+    },
+    "never_resumable": true,
+    "production_eligible": false,
+    "interpretation": "Reason 1 is contact validity, while mechanical/grid rejection is reason 2. Unseeded close contact is a sufficient rejection gate; unexported budget/curvature/overlap gates are not independently evaluated here. A previously unregistered cross-family fibre pair is distinct from skin exhaustion or a failed-section contact. This audit never changes any gate or integrates the failed state."
+  },
+  "reference_compatibility": {
+    "expected": {
+      "shape": [
+        683232,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "4d3fdacc21e9f91c502776db2d2665e136039634ff2ec80a8c16785f2ba3c73c"
+    },
+    "actual": {
+      "shape": [
+        683232,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "bfede22b6ddc0122ec39066f8d22c4aa8f860f47a8206d88072be167bb9e1208"
+    },
+    "metadata_differences": [
+      {
+        "path": "metadata/clearance_validation/minimum_centreline_distance_lower_bound_m",
+        "expected": 0.00023784701466303602,
+        "actual": 0.00023784701466303596
+      },
+      {
+        "path": "metadata/clearance_validation/minimum_surface_clearance_lower_bound_m",
+        "expected": 2.8470146630360255e-06,
+        "actual": 2.8470146630359713e-06
+      },
+      {
+        "path": "metadata/clearance_validation/polyline_minimum_distance_m",
+        "expected": 0.0002379099142292467,
+        "actual": 0.00023790991422924666
+      },
+      {
+        "path": "metadata/clearance_validation/single_curve_interpolation_error_bound_m",
+        "expected": 3.144978310534441e-08,
+        "actual": 3.144978310534616e-08
+      }
+    ]
+  },
+  "new_pair_physics": {
+    "new_pair": [
+      27,
+      47
+    ],
+    "patches": [
+      {
+        "index": 71,
+        "segments": [
+          13346,
+          19489
+        ],
+        "normal_force_N": 9.409338638830354e-06,
+        "force_vector_N": [
+          7.519987822667247e-06,
+          -5.653907840790121e-06,
+          1.3697771707171534e-07
+        ],
+        "potential_J": 9.261078717567238e-15,
+        "gap_m": -2.4606083044319185e-09,
+        "contact_radius_m": 5.377484273715005e-07,
+        "effective_radius_m": 0.00011752109046355653,
+        "torque_residual_Nm": [
+          -3.2311742677852644e-27,
+          0.0,
+          2.0679515313825692e-25
+        ]
+      }
+    ],
+    "nonzero_force_demonstrated": true,
+    "interpretation": "Original rejected force evaluation already included all close coverage patches before registry validity guard; registration permits actual mechanical advance without deleting any physical guard."
+  },
+  "accepted_prefix": {
+    "step": 6770,
+    "time": 2.6927510111061252e-05,
+    "checkpoint_sha256": "fbd22f67343171162ca873df9fb88fe78ea3b0b15d9846a29faeada5adfd344b",
+    "accepted": true,
+    "contact_metrics": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      6.848600369150434e-05,
+      -1.6321638386273987e-06,
+      279.0,
+      0.0,
+      0.16073235088382845,
+      0.0,
+      0.0,
+      0.0,
+      1.193812447098184e-16,
+      1.0622968402425924e-18,
+      2.3777413721892346e-06,
+      1.0
+    ],
+    "failed_particles": 229,
+    "max_damage": 1.0
+  },
+  "independent_carry_audit": {
+    "checks": {
+      "state_mass_exact": true,
+      "state_volume_exact": true,
+      "state_fibre_id_exact": true,
+      "history_kappa_irreversible": true,
+      "history_damage_irreversible": true,
+      "history_failed_irreversible": true,
+      "state_x_finite": true,
+      "state_v_finite": true,
+      "state_F_finite": true,
+      "state_C_finite": true,
+      "state_mass_finite": true,
+      "state_volume_finite": true,
+      "state_fibre_id_finite": true,
+      "state_tau_finite": true,
+      "state_time_finite": true,
+      "state_valid_finite": true,
+      "state_boundary_impulse_finite": true,
+      "state_external_impulse_finite": true,
+      "state_boundary_work_finite": true,
+      "history_kappa_finite": true,
+      "history_damage_finite": true,
+      "history_failed_finite": true,
+      "history_valid_finite": true,
+      "contact_active_finite": true,
+      "contact_law_valid_finite": true,
+      "contact_radius_finite": true,
+      "contact_segments_finite": true,
+      "contact_valid_finite": true,
+      "history_all_valid": true,
+      "contact_law_all_valid": true,
+      "aggregate_valid": true,
+      "state_valid": true,
+      "contact_valid": true
+    },
+    "passed": true,
+    "checkpoint_sha256": "fbd22f67343171162ca873df9fb88fe78ea3b0b15d9846a29faeada5adfd344b",
+    "accepted_steps": 6770,
+    "time": 2.6927510111061252e-05
+  },
+  "runtime": {
+    "total_seconds": 208.32139860093594,
+    "peak_USS_bytes": 4845375488,
+    "advance50seconds": 140.3714851513505,
+    "cpu_set": "24-27"
+  },
+  "preserved_guards": [
+    "same-family",
+    "physical ends",
+    "failed sections",
+    "curvature/degeneracy",
+    "motion skin",
+    "patch footprint overlap",
+    "Hertz radius applicability",
+    "active/patch/component budgets",
+    "original material/grid mechanical validity"
+  ],
+  "registration": "Append all previously unregistered cross-family owners present in unchanged finite reference capsule coverage. Original crossing seedIDs/seedsegments retained. Original stateless connected-patch forces already selected all close cells before late unseeded validity check; this repair permits those forces to advance, without clearing any invalid carry."
+}
