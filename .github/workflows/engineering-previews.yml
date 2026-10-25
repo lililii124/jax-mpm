@@ -1,52 +1,69 @@
-name: HJC MAT111 beam continuation
-
+name: HJC40 complete official raw read-only audit
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
   actions: read
-
-concurrency:
-  group: hjc-mat111-beam-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
-  solve:
+  audit:
     runs-on: ubuntu-24.04
-    timeout-minutes: 55
+    timeout-minutes: 25
     env:
-      JAX_PLATFORMS: cpu
-      JAX_ENABLE_X64: 'true'
-      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '2'
+      GH_TOKEN: ${{ github.token }}
       OPENBLAS_NUM_THREADS: '1'
-      PYTHONUNBUFFERED: '1'
+      OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-      - name: Install pinned CPU environment
-        timeout-minutes: 15
-        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
-      - uses: actions/download-artifact@v5
-        with:
-          name: hjc-mat111-beam-40169284307-1
-          run-id: 40169284307
-          github-token: ${{ github.token }}
-          path: outputs/hjc-mat111-qualification/
-      - name: Verify parent and continue to frame 40
-        timeout-minutes: 32
-        run: python tools/run_hjc_mat111_beam.py --resume --stop-frame 40 --parent-review-sha256 93a3cfe44126c24fb342c06da7550987d2dc5e870692f885f59ee522060523ed
-      - name: Preserve complete prefix and diagnostics
+          python-version: '3.12.13'
+      - name: Fetch exact parent and child source commits
+        run: |
+          git fetch --no-tags --depth=1 origin 52cea038373934b8c80596f5c42518bb37a0e9fc
+          git fetch --no-tags --depth=1 origin d857cec8d682446a1f4821ebd0fb3b713ef761a2
+      - name: Install NumPy only
+        run: python -m pip install numpy==2.5.4
+      - name: Complete official ZIP CRC source state and parent audit zero physical steps
+        run: python tools/audit_hjc_complete_prefix.py --output .local/hjc40-audit
+      - uses: actions/upload-artifact@v7
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: hjc-mat111-beam-${{ github.run_id }}-${{ github.run_attempt }}
-          path: outputs/hjc-mat111-qualification/
+          name: hjc40-independent-readonly-receipt-${{ github.run_id }}
+          path: |
+            .local/hjc40-audit/independent-hjc40-review.json
+            .local/hjc40-audit/parent/archive-review.json
+            .local/hjc40-audit/child/archive-review.json
+            .local/hjc40-audit/delivery/delivery-manifest.json
           if-no-files-found: error
-          compression-level: 6
-          retention-days: 7
+      - uses: actions/upload-artifact@v7
+        with:
+          name: hjc40-final-checkpoint-${{ github.run_id }}
+          path: .local/hjc40-audit/delivery/final-checkpoint.tar.gz
+          compression-level: 0
+      - uses: actions/upload-artifact@v7
+        with:
+          name: hjc40-render-part0-${{ github.run_id }}
+          path: .local/hjc40-audit/delivery/render-data.tar.gz.part-0000
+          compression-level: 0
+      - uses: actions/upload-artifact@v7
+        with:
+          name: hjc40-render-part1-${{ github.run_id }}
+          path: .local/hjc40-audit/delivery/render-data.tar.gz.part-0001
+          compression-level: 0
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v7
+        with:
+          name: hjc40-render-part2-${{ github.run_id }}
+          path: .local/hjc40-audit/delivery/render-data.tar.gz.part-0002
+          compression-level: 0
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v7
+        with:
+          name: hjc40-render-part3-${{ github.run_id }}
+          path: .local/hjc40-audit/delivery/render-data.tar.gz.part-0003
+          compression-level: 0
+          if-no-files-found: ignore
