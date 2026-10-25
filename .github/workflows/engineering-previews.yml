@@ -1,26 +1,19 @@
-name: Bounded geometric DELTA125 own-CFL diagnostic
+name: Bounded compatible affine dynamic125 first2ps
 on:
   workflow_dispatch:
-    inputs:
-      cfl:
-        type: choice
-        required: true
-        default: '0.1'
-        options: ['0.1', '0.05', '0.025']
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: metal-v6-numerical-recovery-${{ github.ref }}
+  group: metal-affine-dynamic125-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   diagnostic:
-    if: github.ref == 'refs/heads/work/metal-geometric-delta125'
+    if: github.ref == 'refs/heads/work/metal-compatible-affine'
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 35
     env:
       PYTHONDONTWRITEBYTECODE: '1'
-      METAL_GEOMETRIC_CFL: ${{ inputs.cfl }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -29,28 +22,23 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - uses: actions/download-artifact@v4
-        with:
-          artifact-ids: '12585028870,12584968927'
-          run-id: '40159167374'
-          github-token: ${{ github.token }}
-          path: .local/metal-v6-geometric-input
-          merge-multiple: true
-      - name: Authenticate whole evidence and deploy frozen source
-        run: python -m tools.control_metal_v6_geometric125 restore
-      - name: Install preserved producer wheel and exact dependencies
-        run: python -m tools.control_metal_v6_geometric125 install
-      - name: Run reviewed dual-carry candidate with own CFL and all physical gates
+      - name: Authenticate complete original ZIP and frozen seed/runtime/source closure
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -m tools.control_metal_affine_dynamic125 restore
+      - name: Install preserved exact original producer runtime
+        run: python -m tools.control_metal_affine_dynamic125 install
+      - name: One real2ps step then exact same-source replay under resource guard
         timeout-minutes: 18
-        run: python -m tools.control_metal_v6_geometric125 run
-      - name: Preserve whole raw on acceptance or rejection
+        run: python -m tools.control_metal_affine_dynamic125 run
+      - name: Preserve all new raw on acceptance or first rejection
         if: always()
-        run: python -m tools.control_metal_v6_geometric125 package
+        run: python -m tools.control_metal_affine_dynamic125 package
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: metal-v6-geometric125-cfl${{ inputs.cfl }}-${{ github.run_id }}-${{ github.run_attempt }}-whole-delivery
-          path: .local/metal-v6-geometric-delivery/*
+          name: metal-affine-dynamic125-first2ps-${{ github.run_id }}-${{ github.run_attempt }}-whole-delivery
+          path: .local/metal-affine-dynamic-delivery/*
           compression-level: 0
           if-no-files-found: error
           retention-days: 30

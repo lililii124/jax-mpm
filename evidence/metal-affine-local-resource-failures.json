@@ -1,0 +1,64 @@
+{
+  "local_dynamics_accepted_steps": 0,
+  "runs": [
+    {
+      "path": ".local/material-affine-real-dynamic-dt2ps-v1",
+      "status": "rejected",
+      "accepted_steps": 0,
+      "source_commit": "735f49fba0ed418af0e961fbda2f20bd037fb3ab",
+      "first_error": {
+        "type": "MemoryError",
+        "message": "Resource guard: system commit headroom 1336913920 B below required 1610612736 B; no numerical fallback",
+        "stage": 1
+      },
+      "files": {
+        "000-mapped-initial.npz": {
+          "bytes": 13895111,
+          "sha256": "aa25719e9c0d0f821c5cbf649ff6577404c09009e322a07ff80d589298526e0d"
+        },
+        "000-original.npz": {
+          "bytes": 7143282,
+          "sha256": "092533d4196553cee2f00279042fec879c3a6e814e278cc91b853cf48cc46224"
+        },
+        "first-rejected-state.npz": {
+          "bytes": 13894541,
+          "sha256": "9fc792de63301338be914a7749c231eca9e0d2a4a687f03d0f6a8769a5b4bf45"
+        },
+        "result.json": {
+          "bytes": 1815,
+          "sha256": "ce674ddeb8878a061ea1342439314d9e25bbbae514fdb39e7252acea69486840"
+        }
+      }
+    },
+    {
+      "path": ".local/material-affine-real-dynamic-dt2ps-v2",
+      "status": "rejected",
+      "accepted_steps": 0,
+      "source_commit": "34d1584e35ab67532667e683798e29c5617ae314",
+      "first_error": {
+        "type": "MemoryError",
+        "message": "Unable to allocate 35.6 MiB for an array with shape (9325076,) and data type int32",
+        "stage": 1
+      },
+      "files": {
+        "000-mapped-initial.npz": {
+          "bytes": 13895111,
+          "sha256": "aa25719e9c0d0f821c5cbf649ff6577404c09009e322a07ff80d589298526e0d"
+        },
+        "000-original.npz": {
+          "bytes": 7143282,
+          "sha256": "092533d4196553cee2f00279042fec879c3a6e814e278cc91b853cf48cc46224"
+        },
+        "first-rejected-state.npz": {
+          "bytes": 13894541,
+          "sha256": "9fc792de63301338be914a7749c231eca9e0d2a4a687f03d0f6a8769a5b4bf45"
+        },
+        "result.json": {
+          "bytes": 1795,
+          "sha256": "6b2e97a37e258bcc6b1c9c3225aa29aa9754dbbef7c4b0ec1778bf25da52dc5f"
+        }
+      }
+    }
+  ],
+  "cloud_first_step_only": true
+}

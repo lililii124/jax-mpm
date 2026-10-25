@@ -1,0 +1,84 @@
+{
+  "schema": "material-affine-Linux-first2ps-v1",
+  "fixed_ref": "refs/heads/work/metal-compatible-affine",
+  "parent_artifact": {
+    "id": 12588945111,
+    "run": 40167448684,
+    "commit": "492591dfca855a6a526051bc7026aa4428e1f051",
+    "bytes": 342802766,
+    "sha256": "337383e51d91f81f9c5540d18bae266a3fc6310cbc90819f1561085ed296833c"
+  },
+  "parent_transport_sha256": "942dfd202866baadaae2ac7c70228e4f0fc68d88aba4288d2bf0365d9d56eb51",
+  "input_targets": {
+    "result/initial.npz": "inputs/initial.npz",
+    "result/original-epoch-initial.npz": "inputs/epoch-initial.npz",
+    "result/original-admission.json": "inputs/original-admission.json",
+    "audit/dependencies/requirements.txt": "dependencies/requirements.txt",
+    "audit/dependencies/jax-0.12.1.dev20261022-py3-none-any.whl": "dependencies/jax-0.12.1.dev20261022-py3-none-any.whl"
+  },
+  "input_sha256": {
+    "result/initial.npz": "3abe31b2fde3f8d93ec63b138e0d868011aef53ca18e5f3162c0b145b0dc2817",
+    "result/original-epoch-initial.npz": "19af75c3bfe85364d90e8deeda778df107e42ceb34b369204d938fc4529db333",
+    "result/original-admission.json": "2e257088a115d04c677d947e712e8dad9d54cda86dccce85ea3987201f7f0a56",
+    "audit/dependencies/requirements.txt": "10eea55c0cf460cc92d3dd8a970e17d9f16b7957d1442f41733eeb204e146623",
+    "audit/dependencies/jax-0.12.1.dev20261022-py3-none-any.whl": "8aecd75dba37eb8e76418487445c66efb3877b3724570d3b70237f063090b980"
+  },
+  "overlay_source": [
+    "tools/run_metal_affine_dynamic125.py",
+    "tools/metal_affine_dynamic_numpy.py",
+    "tools/metal_affine_material_step_worker.py",
+    "tools/metal_affine_dirichlet_numpy.py",
+    "tools/metal_affine_projection_numpy.py",
+    "tools/metal_affine_contact_numpy.py",
+    "tools/metal_affine_resource.py",
+    "tools/prove_metal_affine_material_window125.py",
+    "tools/metal_frozen_transfer.py",
+    "tools/audit_metal_onset_state.py",
+    "tools/audit_metal_affine_material_raw.py",
+    "mpm_jax/fragment_v6_midpoint_strength.py"
+  ],
+  "original_material_source": [
+    "mpm_jax/fragment_multifield_v6_mpm.py",
+    "mpm_jax/materials/linear_metal.py",
+    "mpm_jax/materials/shock_metal.py"
+  ],
+  "source_sha256": {
+    "tools/run_metal_affine_dynamic125.py": "12719ab2579d8dca2240494dc3bdd4ad8a27b283f2a2d7dfab957ae3d17efd07",
+    "tools/metal_affine_dynamic_numpy.py": "388037380e4a1a2c378c5e25c7522c204650f97546fcd9ecd899da0b8b654b33",
+    "tools/metal_affine_material_step_worker.py": "9f8133d17babb327f29a7f93dc28c7f3a53d44677158c6c0137cacc457b4ad22",
+    "tools/metal_affine_dirichlet_numpy.py": "8bd972e48dd0f3aca145fed8bda75c65261590a3608e1331106456d71e50aea3",
+    "tools/metal_affine_projection_numpy.py": "7003bb113ccedd2c4c670eb213c092076256604d92b446bd160d7131be6b7fdf",
+    "tools/metal_affine_contact_numpy.py": "c0cdd1ddb5979084682e53a1c76ef24b401813f3a323636aa0a9b86d7ed698f3",
+    "tools/metal_affine_resource.py": "561f46d7d5a7770ec1e12dd5c3d7043354332d75406131fb51095b90ffdb80ab",
+    "tools/prove_metal_affine_material_window125.py": "474960d6fd5733e6648056d85afac5c9e17dbae5b4f65849b5ab5bd11f449fae",
+    "tools/metal_frozen_transfer.py": "10124913e0b8a5bc6dfee0cd545168af6d4aa5c0decf856f3da9d0083691f4fe",
+    "tools/audit_metal_onset_state.py": "5625c41def68d3e52ae13a751c2a430ca78d4787629d909f093413a91fcf0c08",
+    "tools/audit_metal_affine_material_raw.py": "2ed1b1e7a59d28510788f7a799a892432a2cfa52ff10516f97b87263e8b95809",
+    "mpm_jax/fragment_v6_midpoint_strength.py": "4879ddb2415627db3439d303ce98a27e9a2a6a344e16b64644e1e88769aae2d7",
+    "tools/control_metal_affine_dynamic125.py": "405e99d44bc6d688e3c92ad285f7aee6f7f8412527f16ef739db46b2366299d1",
+    "tools/rht_impact_prefix.py": "db7979c0df15e39ce29e69b98400523f3d46c770c7d6f500922aec5bcfabb4d4",
+    "tools/metal_v6_process_guard.py": "d2531b336307c709b918157672c29dd578b3d04af89acc08ea3e3081287dc377"
+  },
+  "runtime_versions": {
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "jaxlib": "0.12.0.1",
+    "jax": "0.12.1.dev20261022",
+    "ml_dtypes": "0.6.0",
+    "opt_einsum": "3.4.0",
+    "psutil": "7.2.2"
+  },
+  "numerical_scope": {
+    "dt_s": 2e-12,
+    "steps": 1,
+    "global_start_ns": 125.0,
+    "global_end_ns": 125.002,
+    "replay_same_case_only": true,
+    "dt_controls_enabled": false,
+    "material_parameters_changed": false,
+    "public_media_allowed": false,
+    "production_admitted": false
+  },
+  "preserved_failures": "evidence/metal-affine-local-resource-failures.json",
+  "comparison_correction": "evidence/metal-affine-original-be-correction-notice.json"
+}

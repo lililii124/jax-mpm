@@ -1,0 +1,44 @@
+name: Bounded compatible affine dynamic125 first2ps
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: metal-affine-dynamic125-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    if: github.ref == 'refs/heads/work/metal-compatible-affine'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Authenticate complete original ZIP and frozen seed/runtime/source closure
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -m tools.control_metal_affine_dynamic125 restore
+      - name: Install preserved exact original producer runtime
+        run: python -m tools.control_metal_affine_dynamic125 install
+      - name: One real2ps step then exact same-source replay under resource guard
+        timeout-minutes: 18
+        run: python -m tools.control_metal_affine_dynamic125 run
+      - name: Preserve all new raw on acceptance or first rejection
+        if: always()
+        run: python -m tools.control_metal_affine_dynamic125 package
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: metal-affine-dynamic125-first2ps-${{ github.run_id }}-${{ github.run_attempt }}-whole-delivery
+          path: .local/metal-affine-dynamic-delivery/*
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
