@@ -14,7 +14,7 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
     def pack(v):return j.concatenate(tuple(a.ravel() for a in v))
     def B(x):return j.where(fluid,divergence(tuple(r*v for r,v in zip(root,split(x))),h),0.)
     def BT(q):return pack(tuple(r*g for r,g in zip(root,transpose_divergence(j.where(fluid,q,0.),h))))
-    a,b,c=inverse;diagonal=h**4*(a[1:]+a[:-1]+b[:,1:]+b[:,:-1]+c[:,:,1:]+c[:,:,:-1]);scale=j.where(fluid,1/j.sqrt(j.maximum(diagonal,1e-300)),0.);rhs=j.where(fluid,divergence(velocity,h),0.);norm=j.linalg.norm(rhs)
+    a,b,c=inverse;diagonal=h**4*(a[1:]+a[:-1]+b[:,1:]+b[:,:-1]+c[:,:,1:]+c[:,:,:-1]);scale=j.where(fluid&(diagonal>0),1/j.sqrt(j.maximum(diagonal,1e-300)),0.);rhs=j.where(fluid,divergence(velocity,h),0.);norm=j.linalg.norm(rhs)
     def A(x):return scale*B(x)
     def AT(q):return BT(scale*q)
     def solve(_):
@@ -49,4 +49,4 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
     residual=j.where(fluid,divergence(corrected,h),0.);relative=j.linalg.norm(residual)/j.maximum(norm,1e-300);absolute=j.linalg.norm(x-BT(multiplier)-BT(correction));stationarity=absolute/j.maximum(j.linalg.norm(x),1e-300);reconstruction=j.linalg.norm(B(BT(multiplier+correction))-rhs)/j.maximum(norm,1e-300)
     momentum=j.stack([j.sum(m*(b-a))-j.sum(I) for m,a,b,I in zip(mass,velocity,corrected,fixture)]);momentum_scale=sum(j.sum(j.abs(m*(b-a)))+j.sum(j.abs(I)) for m,a,b,I in zip(mass,velocity,corrected,fixture));work_scale=j.maximum(j.maximum(j.abs(work),j.abs(change)),j.maximum(loss,1e-300));finite=j.all(j.stack([j.all(j.isfinite(v)) for v in corrected]));fixed_change=j.max(j.stack([j.max(j.abs(j.where(f,b-a,0.))) for f,a,b in zip(fixed,velocity,corrected)]))
     valid=coverage&positive&finite&(relative<=10*tolerance)&(stationarity<=1e-10)&(j.abs(identity)<=10*tolerance*work_scale)&(j.linalg.norm(momentum)<=10*tolerance*j.maximum(momentum_scale,1e-300))&(fixed_change==0)
-    return PressureResult(corrected,-(multiplier+correction)/dt,fixture,relative,j.max(j.abs(residual))/h**3,work,loss,identity,coverage,valid,iterations,stationarity,absolute,reconstruction,multiplier,correction,use_dual)
+    return PressureResult(corrected,-(multiplier+correction)/dt,fixture,relative,j.max(j.abs(residual))/h**3,work,loss,identity,coverage,valid,iterations,stationarity,absolute,reconstruction,multiplier,correction,use_dual,j.sum(fluid&(diagonal==0)))
