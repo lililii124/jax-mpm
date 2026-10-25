@@ -89,3 +89,42 @@ remain exact. Process40min/job45min and6GiB guard remain. There is no crack
 claim and no media publication. Dynamic initiation may be accepted as dynamic
 if subsequent stability, time-step and fixed-ell localization checks pass;
 quasistatic labeling is optional and requires the stated rate/KE evidence.
+
+
+## Preserved global-strain guard failure and explicit observer correction
+
+Run40175930114 stopped at3274 because four quadrature points exceeded the
+old global2% strain cap. All four were initially d0=1, remain d=1, and lie
+inside the fixed precrack. Last accepted checkpoint3200 SHA256:
+2f6a9154fa19d47204272904918d40e7f160f94438b14d07a54ff27bb9038a7c.
+Official ZIP183481959 bytes, SHA256:
+6095095ba0d5c8f1e1357db635a9022619eccfcc651f1b34d4c55319196dc8c4.
+The failure is preserved, not reclassified as a completed3600 run. No newly
+threshold-crossing volume exists at d>=.8/.9/.95/.99 through3274.
+
+The classical variational model uses bulk small-strain elasticity outside the
+crack and continuous phase fields to approximate displacement jumps
+([Bourdin, Francfort, Marigo2000](https://ms.mcmaster.ca/~bourdinb/downloads/Bourdin-Francfort-EtAl-2000a.pdf),
+p798 and pp799¨C801). A jump regularized inside an already broken band is not
+an intact-material strain. This supports a partitioned interpretation, not
+arbitrary relaxation of material validity or a claim of finite-strain accuracy.
+
+Observer policy initial-unit-seed-jump-v1 exempts only the immutable376
+initial quadrature points with d0>=1-1e-12 inside the original coefficient
+seed, never later damage. All other points keep the2% strain cap. Every step
+also checks polar rotation<=1degree, detF>.5, max particle displacement/H<=1%,
+seed residual elastic energy/total<=.1%, and integrated absolute difference
+between Green-strain and linear-strain degraded elastic energies outside the
+mask<=2%. Seed damage must remain unit within1e-10. These limits are explicit
+case-specific engineering checks, not universal constants from the paper.
+Global strain and the parallel old-cap outcome remain reported every step.
+
+At3274: nonmask max strain1.689%, rotation0.08754degree, min detF0.99977,
+seed residual energy fraction1.23e-6, nonmask absolute geometric elastic
+energy difference0.08364%, max displacement/H0.06807%. The new checks pass
+on preserved raw data. The physical equations and all advance-function ASTs
+remain unchanged. A new source/policy binding preserves every old checkpoint
+carry array and physical time exactly; it is explicitly not the old binding.
+Only3200¡ú3600 is authorized here. Snapshot3274 is retained for strict physical
+array comparison with the old guard failure state. No large-load extension or
+media follows automatically. Bandwidth/time-step/mesh checks remain necessary.

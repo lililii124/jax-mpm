@@ -1,4 +1,4 @@
-name: AT2 discrete precrack tension continuation1200 to3600
+name: AT2 seed-jump qualification correction3200 to3600
 on:
   workflow_dispatch:
 permissions:
@@ -34,19 +34,21 @@ jobs:
           mkdir -p outputs/tension
           git rev-parse HEAD > outputs/tension/source-head.txt
           python -m pip freeze > outputs/tension/runtime.txt
-      - name: Frozen checkpoint1200 continuation to3600
+      - name: Exact carry3200 with explicit seed-jump qualification
         timeout-minutes: 40
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          timeout --signal=KILL 39m python tools/run_phase_field_tension_to3600.py --output outputs/tension/continuation 2>&1 | tee outputs/tension/proof.log
+          timeout --signal=KILL 39m python tools/run_phase_field_tension_partitioned3600.py --output outputs/tension/partitioned 2>&1 | tee outputs/tension/proof.log
       - name: Preserve all raw fields and resource evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: at2-tension3600-${{ github.run_id }}
-          path: outputs/tension/
+          name: at2-tension-partition3600-${{ github.run_id }}
+          path: |
+            outputs/tension/
+            !outputs/tension/partitioned/parent.zip
           if-no-files-found: warn
           compression-level: 0
           retention-days: 14

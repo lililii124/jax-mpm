@@ -9,6 +9,7 @@ import hashlib
 from pathlib import Path
 import numpy as np
 from examples.phase_field_tension_geometry import reference_cells, preflight
+from examples.phase_field_tension_qualification import POLICY, immutable_unit_seed, inspect
 
 
 def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
@@ -82,6 +83,7 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
         raise RuntimeError('Precrack minimum-energy initial solve failed')
     damage = initial.damage
     initial_fracture_energy = float(potential(u,history,damage))
+    initial_unit_seed = immutable_unit_seed(x,np.asarray(interpolate(damage,basis)[0]),dx)
     damping = 0.  # expose undamped dynamics; do not mask energy with damping
 
     @jax.jit
@@ -133,11 +135,11 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
         'damage_split_potential_change','algebraic_closure','top_work','bottom_pin_work',
         'force_drift_weak_identity_error','absolute_step_work','absolute_nodal_work']
     source_root = Path(__file__).resolve().parents[1]
-    source_files = [Path(__file__).resolve(), source_root/'examples/phase_field_tension_geometry.py',
+    source_files = [Path(__file__).resolve(), source_root/'examples/phase_field_tension_geometry.py', source_root/'examples/phase_field_tension_qualification.py',
                     *sorted((source_root/'mpm_jax').rglob('*.py'))]
     source_hashes = {str(path.relative_to(source_root)).replace('\\', '/'):
                      hashlib.sha256(path.read_bytes()).hexdigest() for path in source_files}
-    binding = dict(schema=1, dx=dx, length=length, density=density, gc=gc,
+    binding = dict(schema=1, strain_qualification_policy=POLICY, dx=dx, length=length, density=density, gc=gc,
         speed=speed, displacement=displacement, cfl=cfl, dt=dt, ramp=ramp,
         duration=duration, required_steps=required, particles=len(x), nodes=n,
         source_hashes=source_hashes, jax_version=jax.__version__,
@@ -166,7 +168,7 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
             if u.shape != (n,3) or v.shape != (n,3) or history.shape != (len(x),) or damage.shape != (n,):
                 raise RuntimeError('Restart state shape mismatch')
             if (float(jnp.min(damage)) < -1e-12 or float(jnp.max(damage)) > 1+1e-12
-                    or float(jnp.min(history)) < 0 or max_strain > .02 or max_kkt > 1e-7):
+                    or float(jnp.min(history)) < 0 or max_kkt > 1e-7):
                 raise RuntimeError('Restart state outside qualification bounds')
             if cumulative.shape != (len(fields),):
                 raise RuntimeError('Restart audit shape mismatch')
@@ -221,9 +223,16 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
             raise RuntimeError('Prescribed normal displacement failure')
         max_kkt = max(max_kkt, float(solved.relative_kkt))
         max_strain = max(max_strain,float(jnp.max(jnp.abs(strain_of(u)))))
-        if max_strain > .02:
+        diagnostic_gradient = np.asarray(jnp.einsum('pki,pkj->pij',u[basis.nodes],basis.gradient))
+        diagnostic_displacement = np.asarray(jnp.sum(basis.weight[...,None]*u[basis.nodes],axis=1))
+        diagnostic_damage = np.asarray(interpolate(damage,basis)[0])
+        qualification = inspect(diagnostic_gradient,diagnostic_displacement,diagnostic_damage,
+                                reference_volume,initial_unit_seed)
+        with (destination/'strain-qualification.jsonl').open('a') as evidence:
+            evidence.write(json.dumps(dict(step=step,**qualification),allow_nan=False)+'\n')
+        if not qualification['passed']:
             save(step)
-            raise RuntimeError('Small-strain qualification ceiling .02 exceeded')
+            raise RuntimeError('Partitioned small-strain/geometry qualification failed')
         cumulative += np.asarray(audit)
         # Read-only every-step stability and absolute-work evidence.
         observed = dict(step=step,time=step*dt,nominal_cfl=cfl,
@@ -242,7 +251,8 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
                 'step','time','end_displacement','maximum_damage','top_reaction',
                 'nodal_kinetic','elastic','fracture',*fields]))
             print(f'step={step} damage={float(jnp.max(pd)):.6f} kkt={float(solved.relative_kkt):.3e}',flush=True)
-        if step % 200 == 0 or step == count:
+        # Preserve the old guard failure state for strict physical-state comparison.
+        if step % 200 == 0 or step == count or step == 3274:
             save(step)
             checkpoint(step)
     summary = dict(status='numerically_completed_unvalidated_candidate', particles=len(x),nodes=n,
@@ -257,7 +267,7 @@ def run(dx=.0125, length=.0375, density=1., gc=.0002, speed=.02,
         transfer='persistent nodal unknowns; zero repeated P2G/G2P velocity reset',
         method='reference-grid lumped-mass Galerkin/MPM quadrature; symplectic Euler',
         validated_crack_propagation=False, energy_accuracy_validated=False,
-        reference_geometry=preflight(dx), initial_fracture_energy=initial_fracture_energy, boundary='normal-only top/bottom; tangential pins Ax Az Bz', seed='quadratic coefficient rows abs(y-.3)<=h, x<=.3; finite seed, not new damage')
+        reference_geometry=preflight(dx), strain_qualification_policy=POLICY, immutable_initial_unit_seed_points=int(initial_unit_seed.sum()), initial_fracture_energy=initial_fracture_energy, boundary='normal-only top/bottom; tangential pins Ax Az Bz', seed='quadratic coefficient rows abs(y-.3)<=h, x<=.3; finite seed, not new damage')
     (destination/'summary.json').write_text(json.dumps(summary,indent=2,allow_nan=False))
     return summary
 
