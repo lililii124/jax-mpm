@@ -16,7 +16,6 @@ def run(checkpoint,plan,output,steps=64,resume_from=None,source_until=None):
     from examples.three_strand_resin_geometry import obstacle_from_checkpoint,continued_mac_face_inlet_schedule
     from mpm_jax.resin_apic import MACLayout
     from mpm_jax.resin_fill import FlowState,make_step
-    from mpm_jax.resin_transport_rt0 import advect as advect_rt0
     folder=Path(output);folder.mkdir(parents=True,exist_ok=True)
     if any(folder.iterdir()):raise ValueError('Fresh candidate output must be empty; resume not implemented')
     if not 1<=steps<=512:raise ValueError('Bounded1..512 fill steps only')
@@ -30,11 +29,24 @@ def run(checkpoint,plan,output,steps=64,resume_from=None,source_until=None):
     step=make_step(layout,boundary,target,jnp.asarray(geometry['open_cells']),density=density,viscosity=viscosity,dt=dt,solid=solid_grid,transport='rt0',capture_pressure=True,outlet_x=geometry['receipt']['cylinder_limits_m'][1])
     state=FlowState(jnp.asarray(source['x']),jnp.zeros((count,3)),jnp.zeros((count,3,3)),jnp.asarray(source['mass']),jnp.zeros(count,dtype=bool),jnp.asarray(0.),jnp.asarray(True))
     emitted=np.zeros(count,dtype=bool);source_mass=0.;outflow_mass=0.;source_energy=0.;outflow_energy=0.;rows=[];h=layout.dx;work_total=0.;loss_total=0.
-    start=0;transport_logJ=np.zeros(count);transport_reference=None;pressure_components=None
+    def inlet_accounting(time_s):
+        counts_by_face=np.bincount(source['face_id'][emitted],minlength=source['face_count'])
+        flux_volume=source['face_flux_m3_per_s']*time_s
+        raw_remainder=flux_volume-counts_by_face*source['packet_volume_m3']
+        tolerance=64*np.finfo(float).eps*np.maximum(flux_volume,source['packet_volume_m3'])
+        valid=bool(np.all(raw_remainder>=-tolerance)&np.all(raw_remainder<source['packet_volume_m3']+tolerance))
+        remainder=np.clip(raw_remainder,0.,np.nextafter(source['packet_volume_m3'],0.))
+        return counts_by_face,flux_volume,remainder,valid
+    start=0;source_time_s=0.;transport_logJ=np.zeros(count);transport_reference=None;pressure_components=None
     if resume_from:
         with np.load(resume_from/'checkpoint.npz',allow_pickle=False) as cp:
             old_count=len(cp['mass']);assert old_count<=count and np.array_equal(cp['mass'],source['mass'][:old_count])
             leaves={name:cp[name].copy() for name in FlowState._fields};start=int(cp['step']);emitted=cp['emitted'].copy()
+            if int(cp['step'])!=start:raise ValueError('Checkpoint step index mismatch')
+            source_time_s=start*dt;actual_clock=float(cp['time']);clock_bound=8*max(start,1)*abs(np.spacing(source_time_s))
+            if abs(actual_clock-source_time_s)>clock_bound:raise ValueError('Checkpoint physical time is inconsistent with its step index')
+            if 'inlet_source_time_s' in cp and float(cp['inlet_source_time_s'])!=source_time_s:raise ValueError('Checkpoint nominal inlet clock mismatch')
+            stored_remainder_time=float(cp['inlet_source_time_s']) if 'inlet_source_time_s' in cp else actual_clock
             if old_count<count:
                 assert np.all(source['birth_time'][old_count:]>float(cp['time']))
                 before={name:hashlib.sha256(leaves[name].tobytes()).hexdigest() for name in ['x','v','C','mass','active']}
@@ -46,6 +58,7 @@ def run(checkpoint,plan,output,steps=64,resume_from=None,source_until=None):
             state=FlowState(*(jnp.asarray(leaves[name]) for name in FlowState._fields))
             has_transport_history='transport_logJ' in cp
             if has_transport_history:transport_logJ=np.pad(cp['transport_logJ'],(0,count-old_count))
+            stored_inlet_remainder=cp['inlet_face_remainder_m3'].copy() if 'inlet_face_remainder_m3' in cp else None
             source_mass=float(cp['source_mass_kg']);outflow_mass=float(cp['outflow_mass_kg']);source_energy=float(cp['source_energy_J']);outflow_energy=float(cp['outflow_energy_J'])
             if not bool(state.valid) or not np.array_equal(np.asarray(state.mass),source['mass']):raise ValueError('Invalid changed source mass state')
         old=json.loads((resume_from/'observables.json').read_text())[-1]
@@ -56,38 +69,37 @@ def run(checkpoint,plan,output,steps=64,resume_from=None,source_until=None):
             from examples.three_strand_resin_geometry import sha256
             transport_reference=sha256(resume_from/'checkpoint.npz')
         if previous['forming']!=geometry['receipt'] or previous['dt_s']!=dt:raise ValueError('Changed frozen geometry/fluid parameters')
-    meta=dict(source_horizons_s=horizons,inlet_protocol_scope='Future-only MAC inlet face flux parcels; each packet volume is apportioned by face-normal flux and transverse births lie on MAC face centres. Births are injected after the interval pressure/MAC solve and RT0-advected only for the exact remaining characteristic time; no past state or mass changes',transport_reference_checkpoint_sha256=transport_reference,transport_scope='RT0 exact frozen-grid characteristics wholly inside real mass-supported pressure domain; no air extension or artificial mass. APIC momentum unchanged; accumulated logJ never corrects old density',particle_boundary='RT0 shared zero-flux voxel faces; exact outlet-plane TOI ends material tracking and explicit sink removes exited mass/energy; no finite position projection or momentum impulse',case='three-strand-resin-fill-rt0-candidate',experimental=True,forming=geometry['receipt'],density_kg_m3=density,viscosity_Pa_s=viscosity,dt_s=dt,source_particle_capacity=count,source_packet_volume_m3=source['packet_volume_m3'],inlet_mac_spacing_m=source['mac_spacing_m'],inlet_mac_face_count=source['face_count'],nominal_flow_m3_per_s=source['nominal_flow_m3_per_s'],explicit_viscous_number=12*viscosity*dt/(density*h*h),nominal_advective_CFL=.2*dt/h,nominal_inlet_Reynolds=density*.1*.005/viscosity,pressure='mass-metric mixed JAX LSQR; original threshold plus complete positive-face owned/reachable domain closure; true primal residual<=1e-7, stationarity<=1e-10; pressure reconstruction diagnosed separately',physical_scope='Fixed actual fibre obstacles; laminar Newtonian filling, no cure, no full FSI, no prescribed final resin geometry',production_eligible=False)
+        if stored_inlet_remainder is None:raise ValueError('Resume checkpoint lacks conservative per-face inlet remainder')
+        _,_,parent_remainder,remainder_valid=inlet_accounting(stored_remainder_time)
+        if not remainder_valid or not np.allclose(parent_remainder,stored_inlet_remainder,rtol=0.,atol=1e-24):raise ValueError('Per-face inlet remainder changed across resume')
+    meta=dict(source_horizons_s=horizons,inlet_protocol_scope='Future-only conservative MAC face packet source. A parcel is born after one full Vp crosses its face at nominal time (layer+1)*Vp/Qface. Transverse location is MAC face-centred; axial location is left+Vp/(2*dx^2). Face remainder is retained and recorded. Birth is injected at the end of the first solver interval at or after nominal time, then enters P2G, pressure, and RT0 on the next interval. Time quantization is at most dt, with first-order time error and displacement bound umax*dt; no substep transport is claimed. No past state or mass changes',transport_reference_checkpoint_sha256=transport_reference,transport_scope='Old active particles use the unchanged full-step RT0 frozen-grid characteristic in the actual mass-supported pressure domain; no air extension or artificial mass. Newborn particles start with logJ=0 and are not advanced until the next complete step. Accumulated logJ never corrects density',particle_boundary='RT0 shared zero-flux voxel faces; exact outlet-plane TOI ends material tracking and explicit sink removes exited mass/energy; no finite position projection or momentum impulse',case='three-strand-resin-fill-rt0-candidate',experimental=True,forming=geometry['receipt'],density_kg_m3=density,viscosity_Pa_s=viscosity,dt_s=dt,source_particle_capacity=count,source_packet_volume_m3=source['packet_volume_m3'],inlet_mac_spacing_m=source['mac_spacing_m'],inlet_mac_face_count=source['face_count'],inlet_maximum_birth_time_quantization_s=dt,inlet_maximum_birth_displacement_m=source['maximum_inlet_speed_m_per_s']*dt,nominal_flow_m3_per_s=source['nominal_flow_m3_per_s'],explicit_viscous_number=12*viscosity*dt/(density*h*h),nominal_advective_CFL=.2*dt/h,nominal_inlet_Reynolds=density*.1*.005/viscosity,pressure='mass-metric mixed JAX LSQR; original threshold plus complete positive-face owned/reachable domain closure; true primal residual<=1e-7, stationarity<=1e-10; pressure reconstruction diagnosed separately',physical_scope='Fixed actual fibre obstacles; laminar Newtonian filling, no cure, no full FSI, no prescribed final resin geometry',production_eligible=False)
     (folder/'plan.json').write_text(json.dumps(meta,indent=2));np.savez(folder/'fixed-fibres.npz',x=geometry['fibre_x'],fibre_id=geometry['fibre_id'])
     def save(k,rejected=False):
         leaves={name:np.asarray(v) for name,v in state._asdict().items()}
         if pressure_components is not None:leaves.update(last_pressure_multiplier_base=np.asarray(pressure_components[0]),last_pressure_multiplier_correction=np.asarray(pressure_components[1]),last_pressure_dt_s=dt,last_pressure_scope='Pre-advection last-step physical impulse potentials; use D.T(base)+D.T(correction), no rounded-potential collapse')
-        np.savez(folder/('rejected-state.npz' if rejected else 'checkpoint.tmp.npz'),**leaves,transport_logJ=transport_logJ,step=k,emitted=emitted,source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,source_energy_J=source_energy,outflow_energy_J=outflow_energy)
+        _,flux_volume,remainder,_=inlet_accounting(source_time_s)
+        np.savez(folder/('rejected-state.npz' if rejected else 'checkpoint.tmp.npz'),**leaves,transport_logJ=transport_logJ,step=k,emitted=emitted,source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,source_energy_J=source_energy,outflow_energy_J=outflow_energy,inlet_face_flux_volume_m3=flux_volume,inlet_face_remainder_m3=remainder,inlet_source_time_s=source_time_s)
         if not rejected:(folder/'checkpoint.tmp.npz').replace(folder/'checkpoint.npz')
         (folder/'observables.json').write_text(json.dumps(rows,indent=2))
     save(start)
     if start==0:shutil.copyfile(folder/'checkpoint.npz',folder/'initial-checkpoint.npz')
     np.savez_compressed(folder/f'frame-{start:06d}.npz',x=np.asarray(state.x)[np.asarray(state.active)],time=np.asarray(state.time));started=time.monotonic()
     for k in range(start+1,start+steps+1):
-        interval_start=float(state.time)
+        interval_start=(k-1)*dt
         state,metrics,increment,pressure_input=step(state);pressure_components=pressure_input[4:6];transport_logJ+=np.asarray(increment);values={name:(bool(v) if name.endswith('valid') else float(v)) for name,v in metrics.items()}
+        interval_end=k*dt
+        source_time_s=interval_end
         xyz=np.asarray(state.x);active=np.asarray(state.active);v=np.asarray(state.v);C=np.asarray(state.C)
         exits=active&(np.asarray(pressure_input[6])|(xyz[:,0]>.025));outflow_mass+=float(source['mass'][exits].sum());outflow_energy+=float(.5*np.sum(source['mass'][exits]*(np.sum(v[exits]**2,axis=1)+h*h/4*np.sum(C[exits]**2))))
         active=active&~exits;state=state._replace(active=jnp.asarray(active))
-        # Births are excluded from this interval's P2G, pressure and work solve.
-        # After its MAC field is available, inject each parcel and integrate the
-        # exact frozen RT0 characteristic for only its remaining interval time.
-        interval_end=float(state.time)
-        born=(source['birth_time']>interval_start+1e-15)&(source['birth_time']<=interval_end+1e-15)&~emitted
-        remaining=np.maximum(interval_end-source['birth_time'],0.)
-        newborn=advect_rt0(jnp.asarray(source['x']),pressure_input[7],jnp.asarray(born),solid_grid,pressure_input[8],layout,jnp.asarray(remaining),outlet_x=geometry['receipt']['cylinder_limits_m'][1])
+        # A full MAC-face packet is born at the interval endpoint. It does not
+        # enter this interval's P2G, pressure, or RT0 transport; its first full
+        # physical step starts on the next iteration.
+        born=(source['birth_time']<=interval_end)&~emitted
         born_array=jnp.asarray(born);source_v=jnp.asarray(source['v'])
-        state=state._replace(x=jnp.where(born_array[:,None],newborn.x,state.x),v=jnp.where(born_array[:,None],source_v,state.v),C=jnp.where(born_array[:,None,None],jnp.zeros_like(state.C),state.C),active=state.active|born_array,valid=state.valid&newborn.valid)
-        transport_logJ[born]+=np.asarray(newborn.logJ)[born]
+        state=state._replace(x=jnp.where(born_array[:,None],jnp.asarray(source['x']),state.x),v=jnp.where(born_array[:,None],source_v,state.v),C=jnp.where(born_array[:,None,None],jnp.zeros_like(state.C),state.C),active=state.active|born_array)
         emitted|=born;source_mass+=float(source['mass'][born].sum());source_energy+=float(.5*np.sum(source['mass'][born,None]*source['v'][born]**2))
-        birth_exits=born&np.asarray(newborn.exited)
-        if birth_exits.any():
-            outflow_mass+=float(source['mass'][birth_exits].sum());outflow_energy+=float(.5*np.sum(source['mass'][birth_exits]*np.sum(source['v'][birth_exits]**2,axis=1)))
-        active=np.asarray(state.active)&~birth_exits;state=state._replace(active=jnp.asarray(active))
+        active=np.asarray(state.active)
         xyz=np.asarray(state.x);v=np.asarray(state.v);C=np.asarray(state.C)
         coordinates=np.floor((xyz-geometry['origin'])/h).astype(int);in_grid=np.all((coordinates>=0)&(coordinates<geometry['shape']),axis=1);safe=np.clip(coordinates,0,geometry['shape']-1);solid_occ=geometry['solid'][safe[:,0],safe[:,1],safe[:,2]]
         intrusion=int(np.sum(active&solid_occ));escaped=int(np.sum(active&~in_grid));mass=float(source['mass'][active].sum());mass_error=mass-(source_mass-outflow_mass)
@@ -95,8 +107,11 @@ def run(checkpoint,plan,output,steps=64,resume_from=None,source_until=None):
         loss_total+=sum(values[name] for name in ['p2g_loss_J','boundary_loss_J','viscous_loss_J','pressure_loss_J','g2p_loss_J','particle_wall_loss_J'])
         active_energy=float(.5*np.sum(source['mass'][active]*(np.sum(v[active]**2,axis=1)+h*h/4*np.sum(C[active]**2,axis=(1,2)))))
         global_identity=source_energy+work_total-outflow_energy-active_energy-loss_total
-        row=dict(transport_logJ_reference_active_mean=float(transport_logJ[active].mean()) if active.any() else 0.,transport_logJ_reference_active_max=float(transport_logJ[active].max()) if active.any() else 0.,transport_logJ_reference_active_min=float(transport_logJ[active].min()) if active.any() else 0.,step=k,time_s=float(state.time),active_particles=int(active.sum()),source_interval_start_s=interval_start,source_interval_end_s=interval_end,newborn_count=int(born.sum()),newborn_remaining_time_min_s=float(remaining[born].min()) if born.any() else 0.,newborn_remaining_time_max_s=float(remaining[born].max()) if born.any() else 0.,source_particles=int(emitted.sum()),source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,active_mass_kg=mass,mass_identity_kg=mass_error,source_energy_J=source_energy,outflow_energy_J=outflow_energy,fixture_work_cumulative_J=work_total,loss_cumulative_J=loss_total,active_kinetic_J=active_energy,global_energy_identity_J=global_identity,solid_cell_intrusions=intrusion,escaped_particles=escaped,**values);rows.append(row)
-        valid=bool(state.valid) and intrusion==0 and escaped==0 and abs(mass_error)<1e-12*max(source_mass,1e-30) and row['maximum_speed_m_per_s']*dt/h<.25
+        counts_by_face,flux_volume,remainder,remainder_valid=inlet_accounting(source_time_s)
+        quantization_delay=np.maximum(interval_end-source['birth_time'][born],0.)
+        inlet_volume_balance_error=float(flux_volume.sum()-counts_by_face.sum()*source['packet_volume_m3']-remainder.sum())
+        row=dict(inlet_mac_cumulative_flux_volume_m3=float(flux_volume.sum()),inlet_packet_volume_m3=float(counts_by_face.sum()*source['packet_volume_m3']),inlet_volume_remainder_m3=float(remainder.sum()),inlet_volume_balance_error_m3=inlet_volume_balance_error,inlet_face_remainder_min_m3=float(remainder.min()),inlet_face_remainder_max_m3=float(remainder.max()),inlet_face_remainder_valid=remainder_valid,newborn_quantization_delay_max_s=float(quantization_delay.max()) if born.any() else 0.,transport_logJ_reference_active_mean=float(transport_logJ[active].mean()) if active.any() else 0.,transport_logJ_reference_active_max=float(transport_logJ[active].max()) if active.any() else 0.,transport_logJ_reference_active_min=float(transport_logJ[active].min()) if active.any() else 0.,step=k,time_s=float(state.time),actual_state_time_s=float(state.time),source_time_s=source_time_s,source_clock_error_s=float(state.time)-source_time_s,active_particles=int(active.sum()),source_interval_start_s=interval_start,source_interval_end_s=interval_end,newborn_count=int(born.sum()),source_particles=int(emitted.sum()),source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,active_mass_kg=mass,mass_identity_kg=mass_error,source_energy_J=source_energy,outflow_energy_J=outflow_energy,fixture_work_cumulative_J=work_total,loss_cumulative_J=loss_total,active_kinetic_J=active_energy,global_energy_identity_J=global_identity,solid_cell_intrusions=intrusion,escaped_particles=escaped,**values);rows.append(row)
+        valid=bool(state.valid) and intrusion==0 and escaped==0 and abs(mass_error)<1e-12*max(source_mass,1e-30) and row['maximum_speed_m_per_s']*dt/h<.25 and remainder_valid and abs(inlet_volume_balance_error)<1e-20 and row['newborn_quantization_delay_max_s']<=dt+1e-15
         if not valid:
             
             velocity_input,mass_input,fixed_input,fluid_input=pressure_input[:4]

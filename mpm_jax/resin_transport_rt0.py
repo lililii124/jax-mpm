@@ -39,7 +39,6 @@ def represent(position,index,layout):
 
 def advect(x,velocity,active,solid,projected,layout,dt,*,max_crossings=8,outlet_x=None):
     origin=jnp.asarray(layout.origin,dtype=x.dtype);shape=jnp.asarray(layout.shape);h=layout.dx
-    dt=jnp.broadcast_to(jnp.asarray(dt,dtype=x.dtype),(len(x),))
     index=jnp.floor((x-origin)/h).astype(jnp.int32)
     def cell_value(field,index):
         inside=jnp.all((index>=0)&(index<shape),axis=1);safe=jnp.clip(index,0,shape-1)

@@ -1,0 +1,46 @@
+{
+  "accepted_steps": [
+    624,
+    1024
+  ],
+  "rows": 400,
+  "last_step": 1024,
+  "all_valid": true,
+  "all_pressure_coverage": true,
+  "all_remainder_valid": true,
+  "max_time_quantization_s": 3.999999999999837e-05,
+  "dt_s": 4e-05,
+  "remainder_error_max_m3": 1.8611563782443123e-23,
+  "remainder_range_m3": [
+    0.0,
+    8e-12
+  ],
+  "packet_m3": 8.000000000000001e-12,
+  "final_active": 9892,
+  "final_source_particles": 9892,
+  "mass_error_max_kg": 2.168404344971009e-19,
+  "source_mass_kg": 8.704960000000012e-05,
+  "active_mass_kg": 8.70496e-05,
+  "metric_maxima": {
+    "maximum_divergence_per_s": 1.502838528275041e-05,
+    "pressure_relative_residual": 1.005225188636191e-08,
+    "pressure_stationarity_relative": 2.362406258127475e-15,
+    "pressure_reconstruction_relative": 1.0052251864732005e-08,
+    "energy_identity_J": 2.600655845866719e-21,
+    "momentum_step_residual_Ns": 1.856291759257355e-21,
+    "transport_maximum_path_over_h": 0.03215425109446111
+  },
+  "logJ_final_minmax": [
+    -2.0486348142533797e-10,
+    2.390542372510361e-10
+  ],
+  "clock_error_minmax_s": [
+    -9.992007221626409e-16,
+    -3.469446951953614e-16
+  ],
+  "clock_error_abs_max_s": 9.992007221626409e-16,
+  "global_energy_identity_J": 1.1011428314305904e-20,
+  "zero_intrusions": true,
+  "zero_escape": true,
+  "production_eligible": false
+}

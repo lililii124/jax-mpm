@@ -1,0 +1,16 @@
+{
+  "task": "three-resin-macface-to1024",
+  "checkpoint_step": 624,
+  "checkpoint_sha256": "c2a3e7d52eebf6daf82db15e947c669770fc4662143ce9b845d4fe9c591100b0",
+  "checkpoint_actual_state_time_s": 0.024959999999999656,
+  "checkpoint_nominal_step_time_s": 0.024960000000000003,
+  "clock_difference_s": -3.469446951953614e-16,
+  "active_particles": 5984,
+  "emitted_particles": 5984,
+  "source_mass_kg": 5.265919999999984e-05,
+  "face_remainder_count": 316,
+  "face_remainder_min_m3": 3.999999999656913e-14,
+  "face_remainder_max_m3": 7.719999999998113e-12,
+  "faces_ahead_of_nominal_flux": 0,
+  "scope": "Last complete accepted checkpoint before rejected step640. Remainder was stored against accumulated state.time; validated against that same clock, with zero faces ahead of cumulative nominal flux. Rejected state at640 was excluded from resume."
+}

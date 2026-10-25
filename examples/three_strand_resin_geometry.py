@@ -96,8 +96,9 @@ def mac_face_inlet_schedule(*,radius=.0025,packet_spacing=.0002,maximum_speed=.2
     """Birth fixed-volume parcels from the actual prescribed inlet MAC faces.
 
     Each stream is one inlet face-centred normal-velocity degree of freedom.
-    Its parcel interval is packet volume divided by that face's integrated
-    volumetric flux, so spatial allocation follows MAC face area and flux.
+    A packet is born only after one full packet volume has crossed that face;
+    its nominal birth time is (layer+1)*Vp/Q_face. Remainder stays per-face in
+    the runner until a complete packet arrives.
     The face-centred transverse coordinates also remove the legacy 200/250 um
     nearest-cell remapping. Births remain finite, explicit source events.
     """
@@ -108,11 +109,11 @@ def mac_face_inlet_schedule(*,radius=.0025,packet_spacing=.0002,maximum_speed=.2
     face_flux=u*dx**2;packet_volume=packet_spacing**3
     counts=np.floor(duration*face_flux/packet_volume).astype(int)
     stream=np.repeat(np.arange(len(u)),counts);layer=np.concatenate([np.arange(n) for n in counts])
-    birth=(layer+.5)*packet_volume/face_flux[stream]
-    x=np.column_stack((np.full(len(stream),left+packet_spacing*.5),y[stream],z[stream]))
+    birth=(layer+1)*packet_volume/face_flux[stream]
+    x=np.column_stack((np.full(len(stream),left+packet_volume/(2*dx**2)),y[stream],z[stream]))
     v=np.column_stack((u[stream],np.zeros((len(stream),2))))
     order=np.argsort(birth,kind='stable')
-    return dict(x=x[order],v=v[order],birth_time=birth[order],mass=np.full(len(order),density*packet_volume),nominal_flow_m3_per_s=float(face_flux.sum()),capacity=len(order),face_count=int(len(u)),packet_volume_m3=float(packet_volume),mac_spacing_m=float(dx))
+    return dict(x=x[order],v=v[order],birth_time=birth[order],face_id=stream[order],mass=np.full(len(order),density*packet_volume),face_flux_m3_per_s=face_flux,nominal_flow_m3_per_s=float(face_flux.sum()),capacity=len(order),face_count=int(len(u)),packet_volume_m3=float(packet_volume),mac_spacing_m=float(dx),maximum_inlet_speed_m_per_s=float(maximum_speed))
 
 
 def continued_mac_face_inlet_schedule(horizons,**kwargs):
@@ -120,8 +121,8 @@ def continued_mac_face_inlet_schedule(horizons,**kwargs):
     horizons=list(horizons);assert horizons and all(b>a for a,b in zip(horizons,horizons[1:]))
     source=mac_face_inlet_schedule(duration=horizons[0],**kwargs)
     for previous,end in zip(horizons,horizons[1:]):
-        extra=mac_face_inlet_schedule(duration=end,**kwargs);future=extra['birth_time']>previous+1e-12
-        for name in ['x','v','mass','birth_time']:source[name]=np.concatenate((source[name],extra[name][future]),axis=0)
+        extra=mac_face_inlet_schedule(duration=end,**kwargs);future=extra['birth_time']>previous
+        for name in ['x','v','mass','birth_time','face_id']:source[name]=np.concatenate((source[name],extra[name][future]),axis=0)
         source['capacity']=len(source['mass'])
     return source
 

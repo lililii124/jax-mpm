@@ -1,0 +1,54 @@
+{
+  "source_horizons_s": [
+    0.32
+  ],
+  "inlet_protocol_scope": "Future-only conservative MAC face packet source. A parcel is born after one full Vp crosses its face at nominal time (layer+1)*Vp/Qface. Transverse location is MAC face-centred; axial location is left+Vp/(2*dx^2). Face remainder is retained and recorded. Birth is injected at the end of the first solver interval at or after nominal time, then enters P2G, pressure, and RT0 on the next interval. Time quantization is at most dt, with first-order time error and displacement bound umax*dt; no substep transport is claimed. No past state or mass changes",
+  "transport_reference_checkpoint_sha256": null,
+  "transport_scope": "Old active particles use the unchanged full-step RT0 frozen-grid characteristic in the actual mass-supported pressure domain; no air extension or artificial mass. Newborn particles start with logJ=0 and are not advanced until the next complete step. Accumulated logJ never corrects density",
+  "particle_boundary": "RT0 shared zero-flux voxel faces; exact outlet-plane TOI ends material tracking and explicit sink removes exited mass/energy; no finite position projection or momentum impulse",
+  "case": "three-strand-resin-fill-rt0-candidate",
+  "experimental": true,
+  "forming": {
+    "checkpoint_sha256": "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2",
+    "forming_plan_sha256": "ab0de07319cf80db7fae83fc497af2800394e97be5acebe0194fdb43687c22a5",
+    "actual_forming_step": 5164,
+    "full_turn": true,
+    "fixed_fibres": true,
+    "grid_dx_m": 0.00025,
+    "grid_origin_m": [
+      -0.00175,
+      -0.00395,
+      -0.00395
+    ],
+    "grid_shape": [
+      111,
+      32,
+      32
+    ],
+    "conservative_radial_clearance_m": 0.0005613091763934583,
+    "cylinder_radius_m": 0.0032,
+    "cylinder_limits_m": [
+      -0.001,
+      0.025
+    ],
+    "voxelized_fibre_volume_m3": 2.2846875000000003e-07,
+    "cavity_void_volume_m3": 6.1003125e-07,
+    "boundary_scope": "Union of actual F-advected quadrature cells evaluated at cell centres; staircase fixed boundary, grid-scale geometry error, not smooth surface/FSI/cure"
+  },
+  "density_kg_m3": 1100.0,
+  "viscosity_Pa_s": 0.05,
+  "dt_s": 4e-05,
+  "source_particle_capacity": 78412,
+  "source_packet_volume_m3": 8.000000000000001e-12,
+  "inlet_mac_spacing_m": 0.00025,
+  "inlet_mac_face_count": 316,
+  "inlet_maximum_birth_time_quantization_s": 4e-05,
+  "inlet_maximum_birth_displacement_m": 8.000000000000001e-06,
+  "nominal_flow_m3_per_s": 1.9642500000000003e-06,
+  "explicit_viscous_number": 0.3490909090909091,
+  "nominal_advective_CFL": 0.03200000000000001,
+  "nominal_inlet_Reynolds": 11.0,
+  "pressure": "mass-metric mixed JAX LSQR; original threshold plus complete positive-face owned/reachable domain closure; true primal residual<=1e-7, stationarity<=1e-10; pressure reconstruction diagnosed separately",
+  "physical_scope": "Fixed actual fibre obstacles; laminar Newtonian filling, no cure, no full FSI, no prescribed final resin geometry",
+  "production_eligible": false
+}
