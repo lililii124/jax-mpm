@@ -58,6 +58,7 @@ class Config:
                 "neo-hookean",
                 "linear",
                 "orthotropic",
+                "orthotropic-svk",
                 "transverse-isotropic",
                 "blatz-ko",
                 "woven-composite",
@@ -73,6 +74,8 @@ class Config:
             raise ValueError("incremental plasticity models require dim=3")
         if self.material == "woven-composite" and self.dim != 3:
             raise ValueError("woven composites require dim=3")
+        if self.material == "orthotropic-svk" and self.dim != 3:
+            raise ValueError("orthotropic St.Venant-Kirchhoff requires dim=3")
         gravity = (
             self.gravity if self.gravity is not None else (0.0, -9.81) + (0.0,) * (self.dim - 2)
         )
