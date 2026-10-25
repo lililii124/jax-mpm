@@ -59,7 +59,7 @@ def advect(x,velocity,active,solid,projected,layout,dt,*,max_crossings=8):
         delta=u*phi;position=position+delta;left=left-segment
         end_velocity=u*jnp.exp(rate*segment[:,None]);path=path+segment*jnp.linalg.norm(jnp.maximum(jnp.abs(u),jnp.abs(end_velocity)),axis=1)
         logJ=logJ+segment*jnp.sum(rate,axis=1);is_projected,_=cell_value(projected,index);projected_time=projected_time+jnp.where(is_projected,segment,0.)
-        selector=jax.nn.one_hot(axis,3,dtype=jnp.int32);direction=jnp.sum(sign*selector,axis=1);next_index=index+selector*direction[:,None];next_wall,next_inside=cell_value(solid,next_index)
+        selector=jax.nn.one_hot(axis,3,dtype=jnp.int32);direction=jnp.sum(sign*selector,axis=1,dtype=jnp.int32);next_index=index+selector*direction[:,None];next_wall,next_inside=cell_value(solid,next_index)
         ok=ok&jnp.all(~event|(next_inside&~next_wall))
         index=jnp.where(event[:,None],next_index,index);count=count+event.astype(jnp.int32)
         position,rounding,side_valid=represent(position,index,layout);roundoff=jnp.maximum(roundoff,rounding);ok=ok&side_valid
