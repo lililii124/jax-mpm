@@ -1,0 +1,40 @@
+{
+  "state": "running",
+  "host_controller_pid": 32641,
+  "remote_chain_root": "/home/YZ/jax-mpm-compute-20261025/tasks/three-resin-macface-8000-chain-v5",
+  "controller_log": "/home/YZ/jax-mpm-compute-20261025/tasks/three-resin-macface-8000-chain-v5/controller.log",
+  "source_commit": "e70265e03581e02692f21874283762fabbfdff4e",
+  "source_tree_sha256": "2ab2a5fcaeff21e885bd6f8ca3d5912d61f5cd9e3c7d270d756f1b04f105caf6",
+  "task_bundle_sha256": "b889cb92c5cf2e252bf0f1f1b2fd9489005188a5ded9edd3ff7d77a901ed4df4",
+  "initial_parent_task": "three-resin-macface-to1280-strict",
+  "initial_parent_step": 1280,
+  "initial_parent_checkpoint_sha256": "05e35973cbfa7651c2ce09b4e75b6bbcbc68fbd9d82c9b2227dbb2d25e20ad2c",
+  "target_step": 8000,
+  "segment_limit_steps": 512,
+  "midpoint_review_step": 4096,
+  "resources": {
+    "cpuset": "48-51",
+    "memory": "8g",
+    "memory_swap": "8g",
+    "uss_gib": 5,
+    "seconds_per_segment": 900
+  },
+  "active_segment_task": "three-resin-macface-v5-cont-1792",
+  "active_container": "jaxmpm-three-resin-macface-v5-cont-1792",
+  "active_container_id": "287aad00ee8a205f40d395e9adaba0e3e27c9a0ecfc3ae64936e2517487acd04",
+  "docker_inspect": {
+    "running": true,
+    "cpuset": "48-51",
+    "memory_bytes": 8589934592,
+    "memory_swap_bytes": 8589934592,
+    "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890"
+  },
+  "guard_status": {
+    "state": "running",
+    "peak_uss_bytes": 1071034368,
+    "uss_limit_bytes": 5368709120,
+    "elapsed_s": 11.23546365648508
+  },
+  "persisted_on_remote_host": true,
+  "notes": "Earlier controller-only launch attempts exited before any Docker container was created; no physical steps ran in those attempts. This record identifies the active v5 chain and first real segment."
+}
