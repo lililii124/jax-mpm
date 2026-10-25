@@ -2,6 +2,10 @@ name: HJC complete official raw read-only audit
 on:
   workflow_dispatch:
     inputs:
+      render_private_completed:
+        type: choice
+        options: ['false','true']
+        default: 'false'
       specification:
         type: string
         required: true
@@ -43,6 +47,41 @@ jobs:
         run: python -m pip install numpy==2.5.4
       - name: Complete official ZIP CRC source state and parent audit zero physical steps
         run: python tools/audit_hjc_complete_prefix.py --specification .local/hjc-audit-spec.json --output .local/hjc40-audit
+      - name: Install official ParaView only for private completed-state review
+        if: inputs.render_private_completed == 'true'
+        run: |
+          python -m pip install pillow==13.0.0 psutil==7.2.2
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PYCODE'
+          from pathlib import Path
+          import tools.run_woven_preview as helper
+          helper.LOGS=Path('.local/hjc-render-install')
+          helper.install()
+          PYCODE
+      - name: Render actual HJC61 old camera400 no labels no integration
+        if: inputs.render_private_completed == 'true'
+        run: |
+          python - <<'PYCODE'
+          from pathlib import Path
+          import sys
+          import tools.run_woven_preview as helper
+          helper.LOGS=Path('.local/hjc-render-install')
+          helper.command('paraview-private-hjc61',[sys.executable,'tools/render_hjc_mat111_private.py','.local/hjc40-audit','.local/hjc-private-preview'],monitor=True)
+          PYCODE
+      - uses: actions/upload-artifact@v7
+        if: always() && inputs.render_private_completed == 'true'
+        with:
+          name: hjc61-private-actual-state-review-${{ github.run_id }}
+          path: |
+            .local/hjc-private-preview/frames/
+            .local/hjc-private-preview/*.gif
+            .local/hjc-private-preview/*.png
+            .local/hjc-private-preview/*.json
+            .local/hjc-private-preview/*.log
+            .local/hjc-private-preview/*.pvsm
+            .local/hjc-render-install/
+          if-no-files-found: warn
       - uses: actions/upload-artifact@v7
         if: always()
         with:
