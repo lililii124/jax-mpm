@@ -103,9 +103,23 @@ pass gathers the shared updated grid and evaluates the unchanged energy record.
 Initialization and initial energy also use batches. Three focused comparisons
 cover uniform and hierarchical grids, partial final batches, nonuniform particle
 masses, stressed motion and prescribed boundary work over 25 steps. These pass
-against the full-stencil implementation; large-run memory and timing remain to
-be measured. `--batch-size 4096` selects this storage path. `--stop-after-steps`
+against the full-stencil implementation. `--batch-size 4096` selects this storage
+path. `--stop-after-steps`
 ends a capacity probe at the original time step without accelerating its loading.
+
+The [streamed capacity run](results/hierarchical-wave-streamed-capacity.json)
+advances 864,000 particles for 20 actual steps at 0.333 mm spacing. Peak USS is
+1.43 GiB; the step block and checkpoint take 99.0 seconds. The full saved state
+agrees with an independent reduction of this uniform plane-strain mode to its
+axial motion (maximum velocity difference 3.66e-15 m/s). This is a capacity and
+short-prefix check, not a completed propagation comparison. The projected full
+run exceeds the single-process time allowance, so it proceeds in segments.
+
+`--resume-from` checks the parent runtime, numerical source, case parameters,
+all initial arrays, complete step history and full checkpoint before continuing.
+An actual 20+20-step restart matches a direct 40-step run exactly for every
+initial, state and diagnostic array. Parent archives are restored only after
+official run/source/digest checks; inputs are preserved separately from outputs.
 
 The basis design follows local-refinement work by
 [Sun et al.](https://doi.org/10.1002/nme.6312) and

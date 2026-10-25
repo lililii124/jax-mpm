@@ -25,6 +25,7 @@ def main():
     parser.add_argument("--stop-after-steps", type=int)
     parser.add_argument("--seconds-limit", type=int, default=2400)
     parser.add_argument("--output-name", default="hierarchical-wave-reference")
+    parser.add_argument("--resume-from", type=Path)
     args = parser.parse_args()
     if not 1 <= args.seconds_limit <= 7200 or not args.output_name.replace('-', '').isalnum():
         parser.error("Invalid time limit or output directory name")
@@ -42,6 +43,8 @@ def main():
         command += ["--transverse-padding-cells", str(args.transverse_padding_cells)]
     if args.stop_after_steps is not None:
         command += ["--stop-after-steps", str(args.stop_after_steps)]
+    if args.resume_from is not None:
+        command += ["--resume-from", str(args.resume_from)]
     record = {"source": head, "command": command, "seconds_limit": args.seconds_limit,
               "uss_limit_bytes": int(5.5 * 2**30), "minimum_available_bytes": int(1.5 * 2**30),
               "peak_uss_bytes": 0, "guard_reason": None}

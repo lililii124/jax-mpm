@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import sys
 import subprocess
+import shutil
 from time import perf_counter
 
 import jax
@@ -45,6 +46,59 @@ def sample_bar(resolution, h=.0025, transverse_ppc=2):
     return np.concatenate(x), np.concatenate(volume)
 
 
+def restore_prefix(folder, output, state, reference, binding, stop_step):
+    if folder.resolve() == output.resolve():
+        raise ValueError("Resume input and output must be separate directories")
+    parent = json.loads((folder / "review.json").read_text())
+    for name, value in binding.items():
+        if parent[name] != value:
+            raise ValueError(f"Resume binding differs: {name}")
+    start_step = parent["steps"]
+    if start_step < 20 or start_step >= stop_step or start_step % 20:
+        raise ValueError("Resume checkpoint must precede the requested stop step")
+    for name, digest in parent["source"].items():
+        if name.startswith("mpm_jax/") and hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest:
+            raise ValueError(f"Resume numerical source differs: {name}")
+    if parent["versions"] != {"jax": jax.__version__, "numpy": np.__version__}:
+        raise ValueError("Resume numerical runtime differs")
+    with np.load(folder / "initial.npz", allow_pickle=False) as archive:
+        for name, value in {"reference": reference, **state._asdict()}.items():
+            if not np.array_equal(archive[name], value):
+                raise ValueError(f"Resume initial state differs: {name}")
+    with np.load(folder / "checkpoint.npz", allow_pickle=False) as archive:
+        arrays = {name: archive[name] for name in state._fields}
+    if not all(np.isfinite(value).all() for value in arrays.values()) or not arrays["valid"]:
+        raise ValueError("Invalid resume state")
+    for name in ("mass", "volume"):
+        if not np.array_equal(arrays[name], getattr(state, name)):
+            raise ValueError(f"Resume particle property differs: {name}")
+    if np.linalg.det(arrays["F"]).min() <= 0 or abs(float(arrays["time"])-start_step*binding["dt_s"]) > 1e-15:
+        raise ValueError("Invalid resume deformation or time")
+    with np.load(folder / "step_records.npz", allow_pickle=False) as archive:
+        previous = dict(archive)
+    if not all(len(value) == start_step and np.isfinite(value).all() for value in previous.values()):
+        raise ValueError("Incomplete resume history")
+    if not previous["valid"].all() or previous["cfl_bound"].max() > .25:
+        raise ValueError("Resume history failed state or CFL checks")
+    for block in range(start_step // 20):
+        name = f"records_{block:05d}.npz"
+        with np.load(folder / name, allow_pickle=False) as archive:
+            for key, values in previous.items():
+                if not np.array_equal(archive[key], values[block*20:(block+1)*20]):
+                    raise ValueError(f"Resume chunk differs: {name}/{key}")
+        shutil.copyfile(folder / name, output / name)
+    for name in ("initial.npz", "checkpoint.npz"):
+        shutil.copyfile(folder / name, output / name)
+    shutil.copyfile(folder / "review.json", output / f"parent-review-{start_step:05d}.json")
+    proof = dict(start_step=start_step, parent_commit=parent["commit"],
+                 parent_checkpoint_sha256=hashlib.sha256((folder/"checkpoint.npz").read_bytes()).hexdigest(),
+                 parent_review_sha256=hashlib.sha256((folder/"review.json").read_bytes()).hexdigest(),
+                 numerical_sources_equal=True, initial_arrays_equal=True)
+    (output / "resume-proof.json").write_text(json.dumps(proof, indent=2)+"\n")
+    restored = state._replace(**{name: jnp.asarray(value) for name, value in arrays.items()})
+    return restored, start_step, previous, parent["frames"], proof
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--resolution", choices=("coarse", "fine", "hierarchical"), required=True)
@@ -54,7 +108,12 @@ def main():
     parser.add_argument("--batch-size", type=int, default=0)
     parser.add_argument("--transverse-padding-cells", type=int)
     parser.add_argument("--stop-after-steps", type=int)
+    parser.add_argument("--resume-from", type=Path)
     args = parser.parse_args()
+    if args.resume_from is not None and args.resume_from.resolve() == args.output.resolve():
+        parser.error("Resume input and output must be separate directories")
+    if any((args.output / name).exists() for name in ("initial.npz", "checkpoint.npz", "review.json")):
+        parser.error("Output already contains numerical results")
     args.output.mkdir(parents=True, exist_ok=True)
     density, amplitude, width, centre = 1200., .02, .006, .045
     material = neo_hookean(20e6, .3)
@@ -104,14 +163,22 @@ def main():
                            kinetic_energy(state, moment_matrix(grid_stencil(state.x, grid)))
                            + strain_energy(state, material))
     np.savez_compressed(args.output / "initial.npz", reference=reference, **state._asdict())
+    binding = dict(resolution=args.resolution, coarse_cells=args.coarse_cells,
+                   transverse_ppc=args.transverse_ppc, batch_size=args.batch_size,
+                   planned_steps=planned_steps, dt_s=dt, node_bounds=[list(b) for b in bounds],
+                   grid_nodes=len(grid.positions), particles=len(x), wave_speed_m_s=float(wave_speed))
+    records, frames, start_step, resume_proof = [], [], 0, None
+    if args.resume_from is not None:
+        state, start_step, previous, frames, resume_proof = restore_prefix(
+            args.resume_from, args.output, state, reference, binding, steps)
+        records.append(previous)
     start = perf_counter()
     integrator = advance_streamed if args.batch_size else advance
     compiled = integrator.lower(state, material, grid, dt, steps=chunk, boundaries=boundaries,
                                 **storage_options).compile()
     compile_seconds = perf_counter() - start
-    records, frames = [], []
     start = perf_counter()
-    for block in range(steps // chunk):
+    for block in range(start_step // chunk, steps // chunk):
         state, record = compiled(state, material, grid, dt)
         jax.block_until_ready(state)
         host = jax.tree.map(np.asarray, record)
@@ -147,6 +214,7 @@ def main():
         "coarse_cells": args.coarse_cells, "coarse_spacing_m": h, "transverse_ppc": args.transverse_ppc,
         "node_bounds": bounds,
         "steps": steps, "planned_steps": planned_steps, "duration_s": completed_duration,
+        "start_step": start_step, "executed_steps": steps-start_step, "resume": resume_proof,
         "target_duration_s": duration, "complete": steps == planned_steps,
         "batch_size": args.batch_size, "dt_s": dt, "wave_speed_m_s": wave_speed,
         "physical_case": "0.16 x 0.01 x 0.01 m bar; transverse velocities fixed, axial end faces free",

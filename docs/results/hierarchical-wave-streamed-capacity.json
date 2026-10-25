@@ -1,0 +1,31 @@
+{
+  "run": 40177065162,
+  "source": "ff5413e28e467887b47b8419b4d0cc2d2f3ade55",
+  "artifact_sha256": "b30fa95dc344aa7d2de1420c7d33fb6813b1ea179179d6405c283fa7d700ee8b",
+  "integrity_and_state_checks_passed": true,
+  "particles": 864000,
+  "completed_steps": 20,
+  "planned_steps": 2260,
+  "reference_complete": false,
+  "independent_uniform_axial_mode_max_difference": {
+    "x": 2.7755575615628914e-17,
+    "v": 3.653327640407156e-15,
+    "F": 0.0,
+    "B": 2.2970309302230047e-19
+  },
+  "peak_uss_bytes": 1535778816,
+  "wall_seconds": 105.257422569,
+  "block_compute_and_checkpoint_seconds": 99.022551046,
+  "projected_full_seconds": 11189.548268198001,
+  "next_action": "Continue in bounded segments; predicted full run exceeds the 7200 s single-process limit",
+  "checkpoint_sha256": "ddfdf2bfb456e690b3343590de059d38ff10e1399e05e2ab67d204dc979f32aa",
+  "source_files": {
+    "examples/hierarchical_wave.py": "fcb8e4b9c59261a06501a49cde5cdf1d2f007db0b8295eeb229102be32086e8d",
+    "mpm_jax/hierarchical_grid.py": "eef4c89e9384db1a45bc26f5ffa2de6adcf6a3e0d2494aab1d4beeddebf44ae4",
+    "mpm_jax/hierarchical_dynamics.py": "82ecfee23fbcd55c03ffa4d59b30b7ba8acbae87c2d956f866115bb4e1313337",
+    "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+    "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+    "mpm_jax/hierarchical_streaming.py": "52d8c8f968a33a915c028c83caa97e7710cb09c0bf6473b1e00b75c58b2cac36"
+  },
+  "mode_diagnostic_sha256": "8d33ce61e11406e3c5ae03a159ca4c481ddc656d01bfb198697ce1e0b4a7c0f6"
+}
