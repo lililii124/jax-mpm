@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   solve:
-    if: github.ref == 'refs/heads/work/fibre-adhesion-pair-dynamic'
+    if: github.ref == 'refs/heads/work/phase-field-full'
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     env:
