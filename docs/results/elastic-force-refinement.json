@@ -1,0 +1,343 @@
+{
+  "passed": true,
+  "scope": "Frozen3D production MLS force operator refinement; not a dynamic time-integration or nonlinear structural convergence certificate",
+  "cases": [
+    {
+      "model": "orthotropic",
+      "grid": 32,
+      "particles": 110592,
+      "spacing_m": 0.015625,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.999805767514883,
+      "acceleration_relative_L2": 0.14015526627735417,
+      "stress_relative_max": 4.529458769000327e-16,
+      "independent_divergence_FD_relative": 3.579751593425014e-08,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 1.2607484362614084e-17,
+      "net_torque_relative": 3.228572554337639e-18,
+      "full_support": true,
+      "elapsed_s": 4.237306460738182,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "orthotropic",
+      "grid": 48,
+      "particles": 373248,
+      "spacing_m": 0.010416666666666666,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.9998056210959823,
+      "acceleration_relative_L2": 0.06570530469248079,
+      "stress_relative_max": 4.480288627053025e-16,
+      "independent_divergence_FD_relative": 3.579751593425014e-08,
+      "mass_relative_error": 1.347399558182116e-16,
+      "net_force_relative": 1.3272254030401457e-17,
+      "net_torque_relative": 6.8335708461723445e-18,
+      "full_support": true,
+      "elapsed_s": 7.323640704154968,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "orthotropic",
+      "grid": 64,
+      "particles": 884736,
+      "spacing_m": 0.0078125,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.9998058503581858,
+      "acceleration_relative_L2": 0.03768229249301741,
+      "stress_relative_max": 4.485844360887055e-16,
+      "independent_divergence_FD_relative": 3.579751593425014e-08,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 6.096920717511537e-18,
+      "net_torque_relative": 8.890950988049145e-18,
+      "full_support": true,
+      "elapsed_s": 13.791475176811218,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "transverse-isotropic",
+      "grid": 32,
+      "particles": 110592,
+      "spacing_m": 0.015625,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.999805767514883,
+      "acceleration_relative_L2": 0.14024616272913812,
+      "stress_relative_max": 4.0863469587133083e-16,
+      "independent_divergence_FD_relative": 9.344231887354149e-08,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 1.2538191000854251e-17,
+      "net_torque_relative": 9.83289493873016e-19,
+      "full_support": true,
+      "elapsed_s": 4.385925084352493,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "transverse-isotropic",
+      "grid": 48,
+      "particles": 373248,
+      "spacing_m": 0.010416666666666666,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.9998056210959823,
+      "acceleration_relative_L2": 0.06574934726117507,
+      "stress_relative_max": 4.0873962715702466e-16,
+      "independent_divergence_FD_relative": 9.344231887354149e-08,
+      "mass_relative_error": 1.347399558182116e-16,
+      "net_force_relative": 3.109472090900006e-18,
+      "net_torque_relative": 2.3437194683110597e-18,
+      "full_support": true,
+      "elapsed_s": 7.025363437831402,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "transverse-isotropic",
+      "grid": 64,
+      "particles": 884736,
+      "spacing_m": 0.0078125,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.9998058503581858,
+      "acceleration_relative_L2": 0.037707623681136046,
+      "stress_relative_max": 4.0742030808319793e-16,
+      "independent_divergence_FD_relative": 9.344231887354149e-08,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 1.0900227058419651e-17,
+      "net_torque_relative": 7.848975703544731e-18,
+      "full_support": true,
+      "elapsed_s": 13.841444090008736,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "blatz-ko",
+      "grid": 32,
+      "particles": 110592,
+      "spacing_m": 0.015625,
+      "amplitude_m": 0.002,
+      "minimum_J": 0.9805767514883061,
+      "acceleration_relative_L2": 0.14307946501566418,
+      "stress_relative_max": 1.857314004180252e-14,
+      "independent_divergence_FD_relative": 1.08949090926614e-09,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 4.077253667155251e-18,
+      "net_torque_relative": 4.795009139940367e-18,
+      "full_support": true,
+      "elapsed_s": 2.121536746621132,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "blatz-ko",
+      "grid": 48,
+      "particles": 373248,
+      "spacing_m": 0.010416666666666666,
+      "amplitude_m": 0.002,
+      "minimum_J": 0.9805621095982232,
+      "acceleration_relative_L2": 0.06713418182620658,
+      "stress_relative_max": 1.8570095811293132e-14,
+      "independent_divergence_FD_relative": 1.08949090926614e-09,
+      "mass_relative_error": 1.347399558182116e-16,
+      "net_force_relative": 4.374020984160718e-18,
+      "net_torque_relative": 4.643646363092502e-18,
+      "full_support": true,
+      "elapsed_s": 4.1153505221009254,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "blatz-ko",
+      "grid": 64,
+      "particles": 884736,
+      "spacing_m": 0.0078125,
+      "amplitude_m": 0.002,
+      "minimum_J": 0.9805850358185887,
+      "acceleration_relative_L2": 0.038438777565547214,
+      "stress_relative_max": 1.8568505834702478e-14,
+      "independent_divergence_FD_relative": 1.08949090926614e-09,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 2.4014533430818584e-17,
+      "net_torque_relative": 1.0622006936014852e-17,
+      "full_support": true,
+      "elapsed_s": 7.4352210983633995,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    }
+  ],
+  "models": {
+    "orthotropic": {
+      "grids": [
+        32,
+        48,
+        64
+      ],
+      "relative_L2": [
+        0.14015526627735417,
+        0.06570530469248079,
+        0.03768229249301741
+      ],
+      "observed_orders": [
+        1.868400447775955,
+        1.9326521449847887
+      ],
+      "checks": {
+        "monotone": true,
+        "finest_within_original5percent": true
+      }
+    },
+    "transverse-isotropic": {
+      "grids": [
+        32,
+        48,
+        64
+      ],
+      "relative_L2": [
+        0.14024616272913812,
+        0.06574934726117507,
+        0.037707623681136046
+      ],
+      "observed_orders": [
+        1.8683468077466887,
+        1.932645454804931
+      ],
+      "checks": {
+        "monotone": true,
+        "finest_within_original5percent": true
+      }
+    },
+    "blatz-ko": {
+      "grids": [
+        32,
+        48,
+        64
+      ],
+      "relative_L2": [
+        0.14307946501566418,
+        0.06713418182620658,
+        0.038438777565547214
+      ],
+      "observed_orders": [
+        1.8662687115050252,
+        1.938343057711968
+      ],
+      "checks": {
+        "monotone": true,
+        "finest_within_original5percent": true
+      }
+    }
+  },
+  "tolerances": {
+    "finest_acceleration_L2": 0.05,
+    "stress_relative": 5e-12,
+    "analytic_divergence_FD_relative": 1e-06,
+    "mass_relative": 1e-12,
+    "force_and_torque_relative": 1e-10
+  },
+  "inputs": [
+    {
+      "task": "elastic-force-refinement-3d",
+      "source_commit": "b226105bff8f6258e0bafe6670cb4cdc3f180e77",
+      "raw_sha256": "28d801dc98edde7821486c85bd597ed9d97ed4506ef5e060cd6ca9338dbb06cf",
+      "job_sha256": "a1568c154a7a3ac8627d2bf6b987850ab919d8f6a09726d56d919d2528699440",
+      "source_capsule": {
+        "source_commit": "b226105bff8f6258e0bafe6670cb4cdc3f180e77",
+        "source_tar_sha256": "d7b4cc4df4dc662a402de9f2eab8a57da40176b419e54cfdb1ee39c4181e8b72"
+      },
+      "completion_scope": "Three complete numerical rows; terminal observer serialization failed"
+    },
+    {
+      "task": "elastic-force-refinement-ti-blatz",
+      "source_commit": "e5137d91aa21cb082fd2f2247729edd1f0ed8ba4",
+      "raw_sha256": "f86cb65ebad8f3d1c43949f5b0e0ed42a06744b63e95967f64448982ad17bf79",
+      "job_sha256": "43e50de0eb47e78660ee6dc92a28674f7474891195d02d889e397bf4bdbf5b02",
+      "source_capsule": {
+        "source_commit": "e5137d91aa21cb082fd2f2247729edd1f0ed8ba4",
+        "source_tar_sha256": "866fce419bc88e6943ce84fc1500be8a6a3d1e91f0217ef679de0f80fc208655"
+      },
+      "completion_scope": "Six complete numerical rows and refinement checks"
+    }
+  ],
+  "metadata_fix": "A NumPy comparison scalar prevented the first observer from serializing refinement booleans. Completed orthotropic rows are retained; no force computation was repeated. The source fix casts the final error to a Python float.",
+  "source_sha256": {
+    "tools/check_elastic_force_refinement.py": "2154c764f426016f7dad0668bf45711bd0331a3b4d1dc02b5b612769eb6e1794",
+    "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+  },
+  "numerical_runs": 2,
+  "refinement_cases": 9,
+  "physical_time_steps": 0,
+  "complete_dynamic_convergence_certified": false
+}

@@ -28,10 +28,12 @@ Focused checks are in [test_elastic_materials.py](../tests/test_elastic_material
 the [inventory receipt](results/elastic-model-inventory.json) binds source,
 historical test entries and local run metadata.
 
-The generic orthotropic/TI laws and Blatz–Ko still need source-bound spatial
-accuracy and refinement studies. An analytical anisotropic mode or manufactured
-3D field would address this gap. The old TI free-release result rotates only
-inside its isotropic plane; it cannot validate the current example's longitudinal
-axis tilted by 30 degrees. Woven finite-strain results concern a separate law.
+A [source-bound 3D force refinement study](ELASTIC_FORCE_REFINEMENT.md) covers
+rotated orthotropic axes, the TI longitudinal axis tilted by 30 degrees and
+Blatz–Ko. Relative acceleration errors decrease at nearly second order and reach
+3.768%, 3.771% and 3.844% on the finest grid. This frozen operator comparison
+does not certify complete dynamic time integration or structural convergence.
+The old TI free-release result rotates only inside its isotropic plane and cannot
+validate the tilted longitudinal axis. Woven finite-strain results use a separate law.
 Example energy columns omit affine APIC kinetic energy and the full boundary/
 contact work budget, so they do not certify discrete energy conservation.

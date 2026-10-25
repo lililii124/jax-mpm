@@ -1,0 +1,229 @@
+{
+  "scope": "Frozen3D production MLS force operator refinement; not a dynamic time-integration or nonlinear structural convergence certificate",
+  "reference_domain_m": [
+    [
+      0.125,
+      0.875
+    ],
+    [
+      0.125,
+      0.875
+    ],
+    [
+      0.125,
+      0.875
+    ]
+  ],
+  "displacement_support_m": [
+    [
+      0.25,
+      0.75
+    ],
+    [
+      0.25,
+      0.75
+    ],
+    [
+      0.25,
+      0.75
+    ]
+  ],
+  "boundary": "Displacement and stress vanish in an exterior layer; traction-free outer material faces; no imposed nodal reactions",
+  "field": "u=A sin(pi*(X-.25)/.5)^4 sin(pi*(Y-.25)/.5)^4 sin(pi*(Z-.25)/.5)^4 (1,.6,-.4), zero outside support",
+  "reference": "Independent NumPy compliance, Piola stress and analytical material divergence; centred finite-difference cross-check",
+  "tolerances": {
+    "finest_acceleration_L2": 0.05,
+    "stress_relative": 5e-12,
+    "analytic_divergence_FD_relative": 1e-06,
+    "mass_relative": 1e-12,
+    "force_and_torque_relative": 1e-10
+  },
+  "source_sha256": {
+    "tools/check_elastic_force_refinement.py": "2154c764f426016f7dad0668bf45711bd0331a3b4d1dc02b5b612769eb6e1794",
+    "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+  },
+  "cases": [
+    {
+      "model": "transverse-isotropic",
+      "grid": 32,
+      "particles": 110592,
+      "spacing_m": 0.015625,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.999805767514883,
+      "acceleration_relative_L2": 0.14024616272913812,
+      "stress_relative_max": 4.0863469587133083e-16,
+      "independent_divergence_FD_relative": 9.344231887354149e-08,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 1.2538191000854251e-17,
+      "net_torque_relative": 9.83289493873016e-19,
+      "full_support": true,
+      "elapsed_s": 4.385925084352493,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "transverse-isotropic",
+      "grid": 48,
+      "particles": 373248,
+      "spacing_m": 0.010416666666666666,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.9998056210959823,
+      "acceleration_relative_L2": 0.06574934726117507,
+      "stress_relative_max": 4.0873962715702466e-16,
+      "independent_divergence_FD_relative": 9.344231887354149e-08,
+      "mass_relative_error": 1.347399558182116e-16,
+      "net_force_relative": 3.109472090900006e-18,
+      "net_torque_relative": 2.3437194683110597e-18,
+      "full_support": true,
+      "elapsed_s": 7.025363437831402,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "transverse-isotropic",
+      "grid": 64,
+      "particles": 884736,
+      "spacing_m": 0.0078125,
+      "amplitude_m": 2e-05,
+      "minimum_J": 0.9998058503581858,
+      "acceleration_relative_L2": 0.037707623681136046,
+      "stress_relative_max": 4.0742030808319793e-16,
+      "independent_divergence_FD_relative": 9.344231887354149e-08,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 1.0900227058419651e-17,
+      "net_torque_relative": 7.848975703544731e-18,
+      "full_support": true,
+      "elapsed_s": 13.841444090008736,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "blatz-ko",
+      "grid": 32,
+      "particles": 110592,
+      "spacing_m": 0.015625,
+      "amplitude_m": 0.002,
+      "minimum_J": 0.9805767514883061,
+      "acceleration_relative_L2": 0.14307946501566418,
+      "stress_relative_max": 1.857314004180252e-14,
+      "independent_divergence_FD_relative": 1.08949090926614e-09,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 4.077253667155251e-18,
+      "net_torque_relative": 4.795009139940367e-18,
+      "full_support": true,
+      "elapsed_s": 2.121536746621132,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "blatz-ko",
+      "grid": 48,
+      "particles": 373248,
+      "spacing_m": 0.010416666666666666,
+      "amplitude_m": 0.002,
+      "minimum_J": 0.9805621095982232,
+      "acceleration_relative_L2": 0.06713418182620658,
+      "stress_relative_max": 1.8570095811293132e-14,
+      "independent_divergence_FD_relative": 1.08949090926614e-09,
+      "mass_relative_error": 1.347399558182116e-16,
+      "net_force_relative": 4.374020984160718e-18,
+      "net_torque_relative": 4.643646363092502e-18,
+      "full_support": true,
+      "elapsed_s": 4.1153505221009254,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    },
+    {
+      "model": "blatz-ko",
+      "grid": 64,
+      "particles": 884736,
+      "spacing_m": 0.0078125,
+      "amplitude_m": 0.002,
+      "minimum_J": 0.9805850358185887,
+      "acceleration_relative_L2": 0.038438777565547214,
+      "stress_relative_max": 1.8568505834702478e-14,
+      "independent_divergence_FD_relative": 1.08949090926614e-09,
+      "mass_relative_error": 0.0,
+      "net_force_relative": 2.4014533430818584e-17,
+      "net_torque_relative": 1.0622006936014852e-17,
+      "full_support": true,
+      "elapsed_s": 7.4352210983633995,
+      "checks": {
+        "finite": true,
+        "positive_J": true,
+        "full_support": true,
+        "stress": true,
+        "analytic_reference": true,
+        "mass": true,
+        "linear_momentum": true,
+        "angular_momentum": true
+      }
+    }
+  ],
+  "refinement": {
+    "transverse-isotropic": {
+      "errors": [
+        0.14024616272913812,
+        0.06574934726117507,
+        0.037707623681136046
+      ],
+      "checks": {
+        "decreasing": true,
+        "finest_within5percent": true
+      }
+    },
+    "blatz-ko": {
+      "errors": [
+        0.14307946501566418,
+        0.06713418182620658,
+        0.038438777565547214
+      ],
+      "checks": {
+        "decreasing": true,
+        "finest_within5percent": true
+      }
+    }
+  },
+  "passed": true
+}
