@@ -295,5 +295,105 @@
     "active/patch/component budgets",
     "original material/grid mechanical validity"
   ],
-  "registration": "Append all previously unregistered cross-family owners present in unchanged finite reference capsule coverage. Original crossing seedIDs/seedsegments retained. Original stateless connected-patch forces already selected all close cells before late unseeded validity check; this repair permits those forces to advance, without clearing any invalid carry."
+  "registration": "Append all previously unregistered cross-family owners present in unchanged finite reference capsule coverage. Original crossing seedIDs/seedsegments retained. Original stateless connected-patch forces already selected all close cells before late unseeded validity check; this repair permits those forces to advance, without clearing any invalid carry.",
+  "original_runtime_source_delta": {
+    "examples/triaxial_failure.py": {
+      "byte_exact": false,
+      "LF_exact": false
+    },
+    "examples/triaxial_fibre_geometry.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/fibre_mpm.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/fibre_coupling.py": {
+      "byte_exact": false,
+      "LF_exact": false
+    },
+    "mpm_jax/fibre_contact.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/materials/isotropic_brittle.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/local_contact_models.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/maugis_dugdale.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/cohesive_bem.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/contact_patches.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    },
+    "mpm_jax/fibre_patch_contact.py": {
+      "byte_exact": true,
+      "LF_exact": true
+    }
+  },
+  "original_coupled_advance_AST_proof": {
+    "advance_block": {
+      "AST_exact": true,
+      "sha256": "26aaf30557dc83440cda5dec952880520604a9010c85e8deb2b5d7ad085da816"
+    },
+    "contact_statistics": {
+      "AST_exact": true,
+      "sha256": "cd32c82f18e329e43497d2027350e3f8bcaddf1b1c952d1f4c1c5d0157d3e391"
+    }
+  },
+  "accepted_after_original_blocker": {
+    "step": 7270,
+    "time": 2.89162479331485e-05,
+    "checkpoint_sha256": "2f023168b27ac57ce66bb18485ee9dc7665c0c216da55cd11ba6bb4e12bff356",
+    "accepted": true,
+    "contact_metrics": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      7.715950799327642e-05,
+      -1.4446621502040469e-06,
+      242.0,
+      0.0,
+      0.13387007817952862,
+      0.0,
+      0.0,
+      0.0,
+      8.777083671441753e-17,
+      4.84869951806108e-19,
+      1.1568207819139595e-06,
+      1.0
+    ],
+    "failed_particles": 1393,
+    "max_damage": 1.0
+  },
+  "active_new_pair_and_material_failure": {
+    "step": 7270,
+    "failed_particles": 1393,
+    "fibres_with_fully_failed_sampled_sections": [],
+    "new_pair_active_patches": [
+      {
+        "slot": 71,
+        "segments": [
+          13346,
+          19489
+        ],
+        "contact_radius_m": 5.4271798362350995e-06
+      }
+    ],
+    "scope": "Fully failed sampled cross-sections are discrete material evidence, not a global fabric-disconnection or continuous fracture certificate"
+  },
+  "continuation": "Original0degree19200step target ongoing in bounded250step/900s windows,8cores/16GiB/USS12, CP25. No complete failure-scan or continuous rupture claim at7270.",
+  "physical_core_preserved": "All9other original plan sourcefiles byteexact; original advance_block/contact_statistics AST exact. Only builder registry/caller policy change plus standalone carry/observation driver."
 }
