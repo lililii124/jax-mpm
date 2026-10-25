@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "parent_checkpoint_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+  "golden_npz_sha256": "e2340e72d6f0418bd34828940443684cece5b9b71e01d0d9c9a40e9929bcacb2",
+  "source_input": "Original accepted22 and already-solved same frozen qmid golden; no replay",
+  "particles": 26336,
+  "prepare_seconds": 31.550980523228645,
+  "compile_seconds": 6.01951851695776,
+  "solve_seconds": 61.448735289275646,
+  "relative_velocity_difference": 9.846515389606817e-12,
+  "original_KKT_m_s": 9.364015340906917e-08,
+  "physical_dual_difference": 7.705615018033952e-16,
+  "physical_momentum": [
+    2.2088678185423266e-21,
+    -4.2809335927604697e-19,
+    2.9344531391617466e-20
+  ],
+  "physical_torque": [
+    1.225119382044541e-22,
+    -1.3806475749910962e-23,
+    -1.3151811703475997e-23
+  ],
+  "boundary_work_J": 3.318276583751654e-13,
+  "contact_work_J": -3.840816553690729e-13,
+  "report": {
+    "boundary_virtual_work_J": 1.6591386391593354e-13,
+    "complementarity_m_s": 9.363932118588991e-08,
+    "converged": true,
+    "dual_decomposition_relative_error": 2.677119016688844e-18,
+    "iterations": 5,
+    "physical_contact_power_J": -1.9205123602539231e-13,
+    "projection_loss_J": 0.0014105610215125707,
+    "range_relative_gap": 1.9618249873352368e-13
+  },
+  "preconditioner": {
+    "blocks": 198,
+    "block_size": 128,
+    "maximum_off_diagonal_entries": 129782,
+    "actual_off_diagonal_entries": 10136184,
+    "old_padded_entries": 25696836,
+    "exact_triangular_blocks": true
+  },
+  "migration_boundary": "Geometry and exact sparse LDL setup still SciPy. All LSQR, triangular application, cone and Dykstra iterations JAX64; no146-column Schur, no JIT callbacks. Not yet an all-JAX impact step."
+}

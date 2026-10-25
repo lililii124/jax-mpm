@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "parent_checkpoint_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+  "golden_npz_sha256": "e2340e72d6f0418bd34828940443684cece5b9b71e01d0d9c9a40e9929bcacb2",
+  "source_input": "Original accepted22 and already-solved same frozen qmid golden; no replay",
+  "particles": 26336,
+  "prepare_seconds": 15.845815002918243,
+  "compile_seconds": 6.667655847966671,
+  "solve_seconds": 58.21020741015673,
+  "relative_velocity_difference": 9.846562357993174e-12,
+  "original_KKT_m_s": 9.363972708342772e-08,
+  "physical_dual_difference": 7.670590454985126e-16,
+  "physical_momentum": [
+    -4.202710411718196e-21,
+    -4.736483152596619e-19,
+    -6.425913057220513e-21
+  ],
+  "physical_torque": [
+    8.83420084208044e-23,
+    -5.65369137571639e-25,
+    4.4596829749318694e-23
+  ],
+  "boundary_work_J": 2.355714445364252e-13,
+  "contact_work_J": -3.8391512191537913e-13,
+  "report": {
+    "boundary_virtual_work_J": 1.177857896073319e-13,
+    "complementarity_m_s": 9.364030439940052e-08,
+    "converged": true,
+    "dual_decomposition_relative_error": 2.4422575048989904e-18,
+    "iterations": 5,
+    "physical_contact_power_J": -1.9195756095768957e-13,
+    "projection_loss_J": 0.0014105610215608376,
+    "range_relative_gap": 1.961915540828801e-13
+  },
+  "preconditioner": {
+    "blocks": 198,
+    "block_size": 128,
+    "maximum_off_diagonal_entries": 129782,
+    "actual_off_diagonal_entries": 10136184,
+    "old_padded_entries": 25696836,
+    "exact_triangular_blocks": true
+  },
+  "native_reconstruction": {
+    "valid": true,
+    "free_nodes": 25237,
+    "capacity": 65536,
+    "mass_error": 0.0,
+    "forward_relative_difference": 3.1673633805515816e-16,
+    "transpose_relative_difference": 5.739156764741287e-16,
+    "setup_and_probe_seconds": 1.430635042488575,
+    "source": "JAX quadratic stencil, node discovery, clamp coverage, mass/column metrics and tensor reconstruction; no assembled reconstruction COO in solver"
+  },
+  "migration_boundary": "Reconstruction preparation and all iterative solves JAX64. Current physical contact sampler, polynomial deflation modes and exact sparse LDL setup remain reference-prepared. No146-column Schur or JIT callbacks. Not yet an all-JAX impact step."
+}

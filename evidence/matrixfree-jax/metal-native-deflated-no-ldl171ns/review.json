@@ -1,0 +1,27 @@
+{
+  "status": "failed-preconditioner-probe",
+  "probe": {
+    "stage": "single-physical-impulse-projection",
+    "passed": false,
+    "source_checkpoint_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+    "iterations": [
+      64,
+      64,
+      64
+    ],
+    "solver_flags": [
+      false,
+      false,
+      false
+    ],
+    "physical_normal_relative_residual": 0.00034926210539294077,
+    "combined_state_relative_difference": 8.672197487563116e-06,
+    "actual_work_difference_J": 2.0312628756386503e-05,
+    "compile_and_solve_seconds": 4.73686145991087,
+    "iteration_cap": 64,
+    "preconditioner": "Column equilibration and exact polynomial deflation; no LDL/regularization",
+    "scope": "Saved actual impulse only; no force/material/trajectory replay. A failed probe is not retried with more iterations."
+  },
+  "qp_attempted": false,
+  "physical_steps_executed": 0
+}

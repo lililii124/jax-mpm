@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "parent_checkpoint_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+  "golden_npz_sha256": "e2340e72d6f0418bd34828940443684cece5b9b71e01d0d9c9a40e9929bcacb2",
+  "source_input": "Original accepted22 and already-solved same frozen qmid golden; no replay",
+  "particles": 26336,
+  "prepare_seconds": 18.646679915487766,
+  "compile_seconds": 6.551892511546612,
+  "solve_seconds": 49.42049589753151,
+  "relative_velocity_difference": 9.846607198059783e-12,
+  "original_KKT_m_s": 9.363901654069196e-08,
+  "physical_dual_difference": 7.666984205185978e-16,
+  "physical_momentum": [
+    3.349597889541111e-20,
+    -4.378489206253442e-19,
+    -7.134382182575959e-21
+  ],
+  "physical_torque": [
+    9.643743313653632e-23,
+    2.107116555149139e-23,
+    -2.5927390397703127e-23
+  ],
+  "boundary_work_J": 3.2387962635855834e-13,
+  "contact_work_J": -3.839012441275713e-13,
+  "report": {
+    "boundary_virtual_work_J": 1.6193990275301334e-13,
+    "complementarity_m_s": 9.36410666880027e-08,
+    "converged": true,
+    "dual_decomposition_relative_error": 2.7662112823870333e-18,
+    "iterations": 5,
+    "physical_contact_power_J": -1.9194368316988175e-13,
+    "projection_loss_J": 0.0014105610215165848,
+    "range_relative_gap": 1.961906157096494e-13
+  },
+  "preconditioner": {
+    "blocks": 198,
+    "block_size": 128,
+    "maximum_off_diagonal_entries": 129782,
+    "actual_off_diagonal_entries": 10136184,
+    "old_padded_entries": 25696836,
+    "exact_triangular_blocks": true
+  },
+  "native_reconstruction": {
+    "valid": true,
+    "free_nodes": 25237,
+    "capacity": 65536,
+    "mass_error": 0.0,
+    "forward_relative_difference": 3.1673633805515816e-16,
+    "transpose_relative_difference": 5.739156764741287e-16,
+    "setup_and_probe_seconds": 1.374828316271305,
+    "source": "JAX quadratic stencil, node discovery, clamp coverage, mass/column metrics and tensor reconstruction; no assembled reconstruction COO in solver"
+  },
+  "native_contact": {
+    "valid": true,
+    "pairs": 146,
+    "pair_storage_capacity": 512,
+    "adjacent_particles": 540,
+    "particle_storage_capacity": 4096,
+    "sample_relative_difference": 1.223896343427295e-14,
+    "adjoint_relative_difference": 2.0768774709152397e-16,
+    "mobility_relative_difference": 1.7270541036835002e-15,
+    "allowed_mode_orthogonality": 1.1102230246251565e-15,
+    "physical_mode_orthogonality": 1.3322676295501878e-15,
+    "source": "JAX node pairing, centroid normals, affine modes/correction, local physical mobility, sample and exact adjoint; no reference contact arrays used by solver"
+  },
+  "migration_boundary": "Reconstruction, centroid/affine contact/mobility preparation, polynomial modes and iterative solves JAX64. Exact sparse LDL preconditioner setup remains reference-prepared. No restricted146-column Schur or JIT callbacks. Not yet installed as an all-JAX impact step."
+}

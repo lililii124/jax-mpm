@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-10-25T21:00:46.194972+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "run.py"
+  ],
+  "cpu_affinity": [
+    56,
+    57,
+    58,
+    59
+  ],
+  "memory_headroom_at_start": 12876021760,
+  "limit_seconds": 900.0,
+  "uss_limit_bytes": 9663676416,
+  "peak_uss_bytes": 1473081344,
+  "minimum_memory_headroom": 11703050240,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 83.51970075070858,
+  "returncode": 0
+}

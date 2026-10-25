@@ -1,0 +1,35 @@
+{
+  "status": "failed-preconditioner-probe",
+  "probe": {
+    "stage": "single-physical-impulse-projection",
+    "passed": false,
+    "source_checkpoint_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+    "iterations": [
+      64,
+      64,
+      64
+    ],
+    "solver_flags": [
+      false,
+      false,
+      false
+    ],
+    "physical_normal_relative_residual": 4.46264191505822e-06,
+    "combined_state_relative_difference": 3.824541789679875e-06,
+    "actual_work_difference_J": -3.20121138188999e-07,
+    "compile_and_solve_seconds": 139.57829800248146,
+    "iteration_cap": 64,
+    "preconditioner": {
+      "kind": "Matrix-free8-color4-cubed block SSOR",
+      "blocks": 682,
+      "block_capacity": 2048,
+      "shift_preconditioner_only": 1e-08,
+      "objective_regularization": 0.0,
+      "right_transpose_relative_defect": 4.6479395158114085e-18,
+      "prepare_and_adjoint_check_seconds": 3.1736898720264435
+    },
+    "scope": "Saved actual impulse only; no force/material/trajectory replay. A failed probe is not retried with more iterations."
+  },
+  "qp_attempted": false,
+  "physical_steps_executed": 0
+}
