@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-10-25T18:46:13.748026+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "audit.py"
+  ],
+  "cpu_affinity": [
+    28,
+    29,
+    30,
+    31
+  ],
+  "memory_headroom_at_start": 8581054464,
+  "limit_seconds": 300.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 191569920,
+  "minimum_memory_headroom": 8400191488,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 3.0308098420500755,
+  "returncode": 0
+}

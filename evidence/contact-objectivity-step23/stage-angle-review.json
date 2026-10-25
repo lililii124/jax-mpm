@@ -1,0 +1,254 @@
+{
+  "status": "saved-stage-audit-completed",
+  "source_task": "metal-auto-20261025-173820-w02",
+  "source_commit": "0906569cbf4aca0f2990c664f4c50d56c39dc0b0",
+  "step": 23,
+  "input_checkpoint_sha256": "3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809",
+  "rejected_state_not_restartable": true,
+  "dt_s": 6.893234477481192e-10,
+  "stages": [
+    {
+      "stage": "initial-projection",
+      "angular_change": [
+        8.816711354049584e-22,
+        2.2180557065543695e-22,
+        2.874607724986625e-21
+      ],
+      "boundary_torque": [
+        7.826801684966957e-22,
+        2.1583461825342e-22,
+        3.003921600149861e-21
+      ],
+      "physical_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "identity_remainder": [
+        9.899096690826264e-23,
+        5.970952402016954e-24,
+        -1.29313875163236e-22
+      ]
+    },
+    {
+      "stage": "initial-contact",
+      "angular_change": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "identity_remainder": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "same_impulse_torque_at_q0": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "same_impulse_torque_at_qmid": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "same_impulse_torque_at_q1": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "stage": "end-old-cone-contact",
+      "angular_change": [
+        -1.5949762045927535e-14,
+        9.398419600472401e-23,
+        1.594972665022289e-14
+      ],
+      "boundary_torque": [
+        -1.4473328097204808e-14,
+        5.865559708678633e-23,
+        1.4473294227135535e-14
+      ],
+      "physical_torque": [
+        -1.4764339597101826e-15,
+        1.6809367728448702e-23,
+        1.4764325619492965e-15
+      ],
+      "identity_remainder": [
+        1.0987455453018631e-23,
+        1.851923118948898e-23,
+        -1.388619420984833e-22
+      ],
+      "same_impulse_torque_at_q0": [
+        -4.556090810007242e-27,
+        4.5096789386670254e-27,
+        -7.953940910006809e-26
+      ],
+      "same_impulse_torque_at_qmid": [
+        -7.382169798559239e-16,
+        8.406742867033254e-24,
+        7.382162809358808e-16
+      ],
+      "same_impulse_torque_at_q1": [
+        -1.4764339597101826e-15,
+        1.6809367728448702e-23,
+        1.4764325619492965e-15
+      ]
+    },
+    {
+      "stage": "end-projection",
+      "angular_change": [
+        -1.5630771969448583e-15,
+        1.3006227139805016e-22,
+        1.5630776101861978e-15
+      ],
+      "boundary_torque": [
+        -1.5630771079189757e-15,
+        1.37479580963469e-22,
+        1.563077676512218e-15
+      ],
+      "physical_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "identity_remainder": [
+        -8.902588258916272e-23,
+        -7.417309565418839e-24,
+        -6.63260201469257e-23
+      ]
+    },
+    {
+      "stage": "end-contact",
+      "angular_change": [
+        2.3238362610524006e-13,
+        -1.1003773157694112e-22,
+        -2.323836065515434e-13
+      ],
+      "boundary_torque": [
+        2.323836260210701e-13,
+        -1.1546262814501956e-22,
+        -2.3238360643339885e-13
+      ],
+      "physical_torque": [
+        3.152230590417082e-24,
+        2.7805345060402254e-24,
+        -1.2875018555634764e-23
+      ],
+      "identity_remainder": [
+        8.101773862727582e-23,
+        2.644362062038216e-24,
+        -1.0526953639746977e-22
+      ],
+      "same_impulse_torque_at_q0": [
+        3.4642978123340733e-16,
+        -1.1030920432308569e-23,
+        -3.464304600991818e-16
+      ],
+      "same_impulse_torque_at_qmid": [
+        1.73214892256992e-16,
+        -4.148872960641089e-24,
+        -1.7321523647943147e-16
+      ],
+      "same_impulse_torque_at_q1": [
+        3.152230590417082e-24,
+        2.7805345060402254e-24,
+        -1.2875018555634764e-23
+      ]
+    },
+    {
+      "stage": "coupled",
+      "angular_change": [
+        -5.730491288067556e-13,
+        -5.698003360141143e-21,
+        5.730490339413144e-13
+      ],
+      "physical_torque": [
+        -4.874745642942341e-15,
+        1.9512439738397151e-22,
+        4.874735613023299e-15
+      ],
+      "boundary_torque": [
+        -5.681743997396928e-13,
+        -5.778976129024821e-21,
+        5.681743147793488e-13
+      ],
+      "raw_internal_force_torque": [
+        -1.0871552492397188e-25,
+        1.38865654780037e-26,
+        4.6527742518783173e-26
+      ],
+      "nonlinear_balance_torque": [
+        1.6548998716057403e-20,
+        -9.998742995612768e-23,
+        -1.6848937636588647e-20
+      ],
+      "canonical_midpoint_motion_remainder": [
+        -5.1963037755151543e-23,
+        -3.0982575335269165e-23,
+        3.552042999221804e-22
+      ],
+      "full_stage_identity_remainder": [
+        2.69894864625143e-23,
+        -1.4178085109644218e-23,
+        3.9783339685089483e-22
+      ],
+      "same_impulse_torque_at_q0": [
+        1.0258399276313782e-23,
+        -1.3328585257611307e-23,
+        8.025218303977775e-23
+      ],
+      "same_impulse_torque_at_qmid": [
+        -4.874745642942341e-15,
+        1.9512439738397151e-22,
+        4.874735613023299e-15
+      ],
+      "same_impulse_torque_at_q1": [
+        -9.74949129708808e-15,
+        4.0381595989877206e-22,
+        9.74947114600804e-15
+      ]
+    }
+  ],
+  "reported_perstep_angular_residual": [
+    -6.3511629216506046e-15,
+    1.2027990720627457e-22,
+    6.351151271264041e-15
+  ],
+  "reconstructed_perstep_angular_residual": [
+    -6.351162921650504e-15,
+    1.2027990720629187e-22,
+    6.351151271268484e-15
+  ],
+  "boundary_torque_reconstruction_difference": [
+    -1.0097419586828951e-28,
+    -7.52316384526264e-37,
+    0.0
+  ],
+  "physical_contact_torque_sum": [
+    -6.351179599500293e-15,
+    2.1471429961846046e-22,
+    6.351168162097577e-15
+  ],
+  "unexplained_after_contacts": [
+    1.667784978936122e-20,
+    -9.443439241216859e-23,
+    -1.6890829092925934e-20
+  ],
+  "qmid_position_shift_max_m": 1.7462534434276554e-06,
+  "qmid_F_shift_max": 0.004168573717363955,
+  "original_midpoint_position_error_m": 8.673207384259132e-19,
+  "original_midpoint_F_error": 1.1101774966042416e-16,
+  "scope": "Saved vectors and configurations only; no force/material recomputation, no QP/projector factorization, no dynamics replay or state/reaction correction"
+}
