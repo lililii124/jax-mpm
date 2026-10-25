@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "free": {
+    "position_error_m": 4.551108025597356e-17,
+    "velocity_error_m_per_s": 1.734723475976807e-18,
+    "F_error": 1.1742655975802781e-20
+  },
+  "prescribed_motion": {
+    "kinetic_J": 0.00032250000000000047,
+    "boundary_work_J": 0.0003225000000000004,
+    "relative_work_error": 1.6809336007527177e-16
+  },
+  "fixed_support": {
+    "displacement_error_m": 0.0,
+    "momentum_error_Ns": 6.206335383118183e-17,
+    "angular_momentum_error_kg_m2_per_s": 3.3993498887762956e-17
+  },
+  "scope": "Small independent exact-solution/constraint controls; not a structural or contact validation"
+}

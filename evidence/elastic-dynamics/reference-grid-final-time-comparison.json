@@ -1,0 +1,41 @@
+{
+  "checkpoints": {
+    "full_dt": "f63148789b728839e0c7c0d137ffe09590364841fd3e1a05c8c4e0d42fc8efd9",
+    "half_dt": "fb378b4dd86f91c6b520d0caede5da47af019dee97dabc4cb27aceb767ef7099"
+  },
+  "time_s": 0.04,
+  "scope": "Same geometry/reference basis; absolute final-time nodal field differences, not relative to zero exact final displacement. No standalone temporal convergence rate inferred from two spatially discretized runs.",
+  "fields": {
+    "displacement": {
+      "shape": [
+        274625,
+        3
+      ],
+      "absolute_l2": 2.713371361772517e-08,
+      "absolute_max": 8.884136277224228e-10,
+      "full_dt_l2": 3.2565475157713445e-05,
+      "half_dt_l2": 3.258918767655104e-05
+    },
+    "velocity": {
+      "shape": [
+        274625,
+        3
+      ],
+      "absolute_l2": 1.275071944720586e-06,
+      "absolute_max": 2.303063568060695e-08,
+      "full_dt_l2": 0.0022213617059032493,
+      "half_dt_l2": 0.002222487643140876
+    },
+    "F": {
+      "shape": [
+        884736,
+        3,
+        3
+      ],
+      "absolute_l2": 1.48336966763044e-06,
+      "absolute_max": 8.091512631145948e-09,
+      "full_dt_l2": 1629.1740238552727,
+      "half_dt_l2": 1629.1740238552727
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "K_after": 1.504016241180934e-08,
+      "K_before": 1.5075533481607087e-08,
+      "K_grid": 1.5057830491508404e-08,
+      "angular_momentum_relative": 2.679367648259307e-19,
+      "g2p_loss": 1.7668079699064383e-11,
+      "momentum_relative": 2.983899497960634e-19,
+      "p2g_loss": 1.770299009868299e-11,
+      "relative_loss": 0.0023462565912444736,
+      "support_valid": true,
+      "velocity_change": 0.001471637366866276,
+      "case": "actual_final_checkpoint",
+      "elapsed_s": 1.9112485349178314
+    },
+    {
+      "K_after": 1.9478109877475163e-05,
+      "K_before": 1.948564061848448e-05,
+      "K_grid": 1.9481784782943578e-05,
+      "angular_momentum_relative": 1.506814010884545e-18,
+      "g2p_loss": 3.674905468415557e-09,
+      "momentum_relative": 3.01362802176909e-18,
+      "p2g_loss": 3.855835540900909e-09,
+      "relative_loss": 0.0003864764395876546,
+      "support_valid": true,
+      "velocity_change": 0.00042100267292437716,
+      "case": "exact_quarter_cycle_mode",
+      "elapsed_s": 1.3314744010567665
+    },
+    {
+      "K_after": 0.671493401538807,
+      "K_before": 0.6714934015388069,
+      "K_grid": 0.671493401538807,
+      "angular_momentum_relative": 0.0,
+      "g2p_loss": 0.0,
+      "momentum_relative": 0.0,
+      "p2g_loss": -1.1102230246251565e-16,
+      "relative_loss": -1.653364012335711e-16,
+      "support_valid": true,
+      "velocity_change": 2.564453023060975e-16,
+      "case": "affine_control",
+      "elapsed_s": 1.2751966044306755
+    }
+  ],
+  "parent": {
+    "parent_task": "elastic-dynamic-ti64",
+    "checkpoint_sha256": "fecad7d04d6bb808a9265f3790d55da9b3a999aca2737abe81c61fec8aa0e17e",
+    "source_sha256": {
+      "tools/check_elastic_dynamic_mms.py": "89148e52449d73bd31654b969a59a0683b701ceeb16d5b9ceeafb4fc2719e622",
+      "tools/check_elastic_force_refinement.py": "2154c764f426016f7dad0668bf45711bd0331a3b4d1dc02b5b612769eb6e1794",
+      "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+      "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+    }
+  },
+  "physical_time_steps_executed": 0,
+  "scope": "Frozen zero-stress APIC remap evaluation, actual final and analytic mode plus affine control; no reconstructed cumulative trajectory energy budget or proof of sole error cause"
+}
