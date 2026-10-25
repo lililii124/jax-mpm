@@ -1,0 +1,58 @@
+{
+  "case": "three-strand-forming-tight-dry",
+  "status": "implemented_candidate_early_prefix_only",
+  "geometry": {
+    "length_m": 0.024,
+    "radius_m": 0.001,
+    "initial_orbit_m": 0.001174124516259575,
+    "initial_pair_surface_gap_m": 3.3643316573813906e-05,
+    "collar_length_m": 0.0015,
+    "free_material_length_m": 0.021,
+    "spacing_m": 0.000125,
+    "grid_dx_m": 0.00025
+  },
+  "material": {
+    "young_Pa": 50000,
+    "poisson": 0.25,
+    "density_kg_m3": 1000,
+    "damage_rejected": true
+  },
+  "protocol": {
+    "duration_s": 0.06,
+    "turns": 1,
+    "rotation_ramp_s": 0.005,
+    "final_free_span_m": 0.02033305687324856,
+    "total_axial_feed_m": 0.0006669431267514424,
+    "feed_rule": "sqrt((ell*(1+0.03*smoothstep((t-5ms)/10ms)))^2-(angle*orbit)^2), symmetric moving collars",
+    "arc_tensile_strain": 0.03,
+    "tension_ramp_start_s": 0.005,
+    "tension_ramp_end_s": 0.015,
+    "analytic_helix_minimum_centre_distance_m": 0.0019976832511760623
+  },
+  "contact": {
+    "model": "independent three-field mass-gradient frictionless unilateral mass-metric projection",
+    "adhesion": 0,
+    "friction": 0,
+    "minimum_mass_cutoff": 0,
+    "tolerance_m_per_s": 1e-08
+  },
+  "acceptance": {
+    "major_free_length_all_pair_contact_required": true,
+    "actual_gap_and_intrusion_checks": true,
+    "normal_force_and_contact_length_required": true,
+    "energy_J_localization_checks": true,
+    "scope": "Grid-scale contact, no Hertz claim or subgrid penetration certificate"
+  },
+  "resource": {
+    "estimated_particles": 116000,
+    "estimated_steps": 12400,
+    "pilot_steps": 64,
+    "next_segment_steps": 256,
+    "not_dispatched": false,
+    "actual_particles": 119808,
+    "planned_steps": 12394,
+    "last_accepted_step": 320
+  },
+  "scope": "Independent dry actual forming candidate. Analytic helix only designs initial orbit/feed; interior positions remain dynamic. No finished tight-contact claim before actual trajectory review.",
+  "revision_note": "First320 steps to1.549ms used zero arc tension. New ramp starts5ms, exactly after accepted history; explicit source/plan adoption required, no previous physical step replay."
+}
