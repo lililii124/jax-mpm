@@ -292,7 +292,8 @@ if __name__ == '__main__':
                     else a.displacement/a.speed+.03)
         record=dict(**preflight(a.dx),dt=dt,target_steps=int(np.ceil(duration/dt)))
         record['seed_coefficient_half_width']=a.dx if a.seed_half_width is None else a.seed_half_width
-        record['discrete_seed_coefficient_width']=2*record['seed_coefficient_half_width']
+        record['discrete_seed_coefficient_width']=2*a.dx*np.floor((record['seed_coefficient_half_width']+1e-10)/a.dx)
+        record['requested_seed_cutoff_width']=2*record['seed_coefficient_half_width']
         print(json.dumps(record))
     else:
         run(a.dx,a.length,a.density,a.gc,a.speed,a.displacement,a.steps,a.output,a.cfl,a.restart,a.seed_half_width)
