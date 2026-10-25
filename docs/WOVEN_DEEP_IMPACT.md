@@ -28,4 +28,4 @@ cd ../jax-mpm-deep-frozen
 pip install -e .
 ```
 
-The current library retains the later MAT002 implementation. The new current-checkout prefix and the frozen full result are separate pieces of evidence; the current checkout has not rerun all 14,460 steps of the published result.
+The current library retains the later MAT002 implementation. Its [actual 20-step prefix](results/woven-deep-current-prefix20/prefix-review.json) passed on Linux with 819,200 particles, positive J, unchanged mass, zero system momentum residual and zero recorded energy error during free flight. The [source comparison](results/woven-deep-current-prefix20/source-vs-frozen.json) verifies identical physical inputs and reference descriptors; only the explicit prefix controls and source fingerprint differ from the frozen plan. The current checkout has not rerun all 14,460 steps of the published result.

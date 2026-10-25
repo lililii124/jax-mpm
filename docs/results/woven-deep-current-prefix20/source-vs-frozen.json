@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "current_source_commit": "008e5175e32e9f9f8ecf4c0efb781d375b1b0319",
+  "frozen_full_result_source_commit": "c5eccddd9d0857ecc3e0af6e3bfa356409817986",
+  "current_prefix_actual_steps": 20,
+  "published_frozen_full_steps": 14460,
+  "all_physical_plan_and_reference_descriptors_equal": true,
+  "explicit_plan_differences": [
+    "output_steps",
+    "probe_steps",
+    "source",
+    "stop_steps"
+  ],
+  "source_files": {
+    "examples/woven_deep_impact.py": {
+      "frozen_sha256": "8422e5e459f5abd73c6a2f1e2f0c07ce50f1c078967963e5c7ef5f13ee9998e6",
+      "current_sha256": "160c758af5509d95ce83296376787d08ff2a4302502fdf4cf20669ad9703e8c4",
+      "byte_identical": false
+    },
+    "tools/review_woven_large.py": {
+      "frozen_sha256": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e",
+      "current_sha256": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e",
+      "byte_identical": true
+    },
+    "examples/woven_large_plate.py": {
+      "frozen_sha256": "10d22d58685f6998c3bcea7f92fa406b0cb1d3feb2a77b3a946579b50685387a",
+      "current_sha256": "10d22d58685f6998c3bcea7f92fa406b0cb1d3feb2a77b3a946579b50685387a",
+      "byte_identical": true
+    },
+    "examples/woven_large_geometry.py": {
+      "frozen_sha256": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6",
+      "current_sha256": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6",
+      "byte_identical": true
+    },
+    "examples/woven_geometry.py": {
+      "frozen_sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "current_sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "byte_identical": true
+    },
+    "mpm_jax/packed_woven.py": {
+      "frozen_sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668",
+      "current_sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668",
+      "byte_identical": true
+    },
+    "mpm_jax/rigid_sphere_contact.py": {
+      "frozen_sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f",
+      "current_sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f",
+      "byte_identical": true
+    },
+    "mpm_jax/fibre_mpm.py": {
+      "frozen_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "current_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "byte_identical": true
+    },
+    "mpm_jax/materials/woven.py": {
+      "frozen_sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "current_sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "byte_identical": true
+    },
+    "mpm_jax/materials/elastic.py": {
+      "frozen_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "current_sha256": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+      "byte_identical": false
+    },
+    "mpm_jax/materials/johnson_cook.py": {
+      "frozen_sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "current_sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "byte_identical": true
+    },
+    "mpm_jax/materials/history.py": {
+      "frozen_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "current_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "byte_identical": true
+    },
+    "mpm_jax/materials/__init__.py": {
+      "frozen_sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "current_sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "byte_identical": true
+    },
+    "mpm_jax/particle_fields.py": {
+      "frozen_sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+      "current_sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+      "byte_identical": true
+    }
+  },
+  "unchanged_existing_elastic_definitions": [
+    "Material",
+    "LinearMaterial",
+    "BlatzKo",
+    "blatz_ko",
+    "_concrete",
+    "_positive",
+    "neo_hookean",
+    "fluid",
+    "orthotropic",
+    "linear_elastic",
+    "transverse_isotropic",
+    "linear_stress"
+  ],
+  "added_elastic_branch": "orthotropic-svk is not called by packed_woven material_model woven; existingneo_hookean/orthotropic factories and custom woven stress/energy are unchanged",
+  "changed_entry": "New optional immutable probe flag; default full-plan parameters remain original",
+  "scope": "Current entry/resource/free-flight prefix passed. This is not a rerun or bitwise validation of all frozen14460 steps. Frozen full history retains original source binding."
+}

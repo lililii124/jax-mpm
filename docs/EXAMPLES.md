@@ -113,6 +113,8 @@ material failure; its damage field does not represent a resolved crack.
 
 ## Woven composites
 
+The [deep sphere-impact example](WOVEN_DEEP_IMPACT.md) provides a 160 mm clamped plate, the completed frozen 40 J result, and separate current-checkout prefix and continuation commands.
+
 The [woven guide](WOVEN_COMPOSITES.md) describes the geometry, material axes and
 model limits. `plain`, `triaxial` and `twill-2x2` each support `warp-tension`,
 `weft-tension`, `in-plane-shear`, `transverse-compression` and

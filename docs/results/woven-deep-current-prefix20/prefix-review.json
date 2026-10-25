@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "current_entry_source": {
+    "files": {
+      "examples/woven_deep_impact.py": "160c758af5509d95ce83296376787d08ff2a4302502fdf4cf20669ad9703e8c4",
+      "tools/review_woven_large.py": "2d80d879544cc49e58b1f648cecc8da3ca5216e20e639662a76eb33275adaa9e",
+      "examples/woven_large_plate.py": "10d22d58685f6998c3bcea7f92fa406b0cb1d3feb2a77b3a946579b50685387a",
+      "examples/woven_large_geometry.py": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6",
+      "examples/woven_geometry.py": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "mpm_jax/packed_woven.py": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668",
+      "mpm_jax/rigid_sphere_contact.py": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/materials/woven.py": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+      "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "mpm_jax/particle_fields.py": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+    },
+    "fingerprint": "e6e4041f31a55c70689ec12e9d8825bfe10f3fde47ea4ce4337e20eec74f6484"
+  },
+  "particles": 819200,
+  "actual_steps": 20,
+  "full_plan_steps": 14460,
+  "probe_complete": true,
+  "full_protocol_completed": false,
+  "min_J": 1.0,
+  "mass_kg": 0.059391999999999986,
+  "system_momentum_residual_Ns": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "energy_review": {
+    "peak_center_indentation_m": -0.0,
+    "target_m": 0.002,
+    "stable": true,
+    "clamp_passed": true,
+    "material_energy_passed": true,
+    "independent_final_material_energy_J": 0.0,
+    "final_yarn_green_strain_norm": 0.0,
+    "max_relative_energy_error": 0.0,
+    "energy_passed": true,
+    "completed": false,
+    "accepted": false,
+    "scope": "Saved-frame peak center ROI displacement; deeper peaks between saved frames are not resolved. Elastic demonstration only."
+  },
+  "scope": "Current-checkout20-step prefix; free flight before impact. Entry/resource/initial validity check, not a revalidation of the frozen61-frame impact or its deformation response."
+}
