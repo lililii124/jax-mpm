@@ -94,6 +94,11 @@ def main():
         stopping_work='Actual coupled work defect <= original total energy tolerance',
         old_work_bound_budget_J=.025*tol, old_norm_work_bound_diagnostic_only=True,
         original_64eps_kinematic_gates_unchanged=True)
+    report['contact_geometry_contract'] = dict(
+        mass_and_motion_space='P0 fixed for the entire material/force step and endpoint impact',
+        coupled='Physical sampler reconstructed at actual qmid; entire adjoint restricted to P0',
+        endpoint='Physical sampler reconstructed at actual q1 for P0 impact, then original current-q1 P1 remap/contact',
+        angular_state_or_reaction_correction=False, production_all_JAX=False)
     frame = None
     started = time.monotonic()
 
@@ -231,6 +236,9 @@ def main():
                         piola @ np.linalg.inv(old['reference_root']).swapaxes(-1, -2))
             raw = np.concatenate((np.zeros((len(fixed), 3, 1)), covector), axis=2).transpose(0, 2, 1).reshape(-1, 3)
             force, reaction_force, force_rows = frame.force(raw)
+            from tools.metal_affine_objective_contact_numpy import update_contact_geometry
+            contact_configuration=dict(old,x=.5*(old['x']+candidate['x']),F=Fmid) if args.contact_time_level=='midpoint' else candidate
+            objective_contact=update_contact_geometry(frame,contact_configuration,progress)
             if args.contact_time_level == 'midpoint':
                 proposed, contact_row, reaction_contact, physical_contact = midpoint_contact_velocity(y0, force, args.dt, frame.restricted)
                 multiplier_scale = 2.
@@ -248,6 +256,7 @@ def main():
                        residual_work_bound_J=float(residual_work_bound), contact=contact_row,
                        position_error=position_error, deformation_error=deformation_error,
                        force_projection=force_rows)
+            row['current_contact_construction']=objective_contact
             # The material solve used midpoint_y=(y0+guess)/2. Retain that
             # endpoint; replacing it by the next Picard proposal breaks the
             # common-time kinematics once projection roundoff dominates.
@@ -286,6 +295,10 @@ def main():
                 guessed_white=guess, proposed_white=proposed, raw_force=raw, projected_force=force,
                 reaction_force=reaction_force, reaction_contact=reaction_contact, physical_contact=physical_contact,
                 viscosity_piola=viscous, multiplier=multiplier_scale*frame.restricted.last_multiplier)
+            last_force_payload.update(objective_restricted_scalar_sampler=frame.restricted.restricted_H,
+                objective_contact_normals=frame.restricted.normal,
+                objective_contact_mobility=frame.restricted.mobility,
+                objective_contact_pair_coordinates=frame.contact.node_coordinates[frame.contact.pairs])
             if args.iteration_records == 'all':
                 np.savez_compressed(args.output/f'iteration-{iteration}-force.npz', **last_force_payload)
             record()
@@ -343,10 +356,13 @@ def main():
         state['candidate_white'] = y
         np.savez_compressed(args.output/'coupled-before-remap.npz', **state, midpoint_final_white=midpoint_actual)
         if args.contact_time_level == 'midpoint':
+            # Keep P0 until this impact is complete, but sample its physical
+            # contact at the actual endpoint rather than the stale start pose.
+            update_contact_geometry(frame,state,progress)
             contact('end-old-cone-contact')
             synchronize(state, y)
             state['candidate_white'] = y
-            report['contact_split'] = 'Fixed-cone midpoint motion, old-cone inelastic impact, remap, new-cone inelastic impact'
+            report['contact_split'] = 'Fixed-P0 current-midpoint motion, current-endpoint impact in P0, remap, current-endpoint impact in P1'
         frame.release()
         frame = None
         gc.collect()
