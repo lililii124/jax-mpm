@@ -19,7 +19,7 @@ def _grid_keys(body,nodes):
 
 
 @partial(jax.jit,static_argnames=('capacity',))
-def quadratic_reconstruction(x,mass,body,F,reference_root,dx,fixed_particles,ordered_node_keys,*,capacity=65536):
+def quadratic_reconstruction(x,mass,body,F,reference_root,dx,fixed_particles,ordered_node_keys=None,*,capacity=65536):
     """Build the original27-point Hermite reconstruction entirely in JAX.
 
     The supplied node roster belongs to the fixed-step preconditioner. Exact
@@ -37,23 +37,30 @@ def quadratic_reconstruction(x,mass,body,F,reference_root,dx,fixed_particles,ord
     gm=jnp.zeros(capacity,x.dtype).at[ids].add(mass[:,None]*weights,mode='drop')
     fixed=jnp.zeros(capacity,jnp.int32).at[ids].max(jnp.broadcast_to(fixed_particles[:,None],ids.shape).astype(jnp.int32),mode='drop')>0
     free=(gm>0)&~fixed
-    ordered=_grid_keys(ordered_node_keys[:,0],ordered_node_keys[:,1:])
-    selected=jnp.searchsorted(unique,ordered)
-    selected_keys=jnp.take(unique,selected,mode='fill',fill_value=-1)
-    selected_free=jnp.take(free,selected,mode='fill',fill_value=False)
+    if ordered_node_keys is None:
+        selected=jnp.arange(capacity);ordered=unique;width=1<<20;bias=1<<19
+        ordered_node_keys=jnp.stack((unique//(1<<60),(unique//(1<<40))%width-bias,(unique//width)%width-bias,unique%width-bias),axis=1)
+        roster_valid=jnp.asarray(True);active=free
+    else:
+        ordered=_grid_keys(ordered_node_keys[:,0],ordered_node_keys[:,1:]);selected=jnp.searchsorted(unique,ordered)
+        selected_keys=jnp.take(unique,selected,mode='fill',fill_value=-1);selected_free=jnp.take(free,selected,mode='fill',fill_value=False)
+        roster_valid=jnp.all(selected_keys==ordered)&jnp.all(selected_free)&(jnp.sum(free)==len(ordered));active=jnp.ones(len(ordered),bool)
     roster=jnp.full(capacity,-1,jnp.int32).at[selected].set(jnp.arange(len(ordered),dtype=jnp.int32),mode='drop')
-    slots=jnp.take(roster,ids,mode='fill',fill_value=-1);mask=slots>=0;safe=jnp.maximum(slots,0)
+    slots=jnp.take(roster,ids,mode='fill',fill_value=-1);mask=(slots>=0)&jnp.take(free,ids,mode='fill',fill_value=False);safe=jnp.maximum(slots,0)
     r=nodes*dx-x[:,None,:]
     gradient=4/dx**2*jnp.einsum('pki,pij->pkj',r,F@reference_root)
     basis=jnp.concatenate((jnp.ones(weights.shape+(1,),x.dtype),gradient),axis=-1)
     raw=jnp.sqrt(mass)[:,None]*weights
     norm2=jnp.zeros(capacity,x.dtype).at[ids].add(raw**2*jnp.sum(basis*basis,axis=-1),mode='drop')
-    norm=jnp.sqrt(jnp.take(norm2,selected,mode='fill',fill_value=0))
+    norm=jnp.sqrt(jnp.take(norm2,selected,mode='fill',fill_value=0));norm=jnp.where(active,norm,1.)
     scale=jnp.where(mask,raw/jnp.maximum(norm[safe],jnp.finfo(x.dtype).tiny),0.)
     encoded_safe=jnp.all((body>=0)&(body<2))&jnp.all(jnp.abs(nodes)<(1<<19))
     coverage=jnp.all(jnp.take(unique,ids,mode='fill',fill_value=-1)==keys)
-    valid=encoded_safe&coverage&jnp.all(selected_keys==ordered)&jnp.all(selected_free)&(jnp.sum(free)==len(ordered))&jnp.all(norm>0)
-    return dict(slots=safe,scale=scale,basis=basis,column_norm=norm,valid=valid,free_node_count=jnp.sum(free),mass_error=jnp.sum(gm)-jnp.sum(mass))
+    valid=encoded_safe&coverage&roster_valid&jnp.all(norm>0)
+    moment=jnp.zeros((capacity,3),x.dtype).at[ids].add(-mass[:,None,None]*weights[...,None]*r,mode='drop')
+    center=moment/jnp.where(gm>0,gm,1.)[:,None]
+    fixed_keys=jnp.sort(jnp.where((gm>0)&fixed,unique,jnp.iinfo(jnp.int64).max))
+    return dict(slots=safe,scale=scale,raw_scale=jnp.where(mask,raw,0.),basis=basis,column_norm=norm,valid=valid,node_keys=ordered_node_keys,node_active=active,active_rows=jnp.repeat(jnp.any(mask,axis=1),4),grid_mass=jnp.take(gm,selected,mode='fill',fill_value=0),center_offset=jnp.take(center,selected,axis=0,mode='fill',fill_value=0),fixed_grid_keys=fixed_keys,free_node_count=jnp.sum(free),mass_error=jnp.sum(gm)-jnp.sum(mass))
 
 
 def reconstructed_apply(parameters,z):
@@ -65,6 +72,87 @@ def reconstructed_apply(parameters,z):
 def reconstructed_transpose(parameters,y,nodes):
     values=jnp.einsum('pk,pkb,pbc->pkc',parameters['scale'],parameters['basis'],y.reshape(-1,4,y.shape[-1]))
     return jnp.zeros((nodes,y.shape[-1]),y.dtype).at[parameters['slots']].add(values)
+
+
+def raw_reconstructed_apply(parameters,z):
+    return jnp.einsum('pk,pkb,pkc->pbc',parameters['raw_scale'],parameters['basis'],z[parameters['slots']]).reshape(-1,z.shape[-1])
+
+
+def raw_reconstructed_transpose(parameters,y):
+    values=jnp.einsum('pk,pkb,pbc->pkc',parameters['raw_scale'],parameters['basis'],y.reshape(-1,4,y.shape[-1]))
+    return jnp.zeros((len(parameters['column_norm']),y.shape[-1]),y.dtype).at[parameters['slots']].add(values)
+
+
+def polynomial_modes(parameters,dx):
+    """Orthonormalize the8 exact body-polynomial modes, preserving zero rows."""
+    keys=parameters['node_keys'];coords=keys[:,1:]*dx;columns=[];valid=parameters['valid']
+    for body in range(2):
+        mask=(keys[:,0]==body)&parameters['node_active'];count=jnp.sum(mask);valid=valid&(count>0)
+        center=jnp.sum(jnp.where(mask[:,None],coords,0.),axis=0)/jnp.maximum(count,1)
+        columns.append(mask.astype(coords.dtype))
+        columns.extend(jnp.where(mask,(coords[:,axis]-center[axis])/dx,0.) for axis in range(3))
+    polynomials=jnp.stack(columns,axis=1);K=raw_reconstructed_apply(parameters,polynomials)
+    active=parameters['active_rows'];count=jnp.sum(active)
+    selected=jnp.nonzero(active,size=len(active),fill_value=0)[0];retained=jnp.arange(len(active))<count
+    packed=jnp.where(retained[:,None],K[selected],0.)
+    orthogonal,triangular=jnp.linalg.qr(packed,mode='reduced')
+    T=jnp.zeros_like(K).at[selected].add(jnp.where(retained[:,None],orthogonal,0.))
+    valid=valid&jnp.all(jnp.abs(jnp.diag(triangular))>0)
+    error=jnp.max(jnp.abs(T.T@T-jnp.eye(8)))
+    return T,polynomials,dict(valid=valid&jnp.all(jnp.isfinite(T))&(error<=1e-12),orthogonality_error=error)
+
+
+@partial(jax.jit,static_argnames=('pair_capacity','particle_capacity'))
+def physical_contact(parameters,T,polynomials,dx,fixed_node_keys=None,*,pair_capacity=512,particle_capacity=4096):
+    """Original centroid/affine sampler and exact adjoint, prepared in JAX.
+
+    Mobility uses contact-adjacent particles plus the8 polynomial modes. No P0
+    projection or full dense J is formed. Capacities are storage guards; an
+    overflow returns invalid and cannot drop an admitted contact or particle.
+    """
+    keys=parameters['node_keys'];encoded=_grid_keys(keys[:,0],keys[:,1:]);active=parameters['node_active'];gm=parameters['grid_mass'];n=len(gm)
+    target=encoded+(1<<60);partner=jnp.searchsorted(encoded,target)
+    shared=(keys[:,0]==0)&active&(jnp.take(encoded,partner,mode='fill',fill_value=-1)==target)&jnp.take(active,partner,mode='fill',fill_value=False)
+    count=jnp.sum(shared);first=jnp.nonzero(shared,size=pair_capacity,fill_value=0)[0];pair_active=jnp.arange(pair_capacity)<count
+    second=jnp.where(pair_active,jnp.take(partner,first),0)
+    delta=parameters['center_offset'][second]-parameters['center_offset'][first];length=jnp.linalg.norm(delta,axis=1)
+    normals=jnp.where((pair_active&(length>64*jnp.finfo(gm.dtype).eps*dx))[:,None],delta/jnp.where(length>0,length,1.)[:,None],0.)
+    owner=jnp.full(n,-1,jnp.int32).at[jnp.where(pair_active,first,n)].set(jnp.arange(pair_capacity),mode='drop')
+    owner=owner.at[jnp.where(pair_active,second,n)].set(jnp.arange(pair_capacity),mode='drop')
+    sign=jnp.zeros(n,gm.dtype).at[jnp.where(pair_active,first,n)].set(1.,mode='drop').at[jnp.where(pair_active,second,n)].set(-1.,mode='drop')
+    slot=parameters['slots'];row=owner[slot];adjacent=jnp.any((row>=0)&(parameters['raw_scale']!=0),axis=1)
+    particle_count=jnp.sum(adjacent);selected=jnp.nonzero(adjacent,size=particle_capacity,fill_value=0)[0];selected_active=jnp.arange(particle_capacity)<particle_count
+    pslot=slot[selected];prows=jnp.where(selected_active[:,None]&(row[selected]>=0),row[selected],pair_capacity)
+    coefficient=parameters['raw_scale'][selected]*sign[pslot]/jnp.where(gm[pslot]>0,gm[pslot],1.)
+    coefficient=coefficient[...,None]*parameters['basis'][selected]*selected_active[:,None,None]
+    columns=4*jnp.arange(particle_capacity)[:,None]+jnp.arange(4)[None,:]
+    H=jnp.zeros((pair_capacity,4*particle_capacity),gm.dtype).at[prows[...,None],columns[:,None,:]].add(coefficient,mode='drop')
+    K=raw_reconstructed_apply(parameters,polynomials);mix=T.T@K;gridT=jnp.linalg.solve(mix.T,polynomials.T).T
+    reconstructedT=raw_reconstructed_transpose(parameters,T)/jnp.where(gm>0,gm,1.)[:,None]
+    correction=(gridT[first]-gridT[second])-(reconstructedT[first]-reconstructedT[second]);correction=jnp.where(pair_active[:,None],correction,0.)
+    localT=T.reshape(-1,4,8)[selected].reshape(-1,8);G=H@localT
+    gram=H@H.T+G@correction.T+correction@G.T+correction@(T.T@T)@correction.T
+    mobility=gram*(normals@normals.T);mobility=.5*(mobility+mobility.T)
+    fixed_hit=jnp.asarray(False)
+    if fixed_node_keys is not None:
+        for selected_nodes in (first,second):
+            value=encoded[selected_nodes];hit=jnp.take(fixed_node_keys,jnp.searchsorted(fixed_node_keys,value),mode='fill',fill_value=-1)==value
+            fixed_hit=fixed_hit|jnp.any(pair_active&hit)
+    valid=parameters['valid']&(count<=pair_capacity)&(particle_count<=particle_capacity)&jnp.all(jnp.isfinite(mobility))&(~fixed_hit)&jnp.all(encoded[1:]>=encoded[:-1])
+    return dict(first=first,second=second,normals=normals,correction=correction,modes=T,mobility=mobility,valid=valid,pair_count=count,adjacent_particle_count=particle_count,contact_reaches_original_fixed_node=fixed_hit,grid_mass=gm)
+
+
+def physical_sample(reconstruction,contact,y):
+    grid=raw_reconstructed_transpose(reconstruction,y)/jnp.where(contact['grid_mass']>0,contact['grid_mass'],1.)[:,None]
+    relative=grid[contact['first']]-grid[contact['second']]+contact['correction']@(contact['modes'].T@y)
+    return jnp.sum(relative*contact['normals'],axis=1)
+
+
+def physical_adjoint(reconstruction,contact,multiplier):
+    impulse=multiplier[:,None]*contact['normals'];n=len(contact['grid_mass'])
+    grid=jnp.zeros((n,3),impulse.dtype).at[contact['first']].add(impulse).at[contact['second']].add(-impulse)
+    grid=grid/jnp.where(contact['grid_mass']>0,contact['grid_mass'],1.)[:,None]
+    return raw_reconstructed_apply(reconstruction,grid)+contact['modes']@(contact['correction'].T@impulse)
 
 
 def _bounded_loop(body,state,limit,stopped):
@@ -113,11 +201,14 @@ def consistent_project(y,apply,transpose,modes,right,right_transpose,*,iteration
     return projected,dict(converged=done,iterations=count,physical_normal_residual=normal,physical_normal_relative_residual=normal/jnp.maximum(initial,jnp.finfo(y.dtype).tiny),kinetic_loss=.5*jnp.sum(y*y-projected*projected),orthogonality=jnp.sum(projected*(y-projected)))
 
 
-def cone_project(y,sample,adjoint,mobility,*,sweeps=512,tolerance=.005):
+def cone_project(y,sample,adjoint,mobility,*,sweeps=512,tolerance=.005,physical_rows=None):
     """Original positive-diagonal congruence QP, in original m/s KKT units."""
     g=sample(y);diagonal=jnp.diag(mobility);positive=diagonal>0
     scale=jnp.where(positive,jax.lax.rsqrt(jnp.where(positive,diagonal,1.)),1.)
     M=scale[:,None]*mobility*scale[None,:];rhs=scale*g
+    eig=jnp.linalg.eigvalsh(.5*(M+M.T));rows=mobility.shape[0] if physical_rows is None else physical_rows
+    threshold=rows*jnp.finfo(y.dtype).eps*jnp.max(eig,initial=0.)
+    psd=(jnp.min(eig,initial=0.)>=-threshold)&jnp.all(jnp.where(positive[:,None],True,mobility==0))
     feasible=jnp.max(g,initial=0.)<=tolerance
     def sweep(_,state):
         mu,gradient,done,count=state
@@ -133,8 +224,8 @@ def cone_project(y,sample,adjoint,mobility,*,sweeps=512,tolerance=.005):
     mu,_,done,count=_bounded_loop(sweep,(jnp.zeros_like(g),-rhs,feasible,jnp.asarray(0)),sweeps,lambda s:s[-2])
     lam=scale*mu;delta=-adjoint(lam);following=y+delta;final=sample(following)
     kkt=jnp.max(jnp.where(lam>0,jnp.abs(final),jnp.maximum(final,0.)),initial=0.)
-    valid=(kkt<=tolerance)&jnp.all(jnp.where(positive,True,g<=tolerance))&jnp.all(diagonal>=0)
-    return following,lam,dict(valid=valid,sweeps=count,complementarity_m_s=kkt,closing_m_s=jnp.max(final,initial=0.),identity_J=.5*jnp.sum(following**2-y**2+delta**2)+jnp.dot(lam,final))
+    valid=psd&(kkt<=tolerance)&jnp.all(jnp.where(positive,True,g<=tolerance))&jnp.all(diagonal>=0)
+    return following,lam,dict(valid=valid,sweeps=count,mobility_rank=jnp.sum(eig>threshold),mobility_rank_threshold=threshold,minimum_balanced_eigenvalue=jnp.min(eig,initial=0.),complementarity_m_s=kkt,closing_m_s=jnp.max(final,initial=0.),identity_J=.5*jnp.sum(following**2-y**2+delta**2)+jnp.dot(lam,final))
 
 
 def intersect_project(trial,project_range,project_cone,sample,*,iterations=128,relative_tolerance=1e-10,closing_tolerance=.005):

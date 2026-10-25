@@ -14,7 +14,7 @@ from jax.scipy.linalg import solve_triangular
 from tools.metal_affine_projection_numpy import ConsistentAffineProjection
 from tools.metal_affine_contact_numpy import CompatibleContact
 from tools.metal_affine_dynamic_numpy import moments
-from mpm_jax.fragment_v6_matrixfree_projection import sparse_apply,consistent_project,cone_project,intersect_project,quadratic_reconstruction,reconstructed_apply,reconstructed_transpose
+from mpm_jax.fragment_v6_matrixfree_projection import sparse_apply,consistent_project,cone_project,intersect_project,quadratic_reconstruction,reconstructed_apply,reconstructed_transpose,polynomial_modes,physical_contact,physical_sample,physical_adjoint
 
 
 def triangular_blocks(matrix,size=128):
@@ -61,7 +61,7 @@ def main():
     parent=Path('/original/result/step-22/accepted.npz');gold_path=Path('/gold/result/midpoint-raw.npz')
     parent_sha=hashlib.file_digest(parent.open('rb'),'sha256').hexdigest();assert parent_sha=='3579600dd7d78cfa728b3478f071d416d15e6226c5799012d37d346aa0530809'
     old=load(parent)
-    with np.load(gold_path,allow_pickle=False) as z:gold={k:z[k] for k in ('trial','following','normals','geometry_x','geometry_F')}
+    with np.load(gold_path,allow_pickle=False) as z:gold={k:z[k] for k in ('trial','following','physical','multiplier','normals','geometry_x','geometry_F')}
     args=(old['x'],old['mass'],old['body_id'],.00025,old['F'],old['reference_root'])
     allowed=ConsistentAffineProjection(*args,clamped_particles=old['candidate_fixed_particles'])
     config=dict(old,x=gold['geometry_x'],F=gold['geometry_F'])
@@ -77,7 +77,6 @@ def main():
         m=matrix.tocoo();data,row,col=map(jnp.asarray,(m.data,m.row.astype(np.int32),m.col.astype(np.int32)))
         parameters=(data,row,col)
         return (lambda x,p=parameters:sparse_apply(p[0],p[1],p[2],x,m.shape[0]),lambda x,p=parameters:sparse_apply(p[0],p[2],p[1],x,m.shape[1]),parameters)
-    B,BT,b_parameters=sparse(contact.B0)
     native_started=time.monotonic()
     native=quadratic_reconstruction(*(jnp.asarray(old[k]) for k in ('x','mass','body_id','F','reference_root')),jnp.asarray(.00025),jnp.asarray(old['candidate_fixed_particles']),jnp.asarray(allowed.node_keys[allowed.order]))
     assert bool(native['valid']), 'Native node roster/finite storage coverage failed; do not solve'
@@ -87,20 +86,34 @@ def main():
     q_error=float(np.linalg.norm(q_actual-allowed.Qp@probe)/np.linalg.norm(allowed.Qp@probe));qt_error=float(np.linalg.norm(qt_actual-probe)/np.linalg.norm(probe))
     assert max(q_error,qt_error)<=1e-12
     native_report=dict(valid=True,free_nodes=int(native['free_node_count']),capacity=65536,mass_error=float(native['mass_error']),forward_relative_difference=q_error,transpose_relative_difference=qt_error,setup_and_probe_seconds=time.monotonic()-native_started,source='JAX quadratic stencil, node discovery, clamp coverage, mass/column metrics and tensor reconstruction; no assembled reconstruction COO in solver')
-    T=jnp.asarray(allowed.T);currentT=jnp.asarray(current.T);C=jnp.asarray(contact.C);M=jnp.asarray(contact.mobility)
-    def sample(y):return B(y.ravel())+C@(currentT.T@y).ravel()
-    def adjoint(lam):return BT(lam).reshape(-1,3)+currentT@(C.T@lam).reshape(currentT.shape[1],3)
+    T,_,mode_report=jax.jit(polynomial_modes)(native,jnp.asarray(.00025));assert bool(mode_report['valid'])
+    full=quadratic_reconstruction(jnp.asarray(config['x']),jnp.asarray(config['mass']),jnp.asarray(config['body_id']),jnp.asarray(config['F']),jnp.asarray(config['reference_root']),jnp.asarray(.00025),jnp.zeros(len(old['mass']),bool))
+    currentT,poly,full_mode_report=jax.jit(polynomial_modes)(full,jnp.asarray(.00025));assert bool(full_mode_report['valid'])
+    native_contact=physical_contact(full,currentT,poly,jnp.asarray(.00025),native['fixed_grid_keys']);assert bool(native_contact['valid'])
+    active_pairs=len(contact.pairs);assert int(native_contact['pair_count'])==active_pairs
+    for side in range(2):
+        found=np.asarray(full['node_keys'])[np.asarray(native_contact['first' if side==0 else 'second'])[:active_pairs]]
+        expected_keys=np.column_stack((contact.node_body[contact.pairs[:,side]],contact.node_coordinates[contact.pairs[:,side]]))
+        assert np.array_equal(found,expected_keys)
+    sample_native=np.asarray(jax.jit(physical_sample)(full,native_contact,jnp.asarray(trial_np)))[:active_pairs]
+    sample_reference=contact.sample(trial_np);sample_error=float(np.linalg.norm(sample_native-sample_reference)/np.linalg.norm(sample_reference))
+    multiplier=jnp.pad(jnp.asarray(gold['multiplier']),(0,len(native_contact['first'])-active_pairs))
+    adjoint_native=np.asarray(jax.jit(physical_adjoint)(full,native_contact,multiplier))
+    adjoint_error=float(np.linalg.norm(adjoint_native+gold['physical'])/np.linalg.norm(gold['physical']))
+    mobility_error=float(np.linalg.norm(np.asarray(native_contact['mobility'])[:active_pairs,:active_pairs]-contact.mobility)/np.linalg.norm(contact.mobility))
+    assert max(sample_error,adjoint_error,mobility_error)<=1e-11
+    contact_report=dict(valid=True,pairs=active_pairs,pair_storage_capacity=len(native_contact['first']),adjacent_particles=int(native_contact['adjacent_particle_count']),particle_storage_capacity=4096,sample_relative_difference=sample_error,adjoint_relative_difference=adjoint_error,mobility_relative_difference=mobility_error,allowed_mode_orthogonality=float(mode_report['orthogonality_error']),physical_mode_orthogonality=float(full_mode_report['orthogonality_error']),source='JAX node pairing, centroid normals, affine modes/correction, local physical mobility, sample and exact adjoint; no reference contact arrays used by solver')
     trial=jnp.asarray(gold['trial']);prepare_seconds=time.monotonic()-started
     nodes=allowed.nodes
-    parameters=dict(upper=upper_parameters,lower=lower_parameters,reconstruction=native,b=b_parameters,root=root,T=T,currentT=currentT,C=C,M=M)
+    parameters=dict(upper=upper_parameters,lower=lower_parameters,reconstruction=native,full_reconstruction=full,contact=native_contact,root=root,T=T)
     def kernel(y,p):
         q=lambda x:reconstructed_apply(p['reconstruction'],x);qt=lambda x:reconstructed_transpose(p['reconstruction'],x,nodes)
         right=lambda x:upper(p['root'][:,None]*x,p['upper'])
         rightT=lambda x:p['root'][:,None]*lower(x,p['lower'])
-        sample=lambda x:B(x.ravel(),p['b'])+p['C']@(p['currentT'].T@x).ravel()
-        adjoint=lambda lam:BT(lam,p['b']).reshape(-1,3)+p['currentT']@(p['C'].T@lam).reshape(p['currentT'].shape[1],3)
+        sample=lambda x:physical_sample(p['full_reconstruction'],p['contact'],x)
+        adjoint=lambda lam:physical_adjoint(p['full_reconstruction'],p['contact'],lam)
         project_range=lambda x:consistent_project(x,q,qt,p['T'],right,rightT,iterations=64)
-        project_cone=lambda x:cone_project(x,sample,adjoint,p['M'],sweeps=512,tolerance=1e-7)
+        project_cone=lambda x:cone_project(x,sample,adjoint,p['contact']['mobility'],sweeps=512,tolerance=1e-7,physical_rows=p['contact']['pair_count'])
         return intersect_project(y,project_range,project_cone,sample,iterations=64)
     solve=jax.jit(kernel)
     print(json.dumps(dict(phase='jax-compiling',prepare_seconds=prepare_seconds,particles=len(old['mass']),preconditioner=pc,scope='SciPy preparation; pure JAX iterative kernel, not all-JAX impact integration')),flush=True)
@@ -112,13 +125,14 @@ def main():
     begun=time.monotonic();following,report=compiled(trial,parameters);following.block_until_ready();solve_seconds=time.monotonic()-begun
     following=np.asarray(following);values={k:np.asarray(v) for k,v in report.items()};physical=values.pop('physical_impulse');reaction=values.pop('boundary_reaction');lam=values.pop('multiplier')
     report={k:v.item() for k,v in values.items()};relative=float(np.linalg.norm(following-gold['following'])/np.linalg.norm(gold['following']))
-    native=contact.sample(following);kkt=float(np.max(np.where(lam>0,abs(native),np.maximum(native,0)),initial=0))
-    dualphysical=-contact.adjoint(lam);dualdifference=float(np.linalg.norm(physical-dualphysical))
+    native_values=contact.sample(following);assert np.all(lam[active_pairs:]==0)
+    kkt=float(np.max(np.where(lam[:active_pairs]>0,abs(native_values),np.maximum(native_values,0)),initial=0))
+    dualphysical=-contact.adjoint(lam[:active_pairs]);dualdifference=float(np.linalg.norm(physical-dualphysical))
     P,L=moments(config,2*physical);boundarywork=float(np.sum(following*2*reaction));contactwork=float(np.sum(following*2*physical))
     tol=1.414599609375e-8;torquetol=1.5782228774332438e-14
     passed=bool(report['converged'] and relative<=1e-10 and kkt<=.005 and abs(boundarywork)<=tol and contactwork<=tol and np.linalg.norm(L)<=torquetol)
     np.savez_compressed(out/'jax-raw.npz',trial=np.asarray(trial),following=following,physical=physical,reaction=reaction,multiplier=lam)
-    result=dict(status='passed' if passed else 'failed',parent_checkpoint_sha256=parent_sha,golden_npz_sha256=hashlib.file_digest(gold_path.open('rb'),'sha256').hexdigest(),source_input='Original accepted22 and already-solved same frozen qmid golden; no replay',particles=len(old['mass']),prepare_seconds=prepare_seconds,compile_seconds=compile_seconds,solve_seconds=solve_seconds,relative_velocity_difference=relative,original_KKT_m_s=kkt,physical_dual_difference=dualdifference,physical_momentum=P.tolist(),physical_torque=L.tolist(),boundary_work_J=boundarywork,contact_work_J=contactwork,report=report,preconditioner=pc,native_reconstruction=native_report,migration_boundary='Reconstruction preparation and all iterative solves JAX64. Current physical contact sampler, polynomial deflation modes and exact sparse LDL setup remain reference-prepared. No146-column Schur or JIT callbacks. Not yet an all-JAX impact step.')
+    result=dict(status='passed' if passed else 'failed',parent_checkpoint_sha256=parent_sha,golden_npz_sha256=hashlib.file_digest(gold_path.open('rb'),'sha256').hexdigest(),source_input='Original accepted22 and already-solved same frozen qmid golden; no replay',particles=len(old['mass']),prepare_seconds=prepare_seconds,compile_seconds=compile_seconds,solve_seconds=solve_seconds,relative_velocity_difference=relative,original_KKT_m_s=kkt,physical_dual_difference=dualdifference,physical_momentum=P.tolist(),physical_torque=L.tolist(),boundary_work_J=boundarywork,contact_work_J=contactwork,report=report,preconditioner=pc,native_reconstruction=native_report,native_contact=contact_report,migration_boundary='Reconstruction, centroid/affine contact/mobility preparation, polynomial modes and iterative solves JAX64. Exact sparse LDL preconditioner setup remains reference-prepared. No restricted146-column Schur or JIT callbacks. Not yet installed as an all-JAX impact step.')
     (out/'review.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result),flush=True)
     assert passed,'Bounded frozen-input migration failed; preserve raw and diagnose, do not integrate'
 
