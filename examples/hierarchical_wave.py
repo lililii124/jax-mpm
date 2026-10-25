@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 import subprocess
 import shutil
+import platform
 from time import perf_counter
 
 import jax
@@ -23,6 +24,17 @@ from mpm_jax.hierarchical_streaming import advance_streamed, initial_state_strea
 from mpm_jax.materials import neo_hookean
 
 jax.config.update("jax_enable_x64", True)
+
+
+def source_revision():
+    capsule = ROOT / "source-capsule.json"
+    if capsule.exists():
+        manifest = json.loads(capsule.read_text())
+        for name, digest in manifest["files"].items():
+            if hashlib.sha256((ROOT / name).read_bytes()).hexdigest() != digest:
+                raise ValueError(f"Changed capsule source: {name}")
+        return manifest["commit"]
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
 def sample_bar(resolution, h=.0025, transverse_ppc=2):
@@ -247,7 +259,8 @@ def main():
         "compile_seconds": compile_seconds, "solve_and_checkpoint_seconds": solver_seconds,
         "frames": frames, "versions": {"jax": jax.__version__, "numpy": np.__version__},
         "source": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files},
-        "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "commit": source_revision(),
+        "runtime": {"python": platform.python_version(), "jaxlib": jax.lib.__version__},
     }
     (args.output / "review.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({key: value for key, value in report.items() if key not in ("source", "frames")}, indent=2), flush=True)
