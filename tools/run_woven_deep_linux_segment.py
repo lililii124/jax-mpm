@@ -49,11 +49,13 @@ def main():
         target = folder/source.name
         shutil.copy2(source, target);os.chmod(target,0o600);copied.append(source.name)
     for directory in ('atomic-frames', 'frames_data'):
-        target = a.output.parent/directory;target.mkdir()
+        target = a.output.parent/directory;target.mkdir(exist_ok=True)
         prior = a.parent/directory
-        if prior.exists():
+        if prior.exists() and directory=='frames_data':
             for source in prior.iterdir():
-                if source.is_file():os.link(source,target/source.name)
+                if source.is_file() and not (target/source.name).exists():
+                    try:os.link(source,target/source.name)
+                    except OSError:shutil.copy2(source,target/source.name)
     sample, plan = base.load_saved_case(folder)
     assert plan['deep_impact']['initial_energy_J']==40 and plan['frames']==60 and plan['particles']==819200
     assert 34<=contract['parent_frame']<contract['target_frame']<=60 and contract['target_frame']-contract['parent_frame']<=3
