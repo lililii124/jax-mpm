@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "parent_task": "metal-fast-continue160",
+  "source_commit": "8efac7db20dd59e60a23bf8974153091cd3aed07",
+  "parent_checkpoint_sha256": "73aaeb1b942742d269baf2ac90311c40ea756c24054c802298bc26773b8d422b",
+  "original_physical_gates_unchanged": true,
+  "fixed_state_verification_passed": true,
+  "physical_steps_replayed": 0,
+  "geometries_reconstructed": 1,
+  "closing_probes": 1,
+  "saved_state_closing_m_s": 1.4452439245360438e-11,
+  "old_rejected_state_reproduced_exactly": true,
+  "old_complementarity_m_s": 854.157161293725,
+  "new_actual_feasible_fast_path": true,
+  "probe_full_closing_m_s": 5.314859663485549e-12,
+  "probe_complementarity_m_s": 5.3717030823463574e-12,
+  "raw_condition": 858.8245280540715,
+  "balanced_condition": 101.57428547427239,
+  "mobility_rank": 137,
+  "scope": "Physical rejection remains archived; this evidence permits root-reviewed new-source continuation from acceptedstep17, not a resource restart or fragment-cloud admission",
+  "evidence_sha256": "f0a52ae36f62277a2a8026493348fd7706e6c0ae45be38e5a508989fe2b7edf7"
+}
