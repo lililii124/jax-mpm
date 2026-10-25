@@ -81,3 +81,14 @@ def test_shared_schedule_uses_both_limits_and_stops_at_first_rejection():
     np.testing.assert_allclose(dt,[.2,.1])
     assert len(calls)==4 and old.time==delta.time
     assert calls[0][2]==calls[1][2] and calls[2][2]==calls[3][2]
+
+
+def test_report_serializes_numpy_scalar_rejection_without_changing_gate():
+    import json
+    import pytest
+    from examples.metal_fragment_v6_delta125 import json_numpy_scalar
+    result={'checks':{'shape':np.bool_(False)},'limit':np.float64(.2),'steps':np.int64(12)}
+    decoded=json.loads(json.dumps(result,allow_nan=False,default=json_numpy_scalar))
+    assert decoded=={'checks':{'shape':False},'limit':.2,'steps':12}
+    with pytest.raises(ValueError):json.dumps({'invalid':np.float64(np.nan)},allow_nan=False,default=json_numpy_scalar)
+    with pytest.raises(TypeError):json.dumps({'unsupported':object()},default=json_numpy_scalar)

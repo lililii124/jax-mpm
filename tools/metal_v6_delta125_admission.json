@@ -6,7 +6,7 @@
     "examples/metal_fragment_multifield_compact.py": "40151803555480dc169c71b20aa9e5d7d470d0dfd16e74b7d6deacc858c31b5d",
     "examples/metal_fragment_multifield_v2.py": "f72383821f7769884a66221d69b4f8ad61b3b33ec7a4bfc407e02e3636348d96",
     "examples/metal_fragment_multifield_v3.py": "4a1fce817f9e93a0a8a031c275b9b7269f774f8df94447b78964b70323505655",
-    "examples/metal_fragment_v6_delta125.py": "0de50bf962ad09298623bcea7fe3a94c146ec8c111bec666bbc0f5fc9d82c8c4",
+    "examples/metal_fragment_v6_delta125.py": "9409bf6a2fa5ddf10a67214935033dc8e4f2bf91f28fb606e7c23f0affd4e9c7",
     "examples/metal_plate_geometry.py": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
     "examples/metal_sphere_geometry.py": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
     "examples/metal_sphere_impact_fracture.py": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
@@ -73,5 +73,6 @@
     "baseline_authentication": "Use exact producer original.advance_to and original advance_to_traced wrappers at CFL.1, compare all35 original/probe/saved arrays bitwise, prescribed original dt1 trace bytes exactly, and all original per-step energy channels within64eps. New scan wrappers are excluded from baseline authentication."
   },
   "supersedes_failed_run": "40160319691: old fixed original schedule violates candidate CFL from step2; invalid carry never reused.",
-  "prior_compiler_wrapper_finding": "Failed run40160319691 had14 floating fields differ at roundoff scale between paired-scan and candidate-only-scan wrappers. Not admitted. New shared protocol invokes the identical compiled candidate.step API in both primary and independent replay, with diagnostic collection on host."
+  "prior_compiler_wrapper_finding": "Failed run40160319691 had14 floating fields differ at roundoff scale between paired-scan and candidate-only-scan wrappers. Not admitted. New shared protocol invokes the identical compiled candidate.step API in both primary and independent replay, with diagnostic collection on host.",
+  "report_serialization": "Convert NumPy scalar values with .item() only; preserve boolean gates, reject unsupported objects and nonfinite JSON. No numerical or acceptance change."
 }

@@ -11,6 +11,12 @@ import numpy as np
 def sha(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def json_numpy_scalar(value):
+    """Convert NumPy scalar report values without altering any admission gate."""
+    if isinstance(value,np.generic): return value.item()
+    raise TypeError(f'Unsupported report type: {type(value).__name__}')
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--audit',type=Path,required=True);p.add_argument('--admission',type=Path,required=True)
@@ -122,7 +128,7 @@ def main():
                    first_rejected_cfl_limit_s=float(np.asarray(cd.dt_limit)[first_rejected]) if first_rejected is not None else None,
                    rows_after_first_rejection='None: shared adaptive loop stops after first rejected update.')
     result=dict(admitted=all(checks.values()),checks=checks,validation_errors=validation_errors,candidate_execution=execution,shape_screen=shapes,physical_audit=audit,candidate_numerical_increment_J=delta,baseline_numerical_increment_J=base_delta,required_reduction_J=required_reduction,maximum_step_transfer_identity_residual_J=float(np.max(abs(identity))),scope='125--135ns shared minimum-CFL diagnostic screen; temporal envelope is not validation. Original dt1 replay authenticates baseline only. Scan halts after first rejection.',production_restart_allowed=False,public_media_allowed=False)
-    (a.output/'comparison.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
+    (a.output/'comparison.json').write_text(json.dumps(result,indent=2,allow_nan=False,default=json_numpy_scalar)+'\n')
     if not result['admitted']: raise RuntimeError('Candidate rejected; retain all raw')
 
 
