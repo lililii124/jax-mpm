@@ -1,0 +1,1931 @@
+{
+  "artifact_sha256": "5652d8420bb8e66f2cb13eaec06b56fcc918ac1df510d3bd03fc4778d89007e1",
+  "frames": 113,
+  "all_frame_finite_bounds_irreversible_and_time": true,
+  "parent97_frames_byte_identical": true,
+  "max_frame_native_field_error": 4.440892098500626e-16,
+  "final_fracture_density_error": 2.0816681711721685e-17,
+  "source_files_checked": 51,
+  "workflow_alias_identical": true,
+  "native_renderer_confirmed": true,
+  "summary": {
+    "particles": 28800,
+    "nodes": 11745,
+    "steps": 2800,
+    "dx": 0.025,
+    "length": 0.05,
+    "dt": 5.9999999999999995e-05,
+    "gc": 0.005,
+    "speed": 0.15,
+    "damage_interval": 1,
+    "snapshot_every": 25,
+    "time": 0.16799999999999998,
+    "maximum_damage": 0.9963614084880994,
+    "maximum_kkt": 9.999112731260658e-08,
+    "minimum_nodal_damage_increment": 0.0,
+    "maximum_abs_step_audit": {
+      "p2g_loss": 3.8464124148902736e-07,
+      "g2p_loss": 3.923149267819103e-07,
+      "damping_loss": 2.2772424774684073e-07,
+      "boundary_work": 2.7215268590385775e-06,
+      "stress_work": 9.975327175238026e-07,
+      "kinetic_balance_error": 1.3218415686317078e-19,
+      "constitutive_work_defect": 7.261369564392179e-08,
+      "total_balance_error": 1.3217105417678553e-19
+    },
+    "maximum_strain": 0.1434883388591862,
+    "energy": [
+      0.0002990982412550652,
+      9.445542402062341e-05,
+      0.0007096642474512674
+    ],
+    "end_velocity_boundary_work": 0.0029400196501827036,
+    "energy_audit": {
+      "p2g_loss": 0.0006613006694521631,
+      "g2p_loss": 0.0006768373347063486,
+      "damping_loss": 0.00048702328971856034,
+      "boundary_work": 0.002864287069836764,
+      "stress_work": -0.0007400275347046354,
+      "kinetic_balance_error": 2.553520783540522e-18,
+      "constitutive_work_defect": 6.409213676725506e-05,
+      "total_balance_error": 2.5590044579854732e-18
+    },
+    "boundary_work": 0.002864287069836764,
+    "energy_minus_work": -0.001761069157109808,
+    "damaged_notch_band_particles": 1792,
+    "offband_maximum_damage": 0.4633353423947352,
+    "damaged_ligament_particles": 4848,
+    "method": "small-strain total-Lagrangian PIC MPM; dynamic ramp; damping 5/s"
+  },
+  "resource": {
+    "completed": true,
+    "command": [
+      "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python",
+      "-m",
+      "examples.phase_field_visible_crack",
+      "--dx",
+      ".025",
+      "--length",
+      ".05",
+      "--gc",
+      ".005",
+      "--speed",
+      ".15",
+      "--damage-interval",
+      "1",
+      "--steps",
+      "2800",
+      "--snapshot-every",
+      "25",
+      "--resume",
+      "/home/runner/work/jax-mpm/jax-mpm/outputs/phase-field-parent2400/raw",
+      "--output",
+      "/home/runner/work/jax-mpm/jax-mpm/outputs/phase-field-visible-crack2800/raw"
+    ],
+    "peak_tree_uss_bytes": 1392140288,
+    "uss_limit_bytes": 5905580032,
+    "seconds_limit": 5400,
+    "minimum_available_bytes": 2147483648,
+    "guard_reason": null,
+    "returncode": 0,
+    "elapsed_seconds": 106.307496961
+  },
+  "crack": {
+    "passed": true,
+    "criteria": {
+      "contiguous_crack": true,
+      "load_drop": true,
+      "irreversible": true,
+      "kkt": true,
+      "nodal_quadrature_fields_match": true,
+      "energy_identities": true,
+      "transfer_losses_nonnegative": true,
+      "constitutive_defect_below_5_percent": true,
+      "nodal_damage_bounds": true,
+      "damage_bounds": true
+    },
+    "threshold": 0.99,
+    "connectivity": "six face neighbors on reference particle lattice, |y-.5|<=.13",
+    "minimum_extension": 0.1,
+    "minimum_thickness_fraction": 0.8,
+    "components": [
+      {
+        "points": 768,
+        "extension": 0.13125000000000003,
+        "thickness_fraction": 1.0
+      }
+    ],
+    "peak_reaction": 0.2875240859792654,
+    "final_reaction": 0.07354448275390936,
+    "load_drop_fraction": 0.7442145324854177,
+    "constitutive_defect_fraction": 0.02237629651098752,
+    "limitation": "Dynamic small-strain PIC experiment; accounting closure is not physical energy convergence. Recovered nodal gradient/fracture density are projections. No exact restart claimed."
+  },
+  "series": [
+    {
+      "step": 1800,
+      "time": 0.10799999999999998,
+      "max_damage": 0.9884736031166809,
+      "0.98": {
+        "particles": 360,
+        "components": [
+          {
+            "particles": 360,
+            "starts_at_notch": true,
+            "extension": 0.06875000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.31875000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.06875000000000003
+      },
+      "0.99": {
+        "particles": 0,
+        "components": [],
+        "notch_connected_max_extension": 0
+      }
+    },
+    {
+      "step": 1825,
+      "time": 0.10949999999999999,
+      "max_damage": 0.9888770823555675,
+      "0.98": {
+        "particles": 368,
+        "components": [
+          {
+            "particles": 368,
+            "starts_at_notch": true,
+            "extension": 0.08125000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.33125000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.08125000000000004
+      },
+      "0.99": {
+        "particles": 0,
+        "components": [],
+        "notch_connected_max_extension": 0
+      }
+    },
+    {
+      "step": 1850,
+      "time": 0.11099999999999999,
+      "max_damage": 0.9892579918056321,
+      "0.98": {
+        "particles": 400,
+        "components": [
+          {
+            "particles": 400,
+            "starts_at_notch": true,
+            "extension": 0.08125000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.33125000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.08125000000000004
+      },
+      "0.99": {
+        "particles": 0,
+        "components": [],
+        "notch_connected_max_extension": 0
+      }
+    },
+    {
+      "step": 1875,
+      "time": 0.11249999999999999,
+      "max_damage": 0.989618221839061,
+      "0.98": {
+        "particles": 440,
+        "components": [
+          {
+            "particles": 440,
+            "starts_at_notch": true,
+            "extension": 0.08125000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.33125000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.08125000000000004
+      },
+      "0.99": {
+        "particles": 0,
+        "components": [],
+        "notch_connected_max_extension": 0
+      }
+    },
+    {
+      "step": 1900,
+      "time": 0.11399999999999999,
+      "max_damage": 0.9899594553470349,
+      "0.98": {
+        "particles": 480,
+        "components": [
+          {
+            "particles": 480,
+            "starts_at_notch": true,
+            "extension": 0.09375000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.34375000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.09375000000000006
+      },
+      "0.99": {
+        "particles": 0,
+        "components": [],
+        "notch_connected_max_extension": 0
+      }
+    },
+    {
+      "step": 1925,
+      "time": 0.11549999999999999,
+      "max_damage": 0.9902831888046884,
+      "0.98": {
+        "particles": 520,
+        "components": [
+          {
+            "particles": 520,
+            "starts_at_notch": true,
+            "extension": 0.09375000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.34375000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.09375000000000006
+      },
+      "0.99": {
+        "particles": 16,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.006250000000000033
+      }
+    },
+    {
+      "step": 1950,
+      "time": 0.11699999999999999,
+      "max_damage": 0.9905907235412357,
+      "0.98": {
+        "particles": 560,
+        "components": [
+          {
+            "particles": 560,
+            "starts_at_notch": true,
+            "extension": 0.10625000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.35625000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.10625000000000007
+      },
+      "0.99": {
+        "particles": 16,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.006250000000000033
+      }
+    },
+    {
+      "step": 1975,
+      "time": 0.1185,
+      "max_damage": 0.9908831318433042,
+      "0.98": {
+        "particles": 616,
+        "components": [
+          {
+            "particles": 616,
+            "starts_at_notch": true,
+            "extension": 0.10625000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.35625000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.10625000000000007
+      },
+      "0.99": {
+        "particles": 32,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          },
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.006250000000000033
+      }
+    },
+    {
+      "step": 2000,
+      "time": 0.12,
+      "max_damage": 0.9911615409804017,
+      "0.98": {
+        "particles": 648,
+        "components": [
+          {
+            "particles": 648,
+            "starts_at_notch": true,
+            "extension": 0.11875000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.36875
+          }
+        ],
+        "notch_connected_max_extension": 0.11875000000000002
+      },
+      "0.99": {
+        "particles": 32,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          },
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.006250000000000033
+      }
+    },
+    {
+      "step": 2025,
+      "time": 0.12149999999999998,
+      "max_damage": 0.9914268368103647,
+      "0.98": {
+        "particles": 696,
+        "components": [
+          {
+            "particles": 696,
+            "starts_at_notch": true,
+            "extension": 0.11875000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.36875
+          }
+        ],
+        "notch_connected_max_extension": 0.11875000000000002
+      },
+      "0.99": {
+        "particles": 32,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          },
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.006250000000000033
+      }
+    },
+    {
+      "step": 2050,
+      "time": 0.12299999999999998,
+      "max_damage": 0.9916901915693033,
+      "0.98": {
+        "particles": 736,
+        "components": [
+          {
+            "particles": 736,
+            "starts_at_notch": true,
+            "extension": 0.13125000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.38125000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.13125000000000003
+      },
+      "0.99": {
+        "particles": 40,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          },
+          {
+            "particles": 24,
+            "starts_at_notch": true,
+            "extension": 0.018750000000000044,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.26875000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.018750000000000044
+      }
+    },
+    {
+      "step": 2075,
+      "time": 0.12449999999999999,
+      "max_damage": 0.9919674054630732,
+      "0.98": {
+        "particles": 784,
+        "components": [
+          {
+            "particles": 784,
+            "starts_at_notch": true,
+            "extension": 0.13125000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.38125000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.13125000000000003
+      },
+      "0.99": {
+        "particles": 56,
+        "components": [
+          {
+            "particles": 16,
+            "starts_at_notch": true,
+            "extension": 0.006250000000000033,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.25625000000000003
+          },
+          {
+            "particles": 40,
+            "starts_at_notch": true,
+            "extension": 0.018750000000000044,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.26875000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.018750000000000044
+      }
+    },
+    {
+      "step": 2100,
+      "time": 0.126,
+      "max_damage": 0.9922326476913366,
+      "0.98": {
+        "particles": 832,
+        "components": [
+          {
+            "particles": 832,
+            "starts_at_notch": true,
+            "extension": 0.14375000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.39375000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.14375000000000004
+      },
+      "0.99": {
+        "particles": 88,
+        "components": [
+          {
+            "particles": 32,
+            "starts_at_notch": true,
+            "extension": 0.018750000000000044,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.26875000000000004
+          },
+          {
+            "particles": 56,
+            "starts_at_notch": true,
+            "extension": 0.018750000000000044,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.26875000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.018750000000000044
+      }
+    },
+    {
+      "step": 2125,
+      "time": 0.1275,
+      "max_damage": 0.9924865566999838,
+      "0.98": {
+        "particles": 888,
+        "components": [
+          {
+            "particles": 888,
+            "starts_at_notch": true,
+            "extension": 0.14375000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.39375000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.14375000000000004
+      },
+      "0.99": {
+        "particles": 104,
+        "components": [
+          {
+            "particles": 104,
+            "starts_at_notch": true,
+            "extension": 0.018750000000000044,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.26875000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.018750000000000044
+      }
+    },
+    {
+      "step": 2150,
+      "time": 0.12899999999999998,
+      "max_damage": 0.9927297386195236,
+      "0.98": {
+        "particles": 968,
+        "components": [
+          {
+            "particles": 968,
+            "starts_at_notch": true,
+            "extension": 0.15625000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.40625000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.15625000000000006
+      },
+      "0.99": {
+        "particles": 128,
+        "components": [
+          {
+            "particles": 128,
+            "starts_at_notch": true,
+            "extension": 0.031250000000000056,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.28125000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.031250000000000056
+      }
+    },
+    {
+      "step": 2175,
+      "time": 0.13049999999999998,
+      "max_damage": 0.9929628198189291,
+      "0.98": {
+        "particles": 1032,
+        "components": [
+          {
+            "particles": 1032,
+            "starts_at_notch": true,
+            "extension": 0.16875000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.41875000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.16875000000000007
+      },
+      "0.99": {
+        "particles": 136,
+        "components": [
+          {
+            "particles": 136,
+            "starts_at_notch": true,
+            "extension": 0.031250000000000056,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.28125000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.031250000000000056
+      }
+    },
+    {
+      "step": 2200,
+      "time": 0.13199999999999998,
+      "max_damage": 0.9931863202833173,
+      "0.98": {
+        "particles": 1104,
+        "components": [
+          {
+            "particles": 1104,
+            "starts_at_notch": true,
+            "extension": 0.16875000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.41875000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.16875000000000007
+      },
+      "0.99": {
+        "particles": 136,
+        "components": [
+          {
+            "particles": 136,
+            "starts_at_notch": true,
+            "extension": 0.031250000000000056,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.28125000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.031250000000000056
+      }
+    },
+    {
+      "step": 2225,
+      "time": 0.13349999999999998,
+      "max_damage": 0.9934015128785821,
+      "0.98": {
+        "particles": 1152,
+        "components": [
+          {
+            "particles": 1152,
+            "starts_at_notch": true,
+            "extension": 0.18125000000000008,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.4312500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.18125000000000008
+      },
+      "0.99": {
+        "particles": 160,
+        "components": [
+          {
+            "particles": 160,
+            "starts_at_notch": true,
+            "extension": 0.04375000000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.29375
+          }
+        ],
+        "notch_connected_max_extension": 0.04375000000000001
+      }
+    },
+    {
+      "step": 2250,
+      "time": 0.13499999999999998,
+      "max_damage": 0.9936105619581651,
+      "0.98": {
+        "particles": 1248,
+        "components": [
+          {
+            "particles": 1248,
+            "starts_at_notch": true,
+            "extension": 0.1937500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.4437500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.1937500000000001
+      },
+      "0.99": {
+        "particles": 208,
+        "components": [
+          {
+            "particles": 208,
+            "starts_at_notch": true,
+            "extension": 0.04375000000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.29375
+          }
+        ],
+        "notch_connected_max_extension": 0.04375000000000001
+      }
+    },
+    {
+      "step": 2275,
+      "time": 0.13649999999999998,
+      "max_damage": 0.9937971930905273,
+      "0.98": {
+        "particles": 1328,
+        "components": [
+          {
+            "particles": 1328,
+            "starts_at_notch": true,
+            "extension": 0.1937500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.4437500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.1937500000000001
+      },
+      "0.99": {
+        "particles": 208,
+        "components": [
+          {
+            "particles": 208,
+            "starts_at_notch": true,
+            "extension": 0.04375000000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.29375
+          }
+        ],
+        "notch_connected_max_extension": 0.04375000000000001
+      }
+    },
+    {
+      "step": 2300,
+      "time": 0.13799999999999998,
+      "max_damage": 0.9939701617490927,
+      "0.98": {
+        "particles": 1384,
+        "components": [
+          {
+            "particles": 1384,
+            "starts_at_notch": true,
+            "extension": 0.20625000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.45625000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.20625000000000004
+      },
+      "0.99": {
+        "particles": 248,
+        "components": [
+          {
+            "particles": 248,
+            "starts_at_notch": true,
+            "extension": 0.05625000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.30625
+          }
+        ],
+        "notch_connected_max_extension": 0.05625000000000002
+      }
+    },
+    {
+      "step": 2325,
+      "time": 0.13949999999999999,
+      "max_damage": 0.9941364122991468,
+      "0.98": {
+        "particles": 1472,
+        "components": [
+          {
+            "particles": 1472,
+            "starts_at_notch": true,
+            "extension": 0.21875000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.46875000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.21875000000000006
+      },
+      "0.99": {
+        "particles": 280,
+        "components": [
+          {
+            "particles": 280,
+            "starts_at_notch": true,
+            "extension": 0.05625000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.30625
+          }
+        ],
+        "notch_connected_max_extension": 0.05625000000000002
+      }
+    },
+    {
+      "step": 2350,
+      "time": 0.141,
+      "max_damage": 0.9942961986344667,
+      "0.98": {
+        "particles": 1552,
+        "components": [
+          {
+            "particles": 1552,
+            "starts_at_notch": true,
+            "extension": 0.23125000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.48125000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.23125000000000007
+      },
+      "0.99": {
+        "particles": 296,
+        "components": [
+          {
+            "particles": 296,
+            "starts_at_notch": true,
+            "extension": 0.05625000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.30625
+          }
+        ],
+        "notch_connected_max_extension": 0.05625000000000002
+      }
+    },
+    {
+      "step": 2375,
+      "time": 0.1425,
+      "max_damage": 0.9944497101834453,
+      "0.98": {
+        "particles": 1632,
+        "components": [
+          {
+            "particles": 1632,
+            "starts_at_notch": true,
+            "extension": 0.23125000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.48125000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.23125000000000007
+      },
+      "0.99": {
+        "particles": 312,
+        "components": [
+          {
+            "particles": 312,
+            "starts_at_notch": true,
+            "extension": 0.05625000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.30625
+          }
+        ],
+        "notch_connected_max_extension": 0.05625000000000002
+      }
+    },
+    {
+      "step": 2400,
+      "time": 0.144,
+      "max_damage": 0.9945973792700458,
+      "0.98": {
+        "particles": 1744,
+        "components": [
+          {
+            "particles": 1744,
+            "starts_at_notch": true,
+            "extension": 0.24375000000000008,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.4937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.24375000000000008
+      },
+      "0.99": {
+        "particles": 328,
+        "components": [
+          {
+            "particles": 328,
+            "starts_at_notch": true,
+            "extension": 0.06875000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.31875000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.06875000000000003
+      }
+    },
+    {
+      "step": 2425,
+      "time": 0.1455,
+      "max_damage": 0.9947399907726633,
+      "0.98": {
+        "particles": 1848,
+        "components": [
+          {
+            "particles": 1848,
+            "starts_at_notch": true,
+            "extension": 0.2562500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5062500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.2562500000000001
+      },
+      "0.99": {
+        "particles": 360,
+        "components": [
+          {
+            "particles": 360,
+            "starts_at_notch": true,
+            "extension": 0.06875000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.31875000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.06875000000000003
+      }
+    },
+    {
+      "step": 2450,
+      "time": 0.147,
+      "max_damage": 0.9948774868812291,
+      "0.98": {
+        "particles": 1968,
+        "components": [
+          {
+            "particles": 1968,
+            "starts_at_notch": true,
+            "extension": 0.2812500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5312500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.2812500000000001
+      },
+      "0.99": {
+        "particles": 392,
+        "components": [
+          {
+            "particles": 392,
+            "starts_at_notch": true,
+            "extension": 0.06875000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.31875000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.06875000000000003
+      }
+    },
+    {
+      "step": 2475,
+      "time": 0.1485,
+      "max_damage": 0.9950099129589351,
+      "0.98": {
+        "particles": 2112,
+        "components": [
+          {
+            "particles": 2112,
+            "starts_at_notch": true,
+            "extension": 0.29375000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5437500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.29375000000000007
+      },
+      "0.99": {
+        "particles": 392,
+        "components": [
+          {
+            "particles": 392,
+            "starts_at_notch": true,
+            "extension": 0.06875000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.31875000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.06875000000000003
+      }
+    },
+    {
+      "step": 2500,
+      "time": 0.15,
+      "max_damage": 0.9951374799328563,
+      "0.98": {
+        "particles": 2284,
+        "components": [
+          {
+            "particles": 2284,
+            "starts_at_notch": true,
+            "extension": 0.3187500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5687500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3187500000000001
+      },
+      "0.99": {
+        "particles": 424,
+        "components": [
+          {
+            "particles": 424,
+            "starts_at_notch": true,
+            "extension": 0.08125000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.33125000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.08125000000000004
+      }
+    },
+    {
+      "step": 2525,
+      "time": 0.1515,
+      "max_damage": 0.995260437055438,
+      "0.98": {
+        "particles": 2464,
+        "components": [
+          {
+            "particles": 2464,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 448,
+        "components": [
+          {
+            "particles": 448,
+            "starts_at_notch": true,
+            "extension": 0.08125000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.33125000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.08125000000000004
+      }
+    },
+    {
+      "step": 2550,
+      "time": 0.153,
+      "max_damage": 0.9953789879169911,
+      "0.98": {
+        "particles": 2608,
+        "components": [
+          {
+            "particles": 2608,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 480,
+        "components": [
+          {
+            "particles": 480,
+            "starts_at_notch": true,
+            "extension": 0.08125000000000004,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.33125000000000004
+          }
+        ],
+        "notch_connected_max_extension": 0.08125000000000004
+      }
+    },
+    {
+      "step": 2575,
+      "time": 0.1545,
+      "max_damage": 0.99549334308783,
+      "0.98": {
+        "particles": 2712,
+        "components": [
+          {
+            "particles": 2712,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 496,
+        "components": [
+          {
+            "particles": 496,
+            "starts_at_notch": true,
+            "extension": 0.09375000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.34375000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.09375000000000006
+      }
+    },
+    {
+      "step": 2600,
+      "time": 0.156,
+      "max_damage": 0.9956036936950889,
+      "0.98": {
+        "particles": 2802,
+        "components": [
+          {
+            "particles": 2802,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 536,
+        "components": [
+          {
+            "particles": 536,
+            "starts_at_notch": true,
+            "extension": 0.09375000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.34375000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.09375000000000006
+      }
+    },
+    {
+      "step": 2625,
+      "time": 0.15749999999999997,
+      "max_damage": 0.995710203304614,
+      "0.98": {
+        "particles": 2920,
+        "components": [
+          {
+            "particles": 2920,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 568,
+        "components": [
+          {
+            "particles": 568,
+            "starts_at_notch": true,
+            "extension": 0.09375000000000006,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.34375000000000006
+          }
+        ],
+        "notch_connected_max_extension": 0.09375000000000006
+      }
+    },
+    {
+      "step": 2650,
+      "time": 0.15899999999999997,
+      "max_damage": 0.9958130500184368,
+      "0.98": {
+        "particles": 3002,
+        "components": [
+          {
+            "particles": 3002,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 584,
+        "components": [
+          {
+            "particles": 584,
+            "starts_at_notch": true,
+            "extension": 0.10625000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.35625000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.10625000000000007
+      }
+    },
+    {
+      "step": 2675,
+      "time": 0.16049999999999998,
+      "max_damage": 0.9959123628806976,
+      "0.98": {
+        "particles": 3072,
+        "components": [
+          {
+            "particles": 3072,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 624,
+        "components": [
+          {
+            "particles": 624,
+            "starts_at_notch": true,
+            "extension": 0.10625000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.35625000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.10625000000000007
+      }
+    },
+    {
+      "step": 2700,
+      "time": 0.16199999999999998,
+      "max_damage": 0.996008300972471,
+      "0.98": {
+        "particles": 3152,
+        "components": [
+          {
+            "particles": 3152,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 656,
+        "components": [
+          {
+            "particles": 656,
+            "starts_at_notch": true,
+            "extension": 0.10625000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.35625000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.10625000000000007
+      }
+    },
+    {
+      "step": 2725,
+      "time": 0.16349999999999998,
+      "max_damage": 0.9961010576322412,
+      "0.98": {
+        "particles": 3240,
+        "components": [
+          {
+            "particles": 3240,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 672,
+        "components": [
+          {
+            "particles": 672,
+            "starts_at_notch": true,
+            "extension": 0.10625000000000007,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.35625000000000007
+          }
+        ],
+        "notch_connected_max_extension": 0.10625000000000007
+      }
+    },
+    {
+      "step": 2750,
+      "time": 0.16499999999999998,
+      "max_damage": 0.996190742293716,
+      "0.98": {
+        "particles": 3312,
+        "components": [
+          {
+            "particles": 3312,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 720,
+        "components": [
+          {
+            "particles": 720,
+            "starts_at_notch": true,
+            "extension": 0.11875000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.36875
+          }
+        ],
+        "notch_connected_max_extension": 0.11875000000000002
+      }
+    },
+    {
+      "step": 2775,
+      "time": 0.16649999999999998,
+      "max_damage": 0.9962774864880217,
+      "0.98": {
+        "particles": 3376,
+        "components": [
+          {
+            "particles": 3376,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 744,
+        "components": [
+          {
+            "particles": 744,
+            "starts_at_notch": true,
+            "extension": 0.11875000000000002,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.36875
+          }
+        ],
+        "notch_connected_max_extension": 0.11875000000000002
+      }
+    },
+    {
+      "step": 2800,
+      "time": 0.16799999999999998,
+      "max_damage": 0.9963614084880994,
+      "0.98": {
+        "particles": 3400,
+        "components": [
+          {
+            "particles": 3400,
+            "starts_at_notch": true,
+            "extension": 0.3437500000000001,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.5937500000000001
+          }
+        ],
+        "notch_connected_max_extension": 0.3437500000000001
+      },
+      "0.99": {
+        "particles": 768,
+        "components": [
+          {
+            "particles": 768,
+            "starts_at_notch": true,
+            "extension": 0.13125000000000003,
+            "thickness": 1.0,
+            "xmin": 0.25625000000000003,
+            "xmax": 0.38125000000000003
+          }
+        ],
+        "notch_connected_max_extension": 0.13125000000000003
+      }
+    }
+  ],
+  "history": [
+    {
+      "step": 1776.0,
+      "time": 0.10655999999999999,
+      "max_damage": 0.9880630123174909,
+      "top_reaction": 0.08076792895187863,
+      "kinetic": 0.00031185518712993794,
+      "elastic": 0.00015095673519073665,
+      "fracture": 0.000626631455105812,
+      "boundary_work": 0.0022340839742903194
+    },
+    {
+      "step": 1801.0,
+      "time": 0.10805999999999999,
+      "max_damage": 0.9884902024915828,
+      "top_reaction": 0.08015653770351583,
+      "kinetic": 0.00031095960713546736,
+      "elastic": 0.0001483583902101798,
+      "fracture": 0.0006298567863337959,
+      "boundary_work": 0.0022521837614385364
+    },
+    {
+      "step": 1826.0,
+      "time": 0.10955999999999999,
+      "max_damage": 0.9888927388787496,
+      "top_reaction": 0.07962021263876848,
+      "kinetic": 0.0003100855599957889,
+      "elastic": 0.00014589361854773004,
+      "fracture": 0.0006329633903612115,
+      "boundary_work": 0.0022701548863572982
+    },
+    {
+      "step": 1851.0,
+      "time": 0.11105999999999999,
+      "max_damage": 0.9892727862839826,
+      "top_reaction": 0.07915263010050733,
+      "kinetic": 0.0003092345700653269,
+      "elastic": 0.0001435479992822738,
+      "fracture": 0.0006359612561225125,
+      "boundary_work": 0.0022880134970642905
+    },
+    {
+      "step": 1876.0,
+      "time": 0.11256,
+      "max_damage": 0.9896322253614875,
+      "top_reaction": 0.07874771191553986,
+      "kinetic": 0.0003084082131428749,
+      "elastic": 0.0001413079598254224,
+      "fracture": 0.0006388600903943692,
+      "boundary_work": 0.002305774340366525
+    },
+    {
+      "step": 1901.0,
+      "time": 0.11406,
+      "max_damage": 0.9899727313094651,
+      "top_reaction": 0.07839988917987153,
+      "kinetic": 0.00030760818737804224,
+      "elastic": 0.00013916194162534725,
+      "fracture": 0.0006416679841477066,
+      "boundary_work": 0.0023234508656028805
+    },
+    {
+      "step": 1926.0,
+      "time": 0.11556,
+      "max_damage": 0.9902957935068983,
+      "top_reaction": 0.0781030172972535,
+      "kinetic": 0.0003068362066447135,
+      "elastic": 0.00013709992443111603,
+      "fracture": 0.0006443920479221962,
+      "boundary_work": 0.0023410552137837436
+    },
+    {
+      "step": 1951.0,
+      "time": 0.11705999999999998,
+      "max_damage": 0.9906027015161916,
+      "top_reaction": 0.07785178089380368,
+      "kinetic": 0.0003060938838145654,
+      "elastic": 0.00013511376059561993,
+      "fracture": 0.0006470379885205541,
+      "boundary_work": 0.0023585981864022152
+    },
+    {
+      "step": 1976.0,
+      "time": 0.11855999999999998,
+      "max_damage": 0.9908945306925461,
+      "top_reaction": 0.07764136231279928,
+      "kinetic": 0.00030538289317010134,
+      "elastic": 0.00013319634781203563,
+      "fracture": 0.0006496111381290151,
+      "boundary_work": 0.002376089499482715
+    },
+    {
+      "step": 2000.0,
+      "time": 0.12,
+      "max_damage": 0.9911615409804017,
+      "top_reaction": 0.07747315341719878,
+      "kinetic": 0.00030473134739023705,
+      "elastic": 0.0001314148190391703,
+      "fracture": 0.0006520172347834716,
+      "boundary_work": 0.002392840556496132
+    },
+    {
+      "step": 2001.0,
+      "time": 0.12005999999999999,
+      "max_damage": 0.9911723996845215,
+      "top_reaction": 0.07746679862505351,
+      "kinetic": 0.0003047048796973818,
+      "elastic": 0.00013134178255821684,
+      "fracture": 0.0006521161785984497,
+      "boundary_work": 0.0023935377576837576
+    },
+    {
+      "step": 2026.0,
+      "time": 0.12155999999999999,
+      "max_damage": 0.9914371866539345,
+      "top_reaction": 0.07732332640908286,
+      "kinetic": 0.0003040613872412259,
+      "elastic": 0.00012954546991500205,
+      "fracture": 0.0006545569905641485,
+      "boundary_work": 0.0024109504617295142
+    },
+    {
+      "step": 2051.0,
+      "time": 0.12305999999999999,
+      "max_damage": 0.9917015219419939,
+      "top_reaction": 0.0772062881337927,
+      "kinetic": 0.0003034538342226791,
+      "elastic": 0.00012780331277676023,
+      "fracture": 0.0006569375054624747,
+      "boundary_work": 0.0024283340669810625
+    },
+    {
+      "step": 2076.0,
+      "time": 0.12455999999999999,
+      "max_damage": 0.9919782410322145,
+      "top_reaction": 0.07711128690695328,
+      "kinetic": 0.00030288345409823064,
+      "elastic": 0.00012611213111646415,
+      "fracture": 0.0006592611037974107,
+      "boundary_work": 0.0024456939880504705
+    },
+    {
+      "step": 2101.0,
+      "time": 0.12605999999999998,
+      "max_damage": 0.9922430173042921,
+      "top_reaction": 0.07703474673434758,
+      "kinetic": 0.00030235137559795006,
+      "elastic": 0.00012446972990190494,
+      "fracture": 0.0006615305458431166,
+      "boundary_work": 0.0024630347628191215
+    },
+    {
+      "step": 2126.0,
+      "time": 0.12755999999999998,
+      "max_damage": 0.9924964864414674,
+      "top_reaction": 0.07697285664308615,
+      "kinetic": 0.00030185856652080944,
+      "elastic": 0.0001228743487128702,
+      "fracture": 0.0006637483012326708,
+      "boundary_work": 0.0024803601015245284
+    },
+    {
+      "step": 2151.0,
+      "time": 0.12905999999999998,
+      "max_damage": 0.9927392526355109,
+      "top_reaction": 0.07692185368403437,
+      "kinetic": 0.0003014057381347566,
+      "elastic": 0.00012132471371047301,
+      "fracture": 0.0006659164966207337,
+      "boundary_work": 0.00249767285773413
+    },
+    {
+      "step": 2176.0,
+      "time": 0.13055999999999998,
+      "max_damage": 0.9929719404533697,
+      "top_reaction": 0.07687818804853687,
+      "kinetic": 0.0003009933104407785,
+      "elastic": 0.00011981907644194949,
+      "fracture": 0.0006680381051507226,
+      "boundary_work": 0.0025149750631680173
+    },
+    {
+      "step": 2201.0,
+      "time": 0.13205999999999998,
+      "max_damage": 0.993195067810358,
+      "top_reaction": 0.07683845498457469,
+      "kinetic": 0.0003006213798989495,
+      "elastic": 0.00011835644386734107,
+      "fracture": 0.0006701152159627454,
+      "boundary_work": 0.0025322679650847876
+    },
+    {
+      "step": 2226.0,
+      "time": 0.13355999999999998,
+      "max_damage": 0.9934100337932654,
+      "top_reaction": 0.076799886298392,
+      "kinetic": 0.00030028971064574085,
+      "elastic": 0.00011693811121711776,
+      "fracture": 0.0006721477293831733,
+      "boundary_work": 0.002549552107370985
+    },
+    {
+      "step": 2251.0,
+      "time": 0.13505999999999999,
+      "max_damage": 0.9936187543778355,
+      "top_reaction": 0.07675992260831319,
+      "kinetic": 0.0002999976225874613,
+      "elastic": 0.00011556789379295676,
+      "fracture": 0.000674132781376517,
+      "boundary_work": 0.0025668274551181145
+    },
+    {
+      "step": 2276.0,
+      "time": 0.13656,
+      "max_damage": 0.9938042380961734,
+      "top_reaction": 0.07671628443634207,
+      "kinetic": 0.00029974420636046974,
+      "elastic": 0.00011423867223493766,
+      "fracture": 0.0006760784223645951,
+      "boundary_work": 0.0025840934221283544
+    },
+    {
+      "step": 2301.0,
+      "time": 0.13806,
+      "max_damage": 0.9939769426522549,
+      "top_reaction": 0.0766664876449491,
+      "kinetic": 0.0002995282213129727,
+      "elastic": 0.0001129499944966287,
+      "fracture": 0.0006779858679623969,
+      "boundary_work": 0.002601348900283145
+    },
+    {
+      "step": 2326.0,
+      "time": 0.13956,
+      "max_damage": 0.9941429255709278,
+      "top_reaction": 0.07660873313277386,
+      "kinetic": 0.0002993479808000191,
+      "elastic": 0.00011170145061539379,
+      "fracture": 0.000679856085242198,
+      "boundary_work": 0.002618592258618022
+    },
+    {
+      "step": 2351.0,
+      "time": 0.14106,
+      "max_damage": 0.9943024541980611,
+      "top_reaction": 0.07654188803334125,
+      "kinetic": 0.0002992015390846587,
+      "elastic": 0.00011049391941849251,
+      "fracture": 0.000681688661547271,
+      "boundary_work": 0.002635821586271992
+    },
+    {
+      "step": 2376.0,
+      "time": 0.14256,
+      "max_damage": 0.9944557274841783,
+      "top_reaction": 0.0764645829112443,
+      "kinetic": 0.00029908650867890754,
+      "elastic": 0.0001093323010572576,
+      "fracture": 0.0006834792414721341,
+      "boundary_work": 0.0026530346788445833
+    },
+    {
+      "step": 2400.0,
+      "time": 0.144,
+      "max_damage": 0.9945973792700458,
+      "top_reaction": 0.07637935356430034,
+      "kinetic": 0.0002990031791316904,
+      "elastic": 0.00010825208336544136,
+      "fracture": 0.0006851674019109056,
+      "boundary_work": 0.002669541636999614
+    },
+    {
+      "step": 2401.0,
+      "time": 0.14406,
+      "max_damage": 0.9946031683385972,
+      "top_reaction": 0.07637555972476157,
+      "kinetic": 0.0002990002467832738,
+      "elastic": 0.00010820780482699337,
+      "fracture": 0.0006852371018709247,
+      "boundary_work": 0.002670229017037137
+    },
+    {
+      "step": 2426.0,
+      "time": 0.14556,
+      "max_damage": 0.9947455913250961,
+      "top_reaction": 0.07627447640803378,
+      "kinetic": 0.000298939993794879,
+      "elastic": 0.0001071193648372873,
+      "fracture": 0.0006869634743860126,
+      "boundary_work": 0.0026874019265774444
+    },
+    {
+      "step": 2451.0,
+      "time": 0.14706,
+      "max_damage": 0.99488287988626,
+      "top_reaction": 0.076160479050088,
+      "kinetic": 0.0002989027555880802,
+      "elastic": 0.00010606636512321307,
+      "fracture": 0.0006886589203570324,
+      "boundary_work": 0.0027045505877524513
+    },
+    {
+      "step": 2476.0,
+      "time": 0.14856,
+      "max_damage": 0.9950151076825607,
+      "top_reaction": 0.0760332780048388,
+      "kinetic": 0.0002988853249286743,
+      "elastic": 0.00010504749095847758,
+      "fracture": 0.0006903249189843682,
+      "boundary_work": 0.0027216720570333312
+    },
+    {
+      "step": 2501.0,
+      "time": 0.15006,
+      "max_damage": 0.9951424860457766,
+      "top_reaction": 0.075893581729748,
+      "kinetic": 0.00029888444834005076,
+      "elastic": 0.00010406184878395511,
+      "fracture": 0.0006919620827185153,
+      "boundary_work": 0.002738763428784178
+    },
+    {
+      "step": 2526.0,
+      "time": 0.15156,
+      "max_damage": 0.9952652623191884,
+      "top_reaction": 0.07574192585341911,
+      "kinetic": 0.00029889692547204995,
+      "elastic": 0.00010310862250523099,
+      "fracture": 0.0006935712364630075,
+      "boundary_work": 0.0027558219622587404
+    },
+    {
+      "step": 2551.0,
+      "time": 0.15305999999999997,
+      "max_damage": 0.995383641202386,
+      "top_reaction": 0.07557865968822786,
+      "kinetic": 0.00029891953841167584,
+      "elastic": 0.00010218618116996668,
+      "fracture": 0.0006951541038828804,
+      "boundary_work": 0.0027728450060655082
+    },
+    {
+      "step": 2576.0,
+      "time": 0.15455999999999998,
+      "max_damage": 0.995497832685587,
+      "top_reaction": 0.07540441340426131,
+      "kinetic": 0.0002989491305335557,
+      "elastic": 0.00010129294817313333,
+      "fracture": 0.0006967121411026264,
+      "boundary_work": 0.0027898300152879737
+    },
+    {
+      "step": 2601.0,
+      "time": 0.15605999999999998,
+      "max_damage": 0.9956080264903385,
+      "top_reaction": 0.07522005254860882,
+      "kinetic": 0.00029898264097939645,
+      "elastic": 0.00010042860778532017,
+      "fracture": 0.0006982453944319143,
+      "boundary_work": 0.0028067746174963585
+    },
+    {
+      "step": 2626.0,
+      "time": 0.15755999999999998,
+      "max_damage": 0.9957143863916083,
+      "top_reaction": 0.07502669084086591,
+      "kinetic": 0.00029901715074002506,
+      "elastic": 9.959215050822043e-05,
+      "fracture": 0.0006997544559356783,
+      "boundary_work": 0.002823676660473699
+    },
+    {
+      "step": 2651.0,
+      "time": 0.15905999999999998,
+      "max_damage": 0.995817089981365,
+      "top_reaction": 0.0748257287516391,
+      "kinetic": 0.0002990499728330217,
+      "elastic": 9.878275899715997e-05,
+      "fracture": 0.0007012399844821086,
+      "boundary_work": 0.0028405342836391395
+    },
+    {
+      "step": 2676.0,
+      "time": 0.16055999999999998,
+      "max_damage": 0.9959162746705006,
+      "top_reaction": 0.07461848770936944,
+      "kinetic": 0.00029907868075527137,
+      "elastic": 9.799927227924976e-05,
+      "fracture": 0.0007027029741349779,
+      "boundary_work": 0.0028573459298949348
+    },
+    {
+      "step": 2701.0,
+      "time": 0.16205999999999998,
+      "max_damage": 0.9960120839277316,
+      "top_reaction": 0.07440637183808915,
+      "kinetic": 0.00029910115559674384,
+      "elastic": 9.72397374682103e-05,
+      "fracture": 0.0007041455186541412,
+      "boundary_work": 0.002874110350322405
+    },
+    {
+      "step": 2726.0,
+      "time": 0.16355999999999998,
+      "max_damage": 0.9961047030701531,
+      "top_reaction": 0.07419073990321234,
+      "kinetic": 0.0002991156171193738,
+      "elastic": 9.65032798758171e-05,
+      "fracture": 0.0007055682137921541,
+      "boundary_work": 0.0028908266086213894
+    },
+    {
+      "step": 2751.0,
+      "time": 0.16505999999999998,
+      "max_damage": 0.9961942675297124,
+      "top_reaction": 0.07397287657450792,
+      "kinetic": 0.00029912056458908647,
+      "elastic": 9.57899163479693e-05,
+      "fracture": 0.0007069708476800654,
+      "boundary_work": 0.00290749406494492
+    },
+    {
+      "step": 2776.0,
+      "time": 0.16655999999999999,
+      "max_damage": 0.996280897043075,
+      "top_reaction": 0.07375408359481747,
+      "kinetic": 0.00029911476759783876,
+      "elastic": 9.509871511832327e-05,
+      "fracture": 0.000708354164069528,
+      "boundary_work": 0.0029241123679988614
+    },
+    {
+      "step": 2800.0,
+      "time": 0.16799999999999998,
+      "max_damage": 0.9963614084880994,
+      "top_reaction": 0.07354448275390936,
+      "kinetic": 0.0002990982412550652,
+      "elastic": 9.445542402062341e-05,
+      "fracture": 0.0007096642474512674,
+      "boundary_work": 0.0029400196501827036
+    }
+  ],
+  "numpy_recomputed_final_energies": [
+    0.0002990982412550652,
+    9.445542402062334e-05,
+    0.0007096642474512674
+  ],
+  "energy_recomputation_max_abs_error": 6.776263578034403e-20,
+  "first_saved_geometric_admission": 2650
+}

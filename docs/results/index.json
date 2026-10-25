@@ -1814,5 +1814,28 @@
       "provenance.json": "0b4f1b03ede2ab04395ee52af8c32c4c3599ccfb96dfde322967bdd04e9d633c",
       "status.json": "a715ffd42a3dc6bdef082616625e9805e75e146b2deac2a3af163437e90dd98c"
     }
+  },
+  {
+    "id": "completed--phase-field-at2-tension",
+    "case": "phase-field/AT2 notched tension",
+    "source_directory": "outputs/completed/phase-field-at2-tension",
+    "particles": 28800,
+    "steps": 2800,
+    "simulation_time": 0.16799999999999998,
+    "max_damage": 0.9963614084880994,
+    "renderer": "ParaView",
+    "sha256": {
+      "complete-checks.json": "0b4c815fc3053a4fdc50f586c4e88139e6c655069c5f13c4c4c8cfedb6212583",
+      "crack-checks.json": "a7e6032e6dd41bae9818fc5876191b039a53ee96095b57fc98e58121237a864c",
+      "gif-checks.json": "5e1a09adec3bdc867462bbdac16836f3a090e89f098eda93ed3f44e5b43dbff3",
+      "history.csv": "9ca1d7a9082e8cc9192e9ee91ba37ea8fa3822850ad1393845e99bfee7ab179a",
+      "independent-review.json": "edf3533335432f90a1c4d3ecf9c97c5592e6cd67e3305c18cbf3e9d9059c9ddd",
+      "media-review.json": "8cbb9824c77d02c9fc6c6c145f7a1b3f22158a5bbe2cff045e466dabc9b71ad8",
+      "metadata.json": "9b6ec1467591ea863fcb126e7ad154bd3847dd45a171e8fc759e6c865d2befa5",
+      "render.json": "889b434aa320e23bed0aa0a08b995125b20262f5b01611c7f2e78e9ffc8a9102",
+      "source-integration.json": "6f3059f7c08b981781cb8da5430e0a23e63a66f0d54294d78a0e921e98bfc7f0",
+      "source-runtime.json": "a2d0d3383da38b090d1c20c416fdc77efc81ce1ef6681f5089766ac17049ea84",
+      "summary.json": "b7ecec1b8d840acfbfb2570e015b94cd3053b5884225d3d5068ac84932f61ef7"
+    }
   }
 ]

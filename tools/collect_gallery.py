@@ -355,6 +355,25 @@ def main():
                     lines.append(f'<td width="{100//columns}%" align="center">{cell}</td>')
                 lines.append('</tr>')
             lines += ['</table>', '']
+    phase_id = "completed--phase-field-at2-tension"
+    if phase_id in selected_ids and not any(item["name"] == "phase-field-at2-tension" for item in manifest):
+        folder = ROOT / "docs/results" / phase_id
+        summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
+        cover = ROOT / "docs/images" / (phase_id + ".png")
+        if not is_ready_for_publication(folder, phase_id, summary) or not cover.is_file():
+            raise ValueError("AT2 gallery record has no admitted result and cover")
+        lines += [
+            "## Fracture", "", '<table width="100%">', "<tr>",
+            '<td width="33%" align="center"><img src="images/completed--phase-field-at2-tension.png" alt="AT2 phase-field crack" width="100%"><br><strong>AT2 phase-field crack</strong><br><a href="results/completed--phase-field-at2-tension/summary.json">Results</a> &middot; <a href="images/home/completed--phase-field-at2-tension.gif">GIF</a></td>',
+            '<td width="33%" align="center"></td>', '<td width="33%" align="center"></td>',
+            "</tr>", "</table>", "",
+        ]
+        manifest.append({
+            "name": "phase-field-at2-tension", "source": "completed/phase-field-at2-tension",
+            "particles": summary["particles"], "field": "damage", "renderer": "ParaView",
+            "version": "6.2.0", "animation": False, "preview_frame": 112,
+            "preview_time": summary["time"], "auxiliary_geometry": [],
+        })
     (ROOT / "docs/GALLERY.md").write_text("\n".join(lines), encoding="utf-8")
     manifest_path = target / "manifest.json"
     write_manifest = True

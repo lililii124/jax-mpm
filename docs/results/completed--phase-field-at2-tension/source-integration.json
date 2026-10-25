@@ -1,0 +1,116 @@
+{
+  "source_commit": "3b7bdd5060e59ee0cd541c275c337b4cbb2cf135",
+  "target_main_inspected": "5d42ded",
+  "do_not_merge_old_branch": true,
+  "workflow_integration_required": false,
+  "source_files": [
+    {
+      "path": "mpm_jax/phase_field.py",
+      "git_blob": "261f778e7cb2641e60fbbe547504d5dabaf2e5ee",
+      "sha256": "bfb8cad772e56592f4c25cf17de43d25d52cd6ed7951def26eb9f56e98271dba",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "mpm_jax/phase_field_diagnostics.py",
+      "git_blob": "a0815a0013e21448e6daef32f88223c55de7c2e5",
+      "sha256": "b316d43db96bf63c562d81077b5d5ef097905fbf4250948e0bfce5f481583e85",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "mpm_jax/fibre_mpm.py",
+      "git_blob": "a81c57b30e29584ffb4d2e7e64cbf826778b9d75",
+      "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "already_identical_in_target_main": true,
+      "role": "unchanged backend/install dependency"
+    },
+    {
+      "path": "mpm_jax/materials/isotropic_brittle.py",
+      "git_blob": "887aaeda0466946f0b20563ae32b7614cde34099",
+      "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "already_identical_in_target_main": true,
+      "role": "unchanged backend/install dependency"
+    },
+    {
+      "path": "examples/phase_field_visible_crack.py",
+      "git_blob": "6793534db0832fdca1f01b7bc29d461ad2779e27",
+      "sha256": "1eae8336a64fc7206ee9abd8a679162d70c3b5bb59a1a19ddc81954d18c16011",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/phase_field_restart.py",
+      "git_blob": "fc0bd8767ba7412571d2ce358754eea6dec0dae3",
+      "sha256": "9f1cda655431ee935c34a0a10906f7d3bf5168d1fb439938fc11d3f917977f8f",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/run_phase_field_visible_crack.py",
+      "git_blob": "933974a9ab4d8f0f3f21a5c213b3b15e40a30919",
+      "sha256": "1028dd4720fa09e5d0bd281a2f3dafa2124d6b1c83674aa42cc93a0192561500",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/run_phase_field_visible_crack2800.py",
+      "git_blob": "9f271feb883716e94d8abfa4dcc82036ed218928",
+      "sha256": "9a4e6dae25c65d83f5ee63056b48d6863a88b757cb2ab8a520826d39b940ef50",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/fetch_phase_field_parent2800.py",
+      "git_blob": "48228076c0d77db80380d1ee9614a624e8eac627",
+      "sha256": "a81a2d9036c357264a293144e2ad63cf7015621ad0ac1d3f1af259db914c4f79",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/audit_phase_field_visible_crack.py",
+      "git_blob": "fc707e8d5ef2faaa607bb0cbc384d390ed920457",
+      "sha256": "c58b01b4bb71b62845c4da78edf761f34af6c5f47dba515ec4fb65e1b3d72df4",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/render_phase_field_visible_crack.py",
+      "git_blob": "439094af803a45ca86398e2792c26f6d42021b7b",
+      "sha256": "07bdca381753a48c33576535496a0ac91ff582cafb727828cc505df9e49b5a0f",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/encode_phase_field_visible_crack.py",
+      "git_blob": "63162d296023d14536447380e3755ce9b80228f1",
+      "sha256": "0e2a7651f6657ffd25f6de4f941bdf7e9cb749705b7d5bc29455328cf29f98d4",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/phase_field_bspline_sampling.py",
+      "git_blob": "7097f8d57207a880ba8e88c680a1a783b017b51c",
+      "sha256": "c665cd23300f3773fa50738110c4895573ccb4efc7f2809e05db24b287de9fdc",
+      "already_identical_in_target_main": false,
+      "role": "copy this certified source blob"
+    },
+    {
+      "path": "tools/run_woven_preview.py",
+      "git_blob": "4b587daeca2e8f5306d8a5ef03ecb28626e2959f",
+      "sha256": "a0e84679833fc35441301449880fb2a5301722ead026a689d421cd77e399d3d1",
+      "already_identical_in_target_main": true,
+      "role": "unchanged backend/install dependency"
+    },
+    {
+      "path": "tools/render_phase_field_visible_crack_threshold.py",
+      "git_blob": "bcc239512a3c30450a7cf49d636d5a1f2cdd4f8c",
+      "sha256": "82243640495dd37cb597e81a636d02c5f9c2879c64e3708f8ffd4f265c18a1ea",
+      "already_identical_in_target_main": false,
+      "role": "approved media-only threshold renderer; same authenticated physical fields; no text/axes; white background; no geometry dilation",
+      "executed_windows_crlf_sha256": "c20d63b17ae09dd2142c9db44434ae447b9dc28348dd4a71e02e3e8c5abd9bf6"
+    }
+  ],
+  "selected_media_renderer": "tools/render_phase_field_visible_crack_threshold.py",
+  "numeric_source_commit": "3b7bdd5060e59ee0cd541c275c337b4cbb2cf135"
+}

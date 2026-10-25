@@ -62,6 +62,28 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier) or summary.get("completed") is False:
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical == "completed--phase-field-at2-tension":
+        try:
+            folder = Path(folder)
+            metadata = json.loads((folder / "metadata.json").read_text(encoding="utf-8"))
+            crack = json.loads((folder / "crack-checks.json").read_text(encoding="utf-8"))
+            media = json.loads((folder / "media-review.json").read_text(encoding="utf-8"))
+            image_root = folder.parents[1] / "images"
+            gif = image_root / "home" / (canonical + ".gif")
+            cover = image_root / (canonical + ".png")
+            return (metadata["id"] == canonical and metadata["status"] == "completed"
+                    and metadata["global_steps"] == summary["steps"] == 2800
+                    and metadata["frames"] == media["frames"] == 113
+                    and crack["passed"] is True and all(crack["criteria"].values())
+                    and crack["components"][0]["extension"] >= crack["minimum_extension"]
+                    and crack["components"][0]["thickness_fraction"] >= crack["minimum_thickness_fraction"]
+                    and media["passed"] is True and media["annotations"] is False
+                    and media["axes"] is False and media["resolution"] == [400, 400]
+                    and media["all_decoded_frames_equal_exact_png_quantization"] is True
+                    and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
+                    and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])
+        except (OSError, ValueError, KeyError, IndexError, TypeError):
+            return False
     if canonical == "completed--jc-necking-refined":
         if not is_archived_completed_ready(Path(folder), summary):
             return False

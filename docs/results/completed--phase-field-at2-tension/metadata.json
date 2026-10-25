@@ -1,0 +1,24 @@
+{
+  "id": "completed--phase-field-at2-tension",
+  "title": "AT2 high-damage crack in notched plate tension",
+  "status": "completed",
+  "run_id": 40162337602,
+  "source_commit": "3b7bdd5060e59ee0cd541c275c337b4cbb2cf135",
+  "frames": 113,
+  "particles": 28800,
+  "global_steps": 2800,
+  "time": 0.16799999999999998,
+  "crack_threshold": 0.99,
+  "connected_extension": 0.13125,
+  "thickness_fraction": 1.0,
+  "load_drop_fraction": 0.7442145324854177,
+  "constitutive_work_defect_fraction": 0.02237629651098752,
+  "maximum_kkt": 9.999112731260658e-08,
+  "maximum_damage": 0.9963614084880994,
+  "first_saved_geometric_admission_step": 2650,
+  "limitations": [
+    "Dynamic small-strain total-Lagrangian PIC experiment; not a convergence study.",
+    "Black region shows exact native B-spline high damage in reference coordinates, not an opening or fragment separation.",
+    "2000 displacement was reconstructed with conservative roundoff bound3.33e-16; displacement is passive in mechanics; 4 vs2+2 parity passed. Subsequent restarts use exact exported displacement."
+  ]
+}

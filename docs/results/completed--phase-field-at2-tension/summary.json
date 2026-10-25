@@ -1,0 +1,49 @@
+{
+  "particles": 28800,
+  "nodes": 11745,
+  "steps": 2800,
+  "dx": 0.025,
+  "length": 0.05,
+  "dt": 5.9999999999999995e-05,
+  "gc": 0.005,
+  "speed": 0.15,
+  "damage_interval": 1,
+  "snapshot_every": 25,
+  "time": 0.16799999999999998,
+  "maximum_damage": 0.9963614084880994,
+  "maximum_kkt": 9.999112731260658e-08,
+  "minimum_nodal_damage_increment": 0.0,
+  "maximum_abs_step_audit": {
+    "p2g_loss": 3.8464124148902736e-07,
+    "g2p_loss": 3.923149267819103e-07,
+    "damping_loss": 2.2772424774684073e-07,
+    "boundary_work": 2.7215268590385775e-06,
+    "stress_work": 9.975327175238026e-07,
+    "kinetic_balance_error": 1.3218415686317078e-19,
+    "constitutive_work_defect": 7.261369564392179e-08,
+    "total_balance_error": 1.3217105417678553e-19
+  },
+  "maximum_strain": 0.1434883388591862,
+  "energy": [
+    0.0002990982412550652,
+    9.445542402062341e-05,
+    0.0007096642474512674
+  ],
+  "end_velocity_boundary_work": 0.0029400196501827036,
+  "energy_audit": {
+    "p2g_loss": 0.0006613006694521631,
+    "g2p_loss": 0.0006768373347063486,
+    "damping_loss": 0.00048702328971856034,
+    "boundary_work": 0.002864287069836764,
+    "stress_work": -0.0007400275347046354,
+    "kinetic_balance_error": 2.553520783540522e-18,
+    "constitutive_work_defect": 6.409213676725506e-05,
+    "total_balance_error": 2.5590044579854732e-18
+  },
+  "boundary_work": 0.002864287069836764,
+  "energy_minus_work": -0.001761069157109808,
+  "damaged_notch_band_particles": 1792,
+  "offband_maximum_damage": 0.4633353423947352,
+  "damaged_ligament_particles": 4848,
+  "method": "small-strain total-Lagrangian PIC MPM; dynamic ramp; damping 5/s"
+}

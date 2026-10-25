@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "frames": 113,
+  "resolution": [
+    400,
+    400
+  ],
+  "unique_decoded_frames": 112,
+  "all_decoded_frames_equal_exact_png_quantization": true,
+  "all_png_sha256_verified": true,
+  "all_raw_npz_sha256_verified": true,
+  "native_fields_identical_to_certified_cloud_render": true,
+  "threshold_point_bounds_checked_in_renderer": true,
+  "threshold_method": "Only existing dx/4 cells whose every native nodal B-spline sample is >=.99; no dilation, geometric opening, particle deletion or deformation scaling",
+  "first_threshold_cells": 0,
+  "last_threshold_cells": 5344,
+  "first_contour_points": 0,
+  "last_contour_points": 1207,
+  "annotations": false,
+  "axes": false,
+  "background": "white",
+  "keyframes_0_2650_2800_approved_and_pixel_identical_to_full_render": true,
+  "black_region": "AT2 high-damage crack in reference coordinates; not an open or separated fracture surface",
+  "gif_sha256": "62f55a21354632aa0d0637ea45dc7a91140ec98ea4d7946ff351c8f6b1d32331",
+  "cover_sha256": "cf0f5487d3f34444c649422bbcfaa78939ab951441f98f6aa59944a7b03f655e",
+  "media_only_renderer_sha256": "c20d63b17ae09dd2142c9db44434ae447b9dc28348dd4a71e02e3e8c5abd9bf6",
+  "original_cloud_media_whole_zip_sha_verified": false,
+  "raw_zip_sha_verified": true,
+  "renderer_git_blob_sha256": "82243640495dd37cb597e81a636d02c5f9c2879c64e3708f8ffd4f265c18a1ea",
+  "renderer_line_endings": "Windows executed source uses CRLF; source integration Git blob uses LF. Code bytes differ only by newline normalization."
+}

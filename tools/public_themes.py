@@ -15,6 +15,7 @@ THEMES = (
     "Fluid dynamics",
     "Fluid-solid interaction",
     "Structural elasticity",
+    "Fracture",
 )
 
 HIDDEN_DISPLAY_IDS = frozenset({"contact-models--jkr-footprint", "material-engineering--jc-tension--johnson-cook", "completed--crossed-fibre-self-consistent"})
@@ -22,6 +23,8 @@ HIDDEN_DISPLAY_IDS = frozenset({"contact-models--jkr-footprint", "material-engin
 
 def theme(value):
     value = value.lower()
+    if "phase-field" in value or "fracture" in value:
+        return THEMES[14]
     if any(s in value for s in ("crossed-fibre", "single-fibre", "single-fiber", "fibre-pull-off")):
         return THEMES[0]
     if "woven" in value:

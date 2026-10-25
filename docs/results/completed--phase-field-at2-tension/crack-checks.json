@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "criteria": {
+    "contiguous_crack": true,
+    "load_drop": true,
+    "irreversible": true,
+    "kkt": true,
+    "nodal_quadrature_fields_match": true,
+    "energy_identities": true,
+    "transfer_losses_nonnegative": true,
+    "constitutive_defect_below_5_percent": true,
+    "nodal_damage_bounds": true,
+    "damage_bounds": true
+  },
+  "threshold": 0.99,
+  "connectivity": "six face neighbors on reference particle lattice, |y-.5|<=.13",
+  "minimum_extension": 0.1,
+  "minimum_thickness_fraction": 0.8,
+  "components": [
+    {
+      "points": 768,
+      "extension": 0.13125000000000003,
+      "thickness_fraction": 1.0
+    }
+  ],
+  "peak_reaction": 0.2875240859792654,
+  "final_reaction": 0.07354448275390936,
+  "load_drop_fraction": 0.7442145324854177,
+  "constitutive_defect_fraction": 0.02237629651098752,
+  "limitation": "Dynamic small-strain PIC experiment; accounting closure is not physical energy convergence. Recovered nodal gradient/fracture density are projections. No exact restart claimed."
+}

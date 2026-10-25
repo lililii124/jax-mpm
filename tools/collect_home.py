@@ -103,6 +103,7 @@ def legacy_describe(identifier):
         "completed--crossed-fibre-jkr": (GROUPS[2], "Crossed fibre JKR contact"),
         "completed--crossed-fibre-md": (GROUPS[2], "Crossed fibre MD contact"),
         "completed--crossed-fibre-self-consistent": (GROUPS[2], "Crossed fibre SC local BEM contact"),
+        "completed--phase-field-at2-tension": (GROUPS[0], "AT2 phase-field crack"),
         "completed--ceramic-impact-debris": (GROUPS[0], "JH2 ceramic impact and debris"),
     }
     if identifier in completed:
