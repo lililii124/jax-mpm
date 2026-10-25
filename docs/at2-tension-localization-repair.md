@@ -64,3 +64,28 @@ outside the initial seed and its initial diffuse tail. No single threshold or
 connectivity gate qualifies localization. A growing nearly-unit plateau many
 ell wide is a failure requiring model/solver diagnosis, not a rendering choice.
 No GIF until this physical evidence is reviewed.
+
+
+## First measured segment and next bounded continuation
+
+Official run40175008288, sourcecf66f924c14e438787181b5eb956db4d1d938c9a,
+completed1200. Whole ZIP SHA256
+64196b8e97bf16cdfca33fe43bf0031d95a1b439b356faadf96f1e9aabb55ba9.
+Independent recheck:39 exact parity fields; actual checkpoint4 bytes identical;
+all source hashes match. Wall275.58s, USS1.502GB, RSS1.522GB, measured step
+median0.23467s/max0.261924s. No newly threshold-crossing particle volume for
+.5/.8/.9/.95/.99. Initial fracture energy2.038729319e-6 is excluded from
+physical energy increment; total energy residual/absolute work=-0.02635%.
+KE/elastic=1.533: accepted only as an explicit dynamic first loading-wave case.
+
+Next unique segment is step1200 to3600, t=0.054, displacement0.000486;
+checkpoint1200 SHA256
+2547ab6cbb66701665369ef0a65041e16ec15602143c7f2a20d754cbfe3522d1.
+Producer, geometry, all material/integrator sources, BC and loading remain
+byte-identical. Full parent ZIP/source binding is verified before stepping.
+Actual checkpoint carry remains strict. Only recomputed elastic density uses
+an independently evaluated strain-scaled roundoff bound; all other exports
+remain exact. Process40min/job45min and6GiB guard remain. There is no crack
+claim and no media publication. Dynamic initiation may be accepted as dynamic
+if subsequent stability, time-step and fixed-ell localization checks pass;
+quasistatic labeling is optional and requires the stated rate/KE evidence.

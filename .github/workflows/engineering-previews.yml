@@ -1,8 +1,9 @@
-name: AT2 discrete precrack tension localization pilot
+name: AT2 discrete precrack tension continuation1200 to3600
 on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: at2-tension-localization
   cancel-in-progress: false
@@ -33,16 +34,18 @@ jobs:
           mkdir -p outputs/tension
           git rev-parse HEAD > outputs/tension/source-head.txt
           python -m pip freeze > outputs/tension/runtime.txt
-      - name: Exact carry parity and bounded first loading-wave segment
+      - name: Frozen checkpoint1200 continuation to3600
         timeout-minutes: 40
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          timeout --signal=KILL 39m python tools/run_phase_field_tension_localization.py --output outputs/tension/proof 2>&1 | tee outputs/tension/proof.log
+          timeout --signal=KILL 39m python tools/run_phase_field_tension_to3600.py --output outputs/tension/continuation 2>&1 | tee outputs/tension/proof.log
       - name: Preserve all raw fields and resource evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: at2-tension-localization-${{ github.run_id }}
+          name: at2-tension3600-${{ github.run_id }}
           path: outputs/tension/
           if-no-files-found: warn
           compression-level: 0
