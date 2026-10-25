@@ -210,6 +210,7 @@ def main():
         state['candidate_dynamic_contact_work_by_body'] = np.asarray([
             float(np.sum((midpoint_actual*physical_contact).reshape(-1, 4, 3)[old['body_id'] == b])) for b in (0, 1)])
         synchronize(state, y)
+        state['candidate_white'] = y
         np.savez_compressed(args.output/'coupled-before-remap.npz', **state, midpoint_final_white=midpoint_actual)
         frame.release()
         frame = None
@@ -254,6 +255,7 @@ def main():
         report['status'] = 'bounded-window-passed'
     except Exception as error:
         report.update(status='rejected', first_error={'type': type(error).__name__, 'message': str(error)})
+        state['valid'] = np.asarray(False)
         np.savez_compressed(args.output/'rejected.npz', **state, rejected_white=y)
     finally:
         if frame is not None:
