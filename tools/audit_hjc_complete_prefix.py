@@ -201,6 +201,11 @@ def frames_and_mirrors(folder, state, expected_frame):
         assert np.all(damage >= previous) and np.all((damage >= 0)&(damage <= 1))
         assert abs(float(value['time'])-frame*25e-6) < 1e-15
         observation = cp['observations'][frame]
+        row = cp['rows'][frame]
+        kinetic = .5*np.sum(initial['mass']*value['speed']**2)
+        np.testing.assert_allclose(row['kinetic_energy'],kinetic,rtol=2e-14,atol=1e-10)
+        for axis,name in enumerate(('x','y','z')):
+            np.testing.assert_allclose(row['com_'+name],np.average(value['x'][:,axis],weights=initial['mass']),rtol=2e-14,atol=1e-14)
         rms = {}
         displacement = value['x']-reference
         for axis,name in ((0,'x'),(2,'z')):
@@ -224,6 +229,8 @@ def frames_and_mirrors(folder, state, expected_frame):
             for name, leaf in (('x','x'),('damage','history_damage'),('temperature','history_temperature')):
                 assert np.array_equal(value[name],final[leaf])
             np.testing.assert_allclose(value['speed'],np.linalg.norm(final['v'],axis=1),rtol=2e-14,atol=1e-13)
+            np.testing.assert_allclose(row['constitutive_work'],np.sum(final['mass']*final['history_work']),rtol=2e-14,atol=1e-10)
+            np.testing.assert_allclose(row['current_volume'],np.sum(final['volume']*np.linalg.det(final['F'])),rtol=2e-14,atol=1e-15)
         records.append(dict(frame=frame,time_s=float(value['time']),damage_max=float(damage.max()),
             damage_mean_reference_volume=float(np.average(damage,weights=volume)),damage_mirror_rms=rms))
         previous = damage
@@ -353,6 +360,20 @@ def main():
             scope='Same frozen numerical equations/loading; retain runtime/source/state and existing wall/USS guards. No automatic dispatch.'),
         delivery=checkpoint_delivery,structural_energy_certified=False,temporal_convergence_certified=False,
         physical_steps_executed=0,jax_initialized=False,public_visual_review_passed=False)
+    observations = cstate['checkpoint']['observations']
+    sample_times = np.asarray([row['boundary_sample_time_s'] for row in observations])
+    supplied_power = -np.asarray([row['loading_reaction_y_N']*row['prescribed_speed_y_m_per_s'] for row in observations])
+    sampled_work = float(np.sum(.5*(supplied_power[1:]+supplied_power[:-1])*np.diff(sample_times)))
+    final_row = cstate['checkpoint']['rows'][-1]
+    kinetic_plus_work = final_row['kinetic_energy']+final_row['constitutive_work']
+    report['saved_sample_energy_diagnostic'] = dict(
+        external_work_ledger_J=cstate['checkpoint']['external_work'],
+        loading_reaction_saved_sample_work_J=sampled_work,
+        final_kinetic_plus_constitutive_work_J=kinetic_plus_work,
+        signed_difference_J=sampled_work-kinetic_plus_work,
+        normalized_difference=(sampled_work-kinetic_plus_work)/max(abs(sampled_work),abs(kinetic_plus_work),1e-30),
+        qualified=False,
+        limitation='Saved reaction is a hypothetical next-step boundary probe at time+dt, velocity is sampled at time, and 25us saved cadence is not a step-level work ledger. Constitutive work is not a separately validated stored/dissipated energy split.')
     save(output/f"independent-hjc{CHILD['frame']}-review.json",report)
     print(json.dumps({k:v for k,v in report.items() if k not in ('frame_observations','parent_frame_observations','delivery')},indent=2))
 
