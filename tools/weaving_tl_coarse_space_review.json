@@ -1,0 +1,77 @@
+{
+  "admitted": true,
+  "physical_gates": {
+    "initial_velocity_projection": true,
+    "initial_energy_projection": true,
+    "reference_mass": true,
+    "affine_reproduction": true,
+    "momentum": true,
+    "kick_work": true,
+    "nonlinear_and_original_physical_guards": true,
+    "all_finite": true,
+    "same_time": true,
+    "mass_volume_IDs_exact": true,
+    "history_irreversible": true,
+    "grips": true,
+    "contact_zero_certificate": true
+  },
+  "same_TL_fine_comparison": {
+    "state_v": 0.005442482424761951,
+    "state_F": 0.002916972292013395,
+    "state_tau": 0.029828132717040184,
+    "history_kappa": 0.006098770276529945,
+    "max_position_difference_over_h": 0.002052113371406941,
+    "K": 2.5762603164921307e-05,
+    "U": 6.371140897033687e-05,
+    "absolute_fixture_work": 0.00013943709982109406
+  },
+  "old_APIC_comparison": {
+    "state_v": 0.015310613414033575,
+    "state_F": 0.03297948510340462,
+    "state_tau": 0.22922079140442717,
+    "history_kappa": 0.06758569188601347,
+    "max_position_difference_over_h": 0.027247333347741903,
+    "K": 0.03672593820337443,
+    "U": 0.057578163543508816,
+    "absolute_fixture_work": 0.02024386105816178
+  },
+  "old_APIC_admitted": false,
+  "assembly_seconds": 16.25032015144825,
+  "layout_including_assembly_seconds": 25.265691712498665,
+  "compile_seconds": 29.845437213778496,
+  "dispatch_seconds": 18.33203261345625,
+  "cold_total_seconds": 73.44316153973341,
+  "warm_total_seconds": 43.597724325954914,
+  "original_residual_max": 9.811967017433336e-08,
+  "original_absolute_residual_max": 8.43089363838775e-16,
+  "maximum_CG_total": 71.0,
+  "unpreconditioned_CG_total": 74.0,
+  "unpreconditioned_dispatch_seconds": 21.323629781603813,
+  "scope": "Full3D fixed-window TL midpoint equations, additive geometric Galerkin preconditioner only; oldAPIC method mismatch retained",
+  "independent_raw_audit": {
+    "independent_streamed_comparison": {
+      "state_v": 0.00544248242476195,
+      "state_F": 0.002916972292013395,
+      "state_tau": 0.02982813271704018,
+      "history_kappa": 0.006098770276529945,
+      "max_position_difference_over_h": 0.002052113371406941,
+      "K": 2.5762603165195343e-05,
+      "absolute_fixture_work": 0.00013943709982109406
+    },
+    "authoritative_nodal_K": [
+      1.2364489437179003e-05,
+      1.2364170903950538e-05
+    ],
+    "all_checked_targets_pass": true,
+    "coarse_SHA": "f7a86742370ccb914d0bdb2f892c96447a805307b6dbc83460e38fd3b342c4fd",
+    "fine_SHA": "6183a395a3264197b53705549585c20ffad00737e91c822d716e47dc8ff41ba5"
+  },
+  "actual_resource": {
+    "wall_seconds": 91.97406335175037,
+    "peak_USS_bytes": 3669360640,
+    "exit_code": 0
+  },
+  "verdict": "Numerical qualification passes for this contact-free TL window only. No net speedup over unpreconditioned TL after assembly. Do not promote as production acceleration or oldAPIC-equivalent method; retain oldAPIC failed comparison, no scan.",
+  "capsule_sha256": "ce171ce94840cee493dbf0236bd5bcf6f515436000a10552b58f95099e0d6e98",
+  "source_commit": "e9ee910"
+}
