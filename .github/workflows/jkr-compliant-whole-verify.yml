@@ -1,0 +1,53 @@
+name: read-only JKR complete raw verification
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        type: string
+        default: '40167672037'
+        required: true
+      artifact_id:
+        type: string
+        default: '12589979393'
+        required: true
+      numerical_commit:
+        type: string
+        default: '28e11e7060ae6333bc53ccabcd6dbc5fa7959f93'
+        required: true
+permissions:
+  contents: read
+  actions: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RAW_RUN: ${{ inputs.run_id }}
+      RAW_ARTIFACT: ${{ inputs.artifact_id }}
+      NUMERICAL_COMMIT: ${{ inputs.numerical_commit }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: NumPy only environment no JAX simulation
+        run: python -m pip install numpy==2.5.4
+      - name: Official whole ZIP digest CRC complete source and accepted-state audit
+        run: python tools/verify_jkr_complete_artifact.py --run-id "$RAW_RUN" --artifact-id "$RAW_ARTIFACT" --numerical-commit "$NUMERICAL_COMMIT" --output .local/jkr-whole-verification
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jkr-whole-raw-read-only-review-${{ github.run_id }}
+          path: |
+            .local/jkr-whole-verification/whole-artifact-final-review.json
+            .local/jkr-whole-verification/independent-state-review.json
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
