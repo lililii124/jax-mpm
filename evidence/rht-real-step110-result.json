@@ -1,0 +1,146 @@
+{
+  "start_step": 106,
+  "target_step": 110,
+  "accepted_steps": 4,
+  "compile_seconds": 9.87436681240797,
+  "steps": [
+    {
+      "step": 107,
+      "solve_seconds": 3.298772267997265,
+      "valid": true,
+      "contact_impulse": [
+        6.505213034913027e-19,
+        0.002119921286101894,
+        1.5585406229479126e-19
+      ],
+      "raw_files": {
+        "state107-body0.npz": {
+          "bytes": 51325317,
+          "sha256": "364257e6d9222fa86ae8800ead8a4e4018049ef45d8dbef31a3968844d695aaf"
+        },
+        "state107-body1.npz": {
+          "bytes": 599418,
+          "sha256": "e1c68a5a29d5fee3a4c4b53f19e3e4ec48f2951c9911d026825265b6bf433e2a"
+        },
+        "contact-impulse-step107.npy": {
+          "bytes": 152,
+          "sha256": "fba4a02adf009809ffae5b2c4093db8b5303a8f247ffc8509cc4935b48381ff4"
+        }
+      },
+      "target_min_J": 0.9939394764632737,
+      "target_max_damage": 0.0,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 108,
+      "solve_seconds": 5.797881171107292,
+      "valid": true,
+      "contact_impulse": [
+        3.5236570605778894e-19,
+        0.0022199230212182086,
+        -2.0328790734103208e-19
+      ],
+      "raw_files": {
+        "state108-body0.npz": {
+          "bytes": 51378668,
+          "sha256": "2cf24269df9db4fa2e0ead20fc954f369816e49230809606f0d341a6ba439d6f"
+        },
+        "state108-body1.npz": {
+          "bytes": 599907,
+          "sha256": "fe06e985bf5f505a5fce9d34e066d4f7b4659a2e16ae60e200367a7f336792bb"
+        },
+        "contact-impulse-step108.npy": {
+          "bytes": 152,
+          "sha256": "d7a4487f88de88bf5a1f6b19f30572b358da6bbe959b1e362a8c077e31c668f6"
+        }
+      },
+      "target_min_J": 0.9930268901713064,
+      "target_max_damage": 0.0,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 109,
+      "solve_seconds": 5.775488078594208,
+      "valid": true,
+      "contact_impulse": [
+        6.505213034913027e-19,
+        0.002318007666811427,
+        2.541098841762901e-20
+      ],
+      "raw_files": {
+        "state109-body0.npz": {
+          "bytes": 51431374,
+          "sha256": "a6d8ec3e38ffa7468c2d41bacf1bcc9450230151653b5d7fa0702000abc11212"
+        },
+        "state109-body1.npz": {
+          "bytes": 600272,
+          "sha256": "a8368d5e04084b0dfd65ae008862ed57c08d4f930acc8e35529ec4746264fc6d"
+        },
+        "contact-impulse-step109.npy": {
+          "bytes": 152,
+          "sha256": "8ff5368f10c1bf9cb33750dbdf7c622f8cf0f3fc48b4a6ec500a2d43e2628bb9"
+        }
+      },
+      "target_min_J": 0.9920699592513705,
+      "target_max_damage": 0.0,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 110,
+      "solve_seconds": 5.967570893466473,
+      "valid": true,
+      "contact_impulse": [
+        1.2739375526704677e-18,
+        0.0024162670783014384,
+        6.335806445462167e-19
+      ],
+      "raw_files": {
+        "state110-body0.npz": {
+          "bytes": 51488609,
+          "sha256": "28703f14d8f2a3421a82f700509d39e5fbaa3e63606b18034cd8ca4bc2a60eae"
+        },
+        "state110-body1.npz": {
+          "bytes": 600651,
+          "sha256": "9cff0b7563f4e6432fc4b7d5872debca92016219cf9f4f0c6b1e4c79f0aa39e4"
+        },
+        "contact-impulse-step110.npy": {
+          "bytes": 152,
+          "sha256": "49f8b04826fb0ca3c2db1e5d1438b03187d77780413da466329444d2b3462d21"
+        }
+      },
+      "target_min_J": 0.991071060680709,
+      "target_max_damage": 0.0,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    }
+  ],
+  "instrumentation_added": false,
+  "production_continuation_complete": false
+}

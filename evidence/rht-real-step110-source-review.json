@@ -1,0 +1,36 @@
+{
+  "parent_source_commit": "0c99377fac0ff77b376958dff2e124e2a4691f21",
+  "candidate_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+  "seed106_raw_sha256": {
+    "state106-body0.npz": {
+      "bytes": 51266345,
+      "sha256": "cb7a875a3e08f67eaed01eca23b2146c86c002ffeb289af51c7d74cbe57ff247"
+    },
+    "state106-body1.npz": {
+      "bytes": 599287,
+      "sha256": "a8b7e3799871faa89597021e1bacbcf3381897ee683c3a2b8312346b5ff49e89"
+    },
+    "contact-impulse.npy": {
+      "bytes": 152,
+      "sha256": "838fce16d4572777c6ac186c4961891e15a78ec220577286988e130b9cdde13c"
+    }
+  },
+  "versions": {
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "ml_dtypes": "0.6.0",
+    "opt_einsum": "3.4.0",
+    "psutil": "7.2.2"
+  },
+  "instrumentation_added": false,
+  "exact_same_runtime_source_as_independently_checked_compact106": true,
+  "physical_steps_requested": [
+    107,
+    108,
+    109,
+    110
+  ],
+  "all_original_iteration_limits_and_tolerances_unchanged": true
+}
