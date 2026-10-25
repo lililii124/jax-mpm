@@ -1,0 +1,47 @@
+{
+  "scope": "same prescribed W and original parameters, no dynamic advance",
+  "fields": {
+    "F": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    },
+    "tau": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    },
+    "plastic_strain": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    },
+    "cold_work": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    },
+    "fracture_energy": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    },
+    "damage": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    },
+    "internal_energy": {
+      "maximum_absolute_difference": 0.0,
+      "bitwise_equal": true
+    }
+  },
+  "work_J": 6.269588611205418e-05,
+  "internal_change_J": 6.269588611224813e-05,
+  "remainder_J": -1.9395021613050067e-16,
+  "volume_identity_J": -1.9005589848529548e-16,
+  "deviatoric_identity_J": -5.664200589693227e-20,
+  "new_response_sha256": "e022717336588b36357d311111314458f8fdf4a354f5709a74ec36d234bb0845",
+  "request_sha256": "f84b752f1188daf064d2ec325e13ed1cc179ff2546562dd7ca1e89b5ef16e56a",
+  "reference_response_sha256": "7daf6224ef633a5cc83e9680887a49d0d25827708a99b1638ba02213ad1a86ea",
+  "source_sha256": {
+    "mpm_jax\\fragment_v6_discrete_work.py": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4",
+    "tools\\metal_affine_midpoint_material_worker.py": "a4dc550fb934987b32f868ae23d7f14e6e735cdb0d8bc29360fbcd700192a133"
+  },
+  "geometric_invariant_tests_passed": 2,
+  "runtime_scope": "Local JAX0.12.0.1 float64; full coupled solve will use the original immutable Linux dev-client image"
+}
