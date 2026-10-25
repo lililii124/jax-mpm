@@ -32,7 +32,9 @@ def triangular_blocks(matrix,size=128):
         for i,(r,c,v) in enumerate(entries):row[b,i]=r;col[b,i]=c;data[b,i]=v
     dense,row,col,data=map(jnp.asarray,(dense,row,col,data))
     lower=bool(np.any(coo.row>coo.col));assert not (lower and np.any(coo.row<coo.col))
-    def solve(rhs):
+    parameters=(dense,row,col,data)
+    def solve(rhs,parameters=parameters):
+        dense,row,col,data=parameters
         padded=jnp.pad(rhs,((0,N-n),(0,0)))
         def body(i,x):
             b=i if lower else blocks-1-i;offset=b*size
@@ -41,7 +43,7 @@ def triangular_blocks(matrix,size=128):
             answer=solve_triangular(dense[b],value,lower=lower)
             return jax.lax.dynamic_update_slice(x,answer,(offset,0))
         return jax.lax.fori_loop(0,blocks,body,jnp.zeros_like(padded))[:n]
-    return solve,dict(blocks=blocks,block_size=size,off_diagonal_capacity=cap,exact_triangular_blocks=True)
+    return solve,dict(blocks=blocks,block_size=size,off_diagonal_capacity=cap,exact_triangular_blocks=True),parameters
 
 
 def main():
@@ -56,24 +58,37 @@ def main():
     contact=CompatibleContact(current)
     assert np.array_equal(contact.normal,gold['normals'])
     assert np.array_equal(allowed.tri.perm_r,np.arange(allowed.nodes)) and np.array_equal(allowed.tri.perm_c,np.arange(allowed.nodes))
-    upper,pc=triangular_blocks(allowed.tri.U);lower,_=triangular_blocks(allowed.tri.U.T)
+    upper,pc,upper_parameters=triangular_blocks(allowed.tri.U);lower,_,lower_parameters=triangular_blocks(allowed.tri.U.T)
     root=jnp.asarray(allowed.root)
     right=lambda z:upper(root[:,None]*z)
     rightT=lambda z:root[:,None]*lower(z)
     def sparse(matrix):
         m=matrix.tocoo();data,row,col=map(jnp.asarray,(m.data,m.row.astype(np.int32),m.col.astype(np.int32)))
-        return lambda x:sparse_apply(data,row,col,x,m.shape[0]),lambda x:sparse_apply(data,col,row,x,m.shape[1])
-    Q,QT=sparse(allowed.Qp);B,BT=sparse(contact.B0)
+        parameters=(data,row,col)
+        return (lambda x,p=parameters:sparse_apply(p[0],p[1],p[2],x,m.shape[0]),lambda x,p=parameters:sparse_apply(p[0],p[2],p[1],x,m.shape[1]),parameters)
+    Q,QT,q_parameters=sparse(allowed.Qp);B,BT,b_parameters=sparse(contact.B0)
     T=jnp.asarray(allowed.T);currentT=jnp.asarray(current.T);C=jnp.asarray(contact.C);M=jnp.asarray(contact.mobility)
     def sample(y):return B(y.ravel())+C@(currentT.T@y).ravel()
     def adjoint(lam):return BT(lam).reshape(-1,3)+currentT@(C.T@lam).reshape(currentT.shape[1],3)
-    project_range=lambda y:consistent_project(y,Q,QT,T,right,rightT,iterations=64)
-    project_cone=lambda y:cone_project(y,sample,adjoint,M,sweeps=512,tolerance=1e-7)
     trial=jnp.asarray(gold['trial']);prepare_seconds=time.monotonic()-started
-    solve=jax.jit(lambda y:intersect_project(y,project_range,project_cone,sample,iterations=64))
+    parameters=dict(upper=upper_parameters,lower=lower_parameters,q=q_parameters,b=b_parameters,root=root,T=T,currentT=currentT,C=C,M=M)
+    def kernel(y,p):
+        q=lambda x:Q(x,p['q']);qt=lambda x:QT(x,p['q'])
+        right=lambda x:upper(p['root'][:,None]*x,p['upper'])
+        rightT=lambda x:p['root'][:,None]*lower(x,p['lower'])
+        sample=lambda x:B(x.ravel(),p['b'])+p['C']@(p['currentT'].T@x).ravel()
+        adjoint=lambda lam:BT(lam,p['b']).reshape(-1,3)+p['currentT']@(p['C'].T@lam).reshape(p['currentT'].shape[1],3)
+        project_range=lambda x:consistent_project(x,q,qt,p['T'],right,rightT,iterations=64)
+        project_cone=lambda x:cone_project(x,sample,adjoint,p['M'],sweeps=512,tolerance=1e-7)
+        return intersect_project(y,project_range,project_cone,sample,iterations=64)
+    solve=jax.jit(kernel)
     print(json.dumps(dict(phase='jax-compiling',prepare_seconds=prepare_seconds,particles=len(old['mass']),preconditioner=pc,scope='SciPy preparation; pure JAX iterative kernel, not all-JAX impact integration')),flush=True)
-    begun=time.monotonic();compiled=solve.lower(trial).compile();compile_seconds=time.monotonic()-begun
-    begun=time.monotonic();following,report=compiled(trial);following.block_until_ready();solve_seconds=time.monotonic()-begun
+    # Large operator arrays are dynamic inputs: prevent XLA constant folding
+    # from replicating the padded triangular workspaces during compilation.
+    del allowed
+    import gc;gc.collect()
+    begun=time.monotonic();compiled=solve.lower(trial,parameters).compile();compile_seconds=time.monotonic()-begun
+    begun=time.monotonic();following,report=compiled(trial,parameters);following.block_until_ready();solve_seconds=time.monotonic()-begun
     following=np.asarray(following);values={k:np.asarray(v) for k,v in report.items()};physical=values.pop('physical_impulse');reaction=values.pop('boundary_reaction');lam=values.pop('multiplier')
     report={k:v.item() for k,v in values.items()};relative=float(np.linalg.norm(following-gold['following'])/np.linalg.norm(gold['following']))
     native=contact.sample(following);kkt=float(np.max(np.where(lam>0,abs(native),np.maximum(native,0)),initial=0))
