@@ -38,7 +38,7 @@ def main():
             fields={}
             for key in actual.files:
                 left,right=actual[key],expected[key];exact=bool(np.array_equal(left,right));all_exact&=exact
-                if left.dtype.kind in 'biu':assert exact,key
+                if left.dtype.kind in 'biu' or key in ('mass','damage','time','fixture_targets'):assert exact,key
                 difference=float(np.max(np.abs(left-right),initial=0.)) if left.dtype.kind in 'fiu' else 0.
                 if left.dtype.kind=='f':assert np.allclose(left,right,rtol=1e-12,atol=1e-14),key
                 fields[key]=dict(exact=exact,max_abs=difference)
