@@ -61,3 +61,21 @@ pre-impact velocity is the endpoint used for the position/deformation
 midpoint identities. Two exact closed-contact histories check zero restitution
 and separating motion reversed by an applied force. General collision geometry
 still requires the original coverage, power and momentum gates.
+
+The first 200 ps step with this split was accepted at 125.402 ns. Contact work
+was `3.47e-18 J`, the accumulated energy residual was `1.25e-12 J`, and the
+maximum temperature was 315.112 K. This establishes one actual continued step,
+not long-time fracture-cloud validity.
+
+The constrained Galerkin space is a subspace of the free space, so
+`P_fixed P_free y = P_fixed y`. A direct constrained projection on the saved
+125.202 ns configuration reproduced the prior two-stage velocity with a
+white-coordinate L2 difference of `1.98e-14`; the corresponding work bound was
+`3.25e-13 J`, below the unchanged `1.4146e-8 J` tolerance. Construction and
+projection took 15.51 s without rerunning the old free solve or the trajectory.
+The optional direct path retains every physical grid column, the same contact
+sampler and fixed-node space. Its combined projection loss is stored separately
+as nonthermal numerical/constraint loss; it does not invent a grid/boundary
+partition. The combined residual includes a Galerkin-orthogonal component;
+its global impulse and torque agree with the saved boundary reaction because
+the full space reproduces rigid modes. This remains a reference solver.

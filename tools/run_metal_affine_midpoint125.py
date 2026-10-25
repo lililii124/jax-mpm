@@ -27,6 +27,8 @@ def main():
     parser.add_argument('--state-sha256', default='cb3da5037c6060772b501bd668d9ee3b946e93d0ecd69da1c1b9b54f9c44e523')
     parser.add_argument('--inprocess-material', action='store_true')
     parser.add_argument('--contact-time-level', choices=('endpoint', 'midpoint'), default='endpoint')
+    parser.add_argument('--direct-projection', action='store_true')
+    parser.add_argument('--end-time-limit', type=float, default=126.01e-9)
     args = parser.parse_args()
     if not re.fullmatch('[0-9a-f]{64}', args.state_sha256) or hashlib.sha256(args.state.read_bytes()).hexdigest() != args.state_sha256:
         raise ValueError('Audited post-contact seed required')
@@ -37,8 +39,10 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     with np.load(args.state) as data:
         state = {k: data[k] for k in data.files}
-    if not 125e-9-1e-20 <= float(state['time']) < float(state['time'])+args.dt <= 126.01e-9+1e-20:
-        raise ValueError('Only the declared continuation through126.01 ns is admitted')
+    if not np.isfinite(args.end_time_limit) or not 125e-9 < args.end_time_limit <= 20e-6:
+        raise ValueError('A finite continuation horizon between125 ns and20 us is required')
+    if not 125e-9-1e-20 <= float(state['time']) < float(state['time'])+args.dt <= args.end_time_limit+1e-20:
+        raise ValueError('Step exceeds the declared continuation horizon')
     admission = json.loads(args.admission.read_text())
     p, tol = admission['material'], admission['energy_roundoff_J']
     fixed = state['candidate_fixed_particles']
@@ -51,12 +55,13 @@ def main():
     origin_angular = state.get('candidate_origin_angular', initial_angular).copy()
     prior_boundary_impulse = state.get('candidate_cumulative_boundary_impulse', np.zeros(3)).copy()
     prior_boundary_torque = state.get('candidate_cumulative_boundary_torque', np.zeros(3)).copy()
-    ledger = dict(grid=0., boundary=0., contact=0., viscosity=0., dynamic_contact=0.)
+    ledger = dict(grid=0., boundary=0., contact=0., viscosity=0., dynamic_contact=0., combined_projection=0.)
     boundary_impulse = np.zeros(3)
     boundary_torque = np.zeros(3)
     report = dict(schema='metal-common-time-level125-v1', dt_s=args.dt, status='running',
                   material_backend='jax-in-process' if args.inprocess_material else 'isolated-jax-worker',
                   contact_time_level=args.contact_time_level,
+                  direct_projection=args.direct_projection, end_time_limit_s=args.end_time_limit,
                   input_sha256=hashlib.sha256(args.state.read_bytes()).hexdigest(),
                   energy_roundoff_J=tol, iterations=[], stages=[], production_admitted=False)
     frame = None
@@ -100,11 +105,15 @@ def main():
         nonlocal y
         before = y.copy()
         y, row, reaction = frame.project(y)
-        ledger['grid'] += row['grid_projection_loss_J']
-        ledger['boundary'] += row['boundary_projection_loss_J']
+        if args.direct_projection:
+            ledger['combined_projection'] += row['combined_projection_loss_J']
+            gate(abs(row['combined_projection_identity_J']) <= tol, 'Combined projection work identity failed')
+        else:
+            ledger['grid'] += row['grid_projection_loss_J']
+            ledger['boundary'] += row['boundary_projection_loss_J']
+            gate(abs(row['grid_projection_identity_J']) <= tol and abs(row['boundary_projection_identity_J']) <= tol,
+                 'Projection work identity failed')
         reaction_at(state, reaction)
-        gate(abs(row['grid_projection_identity_J']) <= tol and abs(row['boundary_projection_identity_J']) <= tol,
-             'Projection work identity failed')
         report['stages'].append(dict(stage=label, projection=row, geometry=frame.report))
         np.savez_compressed(args.output/(label+'.npz'), white_before=before, white=y, reaction=reaction)
 
@@ -137,7 +146,7 @@ def main():
 
     try:
         require_commit_headroom()
-        frame = DynamicFrame(state, fixed, y, progress)
+        frame = DynamicFrame(state, fixed, y, progress, direct_projection=args.direct_projection)
         project('initial-projection')
         contact('initial-contact')
         synchronize(state, y)
@@ -253,7 +262,7 @@ def main():
         frame.release()
         frame = None
         gc.collect()
-        frame = DynamicFrame(state, fixed, y, progress)
+        frame = DynamicFrame(state, fixed, y, progress, direct_projection=args.direct_projection)
         project('end-projection')
         contact('end-contact')
         synchronize(state, y)
@@ -283,7 +292,10 @@ def main():
         gate(abs(energy_residual) <= tol, 'Original full energy accounting tolerance failed')
         gate(np.linalg.norm(dp) <= 1e-10*max(momentum_scale, 1e-30), 'Original momentum gate failed')
         gate(np.linalg.norm(dl) <= report['angular_tolerance'], 'Original angular momentum gate failed')
-        state['numerical_reservoir'] += ledger['grid']+ledger['contact']+ledger['viscosity']+ledger['dynamic_contact']
+        state['numerical_reservoir'] += (ledger['grid']+ledger['contact']+ledger['viscosity']+
+                                        ledger['dynamic_contact']+ledger['combined_projection'])
+        state['candidate_combined_projection_loss'] = np.asarray(
+            float(old.get('candidate_combined_projection_loss',0.))+ledger['combined_projection'])
         state['boundary_reservoir'] += ledger['boundary']
         state['boundary_projection_loss'] += ledger['boundary']
         state['boundary_impulse'] += boundary_impulse
