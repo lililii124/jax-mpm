@@ -7,12 +7,14 @@ from PIL import Image
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('input',type=Path);p.add_argument('output',type=Path);a=p.parse_args();a.output.mkdir(exist_ok=False)
-    original=json.loads((a.input/'manifest.json').read_text());prepared=a.output/'prepared';prepared.mkdir();manifest=dict(original);manifest['frames']=[]
+    original=json.loads((a.input/'manifest.json').read_text());prepared=a.output/'prepared';prepared.mkdir();manifest=dict(original);manifest['frames']=[];reference_ids=None
     for i,item in enumerate(original['frames']):
         source=a.input/item['file'];assert hashlib.sha256(source.read_bytes()).hexdigest()==item['sha256']
         with np.load(source,allow_pickle=False) as data:
             x=data['state_x'] if item['kind']=='checkpoint' else data['x'];ids=data['state_fibre_id'] if item['kind']=='checkpoint' else data['fibre_id']
             assert x.shape==(227520,3) and np.isfinite(x).all()
+            if reference_ids is None:reference_ids=ids.copy()
+            else:assert np.array_equal(ids,reference_ids)
             target=f'actual-{i:05d}.npz';np.savez(prepared/target,x=x,fibre_id=ids)
         manifest['frames'].append(dict(item,prepared_file=target))
     (prepared/'manifest.json').write_text(json.dumps(manifest,indent=2))
