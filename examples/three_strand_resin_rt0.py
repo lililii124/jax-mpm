@@ -30,14 +30,15 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
     if resume_from:
         with np.load(resume_from/'checkpoint.npz',allow_pickle=False) as cp:
             state=FlowState(*(jnp.asarray(cp[name]) for name in FlowState._fields));start=int(cp['step']);emitted=cp['emitted'].copy()
-            if 'transport_logJ' in cp:transport_logJ=cp['transport_logJ'].copy()
+            has_transport_history='transport_logJ' in cp
+            if has_transport_history:transport_logJ=cp['transport_logJ'].copy()
             source_mass=float(cp['source_mass_kg']);outflow_mass=float(cp['outflow_mass_kg']);source_energy=float(cp['source_energy_J']);outflow_energy=float(cp['outflow_energy_J'])
             if not bool(state.valid) or not np.array_equal(cp['mass'],source['mass']):raise ValueError('Invalid changed source mass state')
         old=json.loads((resume_from/'observables.json').read_text())[-1]
         if old['step']!=start:raise ValueError('Checkpoint and ledger endpoint mismatch')
         work_total=old['fixture_work_cumulative_J'];loss_total=old['loss_cumulative_J']
         previous=json.loads((resume_from/'plan.json').read_text());transport_reference=previous.get('transport_reference_checkpoint_sha256')
-        if transport_reference is None:
+        if transport_reference is None and not has_transport_history:
             from examples.three_strand_resin_geometry import sha256
             transport_reference=sha256(resume_from/'checkpoint.npz')
         if previous['forming']!=geometry['receipt'] or previous['dt_s']!=dt:raise ValueError('Changed frozen geometry/fluid parameters')
