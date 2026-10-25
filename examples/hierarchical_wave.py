@@ -5,6 +5,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 from time import perf_counter
 
 import jax
@@ -22,20 +23,24 @@ from mpm_jax.materials import neo_hookean
 jax.config.update("jax_enable_x64", True)
 
 
-def sample_bar(resolution):
-    h, lower = .0025, np.array([.020, .095, .095])
-    axes = [lower[d] + (np.arange(n) + .5) * h for d, n in enumerate((64, 4, 4))]
+def sample_bar(resolution, h=.0025, transverse_ppc=2):
+    lower = np.array([.020, .095, .095])
+    dimensions = np.array([.160, .010, .010]) / h
+    if not np.allclose(dimensions, np.rint(dimensions), rtol=0, atol=1e-10):
+        raise ValueError("Cell spacing must divide the bar dimensions")
+    axes = [lower[d] + (np.arange(n) + .5) * h for d, n in enumerate(np.rint(dimensions).astype(int))]
     centres = np.stack(np.meshgrid(*axes, indexing="ij"), -1).reshape(-1, 3)
     refined = (centres[:, 0] >= .070) & (centres[:, 0] < .130)
     if resolution != "hierarchical":
         refined[:] = resolution == "fine"
     x, volume = [], []
-    for selected, ppc in ((~refined, 2), (refined, 4)):
-        axis = (np.arange(ppc) + .5) / ppc - .5
-        offsets = h * np.stack(np.meshgrid(axis, axis, axis, indexing="ij"), -1).reshape(-1, 3)
+    base_ppc = np.array([2, transverse_ppc, transverse_ppc])
+    for selected, ppc in ((~refined, base_ppc), (refined, 2 * base_ppc)):
+        axes = [(np.arange(n) + .5) / n - .5 for n in ppc]
+        offsets = h * np.stack(np.meshgrid(*axes, indexing="ij"), -1).reshape(-1, 3)
         points = (centres[selected, None, :] + offsets).reshape(-1, 3)
         x.append(points)
-        volume.append(np.full(len(points), (h / ppc)**3))
+        volume.append(np.full(len(points), h**3 / np.prod(ppc)))
     return np.concatenate(x), np.concatenate(volume)
 
 
@@ -43,21 +48,29 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--resolution", choices=("coarse", "fine", "hierarchical"), required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--coarse-cells", type=int, default=80)
+    parser.add_argument("--transverse-ppc", type=int, choices=(1, 2), default=2)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     density, amplitude, width, centre = 1200., .02, .006, .045
     material = neo_hookean(20e6, .3)
     wave_speed = np.sqrt((material.lam + 2 * material.mu) / density)
-    duration, steps, chunk = .00065, 600, 20
+    h = .2 / args.coarse_cells
+    duration, chunk = .00065, 20
+    steps = int(np.ceil(600 * args.coarse_cells / 80 / chunk)) * chunk
     dt = duration / steps
-    reference, volume = sample_bar(args.resolution)
+    reference, volume = sample_bar(args.resolution, h, args.transverse_ppc)
+    cells = args.coarse_cells * (2 if args.resolution == "fine" else 1)
+    grid_h = .2 / cells
+    bounds = ((0, round(.08 / grid_h), round(.08 / grid_h)),
+              (cells, round(.12 / grid_h), round(.12 / grid_h)))
     if args.resolution == "hierarchical":
-        grid = hierarchical_grid(cells=80, domain_size=.2,
-                                 refined_lower=(.06875, .08625, .08625),
-                                 refined_upper=(.13125, .11375, .11375))
+        grid = hierarchical_grid(cells=cells, domain_size=.2, node_bounds=bounds,
+                                 refined_lower=(.070 - .5*h, .095 - 3.5*h, .095 - 3.5*h),
+                                 refined_upper=(.130 + .5*h, .105 + 3.5*h, .105 + 3.5*h))
     else:
-        grid = uniform_grid(cells=80 if args.resolution == "coarse" else 160,
-                            domain_size=.2, offset=0. if args.resolution == "coarse" else .5)
+        grid = uniform_grid(cells=cells, domain_size=.2, node_bounds=bounds,
+                            offset=0. if args.resolution == "coarse" else .5)
     phase = (reference[:, 0] - centre) / width
     pulse = amplitude * np.exp(-phase**2)
     displacement = -amplitude / wave_speed * width * np.sqrt(np.pi) / 2 * (erf(phase) + 1.)
@@ -87,6 +100,7 @@ def main():
             raise RuntimeError("Invalid state or acoustic CFL bound exceeded")
         frames.append(dict(step=(block + 1) * chunk, time=float(state.time),
                            energy=float(host["kinetic_energy"][-1] + host["strain_energy"][-1])))
+        np.savez_compressed(args.output / f"records_{block:05d}.npz", **host)
         np.savez_compressed(args.output / "checkpoint.npz", **state._asdict())
         if (block + 1) % 5 == 0:
             print(f"{args.resolution}: {(block + 1) * chunk}/{steps}", flush=True)
@@ -107,6 +121,8 @@ def main():
              ROOT / "mpm_jax/boundaries.py"]
     report = {
         "resolution": args.resolution, "particles": len(x), "grid_nodes": len(grid.positions),
+        "coarse_cells": args.coarse_cells, "coarse_spacing_m": h, "transverse_ppc": args.transverse_ppc,
+        "node_bounds": bounds,
         "steps": steps, "duration_s": duration, "dt_s": dt, "wave_speed_m_s": wave_speed,
         "physical_case": "0.16 x 0.01 x 0.01 m bar; transverse velocities fixed, axial end faces free",
         "reference": "Linear plane-strain right-going Gaussian; neo-Hookean amplitude/c = 1.34e-4",
@@ -121,6 +137,7 @@ def main():
         "compile_seconds": compile_seconds, "solve_and_checkpoint_seconds": solver_seconds,
         "frames": frames, "versions": {"jax": jax.__version__, "numpy": np.__version__},
         "source": {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files},
+        "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
     }
     (args.output / "review.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({key: value for key, value in report.items() if key not in ("source", "frames")}, indent=2), flush=True)

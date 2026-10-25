@@ -17,6 +17,7 @@ class HierarchicalGrid(NamedTuple):
     fine_shape: jax.Array
     fine_start: jax.Array
     spacing: jax.Array
+    coarse_offset: jax.Array
 
 
 class HierarchicalStencil(NamedTuple):
@@ -31,30 +32,43 @@ class UniformGrid(NamedTuple):
     positions: jax.Array
     spacing: jax.Array
     origin: jax.Array
+    shape: jax.Array
 
 
-def uniform_grid(*, cells, domain_size, offset=0., dtype=jnp.float64):
+def _node_bounds(cells, bounds):
+    values = np.array(((0, 0, 0), (cells, cells, cells)) if bounds is None else bounds)
+    if values.shape != (2, 3) or not np.issubdtype(values.dtype, np.integer):
+        raise ValueError("Node bounds must be two integer three-vectors")
+    lower, upper = values
+    if np.any(lower < 0) or np.any(upper > cells) or np.any(upper - lower < 3):
+        raise ValueError("Node bounds must retain at least four nodes per axis inside the grid")
+    return lower, upper
+
+
+def uniform_grid(*, cells, domain_size, offset=0., node_bounds=None, dtype=jnp.float64):
     """Uniform reference grid; offset is measured in cells along all three axes."""
     if type(cells) is not int or cells < 8 or not np.isfinite(domain_size) or domain_size <= 0:
         raise ValueError("A positive domain and at least eight cells are required")
     if not np.isfinite(offset) or not 0 <= offset < 1:
         raise ValueError("Grid offset must be in [0, 1)")
     h = domain_size / cells
-    axis = (np.arange(cells + 1) + offset) * h
-    positions = np.stack(np.meshgrid(axis, axis, axis, indexing="ij"), -1).reshape(-1, 3)
+    lower, upper = _node_bounds(cells, node_bounds)
+    axes = [(np.arange(a, b + 1) + offset) * h for a, b in zip(lower, upper)]
+    positions = np.stack(np.meshgrid(*axes, indexing="ij"), -1).reshape(-1, 3)
     return UniformGrid(jnp.asarray(positions, dtype), jnp.asarray(h, dtype),
-                       jnp.full(3, offset * h, dtype))
+                       jnp.asarray((lower + offset) * h, dtype), jnp.asarray(upper - lower + 1, jnp.int32))
 
 
-def hierarchical_grid(*, cells, domain_size, refined_lower, refined_upper, dtype=jnp.float64):
+def hierarchical_grid(*, cells, domain_size, refined_lower, refined_upper, node_bounds=None, dtype=jnp.float64):
     """Create a fixed interior refinement box whose faces lie on coarse knots."""
     if type(cells) is not int or cells < 8 or not np.isfinite(domain_size) or domain_size <= 0:
         raise ValueError("A positive domain and at least eight coarse cells are required")
     lower, upper = np.asarray(refined_lower, float), np.asarray(refined_upper, float)
     h = domain_size / cells
+    node_lower, node_upper = _node_bounds(cells, node_bounds)
     if lower.shape != (3,) or upper.shape != (3,) or not np.isfinite([lower, upper]).all():
         raise ValueError("Refinement bounds must be finite three-vectors")
-    if np.any(lower < 1.5 * h) or np.any(upper > domain_size - 1.5 * h) or np.any(upper <= lower):
+    if np.any(lower < (node_lower + 1.5) * h) or np.any(upper > (node_upper - 1.5) * h) or np.any(upper <= lower):
         raise ValueError("Refinement must be interior with a coarse-support margin")
     knots = np.concatenate((lower, upper)) / h + .5
     if not np.allclose(knots, np.rint(knots), rtol=0, atol=1e-10):
@@ -65,7 +79,8 @@ def hierarchical_grid(*, cells, domain_size, refined_lower, refined_upper, dtype
     fine_shape = fine_upper - fine_lower + 1
     if np.any(fine_shape < 1):
         raise ValueError("Refinement region contains no complete fine basis support")
-    coarse = np.stack(np.meshgrid(*[np.arange(cells + 1)] * 3, indexing="ij"), -1)
+    axes = [np.arange(a, b + 1) for a, b in zip(node_lower, node_upper)]
+    coarse = np.stack(np.meshgrid(*axes, indexing="ij"), -1)
     removed = np.all((2 * coarse - 2 >= fine_lower) & (2 * coarse + 1 <= fine_upper), axis=-1)
     coarse_ids = np.full(removed.shape, -1, dtype=np.int32)
     coarse_ids[~removed] = np.arange(np.count_nonzero(~removed), dtype=np.int32)
@@ -78,7 +93,8 @@ def hierarchical_grid(*, cells, domain_size, refined_lower, refined_upper, dtype
     levels = np.concatenate((np.zeros(len(coarse_positions), np.int8), np.ones(len(fine_positions), np.int8)))
     return HierarchicalGrid(jnp.asarray(positions, dtype), jnp.asarray(levels), jnp.asarray(coarse_ids),
                             jnp.asarray(fine_lower), jnp.asarray(fine_upper), jnp.asarray(fine_shape),
-                            jnp.asarray(len(coarse_positions), jnp.int32), jnp.asarray(h, dtype))
+                            jnp.asarray(len(coarse_positions), jnp.int32), jnp.asarray(h, dtype),
+                            jnp.asarray(node_lower, jnp.int32))
 
 
 def _quadratic(r):
@@ -108,10 +124,9 @@ def uniform_stencil(x, grid):
     value, slope = _quadratic(coordinate[:, None, :] - axis)
     weights, gradients = _tensor_product(value, slope / grid.spacing, offsets)
     nodes = base[:, None, :] + offsets
-    side = round(len(grid.positions)**(1 / 3))
-    inside = jnp.all((nodes >= 0) & (nodes < side), axis=-1)
-    nodes = jnp.clip(nodes, 0, side - 1)
-    indices = (nodes[..., 0] * side + nodes[..., 1]) * side + nodes[..., 2]
+    inside = jnp.all((nodes >= 0) & (nodes < grid.shape), axis=-1)
+    nodes = jnp.clip(nodes, 0, grid.shape - 1)
+    indices = (nodes[..., 0] * grid.shape[1] + nodes[..., 1]) * grid.shape[2] + nodes[..., 2]
     return HierarchicalStencil(indices, jnp.where(inside, weights, 0.),
                                jnp.where(inside[..., None], gradients, 0.),
                                grid.positions[indices] - x[:, None, :],
@@ -154,8 +169,8 @@ def hierarchical_stencil(x, grid):
         weight, gradient = _tensor_product(value, slope, offsets)
         coarse_weight += weight
         coarse_gradient += gradient
-    coarse_nodes = coarse_base[:, None, :] + offsets
-    cells = grid.coarse_ids.shape[0] - 1
+    coarse_nodes = coarse_base[:, None, :] + offsets - grid.coarse_offset
+    cells = jnp.asarray(grid.coarse_ids.shape) - 1
     inside = jnp.all((coarse_nodes >= 0) & (coarse_nodes <= cells), axis=-1)
     safe = jnp.clip(coarse_nodes, 0, cells)
     coarse_ids = grid.coarse_ids[safe[..., 0], safe[..., 1], safe[..., 2]]

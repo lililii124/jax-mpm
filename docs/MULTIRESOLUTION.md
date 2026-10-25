@@ -74,6 +74,17 @@ pulse. Small reflected tails and closed energy records do not establish an
 accurate transmitted pulse. Spatial refinement and a qualified fine reference
 are required before engineering use of the prototype.
 
+Both grids accept inclusive integer `node_bounds` for removing empty background
+storage. All retained material points still require complete basis support.
+Cropping checks compare the retained mass, momentum and internal forces against
+the full grid. This storage option does not change the spline spacing or count
+as local refinement by itself.
+
+The pulse CLI also accepts `--coarse-cells` and `--transverse-ppc`. Axial sampling
+remains two points per cell. A separate uniform-grid check confirms that reducing
+transverse sampling from two to one does not alter this constrained plane-strain
+mode. This equivalence does not apply to general three-dimensional deformation.
+
 The basis design follows local-refinement work by
 [Sun et al.](https://doi.org/10.1002/nme.6312) and
 [THB-spline MPM](https://doi.org/10.1016/j.compgeo.2021.104097).
