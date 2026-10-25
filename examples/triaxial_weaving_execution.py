@@ -6,7 +6,7 @@ from .triaxial_weaving_geometry import fixture_position
 from .triaxial_fibre_geometry import _segment_distance
 
 
-def allocate(state,geometry,dx,dt,window_steps,packed_capacity=None):
+def allocate(state,geometry,dx,dt,window_steps,packed_capacity=None,lookup='hash',direct_capacity=None):
     """Current free body + ballistic support + actual next guide sweep, not a body target.
 
     Three cells cover unpredicted transverse deformation in this short window.
@@ -26,7 +26,7 @@ def allocate(state,geometry,dx,dt,window_steps,packed_capacity=None):
         for mask,displacement in zip(geometry['masks'],target-base):
             seeds.append(x[mask]+displacement);seed_ids.append(ids[mask])
     layout,grid=build_hash_tube_layout(np.concatenate(seeds),np.concatenate(seed_ids),dx=dx,padding_cells=3,
-        max_active_nodes=8_000_000,capacity=packed_capacity,capacity_factor=(2. if packed_capacity is None else None))
+        max_active_nodes=8_000_000,capacity=packed_capacity,capacity_factor=(2. if packed_capacity is None else None),direct_map_capacity=(('auto' if direct_capacity is None else direct_capacity) if lookup=='direct' else None))
     grid_seconds=time.perf_counter()-start;contact_start=time.perf_counter();skin=.0003
     data=build_contact_data(geometry,search_window=8,coverage_skin=skin,coverage_positions=x,max_coverage_pairs=2_000_000)
     actual=np.asarray(data.coverage_pairs);count=len(actual)

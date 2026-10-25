@@ -68,7 +68,7 @@ def lookup(indices,keys,values):
 
 def build_hash_tube_layout(x,fibre_id,*,dx,padding_cells=6,reference_bounds=None,
                            origin=(0.,0.,0.),max_active_nodes=30_000_000,
-                           max_dense_addresses=2**31-1,max_hash_bytes=1024**3,capacity=None,capacity_factor=None):
+                           max_dense_addresses=2**31-1,max_hash_bytes=1024**3,capacity=None,capacity_factor=None,direct_map_capacity=None):
     """Same padded occupancy as build_tube_layout without its full dense map.
 
     One local per-fibre Boolean AABB is materialised at a time. Its active
@@ -115,10 +115,16 @@ def build_hash_tube_layout(x,fibre_id,*,dx,padding_cells=6,reference_bounds=None
                 if not remaining:break
             if remaining:raise RuntimeError('Not enough distinct empty padding nodes')
             inverse=np.sort(np.concatenate([inverse,*unused]));total=capacity
+    if direct_map_capacity is not None:
+        map_capacity=(1<<int((4*dense.node_count-1).bit_length())) if direct_map_capacity=='auto' else int(direct_map_capacity)
+        if map_capacity<dense.node_count or map_capacity*4>1024**3:raise ValueError('Fixed direct-map address budget exceeded')
+        mapping=np.full(map_capacity,-1,np.int32);mapping[inverse]=np.arange(total,dtype=np.int32)
+        assert np.array_equal(mapping[inverse],np.arange(total,dtype=np.int32))
+        return PackedLayout(dense.lower,dense.shape,dense.strides,dense.offsets,dense.origin,dense.dx,total,dense.fibre_count,jnp.asarray(mapping),jnp.asarray(inverse)),dict(active_nodes=total,occupied_nodes=occupied_count,dense_address_count=dense.node_count,direct_map_capacity=map_capacity,direct_map_bytes=mapping.nbytes,hash_capacity=0,hash_bytes=0,maximum_insert_probe_rounds=0,complete_occupied_lookup_exact=True,lookup='direct')
     keys,values,rounds=build_tables(inverse,max_hash_bytes)
     if not np.array_equal(lookup_numpy(inverse,keys,values),np.arange(total,dtype=np.int32)):
         raise RuntimeError('Hash fails its independent complete occupied-node lookup')
     layout=PackedLayout(dense.lower,dense.shape,dense.strides,dense.offsets,dense.origin,dense.dx,total,dense.fibre_count,
         None,jnp.asarray(inverse),jnp.asarray(keys),jnp.asarray(values))
-    return layout,dict(active_nodes=total,occupied_nodes=occupied_count,dense_address_count=dense.node_count,hash_capacity=len(keys),
+    return layout,dict(lookup='hash',active_nodes=total,occupied_nodes=occupied_count,dense_address_count=dense.node_count,hash_capacity=len(keys),
         hash_bytes=keys.nbytes+values.nbytes,maximum_insert_probe_rounds=rounds,complete_occupied_lookup_exact=True)

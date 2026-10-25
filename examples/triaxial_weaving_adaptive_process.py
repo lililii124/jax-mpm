@@ -12,7 +12,7 @@ from .triaxial_weaving_geometry import fixture_position
 from .triaxial_weaving_execution import allocate
 
 
-def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resume=False):
+def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resume=False,lookup='direct'):
     import jax
     jax.config.update('jax_enable_x64',True)
     import jax.numpy as jnp
@@ -29,10 +29,10 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
     sources=[Path(__file__),*[root/'examples'/name for name in ['triaxial_weaving_process.py','triaxial_weaving_geometry.py','triaxial_weaving_execution.py','triaxial_fibre_geometry.py']],*sorted((root/'mpm_jax').rglob('*.py'))]
     hashes={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     runtime=dict(python=platform.python_version(),versions={name:importlib.metadata.version(name) for name in ['jax','jaxlib','numpy','scipy','ml-dtypes','opt-einsum']},x64=bool(jax.config.jax_enable_x64))
-    binding=dict(schema='weaving-v2-moving-hash-v1',physical_plan=json_value(plan),runtime=runtime,source_sha256=hashes,window_steps=window_steps,padding_cells=3,search_skin_m=.0003)
+    binding=dict(schema='weaving-v2-moving-packed-v2',physical_plan=json_value(plan),runtime=runtime,source_sha256=hashes,window_steps=window_steps,padding_cells=3,search_skin_m=.0003)
     signature=hashlib.sha256(json.dumps(binding,sort_keys=True).encode()).hexdigest();output=Path(output)
     material=isotropic_brittle(young=plan['young_Pa'],poisson=plan['poisson'],density=plan['density_kg_m3'],tensile_strength=plan['tensile_strength_Pa'],fracture_energy=plan['fracture_energy_J_m2'],characteristic_length=plan['dx'])
-    capacity=None;start=0;observations=[];accumulator=jnp.zeros(8);flags=jnp.asarray(0,jnp.int32)
+    capacity=None;direct_capacity=None;start=0;observations=[];accumulator=jnp.zeros(8);flags=jnp.asarray(0,jnp.int32)
     if resume:
         latest=json.loads((output/'latest.json').read_text())
         checkpoint_path=output/latest['checkpoint_file']
@@ -42,7 +42,7 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
             values={name:jnp.asarray(cp['state_'+name]) for name in FibreState._fields if name!='history'}
             values['history']=BrittleHistory(*(jnp.asarray(cp['history_'+name]) for name in BrittleHistory._fields));state=FibreState(**values)
             history=FibreCouplingHistory(FibreContactHistory(jnp.asarray(cp['law_active']),jnp.asarray(cp['law_valid'])),jnp.asarray(cp['contact_radius']),jnp.asarray(cp['contact_segments']),jnp.asarray(cp['contact_valid']))
-            accumulator=jnp.asarray(cp['accumulator']);start=int(cp['step']);capacity=int(cp['packed_capacity'])
+            accumulator=jnp.asarray(cp['accumulator']);start=int(cp['step']);capacity=int(cp['packed_capacity']);direct_capacity=int(cp['direct_map_capacity']) or None
             assert start<steps and bool(state.valid)
             exact={name:bool(np.array_equal(cp['state_'+name],np.asarray(getattr(state,name)))) for name in FibreState._fields if name!='history'}
             exact.update({'history_'+name:bool(np.array_equal(cp['history_'+name],np.asarray(getattr(state.history,name)))) for name in BrittleHistory._fields})
@@ -91,7 +91,7 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
                 return new,new_h,updated,bad
             return jax.lax.cond(old.valid,attempt,lambda _:carry,None)
         return jax.lax.fori_loop(0,n,body,(s,h,a,jnp.asarray(0,jnp.int32)))
-    setup=time.perf_counter();layout,data,graph,resource=allocate(provisional,geometry,plan['dx'],config.dt,window_steps,capacity);capacity=layout.node_count
+    setup=time.perf_counter();layout,data,graph,resource=allocate(provisional,geometry,plan['dx'],config.dt,window_steps,capacity,lookup,direct_capacity);capacity=layout.node_count;direct_capacity=resource.get('direct_map_capacity')
     if not resume:state=make_state(geometry['x'],geometry['volume'],geometry['fibre_id'],material,layout);history=initial_patch_history(data,max_patches=patch_capacity)
     validate_state(state,layout)
     def save(step,advance_seconds,rebuild_seconds):
@@ -102,7 +102,7 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
         K=float(.5*jnp.sum(state.mass[:,None]*state.v**2));affine=float(plan['dx']**2/8*jnp.sum(state.mass[:,None,None]*state.C**2));U=float(stored_energy(state,material));H=float(jnp.sum(metrics.potential))
         row=dict(step=step,advance_cache_entries=int(advance._cache_size()),time_s=float(state.time),K=K,APIC_affine_K=affine,U=U,Hertz_potential=H,machine_work=float(accumulator[2]),absolute_machine_work=float(accumulator[4]),projection_loss=float(accumulator[3]),grid_projection_work=float(state.boundary_work),energy_minus_machine_work=K+affine+U+H-float(accumulator[2]),maximum_grip_error_m=error,contact_patches=int(metrics.patch_count),maximum_patch_extent_m=float(extent),contact_valid=True,mpm_valid=True,maximum_wave_plus_velocity_cfl=float(accumulator[7]),advance_seconds=advance_seconds,rebuild_seconds=rebuild_seconds,execution=resource)
         payload={'state_'+k:np.asarray(v) for k,v in state._asdict().items() if k!='history'};payload.update({'history_'+k:np.asarray(v) for k,v in state.history._asdict().items()})
-        temporary=output/'checkpoint.partial.npz';np.savez_compressed(temporary,step=step,signature=signature,binding=json.dumps(binding,sort_keys=True),accumulator=np.asarray(accumulator),packed_capacity=capacity,law_active=np.asarray(history.law.active),law_valid=np.asarray(history.law.valid),contact_radius=np.asarray(history.radius),contact_segments=np.asarray(history.segments),contact_valid=np.asarray(history.valid),**payload);checkpoint_file=f'checkpoint_{step:07d}.npz';temporary.replace(output/checkpoint_file)
+        temporary=output/'checkpoint.partial.npz';np.savez_compressed(temporary,step=step,signature=signature,binding=json.dumps(binding,sort_keys=True),accumulator=np.asarray(accumulator),packed_capacity=capacity,direct_map_capacity=int(direct_capacity or 0),execution_lookup=lookup,law_active=np.asarray(history.law.active),law_valid=np.asarray(history.law.valid),contact_radius=np.asarray(history.radius),contact_segments=np.asarray(history.segments),contact_valid=np.asarray(history.valid),**payload);checkpoint_file=f'checkpoint_{step:07d}.npz';temporary.replace(output/checkpoint_file)
         frame=dict(x=np.asarray(state.x),v=np.asarray(state.v),F=np.asarray(state.F),C=np.asarray(state.C),damage=np.asarray(state.history.damage),failed=np.asarray(state.history.failed),mass=np.asarray(state.mass),fibre_id=geometry['fibre_id'],family_id=geometry['family_id'],time=float(state.time),fixture_targets=target,contact_points=np.asarray(metrics.closest_points),contact_active=np.asarray(metrics.active),contact_pair_segments=np.asarray(metrics.pair_segments),contact_segment_fibre=np.asarray(data.segment_fibre),contact_segments=np.asarray(data.segments),particle_section=np.asarray(data.particle_section))
         temporary=output/'frame_latest.partial.npz';np.savez_compressed(temporary,step=step,**frame);frame_file=f'frame_{step:07d}.npz';temporary.replace(output/frame_file)
         row['save_sync_seconds']=time.perf_counter()-begin;row['checkpoint_sha256']=hashlib.sha256((output/checkpoint_file).read_bytes()).hexdigest();row['checkpoint_file']=checkpoint_file;row['frame_file']=frame_file
@@ -116,7 +116,7 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
     if not resume:save(0,0.,time.perf_counter()-setup)
     previous=start
     while previous<steps:
-        rebuild=time.perf_counter();layout,data,graph,resource=allocate(state,geometry,plan['dx'],config.dt,window_steps,capacity);rebuild_seconds=time.perf_counter()-rebuild;validate_state(state,layout)
+        rebuild=time.perf_counter();layout,data,graph,resource=allocate(state,geometry,plan['dx'],config.dt,window_steps,capacity,lookup,direct_capacity);rebuild_seconds=time.perf_counter()-rebuild;validate_state(state,layout)
         stop=min(previous+window_steps,steps);begin=time.perf_counter();state,history,accumulator,flags=advance(state,history,accumulator,stop-previous,layout,data,graph);jax.block_until_ready((state,history,accumulator,flags));elapsed=time.perf_counter()-begin
         if not bool(state.valid):
             np.savez_compressed(output/'invalid-state-forensic-not-checkpoint.npz',time=np.asarray(state.time),x=np.asarray(state.x),F=np.asarray(state.F),v=np.asarray(state.v),failure_flags=np.asarray(flags));raise RuntimeError(f'Actual guard failure flags={int(flags)} at t={float(state.time)}; valid rolling checkpoint unchanged')
@@ -125,4 +125,4 @@ def run(output,*,per_family=1,steps=1000,window_steps=200,save_stride=1000,resum
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(__doc__);p.add_argument('--output',required=True);p.add_argument('--per-family',type=int,default=1);p.add_argument('--steps',type=int,default=1000);p.add_argument('--resume',action='store_true');p.add_argument('--save-stride',type=int,default=1000);a=p.parse_args();run(a.output,per_family=a.per_family,steps=a.steps,resume=a.resume,save_stride=a.save_stride)
+    p=argparse.ArgumentParser(__doc__);p.add_argument('--output',required=True);p.add_argument('--per-family',type=int,default=1);p.add_argument('--steps',type=int,default=1000);p.add_argument('--resume',action='store_true');p.add_argument('--lookup',choices=['hash','direct'],default='direct');p.add_argument('--save-stride',type=int,default=1000);a=p.parse_args();run(a.output,per_family=a.per_family,steps=a.steps,resume=a.resume,save_stride=a.save_stride,lookup=a.lookup)
