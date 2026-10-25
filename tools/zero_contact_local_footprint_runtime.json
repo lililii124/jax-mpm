@@ -1,0 +1,112 @@
+{
+  "runtime_source_commit": "cbed52e",
+  "capsule_sha256": "1658f0be307230f1a3af131f75caac8f4d0221ff581c4a7107fe17f5ca431027",
+  "kernel_sha256": "1960a50974fe26a1ecad729c72344cd2e43ca511b786ec0dbd6ec7885286749f",
+  "checkpoint": {
+    "step": 8270,
+    "time": 3.2893723577322996e-05,
+    "checkpoint_sha256": "2908d7d981a8ad29243f8727e7187a0a309ffe790cafae7e849c510f507070a5",
+    "accepted": true,
+    "contact_metrics": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      9.479024323013459e-05,
+      -2.035669247041523e-06,
+      218.0,
+      0.0,
+      0.22403040435007265,
+      0.0,
+      0.0,
+      0.0,
+      3.521787733787174e-16,
+      3.0046291974743185e-18,
+      4.386413732383358e-06,
+      1.0
+    ],
+    "failed_particles": 5262,
+    "max_damage": 1.0
+  },
+  "observation": {
+    "step": 8270,
+    "time_s": 3.2893723577322996e-05,
+    "sampled_section_graph_connects_grips": true,
+    "active_fibre_x_support_cuts": 0,
+    "fully_failed_sections": 0,
+    "failed_particles": 5262,
+    "maximum_damage": 1.0,
+    "scope": "Original saved-state sampled section graph and active fibre x-grid support, not a full3D continuous-surface fracture certificate"
+  },
+  "new_negative": {
+    "outside_footprint_touch_exempt": false,
+    "failed_contact_remains_rejected": true,
+    "only_new_negative_test": true
+  },
+  "carry_restore_checks": {
+    "x": true,
+    "v": true,
+    "F": true,
+    "C": true,
+    "mass": true,
+    "volume": true,
+    "fibre_id": true,
+    "tau": true,
+    "time": true,
+    "valid": true,
+    "boundary_impulse": true,
+    "external_impulse": true,
+    "boundary_work": true,
+    "history_kappa": true,
+    "history_damage": true,
+    "history_failed": true,
+    "history_valid": true,
+    "contact_active": true,
+    "contact_law_valid": true,
+    "contact_radius": true,
+    "contact_segments": true,
+    "contact_valid": true
+  },
+  "job": {
+    "started_utc": "2026-10-25T22:24:43.105176+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "pilot.py",
+      "--steps",
+      "25",
+      "--checkpoint-stride",
+      "5",
+      "--skip-rejected-diagnostic"
+    ],
+    "cpu_affinity": [
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "memory_headroom_at_start": 17170644992,
+    "limit_seconds": 900.0,
+    "uss_limit_bytes": 12884901888,
+    "peak_uss_bytes": 4837699584,
+    "minimum_memory_headroom": 11688931328,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 153.30735644698143,
+    "returncode": 0
+  },
+  "evidence_sha256": {
+    "latest.json": "c3b9e7156d106707b6cd1b3803bdaeb97121c33d9765f23550abe71cf88b8037",
+    "carry-migration.json": "1fcb7bba62f801644aa82afe0b41121dc3a51ba859efa421568734bffa7c91ff",
+    "outside-footprint-rejection.json": "91823ecb218950719bec8a8c621eba2a0e2556eeaef085650ac11914f3d2b18c",
+    "failure-observation.json": "db0c408c4c15bcd9f86ce4493a1605a44fc518ee3e26388ca99e80495fd1a5ea",
+    "job-status.json": "47f700511a443ccb4b04065e9787825be2b4f22a313d617feebb2c65e975a5d2"
+  },
+  "old_failed8267_preserved_not_resumed": true,
+  "first_launch_observer_failure": "Outside-footprint test passed, then driver rejected precreated output directory before mechanical steps; changed proof destination only in replacement capsule."
+}
