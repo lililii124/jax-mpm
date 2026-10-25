@@ -1838,5 +1838,30 @@
       "summary.json": "b7ecec1b8d840acfbfb2570e015b94cd3053b5884225d3d5068ac84932f61ef7",
       "homepage-media-review.json": "9fabe68d0855d8605f9c39bb88e8e4cd7c0964bdd5b040d0677612fc84d7d265"
     }
+  },
+  {
+    "id": "fibres--three-strand-tension",
+    "case": "Three-strand tension",
+    "source_directory": "outputs/fibres/three-strand-tension",
+    "particles": 358344,
+    "steps": 3500,
+    "simulation_time": 0.0021433035249353396,
+    "solver_seconds": 4254.488985696998,
+    "min_J": 0.9973882291636543,
+    "max_damage": 0.0,
+    "renderer": "ParaView",
+    "publication_scope": "reviewed early-loading segment; full protocol incomplete",
+    "sha256": {
+      "media-review.json": "7b3f2d9bc6fe1be7cc0a94c6eb84411a55c9d51d893ec369894e3d32c53313a0",
+      "observables.csv": "77527eb10c719367b9c06c925033aab8784cb4539d0ca94b679bba8272f28e4d",
+      "physical-review.json": "b49d147cc6b1a95430056e6f4b6b0ccc8c27e0d1e749a488b778680e9df6e4bd",
+      "plan.json": "ebadc4afffec6884335c624202200d8139d6c5d852c51708237f12472f86b678",
+      "provenance.json": "684e920c0dab717931e4d777fd90839dfdf077785c1e2cb9aea8eefbf02a355a",
+      "publication-review.json": "7e60f38dc13259b4d9f67167fc901212ec8b65d3e272b4cf35c08b34d3b71cde",
+      "render.json": "67f0226951e942ead7522c4741bac0a953d2b581686050e48c1fc9540ab3144a",
+      "saved-states.json": "269f03837b29d3829c9ad2a19c0f9d5fd3a3a921347349922e32bf80c19355da",
+      "summary.json": "33c57425a9dd9a33a9d17a647eea8ff2ef51efdb88e6da49ebcea3ab695e3796",
+      "vtk_metadata.json": "fb002d77ddbd2afabe2715bc187fdeb0791fa028d8b684eb2bf139d7115ab14d"
+    }
   }
 ]

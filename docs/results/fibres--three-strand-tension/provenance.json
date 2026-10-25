@@ -1,0 +1,28 @@
+{
+  "schema": "saved-prefix-provenance-v1",
+  "title": "Three-strand tension",
+  "numerical_run_url": "https://github.com/lililii124/jax-mpm/actions/runs/40116768349",
+  "numerical_source_commit": "253e11d7762a6914c3b5f225d1e646d8622c548f",
+  "source_artifact": 12569841297,
+  "checkpoint_sha256": "4152797ee8f85ab2b551bf721efeaabd48402775ee74bd08d5c1fea3dc8d316e",
+  "source_files": {
+    "examples/three_strand_tension.py": "727de44bbcfb80340ec7f154278f2cf5b3cd2a7f1fa4fb65f4ab96483047587c",
+    "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+    "mpm_jax/rope_hertz_contact.py": "ebad45842575db30c6af45745af07e0309d163bdbfd4d924752c911bca36d527",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_jkr_regions.py": "c026c30e5607a4bf97a8eeb6b328aca0b9a7b08582b76bec4f7d99223faecd71",
+    "mpm_jax/fibre_region_identity.py": "f79fc321c42a51547308978cc0094561ee94e2f937ba0638c16e6b954942052d"
+  },
+  "original_run_conclusion": "failure after the displayed prefix",
+  "scope": "Early axial loading of three stress-free manufactured helices. The displayed segment precedes the later extended-contact rejection; it is not a twisting process, completed full loading protocol, or failure-strength result.",
+  "contact_scope": "Original online-valid local Hertz approximation with fixed reference radii; independent saved-state verification does not certify exact deformed-surface contact.",
+  "independent_review": "Saved arrays and final material response, strand momenta and recorded energy; no independent all-step contact reintegration.",
+  "stale_parent_receipt_not_used_to_claim_full_run_success": true,
+  "stale_f10_summary_replaced_by_actual_f12_checkpoint_tables": true,
+  "experimental_material_validation": false
+}

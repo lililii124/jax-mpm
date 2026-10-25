@@ -165,7 +165,7 @@ def gallery_groups(catalogue):
     listed = {relative for entries in groups.values() for _, relative in entries}
     for record in catalogue:
         parts = record["id"].split("--")
-        if parts[0] == "completed":
+        if parts[0] in ("completed", "fibres"):
             relative = sources[record["id"]]
             if relative not in listed:
                 groups["Dynamics and contact"].append((parts[1], relative))
@@ -282,15 +282,20 @@ def main():
             if not is_public_run(identifier) or identifier not in selected_ids or identifier in HIDDEN_DISPLAY_IDS:
                 continue
             folder = ROOT / "outputs" / relative
-            if not all((folder / f).exists() for f in ("summary.json", "render.json", "final.png")):
+            prefix = identifier == "fibres--three-strand-tension"
+            if prefix:
+                folder = ROOT / "docs/results" / identifier
+            required_files = ("summary.json", "render.json") if prefix else ("summary.json", "render.json", "final.png")
+            if not all((folder / f).exists() for f in required_files):
                 continue
             render = json.loads((folder / "render.json").read_text())
-            if render.get("renderer") != "ParaView" or render.get("style_revision", 0) < 3:
+            if render.get("renderer") != "ParaView" or (render.get("style_revision", 0) < 3 and not prefix):
                 continue
             summary = json.loads((folder / "summary.json").read_text())
             if not is_ready_for_publication(folder, identifier, summary):
                 continue
-            selected, frame, time = preview(folder, name, render)
+            selected, frame, time = ((ROOT / "docs/images/three-strand-tension.png", 12, summary["simulation_time"])
+                                     if prefix else preview(folder, name, render))
             if identifier in display_views:
                 view = json.loads((ROOT / display_views[identifier]).read_text(encoding="utf-8"))
                 display = view["media"][identifier]
@@ -319,11 +324,13 @@ def main():
                 copy_if_changed(folder / "simulation.mp4", target / f"{name}.mp4")
             count = sum(summary["particles"])
             video_link = f" · [Video](images/{name}.mp4)" if animation else ""
-            if identifier.startswith("completed--") and (ROOT / f"docs/images/home/{identifier}.gif").is_file():
+            if (identifier.startswith("completed--") or prefix) and (ROOT / f"docs/images/home/{identifier}.gif").is_file():
                 video_link += f" · [GIF](images/home/{identifier}.gif)"
             label = name + (" · Coarse preview" if identifier.startswith("woven-preview--") else "")
             if identifier == "completed--radial-sinusoidal-pull-off":
                 label = "Radial sinusoidal pull-off"
+            if prefix:
+                label = "Three-strand tension"
             label = {'completed--jc-necking-refined': 'JC round-bar necking', 'completed--crossed-fibre-jkr': 'Crossed fibre JKR contact', 'completed--crossed-fibre-md': 'Crossed fibre MD contact', 'completed--crossed-fibre-self-consistent': 'Crossed fibre SC local BEM contact'}.get(identifier, label)
             cells.append(
                 f'<img src="images/{name}.png" alt="{name}" width="100%"><br>**{label}**<br>'

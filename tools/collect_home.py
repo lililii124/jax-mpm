@@ -96,6 +96,7 @@ MATERIALS = {
 
 def legacy_describe(identifier):
     completed = {
+        "fibres--three-strand-tension": (GROUPS[2], "Three-strand tension"),
         "completed--jc-necking-refined": (GROUPS[0], "JC round-bar necking"),
         "completed--radial-sinusoidal-pull-off": (GROUPS[8], "Radial sinusoidal pull-off"),
         "completed--woven-plate-impact": (GROUPS[2], "Clamped woven plate impact"),

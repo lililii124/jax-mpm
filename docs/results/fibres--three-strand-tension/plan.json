@@ -1,0 +1,349 @@
+{
+  "scope": "formal-three-turn",
+  "series": "three-strand-tension-v1",
+  "case": "three-strand-tension",
+  "model": "hertz",
+  "duration_s": 0.010716517624676406,
+  "frames": 60,
+  "saved_states": 61,
+  "steps": 17500,
+  "dt": 6.123724356957946e-07,
+  "frame_steps": [
+    0,
+    292,
+    583,
+    875,
+    1167,
+    1458,
+    1750,
+    2042,
+    2333,
+    2625,
+    2917,
+    3208,
+    3500,
+    3792,
+    4083,
+    4375,
+    4667,
+    4958,
+    5250,
+    5542,
+    5833,
+    6125,
+    6417,
+    6708,
+    7000,
+    7292,
+    7583,
+    7875,
+    8167,
+    8458,
+    8750,
+    9042,
+    9333,
+    9625,
+    9917,
+    10208,
+    10500,
+    10792,
+    11083,
+    11375,
+    11667,
+    11958,
+    12250,
+    12542,
+    12833,
+    13125,
+    13417,
+    13708,
+    14000,
+    14292,
+    14583,
+    14875,
+    15167,
+    15458,
+    15750,
+    16042,
+    16333,
+    16625,
+    16917,
+    17208,
+    17500
+  ],
+  "particles": 358344,
+  "geometry": {
+    "length_m": 0.024,
+    "diameter_m": 0.002,
+    "radius_m": 0.001,
+    "pitch_m": 0.008,
+    "compactness": 0.985,
+    "orbit_radius_m": 0.0015487498594866588,
+    "turns": 3.0,
+    "helix_angle_deg": 50.57610502388898,
+    "spacing_m": 0.0001,
+    "grip_length_m": 0.0015,
+    "free_span_m": 0.021,
+    "section_arc_spacing_m": 9.997920038433858e-05,
+    "sections_per_strand": 378,
+    "cross_section_particles": 316,
+    "fibres": [
+      {
+        "id": 0,
+        "family_id": 0,
+        "longitudinal_sections": 378,
+        "particle_count": 119448,
+        "particle_slice": [
+          0,
+          119448
+        ],
+        "radius_m": 0.001,
+        "reference_tube_bounds_m": [
+          [
+            -0.0027020993230087247,
+            0.026702099323008724
+          ],
+          [
+            -0.004503627235449902,
+            0.004503627235449902
+          ],
+          [
+            -0.004503557407917466,
+            0.0045035574079174655
+          ]
+        ]
+      },
+      {
+        "id": 1,
+        "family_id": 1,
+        "longitudinal_sections": 378,
+        "particle_count": 119448,
+        "particle_slice": [
+          119448,
+          238896
+        ],
+        "radius_m": 0.001,
+        "reference_tube_bounds_m": [
+          [
+            -0.0027020993230087247,
+            0.026702099323008724
+          ],
+          [
+            -0.004503627235449902,
+            0.004503627235449902
+          ],
+          [
+            -0.0045035574079174655,
+            0.004503557407917466
+          ]
+        ]
+      },
+      {
+        "id": 2,
+        "family_id": 2,
+        "longitudinal_sections": 378,
+        "particle_count": 119448,
+        "particle_slice": [
+          238896,
+          358344
+        ],
+        "radius_m": 0.001,
+        "reference_tube_bounds_m": [
+          [
+            -0.0027020993230087247,
+            0.026702099323008724
+          ],
+          [
+            -0.004503627235449902,
+            0.004503627235449902
+          ],
+          [
+            -0.0045035574079174655,
+            0.0045035574079174655
+          ]
+        ]
+      }
+    ],
+    "clearance_proof": [
+      {
+        "fibre_ids": [
+          0,
+          1
+        ],
+        "polyline_min_distance_m": 0.0020313096958860964,
+        "continuous_min_distance_lower_bound_m": 0.0020307849230462704,
+        "surface_clearance_lower_bound_m": 3.078492304627034e-05
+      },
+      {
+        "fibre_ids": [
+          0,
+          2
+        ],
+        "polyline_min_distance_m": 0.0020313096958860977,
+        "continuous_min_distance_lower_bound_m": 0.0020307849230462717,
+        "surface_clearance_lower_bound_m": 3.078492304627164e-05
+      },
+      {
+        "fibre_ids": [
+          1,
+          2
+        ],
+        "polyline_min_distance_m": 0.002031309695886095,
+        "continuous_min_distance_lower_bound_m": 0.002030784923046269,
+        "surface_clearance_lower_bound_m": 3.078492304626904e-05
+      }
+    ],
+    "tube_jacobian_minimum": 0.6147163244029967,
+    "sampled_minimum_area_m2": 3.1600000000000002e-06,
+    "sampled_end_area_m2": 3.1600000000000002e-06,
+    "nominal_area_m2": 3.1415926535897933e-06,
+    "sampling": "True normal-plane circular Cartesian sections, constant arc spacing; reference volume ds*du*dv*(1-kappa*u), exact positive circular-helix tube Jacobian. Contact centres use equal-area section averages, physical inertia uses actual quadrature masses.",
+    "reference_state": "Stress-free helical reference F=I; no manufactured twisting residual stress; six end collars retain twist and prescribe only axial translation."
+  },
+  "grid": {
+    "dx_m": 0.0002,
+    "padding_cells": 6,
+    "bounds_m": [
+      [
+        [
+          -0.0027020993230087247,
+          0.026702099323008724
+        ],
+        [
+          -0.004503627235449902,
+          0.004503627235449902
+        ],
+        [
+          -0.004503557407917466,
+          0.0045035574079174655
+        ]
+      ],
+      [
+        [
+          -0.0027020993230087247,
+          0.026702099323008724
+        ],
+        [
+          -0.004503627235449902,
+          0.004503627235449902
+        ],
+        [
+          -0.0045035574079174655,
+          0.004503557407917466
+        ]
+      ],
+      [
+        [
+          -0.0027020993230087247,
+          0.026702099323008724
+        ],
+        [
+          -0.004503627235449902,
+          0.004503627235449902
+        ],
+        [
+          -0.0045035574079174655,
+          0.0045035574079174655
+        ]
+      ]
+    ],
+    "nodes": 1681323,
+    "max_nodes": 1800000
+  },
+  "material": {
+    "young": 2000000.0,
+    "poisson": 0.25,
+    "density": 1000.0,
+    "tensile_strength": 100000.0,
+    "fracture_energy": 1.0,
+    "characteristic_length": 0.0002
+  },
+  "material_assumptions": "Three independent identical material parameter instances/history fields; illustrative uncalibrated E2MPa/ft0.1MPa/Gf1Jm^-2 elastic-brittle baseline; h=dx, no particle erosion.",
+  "softening": {
+    "onset_strain": 0.05,
+    "onset_displacement_m": 1e-05,
+    "failure_displacement_m": 2e-05,
+    "failure_strain": 0.1,
+    "maximum_h_m": 0.0004
+  },
+  "protocol": {
+    "load_time_s": 0.008573214099741124,
+    "stroke_m": 0.00252,
+    "hold_time_s": 0.002143303524935282,
+    "boundary": "Each strand has independent tagged left/right reference collars. Six collars move +/-half stroke in x and are fixed in yz; no twist release or artificial strand bonding."
+  },
+  "contact": {
+    "model": "hertz",
+    "work_of_adhesion_J_per_m2": 0.0,
+    "coverage_skin_m": 0.00756,
+    "capacity": 4096,
+    "max_patches": 32,
+    "max_iterations": 256,
+    "tracking_gap_m": 1e-05,
+    "maximum_coverage_pairs": 600000,
+    "scope": "Frictionless connected local circular-equivalent Hertz, or persistent JKR with full region checkpoints. Extended line/ribbon contact (>max(2 section cells,4 local contact radii)) rejected. No friction, exact elliptical pressure or rope strength calibration claimed."
+  },
+  "wave_speed_m_per_s": 48.98979485566356,
+  "loading_wave_transits": 20.0,
+  "source": {
+    "files": {
+      "examples/three_strand_tension.py": "727de44bbcfb80340ec7f154278f2cf5b3cd2a7f1fa4fb65f4ab96483047587c",
+      "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+      "mpm_jax/rope_hertz_contact.py": "ebad45842575db30c6af45745af07e0309d163bdbfd4d924752c911bca36d527",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+      "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+      "mpm_jax/fibre_jkr_regions.py": "c026c30e5607a4bf97a8eeb6b328aca0b9a7b08582b76bec4f7d99223faecd71",
+      "mpm_jax/fibre_region_identity.py": "f79fc321c42a51547308978cc0094561ee94e2f937ba0638c16e6b954942052d"
+    },
+    "fingerprint": "eb7db4f8a54458a55d9df99c3a2600781483a629a44e542cd3e1dad5b84ab3b7"
+  },
+  "geometry_scale": 1.0,
+  "production_eligible": false,
+  "resource": {
+    "uss_limit_bytes": 6442450944,
+    "raw_trajectory_bytes": 983654280,
+    "coverage_pair_upper_bound": 426387,
+    "particle_state_subtotal_bytes": 143337600,
+    "stencil_subtotal_bytes": 348310368,
+    "initial_stage_frame": 2,
+    "scope": "Analytic storage subtotals, not peak prediction. Must admit actual f2 timing/USS/contact coverage before full continuation."
+  },
+  "render_plan": {
+    "renderer": "ParaView",
+    "field": "family_id",
+    "colors_rgb": [
+      [
+        0.045,
+        0.36,
+        0.67
+      ],
+      [
+        0.94,
+        0.36,
+        0.08
+      ],
+      [
+        0.32,
+        0.66,
+        0.48
+      ]
+    ],
+    "frames": 61,
+    "geometry_scale": 1,
+    "axes": false,
+    "annotations": false,
+    "resolution": 1200
+  },
+  "risks": [
+    "Extended helical line contact may invalidate the local Hertz/JKR approximation and stop the solve; a future distributed surface/line law may be required.",
+    "Fixed reference circular radius ignores finite radial contraction; low/moderate cross-sectional strain only.",
+    "Stress-free helix does not include fabrication torsion/residual stress or frictional strand locking.",
+    "Failed sections in active contact are rejected; complete rupture may require a future failed-fragment surface contact model.",
+    "Within-strand self-contact is unsupported; the initial pitch/curvature bounds exclude it, but a severely buckled state requires rejection or a future self-contact model.",
+    "No complete physical performance claim until full audited61 frames and visual review."
+  ]
+}

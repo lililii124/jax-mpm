@@ -18,6 +18,7 @@ except ImportError:
 
 SOURCES = (
     "completed",
+    "fibres",
     "suite",
     "elastic_cantilever",
     "compression",
@@ -569,11 +570,14 @@ def collect(root, destination):
                     continue
                 raise
             identifier = canonical_identifier(folder.relative_to(root / "outputs"))
+            reviewed_prefix = (identifier == "fibres--three-strand-tension"
+                               and is_ready_for_publication(folder, identifier, summary))
             has_trajectory = ((folder / "trajectory.npz").is_file() or complete_artifact_import(folder)
+                              or reviewed_prefix
                               or (source == "completed" and is_ready_for_publication(folder, identifier, summary)))
             if source in CLOUD_ALIASES and not complete_engineering_import(folder, identifier, summary):
                 continue
-            if not has_trajectory or summary.get("completed") is False:
+            if not has_trajectory or (summary.get("completed") is False and not reviewed_prefix):
                 continue
             completed += 1
             if source in WOVEN_PREVIEW_SOURCES:
@@ -618,6 +622,8 @@ def collect(root, destination):
                 "signature-reconciliation.json",
                 *JC_CHAIN_FILES,
             )
+            if reviewed_prefix:
+                names += ("media-review.json", "plan.json", "saved-states.json")
             for name in names:
                 original = folder / name
                 if original.exists():
@@ -670,6 +676,8 @@ def collect(root, destination):
             )
             if source in WOVEN_PREVIEW_SOURCES:
                 records[-1]["publication_scope"] = "coarse-preview"
+            if reviewed_prefix:
+                records[-1]["publication_scope"] = "reviewed early-loading segment; full protocol incomplete"
     if "visible-motion" in SOURCES:
         collect_wave_comparison(root, destination, records)
     if "adhesion" in SOURCES:

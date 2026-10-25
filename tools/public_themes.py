@@ -25,7 +25,7 @@ def theme(value):
     value = value.lower()
     if "phase-field" in value or "fracture" in value:
         return THEMES[14]
-    if any(s in value for s in ("crossed-fibre", "single-fibre", "single-fiber", "fibre-pull-off")):
+    if any(s in value for s in ("crossed-fibre", "single-fibre", "single-fiber", "fibre-pull-off", "three-strand")):
         return THEMES[0]
     if "woven" in value:
         if any(s in value for s in ("plate-impact", "deep-impact", "woven-impact")):

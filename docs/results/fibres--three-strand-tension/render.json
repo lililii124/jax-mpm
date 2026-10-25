@@ -1,0 +1,120 @@
+{
+  "renderer": "ParaView",
+  "version": "(6, 2)",
+  "frames_rendered": 13,
+  "resolution": [
+    400,
+    400
+  ],
+  "geometry_scale": 1,
+  "axes": false,
+  "annotations": false,
+  "background": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "field": "family_id",
+  "family_colors": [
+    [
+      0.045,
+      0.36,
+      0.67
+    ],
+    [
+      0.94,
+      0.36,
+      0.08
+    ],
+    [
+      0.32,
+      0.66,
+      0.48
+    ]
+  ],
+  "source_frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "times_s": [
+    0.0,
+    0.00017881275122317225,
+    0.00035701313001064374,
+    0.0005358258812338081,
+    0.0007146386324569725,
+    0.0008928390112444411,
+    0.0010716517624676223,
+    0.0012504645136908184,
+    0.0014286648924783185,
+    0.0016074776437015146,
+    0.0017862903949247106,
+    0.001964490773712207,
+    0.0021433035249353396
+  ],
+  "no_interpolation": true,
+  "representation": "Point Gaussian spheres, radius 0.62 times actual particle spacing",
+  "gaussian_radius_m": 6.2e-05,
+  "camera_position": [
+    0.027387201836144355,
+    -0.06924055729137042,
+    0.03077440367228878
+  ],
+  "camera_focal_point": [
+    0.011999999999999966,
+    1.8509712793378461e-06,
+    0.0
+  ],
+  "camera_view_up": [
+    0.0,
+    0.0,
+    1.0
+  ],
+  "camera_parallel_scale": 0.01469828497136965,
+  "fixed_camera": true,
+  "source_vtk_sha256": {
+    "vtk/particles_00000.vtp": "9b8aea9a98dbc707ae3c04e4e23a514bd53478da079d2a4737b697f00c7f6b9b",
+    "vtk/particles_00001.vtp": "99070adfa7ac2436520c9f9ccd42cf97128a3067aede5150db4b381d8ad11618",
+    "vtk/particles_00002.vtp": "14d1657f4d26ed06c89b0b33fc10e3f7825650cdb33243c9a4908b68976003bb",
+    "vtk/particles_00003.vtp": "8b1e9975bc0c82916c5e933a219af40ab727e358f31ef3ba85b1f83f11a1c1d0",
+    "vtk/particles_00004.vtp": "c5b554089a4998965363e40c80a690907777ac28f9f191a1f4d39849af698ce5",
+    "vtk/particles_00005.vtp": "d6b344e9477b734712e9c694ab0e21b4cbe8f897fb1e5d4ba909cdeff306fe11",
+    "vtk/particles_00006.vtp": "66af96458e1196b1367fd9f030e082915ea8fd8e1bb041eea293d331e00a1725",
+    "vtk/particles_00007.vtp": "53a051ac7524f09192462be47f701b5f8f0d619a0cc5457361f3ac6c488aaca2",
+    "vtk/particles_00008.vtp": "7e565a7043101d2bcc189dbeb9dee2fc92b69abb8189831811062b6855f1c0e8",
+    "vtk/particles_00009.vtp": "2f541e43403e936739165295e43d63ffe040d8f18e7ef6901fac8aae57db9e70",
+    "vtk/particles_00010.vtp": "c27d3505629ae3869e63d332f82ed1a6d9e41bb68b86d66da3cee2e1c547ef76",
+    "vtk/particles_00011.vtp": "092e592eb9cb3bc0ee18e05164067442c63aa5ee48ecec7d111423dcabf5701d",
+    "vtk/particles_00012.vtp": "d98b3d13147cf868056fbe035fda9bd45275c48708b751c68ae583dec022a84f",
+    "particles.pvd": "0db1a06ce3d5a44ecffd57e96142ef23737b538bed10e00e5a794381de679369"
+  },
+  "png_sha256": [
+    "0c5b20f59a861ac65f86f7e83ae67d1786eb97f2a1409f4e8a24c21df2653e58",
+    "b4f3e40f79a2bf618487219dff5ec3e1af704db1a73c0edd620c110f198d34bc",
+    "0946229683712d15d31313c06bd0b1d5cdb50c2caf56987d012ec2d9a0d37dd1",
+    "8d6bf1f90e1534660d47092b26f835928042a1d75cae283947cd79de18fadf06",
+    "bff350697e7745473bc766c65a6c30ced011fb1729b13e06436d76dc6e7a7705",
+    "09da249292a22516d686c5f0447721145399fbf70eb89ecd75aec26466ac2db9",
+    "f147cf254c1b117e23cc03b18ab5cc685fe47e39c75cbf7b5cbd56adee005346",
+    "4763d85ea682c0a1c09f483d4f53ade0699af07c98c97b43a02e51e0142ab47c",
+    "3a25f228101c1692bea7043f3548e8d9f1913a0b5e495e6157970e08420e0b7d",
+    "5c4ababe4015c5e078f582cf25192a464506ac824d5485de3915ba59ebefe8d4",
+    "d836f96630d49ac8ee9ad7da00665a4a119d06698084a7b4920a2f800b82913a",
+    "3881e27f672d059d8b3f19c9beae6cf684d86d37ba2cefa701d29b7288ab544d",
+    "de1886f20a549391b9c9679f6379537c999d556b2d1a5525db38275a8c64f9fc"
+  ],
+  "scene_sha256": "94835621a333a221199f332b996e826c31f4ece876316fed3e9fe754cc00756a",
+  "scene_script_sha256": "938a0e63d798d75f260f0d4e8f46fd12c4225771ff6716fe2cdad1a3beceb8ff",
+  "source_checkpoint_sha256": "4152797ee8f85ab2b551bf721efeaabd48402775ee74bd08d5c1fea3dc8d316e",
+  "visual_review_passed": false
+}

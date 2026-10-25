@@ -10,6 +10,11 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <td width="33%" align="center"><img src="images/crossed-fibre-md.png" alt="Crossed fibre MD contact" width="100%"><br><strong>Crossed fibre MD contact</strong><br><a href="results/completed--crossed-fibre-md/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-md.gif">GIF</a></td>
 <td width="33%" align="center"><img src="images/crossed-fibre-jkr.png" alt="Crossed fibre JKR contact" width="100%"><br><strong>Crossed fibre JKR contact</strong><br><a href="results/completed--crossed-fibre-jkr/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-jkr.gif">GIF</a></td>
 </tr>
+<tr>
+<td width="33%" align="center"><img src="images/three-strand-tension.png" alt="Three-strand tension" width="100%"><br><strong>Three-strand tension</strong><br><a href="results/fibres--three-strand-tension/summary.json">Results</a> &middot; <a href="images/home/fibres--three-strand-tension.gif">GIF</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 ## Woven composites: plate impact

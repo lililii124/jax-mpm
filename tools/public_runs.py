@@ -60,9 +60,13 @@ def is_public_run(identifier):
 
 
 def is_ready_for_publication(folder, identifier, summary):
-    if not is_public_run(identifier) or summary.get("completed") is False:
+    if not is_public_run(identifier):
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical == "fibres--three-strand-tension":
+        return is_three_strand_prefix_ready(Path(folder), summary)
+    if summary.get("completed") is False:
+        return False
     if canonical == "completed--phase-field-at2-tension":
         try:
             folder = Path(folder)
@@ -175,6 +179,56 @@ def is_ready_for_publication(folder, identifier, summary):
     except (OSError, ValueError, TypeError, KeyError, AttributeError):
         return False
     return True
+
+
+def is_three_strand_prefix_ready(folder, summary):
+    """Admit the reviewed loading segment without marking the protocol complete."""
+    checkpoint = "4152797ee8f85ab2b551bf721efeaabd48402775ee74bd08d5c1fea3dc8d316e"
+    try:
+        review = json.loads((folder / "publication-review.json").read_text())
+        physical = json.loads((folder / "physical-review.json").read_text())
+        media = json.loads((folder / "media-review.json").read_text())
+        render = json.loads((folder / "render.json").read_text())
+        required = {"saved_prefix_verified", "independent_saved_state_checks", "actual_paraview",
+                    "source_bound_media", "visual_review", "partial_protocol_explicit"}
+        if not (
+            summary["completed"] is False and summary["displayed_segment_complete"] is True
+            and summary["steps"] == physical["steps"] == 3500
+            and summary["last_saved_frame"] == physical["frame"] == 12
+            and summary["frames"] == render["frames_rendered"] == media["frames"] == 13
+            and summary["source_checkpoint_sha256"] == physical["checkpoint_sha256"] == checkpoint
+            and media["source_checkpoint_sha256"] == render["source_checkpoint_sha256"] == checkpoint
+            and summary["source_run"] == 40116768349 and summary["source_artifact"] == 12569841297
+            and all(physical["saved_array_checks"].values())
+            and physical["f12_material"]["all_fields_finite"] is True
+            and physical["all_rows_online_contact_valid"] is True
+            and physical["max_abs_energy_ledger_over_max_work"] < .15
+            and review["schema"] == "saved-prefix-publication-v1" and review["passed"] is True
+            and set(review["checks"]) == required and all(review["checks"].values())
+            and render["renderer"] == "ParaView" and render["geometry_scale"] == 1
+            and render["resolution"] == media["resolution"] == [400, 400]
+            and render["axes"] is False and render["annotations"] is False
+            and media["passed"] is True and media["visual_review_passed"] is True
+            and media["no_interpolation"] is True and media["actual_source_frames"] == list(range(13))
+            and media["unique_png_states"] > 2 and media["decoded_frames_match_quantized_pngs"] is True
+        ):
+            return False
+        names = {"summary.json", "physical-review.json", "render.json", "media-review.json", "provenance.json"}
+        if not names <= set(review["sources"]):
+            return False
+        for name, expected in review["sources"].items():
+            if Path(name).name != name:
+                return False
+            if hashlib.sha256((folder / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() != expected:
+                return False
+        images = folder.parents[2] / "docs/images"
+        gif = images / "home/fibres--three-strand-tension.gif"
+        cover = images / "three-strand-tension.png"
+        return (gif.stat().st_size == media["gif_bytes"]
+                and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
+                and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
 
 
 def is_archived_completed_ready(folder, summary, *, expected_frames=61):
@@ -294,6 +348,10 @@ def homepage_records(root, catalogue):
     for identifier in identifiers:
         folder = Path(root) / "docs/results" / identifier
         summary = json.loads((folder / "summary.json").read_text(encoding="utf-8"))
+        if identifier == "completed--phase-field-at2-tension":
+            metadata = json.loads((folder / "metadata.json").read_text(encoding="utf-8"))
+            if metadata.get("publication_status") == "withdrawn":
+                continue
         if not is_ready_for_publication(folder, identifier, summary):
             raise ValueError(f"Run has no matching passed review: {identifier}")
     present = set(identifiers)

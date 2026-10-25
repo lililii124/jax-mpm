@@ -1,0 +1,29 @@
+{
+  "scope": "Independent saved f0..12 early tension review; original contact online-valid only; incomplete full protocol; no all-step independent contact reintegration",
+  "checkpoint_sha256": "4152797ee8f85ab2b551bf721efeaabd48402775ee74bd08d5c1fea3dc8d316e",
+  "frame": 12,
+  "steps": 3500,
+  "time_s": 0.0021433035249353396,
+  "saved_array_checks": {
+    "x": true,
+    "damage": true,
+    "failed": true,
+    "speed": true,
+    "temperature": true
+  },
+  "f12_material": {
+    "stress_max_error_Pa": 9.845052773016505e-09,
+    "stored_energy_error_J": 8.470329472543003e-22,
+    "kinetic_energy_error_J": 0.0,
+    "damage_max_error": 0.0,
+    "min_det_F": 0.9973882291636543,
+    "all_fields_finite": true
+  },
+  "per_strand_momentum_error_Ns": [
+    7.072775947470682e-21,
+    7.989746331701164e-20,
+    9.162966632177944e-20
+  ],
+  "all_rows_online_contact_valid": true,
+  "max_abs_energy_ledger_over_max_work": 0.0036274033324785794
+}

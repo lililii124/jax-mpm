@@ -2963,5 +2963,17 @@
     "preview_frame": 15,
     "preview_time": 3.75e-05,
     "auxiliary_geometry": []
+  },
+  {
+    "name": "three-strand-tension",
+    "source": "fibres/three-strand-tension",
+    "particles": 358344,
+    "field": "family_id",
+    "renderer": "ParaView",
+    "version": "6.2.0",
+    "animation": false,
+    "preview_frame": 12,
+    "preview_time": 0.0021433035249353396,
+    "auxiliary_geometry": []
   }
 ]
