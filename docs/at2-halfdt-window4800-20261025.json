@@ -1,0 +1,427 @@
+{
+  "scope": "Local half-dt4400-to4800 physical-time match only",
+  "source_tar_sha256": "1450ef5cb721b8cc2b3bf6e17c88f7a44676bdcbc8b2197a17bd51d86bfa2248",
+  "finite_all_saved_fields": true,
+  "minimum_damage_increment": 0.0,
+  "minimum_history_increment": 0.0,
+  "restored_exact": {
+    "binding": true,
+    "step": true,
+    "nodal_displacement": true,
+    "nodal_velocity": true,
+    "history": true,
+    "nodal_damage": true,
+    "cumulative_audit": true,
+    "history_rows": true,
+    "maximum_kkt": true,
+    "maximum_strain": true,
+    "reference": true,
+    "volume": true,
+    "grid_coordinates": true,
+    "nodal_mass": true
+  },
+  "resources": {
+    "start_step": 8800,
+    "stop_step": 9600,
+    "samples": 4119,
+    "peak_uss_bytes": 1777909760,
+    "peak_rss_bytes": 1865166848,
+    "timed_out": false,
+    "memory_limit_exceeded": false,
+    "step_events": [
+      {
+        "elapsed_seconds": 63.010233506560326,
+        "line": "step=8825 damage=1.000000 kkt=9.582e-08"
+      },
+      {
+        "elapsed_seconds": 99.66620883345604,
+        "line": "step=8850 damage=1.000000 kkt=9.488e-08"
+      },
+      {
+        "elapsed_seconds": 139.20856270939112,
+        "line": "step=8875 damage=1.000000 kkt=9.399e-08"
+      },
+      {
+        "elapsed_seconds": 180.7075625732541,
+        "line": "step=8900 damage=1.000000 kkt=9.347e-08"
+      },
+      {
+        "elapsed_seconds": 219.80459640175104,
+        "line": "step=8925 damage=1.000000 kkt=9.316e-08"
+      },
+      {
+        "elapsed_seconds": 257.532348677516,
+        "line": "step=8950 damage=1.000000 kkt=9.267e-08"
+      },
+      {
+        "elapsed_seconds": 298.7520660609007,
+        "line": "step=8975 damage=1.000000 kkt=9.909e-08"
+      },
+      {
+        "elapsed_seconds": 333.7906309738755,
+        "line": "step=9000 damage=1.000000 kkt=9.881e-08"
+      },
+      {
+        "elapsed_seconds": 371.2016561627388,
+        "line": "step=9025 damage=1.000000 kkt=9.831e-08"
+      },
+      {
+        "elapsed_seconds": 411.34017564356327,
+        "line": "step=9050 damage=1.000000 kkt=9.756e-08"
+      },
+      {
+        "elapsed_seconds": 446.8915352374315,
+        "line": "step=9075 damage=1.000000 kkt=9.668e-08"
+      },
+      {
+        "elapsed_seconds": 482.6911206394434,
+        "line": "step=9100 damage=1.000000 kkt=9.568e-08"
+      },
+      {
+        "elapsed_seconds": 519.8918348699808,
+        "line": "step=9125 damage=1.000000 kkt=9.526e-08"
+      },
+      {
+        "elapsed_seconds": 556.492188103497,
+        "line": "step=9150 damage=1.000000 kkt=9.508e-08"
+      },
+      {
+        "elapsed_seconds": 596.6003732830286,
+        "line": "step=9175 damage=1.000000 kkt=9.467e-08"
+      },
+      {
+        "elapsed_seconds": 641.6325249671936,
+        "line": "step=9200 damage=1.000000 kkt=9.400e-08"
+      },
+      {
+        "elapsed_seconds": 688.1423693299294,
+        "line": "step=9225 damage=1.000000 kkt=9.332e-08"
+      },
+      {
+        "elapsed_seconds": 735.366318129003,
+        "line": "step=9250 damage=1.000000 kkt=9.974e-08"
+      },
+      {
+        "elapsed_seconds": 782.5703210756183,
+        "line": "step=9275 damage=1.000000 kkt=9.906e-08"
+      },
+      {
+        "elapsed_seconds": 824.5538112074137,
+        "line": "step=9300 damage=1.000000 kkt=9.832e-08"
+      },
+      {
+        "elapsed_seconds": 867.0588228628039,
+        "line": "step=9325 damage=1.000000 kkt=9.764e-08"
+      },
+      {
+        "elapsed_seconds": 907.299850821495,
+        "line": "step=9350 damage=1.000000 kkt=9.787e-08"
+      },
+      {
+        "elapsed_seconds": 943.240835532546,
+        "line": "step=9375 damage=1.000000 kkt=9.786e-08"
+      },
+      {
+        "elapsed_seconds": 976.5911545306444,
+        "line": "step=9400 damage=1.000000 kkt=9.761e-08"
+      },
+      {
+        "elapsed_seconds": 1023.4126158505678,
+        "line": "step=9425 damage=1.000000 kkt=9.767e-08"
+      },
+      {
+        "elapsed_seconds": 1067.9790247827768,
+        "line": "step=9450 damage=1.000000 kkt=9.872e-08"
+      },
+      {
+        "elapsed_seconds": 1111.2400886937976,
+        "line": "step=9475 damage=1.000000 kkt=9.961e-08"
+      },
+      {
+        "elapsed_seconds": 1156.3035702183843,
+        "line": "step=9500 damage=1.000000 kkt=9.989e-08"
+      },
+      {
+        "elapsed_seconds": 1205.1442388817668,
+        "line": "step=9525 damage=1.000000 kkt=9.988e-08"
+      },
+      {
+        "elapsed_seconds": 1255.232792288065,
+        "line": "step=9550 damage=1.000000 kkt=9.710e-08"
+      },
+      {
+        "elapsed_seconds": 1303.1637184992433,
+        "line": "step=9575 damage=1.000000 kkt=9.774e-08"
+      },
+      {
+        "elapsed_seconds": 1355.0943483039737,
+        "line": "step=9600 damage=1.000000 kkt=9.819e-08"
+      }
+    ],
+    "limit_child_GiB": 14,
+    "limit_seconds": 2100,
+    "memory_probe_method": "summed_smaps",
+    "returncode": 0,
+    "wall_seconds": 1356.6833868846297
+  },
+  "native": {
+    "scope": "Local dt sensitivity after exact same physical state; no full-prefix time convergence",
+    "physical_time": 0.072,
+    "fronts": [
+      {
+        "0.5": 0.47575000000000006,
+        "0.8": 0.42250000000000004,
+        "0.9": 0.40275000000000005,
+        "0.95": 0.38750000000000007,
+        "0.99": 0.34400000000000003
+      },
+      {
+        "0.5": 0.47575000000000006,
+        "0.8": 0.42250000000000004,
+        "0.9": 0.40275000000000005,
+        "0.95": 0.38750000000000007,
+        "0.99": 0.34400000000000003
+      }
+    ],
+    "profiles": [
+      {
+        "0.3125": {
+          "0.5": 0.08099999999999108,
+          "0.8": 0.03869999999999574,
+          "0.9": 0.02669999999999706,
+          "0.95": 0.018099999999998007,
+          "0.99": 0.0
+        },
+        "0.35": {
+          "0.5": 0.0880999999999903,
+          "0.8": 0.03949999999999565,
+          "0.9": 0.026099999999997125,
+          "0.95": 0.017399999999998084,
+          "0.99": 0.0
+        },
+        "0.4": {
+          "0.5": 0.09239999999998982,
+          "0.8": 0.034899999999996156,
+          "0.9": 0.01079999999999881,
+          "0.95": 0.0,
+          "0.99": 0.0
+        },
+        "0.45": {
+          "0.5": 0.07399999999999185,
+          "0.8": 0.0,
+          "0.9": 0.0,
+          "0.95": 0.0,
+          "0.99": 0.0
+        }
+      },
+      {
+        "0.3125": {
+          "0.5": 0.08099999999999108,
+          "0.8": 0.03869999999999574,
+          "0.9": 0.02669999999999706,
+          "0.95": 0.018099999999998007,
+          "0.99": 0.0
+        },
+        "0.35": {
+          "0.5": 0.0880999999999903,
+          "0.8": 0.03949999999999565,
+          "0.9": 0.026099999999997125,
+          "0.95": 0.017399999999998084,
+          "0.99": 0.0
+        },
+        "0.4": {
+          "0.5": 0.09239999999998982,
+          "0.8": 0.034899999999996156,
+          "0.9": 0.010699999999998822,
+          "0.95": 0.0,
+          "0.99": 0.0
+        },
+        "0.45": {
+          "0.5": 0.07399999999999185,
+          "0.8": 0.0,
+          "0.9": 0.0,
+          "0.95": 0.0,
+          "0.99": 0.0
+        }
+      }
+    ],
+    "energies": [
+      {
+        "K": 8.346329811300758e-08,
+        "U": 1.0812455338219887e-07,
+        "Gamma": 2.0332186572060477e-07
+      },
+      {
+        "K": 8.34641943189153e-08,
+        "U": 1.0813302849181929e-07,
+        "Gamma": 2.0331772951542563e-07
+      }
+    ],
+    "native_field_relative_L2": 5.082449093431426e-05,
+    "native_field_maximum_difference": 0.00010036006153890664,
+    "front_differences": {
+      "0.5": 0.0,
+      "0.8": 0.0,
+      "0.9": 0.0,
+      "0.95": 0.0,
+      "0.99": 0.0
+    }
+  },
+  "numerical": {
+    "scope": "Local dt agreement only after exact coarse state4400",
+    "energies": [
+      {
+        "K": 8.346329811300758e-08,
+        "U": 1.0812455338219887e-07,
+        "ratio": 0.7719180843039541,
+        "fracture_increment": 7.590128327393435e-08,
+        "residual": 7.852289367094338e-10,
+        "residual_over_absolute_work": 0.00294419736470897,
+        "window": {
+          "actuator_work": 4.381081300467602e-08,
+          "contact_projection_loss": 4.401290063695757e-09,
+          "damping_loss": 0.0,
+          "frozen_damage_strain_integration_defect": 4.779310001306527e-11,
+          "kick_drift_work_difference": 4.3809274609999095e-09,
+          "damage_split_potential_change": 6.045348071565699e-10,
+          "algebraic_closure": -6.400406924857085e-22,
+          "top_work": 4.381081300467602e-08,
+          "bottom_pin_work": 0.0,
+          "force_drift_weak_identity_error": 2.445518959364684e-25,
+          "absolute_step_work": 4.381081300467602e-08,
+          "absolute_nodal_work": 4.778536977051428e-08
+        }
+      },
+      {
+        "K": 8.34641943189153e-08,
+        "U": 1.0813302849181929e-07,
+        "ratio": 0.7718658719082275,
+        "fracture_increment": 7.589714706875521e-08,
+        "residual": 7.95417306817997e-10,
+        "residual_over_absolute_work": 0.0029824538084800185,
+        "window": {
+          "actuator_work": 4.3805859744916515e-08,
+          "contact_projection_loss": 2.2005572292255802e-09,
+          "damping_loss": 0.0,
+          "frozen_damage_strain_integration_defect": 2.3867020118189145e-11,
+          "kick_drift_work_difference": 2.1903710376288903e-09,
+          "damage_split_potential_change": 6.284728460639836e-10,
+          "algebraic_closure": 7.907531616515836e-23,
+          "top_work": 4.3805859744916515e-08,
+          "bottom_pin_work": 0.0,
+          "force_drift_weak_identity_error": 5.632763599712475e-24,
+          "absolute_step_work": 4.3805859744916515e-08,
+          "absolute_nodal_work": 4.778292052802316e-08
+        }
+      }
+    ],
+    "relative_energy_differences": {
+      "K": 1.073772458054934e-05,
+      "U": 7.838284048641345e-05,
+      "ratio": 6.763981410500893e-05,
+      "fracture_increment": 5.44945355431429e-05
+    },
+    "reactions": {
+      "normalized_RMS": 0.0002547375189292456,
+      "relative_peak": 0.0,
+      "samples": 17
+    },
+    "max_kkt": 9.99994156351116e-08,
+    "max_wave_plus_v_cfl": 0.02012266223612576,
+    "physical_guards_all_800_passed": true
+  },
+  "raw_file_transfer_manifest": {
+    "outer-solver.log": {
+      "bytes": 2143,
+      "sha256": "945ec0522cf12bcce27b1e9fc51c30969fa3c97d20650042d0d6c7926c82b692"
+    },
+    "evidence/migration-preflight.json": {
+      "bytes": 711,
+      "sha256": "2e58f20bb5a02d65f72b79c5f114ba5c0d0162a936ddfd144fb02a7a42adb688"
+    },
+    "evidence/upstream-receipt.json": {
+      "bytes": 2248,
+      "sha256": "7fc08dd84934635a2221d2e96c0f4e2beb609d8337d001f98d4efca5dbd9d779"
+    },
+    "evidence/solver.log": {
+      "bytes": 1280,
+      "sha256": "c152e114839d4c58aa9ec7c7bfd8410c2cf15179d5e0fcae719521328b999992"
+    },
+    "evidence/first-memory-probe.json": {
+      "bytes": 75,
+      "sha256": "d3fad5293d32afa381dd96a81d9835f585fa06907497488d29f1880f8930c93b"
+    },
+    "evidence/raw/frame_008800.npz": {
+      "bytes": 6553292,
+      "sha256": "205a3c36cccdd6ee4dbfd5fdd9aae3649063bce2579637c026849496ab9abdc1"
+    },
+    "evidence/raw/checkpoint_008800.npz": {
+      "bytes": 1121659,
+      "sha256": "2131ed44687ca20a1427cb3b3394e743db33844270d04fd2d1596b54d2b3ee73"
+    },
+    "evidence/raw/strain-qualification.jsonl": {
+      "bytes": 458583,
+      "sha256": "dbe2e76b36fe48fafc3146b731801bff82e3404082a87852c854c2ec7223fa9c"
+    },
+    "evidence/raw/step-telemetry.jsonl": {
+      "bytes": 583196,
+      "sha256": "c23b2f6e12a28ef2dba5e222035ff47d3678b3345429f6818d517b76848ce606"
+    },
+    "evidence/raw/history.csv": {
+      "bytes": 105162,
+      "sha256": "7942c53907750dca0467eb00b825bb0d48c2544ff3ea713c471eb894573ca44f"
+    },
+    "evidence/raw/frame_009000.npz": {
+      "bytes": 6557850,
+      "sha256": "20818a0f4153a85e9b262ff49a7a6474ab3cd83ceab368fdfba83dfd6bb2bc60"
+    },
+    "evidence/raw/checkpoint_009000.npz": {
+      "bytes": 1123187,
+      "sha256": "820ff96ceaf8a0268a54f1db50e395886ce1f19c9b71d5baafa92b03e1f234e6"
+    },
+    "evidence/raw/frame_009200.npz": {
+      "bytes": 6562195,
+      "sha256": "e684e79c142d0202c7d76ec6d81596b464cd9ec318b66eba2d600e6c4e027c2b"
+    },
+    "evidence/raw/checkpoint_009200.npz": {
+      "bytes": 1124866,
+      "sha256": "1f82dd47e3e93ea504d8f26ca8fe197200d7214a65c15aadcf04d052ad7c4a39"
+    },
+    "evidence/raw/frame_009400.npz": {
+      "bytes": 6565003,
+      "sha256": "d3ecc09128495718393f248c590bb3d71a62df089cf7db7f02715b5d008179da"
+    },
+    "evidence/raw/checkpoint_009400.npz": {
+      "bytes": 1126103,
+      "sha256": "c4cd995625767a1a2076b70bddad8c1a60cab00da568e1d208347187d88e6727"
+    },
+    "evidence/raw/frame_009600.npz": {
+      "bytes": 6569179,
+      "sha256": "7f4a715b36d5e4de4494020733f277b9a4c4c26a2e0ed6db426eac4398d892a0"
+    },
+    "evidence/raw/checkpoint_009600.npz": {
+      "bytes": 1127248,
+      "sha256": "5fde38140f92a8a2e6237743b8a2ba93b7e95e29c900b47f7ba344f37fa666ca"
+    },
+    "evidence/raw/summary.json": {
+      "bytes": 7856,
+      "sha256": "0299f0c4f7917d726b15ada377c068db350364cd4b55ebda1be6bc7cd9f36c5d"
+    },
+    "evidence/resources.json": {
+      "bytes": 3977,
+      "sha256": "6400f7fca10d17480b417acbeb9eb04dc62b177837f63378b1beb452f35bc8a8"
+    },
+    "evidence/numerical-segment-admission.json": {
+      "bytes": 609,
+      "sha256": "d3972985b60beaba11b638519b29849d48f4d3c7761f39be99b580e755475dde"
+    },
+    "evidence/initial-frame0.npz": {
+      "bytes": 1588043,
+      "sha256": "339dda2b0b629d1c13b0c418159b9795fa4715fc78fd59b4fb91d81e61a360c1"
+    },
+    "evidence/case-configuration.json": {
+      "bytes": 1337,
+      "sha256": "f79376a7313d598056e4542737be6df67b29eb61d6b244116884def9279573ad"
+    }
+  }
+}
