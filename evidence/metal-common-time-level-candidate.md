@@ -3,8 +3,7 @@
 The candidate holds the starting Galerkin space fixed during a complete step.
 Endpoint velocities determine one midpoint velocity for particle motion,
 deformation, material work and force work. Geometry projection follows the
-complete coupled step. The existing endpoint contact projection is retained;
-there is no prescribed rebound or change to the contact tolerance.
+complete coupled step. Contact tolerances remain unchanged.
 
 This follows the fixed-mass, within-step grid approach discussed by
 [Love and Sulsky](https://www.math.unm.edu/~sulsky/papers/LoveSulskyHPC.pdf).
@@ -39,7 +38,26 @@ increment, torque symmetry and a common rigid rotation.
 The first 2 ps run completed in 120.18 s with 1.03 GB peak USS and three
 nonlinear evaluations. Its reported total energy residual is `4.26e-13 J`,
 and angular residual norm is below the original `2.47e-18` tolerance.
-Independent raw-state review remains separate from these solver checks.
+Independent raw-state review passed, with a recomputed energy residual of
+`4.46e-13 J` and plastic-heating identity error of `1.45e-15 J`.
 The next continuation uses the accepted state, retains all tolerances, and
 advances in steps up to 200 ps with cumulative balances. The in-process JAX
 material evaluator retains the compiled update between nonlinear evaluations.
+
+The first 200 ps continuation was accepted at 125.202 ns. The next attempted
+step failed the contact-power check: endpoint contact produced `4.20e-7 J`
+of positive work despite a material-work defect below `2e-16 J`.
+
+The optional midpoint contact split projects the half-step trial velocity
+onto the fixed starting contact cone, then reflects it to obtain the velocity
+used for midpoint motion. An instantaneous inelastic projection onto that same
+cone follows the motion, before geometry remapping and the new-cone impact.
+The initial velocity is admissible in the starting cone. This last old-cone
+projection prevents an unprocessed midpoint reflection from surviving a
+change of contact geometry. Each projection keeps its actual kinetic loss
+separate from material work; no loss is converted into heat. Impulses and
+torques after motion are evaluated at the advanced configuration. The stored
+pre-impact velocity is the endpoint used for the position/deformation
+midpoint identities. Two exact closed-contact histories check zero restitution
+and separating motion reversed by an applied force. General collision geometry
+still requires the original coverage, power and momentum gates.

@@ -14,7 +14,7 @@ os.environ['OPENBLAS_NUM_THREADS'] = '1'
 os.environ['OMP_NUM_THREADS'] = '1'
 import numpy as np
 
-from tools.metal_affine_dynamic_numpy import DynamicFrame, kinetic, moments, synchronize, thermal, unpack, whiten, cfl_limit
+from tools.metal_affine_dynamic_numpy import DynamicFrame, kinetic, moments, synchronize, thermal, unpack, whiten, cfl_limit, midpoint_contact_velocity
 from tools.metal_affine_resource import require_commit_headroom
 
 
@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--dt', type=float, default=2e-12)
     parser.add_argument('--state-sha256', default='cb3da5037c6060772b501bd668d9ee3b946e93d0ecd69da1c1b9b54f9c44e523')
     parser.add_argument('--inprocess-material', action='store_true')
+    parser.add_argument('--contact-time-level', choices=('endpoint', 'midpoint'), default='endpoint')
     args = parser.parse_args()
     if not re.fullmatch('[0-9a-f]{64}', args.state_sha256) or hashlib.sha256(args.state.read_bytes()).hexdigest() != args.state_sha256:
         raise ValueError('Audited post-contact seed required')
@@ -55,6 +56,7 @@ def main():
     boundary_torque = np.zeros(3)
     report = dict(schema='metal-common-time-level125-v1', dt_s=args.dt, status='running',
                   material_backend='jax-in-process' if args.inprocess_material else 'isolated-jax-worker',
+                  contact_time_level=args.contact_time_level,
                   input_sha256=hashlib.sha256(args.state.read_bytes()).hexdigest(),
                   energy_roundoff_J=tol, iterations=[], stages=[], production_admitted=False)
     frame = None
@@ -124,8 +126,11 @@ def main():
             part = float(np.sum(per_particle_loss[selected]))
             state['contact_projection_loss'][body] += part
             state['contact_coupling_work'][body] += -float(np.sum(per_particle_change[selected]))-part
-        report['stages'].append(dict(stage=label, contact=row))
-        np.savez_compressed(args.output/(label+'.npz'), white_before=before, white=y, physical=physical, reaction=reaction)
+        report['stages'].append(dict(stage=label, contact=row, loss_J=loss,
+            physical_impulse=moments(state, physical)[0], physical_torque=moments(state, physical)[1],
+            boundary_impulse=moments(state, reaction)[0], boundary_torque=moments(state, reaction)[1]))
+        np.savez_compressed(args.output/(label+'.npz'), white_before=before, white=y,
+                            physical=physical, reaction=reaction, x=state['x'], F=state['F'])
 
     def progress(phase):
         print(json.dumps({'phase': phase, 'elapsed_s': time.monotonic()-started}), flush=True)
@@ -177,7 +182,12 @@ def main():
                         piola @ np.linalg.inv(old['reference_root']).swapaxes(-1, -2))
             raw = np.concatenate((np.zeros((len(fixed), 3, 1)), covector), axis=2).transpose(0, 2, 1).reshape(-1, 3)
             force, reaction_force, force_rows = frame.force(raw)
-            proposed, contact_row, reaction_contact, physical_contact = frame.restricted.apply(y0 + args.dt*force)
+            if args.contact_time_level == 'midpoint':
+                proposed, contact_row, reaction_contact, physical_contact = midpoint_contact_velocity(y0, force, args.dt, frame.restricted)
+                multiplier_scale = 2.
+            else:
+                proposed, contact_row, reaction_contact, physical_contact = frame.restricted.apply(y0 + args.dt*force)
+                multiplier_scale = 1.
             residual = proposed - guess
             residual_work_bound = np.linalg.norm(residual) * max(np.linalg.norm(midpoint_y), 1.)
             actual_vmid, actual_Wmid = unpack(old, .5*(y0+proposed))
@@ -193,7 +203,7 @@ def main():
             np.savez_compressed(args.output/f'iteration-{iteration}-force.npz', midpoint_white=midpoint_y,
                 guessed_white=guess, proposed_white=proposed, raw_force=raw, projected_force=force,
                 reaction_force=reaction_force, reaction_contact=reaction_contact, physical_contact=physical_contact,
-                viscosity_piola=viscous, multiplier=frame.restricted.last_multiplier)
+                viscosity_piola=viscous, multiplier=multiplier_scale*frame.restricted.last_multiplier)
             record()
             gate(contact_row['valid'] and contact_row['original_sample_closing_m_s'] <= .005 and
                  contact_row['restricted_sample_difference_m_s'] <= .005, 'Original contact tolerance failed in coupled iteration')
@@ -220,18 +230,26 @@ def main():
         report['coupled'] = dict(material_work_J=material_work, material_change_J=material_change,
             material_identity_J=material_work-material_change, viscosity_work_J=viscosity_work,
             contact_work_J=contact_work, boundary_work_J=boundary_work, coupled_defect_J=coupled_defect,
-            contact_torque=moments(midstate, physical_contact)[1])
+            contact_torque=moments(midstate, physical_contact)[1],
+            midpoint_closing_speed=float(np.max(frame.contact.sample(midpoint_actual), initial=0)),
+            endpoint_closing_before_final_projection=float(np.max(frame.contact.sample(y), initial=0)))
         gate(abs(coupled_defect) <= tol and abs(material_work-material_change) <= tol,
              'Common-time-level work identity failed')
         gate(abs(boundary_work) <= tol and contact_work <= tol and viscosity_work >= -tol,
              'Constraint or viscosity power failed')
         state = candidate
         contact_diagnostics(state, contact_row, args.dt)
+        state['candidate_contact_multiplier'] = multiplier_scale*frame.restricted.last_multiplier
         state['candidate_dynamic_contact_work_by_body'] = np.asarray([
             float(np.sum((midpoint_actual*physical_contact).reshape(-1, 4, 3)[old['body_id'] == b])) for b in (0, 1)])
         synchronize(state, y)
         state['candidate_white'] = y
         np.savez_compressed(args.output/'coupled-before-remap.npz', **state, midpoint_final_white=midpoint_actual)
+        if args.contact_time_level == 'midpoint':
+            contact('end-old-cone-contact')
+            synchronize(state, y)
+            state['candidate_white'] = y
+            report['contact_split'] = 'Fixed-cone midpoint motion, old-cone inelastic impact, remap, new-cone inelastic impact'
         frame.release()
         frame = None
         gc.collect()
@@ -290,6 +308,10 @@ def main():
         report['status'] = 'bounded-window-passed'
     except Exception as error:
         report.update(status='rejected', first_error={'type': type(error).__name__, 'message': str(error)})
+        if 'response' in locals():
+            report['last_material_evaluation'] = response.name
+            report['last_force_evaluation'] = f'iteration-{iteration}-force.npz'
+        report['rejected_context_is_not_a_complete_physical_checkpoint'] = True
         state['valid'] = np.asarray(False)
         np.savez_compressed(args.output/'rejected.npz', **state, rejected_white=y)
     finally:

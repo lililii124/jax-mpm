@@ -10,6 +10,14 @@ from tools.metal_frozen_transfer import support
 
 def accurate_sum(values):return np.array([math.fsum(values[:,j]) for j in range(3)])
 def kinetic(y):return float(.5*np.sum(y*y))
+
+
+def midpoint_contact_velocity(initial, force, dt, contact):
+    midpoint, report, reaction, physical = contact.apply(initial + .5*dt*force)
+    endpoint = 2*midpoint - initial
+    return endpoint, report, 2*reaction, 2*physical
+
+
 def whiten(state):
     values=np.concatenate((state['v'][:,:,None],state['W']@state['reference_root']),axis=2).transpose(0,2,1)
     return values.reshape(-1,3)*np.repeat(np.sqrt(state['mass']),4)[:,None]
