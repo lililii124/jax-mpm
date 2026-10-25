@@ -78,6 +78,11 @@ def render(source, output):
         image.close()
     receipt = dict(actual_saved_frames=frame+1, actual_last_time_s=float(times[-1]),
         checkpoint_sha256=source_hash, camera=camera, numerical_review=numerical,
+        source_plan_sha256=hashlib.sha256((source/'plan.json').read_bytes()).hexdigest(),
+        renderer_controller_commit=os.environ.get('GITHUB_SHA'),
+        renderer_source_hashes={name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest()
+            for name in ('tools/render_jkr_compliant_pilot.py','tools/paraview_jkr_compliant_scene.py',
+                         'mpm_jax/paraview_scene.py')},
         actual_raster_measurements=raster, geometry_scale=1,
         disclosure=plan['public_comparison_disclosure'],
         public_visual_review_passed=False, production_eligible=False,
