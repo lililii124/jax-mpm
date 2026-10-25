@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--input',default='input');parser.add_argument('--output',default='output');parser.add_argument('--steps',type=int,default=50);parser.add_argument('--skip-rejected-diagnostic',action='store_true');args=parser.parse_args();root=Path(args.input);out=Path(args.output);out.mkdir(exist_ok=False)
+    parser=argparse.ArgumentParser();parser.add_argument('--input',default='input');parser.add_argument('--output',default='output');parser.add_argument('--steps',type=int,default=50);parser.add_argument('--skip-rejected-diagnostic',action='store_true');parser.add_argument('--checkpoint-stride',type=int,default=25);args=parser.parse_args();root=Path(args.input);out=Path(args.output);out.mkdir(exist_ok=False);assert 1<=args.checkpoint_stride<=25
     import jax
     jax.config.update('jax_enable_x64',True)
     import jax.numpy as jnp
@@ -84,8 +84,8 @@ def main():
         np.savez_compressed(out/f'frame_{step:07d}.npz',x=np.asarray(state.x),damage=np.asarray(state.history.damage),failed=np.asarray(state.history.failed),speed=np.linalg.norm(np.asarray(state.v),axis=1),time=np.asarray(state.time))
         save('latest.json',dict(step=step,time=float(state.time),checkpoint_sha256=hashlib.sha256((out/f'checkpoint_{step:07d}.npz').read_bytes()).hexdigest(),accepted=bool(aggregate[4]),contact_metrics=np.asarray(last),failed_particles=int(np.asarray(state.history.failed).sum()),max_damage=float(np.asarray(state.history.damage).max())))
     started=time.perf_counter();advance_block.lower(*carry,jnp.asarray(1)).compile();save('compile.json',dict(seconds=time.perf_counter()-started));wall=time.perf_counter()
-    for _ in range((args.steps+24)//25):
-        count=min(25,start_step+args.steps-int(carry[2][0]));carry=advance_block(*carry,jnp.asarray(count));jax.block_until_ready(carry);checkpoint(carry)
+    for _ in range((args.steps+args.checkpoint_stride-1)//args.checkpoint_stride):
+        count=min(args.checkpoint_stride,start_step+args.steps-int(carry[2][0]));carry=advance_block(*carry,jnp.asarray(count));jax.block_until_ready(carry);checkpoint(carry)
         print(json.dumps(dict(step=int(carry[2][0]),time=float(carry[0].time),valid=bool(carry[2][4]),wall=time.perf_counter()-wall)),flush=True)
         if not bool(carry[2][4]):raise RuntimeError('Original coupled physical/contact guard rejected, raw retained')
     save('runtime.json',dict(steps=int(carry[2][0])-start_step,seconds=time.perf_counter()-wall,complete=True))

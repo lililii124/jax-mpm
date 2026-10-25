@@ -93,6 +93,16 @@ def _overlap_count(points, owners, radius, active, patch_count, block=32):
     return jax.lax.fori_loop(0, jnp.minimum((patch_count+block-1)//block, rows), count_block, jnp.asarray(0))
 
 
+def load_bearing_failed_endpoints(failed_endpoints,closest_weights):
+    """Exact zero force interpolation is inactive; every positive weight counts.
+
+    No epsilon or rounding tolerance is permitted here. Footprint/intactness
+    review is still required before admitting a changed physical application.
+    """
+    weights=jnp.stack((1-closest_weights,closest_weights),axis=-1)
+    return jnp.any(failed_endpoints&(weights>0),axis=(1,2))
+
+
 def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16384,
                            max_patches=4096, max_iterations=128, max_a_over_radius=.2):
     """Return force/history/metrics; a false validity flag rejects the whole step.
@@ -165,7 +175,7 @@ def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16
     end_contact = close&jnp.any(((near == lo)&(weights_all <= endpoint_tolerance))|
                               ((near == hi)&(weights_all >= 1-endpoint_tolerance)), axis=1)
     failed = jnp.zeros(data.section_count, dtype=jnp.int32).at[data.particle_section].add(state.history.failed.astype(jnp.int32)) > 0
-    failed_contact = close&jnp.any(failed[endpoint_sections], axis=(1, 2))
+    failed_contact = close&load_bearing_failed_endpoints(failed[endpoint_sections], weights_all)
     lengths_all = jnp.stack((jnp.linalg.norm(q-p, axis=1), jnp.linalg.norm(s-r, axis=1)), axis=1)
     degenerate_all = close&((distance <= 1e-14)|jnp.any(lengths_all <= 1e-14, axis=1))
     degenerate_patch = live&~curvature_valid
