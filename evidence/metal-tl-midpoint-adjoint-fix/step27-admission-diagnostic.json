@@ -1,0 +1,37 @@
+{
+  "schema": "metal-tl-step-admission-diagnostic-v1",
+  "status": "physical-route-contact-valid; prior extra-strict route-error guard rejected",
+  "step": 27,
+  "prior_step": 26,
+  "prior_time_s": 3.871559570960129e-08,
+  "dt_s": 1.4890613734462037e-09,
+  "prior_checkpoint_sha256": "3b7586f18cfb2300b7dd641797e1b36d071fbf822ecd52732375046a4484bb7a",
+  "source_sha256": {
+    "mpm_jax/metal_tl_midpoint.py": "b7bf3096339776d5ed5e759fd3ab1b891f3948f8d82dd1aa44f79f07e5ae0133",
+    "run_metal_tl_fresh.py": "591076a9c696f282596381f87b188011a9669d6000691fdd96873754abd8c605"
+  },
+  "contact": {
+    "pairs": 9,
+    "pre_closing_m_s": 5000.0001555383205,
+    "node_route_post_closing_m_s": 0.0001590594492968016,
+    "independent_phase_route_pre_closing_m_s": 5000.000151105178,
+    "independent_phase_route_post_closing_m_s": 0.00007085735102266319,
+    "independent_phase_active_complementarity_m_s": 0.00011508733318521536,
+    "JphaseA_vs_Jnode_pre_max_abs_m_s": 0.00012600167428900022,
+    "JphaseA_vs_Jnode_post_max_abs_m_s": 0.00016808887831994569,
+    "max_multiplier": 2.7512145432247566e-21,
+    "positive_multiplier_pairs": 8,
+    "nodal_impulse_norm_Ns": 6.696525406104762e-13,
+    "jump_work_J": -3.9535092001711325e-17,
+    "kinetic_loss_J": 0.0,
+    "energy_work_identity_abs_error_J": 3.9535092001711325e-17
+  },
+  "step_admission": {
+    "step_material_valid": true,
+    "step_finite": true,
+    "force_residual": 2.7458659034279897e-19,
+    "step_valid_before_route-tolerance-adjustment": false
+  },
+  "interpretation": "Independent physical route closing and complementarity both pass the unchanged 0.005 m/s tolerance. The earlier rejection was caused only by an added 1e-8 relative route-equality gate, which was removed; route mismatch remains recorded as a diagnostic. This is a finite-support sampler activation at q1, not a surface-first-contact event."
+}
+

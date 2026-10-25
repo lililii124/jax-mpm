@@ -115,7 +115,10 @@ def tl_velocity_map_transpose(values, reference, particle_mass, E0, node_count):
     sample_part = (reference.weights[..., None] * weighted[:, None, 0, :])
     E0 = jnp.asarray(E0)
     # Contract affine-coordinate impulses against grad_X v E0.
-    affine_part = jnp.einsum('pbc,jb->pcj', weighted[:, 1:, :], E0)
+    # If A(v) = (grad_X v) E0, then A^T(y) contracts the output-column
+    # index of y with the output-column index of E0. Preserve the input-row
+    # index (b) so E0=I is the identity on each 3x3 affine impulse.
+    affine_part = jnp.einsum('pbc,jc->pbj', weighted[:, 1:, :], E0)
     gradient_part = jnp.einsum('pkj,pcj->pkc', reference.gradients, affine_part)
     contribution = sample_part + gradient_part
     return jnp.zeros((node_count, 3), dtype=values.dtype).at[
@@ -146,7 +149,7 @@ def actual_q1_contact_jump(velocity_preimpact, reference, particle_mass, body_id
     import numpy as np
     from .fragment_v6_matrixfree_projection import (
         quadratic_reconstruction, polynomial_modes, physical_contact,
-        physical_adjoint,
+        physical_adjoint, physical_sample,
     )
     from scipy.optimize import nnls
 
@@ -211,6 +214,22 @@ def actual_q1_contact_jump(velocity_preimpact, reference, particle_mass, body_id
     delta[np.asarray(fixed, bool)] = 0.
     following = velocity + delta
     final = flat @ following.ravel()
+    # Independent primal-route check: apply J_phase to A v directly instead
+    # of trusting values produced by J_node^T and its Schur matrix.
+    pre_phase = np.asarray(physical_sample(
+        reconstruction, contact,
+        tl_velocity_map(jnp.asarray(velocity_preimpact), reference,
+                        jnp.asarray(particle_mass), jnp.asarray(E0)).reshape(-1, 3)))[:count]
+    post_phase = np.asarray(physical_sample(
+        reconstruction, contact,
+        tl_velocity_map(jnp.asarray(following), reference,
+                        jnp.asarray(particle_mass), jnp.asarray(E0)).reshape(-1, 3)))[:count]
+    route_pre_error = float(np.max(np.abs(pre_phase-closing), initial=0.))
+    route_post_error = float(np.max(np.abs(post_phase-final), initial=0.))
+    physical_closure = float(np.max(np.maximum(post_phase, 0.), initial=0.))
+    physical_residual = np.where(multiplier > 0., np.abs(post_phase),
+                                 np.maximum(post_phase, 0.))
+    physical_kkt = float(np.max(physical_residual, initial=0.))
     residual = np.where(multiplier > 0., np.abs(final), np.maximum(final, 0.))
     closure = float(np.max(np.maximum(final, 0.), initial=0.))
     kkt = float(np.max(residual, initial=0.))
@@ -219,6 +238,8 @@ def actual_q1_contact_jump(velocity_preimpact, reference, particle_mass, body_id
     loss = before - .5*float(np.sum(np.asarray(reference.nodal_mass)[:, None]*following**2))
     identity = .5*float(np.sum(np.asarray(reference.nodal_mass)[:, None]*delta**2)) + np.dot(multiplier, final)
     valid = (np.min(multiplier, initial=0.) >= 0. and closure <= tolerance and kkt <= tolerance
+             and physical_closure <= tolerance and physical_kkt <= tolerance
+             and np.isfinite(route_pre_error) and np.isfinite(route_post_error)
              and work <= 1e-10*max(loss, 1e-30) and loss >= -1e-10*max(before, 1e-30)
              and abs(loss + work) <= 1e-10*max(before, 1e-30))
     report = dict(valid=bool(valid), pairs=count, initial_closing_m_s=float(np.max(closing, initial=0.)),
@@ -230,6 +251,11 @@ def actual_q1_contact_jump(velocity_preimpact, reference, particle_mass, body_id
             np.asarray(contact['normals']), axis=1) > 0.)),
         nodal_impulse_norm_Ns=float(np.linalg.norm(impulse)),
         newly_active_e0=bool(np.max(closing, initial=0.) > tolerance and closure <= tolerance))
+    report.update(physical_route_pre_closing_m_s=float(np.max(pre_phase, initial=0.)),
+        physical_route_post_closing_m_s=physical_closure,
+        physical_route_complementarity_m_s=physical_kkt,
+        JphaseA_vs_Jnode_pre_max_abs_m_s=route_pre_error,
+        JphaseA_vs_Jnode_post_max_abs_m_s=route_post_error)
     return jnp.asarray(following), jnp.asarray(impulse), jnp.asarray(work), jnp.asarray(loss), report
 
 
@@ -307,6 +333,7 @@ def step(state, reference, material, dt, fixed, endpoint_contact,
     is rebuilt outside that kernel at the exact q1 and composed with its TL
     nodal map; reference-coordinate contact pairs are never used.
     """
+    import numpy as np
     if max_picard < 1 or dt <= 0:
         raise ValueError("A positive step and Picard iteration cap are required")
     fixed = jnp.asarray(fixed, dtype=bool)
@@ -324,6 +351,12 @@ def step(state, reference, material, dt, fixed, endpoint_contact,
     material_valid = jnp.all(mat.valid) & jnp.all(jnp.linalg.det(F1) > 0)
     finite = (jnp.all(jnp.isfinite(vpost)) & jnp.all(jnp.isfinite(x1)) &
               jnp.all(jnp.isfinite(mat.piola)) & jnp.isfinite(contact_work))
+    contact_report.update(step_contact_valid=bool(np.asarray(contact_valid)),
+        step_material_valid=bool(np.asarray(material_valid)),
+        step_finite=bool(np.asarray(finite)),
+        step_force_residual=float(np.asarray(force_residual)),
+        step_force_tolerance=float(force_tolerance),
+        step_picard_iterations=int(np.asarray(picard_iterations)))
     accepted = (picard_iterations <= max_picard) & (force_residual <= force_tolerance) & material_valid & finite & contact_valid
     following = MetalTLState(u1, vpost, mat.state, state.time + dt,
         state.initial_momentum, state.initial_angular_momentum, state.initial_kinetic,

@@ -1,0 +1,38 @@
+{
+  "schema": "metal-tl-physical-coupling-audit-v1",
+  "status": "failed-physical-coupling",
+  "checkpoint": "continuation-accepted.npz",
+  "checkpoint_step": 108,
+  "checkpoint_time_s": 1.6e-7,
+  "source_sha256_metal_tl_midpoint": "0cdbd4ba9fb4204e67145c44cce71690bdc27784d84e1cdb3b42077fcfe139be",
+  "reason": "Affine A transpose einsum contracted the wrong axes. Stored energy and global conservation did not verify the actual phase-space contact constraint.",
+  "geometry": {
+    "sphere_material_nose_y_m": 0.001,
+    "sphere_nose_deformed_y_m": 0.00020000007596129854,
+    "plate_material_top_y_m": 0.00025,
+    "plate_top_deformed_y_m": 0.0002499999937517329,
+    "nose_minus_plate_gap_m": -4.999991779043437e-05
+  },
+  "sphere": {
+    "P_y_kg_m_s": -0.05658398437500002,
+    "K_J": 141.45996093750014
+  },
+  "plate": {
+    "P_y_kg_m_s": -1.283528959773447e-18,
+    "K_J": 3.825951212479495e-15,
+    "internal_energy_J": 1.089651845932646e-14,
+    "max_nodal_displacement_m": 4.426124911885251e-11,
+    "max_F_minus_I_fro": 4.279474466270499e-08,
+    "max_tau_fro_Pa": 1674.1373904460734
+  },
+  "wrong_transpose_diagnostic": {
+    "J_phase_A_vs_J_node_v_max_abs_m_s": 41297.560870571586,
+    "representative_wrong_J_node_l2": 72737218.36712685,
+    "representative_wrong_effective_mass_kg": 2.9203160107323838e-25,
+    "interpretation": "These Jacobian and effective-mass values diagnose the wrong transpose; they are not accepted physical contact properties."
+  },
+  "preserved_original_run": true,
+  "reuse_as_restart_state": false,
+  "longer_impact_admitted": false
+}
+

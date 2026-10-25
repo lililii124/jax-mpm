@@ -89,6 +89,39 @@ def make_reference(geometry, dx):
         fixed_nodes=int(np.sum(fixed[:, 0])), node_count=len(nodes))
 
 
+def verify_adjoint_power_identity():
+    """Check finite-dimensional A/A^T power identity for identity and full E0."""
+    import jax.numpy as jnp
+    from mpm_jax.total_lagrangian import ReferenceGrid
+    from mpm_jax.metal_tl_midpoint import tl_velocity_map, tl_velocity_map_transpose
+    rng = np.random.default_rng(20261026)
+    particles, nodes = 7, 11
+    indices = rng.integers(0, nodes, size=(particles, 4), dtype=np.int32)
+    weights = rng.normal(size=(particles, 4))
+    gradients = rng.normal(size=(particles, 4, 3))
+    mass = rng.uniform(.2, 2., size=particles)
+    reference = ReferenceGrid(jnp.zeros((particles, 3)), jnp.asarray(indices),
+        jnp.asarray(weights), jnp.asarray(gradients), jnp.ones((particles,)),
+        jnp.asarray(mass), jnp.ones((nodes,)), jnp.zeros((nodes, 3)), jnp.asarray(True))
+    velocity = jnp.asarray(rng.normal(size=(nodes, 3)))
+    phase_impulse = jnp.asarray(rng.normal(size=(particles, 4, 3)))
+    cases = {'identity': jnp.eye(3), 'nonsymmetric': jnp.asarray(
+        [[1., .2, -.1], [.3, .8, .05], [-.2, .4, 1.1]])}
+    receipt = {}
+    for name, E0 in cases.items():
+        Av = tl_velocity_map(velocity, reference, jnp.asarray(mass), E0)
+        Aty = tl_velocity_map_transpose(phase_impulse, reference,
+                                        jnp.asarray(mass), E0, nodes)
+        lhs, rhs = float(jnp.vdot(Av, phase_impulse)), float(jnp.vdot(velocity, Aty))
+        error = abs(lhs-rhs)
+        receipt[name] = {'dot_Av_y': lhs, 'dot_v_Aty': rhs,
+                         'absolute_error': error,
+                         'relative_error': error/max(abs(lhs), abs(rhs), 1e-30)}
+        if error > 2e-12*max(1., abs(lhs), abs(rhs)):
+            raise FloatingPointError(f'{name} A/A^T power identity failed: {error:g}')
+    return receipt
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True, type=Path)
@@ -108,6 +141,7 @@ def main():
     import jax
     jax.config.update('jax_enable_x64', True)
     import jax.numpy as jnp
+    adjoint_power_check = verify_adjoint_power_identity()
     from examples.metal_sphere_impact_fracture import plan_case
     from mpm_jax.fragment_v6_discrete_work import update as material_update
     from mpm_jax.materials.linear_metal import linear_metal, volume_energy, eos_state
@@ -215,6 +249,7 @@ def main():
     case = dict(status='running', protocol='C2 fresh-t0 metal TL common-midpoint; endpoint e0; no fracture remap',
         geometry_particles=len(geometry['x']), plan_particles=plan['particles'],
         source_sha256=hashes, reference=reference_record, dt_cfl=.1,
+        adjoint_power_check=adjoint_power_check,
         initial_momentum_kg_m_s=p0.tolist(), initial_angular_momentum_kg_m2_s=l0.tolist(),
         initial_kinetic_J=k0, energy_tolerance_J=1.414599609375e-8,
         requested_end_time_s=args.end_time, max_seconds=args.max_seconds)
@@ -270,6 +305,11 @@ def main():
                     velocity=np.asarray(state.velocity), material=np.asarray(state.material[0]),
                     time_s=np.asarray(state.time), force_residual=np.asarray(accepted.force_residual),
                     contact_work_J=np.asarray(accepted.contact_work))
+                atomic_json(args.output/'rejected.json', dict(
+                    step=steps+1, time_s=float(state.time), dt_s=dt,
+                    step_valid=bool(np.asarray(accepted.valid)),
+                    force_residual=float(np.asarray(accepted.force_residual)),
+                    contact=accepted.contact_report, source_sha256=hashes))
                 raise FloatingPointError('Midpoint force/material/contact admission rejected')
             report = accepted.contact_report
             contact_row = dict(step=steps+1, time_before_s=float(state.time),
@@ -279,6 +319,11 @@ def main():
                 positive_multiplier_pairs=int(report.get('positive_multiplier_pairs', 0)),
                 pre_closing_m_s=float(report.get('initial_closing_m_s', 0.)),
                 post_closing_m_s=float(report.get('final_closing_m_s', 0.)),
+                physical_route_pre_closing_m_s=float(report.get('physical_route_pre_closing_m_s', 0.)),
+                physical_route_post_closing_m_s=float(report.get('physical_route_post_closing_m_s', 0.)),
+                physical_route_complementarity_m_s=float(report.get('physical_route_complementarity_m_s', 0.)),
+                JphaseA_vs_Jnode_pre_max_abs_m_s=float(report.get('JphaseA_vs_Jnode_pre_max_abs_m_s', 0.)),
+                JphaseA_vs_Jnode_post_max_abs_m_s=float(report.get('JphaseA_vs_Jnode_post_max_abs_m_s', 0.)),
                 complementarity_m_s=float(report.get('complementarity_m_s', 0.)),
                 maximum_multiplier=float(report.get('maximum_multiplier', 0.)),
                 nodal_impulse_norm_Ns=float(report.get('nodal_impulse_norm_Ns', 0.)),

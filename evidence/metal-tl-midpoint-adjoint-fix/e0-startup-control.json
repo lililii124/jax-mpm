@@ -1,0 +1,22 @@
+{
+  "state": "passed",
+  "pre_relative_closing_m_s": 2.0,
+  "post_velocity_m_s": [
+    [
+      1.1102230246251565e-16,
+      0.0,
+      0.0
+    ],
+    [
+      -1.1102230246251565e-16,
+      0.0,
+      0.0
+    ]
+  ],
+  "post_closing_m_s": 2.220446049250313e-16,
+  "kkt_m_s": 2.220446049250313e-16,
+  "contact_work_J": -0.9999999999999999,
+  "kinetic_loss_J": 1.0,
+  "scope": "Algebraic independent diagonal-mass e0 control; no physical geometry",
+  "passed": true
+}
