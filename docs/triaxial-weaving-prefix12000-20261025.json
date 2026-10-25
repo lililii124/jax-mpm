@@ -1,0 +1,187 @@
+{
+  "scope": "Real open-shed and feed prefix only, not completed weave",
+  "step": 12000,
+  "case_source_commit": "5e87ba1",
+  "physical_parameters_unchanged": true,
+  "resources": {
+    "started_utc": "2026-10-25T11:54:06.454643+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "pilot.py"
+    ],
+    "cpu_affinity": [
+      52,
+      53,
+      54,
+      55
+    ],
+    "memory_headroom_at_start": 8581050368,
+    "limit_seconds": 900.0,
+    "uss_limit_bytes": 5368709120,
+    "peak_uss_bytes": 696315904,
+    "minimum_memory_headroom": 7851274240,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 784.720355540514,
+    "returncode": 0
+  },
+  "restore": {
+    "step": 6000,
+    "physical_fields": {
+      "x": true,
+      "v": true,
+      "F": true,
+      "C": true,
+      "mass": true,
+      "volume": true,
+      "fibre_id": true,
+      "tau": true,
+      "time": true,
+      "valid": true,
+      "boundary_impulse": true,
+      "external_impulse": true,
+      "boundary_work": true,
+      "history_kappa": true,
+      "history_damage": true,
+      "history_failed": true,
+      "history_valid": true
+    },
+    "original_accumulator_first4_exact": true
+  },
+  "observer_upgrade": {
+    "old_signature": "d813262c29d3a6b703f5b8d360004500e87a471f6a72e48f6bc1f2d5e741ad53",
+    "new_signature": "52a7bd1f8f949bb6d09c7d9664e72ee1d272775011362ef80f49e8e538c9872d",
+    "only_changed_source": "examples/triaxial_weaving_process.py",
+    "scope": "Add physical fixture work and projection-loss observer; no solver/material/guide changes"
+  },
+  "final": {
+    "step": 12000,
+    "time": 0.0008049844718997988,
+    "freely_updated_body_particles_moved": 4200,
+    "maximum_free_displacement": 0.001353262084512607,
+    "maximum_free_F_change": 0.24374614862665103,
+    "minimum_detF": 0.9893998874141323,
+    "maximum_damage": 0.0
+  },
+  "crossing_measurements": [
+    {
+      "fibre_ids": [
+        0,
+        1
+      ],
+      "site_xz_m": [
+        0.024220577136594007,
+        0.026350000000000002
+      ],
+      "actual_material_measurements": [
+        {
+          "xz_distance_m": 1.0613757057847462e-08,
+          "height_y_m": 0.004406004063176207,
+          "finite_cord_covers_site": true,
+          "section_index": 76
+        },
+        {
+          "xz_distance_m": 0.0018963089579279457,
+          "height_y_m": 0.004000000000000001,
+          "finite_cord_covers_site": false,
+          "section_index": 179
+        }
+      ],
+      "both_finite_cords_present": false,
+      "signed_height_difference_m": 0.0004060040631762062,
+      "expected_order": 1,
+      "order_matches_if_present": false,
+      "scope": "Measured local order only; opening or mere planar coverage is not completed interlacing"
+    },
+    {
+      "fibre_ids": [
+        0,
+        2
+      ],
+      "site_xz_m": [
+        0.025779422863405996,
+        0.026350000000000002
+      ],
+      "actual_material_measurements": [
+        {
+          "xz_distance_m": 1.54785485394191e-08,
+          "height_y_m": 0.004400911924512109,
+          "finite_cord_covers_site": true,
+          "section_index": 103
+        },
+        {
+          "xz_distance_m": 0.004288742405226733,
+          "height_y_m": 0.003325,
+          "finite_cord_covers_site": false,
+          "section_index": 179
+        }
+      ],
+      "both_finite_cords_present": false,
+      "signed_height_difference_m": 0.001075911924512109,
+      "expected_order": -1,
+      "order_matches_if_present": false,
+      "scope": "Measured local order only; opening or mere planar coverage is not completed interlacing"
+    },
+    {
+      "fibre_ids": [
+        1,
+        2
+      ],
+      "site_xz_m": [
+        0.025,
+        0.027700000000000002
+      ],
+      "actual_material_measurements": [
+        {
+          "xz_distance_m": 0.0034551546847399355,
+          "height_y_m": 0.004000000000000001,
+          "finite_cord_covers_site": false,
+          "section_index": 179
+        },
+        {
+          "xz_distance_m": 0.002729896678414743,
+          "height_y_m": 0.003325,
+          "finite_cord_covers_site": false,
+          "section_index": 179
+        }
+      ],
+      "both_finite_cords_present": false,
+      "signed_height_difference_m": 0.0006750000000000011,
+      "expected_order": 1,
+      "order_matches_if_present": false,
+      "scope": "Measured local order only; opening or mere planar coverage is not completed interlacing"
+    }
+  ],
+  "work": {
+    "step": 12000,
+    "time_s": 0.0008049844718997988,
+    "K": 7.069126748208939e-06,
+    "U": 4.0571504444905995e-07,
+    "Hertz_potential": 0.0,
+    "boundary_work": 6.980681101992749e-06,
+    "contact_particle_work": 0.0,
+    "absolute_boundary_step_work": 7.087248455392861e-06,
+    "work_observer_start_step": 6000,
+    "window_machine_work": 5.608147893161015e-06,
+    "window_projection_loss": 2.0235109309624574e-07,
+    "window_grid_kinetic_projection_work": 5.405796800064787e-06,
+    "window_energy_change": 5.482453835120257e-06,
+    "window_energy_minus_machine_work": -1.2569405804075813e-07,
+    "window_absolute_grid_work": 5.412537483584348e-06,
+    "energy_minus_boundary_work": 4.941606906652501e-07,
+    "maximum_grip_error_m": 0.0,
+    "minimum_gap_m": 0.0014502605088211695,
+    "contact_patches": 0,
+    "maximum_patch_extent_m": 0.0,
+    "force_residual": 0.0,
+    "torque_residual": 0.0,
+    "actual_mpm_updates": 12000,
+    "contact_valid": true,
+    "mpm_valid": true
+  },
+  "checkpoint_sha256": "092cd247c266b3570cecfda0c21819174e5f1994e2d1ffbc4b455b295f1a9323",
+  "initial_seed": null,
+  "matrix_present": false
+}
