@@ -35,6 +35,10 @@ def main():
         temporary=a.output/(name+'.tmp.npz')
         np.savez_compressed(temporary,**leaves,step=current_step,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
         temporary.replace(a.output/(name+'.npz'))
+    frame_steps=set(np.rint(np.linspace(0,p['steps'],61)).astype(int))
+    def frame(current_step):
+        np.savez_compressed(a.output/f'frame-{current_step:06d}.npz',x=np.asarray(state.x),fibre_id=np.asarray(state.fibre_id),time=np.asarray(state.time))
+    frame(start)
     rows=[];begun=time.monotonic()
     for k in range(a.steps):
         state,metrics=step(state);metrics=np.asarray(metrics)
@@ -42,6 +46,7 @@ def main():
             checkpoint('rejected-state',start+k+1)
             raise FloatingPointError('Candidate state invalid; last accepted checkpoint and rejected diagnostic preserved')
         rows.append(dict(step=start+k+1,**dict(zip(names,map(float,metrics)))))
+        if start+k+1 in frame_steps or k+1==a.steps:frame(start+k+1)
         if (k+1)%16==0 or k+1==a.steps:
             geometry_records.append(inspect(state,p,g))
             progress=dict(step=start+k+1,rows=rows,geometry_records=geometry_records,geometry_valid=geometry_records[-1]['geometry_valid'])
