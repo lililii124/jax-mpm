@@ -1,0 +1,12 @@
+{
+  "scope": "Only redundant unforced close cells in same active component/owner and healthy live circular footprint, closed slab and both finite cylinders. No epsilon on weights or geometry. All other guards unchanged.",
+  "parent_valid_cp": 8245,
+  "parent_sha256": "d2a91fe4066e363c9106a22781608cfa99265379a78004da419e554df0c63693",
+  "rejected_cp_not_resumable": 8267,
+  "existing_force_potential_parity_sha256": "576c875d25bc6610724d25ae764969d6445fdb1f619e40e5bdf8908c2d40acda",
+  "prior_tests_not_repeated": true,
+  "geometry_evidence": {
+    "search-point-to-actual-footprints.json": "02bbaa4d59c1d2344793f9956a0f075036eb0c8f94620233037be80c50247cef",
+    "material-cell-footprint-proof.json": "11558cc1f6ac2b9cded475c0cb9319a52a46b9816fef28c37d0be47ccbf19bfc"
+  }
+}

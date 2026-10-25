@@ -21,6 +21,23 @@ from .fibre_coupling import (
 )
 
 
+def closed_footprint_contains(point, surface_points, normal, radius, starts, directions, cylinder_radii):
+    """Closed circular footprint AND both finite cylindrical interiors; no tolerance."""
+    centre = jnp.mean(surface_points, axis=-2)
+    delta = point-centre
+    height = jnp.sum(delta*normal, axis=-1)
+    radial2 = jnp.sum(delta*delta, axis=-1)-height*height
+    heights = jnp.sum((surface_points-centre[..., None, :])*normal[..., None, :], axis=-1)
+    relative = point[..., None, :]-starts
+    length2 = jnp.sum(directions*directions, axis=-1)
+    axial = jnp.sum(relative*directions, axis=-1)/jnp.maximum(length2, 1e-30)
+    off_axis = relative-axial[..., None]*directions
+    cylinders = jnp.all((axial >= 0)&(axial <= 1)&
+        (jnp.sum(off_axis*off_axis, axis=-1) <= cylinder_radii*cylinder_radii), axis=-1)
+    return ((radial2 <= radius*radius)&(height >= jnp.min(heights, axis=-1))&
+            (height <= jnp.max(heights, axis=-1))&cylinders)
+
+
 class FibrePatchMetrics(NamedTuple):
     valid: jax.Array
     search_boundary: jax.Array
@@ -176,6 +193,33 @@ def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16
                               ((near == hi)&(weights_all >= 1-endpoint_tolerance)), axis=1)
     failed = jnp.zeros(data.section_count, dtype=jnp.int32).at[data.particle_section].add(state.history.failed.astype(jnp.int32)) > 0
     failed_contact = close&load_bearing_failed_endpoints(failed[endpoint_sections], weights_all)
+
+    def audit_redundant_search_cells(base):
+        # Search cells are not additional Hertz forces. Only a closed point already
+        # inside the SAME healthy live component footprint may be redundant.
+        labels = jnp.full(count+1, capacity, dtype=jnp.int32).at[selected.cells].set(selected.labels)
+        roots = labels[representatives]
+        patches = jnp.full(capacity+1, max_patches, dtype=jnp.int32).at[
+            jnp.where(live, roots, capacity)].min(jnp.where(live, jnp.arange(max_patches), max_patches))
+        cells = jnp.nonzero(base, size=capacity, fill_value=count)[0]
+        patch = patches[labels[cells]]
+        pad = lambda value: jnp.concatenate((value, jnp.zeros_like(value[:1])), axis=0)[patch]
+        take = lambda value: jnp.concatenate((value, jnp.zeros_like(value[:1])), axis=0)[cells]
+        n_search = (take(second)-take(first))/jnp.maximum(take(distance), 1e-30)[:, None]
+        point = .5*(take(first)+take(radii)[:, :1]*n_search+
+                    take(second)-take(radii)[:, 1:]*n_search)
+        damage = jnp.zeros(data.section_count, dtype=state.x.dtype).at[data.particle_section].max(state.history.damage)
+        healthy = live&jnp.all(jnp.where(weights > 0, damage[pair_sections] == 0, True), axis=(1, 2))
+        represented = ((cells < count)&(patch < max_patches)&pad(healthy)&
+            jnp.all(take(owners) == pad(pair_owners), axis=1)&
+            (cells != jnp.concatenate((representatives, jnp.array([count])))[patch])&
+            closed_footprint_contains(point, pad(contact_points), pad(normal), pad(a),
+                pad(centres[pair_sections[:, :, 0]]), pad(directions), pad(pair_radii)))
+        exempt = jnp.zeros(count+1, dtype=jnp.int32).at[cells].max(represented.astype(jnp.int32))[:count] > 0
+        return base&~exempt
+
+    failed_contact = jax.lax.cond(jnp.any(failed_contact), audit_redundant_search_cells,
+                                 lambda value: value, failed_contact)
     lengths_all = jnp.stack((jnp.linalg.norm(q-p, axis=1), jnp.linalg.norm(s-r, axis=1)), axis=1)
     degenerate_all = close&((distance <= 1e-14)|jnp.any(lengths_all <= 1e-14, axis=1))
     degenerate_patch = live&~curvature_valid
