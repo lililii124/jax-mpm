@@ -23,7 +23,7 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
     density=1100.;viscosity=.05;dt=.00004
     source=inlet_schedule(density=density);count=source['capacity'];layout=MACLayout(tuple(geometry['shape']),tuple(geometry['origin']),geometry['dx'])
     boundary=tuple(jnp.asarray(v) for v in geometry['fixed']);target=tuple(jnp.asarray(v) for v in geometry['prescribed'])
-    step=make_step(layout,boundary,target,jnp.asarray(geometry['open_cells']),density=density,viscosity=viscosity,dt=dt,solid=jnp.asarray(geometry['collision_solid']),transport='rt0')
+    step=make_step(layout,boundary,target,jnp.asarray(geometry['open_cells']),density=density,viscosity=viscosity,dt=dt,solid=jnp.asarray(geometry['collision_solid']),transport='rt0',capture_pressure=True)
     state=FlowState(jnp.asarray(source['x']),jnp.zeros((count,3)),jnp.zeros((count,3,3)),jnp.asarray(source['mass']),jnp.zeros(count,dtype=bool),jnp.asarray(0.),jnp.asarray(True))
     emitted=np.zeros(count,dtype=bool);source_mass=0.;outflow_mass=0.;source_energy=0.;outflow_energy=0.;rows=[];h=layout.dx;work_total=0.;loss_total=0.
     start=0;transport_logJ=np.zeros(count);transport_reference=None
@@ -54,7 +54,7 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
         born=(source['birth_time']<=k*dt)&~emitted;emitted|=born
         source_mass+=float(source['mass'][born].sum());source_energy+=float(.5*np.sum(source['mass'][born,None]*source['v'][born]**2))
         state=state._replace(active=state.active|jnp.asarray(born),v=jnp.where(jnp.asarray(born)[:,None],jnp.asarray(source['v']),state.v))
-        state,metrics,increment=step(state);transport_logJ+=np.asarray(increment);values={name:(bool(v) if name.endswith('valid') else float(v)) for name,v in metrics.items()}
+        state,metrics,increment,pressure_input=step(state);transport_logJ+=np.asarray(increment);values={name:(bool(v) if name.endswith('valid') else float(v)) for name,v in metrics.items()}
         xyz=np.asarray(state.x);active=np.asarray(state.active);v=np.asarray(state.v);C=np.asarray(state.C)
         exits=active&(xyz[:,0]>.025);outflow_mass+=float(source['mass'][exits].sum());outflow_energy+=float(.5*np.sum(source['mass'][exits]*(np.sum(v[exits]**2,axis=1)+h*h/4*np.sum(C[exits]**2,axis=(1,2)))))
         active=active&~exits;state=state._replace(active=jnp.asarray(active))
@@ -67,6 +67,9 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
         row=dict(transport_logJ_reference_active_mean=float(transport_logJ[active].mean()) if active.any() else 0.,transport_logJ_reference_active_max=float(transport_logJ[active].max()) if active.any() else 0.,transport_logJ_reference_active_min=float(transport_logJ[active].min()) if active.any() else 0.,step=k,time_s=float(state.time),active_particles=int(active.sum()),source_particles=int(emitted.sum()),source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,active_mass_kg=mass,mass_identity_kg=mass_error,source_energy_J=source_energy,outflow_energy_J=outflow_energy,fixture_work_cumulative_J=work_total,loss_cumulative_J=loss_total,active_kinetic_J=active_energy,global_energy_identity_J=global_identity,solid_cell_intrusions=intrusion,escaped_particles=escaped,**values);rows.append(row)
         valid=bool(state.valid) and intrusion==0 and escaped==0 and abs(mass_error)<1e-12*max(source_mass,1e-30) and row['maximum_speed_m_per_s']*dt/h<.25
         if not valid:
+            
+            velocity_input,mass_input,fixed_input,fluid_input=pressure_input
+            np.savez(folder/'rejected-pressure-input.npz',**{f'{prefix}{i}':np.asarray(value) for prefix,fields in [('velocity',velocity_input),('mass',mass_input),('fixed',fixed_input)] for i,value in enumerate(fields)},fluid=np.asarray(fluid_input),h=h,dt=dt,step=k)
             save(k,True);raise FloatingPointError(f'Rejected filling candidate at {k}; all diagnostics retained')
         if k%16==0 or k==start+steps:
             save(k);np.savez_compressed(folder/f'frame-{k:06d}.npz',x=xyz[active],time=np.asarray(state.time));print(json.dumps(row),flush=True)
