@@ -1,0 +1,76 @@
+{
+  "schema": "F7-TL-RATTLE-64-provenance-v1",
+  "accepted_record": "R9 only; geometry/material identity and <=10% machine-work remainder gate passed",
+  "r9": {
+    "container": "jaxmpm-f7-tl-rattle-qualification64r9-20261026",
+    "container_id": "5f5f4ca5e9b5bb29d55a74de49ae81176997e76956fb7d43bf70b02b1f1b6918",
+    "upload_archive_sha256": "bb22850cd27f161e64d97df9ecd248b5a1059ae4050d43b8779533fbe9259cbe",
+    "state_sha256": "b216958c0bea0ce55be71231fc5843ada26e15c1ecd1eb43ad591c03eb2eddc4",
+    "source_capsule_sha256": "bb22850cd27f161e64d97df9ecd248b5a1059ae4050d43b8779533fbe9259cbe",
+    "identity": {
+      "reference_x": "cb4f1e40c02c60b2e67758007de4c4f908596ea3e7d20880b2986749ac2eda65",
+      "volume": "0f100b1b11bde952e30812ef9f96bd33137f59fd2e38e3837bb73108a4947951",
+      "mass": "aa96df8de292e7c3b80667ff1930b38303d887cb04a04c9438e69eb02db13467",
+      "fibre_id": "1fa382c20e0304872c4a2a52f12ee9db033fb2f5b48e9f8fbdc2f2c52f959b15",
+      "grip_masks": "96d30a1745ce7d6ced871642f2b223d6f07571ad182af8f47b789e5180ee1027",
+      "guide_particle_ids": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456",
+      "fixture_times": "bde9c5f177a84fc5873509c75f37f468a6cb1ed32131843c6534326211157bae",
+      "fixture_positions": "8bbeb1b4ac7a3fcd97da6d620e7f9d015c238ad65608a70655e3404ff8f3a649"
+    },
+    "material": {
+      "dx_m": 7.5e-05,
+      "young_Pa": 10000000.0,
+      "poisson": 0.25,
+      "density_kg_m3": 1500.0,
+      "tensile_strength_Pa": 2000000.0,
+      "fracture_energy_J_m2": 1000.0
+    },
+    "steps": 64,
+    "duration_s": 4.293250516799595e-06,
+    "machine_work_absolute_J": 3.033436103864429e-10,
+    "remainder_J": -7.354018888881732e-13,
+    "remainder_fraction": 0.002424319694590936,
+    "gate": 0.1
+  },
+  "rejected_attempts": [
+    {
+      "container": "jaxmpm-f7-tl-rattle-qualification64r7-20261026",
+      "state": "work-budget-rejected",
+      "upload_archive_sha256": "1079d3e8225dc0b493b5ca5e7ce1a122030b466ac629b4fc747914f9d4393d51",
+      "state_sha256": "5db7aff912e0c4b9d07066301315828f2c3ae46dfa642f0559454e3d38e2c83d",
+      "remainder_fraction": 9.15820263722061,
+      "reason": "RATTLE Gram operator erroneously indexed a full nodal vector through sparse-entry IDs; not accepted"
+    },
+    {
+      "container": "jaxmpm-f7-tl-rattle-qualification64r8-20261026",
+      "state": "work-budget-rejected",
+      "upload_archive_sha256": "43d6acc81edd2511191497503ff5b1db49da224bb14980853b14aa08976ca57a",
+      "state_sha256": "5db7aff912e0c4b9d07066301315828f2c3ae46dfa642f0559454e3d38e2c83d",
+      "remainder_fraction": 0.29251792659973835,
+      "reason": "Velocity-projection ideal work term included an extra dt; report retained as rejection"
+    }
+  ],
+  "original_v4_rejection": {
+    "authoritative_state_path": ".local/f7-guided-authoritative-state.json",
+    "original_raw_path": ".local/triaxial-weaving-v4-guided-workraw64-audit/output/work-budget-rejected-state-not-checkpoint.npz",
+    "original_raw_sha256": "4cb82504ed03503aa89f03337c84f79804ae21ecc6f2b1ad807977da561be056",
+    "original_input_binding_sha256": "7b72df44231c2794ceadbf881fef42a0f572e3f918906280f2bf7cfebc12da60",
+    "raw_work_remainder_J": -6.490045234985892e-11,
+    "raw_work_relative": -0.16255490160250094,
+    "resume_forbidden": true,
+    "admitted_checkpoint_step": 0
+  },
+  "v3_failure_review": {
+    "path": "tools/weaving_v3_strain_guard_review.json",
+    "sha256": "746f1506a027f94d4c10760021cd391add7e973ec9b28f40d9237f09c7e146a9",
+    "last_accepted_cp_step": 53760,
+    "full_process_failure_preserved": true
+  },
+  "included_files": {
+    "source-capsule.tar": "bb22850cd27f161e64d97df9ecd248b5a1059ae4050d43b8779533fbe9259cbe",
+    "report.json": "0743cce2b2dc332606993696bbe72898ca24f81229c5688931c9ce521741515b",
+    "latest.json": "96b58b97a4e86fdf23f1d53f3b66c12b9e7cec44dd946ced34235d911d6316bf",
+    "qualification.npz": "b216958c0bea0ce55be71231fc5843ada26e15c1ecd1eb43ad591c03eb2eddc4"
+  },
+  "scope": "64-step mechanics/guide integration only; contact/interlacing/release and full-process acceptance not claimed"
+}
