@@ -29,13 +29,19 @@ def main():
     parser.add_argument('--contact-time-level', choices=('endpoint', 'midpoint'), default='endpoint')
     parser.add_argument('--direct-projection', action='store_true')
     parser.add_argument('--end-time-limit', type=float, default=126.01e-9)
+    parser.add_argument('--angular-relative-tolerance', type=float, default=1e-10)
+    parser.add_argument('--max-iterations', type=int, default=12)
     args = parser.parse_args()
     if not re.fullmatch('[0-9a-f]{64}', args.state_sha256) or hashlib.sha256(args.state.read_bytes()).hexdigest() != args.state_sha256:
         raise ValueError('Audited post-contact seed required')
     if hashlib.sha256(args.admission.read_bytes()).hexdigest() != '02f7f83880ea9e5afb4faadfb2cad17106a1c2a9aea3a6ec52b51482ef83b28d':
         raise ValueError('Original material and tolerance record required')
-    if not 0 < args.dt <= 2e-10:
-        raise ValueError('Current continuation steps are bounded to 200 ps')
+    if not 0 < args.dt <= 1e-9:
+        raise ValueError('Continuation steps are bounded to 1 ns and the original CFL limit')
+    if not np.isfinite(args.angular_relative_tolerance) or not 0 < args.angular_relative_tolerance <= 1e-8:
+        raise ValueError('A finite angular relative tolerance no greater than1e-8 is required')
+    if not 1 <= args.max_iterations <= 16:
+        raise ValueError('Use at most16 nonlinear evaluations')
     args.output.mkdir(parents=True, exist_ok=False)
     with np.load(args.state) as data:
         state = {k: data[k] for k in data.files}
@@ -62,6 +68,8 @@ def main():
                   material_backend='jax-in-process' if args.inprocess_material else 'isolated-jax-worker',
                   contact_time_level=args.contact_time_level,
                   direct_projection=args.direct_projection, end_time_limit_s=args.end_time_limit,
+                  angular_relative_tolerance=args.angular_relative_tolerance,
+                  nonlinear_iteration_cap=args.max_iterations,
                   input_sha256=hashlib.sha256(args.state.read_bytes()).hexdigest(),
                   energy_roundoff_J=tol, iterations=[], stages=[], production_admitted=False)
     frame = None
@@ -146,6 +154,7 @@ def main():
 
     try:
         require_commit_headroom()
+        gate(args.dt <= cfl_limit(state, p), 'Original CFL gate failed at the start of the step')
         frame = DynamicFrame(state, fixed, y, progress, direct_projection=args.direct_projection)
         project('initial-projection')
         contact('initial-contact')
@@ -154,7 +163,7 @@ def main():
         y0, guess = y.copy(), y.copy()
         old_entropy = thermal(old, p)[2]
         converged = False
-        for iteration in range(8):
+        for iteration in range(args.max_iterations):
             midpoint_y = .5 * (y0 + guess)
             request_state = {k: value.copy() for k, value in old.items()}
             synchronize(request_state, midpoint_y)
@@ -222,7 +231,7 @@ def main():
                 break
             guess = proposed
             progress('iteration-'+str(iteration))
-        gate(converged, 'Common-time-level nonlinear solve did not converge within eight evaluations')
+        gate(converged, 'Common-time-level nonlinear solve reached its declared evaluation limit')
         y = proposed
         midpoint_actual = .5 * (y0 + y)
         midstate = {**old, 'x': .5*(old['x']+candidate['x']), 'F': Fmid}
@@ -287,7 +296,11 @@ def main():
                               (np.linalg.norm(old['v'], axis=1)+np.linalg.norm(state['v'], axis=1)))) + np.linalg.norm(boundary_torque)
         energy_residual = kinetic(y)+float(np.sum(state['mass']*state['internal_energy']))+sum(ledger.values())-initial_energy
         report.update(energy_residual_J=energy_residual, momentum_residual=dp, angular_residual=dl,
-                      angular_tolerance=64*np.finfo(float).eps*max(angular_scale, 1e-30),
+                      angular_scale=angular_scale,
+                      angular_roundoff_tolerance=64*np.finfo(float).eps*max(angular_scale, 1e-30),
+                      angular_tolerance=max(64*np.finfo(float).eps,args.angular_relative_tolerance)*max(angular_scale,1e-30),
+                      angular_relative_error=float(np.linalg.norm(dl)/max(angular_scale,1e-30)),
+                      angular_roundoff_passed=bool(np.linalg.norm(dl)<=64*np.finfo(float).eps*max(angular_scale,1e-30)),
                       min_J=float(J.min()), max_temperature=float(temperature.max()), max_damage=float(state['damage'].max()))
         gate(abs(energy_residual) <= tol, 'Original full energy accounting tolerance failed')
         gate(np.linalg.norm(dp) <= 1e-10*max(momentum_scale, 1e-30), 'Original momentum gate failed')
@@ -301,6 +314,7 @@ def main():
         state['boundary_impulse'] += boundary_impulse
         state['candidate_white'] = y
         state['candidate_accepted_steps'] = old['candidate_accepted_steps']+1
+        state['candidate_angular_relative_tolerance'] = np.asarray(args.angular_relative_tolerance)
         state['candidate_reference_total_energy'] = np.asarray(reference_total_energy)
         total_energy_residual = (kinetic(y)+float(np.sum(state['mass']*state['internal_energy']))+
             float(state['numerical_reservoir'])+float(state['boundary_reservoir'])-reference_total_energy)
@@ -314,6 +328,8 @@ def main():
         cumulative_dp = final_momentum-origin_momentum-state['candidate_cumulative_boundary_impulse']
         cumulative_dl = final_angular-origin_angular-state['candidate_cumulative_boundary_torque']
         report.update(cumulative_momentum_residual=cumulative_dp, cumulative_angular_residual=cumulative_dl)
+        report.update(cumulative_angular_relative_error=float(np.linalg.norm(cumulative_dl)/max(angular_scale,1e-30)),
+            cumulative_angular_roundoff_passed=bool(np.linalg.norm(cumulative_dl)<=report['angular_roundoff_tolerance']))
         gate(np.linalg.norm(cumulative_dp) <= 1e-10*max(momentum_scale, 1e-30), 'Cumulative momentum gate failed')
         gate(np.linalg.norm(cumulative_dl) <= report['angular_tolerance'], 'Cumulative angular momentum gate failed')
         np.savez_compressed(args.output/'accepted.npz', **state)

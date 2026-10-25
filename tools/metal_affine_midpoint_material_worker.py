@@ -19,8 +19,8 @@ from tools.metal_affine_dynamic_numpy import thermal
 
 def evaluate(state, parameters):
     dt = float(state.pop('candidate_requested_dt_s'))
-    if not 0 < dt <= 2e-10:
-        raise ValueError('Current continuation steps are bounded to 200 ps')
+    if not 0 < dt <= 1e-9:
+        raise ValueError('Current continuation steps are bounded to 1 ns')
     material = linear_metal(**parameters)
     fields = ('F', 'tau', 'plastic_strain', 'cold_work', 'fracture_energy', 'damage', 'internal_energy')
     result = update(*(j.asarray(state[k]) for k in fields), j.asarray(state['W']), j.asarray(dt), material)
