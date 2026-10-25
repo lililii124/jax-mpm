@@ -11,7 +11,9 @@ RAMP=.005
 
 def extension(time,duration):
     theta=angle(time,duration,RAMP)
-    return jnp.sqrt(FREE_LENGTH**2-(theta*ORBIT)**2)-FREE_LENGTH
+    z=jnp.clip((time-.005)/.010,0.,1.)
+    arc=FREE_LENGTH*(1+.03*z*z*(3-2*z))
+    return jnp.sqrt(arc**2-(theta*ORBIT)**2)-FREE_LENGTH
 
 
 def prescribe(velocity,mass,state,support,layout,masks,dt,duration):
