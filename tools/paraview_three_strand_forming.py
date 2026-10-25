@@ -22,7 +22,7 @@ def main():
     manifest=json.loads((a.input/'manifest.json').read_text());a.output.mkdir(exist_ok=True);frames=a.output/'frames';frames.mkdir(exist_ok=True)
     _DisableFirstRenderCameraReset();view=GetActiveViewOrCreate('RenderView');view.ViewSize=[400,400];view.Background=[1,1,1];view.UseColorPaletteForBackground=0;view.OrientationAxesVisibility=0
     if hasattr(view,'UseFXAA'):view.UseFXAA=1
-    view.CameraParallelProjection=1;view.CameraPosition=[-.020,.016,.012];view.CameraFocalPoint=[.012,0.,0.];view.CameraViewUp=[0.,0.,1.];view.CameraParallelScale=.0105;view.CameraClippingRange=[.0001,1.]
+    view.CameraParallelProjection=1;view.CameraPosition=[-.020,.016,.012];view.CameraFocalPoint=[.012,0.,0.];view.CameraViewUp=[0.,0.,1.];view.CameraParallelScale=.0105
     colors=([.045,.36,.67],[.94,.36,.08],[.32,.66,.48])
     producer=TrivialProducer();producer.GetClientSideObject().SetOutput(polydata(a.input/manifest['frames'][0]['prepared_file']))
     displays=[];filters=[]
