@@ -1,0 +1,63 @@
+{
+  "first_invalid_step": 5643,
+  "first_nonpositive_J_step": 5643,
+  "accepted": {
+    "step": 5600,
+    "min_J": 0.06640179011184157,
+    "nonpositive_J_count": 0,
+    "nonpositive_failed_count": 0,
+    "nonpositive_intact_count": 0,
+    "bad_damage_range": null,
+    "failed_count": 1912,
+    "minimum_intact_J": 0.9692949228610858,
+    "worst_F": [
+      [
+        1.0716658840210913,
+        -0.35809413717787025,
+        -0.06498225999301535
+      ],
+      [
+        -0.28889934562746,
+        0.15827195653290782,
+        0.025450236428535705
+      ],
+      [
+        0.07541695313825747,
+        0.009692377480240256,
+        1.0035421492982077
+      ]
+    ]
+  },
+  "candidate": {
+    "step": 5700,
+    "min_J": -0.06824131709971033,
+    "nonpositive_J_count": 32,
+    "nonpositive_failed_count": 32,
+    "nonpositive_intact_count": 0,
+    "bad_damage_range": [
+      1.0,
+      1.0
+    ],
+    "failed_count": 1912,
+    "minimum_intact_J": 0.9730674361358126,
+    "worst_F": [
+      [
+        1.105604461525704,
+        -0.263273342984227,
+        -0.04757048733689011
+      ],
+      [
+        -0.26825943249972556,
+        0.006370946422255885,
+        0.0027185160774726206
+      ],
+      [
+        0.11120252567147616,
+        0.11078700210464308,
+        1.0895604581272507
+      ]
+    ]
+  },
+  "task": "fibre-tlmpm-5000-to7000",
+  "scope": "Read-only saved-state audit; no dynamics replay"
+}

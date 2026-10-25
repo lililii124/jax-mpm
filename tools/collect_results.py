@@ -557,7 +557,7 @@ def collect_archived_fibre_processes(root, destination, records):
     if not index.exists():return
     existing = {r["id"]: r for r in json.loads(index.read_text(encoding="utf-8"))}
     present = {r["id"] for r in records}
-    for identifier in ("fibres--three-strand-tension", "fibres--three-strand-forming", "fibres--dry-three-strand-forming"):
+    for identifier in ("fibres--single-fibre-tension", "fibres--three-strand-tension", "fibres--three-strand-forming", "fibres--dry-three-strand-forming"):
         if identifier in present or identifier not in existing:continue
         folder = archive / identifier
         summary = json.loads((folder/"summary.json").read_text(encoding="utf-8"))

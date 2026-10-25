@@ -1,0 +1,24 @@
+{
+  "schema": "single-fibre-fracture-segment-v1",
+  "passed": true,
+  "checks": {
+    "valid_saved_segment": true,
+    "independent_saved_state_checks": true,
+    "actual_paraview": true,
+    "source_bound_media": true,
+    "visual_review": true,
+    "partial_protocol_explicit": true,
+    "later_failure_preserved": true
+  },
+  "sources": {
+    "media-review.json": "9a5792ddc069cfac914034f1587bb53786363caa902126c9d583be0f5927a93d",
+    "original-media-review.json": "c0f2b2c69220a06dbe95233fdc2a934932ccad5f14cfa49b1debdf9af0905095",
+    "original-render.json": "31f463a25c8e8a1f8b5c45e255417b691aa3c6c86f2fb0e98eb1d8bde9c4830a",
+    "physical-review.json": "671ad2b3783723270ae867b8fad84f41d9d9934016f4e712aeef389ec9157695",
+    "post-failure-review.json": "db1eff379a5099be7c020fe0be7176379393f9bd12a4386699ea4a06474538f0",
+    "provenance.json": "d3ea169849e3e90300399ba92b6bf273a6b17b08f694d0839cb78a1cbd8d20c2",
+    "render.json": "e126fa3b5921855eb32611b8da79fb508fb6d59edae26c6c16427e8a04749966",
+    "source-snapshots.json": "804fe69e7c5dac00c6e1f6486481bbd6c0efabcb804b99c0b600e37025a0fc12",
+    "summary.json": "64599f354d2f0c5cae4ba98c0ff669d99f3939051f082dd61c712cc32ba7402d"
+  }
+}

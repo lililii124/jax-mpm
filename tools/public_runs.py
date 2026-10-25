@@ -63,6 +63,8 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier):
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical == "fibres--single-fibre-tension":
+        return is_single_fibre_segment_ready(Path(folder), summary)
     if canonical == "fibres--dry-three-strand-forming":
         return is_dry_three_strand_forming_ready(Path(folder), summary)
     if canonical == "fibres--three-strand-forming":
@@ -288,6 +290,62 @@ def is_three_strand_forming_ready(folder, summary):
             return False
         images = folder.parents[1] / "images"
         gif, cover = images/"home/fibres--three-strand-forming.gif", images/"three-strand-forming.png"
+        return (gif.stat().st_size == media["gif_bytes"]
+                and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
+                and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])
+    except (OSError, ValueError, KeyError, TypeError, IndexError):
+        return False
+
+
+def is_single_fibre_segment_ready(folder, summary):
+    """Keep the valid separation segment distinct from its rejected continuation."""
+    try:
+        read = lambda name: json.loads((folder / name).read_text(encoding="utf-8"))
+        physical, media, render, snapshots, later, review = map(read, (
+            "physical-review.json", "media-review.json", "render.json",
+            "source-snapshots.json", "post-failure-review.json", "publication-review.json"))
+        original = physical["original_review"]
+        checkpoint = "d4c7f488773d2f0a8d30d1edb2f8617e4eda70825ab62e4ceb354d20a49057e0"
+        required = {"valid_saved_segment", "independent_saved_state_checks", "actual_paraview",
+                    "source_bound_media", "visual_review", "partial_protocol_explicit", "later_failure_preserved"}
+        if not (summary["completed"] is False and summary["displayed_segment_complete"] is True
+                and summary["full_plan_completed"] is False
+                and summary["steps"] == physical["steps"] == original["step"] == 5000
+                and summary["frames"] == render["frames_rendered"] == media["source_frames"] == 16
+                and summary["source_checkpoint_sha256"] == physical["checkpoint_sha256"] == media["source_checkpoint_sha256"] == checkpoint
+                and physical["passed"] is True and all(v is True for v in physical["checks"].values())
+                and all(v is True for v in original["checks"].values())
+                and physical["maximum_energy_residual_over_peak_work"] <= .15
+                and original["min_J"] > 0 and original["max_damage"] == 1
+                and summary["fracture"] == original["fracture"]
+                and summary["fracture"]["intact_reference_path_between_grips"] is False
+                and summary["fracture"]["fully_failed_axial_sections"]
+                and summary["fracture"]["measured_intact_fragment_gap_m"] > 0
+                and later["first_invalid_step"] == summary["accuracy_scope"]["first_later_invalid_step"] == 5643
+                and summary["accuracy_scope"]["full_post_failure_hold_validated"] is False
+                and later["candidate"]["nonpositive_J_count"] > 0
+                and render["renderer"] == "ParaView" and render["geometry_scale"] == 1
+                and render["axes"] is False and render["annotations"] is False
+                and render["resolution"] == media["resolution"] == [400, 400]
+                and render["all_particles_retained"] is render["failed_particles_retained"] is True
+                and render["actual_steps"] == [f["step"] for f in snapshots["frames"]]
+                and render["actual_steps"][0] == 0 and render["actual_steps"][-1] == 5000
+                and snapshots["source_contract"] == physical["source_contract"]
+                and media["passed"] is media["visual_review_passed"] is True
+                and media["position_interpolation"] is False
+                and media["decoded_frames_match_quantized_pngs"] is True
+                and media["decoded_frames"] == media["distinct_decoded_frames"] == 16
+                and media["source_manifest_sha256"] == hashlib.sha256((folder / "source-snapshots.json").read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+                and review["schema"] == "single-fibre-fracture-segment-v1" and review["passed"] is True
+                and set(review["checks"]) == required and all(v is True for v in review["checks"].values())):
+            return False
+        names = {"summary.json", "physical-review.json", "media-review.json", "render.json",
+                 "source-snapshots.json", "post-failure-review.json", "provenance.json"}
+        if not names <= set(review["sources"]):return False
+        for name, digest in review["sources"].items():
+            if Path(name).name != name or hashlib.sha256((folder / name).read_bytes().replace(b"\r\n", b"\n")).hexdigest() != digest:return False
+        images = folder.parents[1] / "images"
+        gif, cover = images / "home/fibres--single-fibre-tension.gif", images / "single-fibre-tension.png"
         return (gif.stat().st_size == media["gif_bytes"]
                 and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"]
                 and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"])

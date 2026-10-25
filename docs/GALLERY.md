@@ -6,6 +6,11 @@ ParaView frames and animations. [Run records](RESULTS.md).
 
 <table width="100%">
 <tr>
+<td width="33%" align="center"><img src="images/single-fibre-tension.png" alt="Single fibre tension" width="100%"><br><strong>Single fibre tension</strong><br><a href="results/fibres--single-fibre-tension/summary.json">Results</a> &middot; <a href="images/home/fibres--single-fibre-tension.gif">GIF</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+<tr>
 <td width="33%" align="center"><img src="images/crossed-fibre-hertz.png" alt="crossed-fibre-hertz" width="100%"><br><strong>crossed-fibre-hertz</strong><br><a href="results/completed--crossed-fibre-hertz/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-hertz.gif">GIF</a></td>
 <td width="33%" align="center"><img src="images/crossed-fibre-md.png" alt="Crossed fibre MD contact" width="100%"><br><strong>Crossed fibre MD contact</strong><br><a href="results/completed--crossed-fibre-md/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-md.gif">GIF</a></td>
 <td width="33%" align="center"><img src="images/crossed-fibre-jkr.png" alt="Crossed fibre JKR contact" width="100%"><br><strong>Crossed fibre JKR contact</strong><br><a href="results/completed--crossed-fibre-jkr/summary.json">Results</a> · <a href="images/home/completed--crossed-fibre-jkr.gif">GIF</a></td>

@@ -96,6 +96,7 @@ MATERIALS = {
 
 def legacy_describe(identifier):
     completed = {
+        "fibres--single-fibre-tension": (GROUPS[2], "Single fibre tension"),
         "fibres--dry-three-strand-forming": (GROUPS[2], "Dry three-strand forming"),
         "fibres--three-strand-forming": (GROUPS[2], "Three-strand forming"),
         "fibres--three-strand-tension": (GROUPS[2], "Three-strand tension"),
@@ -264,8 +265,10 @@ def main():
         lines += [f"### {heading}", "", '<table width="100%">']
         ordered = sorted(items, key=lambda item: order(item[0]))
         cells = [cell for _, cell in ordered]
-        for start in range(0, len(cells), columns):
-            row = cells[start:start + columns]
+        rows = [cells[start:start + columns] for start in range(0, len(cells), columns)]
+        if heading == "Fibres" and ordered and ordered[0][0] == "Single fibre tension":
+            rows = [cells[:1]] + [cells[start:start + columns] for start in range(1, len(cells), columns)]
+        for row in rows:
             lines.append('<tr>')
             for cell in row + [''] * (columns - len(row)):
                 cell = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', cell)

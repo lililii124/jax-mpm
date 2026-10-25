@@ -1,0 +1,287 @@
+{
+  "passed": true,
+  "checks": {
+    "original_online_checks": true,
+    "reference_mass": true,
+    "finite_checkpoint": true,
+    "positive_J": true,
+    "history_valid": true,
+    "damage_bounds": true,
+    "independent_damage_envelope": true,
+    "independent_svd_elastic_energy": true,
+    "complete_valid_step_ledger": true,
+    "ledger_identity": true,
+    "original_energy_tolerance": true,
+    "nonnegative_damage_increments": true,
+    "linear_momentum": true,
+    "angular_momentum": true,
+    "source_mpm_jax/fibre_tlmpm.py": true,
+    "source_examples/single_fibre_tlmpm.py": true,
+    "source_mpm_jax/materials/isotropic_brittle.py": true,
+    "source_examples/single_fibre_tension.py": true,
+    "source_mpm_jax/fibre_mpm.py": true
+  },
+  "steps": 5000,
+  "particles": 74472,
+  "checkpoint_sha256": "d4c7f488773d2f0a8d30d1edb2f8617e4eda70825ab62e4ceb354d20a49057e0",
+  "source_contract": {
+    "plan": {
+      "series": "single-fibre-tension-v1",
+      "case": "single-fibre-tension",
+      "duration_s": 0.012,
+      "frames": 60,
+      "saved_states": 61,
+      "steps": 19596,
+      "dt": 6.12369871402327e-07,
+      "frame_steps": [
+        0,
+        327,
+        653,
+        980,
+        1306,
+        1633,
+        1960,
+        2286,
+        2613,
+        2939,
+        3266,
+        3593,
+        3919,
+        4246,
+        4572,
+        4899,
+        5226,
+        5552,
+        5879,
+        6205,
+        6532,
+        6859,
+        7185,
+        7512,
+        7838,
+        8165,
+        8492,
+        8818,
+        9145,
+        9471,
+        9798,
+        10125,
+        10451,
+        10778,
+        11104,
+        11431,
+        11758,
+        12084,
+        12411,
+        12737,
+        13064,
+        13391,
+        13717,
+        14044,
+        14370,
+        14697,
+        15024,
+        15350,
+        15677,
+        16003,
+        16330,
+        16657,
+        16983,
+        17310,
+        17636,
+        17963,
+        18290,
+        18616,
+        18943,
+        19269,
+        19596
+      ],
+      "particles": 74472,
+      "geometry": {
+        "length_m": 0.024,
+        "radius_m": 0.001,
+        "diameter_m": 0.002,
+        "grip_length_m": 0.002,
+        "free_span_m": 0.02,
+        "waist_radius_reduction": 0.15,
+        "waist_half_width_m": 0.0008,
+        "waist_definition": "r(x)=R*(1-0.15*exp(-(x/0.8mm)^4)); circular cross sections",
+        "nominal_area_m2": 3.141592653589793e-06,
+        "sampled_minimum_area_m2": 2.16e-06,
+        "sampled_end_area_m2": 3.1600000000000002e-06,
+        "lattice_shape": [
+          240,
+          20,
+          20
+        ],
+        "spacing_m": 0.0001,
+        "diameter_grid_cells": 10.0,
+        "diameter_particle_samples": 20.0
+      },
+      "grid": {
+        "dx_m": 0.0002,
+        "padding_cells": 6,
+        "bounds_m": [
+          [
+            [
+              -0.013600000000000001,
+              0.013600000000000001
+            ],
+            [
+              -0.002,
+              0.002
+            ],
+            [
+              -0.002,
+              0.002
+            ]
+          ]
+        ],
+        "nodes": 162261,
+        "max_nodes": 500000
+      },
+      "material": {
+        "young": 2000000.0,
+        "poisson": 0.25,
+        "density": 1000.0,
+        "tensile_strength": 100000.0,
+        "fracture_energy": 1.0,
+        "characteristic_length": 0.0002
+      },
+      "material_assumptions": "Illustrative uncalibrated isotropic elastic-brittle baseline; E,nu,rho share crossed-fibre material family, but ft=0.1MPa and Gf=1J/m2 deliberately differ. Not a measured single-fibre strength or a calibration of old contact results.",
+      "softening": {
+        "onset_strain": 0.05,
+        "onset_displacement_m": 1e-05,
+        "failure_displacement_m": 2e-05,
+        "failure_strain": 0.1,
+        "maximum_h_m": 0.0004,
+        "scope": "Existing maximum tensile Biot-strain history, irreversible isotropic damage and linear equivalent-displacement softening, h=grid dx. Gf refers to monotonic uniaxial reference-area envelope; distributed dynamic dissipation is audited separately."
+      },
+      "protocol": {
+        "load_time_s": 0.009,
+        "stroke_m": 0.0032,
+        "hold_time_s": 0.003000000000000001,
+        "boundary": "Both 2mm reference end collars rigid in xyz; symmetric +/-x half stroke; smooth half-cosine ramp then hold. Exact finite-step prescribed displacement increments/dt."
+      },
+      "wave_speed_m_per_s": 48.98979485566356,
+      "loading_wave_transits": 22.045407685048602,
+      "source": {
+        "files": {
+          "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+          "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+          "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+        },
+        "fingerprint": "d41a964a301c9634b31f0fc94c8f643c64be577d571a28a7235ddb0abcae1400"
+      },
+      "geometry_scale": 1.0,
+      "production_eligible": false,
+      "resource": {
+        "uss_limit_bytes": 6442450944,
+        "raw_trajectory_bytes": 204425640,
+        "note": "USS enforced by external one-second process-tree monitor. Grid/array counts are storage, not a proven peak-memory estimate."
+      },
+      "render_plan": {
+        "renderer": "ParaView",
+        "field": "damage",
+        "frames": 61,
+        "geometry_scale": 1,
+        "axes": false,
+        "annotations": false,
+        "resolution": 1200,
+        "camera": "Shared full true-scale rod; optional independent central detail without geometry exaggeration"
+      },
+      "publication_requirements": [
+        "completed full physical plan",
+        "all saved states/hash inventory valid",
+        "full sampled cross-section failed",
+        "no intact reference lattice path between grips",
+        "positive measured axial opening",
+        "force envelope falls below10percent peak",
+        "mass/momentum/energy ledger acceptance",
+        "actual ParaView61 frames independently reviewed"
+      ]
+    },
+    "source_sha256": {
+      "mpm_jax/fibre_tlmpm.py": "67a8309eec76e4e9a1e47413fe9fbf74d166065904776af75325b11501b78d6b",
+      "examples/single_fibre_tlmpm.py": "0eabcdd228f734135083d68264b96ff724b31a9506161a27a80a870d49dbee56",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+    },
+    "spatial": {
+      "partition_error": 4.440892098500626e-16,
+      "gradient_constant_error": 1.8189894035458565e-12,
+      "reference_mass": 7.4472e-05,
+      "nodal_mass": 7.447199999999997e-05,
+      "gradient_affine_error": 4.440892098500626e-16,
+      "initial_largest_acoustic_eigenvalue": 163785063087.51706,
+      "acoustic_64_iteration_relative_change": 0.00021045436561983877,
+      "estimated_initial_critical_dt": 4.941887441425416e-06,
+      "dt": 6.12369871402327e-07,
+      "planned_steps": 19596.0
+    },
+    "method": "Total-Lagrangian quadratic B-spline MPM; fixed reference quadrature, lumped nodal inertia, velocity-Verlet",
+    "energy_metric": "Lumped nodal kinetic energy plus reference material energy; particle APIC affine energy is not used",
+    "scope": "New numerical trajectory; original material, waist, physical displacement/time law; not equivalent to old updated-grid APIC trajectory"
+  },
+  "source_sha256": {
+    "mpm_jax/fibre_tlmpm.py": "67a8309eec76e4e9a1e47413fe9fbf74d166065904776af75325b11501b78d6b",
+    "examples/single_fibre_tlmpm.py": "0eabcdd228f734135083d68264b96ff724b31a9506161a27a80a870d49dbee56",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+  },
+  "step_records_sha256": "6c5fb1c7943a1511d4e29400d88e5bf2c88a6d610d9e9855624dfe056caca127",
+  "reference_sha256": "a2976de152cf621f76b88dd2eaf8fb9bb7797d78fed1c5b57355704a91b2622e",
+  "independent_elastic_J": 4.7490352490275664e-05,
+  "independent_elastic_relative_error": 1.426871611328204e-16,
+  "independent_damage_error": 0.0,
+  "maximum_energy_residual_over_peak_work": 0.0027995393008992185,
+  "ledger_identity_error_J": 0.0,
+  "original_review": {
+    "step": 5000,
+    "time_s": 0.0030618493570114536,
+    "target_steps": 19596,
+    "dt_s": 6.12369871402327e-07,
+    "elapsed_s": 523.8217157647014,
+    "initial_window_K_J": 4.862513646066359e-07,
+    "initial_window_U_J": 1.571497571611839e-05,
+    "kinetic_J": 1.393111054680242e-05,
+    "elastic_J": 4.749035249027567e-05,
+    "work_J": 7.022067174973673e-05,
+    "damage_work_J": 9.037236791983379e-06,
+    "maximum_energy_residual_over_peak_work": 0.0027995393008992185,
+    "final_energy_residual_over_peak_work": -0.0027991383198936815,
+    "max_damage": 1.0,
+    "min_J": 0.8306813433857397,
+    "grip_error_m": 1.0842021724855044e-19,
+    "checks": {
+      "valid": true,
+      "finite": true,
+      "grips": true,
+      "momentum": true,
+      "angular_momentum": true,
+      "energy_within_original15percent": true,
+      "positive_J": true,
+      "nonnegative_damage": true
+    },
+    "full_plan_completed": false,
+    "peak_tensile_load_N": 0.2193485910954014,
+    "fracture": {
+      "intact_reference_path_between_grips": false,
+      "fully_failed_axial_sections": [
+        116,
+        117,
+        118,
+        121,
+        122,
+        123
+      ],
+      "measured_intact_fragment_gap_m": 0.0010584122543312944,
+      "scope": "Six-neighbour intact reference-lattice connectivity plus stronger entire sampled cross-section failure; no erased particles, imposed crack surface or rescaled displacement. Gap is between intact fragments and may contain stress-free failed particles."
+    },
+    "scope": "Actual total-Lagrangian MPM trajectory; no space/time convergence certificate"
+  },
+  "scope": "Actual valid 0–5000-step TL-MPM segment; no temporal/spatial convergence certificate; later post-failure inversion excluded and recorded separately",
+  "physical_steps_executed": 0
+}

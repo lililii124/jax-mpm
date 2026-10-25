@@ -2999,5 +2999,17 @@
     "preview_frame": 60,
     "preview_time": 0.05999999999999442,
     "auxiliary_geometry": []
+  },
+  {
+    "name": "single-fibre-tension",
+    "source": "fibres/single-fibre-tension",
+    "particles": 74472,
+    "field": "damage",
+    "renderer": "ParaView",
+    "version": "6.2.0",
+    "animation": false,
+    "preview_frame": 15,
+    "preview_time": 0.0030618493570116353,
+    "auxiliary_geometry": []
   }
 ]

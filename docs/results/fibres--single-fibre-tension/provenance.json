@@ -1,0 +1,19 @@
+{
+  "numeric_source": "1e4d41cf08182cc1336eadf4429f50d6cceaf6c0",
+  "source_files": {
+    "mpm_jax/fibre_tlmpm.py": "67a8309eec76e4e9a1e47413fe9fbf74d166065904776af75325b11501b78d6b",
+    "examples/single_fibre_tlmpm.py": "0eabcdd228f734135083d68264b96ff724b31a9506161a27a80a870d49dbee56",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+  },
+  "checkpoint_sha256": "d4c7f488773d2f0a8d30d1edb2f8617e4eda70825ab62e4ceb354d20a49057e0",
+  "source_tasks": [
+    "fibre-tlmpm-prefix1000",
+    "fibre-tlmpm-1000-to3000",
+    "fibre-tlmpm-3000-to5000"
+  ],
+  "numerical_steps_recomputed_for_publication": 0,
+  "renderer": "ParaView 6.2",
+  "all_saved_source_frames_verified": true
+}

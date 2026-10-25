@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "visual_review_passed": true,
+  "source_frames": 16,
+  "decoded_frames": 16,
+  "distinct_decoded_frames": 16,
+  "resolution": [
+    400,
+    400
+  ],
+  "loop": 0,
+  "frame_durations_ms": [
+    400,
+    400,
+    200,
+    200,
+    400,
+    400,
+    400,
+    400,
+    200,
+    200,
+    400,
+    400,
+    400,
+    400,
+    200,
+    500
+  ],
+  "decoded_frames_match_quantized_pngs": true,
+  "position_interpolation": false,
+  "all_failed_points_retained": true,
+  "geometry_scale": 1,
+  "gif_sha256": "07cffde5518ca2c87d6ddfd272f5685c36e877ec7e0b27aa1ea19ab019abb6a8",
+  "gif_bytes": 686706,
+  "cover_sha256": "bf283eab0a6e6ff0857ae197852f138a9e37bf5c4cf7fb3f56ea8db3851160b3",
+  "source_manifest_sha256": "804fe69e7c5dac00c6e1f6486481bbd6c0efabcb804b99c0b600e37025a0fc12",
+  "source_checkpoint_sha256": "d4c7f488773d2f0a8d30d1edb2f8617e4eda70825ab62e4ceb354d20a49057e0"
+}

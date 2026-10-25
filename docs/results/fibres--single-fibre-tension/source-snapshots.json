@@ -1,0 +1,285 @@
+{
+  "source_contract": {
+    "plan": {
+      "series": "single-fibre-tension-v1",
+      "case": "single-fibre-tension",
+      "duration_s": 0.012,
+      "frames": 60,
+      "saved_states": 61,
+      "steps": 19596,
+      "dt": 6.12369871402327e-07,
+      "frame_steps": [
+        0,
+        327,
+        653,
+        980,
+        1306,
+        1633,
+        1960,
+        2286,
+        2613,
+        2939,
+        3266,
+        3593,
+        3919,
+        4246,
+        4572,
+        4899,
+        5226,
+        5552,
+        5879,
+        6205,
+        6532,
+        6859,
+        7185,
+        7512,
+        7838,
+        8165,
+        8492,
+        8818,
+        9145,
+        9471,
+        9798,
+        10125,
+        10451,
+        10778,
+        11104,
+        11431,
+        11758,
+        12084,
+        12411,
+        12737,
+        13064,
+        13391,
+        13717,
+        14044,
+        14370,
+        14697,
+        15024,
+        15350,
+        15677,
+        16003,
+        16330,
+        16657,
+        16983,
+        17310,
+        17636,
+        17963,
+        18290,
+        18616,
+        18943,
+        19269,
+        19596
+      ],
+      "particles": 74472,
+      "geometry": {
+        "length_m": 0.024,
+        "radius_m": 0.001,
+        "diameter_m": 0.002,
+        "grip_length_m": 0.002,
+        "free_span_m": 0.02,
+        "waist_radius_reduction": 0.15,
+        "waist_half_width_m": 0.0008,
+        "waist_definition": "r(x)=R*(1-0.15*exp(-(x/0.8mm)^4)); circular cross sections",
+        "nominal_area_m2": 3.141592653589793e-06,
+        "sampled_minimum_area_m2": 2.16e-06,
+        "sampled_end_area_m2": 3.1600000000000002e-06,
+        "lattice_shape": [
+          240,
+          20,
+          20
+        ],
+        "spacing_m": 0.0001,
+        "diameter_grid_cells": 10.0,
+        "diameter_particle_samples": 20.0
+      },
+      "grid": {
+        "dx_m": 0.0002,
+        "padding_cells": 6,
+        "bounds_m": [
+          [
+            [
+              -0.013600000000000001,
+              0.013600000000000001
+            ],
+            [
+              -0.002,
+              0.002
+            ],
+            [
+              -0.002,
+              0.002
+            ]
+          ]
+        ],
+        "nodes": 162261,
+        "max_nodes": 500000
+      },
+      "material": {
+        "young": 2000000.0,
+        "poisson": 0.25,
+        "density": 1000.0,
+        "tensile_strength": 100000.0,
+        "fracture_energy": 1.0,
+        "characteristic_length": 0.0002
+      },
+      "material_assumptions": "Illustrative uncalibrated isotropic elastic-brittle baseline; E,nu,rho share crossed-fibre material family, but ft=0.1MPa and Gf=1J/m2 deliberately differ. Not a measured single-fibre strength or a calibration of old contact results.",
+      "softening": {
+        "onset_strain": 0.05,
+        "onset_displacement_m": 1e-05,
+        "failure_displacement_m": 2e-05,
+        "failure_strain": 0.1,
+        "maximum_h_m": 0.0004,
+        "scope": "Existing maximum tensile Biot-strain history, irreversible isotropic damage and linear equivalent-displacement softening, h=grid dx. Gf refers to monotonic uniaxial reference-area envelope; distributed dynamic dissipation is audited separately."
+      },
+      "protocol": {
+        "load_time_s": 0.009,
+        "stroke_m": 0.0032,
+        "hold_time_s": 0.003000000000000001,
+        "boundary": "Both 2mm reference end collars rigid in xyz; symmetric +/-x half stroke; smooth half-cosine ramp then hold. Exact finite-step prescribed displacement increments/dt."
+      },
+      "wave_speed_m_per_s": 48.98979485566356,
+      "loading_wave_transits": 22.045407685048602,
+      "source": {
+        "files": {
+          "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+          "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+          "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+        },
+        "fingerprint": "d41a964a301c9634b31f0fc94c8f643c64be577d571a28a7235ddb0abcae1400"
+      },
+      "geometry_scale": 1.0,
+      "production_eligible": false,
+      "resource": {
+        "uss_limit_bytes": 6442450944,
+        "raw_trajectory_bytes": 204425640,
+        "note": "USS enforced by external one-second process-tree monitor. Grid/array counts are storage, not a proven peak-memory estimate."
+      },
+      "render_plan": {
+        "renderer": "ParaView",
+        "field": "damage",
+        "frames": 61,
+        "geometry_scale": 1,
+        "axes": false,
+        "annotations": false,
+        "resolution": 1200,
+        "camera": "Shared full true-scale rod; optional independent central detail without geometry exaggeration"
+      },
+      "publication_requirements": [
+        "completed full physical plan",
+        "all saved states/hash inventory valid",
+        "full sampled cross-section failed",
+        "no intact reference lattice path between grips",
+        "positive measured axial opening",
+        "force envelope falls below10percent peak",
+        "mass/momentum/energy ledger acceptance",
+        "actual ParaView61 frames independently reviewed"
+      ]
+    },
+    "source_sha256": {
+      "mpm_jax/fibre_tlmpm.py": "67a8309eec76e4e9a1e47413fe9fbf74d166065904776af75325b11501b78d6b",
+      "examples/single_fibre_tlmpm.py": "0eabcdd228f734135083d68264b96ff724b31a9506161a27a80a870d49dbee56",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+    },
+    "spatial": {
+      "partition_error": 4.440892098500626e-16,
+      "gradient_constant_error": 1.8189894035458565e-12,
+      "reference_mass": 7.4472e-05,
+      "nodal_mass": 7.447199999999997e-05,
+      "gradient_affine_error": 4.440892098500626e-16,
+      "initial_largest_acoustic_eigenvalue": 163785063087.51706,
+      "acoustic_64_iteration_relative_change": 0.00021045436561983877,
+      "estimated_initial_critical_dt": 4.941887441425416e-06,
+      "dt": 6.12369871402327e-07,
+      "planned_steps": 19596.0
+    },
+    "method": "Total-Lagrangian quadratic B-spline MPM; fixed reference quadrature, lumped nodal inertia, velocity-Verlet",
+    "energy_metric": "Lumped nodal kinetic energy plus reference material energy; particle APIC affine energy is not used",
+    "scope": "New numerical trajectory; original material, waist, physical displacement/time law; not equivalent to old updated-grid APIC trajectory"
+  },
+  "frames": [
+    {
+      "step": 0,
+      "time_s": 0.0,
+      "sha256": "bf856b01ce2b5dc0edbe2c4e2242af51e7d1e485346d1c8fc857dd85d760a00a"
+    },
+    {
+      "step": 400,
+      "time_s": 0.0002449479485609295,
+      "sha256": "4a7b910172188a1eb70db481b48509b44db2028afc9f0fc7a2623e1e764bd9b1"
+    },
+    {
+      "step": 800,
+      "time_s": 0.000489895897121857,
+      "sha256": "c2ab27461e088a6fbf6bb508d2831a232a8f55a6272fe3179097b79992025ccb"
+    },
+    {
+      "step": 1000,
+      "time_s": 0.0006123698714023316,
+      "sha256": "50848b0e2f9b4b7fdbedee5f3d84e251759d889f791f0d49415ba8ca31b96743"
+    },
+    {
+      "step": 1200,
+      "time_s": 0.0007348438456828061,
+      "sha256": "087f9cf1eb731a8ff5e3a7576017d76e97cc9a0aec50ac5589de8a68796679dd"
+    },
+    {
+      "step": 1600,
+      "time_s": 0.0009797917942437546,
+      "sha256": "4157b963db78a825e28142e94fdca1f56b4b9cd41293210b1f6d5e4a35f55f88"
+    },
+    {
+      "step": 2000,
+      "time_s": 0.0012247397428046603,
+      "sha256": "19df80adecf6e8422679b2278a76c6b9c4cfb52927ef6efd92a35fbf171b04aa"
+    },
+    {
+      "step": 2400,
+      "time_s": 0.001469687691365566,
+      "sha256": "a37c7f0a85e466b17927e4e1e3c37144a158f86a121774959a7a5c9b7b1657a1"
+    },
+    {
+      "step": 2800,
+      "time_s": 0.0017146356399264718,
+      "sha256": "446937c00d7883fa0389968396b4dd72d27aa32d1aab4f40dda5e9f021183259"
+    },
+    {
+      "step": 3000,
+      "time_s": 0.0018371096142069247,
+      "sha256": "535e720b99818a42ebbfc80a977f9c9b39ca2fc54ef7c3f91d62d9261198a478"
+    },
+    {
+      "step": 3200,
+      "time_s": 0.0019595835884873777,
+      "sha256": "8314fd5bf2e62e5153b9a9702e9b5b7dddc46ad70cbadb81d6a8ca8f443ec0ae"
+    },
+    {
+      "step": 3600,
+      "time_s": 0.0022045315370482835,
+      "sha256": "5c5ba594f79e6cca15dc9f4afc88682ccee542c5cd4765ca52fd5c072d15ada0"
+    },
+    {
+      "step": 4000,
+      "time_s": 0.002449479485609189,
+      "sha256": "071c82ceaa35bd1ed97c5cb6502d4ffcd08bdba6739aa5334684ce83d0dfd2ae"
+    },
+    {
+      "step": 4400,
+      "time_s": 0.002694427434170095,
+      "sha256": "f655086388ae5f18e27dda239eebeb4ab54f01d0a98e3a221a29a10206930362"
+    },
+    {
+      "step": 4800,
+      "time_s": 0.0029393753827310007,
+      "sha256": "64c66c47b2eb5883f2cd80c47fdb3763ce8082496ebb19b734dcdc253f23ecdf"
+    },
+    {
+      "step": 5000,
+      "time_s": 0.0030618493570114536,
+      "sha256": "853a443cc19f814684afd6dbbe8421b0d830187eb9d600a79b0faead0294b007"
+    }
+  ],
+  "physical_steps_executed": 0
+}

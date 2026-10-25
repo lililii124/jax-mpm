@@ -1,0 +1,100 @@
+{
+  "passed": true,
+  "source_frames": 16,
+  "source_steps": [
+    0,
+    400,
+    800,
+    1000,
+    1200,
+    1600,
+    2000,
+    2400,
+    2800,
+    3000,
+    3200,
+    3600,
+    4000,
+    4400,
+    4800,
+    5000
+  ],
+  "last_step": 5000,
+  "last_time_s": 0.0030618493570114536,
+  "physical_steps_executed": 0,
+  "position_interpolation": false,
+  "all_failed_points_retained": true,
+  "geometry_scale": 1,
+  "private_only": true,
+  "full_loading_completed": false,
+  "final_physical_review": {
+    "step": 5000,
+    "time_s": 0.0030618493570114536,
+    "target_steps": 19596,
+    "dt_s": 6.12369871402327e-07,
+    "elapsed_s": 523.8217157647014,
+    "initial_window_K_J": 4.862513646066359e-07,
+    "initial_window_U_J": 1.571497571611839e-05,
+    "kinetic_J": 1.393111054680242e-05,
+    "elastic_J": 4.749035249027567e-05,
+    "work_J": 7.022067174973673e-05,
+    "damage_work_J": 9.037236791983379e-06,
+    "maximum_energy_residual_over_peak_work": 0.0027995393008992185,
+    "final_energy_residual_over_peak_work": -0.0027991383198936815,
+    "max_damage": 1.0,
+    "min_J": 0.8306813433857397,
+    "grip_error_m": 1.0842021724855044e-19,
+    "checks": {
+      "valid": true,
+      "finite": true,
+      "grips": true,
+      "momentum": true,
+      "angular_momentum": true,
+      "energy_within_original15percent": true,
+      "positive_J": true,
+      "nonnegative_damage": true
+    },
+    "full_plan_completed": false,
+    "peak_tensile_load_N": 0.2193485910954014,
+    "fracture": {
+      "intact_reference_path_between_grips": false,
+      "fully_failed_axial_sections": [
+        116,
+        117,
+        118,
+        121,
+        122,
+        123
+      ],
+      "measured_intact_fragment_gap_m": 0.0010584122543312944,
+      "scope": "Six-neighbour intact reference-lattice connectivity plus stronger entire sampled cross-section failure; no erased particles, imposed crack surface or rescaled displacement. Gap is between intact fragments and may contain stress-free failed particles."
+    },
+    "scope": "Actual total-Lagrangian MPM trajectory; no space/time convergence certificate"
+  },
+  "views": [
+    {
+      "view": "full",
+      "gif": "single-fibre-fracture-full.gif",
+      "sha256": "c54aad1b3fe6be59e02456ddff77b4455dfd0a263e4c7749913d80db86796f27",
+      "bytes": 203544,
+      "dimensions": [
+        400,
+        400
+      ],
+      "decoded_frames": 16,
+      "distinct_decoded_frames": 16
+    },
+    {
+      "view": "detail",
+      "gif": "single-fibre-fracture-detail.gif",
+      "sha256": "07cffde5518ca2c87d6ddfd272f5685c36e877ec7e0b27aa1ea19ab019abb6a8",
+      "bytes": 686706,
+      "dimensions": [
+        400,
+        400
+      ],
+      "decoded_frames": 16,
+      "distinct_decoded_frames": 16
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "fibres--single-fibre-tension",
+  "case": "Single fibre tension",
+  "completed": false,
+  "displayed_segment_complete": true,
+  "full_plan_completed": false,
+  "particles": [
+    74472
+  ],
+  "steps": 5000,
+  "frames": 16,
+  "simulation_time": 0.0030618493570114536,
+  "min_J": 0.8306813433857397,
+  "max_damage": 1.0,
+  "source_commit": "1e4d41cf08182cc1336eadf4429f50d6cceaf6c0",
+  "source_checkpoint_sha256": "d4c7f488773d2f0a8d30d1edb2f8617e4eda70825ab62e4ceb354d20a49057e0",
+  "planned_steps": 19596,
+  "publication_scope": "Valid loading-to-separation segment; the later post-failure hold is not validated",
+  "fracture": {
+    "intact_reference_path_between_grips": false,
+    "fully_failed_axial_sections": [
+      116,
+      117,
+      118,
+      121,
+      122,
+      123
+    ],
+    "measured_intact_fragment_gap_m": 0.0010584122543312944,
+    "scope": "Six-neighbour intact reference-lattice connectivity plus stronger entire sampled cross-section failure; no erased particles, imposed crack surface or rescaled displacement. Gap is between intact fragments and may contain stress-free failed particles."
+  },
+  "maximum_energy_residual_over_peak_work": 0.0027995393008992185,
+  "accuracy_scope": {
+    "time_space_convergence_certified": false,
+    "full_post_failure_hold_validated": false,
+    "first_later_invalid_step": 5643
+  }
+}
