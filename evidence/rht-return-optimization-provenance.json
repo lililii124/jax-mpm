@@ -1,0 +1,196 @@
+{
+  "scope": "Minimal selective main integration of the return-map optimization only; no historical workflow/scene/homepage merge. No complete impact/perforation or IJIE calibration claim.",
+  "required_paths": [
+    "mpm_jax/materials/rht.py",
+    "tools/check_rht_active_return.py",
+    "evidence/rht-return-focused-checks.json",
+    "evidence/rht-return-optimization-provenance.json",
+    "evidence/rht-real-step106-comparison.json",
+    "evidence/rht-real-step110-trace-comparison.json"
+  ],
+  "base_rht_git_blob": "118d64c4141a9dee24db8fa238f3f59491fdc460",
+  "optimized_rht_git_blob": "dcef2aea34c2af95d80eccbf00a84d8cbd5ce1f5",
+  "optimized_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+  "focused_check_tool_git_blob": "0b434130a473de4f52d4806e0314d214409fa1cb",
+  "focused_fixture_source": {
+    "commit": "48bbe519cb6ef2714baaf30bd4cfb368508ed81a",
+    "files": {
+      "mpm_jax/__init__.py": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494",
+      "mpm_jax/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+      "mpm_jax/adhesion.py": "12cda0bc77b95a8740245050bc2ae86b78018bd2642329efff3920cb8d9f9042",
+      "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+      "mpm_jax/cli.py": "be61ba75adfa3a0fd05892402e1970ef62d7fd7250fce329b63b2c0d8b34f105",
+      "mpm_jax/cohesive_bem.py": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+      "mpm_jax/contact.py": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "mpm_jax/contact_laws.py": "101008865ed200d94d02b88a674c3943fcb82549ca2913961c2649f37df2175a",
+      "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+      "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "mpm_jax/export.py": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+      "mpm_jax/initialization.py": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d",
+      "mpm_jax/local_contact_models.py": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+      "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/hjc.py": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "mpm_jax/materials/jh2.py": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "mpm_jax/materials/plastic.py": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "mpm_jax/materials/rht.py": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+      "mpm_jax/materials/shock_metal.py": "91045b966f2b5c7e6a75a3df51548c87dd1ed75f7d68071e96de16d4245c73f9",
+      "mpm_jax/materials/steinberg.py": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "mpm_jax/materials/woven.py": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "mpm_jax/maugis_dugdale.py": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+      "mpm_jax/packed_woven.py": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668",
+      "mpm_jax/paraview_scene.py": "300b759949033c707514426b69483894340d638ab58dc8ed07f2cd3421c43958",
+      "mpm_jax/particle_fields.py": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7",
+      "mpm_jax/rigid_sphere_contact.py": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f",
+      "mpm_jax/saved_tool_motion.py": "62a161077334bb53cd8775233f202bbf397eeb4c29cbbb4a9430e9921be678af",
+      "mpm_jax/visualization.py": "d834330c0fe1c1f55fbe997e0f5e62e7e22c36ed5766ada8d35da2cacc23dd69",
+      "tools/check_rht_active_return.py": "c55d464e915fa9bcc803bb8eb68237d84c7e090f2d3155b4773599e469f981e2"
+    }
+  },
+  "focused_collection_manifest": {
+    "output/focused-checks.json": {
+      "bytes": 8106,
+      "sha256": "3139eebda8c577b8f2f066980357439cf92d5bf3912592803078910477806fa0"
+    },
+    "job/solver.log": {
+      "bytes": 8106,
+      "sha256": "3139eebda8c577b8f2f066980357439cf92d5bf3912592803078910477806fa0"
+    },
+    "job/status.json": {
+      "bytes": 464,
+      "sha256": "4ea273ad4f542d2dcfe3fc69b3f1a4e70d526c8371d076f4decf07f8951ca1ed"
+    },
+    "source.json": {
+      "bytes": 3815,
+      "sha256": "5095bddf2c668b06bf4b84dddc7a29beaae80425e83badbbd7e56eebcaf700bd"
+    },
+    "start.py": {
+      "bytes": 326,
+      "sha256": "aef1d4126731a12dd760432a1d65939e47a2d0af410eef4aec6b1c81779556bf"
+    },
+    "tools/check_rht_active_return.py": {
+      "bytes": 5562,
+      "sha256": "c55d464e915fa9bcc803bb8eb68237d84c7e090f2d3155b4773599e469f981e2"
+    }
+  },
+  "step106_full_source_review": {
+    "mode": "full",
+    "parent_source_commit": "0c99377fac0ff77b376958dff2e124e2a4691f21",
+    "original_rht_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+    "candidate_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+    "only_allowed_replacement": null,
+    "parent_checkpoint_sha256": {
+      "checkpoint.json": "39921adf3277486fd0f6ae562bd2f5db9cdde719ed567f98074634e75881e729",
+      "checkpoint_1_0.npz": "b282fdb5e50cd8dca99f8672b8cd301baae39e43fd5bee1e07a97e2b67708228",
+      "checkpoint_1_1.npz": "103af25799483e013815c3c18e940f94d86a9d4bbe8a3ee2145217edaf233874"
+    },
+    "exact_original_56_bisections_64_roots_and_tolerances": true,
+    "instrumentation_added": false,
+    "physical_steps_requested": 1,
+    "versions": {
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "ml_dtypes": "0.6.0",
+      "opt_einsum": "3.4.0",
+      "psutil": "7.2.2"
+    }
+  },
+  "step106_compact_source_review": {
+    "mode": "compact",
+    "parent_source_commit": "0c99377fac0ff77b376958dff2e124e2a4691f21",
+    "original_rht_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+    "candidate_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+    "only_allowed_replacement": "mpm_jax/materials/rht.py",
+    "parent_checkpoint_sha256": {
+      "checkpoint.json": "39921adf3277486fd0f6ae562bd2f5db9cdde719ed567f98074634e75881e729",
+      "checkpoint_1_0.npz": "b282fdb5e50cd8dca99f8672b8cd301baae39e43fd5bee1e07a97e2b67708228",
+      "checkpoint_1_1.npz": "103af25799483e013815c3c18e940f94d86a9d4bbe8a3ee2145217edaf233874"
+    },
+    "exact_original_56_bisections_64_roots_and_tolerances": true,
+    "instrumentation_added": false,
+    "physical_steps_requested": 1,
+    "versions": {
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "ml_dtypes": "0.6.0",
+      "opt_einsum": "3.4.0",
+      "psutil": "7.2.2"
+    }
+  },
+  "step110_source_review": {
+    "parent_source_commit": "0c99377fac0ff77b376958dff2e124e2a4691f21",
+    "candidate_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+    "seed106_raw_sha256": {
+      "state106-body0.npz": {
+        "bytes": 51266345,
+        "sha256": "cb7a875a3e08f67eaed01eca23b2146c86c002ffeb289af51c7d74cbe57ff247"
+      },
+      "state106-body1.npz": {
+        "bytes": 599287,
+        "sha256": "a8b7e3799871faa89597021e1bacbcf3381897ee683c3a2b8312346b5ff49e89"
+      },
+      "contact-impulse.npy": {
+        "bytes": 152,
+        "sha256": "838fce16d4572777c6ac186c4961891e15a78ec220577286988e130b9cdde13c"
+      }
+    },
+    "versions": {
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "ml_dtypes": "0.6.0",
+      "opt_einsum": "3.4.0",
+      "psutil": "7.2.2"
+    },
+    "instrumentation_added": false,
+    "exact_same_runtime_source_as_independently_checked_compact106": true,
+    "physical_steps_requested": [
+      107,
+      108,
+      109,
+      110
+    ],
+    "all_original_iteration_limits_and_tolerances_unchanged": true
+  },
+  "step110_original_trace_source_review": {
+    "original_kernel_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+    "profiled_kernel_sha256": "b9b27e1ba0fd5215f2381b47ad6dd57010638bc0ae04f590e61351f032925b73",
+    "removing_explicit_trace_and_temporary_restores_original_bytes": true,
+    "parent_checkpoint": "8f627bfa4fde84218c2e601bc5b7c81126c08c3f4604bb70669b12189ea3a8cf",
+    "scope": "Performance diagnostics only; trace callbacks and one-step dispatch may change timing and floating reduction scheduling"
+  },
+  "main_numerical_dependency_compatibility_at_review": {
+    "mpm_jax/core.py": {
+      "main_working_sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "tested_sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08"
+    },
+    "mpm_jax/contact.py": {
+      "main_working_sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "tested_sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00"
+    },
+    "mpm_jax/materials/elastic.py": {
+      "main_working_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "tested_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655"
+    },
+    "mpm_jax/materials/history.py": {
+      "main_working_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "tested_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b"
+    }
+  },
+  "all56_bisections64_roots_and_tolerances_unchanged": true,
+  "focused5_cases_all_fields_bitwise": true,
+  "step106_and110_comparisons_use_original_existing_fixture_tolerance": true,
+  "whole_feature_branch_merge_requested": false
+}
