@@ -13,3 +13,9 @@ Compare at physical t=.072 and .078 (existing coarse4800/5200), top travel=.0002
 Do not transfer a coarse checkpoint to the fine grid and call it full spatial convergence. Evolving irreversible fine history starts from its own minimum-energy seed and zero mechanical state.
 
 Resource guard remains8 CPU/16GiB, outer2400s/USS12GiB and inner2100s/14GiB. This spatial64 pilot waits for the half-dt task to finish usingCPU32–39. No long spatial job is admitted by this source-only preparation.
+
+## Local time-step check (predeclared before endpoint comparison)
+
+Start from exactly the original4400 physical state, t=.066. Rebind only dt/CFL/required step count, global step8800 and history step indices. Original physical state/history/work arrays remain exact. Advance800 fine steps to9600, the same t=.072 as original4800; conditionally another800 fine steps to10400, same t=.078 as original5200. Fine dt7.5us/CFL.02. This tests only evolution after4400; prior accumulated coarse integration error remains.
+
+Provisional case checks: native full-band d>=.95 front difference<=.00625; normal-profile d>=.5 and .95 widths differ<=10% at genuinely populated sections; reaction curve normalized RMS and peak differences<=5%; K, U, K/U and seed-excluded fracture increment differences<=5%; energy-window integration defect should not worsen and cumulative physical residual<=5% of absolute work. Tiny near-zero values are reported with their dimensional differences rather than divided by zero. Sampling error is measured explicitly. Failure means sensitivity, not permission to relax limits. One successful pair is local agreement, not full time or mesh convergence.
