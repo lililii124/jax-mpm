@@ -133,9 +133,16 @@ def provenance_and_state(folder, specification):
     frame = specification['frame']
     assert plan['stop_frame'] == cp['frame'] == status['frame'] == frame
     full = frame == 60
-    assert status['phase'] == ('completed' if full else 'checkpoint-ready')
-    assert status['segment_complete'] is (not full) and status['completed'] is full
-    assert status['signature'] == cp['signature']
+    assert status['completed'] is full
+    if full:
+        assert 'phase' not in status and 'segment_complete' not in status and 'signature' not in status
+        summary = load(folder/'raw/summary.json')
+        assert summary['completed'] and summary['steps'] == 10500
+        assert summary['definition'] == plan['definition']
+        assert summary['final'] == cp['rows'][-1:]
+    else:
+        assert status['phase'] == 'checkpoint-ready' and status['segment_complete']
+        assert status['signature'] == cp['signature']
     assert plan['frames'] == status['frames'] == 60 and plan['substeps'] == 175
     assert plan['particles'] == 121104 and status['steps_completed'] == frame*175
     assert len(cp['rows']) == len(cp['observations']) == frame+1
@@ -237,6 +244,42 @@ def frames_and_mirrors(folder, state, expected_frame):
     return records
 
 
+def auxiliary_raw(folder,state,frame):
+    backing = {}
+    for name in ('x','speed','damage','temperature'):
+        path = folder/'raw'/('trajectory_'+name+'.npy')
+        if path.exists():
+            values = np.load(path,mmap_mode='r',allow_pickle=False)
+            assert values.shape[0] == 61
+            assert np.isfinite(values).all()
+            for index in range(frame+1):
+                snapshot = npz(folder/'raw/frames_data'/f'frame_{index:05d}.npz')
+                assert np.array_equal(values[index],snapshot[name]), (name,index)
+            if frame < 60:
+                assert not values[frame+1:].any()
+            backing[name] = values
+    full = folder/'raw/trajectory.npz'
+    if full.exists():
+        with np.load(full,allow_pickle=False) as arrays:
+            for name in arrays.files:
+                values = arrays[name]
+                assert np.isfinite(values).all()
+                if name in backing:
+                    assert np.array_equal(values,backing[name])
+                if name == 'time':
+                    np.testing.assert_allclose(values,np.arange(61)*25e-6,rtol=0,atol=1e-15)
+                if name == 'body':
+                    assert values.shape == (121104,) and not values.any()
+    final_path = folder/'raw/final_state_0.npz'
+    if final_path.exists():
+        values = npz(final_path)
+        checked_state(values,state['initial'])
+        assert set(values) == set(state['final'])
+        assert all(np.array_equal(values[name],state['final'][name]) for name in values)
+    return dict(backing_fields=sorted(backing),saved_frames_matched=frame+1,
+        full_trajectory_checked=full.exists(),final_state_duplicate_checked=final_path.exists())
+
+
 def parent_continuity(parent, child, pstate, cstate):
     embedded = child/'parents'/f"frame-{PARENT['frame']:05d}"
     assert sha(parent/'prefix-review.json') == PARENT_REVIEW
@@ -269,10 +312,10 @@ def parent_continuity(parent, child, pstate, cstate):
 def delivery(child, state, output):
     output.mkdir()
     checkpoint_names = ['source.json','plan.json','prefix-review.json','resource-guard.json',
-        'initial_state.npz','raw/checkpoint.json','raw/status.json','raw/summary.json','raw/trajectory.npz']
+        'initial_state.npz','raw/checkpoint.json','raw/status.json','raw/summary.json']
     checkpoint_names += ['raw/'+name for name in state['checkpoint']['states']]
     checkpoint_names = [name for name in checkpoint_names if (child/name).is_file()]
-    render_names = ['source.json','plan.json','prefix-review.json','raw/summary.json','raw/status.json','raw/trajectory.npz']
+    render_names = ['source.json','plan.json','prefix-review.json','raw/summary.json','raw/status.json']
     render_names = [name for name in render_names if (child/name).is_file()]
     render_names += [f'raw/frames_data/frame_{frame:05d}.npz' for frame in range(CHILD['frame']+1)]
     def pack(name, files):
@@ -326,6 +369,7 @@ def main():
     cstate = provenance_and_state(child,CHILD)
     precords = frames_and_mirrors(parent,pstate,PARENT['frame'])
     records = frames_and_mirrors(child,cstate,CHILD['frame'])
+    auxiliary = dict(parent=auxiliary_raw(parent,pstate,PARENT['frame']),child=auxiliary_raw(child,cstate,CHILD['frame']))
     continuity = parent_continuity(parent,child,pstate,cstate)
     spare = []
     for path in sorted((child/'raw').glob('checkpoint_*.npz')):
@@ -345,7 +389,7 @@ def main():
     resource_ok = projected_wall < cstate['guard']['seconds_limit'] and 1.25*max_uss < cstate['guard']['uss_limit_bytes']
     assert 'jax' not in sys.modules
     report = dict(passed=True,scope='Whole raw/source/state/symmetry/continuation integrity; not structural energy or time/mesh convergence certification.',
-        parent_archive=pzip,child_archive=czip,parent_continuity=continuity,
+        parent_archive=pzip,child_archive=czip,parent_continuity=continuity,auxiliary_raw=auxiliary,
         numerical_commit=CHILD['commit'],verifier_commit=os.environ.get('GITHUB_SHA'),
         parent_verified_sources=len(pstate['source']['files']),child_verified_sources=len(cstate['source']['files']),
         child_review_sha256=sha(child/'prefix-review.json'),final_checkpoint_sha256=sha(child/'raw'/cstate['checkpoint']['states'][0]),
