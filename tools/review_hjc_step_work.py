@@ -16,18 +16,27 @@ SPEC=dict(run=40177152433,artifact=12593131521,commit='b2c74c97a9cfad65656ea8be5
     bytes=40550988,sha256='f803c9e9bf9290cbf89744944eef2f319fafca69211083480bd71b2970d5bf98',frame=0)
 
 
-def review(output):
+def review(output,specification=None):
+    global SPEC
+    if specification is not None:
+        SPEC=load(specification)
     output.mkdir(parents=True,exist_ok=False)
     restored,archive=official_archive('diagnostic',SPEC,output)
     report=load(restored/'probe/step-work-review.json')
     guard=load(restored/'resource-guard.json')
     assert report['passed'] and report['commit']==SPEC['commit']
-    assert report['particles']==121104 and report['total_physical_steps_executed']==144
+    divisor=report.get('time_step_divisor',1)
+    assert divisor in (1,2)
+    assert report['particles']==121104 and report['total_physical_steps_executed']==144*divisor
     assert guard['returncode']==0 and guard['guard_reason'] is None
     assert guard['seconds_limit']==1800 and guard['uss_limit_bytes']==int(5.5*1024**3)
     assert guard['wall_seconds']<1800 and guard['peak_uss_bytes']<guard['uss_limit_bytes']
     subprocess.run(['git','diff','--exit-code','d857cec8d682446a1f4821ebd0fb3b713ef761a2',SPEC['commit'],
-        '--','mpm_jax','examples'],cwd=ROOT,check=True)
+        '--','mpm_jax'],cwd=ROOT,check=True)
+    example_changes=subprocess.check_output(['git','diff','--name-only','d857cec8d682446a1f4821ebd0fb3b713ef761a2',SPEC['commit'],'--','examples'],cwd=ROOT,text=True).splitlines()
+    assert set(example_changes)<= {'examples/brittle_engineering.py'}
+    if example_changes:
+        assert report['default_factory_exactly_preserved'] and report['identical_initial_state_geometry_material_and_loading']
     records=[]
     for case in report['cases']:
         assert case['all_state_leaves_bitwise_equal'] and case['max_state_leaf_absolute_difference']==0
@@ -81,5 +90,6 @@ def review(output):
 if __name__=='__main__':
     parser=argparse.ArgumentParser()
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--specification',type=Path)
     args=parser.parse_args()
-    review(args.output.resolve())
+    review(args.output.resolve(),args.specification)

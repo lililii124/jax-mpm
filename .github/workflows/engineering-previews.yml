@@ -2,6 +2,10 @@ name: Bounded HJC step boundary work diagnostic
 on:
   workflow_dispatch:
     inputs:
+      review_specification:
+        type: string
+        default: ''
+        description: Exact diagnostic archive metadata JSON for zero-step review
       time_step_divisor:
         type: choice
         options: ['1','2']
@@ -80,6 +84,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
+      REVIEW_SPECIFICATION: ${{ inputs.review_specification }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -94,7 +99,22 @@ jobs:
           git fetch --no-tags --depth=1 origin b2c74c97a9cfad65656ea8be516cb80fa7994d37
           python -m pip install numpy==2.5.4
       - name: Whole official ZIP digest CRC true work fields zero integration
-        run: python tools/review_hjc_step_work.py --output .local/hjc-step-work-independent
+        run: |
+          python - <<'PYCODE'
+          import json,os,pathlib,subprocess,sys
+          raw=os.environ.get('REVIEW_SPECIFICATION','')
+          command=[sys.executable,'tools/review_hjc_step_work.py','--output','.local/hjc-step-work-independent']
+          if raw:
+              spec=json.loads(raw)
+              commit=spec['commit']
+              assert len(commit)==40 and all(x in '0123456789abcdef' for x in commit)
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',commit],check=True)
+              pathlib.Path('.local').mkdir(exist_ok=True)
+              path=pathlib.Path('.local/step-work-review-spec.json')
+              path.write_text(raw)
+              command+=['--specification',str(path)]
+          subprocess.run(command,check=True)
+          PYCODE
       - uses: actions/upload-artifact@v7
         if: always()
         with:
