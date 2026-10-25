@@ -68,7 +68,9 @@ def run_container(root, name, work, source, parent, forming, *, mode, target_ste
     container = 'jaxmpm-' + name
     assert len(container) < 120
     if mode == 'segment':
-        (work / 'output').mkdir()
+        output = work / 'output'
+        output.mkdir(exist_ok=True)
+        assert not any(output.iterdir()), f'refusing non-empty segment output {output}'
         parent_mount = str(parent / 'output')
         command = ['python', '/work/start.py']
     else:
