@@ -10,7 +10,8 @@ import jax.numpy as jnp
 from .fibre_mpm import FibreState,stencil,particle_to_grid,grid_to_particle,grid_coordinates
 from .materials.isotropic_brittle import update_brittle,brittle_energy
 from .fibre_forming_boundary import prescribe
-from .fibre_forming_contact import project,mass_gradient,PAIRS
+from .fibre_forming_contact import mass_gradient,PAIRS
+from .fibre_forming_active_set import project
 
 
 def make_step(material,layout,config,masks,duration):
@@ -68,6 +69,6 @@ def make_step(material,layout,config,masks,duration):
         angular_error=jnp.linalg.norm(angular_vector)
         transport=jnp.linalg.norm(jnp.sum(s.mass[:,None]*jnp.cross(x-s.x,v),axis=0))
         momentum_error=jnp.linalg.norm(jnp.sum(s.mass[:,None]*(v-s.v),axis=0)-impulse)
-        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew])
+        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew,contact.exact_nodes,contact.exact_successes,contact.capacity_valid,contact.rank_rejections])
         return new,metrics,U1
     return step

@@ -74,7 +74,7 @@ def project(mass,velocity,gradient,centres,clamped,*,tolerance=1e-8,max_sweeps=6
             n=raw/jnp.maximum(norm,1e-300)[:,None];normals.append(n)
             present=(mass[a]>0)&(mass[b]>0)&(norm>1e-12);active.append(present)
             closing=jnp.sum((base.velocity[a]-base.velocity[b])*n,axis=1)
-            lam=jnp.linalg.norm(base.pair_impulse[k],axis=1)
+            lam=jnp.sum(base.pair_impulse[k]*n,axis=1)
             residual.append(jnp.where(present,jnp.where(lam>0,jnp.abs(closing),jnp.maximum(closing,0.)),0.))
         normals=jnp.stack(normals);active=jnp.stack(active);r=jnp.max(jnp.stack(residual),axis=0)
         bad=r>tolerance;number=jnp.sum(bad,dtype=jnp.int32)
@@ -95,7 +95,7 @@ def project(mass,velocity,gradient,centres,clamped,*,tolerance=1e-8,max_sweeps=6
         for k,(a,b) in enumerate(PAIRS):
             fixture=fixture.at[a].add(jnp.where(clamped[a,:,None],pair[k],0.)).at[b].add(jnp.where(clamped[b,:,None],-pair[k],0.))
             closing=jnp.sum((final_velocity[a]-final_velocity[b])*normals[k],axis=1)
-            multiplier=jnp.linalg.norm(pair[k],axis=1)
+            multiplier=jnp.sum(pair[k]*normals[k],axis=1)
             errors.append(jnp.where(active[k],jnp.where(multiplier>0,jnp.abs(closing),jnp.maximum(closing,0.)),0.))
         final_r=jnp.max(jnp.stack(errors));capacity_valid=number<=fallback_capacity
         valid=capacity_valid&jnp.all(~real|found)&jnp.isfinite(final_r)&(final_r<=tolerance)
