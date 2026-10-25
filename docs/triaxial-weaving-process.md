@@ -74,3 +74,5 @@ Rendering must use actual saved particles/current cross-section centroids,
 three family colors, a full-station view plus a fixed close view of the forming
 zone, and visible guide positions. No resin is included. No finished-process GIF
 may be published from an opening-only prefix.
+
+An optional `--grid tube` uses existing `build_tube_layout` with static section-centre seeds sampled along machine fixture sweeps. These seeds allocate nodes only and never prescribe material trajectories. Any actual particle stencil outside the allocation invalidates integration. Dense mode retains the original admission baseline. Compression requires comparison of full raw states and does not yet solve the larger station's dense address-map or all-pair coverage cost.
