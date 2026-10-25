@@ -45,6 +45,11 @@ def obstacle_from_checkpoint(checkpoint,plan,*,allow_partial=False,dx=.00025):
         if step!=plan['steps'] and not allow_partial:raise ValueError('Production fill requires completed actual forming; partial only for operator preparation')
         if not np.isfinite(F).all() or np.linalg.det(F).min()<=0:raise ValueError('Invalid obstacle geometry')
     radius=.0032;left=-.001;right=.025
+    spacing=plan['geometry']['spacing_m']
+    radial_bound=np.linalg.norm(x[:,1:],axis=1)+.5*np.sqrt(3)*spacing*np.linalg.svd(F,compute_uv=False)[:,0]
+    axial_bound=.5*spacing*np.sum(np.abs(F[:,0,:]),axis=1)
+    if radial_bound.max()>=radius or np.any(x[:,0]-axial_bound<=left) or np.any(x[:,0]+axial_bound>=right):
+        raise ValueError('Actual formed material-cell envelope intersects proposed mold; revise documented mold dimensions, never clip fibres')
     origin=np.array([left-3*dx,-radius-3*dx,-radius-3*dx]);shape=np.ceil((np.array([right+3*dx,radius+3*dx,radius+3*dx])-origin)/dx).astype(int)
     axes=[origin[k]+(np.arange(shape[k])+.5)*dx for k in range(3)];grid=np.stack(np.meshgrid(*axes,indexing='ij'),axis=-1);flat=grid.reshape(-1,3)
     cavity=(flat[:,0]>left)&(flat[:,0]<right)&(np.sum(flat[:,1:]**2,axis=1)<radius**2)
@@ -66,7 +71,7 @@ def obstacle_from_checkpoint(checkpoint,plan,*,allow_partial=False,dx=.00025):
         velocity=np.zeros(mask.shape)
         if component==0:velocity[inlet]=.2*(1-radial[inlet]/.0025**2)
         fixed.append(mask);target.append(velocity)
-    receipt=dict(checkpoint_sha256=sha256(checkpoint),forming_plan_sha256=plan_sha,actual_forming_step=step,full_turn=step==plan['steps'],fixed_fibres=True,grid_dx_m=dx,grid_origin_m=origin.tolist(),grid_shape=shape.tolist(),cylinder_radius_m=radius,cylinder_limits_m=[left,right],voxelized_fibre_volume_m3=float(fibre.sum()*dx**3),cavity_void_volume_m3=float(open_cells.sum()*dx**3),boundary_scope='Union of actual F-advected quadrature cells evaluated at cell centres; staircase fixed boundary, grid-scale geometry error, not smooth surface/FSI/cure')
+    receipt=dict(checkpoint_sha256=sha256(checkpoint),forming_plan_sha256=plan_sha,actual_forming_step=step,full_turn=step==plan['steps'],fixed_fibres=True,grid_dx_m=dx,grid_origin_m=origin.tolist(),grid_shape=shape.tolist(),conservative_radial_clearance_m=float(radius-radial_bound.max()),cylinder_radius_m=radius,cylinder_limits_m=[left,right],voxelized_fibre_volume_m3=float(fibre.sum()*dx**3),cavity_void_volume_m3=float(open_cells.sum()*dx**3),boundary_scope='Union of actual F-advected quadrature cells evaluated at cell centres; staircase fixed boundary, grid-scale geometry error, not smooth surface/FSI/cure')
     return dict(origin=origin,shape=shape,dx=dx,solid=solid,open_cells=open_cells,fixed=tuple(fixed),prescribed=tuple(target),fibre_x=x,fibre_id=ids,receipt=receipt)
 
 
