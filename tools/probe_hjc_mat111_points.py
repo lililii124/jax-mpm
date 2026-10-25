@@ -12,6 +12,24 @@ import subprocess
 import os
 
 
+def compile_reference(source, output):
+    from mpm_jax.materials.hjc import MAT111_SOURCE_SHA256
+
+    raw = source.read_bytes()
+    if hashlib.sha256(raw).hexdigest() != MAT111_SOURCE_SHA256:
+        raise ValueError('Exact current MAT111 source required')
+    output.mkdir(parents=True, exist_ok=False)
+    scalar = output / 'current_mat111_scalar.f'
+    scalar.write_text(raw.decode().split('c PART 03:')[0])
+    library = (output / ('oracle.dll' if os.name == 'nt' else 'oracle.so')).resolve()
+    subprocess.run(['gfortran', '-shared', '-O0', '-ffixed-line-length-none',
+                    str(scalar.resolve()), '-o', str(library)],
+                   cwd=output, check=True, capture_output=True)
+    function = ctypes.CDLL(str(library)).hjc_point
+    function.argtypes = [ctypes.POINTER(ctypes.c_double)] * 4
+    return function, scalar
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--source', type=Path, required=True)
@@ -25,19 +43,8 @@ def main():
     import numpy as np
     from mpm_jax.materials.hjc import hjc, update_hjc, MAT111_SOURCE_SHA256, MAT111_PROFILE_SCOPE
     from mpm_jax.materials.history import initial_history
-    raw = args.source.read_bytes()
-    if hashlib.sha256(raw).hexdigest()!=MAT111_SOURCE_SHA256:
-        raise ValueError('Exact current MAT111 source required')
-    args.output.mkdir(parents=True, exist_ok=False)
-    scalar = raw.decode().split('c PART 03:')[0]
-    f = args.output/'current_mat111_scalar.f'
-    f.write_text(scalar)
-    dll = (args.output/('oracle.dll' if os.name=='nt' else 'oracle.so')).resolve()
-    subprocess.run(['gfortran','-shared','-O0','-ffixed-line-length-none',str(f.resolve()),'-o',str(dll)],
-        cwd=args.output, check=True, capture_output=True)
-    function = ctypes.CDLL(str(dll)).hjc_point
+    function, f = compile_reference(args.source, args.output)
     pointer = ctypes.POINTER(ctypes.c_double)
-    function.argtypes = [pointer]*4
     cases = [('D1_004_compressive_shear', .04, .02, .003, 1e-6, 0.),
              ('D1_0004_below_threshold', .004, .02, .003, 1e-6, 0.),
              ('D1_0004_active_damage', .004, .2, .03, 1e-6, 0.),

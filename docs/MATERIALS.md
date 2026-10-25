@@ -86,7 +86,13 @@ subreference logarithmic rate factor, EFMIN activation gate, zero-strength
 plastic increment, and the zero-trial-stress damage increment. It selects
 `mat111-linear` compacted unloading and requires zero cold-start damage.
 Eight [compiled-reference points](../tests/data/materials/hjc_current_mat111_points.json)
-cover those branches at D1=0.04 and D1=0.004. These checks cover finite,
+cover those branches at D1=0.04 and D1=0.004. Four
+[sequential reference histories](../tests/data/materials/hjc_current_mat111_histories/manifest.json)
+add 248 increments of compaction/unloading/reloading, compressed shear reversal,
+active damage, and tension/recompression. The scalar path preserves arithmetic
+boundaries because the source's exact-zero trial-stress branch changes the
+damage increment; reassociation near hydrostatic loading can select another branch.
+These checks cover finite,
 fixed-axis material-point updates; host failure/erosion and structural
 validation remain separate. The source Final Check does not transfer to JAX.
 

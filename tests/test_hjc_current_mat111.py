@@ -1,5 +1,6 @@
 """New scalar-oracle points; these are not the historical impact finalcheck."""
 import json
+import hashlib
 from pathlib import Path
 import jax
 import jax.numpy as jnp
@@ -10,6 +11,8 @@ from mpm_jax.materials.history import initial_history
 
 jax.config.update('jax_enable_x64', True)
 TABLE = json.loads((Path(__file__).parent/'data/materials/hjc_current_mat111_points.json').read_text())
+HISTORIES = Path(__file__).parent/'data/materials/hjc_current_mat111_histories'
+HISTORY_TABLE = json.loads((HISTORIES/'manifest.json').read_text())
 
 
 @pytest.mark.parametrize('case', TABLE['cases'], ids=lambda c:c['case'])
@@ -33,3 +36,28 @@ def test_profile_is_explicit_and_existing_profiles_stay_separate():
     assert hjc(profile='mat111-compatible').mat111_compatible is True
     with pytest.raises(ValueError):
         hjc(profile='mat111-compatible',cold_start_damage=True)
+
+
+@pytest.mark.parametrize('case', HISTORY_TABLE['cases'], ids=lambda c:c['case'])
+def test_current_mat111_sequential_native_history(case):
+    assert HISTORY_TABLE['source_sha256'] == MAT111_SOURCE_SHA256
+    path = HISTORIES/case['file']
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == case['sha256']
+    with np.load(path) as saved:
+        data, expected = saved['inputs'], saved['expected']
+        dt, d1 = float(saved['dt']), float(saved['D1'])
+    p = hjc(profile='mat111-compatible', D1=d1)
+    old = initial_history(1, jnp.float64, p, p.density)
+
+    def advance(history, values):
+        strain, J = values[:9].reshape(1, 3, 3), values[9:10]
+        history = update_hjc(history, strain, J, dt, p)
+        return history, history
+
+    _, history = jax.jit(lambda h: jax.lax.scan(advance, h, jnp.asarray(data)))(old)
+    assert np.all(history.valid)
+    np.testing.assert_allclose(np.asarray(history.stress)[:, 0], expected[:, :9].reshape(-1, 3, 3),
+                               rtol=2e-10, atol=1e-5)
+    for column, field in enumerate(HISTORY_TABLE['fields'][1:], 9):
+        np.testing.assert_allclose(np.asarray(getattr(history, field))[:, 0], expected[:, column],
+                                   rtol=2e-10, atol=1e-5 if field == 'pressure' else 1e-11)
