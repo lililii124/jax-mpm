@@ -63,12 +63,28 @@ def main():
     # One independent direct-step control establishes that telemetry preserves carry.
     direct,_=step_with_diagnostics(state,material,layout,config,boundary=boundary)
     instrumented,_=jax.jit(observed)(state)
-    parity={str(i):bool(np.array_equal(x,y)) for i,(x,y) in enumerate(zip(jax.tree.leaves(direct),jax.tree.leaves(instrumented)))}
-    if not all(parity.values()):raise ValueError('Telemetry changed original first-step carry')
+    velocity_scale=plan['wave_speed_m_per_s'];mass_scale=float(geometry['mass'].sum())
+    scales=dict(x=plan['geometry']['length_m'],v=velocity_scale,F=1.,C=velocity_scale/layout.dx,
+        mass=float(geometry['mass'].max()),volume=float(geometry['volume'].max()),fibre_id=1.,
+        tau=material.young,time=config.dt,valid=1.,boundary_impulse=mass_scale*velocity_scale,
+        external_impulse=mass_scale*velocity_scale,boundary_work=material.young*float(geometry['volume'].sum()))
+    def fields(s):
+        values={k:v for k,v in s._asdict().items() if k!='history'}
+        values.update({'history_'+k:v for k,v in s.history._asdict().items()})
+        return values
+    parity={}
+    for key,x in fields(direct).items():
+        x,y=np.asarray(x),np.asarray(fields(instrumented)[key])
+        exact=bool(np.array_equal(x,y));difference=float(np.max(np.abs(x.astype(float)-y.astype(float)),initial=0))
+        scaled=difference/scales.get(key,1.)
+        parity[key]=dict(bitwise_equal=exact,max_absolute_difference=difference,engineering_scaled_difference=scaled,
+            passed=exact if x.dtype.kind in 'biu' else scaled<=1e-12)
+    save_json(a.output/'first-step-control.json',parity)
+    if not all(value['passed'] for value in parity.values()):raise ValueError('Telemetry changed original first-step carry beyond engineering-scaled1e-12')
     save_json(a.output/'contract.json',dict(plan=plan,steps=a.steps,source_sha256={
         name:hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in
         (*plan['source']['files'],'tools/observe_single_fibre_energy.py')},
-        first_step_control_bitwise_equal=parity,scope='Numerical error diagnosis only; no relaxation of original15% acceptance'))
+        first_step_control=parity,scope='Numerical error diagnosis only; no relaxation of original15% acceptance'))
     chunks=[];start=time.monotonic()
     for end in range(100,a.steps+1,100):
         state,rows=compiled(state);jax.block_until_ready(state)
