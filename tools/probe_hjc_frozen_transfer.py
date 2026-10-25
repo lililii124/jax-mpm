@@ -66,7 +66,10 @@ def step_function():
     return transfer
 
 
-def run(output,parent):
+def run(output,parent,grid_comparison=False):
+    if grid_comparison:
+        from tools.probe_hjc_transfer_grids import run as run_grids
+        return run_grids(output,parent)
     import jax
     import jax.numpy as jnp
     from mpm_jax import core
@@ -171,9 +174,10 @@ if __name__=='__main__':
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--worker',action='store_true')
+    parser.add_argument('--grid-comparison',action='store_true')
     args=parser.parse_args()
     if args.worker:
-        run(args.output.resolve(),args.parent.resolve())
+        run(args.output.resolve(),args.parent.resolve(),args.grid_comparison)
     else:
         import ctypes
         import psutil
@@ -188,7 +192,7 @@ if __name__=='__main__':
         try:
             with (output.parent/'worker.log').open('wb') as log:
                 process=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'--worker',
-                    '--output',str(output),'--parent',str(args.parent.resolve())],cwd=ROOT,
+                    '--output',str(output),'--parent',str(args.parent.resolve()),*(['--grid-comparison'] if args.grid_comparison else [])],cwd=ROOT,
                     stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
                 while process.poll() is None:
                     uss=owned_session_uss(process.pid,psutil)

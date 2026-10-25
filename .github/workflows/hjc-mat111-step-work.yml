@@ -2,6 +2,10 @@ name: Bounded HJC step boundary work diagnostic
 on:
   workflow_dispatch:
     inputs:
+      grid_comparison_only:
+        type: choice
+        options: ['false','true']
+        default: 'false'
       frozen_review_only:
         type: choice
         options: ['false','true']
@@ -176,7 +180,16 @@ jobs:
           assert audit.sha(parent/'prefix-review.json')=='1a540c6bc4755f85394d4a8c5da3ead023989fa8060d3a5e4ab0d3b479624fc4'
           PYCODE
       - name: Frozen force-free actual APIC transfer and boundary isolation zero physical steps
-        run: python tools/probe_hjc_frozen_transfer.py --output .local/hjc-frozen-transfer/probe --parent .local/hjc-frozen-transfer/input/f40/restored
+        env:
+          GRID_COMPARISON: ${{ inputs.grid_comparison_only }}
+        run: |
+          python - <<'PYCODE'
+          import os,subprocess,sys
+          command=[sys.executable,'tools/probe_hjc_frozen_transfer.py','--output','.local/hjc-frozen-transfer/probe','--parent','.local/hjc-frozen-transfer/input/f40/restored']
+          if os.environ.get('GRID_COMPARISON')=='true':
+              command.append('--grid-comparison')
+          subprocess.run(command,check=True)
+          PYCODE
       - uses: actions/upload-artifact@v7
         if: always()
         with:
