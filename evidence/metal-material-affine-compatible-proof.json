@@ -1,0 +1,59 @@
+{
+  "passed": true,
+  "impact_started": false,
+  "initial_old_metric_energy_J": 42.76110431658312,
+  "material_metric_initial_difference_J": 7.105427357601002e-15,
+  "projection": {
+    "kinetic_loss_J": 26.53120989304733,
+    "variance_identity_residual_J": 1.0658141036401503e-14,
+    "idempotence_error": 1.0248693516413653e-14,
+    "rank": 81,
+    "nullity": 0,
+    "rank_backward_error_tolerance": 7.47180644747194e-14,
+    "grid_reconstruction_weighted_error": 4.410289576324358e-13
+  },
+  "stress": {
+    "kinetic_change_J": -0.0004991973035224362,
+    "physical_stress_work_J": 0.000499197303516523,
+    "grid_stress_work_J": 0.0004991973035164949,
+    "virtual_work_residual_J": -2.8171909249863347e-15
+  },
+  "free_affine": {
+    "new_geometry_projection_error": 1.836841554120424e-15,
+    "energy_change_J": 0.0,
+    "maximum_C_transfer_change": 0.0050000000000000044,
+    "physical_L_error": 2.7755575615628914e-17
+  },
+  "contact": {
+    "valid": true,
+    "closing_m_s": 2.1468937738688965e-13,
+    "complementarity_m_s": 2.1468937738688965e-13,
+    "kinetic_loss_J": 3.639999999999999,
+    "projection_identity_J": -2.965396849293535e-17,
+    "linear_change": [
+      2.220446049250313e-16,
+      5.1771271785472885e-17,
+      1.862172046309841e-17
+    ],
+    "angular_change": [
+      8.742591243878676e-16,
+      -8.118505867571457e-16,
+      -3.2612801348363973e-16
+    ],
+    "analytic_loss_J": 3.6399999999999997,
+    "massless_grid_null_modes": 42
+  },
+  "contact_stress_contact_work_balance_J": 1.2165784894633435e-16,
+  "numerical_heat_added": 0,
+  "production_restart_allowed": false,
+  "public_media_allowed": false,
+  "limitations": [
+    "Dense small reference only; no scalable solver or full original material return integration yet.",
+    "The transported material-affine kinetic metric differs from the old fixed-grid C norm after deformation; it agrees exactly at the authenticated seed. Both must be reported, never silently substituted.",
+    "Grid null modes require an explicit rigid-reproducing velocity gauge, not an arbitrary inverse or physical eigenvalue pruning."
+  ],
+  "source_sha256": {
+    "tools/metal_material_affine_numpy.py": "ca69c41814d3a74c94260e0f13f447c1005658bbb2e5726931c092b59273bda8",
+    "tools/prove_metal_material_affine.py": "695316bae8fae7b08b921db21389932c7d67f1caf4e879c73eb8bff59fbc94bc"
+  }
+}

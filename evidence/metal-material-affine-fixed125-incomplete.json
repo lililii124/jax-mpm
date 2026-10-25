@@ -1,0 +1,67 @@
+{
+  "kind": "fixed-original-state bounded algebra only; not impact admission",
+  "state_sha256": "3abe31b2fde3f8d93ec63b138e0d868011aef53ca18e5f3162c0b145b0dc2817",
+  "particles": 26336,
+  "occupied_nodes": 33575,
+  "matrix_shape": [
+    105344,
+    33575
+  ],
+  "nnz": 2258796,
+  "solves": [
+    {
+      "component": 0,
+      "status": 7,
+      "iterations": 1024,
+      "residual_norm": 0.0006246691425436984,
+      "normal_residual_norm": 1.0007499256436121e-09,
+      "condition_estimate": 22.936813796734413,
+      "seconds": 3.922000000020489
+    },
+    {
+      "component": 1,
+      "status": 7,
+      "iterations": 1024,
+      "residual_norm": 0.0021014438072390214,
+      "normal_residual_norm": 2.161643259957773e-09,
+      "condition_estimate": 91.8164149613769,
+      "seconds": 3.827999999979511
+    },
+    {
+      "component": 2,
+      "status": 7,
+      "iterations": 1024,
+      "residual_norm": 0.0006246691425436755,
+      "normal_residual_norm": 1.0007489426312753e-09,
+      "condition_estimate": 22.9394071024939,
+      "seconds": 3.8589999999967404
+    }
+  ],
+  "initial_kinetic_J": 135.47322199181573,
+  "projection_loss_J": 2.598245231411056e-06,
+  "variance_J": 2.5982445751377e-06,
+  "variance_identity_residual_J": 6.562733560053408e-13,
+  "normal_residual_norm": 2.583737688604772e-09,
+  "projection_orthogonality_J": 6.77782035682882e-13,
+  "production_admitted": false,
+  "solver_converged": false,
+  "moment_changes": {
+    "linear": [
+      -2.9215427360305897e-16,
+      9.159339953157541e-15,
+      -3.0834527662379206e-16
+    ],
+    "angular": [
+      -4.243074887824418e-18,
+      -5.939796114199276e-20,
+      4.418410809897561e-18
+    ]
+  },
+  "maximum_velocity_change_m_s": 2.0551647200572916,
+  "maximum_gradient_change_per_s": 32143.05648397887,
+  "stress_power_change_W": 1173.718371568597,
+  "source_sha256": {
+    "H:\\temp\\jax-mpm-metal-conservative-20261025\\tools\\prove_metal_material_affine_fixed125.py": "147b311ea35915c7e8b47d2524c22158f674a2ca915400080828087efe01984a",
+    "tools\\metal_frozen_transfer.py": "10124913e0b8a5bc6dfee0cd545168af6d4aa5c0decf856f3da9d0083691f4fe"
+  }
+}
