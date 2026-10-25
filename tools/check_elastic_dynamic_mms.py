@@ -109,19 +109,20 @@ def save_checkpoint(path,s,I,L,current):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--model',choices=MODELS,required=True)
     p.add_argument('--grid',type=int,choices=GRIDS,required=True);p.add_argument('--output',type=Path,required=True)
+    p.add_argument('--time-refinement',type=int,choices=(1,2),default=1)
     p.add_argument('--stop-after-steps',type=int);p.add_argument('--resume-from',type=Path)
     a=p.parse_args();a.output.mkdir(parents=True,exist_ok=False);begin=time.monotonic()
     n=3*a.grid//2;spacing=1/(2*a.grid);axes=.125+(np.arange(n)+.5)*spacing
     X=np.stack(np.meshgrid(axes,axes,axes,indexing='ij'),axis=-1).reshape(-1,3)
     material,data,reference_review=reference_data(X,a.model)
     if reference_review['independent_forcing_relative_error']>LIMITS['forcing_reference_relative']:raise ValueError('Independent forcing check failed')
-    planned=5*a.grid;dt=PERIOD/planned
+    planned=5*a.grid*a.time_refinement;dt=PERIOD/planned
     config=Config(n_grid=a.grid,dim=3,dt=dt,gravity=(0,0,0),boundary_cells=0,material=a.model)
     count=len(X);mass=jnp.full(count,DENSITY*spacing**3);volume=mass/DENSITY
     state=State(jnp.asarray(X),jnp.zeros((count,3)),jnp.broadcast_to(jnp.eye(3),(count,3,3)),jnp.zeros((count,3,3)),mass,volume,None,jnp.array(0.),jnp.array(True))
     I=jnp.zeros(3);L=jnp.zeros(3);current=0;history=[]
     source=Path(__file__).resolve().parents[1]
-    contract=dict(model=a.model,grid=a.grid,particles=count,planned_steps=planned,dt_s=dt,period_s=PERIOD,
+    contract=dict(model=a.model,grid=a.grid,particles=count,planned_steps=planned,dt_s=dt,period_s=PERIOD,time_refinement=a.time_refinement,
         density_kg_m3=DENSITY,reference_review=reference_review,tolerances=LIMITS,
         source_sha256={name:hashlib.sha256((source/name).read_bytes()).hexdigest() for name in
             ['tools/check_elastic_dynamic_mms.py','tools/check_elastic_force_refinement.py','mpm_jax/core.py','mpm_jax/materials/elastic.py']},
