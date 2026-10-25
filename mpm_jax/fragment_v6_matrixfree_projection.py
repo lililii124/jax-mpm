@@ -117,8 +117,8 @@ def physical_contact(parameters,T,polynomials,dx,fixed_node_keys=None,*,pair_cap
     second=jnp.where(pair_active,jnp.take(partner,first),0)
     delta=parameters['center_offset'][second]-parameters['center_offset'][first];length=jnp.linalg.norm(delta,axis=1)
     normals=jnp.where((pair_active&(length>64*jnp.finfo(gm.dtype).eps*dx))[:,None],delta/jnp.where(length>0,length,1.)[:,None],0.)
-    owner=jnp.full(n,-1,jnp.int32).at[jnp.where(pair_active,first,n)].set(jnp.arange(pair_capacity),mode='drop')
-    owner=owner.at[jnp.where(pair_active,second,n)].set(jnp.arange(pair_capacity),mode='drop')
+    owner=jnp.full(n,-1,jnp.int32).at[jnp.where(pair_active,first,n)].set(jnp.arange(pair_capacity,dtype=jnp.int32),mode='drop')
+    owner=owner.at[jnp.where(pair_active,second,n)].set(jnp.arange(pair_capacity,dtype=jnp.int32),mode='drop')
     sign=jnp.zeros(n,gm.dtype).at[jnp.where(pair_active,first,n)].set(1.,mode='drop').at[jnp.where(pair_active,second,n)].set(-1.,mode='drop')
     slot=parameters['slots'];row=owner[slot];adjacent=jnp.any((row>=0)&(parameters['raw_scale']!=0),axis=1)
     particle_count=jnp.sum(adjacent);selected=jnp.nonzero(adjacent,size=particle_capacity,fill_value=0)[0];selected_active=jnp.arange(particle_capacity)<particle_count
