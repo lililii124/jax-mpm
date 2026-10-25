@@ -1,0 +1,480 @@
+{
+  "schema": "triaxial-true-segment-readonly-audit-v1",
+  "frames": [
+    20,
+    21,
+    22
+  ],
+  "whole_artifact_sha256_verified": true,
+  "all_inner_members_sha256_and_crc_verified": true,
+  "source_array_descriptors": {
+    "20/x": {
+      "shape": [
+        683232,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "b4857f509f404c287fc8bf776b5752248b0190da0ec1a45dd75b03d44f107ff9"
+    },
+    "20/speed": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float64",
+      "sha256": "775d848a2101ce2bea791401a433e9b7c026898d42580e9b7e0f2824461806e1"
+    },
+    "20/damage": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float64",
+      "sha256": "cbae8c6d3ec514c3a84b8e16452eeeeca23d50b4f3aa8d8d800dc1bed213d671"
+    },
+    "20/temperature": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float32",
+      "sha256": "a7b3925dda6572d11e20f438e43338643c705711e0770809ed6de0d71ef33654"
+    },
+    "20/failed": {
+      "shape": [
+        683232
+      ],
+      "dtype": "uint8",
+      "sha256": "c9daaba1a1689f1a947f031a933f192dd976040ca7e19e0b98d66f966d567f55"
+    },
+    "21/x": {
+      "shape": [
+        683232,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "89a4bd7e88b0121fb37e7c493e1a972bf0796135c87c941b60d40be0c9082c8f"
+    },
+    "21/speed": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float64",
+      "sha256": "b0b91b9dccedc695d0eec805cb80ca921cc28d821fa6566eee60055abdb1255f"
+    },
+    "21/damage": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float64",
+      "sha256": "690c9f7284b7c9f87c497f21da981a526f178887be3232c42e3b9aad018c4fb9"
+    },
+    "21/temperature": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float32",
+      "sha256": "a7b3925dda6572d11e20f438e43338643c705711e0770809ed6de0d71ef33654"
+    },
+    "21/failed": {
+      "shape": [
+        683232
+      ],
+      "dtype": "uint8",
+      "sha256": "f510d77fcaf86a65dc3487c0128d2f4cba3e313ed4a2a43966bf6fd8aaa68d42"
+    },
+    "22/x": {
+      "shape": [
+        683232,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "6704db72f3de5a3a0effcdeda6b8bbe1a1d9aaf90a5e27d9d011beb01b716a3d"
+    },
+    "22/speed": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float64",
+      "sha256": "1e2e07b62c38d1559b1f57d84a00472817dd11c728a7e87cc98b94899161d5fa"
+    },
+    "22/damage": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float64",
+      "sha256": "2466c1d5ab249993c5f93d00b7b31d6c96566c8e14454558c8ebf8f1cdecfc59"
+    },
+    "22/temperature": {
+      "shape": [
+        683232
+      ],
+      "dtype": "float32",
+      "sha256": "a7b3925dda6572d11e20f438e43338643c705711e0770809ed6de0d71ef33654"
+    },
+    "22/failed": {
+      "shape": [
+        683232
+      ],
+      "dtype": "uint8",
+      "sha256": "37bf18e414d70838c2cadb881519c73782f789d16c912ae64227d6711c42bdc3"
+    }
+  },
+  "diagnostics": [
+    {
+      "time": 2.5455844122716688e-05,
+      "mass": 8.325674261792475e-05,
+      "reference_volume": 5.550449507861649e-08,
+      "current_volume": 5.551665694936408e-08,
+      "min_J": 0.9971406672290231,
+      "max_J": 1.019309585813623,
+      "max_damage": 1.0,
+      "failed_mass": 1.2192217155235238e-10,
+      "mass_relative_drift": 0.0,
+      "momentum_balance_residual_Ns": 1.5384150973444857e-18,
+      "state_valid": true,
+      "coupling_valid": true,
+      "failure_reason_code": 0
+    },
+    {
+      "time": 2.6728636328852527e-05,
+      "mass": 8.325674261792475e-05,
+      "reference_volume": 5.550449507861649e-08,
+      "current_volume": 5.551777065332574e-08,
+      "min_J": 0.9969889233591089,
+      "max_J": 1.0523333978427742,
+      "max_damage": 1.0,
+      "failed_mass": 2.0117158306138147e-08,
+      "mass_relative_drift": 0.0,
+      "momentum_balance_residual_Ns": 8.171324808655358e-19,
+      "state_valid": true,
+      "coupling_valid": true,
+      "failure_reason_code": 0
+    },
+    {
+      "time": 2.8001428534988367e-05,
+      "mass": 8.325674261792475e-05,
+      "reference_volume": 5.550449507861649e-08,
+      "current_volume": 5.5519729916243804e-08,
+      "min_J": 0.9964047248472724,
+      "max_J": 1.0965714304870722,
+      "max_damage": 1.0,
+      "failed_mass": 7.876172282281964e-08,
+      "mass_relative_drift": 0.0,
+      "momentum_balance_residual_Ns": 5.935547801501309e-19,
+      "state_valid": true,
+      "coupling_valid": true,
+      "failure_reason_code": 0
+    }
+  ],
+  "source_manifests": [
+    {
+      "schema": "triaxial-zero-capsule-v1",
+      "numerical_commit": "b873d277711f5e706b2d57eea1b69f25e6375dc2",
+      "controller": {
+        "commit": "6454e51f03b63f996c3f24ae24963bf85c5cc663",
+        "ref": "refs/heads/work/triaxial-zero-recovery",
+        "files": {
+          "tools/run_triaxial_zero_recovery.py": {
+            "bytes": 43099,
+            "sha256": "00c90d772bfa0217031d6f261f4bdd634764689a3b7ee200c9c7fac4e1b56da7"
+          },
+          ".github/workflows/engineering-previews.yml": {
+            "bytes": 6551,
+            "sha256": "72dab20d595daf91f6297b8ae22c72eccb09d03b837c3d2d9dd3e80561f089c2"
+          },
+          ".github/workflows/triaxial-zero-recovery.yml": {
+            "bytes": 6551,
+            "sha256": "72dab20d595daf91f6297b8ae22c72eccb09d03b837c3d2d9dd3e80561f089c2"
+          },
+          "tests/test_triaxial_zero_recovery_storage.py": {
+            "bytes": 5621,
+            "sha256": "265a2a514d0e984a7a794e331fd2d87b00868be12b9883f721bed6cb895906b0"
+          }
+        },
+        "scope": "Storage/orchestration only; numerical source remains b873d277711f5e706b2d57eea1b69f25e6375dc2"
+      },
+      "repository_artifact_bytes_observed": 28021054926,
+      "repository_artifact_count_observed": 270,
+      "rolling_pool_used_bytes": 161878481,
+      "rolling_pool_limit_bytes": 524288000,
+      "parent_archive_sha256": "b1dc4b9f9c2b9cc9aa3b4f36e906b5e44eff24f920e2bffd17d6703d53ff82d7",
+      "parent_checkpoint": {
+        "bytes": 143468616,
+        "sha256": "b0613cbcbcf9e6dbccd53e2b28f8196f8242946856869510a013f554505d5ba3"
+      },
+      "start_frame": 20,
+      "end_frame": 21,
+      "real_particle_frames": [
+        20,
+        21
+      ],
+      "restart_valid": true,
+      "files": {
+        "restart/checkpoint.npz": {
+          "bytes": 143384673,
+          "sha256": "fab8c9cbca8c0db3f59f62eaeb834319dec9006987f4124b8d75764da5cc6c48"
+        },
+        "restart/plan.json": {
+          "bytes": 93594,
+          "sha256": "b9cab9b6cf523d8377f3818071c5b7a45dc6510cda3d0622e11265a5e075697e"
+        },
+        "restart/context.json": {
+          "bytes": 4042,
+          "sha256": "b2004f216e0a0d433eca5fbd97c8a4b17577efe22def1896bd41d5d6322c9406"
+        },
+        "records/history-availability.json": {
+          "bytes": 526,
+          "sha256": "b579186e10edb8371b08a3992112727abb7a4400df17cc881ba5d92a91d12095"
+        },
+        "records/rupture-evidence.json": {
+          "bytes": 3209,
+          "sha256": "9b3a2a983884e6879c673f9128970cbb32fb656b71da8ca21bd7356b3ec073e8"
+        },
+        "records/memory.json": {
+          "bytes": 355,
+          "sha256": "25a20040accb38976837a8d84e45207e54c4f7129515b70babf93554d6801f87"
+        },
+        "records/solver.log": {
+          "bytes": 53,
+          "sha256": "454b7743a761c099cb7a97ac9fb4dd8fd569c7d56b8afb20eb9c360c425b4692"
+        },
+        "records/artifact-accounting.json": {
+          "bytes": 765,
+          "sha256": "af2294d6edc38f44d6cafbc83fd16605ff4c2a2c123b359ae6ce052ecb991e08"
+        },
+        "records/resume-metadata-proof.json": {
+          "bytes": 935,
+          "sha256": "e0cf2110e9c2f462af1307849875386b2d70af2a0910231c53cc6c6e480860f6"
+        },
+        "records/resume-directory-proof.json": {
+          "bytes": 2168,
+          "sha256": "3b35426ead551f0b6e6b73a288b8c8558491d6f4cad859fb0b9f72d797e3be44"
+        },
+        "records/summary.json": {
+          "bytes": 113291,
+          "sha256": "b23f22912d3679212b98bbbfd4edb819f9e0733913f3d8a3002d2a40c4f37073"
+        },
+        "records/status.json": {
+          "bytes": 383,
+          "sha256": "44453d216ab9edea2989464af032be3befeaffc3c443e322b3d616c1c0415dd0"
+        },
+        "records/observables.csv": {
+          "bytes": 15620,
+          "sha256": "9befb67febb62d456ea18cf358c9579112e08234d02c6a2acbe9892dfc80f92b"
+        },
+        "records/diagnostics.csv": {
+          "bytes": 3998,
+          "sha256": "1a5f0b5b06137394d5f0fe9f62a03603844da148cbec8ada63fee024f5748693"
+        },
+        "records/layout.json": {
+          "bytes": 796,
+          "sha256": "4a5ce3742dadff22700d13e42e3681359c3ea2115275d1f863cc1cdabee62105"
+        },
+        "records/contact-model.json": {
+          "bytes": 2203,
+          "sha256": "7abf50a9debaad7f5297165c3ad130b5df850d8a710a7696ad02db91cc5070a1"
+        },
+        "records/contact-metrics.json": {
+          "bytes": 707,
+          "sha256": "aa2455cc823a8d2b05f32e8fad96ed3ecb03816eeb43462092dc8e3dfb884f07"
+        },
+        "records/particle_fields.npz": {
+          "bytes": 5756,
+          "sha256": "92933631292f9e5be56edb07b8fa4a0f2e016e590699888692cfa8cd52442093"
+        },
+        "frames/frame-20/x.npy": {
+          "bytes": 16397696,
+          "sha256": "ea28946d04f1ce95a9b3e580f14c72991f0f367fc08840b01e2835e93bcb63f1"
+        },
+        "frames/frame-21/x.npy": {
+          "bytes": 16397696,
+          "sha256": "348accaa87eb02753f8d56276ec35fb296271a1e4cf2a5f450e00c4565128e47"
+        },
+        "frames/frame-20/speed.npy": {
+          "bytes": 5465984,
+          "sha256": "2cdcab02c85ee7bbaf0dd392c80ae1f16242dfaea907611447a6703f036f1fab"
+        },
+        "frames/frame-21/speed.npy": {
+          "bytes": 5465984,
+          "sha256": "f0c220feeb943454d4cc442ce988e65ea2280b9a7e50fee903f7c905c172504c"
+        },
+        "frames/frame-20/damage.npy": {
+          "bytes": 5465984,
+          "sha256": "9514371e171b9c5b855daf05c59479512ce08a1590ee37803ab2b8926ed54751"
+        },
+        "frames/frame-21/damage.npy": {
+          "bytes": 5465984,
+          "sha256": "dd9dd32ace9c53502158dd6126287d39233eac02f487311490096fc8fe4380fa"
+        },
+        "frames/frame-20/failed.npy": {
+          "bytes": 683360,
+          "sha256": "6aaf6ff57d04aaad67437159309a0741112d3c02153d98ec9795f62afbb8390d"
+        },
+        "frames/frame-21/failed.npy": {
+          "bytes": 683360,
+          "sha256": "b8cc0b374b58c0989feba8cae0e5a2388be29f41d5fde8a70c1746f5412c06d4"
+        },
+        "frames/frame-20/temperature.npy": {
+          "bytes": 2733056,
+          "sha256": "aa69c5ac0ee044401dda0a454e2e4a6f4446be2a368d1df0af6bcaa9ec45936c"
+        },
+        "frames/frame-21/temperature.npy": {
+          "bytes": 2733056,
+          "sha256": "aa69c5ac0ee044401dda0a454e2e4a6f4446be2a368d1df0af6bcaa9ec45936c"
+        },
+        "README.txt": {
+          "bytes": 832,
+          "sha256": "8d50e102e7c8228da3483d40b776decff21bbc50d987f9a0028bab939bbd77a5"
+        }
+      },
+      "physical_plan_changed": false,
+      "full_original_particle_history_available": false,
+      "production_eligible": false,
+      "raw_history_gap": {
+        "origin_run": 40066438924,
+        "origin_artifact": 12556081018,
+        "origin_archive_sha256": "b1dc4b9f9c2b9cc9aa3b4f36e906b5e44eff24f920e2bffd17d6703d53ff82d7",
+        "numerical_commit": "b873d277711f5e706b2d57eea1b69f25e6375dc2",
+        "initial_missing_particle_frames": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19
+        ],
+        "scope": "Original f20 checkpoint intact; original f1-19 particle arrays were not archived and remain unavailable."
+      },
+      "scope": "Exact restart and actual new saved fields. No synthetic prefix; no macroscopic rupture admission."
+    },
+    {
+      "schema": "triaxial-zero-failed-capsule-v1",
+      "restart_valid": false,
+      "never_resumable": true,
+      "production_eligible": false,
+      "checkpoint": {
+        "checkpoint_frame": 23,
+        "accepted_steps": 7218,
+        "aggregate_valid": false,
+        "state_valid": true,
+        "history_valid": true,
+        "contact_valid": true,
+        "contact_law_valid": true
+      },
+      "parent_archive_sha256": "d55d6e72f94397600a891bf69332f699b1be0693673e4a78cba5fdf7b4966360",
+      "controller": {
+        "commit": "ace50bbd26b308ce20ef8724e11798537dc7e718",
+        "ref": "refs/heads/work/triaxial-zero-recovery",
+        "files": {
+          "tools/run_triaxial_zero_recovery.py": {
+            "bytes": 45784,
+            "sha256": "7b338d59cb67a9c013b5f998928710256bd61e97c4b43b62935ae906bec0ead0"
+          },
+          ".github/workflows/engineering-previews.yml": {
+            "bytes": 6176,
+            "sha256": "63c7f918d5ac5edcd3be1306f00cb7afa9db6c4e71fc98d8e685f0551020fbe1"
+          },
+          ".github/workflows/triaxial-zero-recovery.yml": {
+            "bytes": 6176,
+            "sha256": "63c7f918d5ac5edcd3be1306f00cb7afa9db6c4e71fc98d8e685f0551020fbe1"
+          },
+          "tests/test_triaxial_zero_recovery_storage.py": {
+            "bytes": 7524,
+            "sha256": "089f9ebc8b88f60a80a2d1a9ea86e7ff0e2ea153463404c3475beccf2108fd0f"
+          }
+        },
+        "scope": "Storage/orchestration only; numerical source remains b873d277711f5e706b2d57eea1b69f25e6375dc2"
+      },
+      "files": {
+        "diagnostic/checkpoint.npz": {
+          "bytes": 143228636,
+          "sha256": "3b3a6326c93b4d6d8c97a63278b2b946671726f7690da7742b1a794b522ec085"
+        },
+        "records/context.json": {
+          "bytes": 4531,
+          "sha256": "a92958c2b33cc79c80e75efdc966ecd841effe1cb41b634ce33015b8af18feed"
+        },
+        "records/plan.json": {
+          "bytes": 93594,
+          "sha256": "b9cab9b6cf523d8377f3818071c5b7a45dc6510cda3d0622e11265a5e075697e"
+        },
+        "records/memory.json": {
+          "bytes": 353,
+          "sha256": "b7053463d956c661eb668dd8846b3c0df9cc665cf0d263aa8976ec6f741d1ed8"
+        },
+        "records/solver.log": {
+          "bytes": 1141,
+          "sha256": "89e7877d6bb5244a86dbe83ccc61dee7f4ce9ba9eac39dfd514b9e1f560afc69"
+        },
+        "records/history-availability.json": {
+          "bytes": 534,
+          "sha256": "b6de44dd460318a9d9376d666e2755621af17a1c55af9e1a883b3448fd440cee"
+        },
+        "records/artifact-accounting.json": {
+          "bytes": 765,
+          "sha256": "9cb74470be67f71965e36fbc7935fef2a243b8d982c672229a3d63fcb2703929"
+        },
+        "records/resume-metadata-proof.json": {
+          "bytes": 935,
+          "sha256": "921a9bf1d934de0755220b53406b4c635dc835291d77165121f8dfb0dfeba98c"
+        },
+        "records/resume-directory-proof.json": {
+          "bytes": 2168,
+          "sha256": "6fdbeeb22196344e2963373d58440e1d6b6b981121d01edd55d5461358c36c1b"
+        },
+        "records/current-status.json": {
+          "bytes": 517,
+          "sha256": "e1a66074ce89403089e576b5b7156f3c7afdce9ce86e92321cdf63b9cb7dc652"
+        },
+        "records/current-failure.json": {
+          "bytes": 1604,
+          "sha256": "d01fad895a169fe5687492dfeaea51e12eb0fcd4226bf30b30534bfccc81b387"
+        },
+        "records/current-summary.json": {
+          "bytes": 113280,
+          "sha256": "7e6d22b66dec3895f4aef2b27a82150bd05d376dffc25335cecdc9223a7441b0"
+        },
+        "records/current-observables.csv": {
+          "bytes": 17107,
+          "sha256": "74feb95e7a8733ad72d5c5d748635c5a73d59ffd4a482797ad6f0498f7e47b58"
+        },
+        "records/current-diagnostics.csv": {
+          "bytes": 4384,
+          "sha256": "f68c7f8d8afdd0af9a68b770a2f9daad886b39962cf3f9ef2696458f7ca5f9af"
+        },
+        "records/current-contact-metrics.json": {
+          "bytes": 708,
+          "sha256": "afa824d6c051be08aeb128ba0739e304f346883b462b16e17d8c0637d05d1a7a"
+        },
+        "frames/frame-22.npz": {
+          "bytes": 18402309,
+          "sha256": "424d532650eb5a273fd79d53d66bc3d11ccc3ddda397d9ca77ccb1b1a781c821"
+        },
+        "frames/frame-23.npz": {
+          "bytes": 18413067,
+          "sha256": "70bf3528b288c46e5a147d69a9494643789800a5b806f48064b8a9b1fe33ff6a"
+        }
+      },
+      "complete_real_frames_archived": [
+        22,
+        23
+      ],
+      "unarchived_frames": [],
+      "full_new_frame_history_archived": true,
+      "scope": "Whole new state preserved independently of transport success. A failed diagnostic is not an accepted continuation. Original parent and missing-prefix disclosures are unchanged."
+    }
+  ],
+  "never_resumable": true,
+  "production_eligible": false
+}

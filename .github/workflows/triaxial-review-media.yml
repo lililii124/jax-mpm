@@ -1,0 +1,54 @@
+name: actual zero degree saved20to22 ParaView review
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: actual-zero-short-media
+  cancel-in-progress: false
+jobs:
+  media:
+    if: github.ref == 'refs/heads/work/triaxial-zero-review-media'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - run: python -m pip install numpy==2.5.4 pillow==13.0.0 psutil==7.2.2
+      - name: Verify exact Git source and all authenticated VTP payload members
+        run: python tools/render_triaxial_review_payload.py prepare
+      - name: Install actual offscreen ParaView6.2
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('.local/tri-review-pv-install');p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Render exactly three genuine saved states without mechanical steps
+        run: python tools/render_triaxial_review_payload.py render
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zero-actual20to22-user-review-${{ github.run_id }}
+          path: |
+            .local/triaxial-zero-short-review/simulation.gif
+            .local/triaxial-zero-short-review/frames/
+            .local/triaxial-zero-short-review/*.json
+            .local/triaxial-zero-short-review/render.log
+            .local/tri-review-pv-install/*.json
+          if-no-files-found: error
+          retention-days: 30

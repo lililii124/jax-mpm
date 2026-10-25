@@ -1,0 +1,3967 @@
+{
+  "case": "triaxial-failure/theta-00/hertz",
+  "completed": false,
+  "probe_complete": false,
+  "production_eligible": false,
+  "scope": "formal",
+  "segment_complete": true,
+  "segment_start_frame": 20,
+  "segment_end_frame": 21,
+  "runtime_stop_after_frame": 21,
+  "phase": "checkpoint-ready",
+  "history_storage": "file-backed arrays",
+  "particles": [
+    683232
+  ],
+  "steps": 6720,
+  "simulation_time": 2.6728636328852527e-05,
+  "target_simulation_time": 7.636753236814712e-05,
+  "dtype": "float64",
+  "solver_seconds": 15222.278435121998,
+  "compile_and_warmup_seconds": 6.661032968000001,
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.13",
+  "configs": [
+    {
+      "dim": 3,
+      "dt": 3.977475644174329e-09,
+      "domain_size": 0.024,
+      "n_grid": 320,
+      "grid_type": "independent-tube-sparse-fibre-fields",
+      "grid_storage": "tube",
+      "failure_mode": "retain",
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "young": 10000000000.0,
+      "poisson": 0.25,
+      "density": 1500.0,
+      "tensile_strength": 100000000.0,
+      "fracture_energy": 100.0,
+      "characteristic_length": 7.5e-05
+    }
+  ],
+  "definition": {
+    "schema": "triaxial-fibre-extension-v1",
+    "scope": "formal",
+    "production_eligible": false,
+    "planning_environment": {
+      "numpy": "2.5.4",
+      "python": "3.12.13"
+    },
+    "theta_deg": 0,
+    "theta_definition": "Load direction relative to the reference fibre family. The fixed global X loading axis therefore uses geometry(theta_deg=-theta). No angle-symmetry reduction is assumed.",
+    "geometry_theta_deg": 0,
+    "law": "hertz",
+    "material": {
+      "young": 10000000000.0,
+      "poisson": 0.25,
+      "density": 1500.0,
+      "tensile_strength": 100000000.0,
+      "fracture_energy": 100.0,
+      "characteristic_length": 7.5e-05
+    },
+    "geometry": {
+      "geometry": "triaxial-circular-fibres-v1",
+      "units": "m, kg",
+      "matrix_present": false,
+      "weave_plane": "XZ",
+      "thickness_axis": "Y",
+      "loading_axis": "X",
+      "theta_deg": 0.0,
+      "theta_definition": "Weave rotation relative to the fixed x uniaxial loading axis",
+      "nominal_family_angles_deg": [
+        0.0,
+        60.0,
+        120.0
+      ],
+      "dimensions_m": [
+        0.024,
+        0.016
+      ],
+      "origin_m": [
+        0.012,
+        0.00025949999999999997,
+        0.008
+      ],
+      "diameter_m": 0.000235,
+      "pitch_m": 0.001,
+      "crimp_amplitude_m": 0.00014,
+      "clearance_m": 2e-06,
+      "density_kg_m3": 1500.0,
+      "requested_particle_spacing_m": 4.5e-05,
+      "sampling_density_multiplier": 1.0,
+      "cross_section_ring_counts": [
+        4,
+        8,
+        12
+      ],
+      "cross_section_particles": 24,
+      "particle_count": 683232,
+      "fibre_count": 72,
+      "reference_volume_m3": 5.550449507861649e-08,
+      "mass_kg": 8.325674261792473e-05,
+      "nominal_envelope_solid_fraction": 0.28066593385222743,
+      "gauge_length_m": 0.018000000000000002,
+      "gauge_periods": 18.0,
+      "width_periods": 16.0,
+      "grip_length_m": 0.003,
+      "grip_x_intervals_m": [
+        [
+          0.0,
+          0.003
+        ],
+        [
+          0.021,
+          0.024
+        ]
+      ],
+      "geometric_reference_length_m": 0.000235,
+      "fracture_length_note": "The fixed geometric length is the fibre diameter. particle_spacing_equivalent_m is only a sampling diagnostic. Neither is assigned to a constitutive crack-band length; the solver must choose and report that length separately, for example from grid support.",
+      "sampling": "Uniform centreline arclength and equal-area circular rings. Angular quantiles use the tube Jacobian 1-curvature*r*cos(angle); each particle carries an equal share of the analytic circular-tube volume within its fibre. Arclength uses composite eight-point Gauss quadrature.",
+      "end_caps": "Centreline clipped to the nominal rectangle inset by radius, with circular caps normal to the local tangent. Corner remnants shorter than four diameters in planar line parameter are omitted.",
+      "coupling_requirement": "Independent per-fibre velocity fields and explicit contact. Scattering these IDs onto one shared velocity field would impose bonding and is not the intended model.",
+      "centreline_sampling": "Per-fibre endpoint-inclusive samples with planar parameter spacing no larger than pitch/32; centreline() is the analytic audit reference.",
+      "contact_candidate_count": 980,
+      "contact_candidate_scope": "One reference search seed per retained planar crossing, with analytic curved-centreline refinement and circular surface offsets. If the refined location lies past a trimmed endpoint, the exact over/under crossing is retained as the seed instead. These are not initially active contacts or a complete candidate list after finite sliding. Update or expand the search from deformed positions; do not preserve normals or gaps as kinematic constraints.",
+      "clearance_validation": {
+        "passed": true,
+        "minimum_centreline_distance_lower_bound_m": 0.00023784701466303602,
+        "minimum_surface_clearance_lower_bound_m": 2.8470146630360255e-06,
+        "required_surface_clearance_m": 2e-06,
+        "polyline_minimum_distance_m": 0.0002379099142292467,
+        "single_curve_interpolation_error_bound_m": 3.144978310534441e-08,
+        "maximum_radius_times_curvature": 0.48706497719375974,
+        "self_tube_regular": true,
+        "basis": "All three crossing-family pairs and both line-index parities. At a planar crossing the separation is 2*crimp, so any closer pair lies within 2*crimp/sin(60deg) of that crossing in each line parameter. Segment distances are exact; two analytic sinusoid interpolation bounds are subtracted. Parallel-family centreline distance is at least pitch. A fibre is a sinusoidal graph with a constant binormal; radius*maximum_curvature<1 keeps its offset graphs monotone and ordered, avoiding self-intersection. The periodic weave translates by (2*pitch/sqrt(3),0) and (pitch/sqrt(3),pitch)."
+      },
+      "symmetry_validation": {
+        "rotation_60_max_coordinate_error_m": 1.3010426069826053e-18,
+        "in_plane_reflection_with_thickness_turnover_max_coordinate_error_m": 1.0842021724855044e-18,
+        "passed": true,
+        "angle_interval_deg": [
+          0.0,
+          30.0
+        ],
+        "angle_interval_condition": "Only for identical fibres and contact laws with loading, grips and external fields invariant under thickness turnover. XZ is the weave plane and Y is thickness. The reflection used is (x,y,z)->(x,-y,-z); a planar reflection without reversing over/under is not asserted. One-sided contact or a substrate invalidates this reduction."
+      },
+      "fibres": [
+        {
+          "id": 0,
+          "family_id": 0,
+          "periodic_line_index": -8,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            0,
+            762
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.0003982420190972724,
+            0.0006017579809027285
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.00038250000000000003,
+            0.0006175000000000009
+          ]
+        },
+        {
+          "id": 1,
+          "family_id": 0,
+          "periodic_line_index": -7,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            762,
+            1524
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.0013982420190972716,
+            0.0016017579809027276
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0013824999999999992,
+            0.0016175
+          ]
+        },
+        {
+          "id": 2,
+          "family_id": 0,
+          "periodic_line_index": -6,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            1524,
+            2286
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.0023982420190972725,
+            0.0026017579809027285
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0023825,
+            0.002617500000000001
+          ]
+        },
+        {
+          "id": 3,
+          "family_id": 0,
+          "periodic_line_index": -5,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            2286,
+            3048
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.0033982420190972716,
+            0.0036017579809027277
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0033824999999999992,
+            0.0036175
+          ]
+        },
+        {
+          "id": 4,
+          "family_id": 0,
+          "periodic_line_index": -4,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            3048,
+            3810
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.0043982420190972725,
+            0.0046017579809027286
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0043825,
+            0.0046175
+          ]
+        },
+        {
+          "id": 5,
+          "family_id": 0,
+          "periodic_line_index": -3,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            3810,
+            4572
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.005398242019097272,
+            0.005601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0053825,
+            0.0056175
+          ]
+        },
+        {
+          "id": 6,
+          "family_id": 0,
+          "periodic_line_index": -2,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            4572,
+            5334
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.0063982420190972725,
+            0.006601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0063825,
+            0.0066175
+          ]
+        },
+        {
+          "id": 7,
+          "family_id": 0,
+          "periodic_line_index": -1,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            5334,
+            6096
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.0073982420190972726,
+            0.007601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0073825,
+            0.0076175
+          ]
+        },
+        {
+          "id": 8,
+          "family_id": 0,
+          "periodic_line_index": 0,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            6096,
+            6858
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.008398242019097273,
+            0.008601757980902729
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.008382500000000001,
+            0.0086175
+          ]
+        },
+        {
+          "id": 9,
+          "family_id": 0,
+          "periodic_line_index": 1,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            6858,
+            7620
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.009398242019097272,
+            0.009601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0093825,
+            0.009617500000000001
+          ]
+        },
+        {
+          "id": 10,
+          "family_id": 0,
+          "periodic_line_index": 2,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            7620,
+            8382
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.010398242019097273,
+            0.010601757980902729
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0103825,
+            0.0106175
+          ]
+        },
+        {
+          "id": 11,
+          "family_id": 0,
+          "periodic_line_index": 3,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            8382,
+            9144
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.011398242019097272,
+            0.011601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0113825,
+            0.0116175
+          ]
+        },
+        {
+          "id": 12,
+          "family_id": 0,
+          "periodic_line_index": 4,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            9144,
+            9906
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.012398242019097273,
+            0.012601757980902729
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.012382500000000001,
+            0.0126175
+          ]
+        },
+        {
+          "id": 13,
+          "family_id": 0,
+          "periodic_line_index": 5,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            9906,
+            10668
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.013398242019097272,
+            0.013601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.013382499999999999,
+            0.013617500000000001
+          ]
+        },
+        {
+          "id": 14,
+          "family_id": 0,
+          "periodic_line_index": 6,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            10668,
+            11430
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.9472393408804454e-05,
+            0.0004995276065911955,
+            0.014398242019097273,
+            0.014601757980902729
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0143825,
+            0.014617500000000002
+          ]
+        },
+        {
+          "id": 15,
+          "family_id": 0,
+          "periodic_line_index": 7,
+          "parameter_range_m": [
+            -0.0118825,
+            0.0118825
+          ],
+          "reference_arclength_m": 0.026895415006931742,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            11430,
+            12192
+          ],
+          "reference_volume_m3": 1.1665513374129075e-09,
+          "mass_kg": 1.7498270061193612e-06,
+          "particle_count": 14352,
+          "longitudinal_sections": 598,
+          "reference_section_spacing_m": 4.497561037948452e-05,
+          "bounds_m": [
+            0.0001296350646132708,
+            0.02387036493538673,
+            1.94723934088044e-05,
+            0.0004995276065911955,
+            0.015398242019097272,
+            0.015601757980902728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0153825,
+            0.0156175
+          ]
+        },
+        {
+          "id": 16,
+          "family_id": 1,
+          "periodic_line_index": -14,
+          "parameter_range_m": [
+            -0.0013076983597145012,
+            0.00038231409782015977
+          ],
+          "reference_arclength_m": 0.0019150396249227545,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            12192,
+            12248
+          ],
+          "reference_volume_m3": 8.306218866957755e-11,
+          "mass_kg": 1.2459328300436633e-07,
+          "particle_count": 1032,
+          "longitudinal_sections": 43,
+          "reference_section_spacing_m": 4.4535805230761734e-05,
+          "bounds_m": [
+            0.0229574509870034,
+            0.023960932051215713,
+            1.946824667366413e-05,
+            0.0004988938166762419,
+            6.760422043645443e-05,
+            0.0016190945775632131
+          ],
+          "reference_tube_bounds_m": [
+            0.02291999377123267,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.0016985937209371858
+          ]
+        },
+        {
+          "id": 17,
+          "family_id": 1,
+          "periodic_line_index": -13,
+          "parameter_range_m": [
+            -0.0018850486289041265,
+            0.0021143649053890347
+          ],
+          "reference_arclength_m": 0.004529790743863381,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            12248,
+            12377
+          ],
+          "reference_volume_m3": 1.9647339329370946e-10,
+          "mass_kg": 2.947100899405642e-07,
+          "particle_count": 2424,
+          "longitudinal_sections": 101,
+          "reference_section_spacing_m": 4.484941330557803e-05,
+          "bounds_m": [
+            0.02180281312846035,
+            0.0239608566012512,
+            1.949144297933882e-05,
+            0.0004992641201037839,
+            6.770826638841099e-05,
+            0.003618939465192722
+          ],
+          "reference_tube_bounds_m": [
+            0.021765293232853422,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.0036985937209371832
+          ]
+        },
+        {
+          "id": 18,
+          "family_id": 1,
+          "periodic_line_index": -12,
+          "parameter_range_m": [
+            -0.0024623988980937536,
+            0.003846415712957913
+          ],
+          "reference_arclength_m": 0.007144541862804013,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            12377,
+            12580
+          ],
+          "reference_volume_m3": 3.0988459791784163e-10,
+          "mass_kg": 4.6482689687676246e-07,
+          "particle_count": 3816,
+          "longitudinal_sections": 159,
+          "reference_section_spacing_m": 4.49342255522265e-05,
+          "bounds_m": [
+            0.020648129540017532,
+            0.02396083619039679,
+            1.946908814898495e-05,
+            0.0004993371850336181,
+            6.773640403726598e-05,
+            0.005618897506394545
+          ],
+          "reference_tube_bounds_m": [
+            0.02061059269447417,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.005698593720937185
+          ]
+        },
+        {
+          "id": 19,
+          "family_id": 1,
+          "periodic_line_index": -11,
+          "parameter_range_m": [
+            -0.003039749167283379,
+            0.005578466520526788
+          ],
+          "reference_arclength_m": 0.009759292981744643,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            12580,
+            12857
+          ],
+          "reference_volume_m3": 4.2329580254197367e-10,
+          "mass_kg": 6.349437038129605e-07,
+          "particle_count": 5208,
+          "longitudinal_sections": 217,
+          "reference_section_spacing_m": 4.497370037670342e-05,
+          "bounds_m": [
+            0.019493436890603108,
+            0.023960826689521583,
+            1.9470432296564107e-05,
+            0.0004993672442660742,
+            6.774950028052423e-05,
+            0.0076188779757083635
+          ],
+          "reference_tube_bounds_m": [
+            0.019455892156094917,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.007698593720937183
+          ]
+        },
+        {
+          "id": 20,
+          "family_id": 1,
+          "periodic_line_index": -10,
+          "parameter_range_m": [
+            -0.0036170994364730057,
+            0.007310517328095666
+          ],
+          "reference_arclength_m": 0.012374044100685268,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            12857,
+            13208
+          ],
+          "reference_volume_m3": 5.367070071661055e-10,
+          "mass_kg": 8.050605107491582e-07,
+          "particle_count": 6600,
+          "longitudinal_sections": 275,
+          "reference_section_spacing_m": 4.4996524002491884e-05,
+          "bounds_m": [
+            0.018338740913428866,
+            0.023960821196029703,
+            1.946926773002184e-05,
+            0.0004993834785325335,
+            6.775707226657976e-05,
+            0.00961886668299302
+          ],
+          "reference_tube_bounds_m": [
+            0.018301191617715665,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.009698593720937183
+          ]
+        },
+        {
+          "id": 21,
+          "family_id": 1,
+          "periodic_line_index": -9,
+          "parameter_range_m": [
+            -0.004194449705662631,
+            0.009042568135664543
+          ],
+          "reference_arclength_m": 0.01498879521962589,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            13208,
+            13633
+          ],
+          "reference_volume_m3": 6.501182117902372e-10,
+          "mass_kg": 9.75177317685356e-07,
+          "particle_count": 8016,
+          "longitudinal_sections": 334,
+          "reference_section_spacing_m": 4.487663239408949e-05,
+          "bounds_m": [
+            0.01718401641480152,
+            0.023960850051010014,
+            1.947457546512077e-05,
+            0.0004995320313250036,
+            6.771729672780565e-05,
+            0.01161892599968172
+          ],
+          "reference_tube_bounds_m": [
+            0.017146491079336412,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.011698593720937183
+          ]
+        },
+        {
+          "id": 22,
+          "family_id": 1,
+          "periodic_line_index": -8,
+          "parameter_range_m": [
+            -0.004771799974852257,
+            0.010774618943233422
+          ],
+          "reference_arclength_m": 0.017603546338566534,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            13633,
+            14132
+          ],
+          "reference_volume_m3": 7.635294164143699e-10,
+          "mass_kg": 1.1452941246215548e-06,
+          "particle_count": 9408,
+          "longitudinal_sections": 392,
+          "reference_section_spacing_m": 4.4907005965730956e-05,
+          "bounds_m": [
+            0.016029321946655385,
+            0.023960842741328058,
+            1.946861780802373e-05,
+            0.0004995299088714094,
+            6.772737358494256e-05,
+            0.01361891097309519
+          ],
+          "reference_tube_bounds_m": [
+            0.01599179054095716,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.013698593720937185
+          ]
+        },
+        {
+          "id": 23,
+          "family_id": 1,
+          "periodic_line_index": -7,
+          "parameter_range_m": [
+            -0.005349150244041883,
+            0.012506669750802295
+          ],
+          "reference_arclength_m": 0.020218297457507164,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            14132,
+            14705
+          ],
+          "reference_volume_m3": 8.769406210385019e-10,
+          "mass_kg": 1.3154109315577529e-06,
+          "particle_count": 10800,
+          "longitudinal_sections": 450,
+          "reference_section_spacing_m": 4.4929549905571474e-05,
+          "bounds_m": [
+            0.014874625913695224,
+            0.023960837315702706,
+            1.9468493266416886e-05,
+            0.0004995262044369083,
+            6.773485283234973e-05,
+            0.015618899819669834
+          ],
+          "reference_tube_bounds_m": [
+            0.01483709000257791,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.015698593720937182
+          ]
+        },
+        {
+          "id": 24,
+          "family_id": 1,
+          "periodic_line_index": -6,
+          "parameter_range_m": [
+            -0.005926500513231509,
+            0.012277353474317394
+          ],
+          "reference_arclength_m": 0.02063430866039896,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            14705,
+            15289
+          ],
+          "reference_volume_m3": 8.949845301950293e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875591e-05,
+          "bounds_m": [
+            0.013719930445665647,
+            0.02298177547650612,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.013682389464198657,
+            0.02301931645797311,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 25,
+          "family_id": 1,
+          "periodic_line_index": -5,
+          "parameter_range_m": [
+            -0.006503850782421135,
+            0.011700003205127768
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            15289,
+            15873
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.012565229907286396,
+            0.02182707493812687,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825677e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.012527688925819406,
+            0.021864615919593856,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 26,
+          "family_id": 1,
+          "periodic_line_index": -4,
+          "parameter_range_m": [
+            -0.0070812010516107604,
+            0.011122652935938141
+          ],
+          "reference_arclength_m": 0.020634308660398955,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            15873,
+            16457
+          ],
+          "reference_volume_m3": 8.94984530195029e-10,
+          "mass_kg": 1.3424767952925434e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.4954920828755894e-05,
+          "bounds_m": [
+            0.011410529368907144,
+            0.020672374399747617,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.011372988387440153,
+            0.020709915381214607,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 27,
+          "family_id": 1,
+          "periodic_line_index": -3,
+          "parameter_range_m": [
+            -0.007658551320800387,
+            0.010545302666748517
+          ],
+          "reference_arclength_m": 0.020634308660398965,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            16457,
+            17041
+          ],
+          "reference_volume_m3": 8.949845301950295e-10,
+          "mass_kg": 1.3424767952925443e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.4954920828755914e-05,
+          "bounds_m": [
+            0.010255828830527893,
+            0.019517673861368365,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825677e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.010218287849060903,
+            0.01955521484283536,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 28,
+          "family_id": 1,
+          "periodic_line_index": -2,
+          "parameter_range_m": [
+            -0.008235901589990012,
+            0.00996795239755889
+          ],
+          "reference_arclength_m": 0.02063430866039896,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            17041,
+            17625
+          ],
+          "reference_volume_m3": 8.949845301950293e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875591e-05,
+          "bounds_m": [
+            0.009101128292148642,
+            0.018362973322989112,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.009063587310681652,
+            0.018400514304456106,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 29,
+          "family_id": 1,
+          "periodic_line_index": -1,
+          "parameter_range_m": [
+            -0.008813251859179638,
+            0.009390602128369265
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            17625,
+            18209
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.00794642775376939,
+            0.017208272784609863,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.0079088867723024,
+            0.017245813766076853,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 30,
+          "family_id": 1,
+          "periodic_line_index": 0,
+          "parameter_range_m": [
+            -0.009390602128369265,
+            0.008813251859179638
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            18209,
+            18793
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.006791727215390138,
+            0.01605357224623061,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.006754186233923147,
+            0.0160911132276976,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 31,
+          "family_id": 1,
+          "periodic_line_index": 1,
+          "parameter_range_m": [
+            -0.00996795239755889,
+            0.008235901589990012
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            18793,
+            19377
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.005637026677010886,
+            0.014898871707851358,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.0055994856955438954,
+            0.014936412689318349,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 32,
+          "family_id": 1,
+          "periodic_line_index": 2,
+          "parameter_range_m": [
+            -0.010545302666748517,
+            0.007658551320800387
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            19377,
+            19961
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.004482326138631635,
+            0.013744171169472108,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825677e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.004444785157164644,
+            0.013781712150939098,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 33,
+          "family_id": 1,
+          "periodic_line_index": 3,
+          "parameter_range_m": [
+            -0.011122652935938141,
+            0.0070812010516107604
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            19961,
+            20545
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.003327625600252385,
+            0.012589470631092855,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.003290084618785393,
+            0.012627011612559847,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 34,
+          "family_id": 1,
+          "periodic_line_index": 4,
+          "parameter_range_m": [
+            -0.011700003205127768,
+            0.006503850782421135
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            20545,
+            21129
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.0021729250618731325,
+            0.011434770092713605,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.0021353840804061424,
+            0.011472311074180595,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 35,
+          "family_id": 1,
+          "periodic_line_index": 5,
+          "parameter_range_m": [
+            -0.012277353474317394,
+            0.005926500513231509
+          ],
+          "reference_arclength_m": 0.020634308660398955,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            21129,
+            21713
+          ],
+          "reference_volume_m3": 8.94984530195029e-10,
+          "mass_kg": 1.3424767952925434e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.4954920828755894e-05,
+          "bounds_m": [
+            0.00101822452349388,
+            0.010280069554334354,
+            1.9474281859831384e-05,
+            0.0004995320657097328,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.00098068354202689,
+            0.010317610535801344,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 36,
+          "family_id": 1,
+          "periodic_line_index": 6,
+          "parameter_range_m": [
+            -0.012506669750802295,
+            0.005349150244041883
+          ],
+          "reference_arclength_m": 0.020218297457507136,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            21713,
+            22286
+          ],
+          "reference_volume_m3": 8.769406210385007e-10,
+          "mass_kg": 1.315410931557751e-06,
+          "particle_count": 10800,
+          "longitudinal_sections": 450,
+          "reference_section_spacing_m": 4.492954990557141e-05,
+          "bounds_m": [
+            3.916268429729475e-05,
+            0.009125374086304778,
+            1.9468493266416886e-05,
+            0.0004995262044369084,
+            0.00038110018033016627,
+            0.015932265147167654
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.00916290999742209,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.00030140627906281945,
+            0.016
+          ]
+        },
+        {
+          "id": 37,
+          "family_id": 1,
+          "periodic_line_index": 7,
+          "parameter_range_m": [
+            -0.010774618943233422,
+            0.004771799974852257
+          ],
+          "reference_arclength_m": 0.017603546338566554,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            22286,
+            22785
+          ],
+          "reference_volume_m3": 7.635294164143708e-10,
+          "mass_kg": 1.1452941246215563e-06,
+          "particle_count": 9408,
+          "longitudinal_sections": 392,
+          "reference_section_spacing_m": 4.4907005965731004e-05,
+          "bounds_m": [
+            3.9157258671942974e-05,
+            0.007970678053344615,
+            1.946861780802373e-05,
+            0.0004995299088714092,
+            0.0023810890269048103,
+            0.015932272626415056
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.00800820945904284,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.002301406279062815,
+            0.016
+          ]
+        },
+        {
+          "id": 38,
+          "family_id": 1,
+          "periodic_line_index": 8,
+          "parameter_range_m": [
+            -0.009042568135664543,
+            0.004194449705662631
+          ],
+          "reference_arclength_m": 0.01498879521962589,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            22785,
+            23210
+          ],
+          "reference_volume_m3": 6.501182117902372e-10,
+          "mass_kg": 9.75177317685356e-07,
+          "particle_count": 8016,
+          "longitudinal_sections": 334,
+          "reference_section_spacing_m": 4.487663239408949e-05,
+          "bounds_m": [
+            3.914994898998776e-05,
+            0.006815983585198482,
+            1.9474575465120824e-05,
+            0.0004995320313250036,
+            0.0043810740003182806,
+            0.015932282703272196
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.006853508920663588,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.004301406279062817,
+            0.016
+          ]
+        },
+        {
+          "id": 39,
+          "family_id": 1,
+          "periodic_line_index": 9,
+          "parameter_range_m": [
+            -0.007310517328095666,
+            0.0036170994364730057
+          ],
+          "reference_arclength_m": 0.012374044100685266,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            23210,
+            23561
+          ],
+          "reference_volume_m3": 5.367070071661054e-10,
+          "mass_kg": 8.050605107491581e-07,
+          "particle_count": 6600,
+          "longitudinal_sections": 275,
+          "reference_section_spacing_m": 4.499652400249188e-05,
+          "bounds_m": [
+            3.9178803970295675e-05,
+            0.005661259086571135,
+            1.946926773002184e-05,
+            0.0004993834785325334,
+            0.006381133317006979,
+            0.01593224292773342
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.005698808382284337,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.006301406279062817,
+            0.016
+          ]
+        },
+        {
+          "id": 40,
+          "family_id": 1,
+          "periodic_line_index": 10,
+          "parameter_range_m": [
+            -0.005578466520526788,
+            0.003039749167283379
+          ],
+          "reference_arclength_m": 0.009759292981744648,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            23561,
+            23838
+          ],
+          "reference_volume_m3": 4.232958025419739e-10,
+          "mass_kg": 6.349437038129608e-07,
+          "particle_count": 5208,
+          "longitudinal_sections": 217,
+          "reference_section_spacing_m": 4.497370037670345e-05,
+          "bounds_m": [
+            3.9173310478420736e-05,
+            0.004506563109396892,
+            1.9470432296564134e-05,
+            0.0004993672442660742,
+            0.008381122024291638,
+            0.015932250499719476
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.004544107843905084,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.008301406279062817,
+            0.016
+          ]
+        },
+        {
+          "id": 41,
+          "family_id": 1,
+          "periodic_line_index": 11,
+          "parameter_range_m": [
+            -0.003846415712957913,
+            0.0024623988980937536
+          ],
+          "reference_arclength_m": 0.007144541862804018,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            23838,
+            24041
+          ],
+          "reference_volume_m3": 3.0988459791784184e-10,
+          "mass_kg": 4.648268968767628e-07,
+          "particle_count": 3816,
+          "longitudinal_sections": 159,
+          "reference_section_spacing_m": 4.493422555222653e-05,
+          "bounds_m": [
+            3.916380960320917e-05,
+            0.003351870459982467,
+            1.946908814898495e-05,
+            0.0004993371850336181,
+            0.010381102493605455,
+            0.015932263595962733
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.0033894073055258326,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.010301406279062815,
+            0.016
+          ]
+        },
+        {
+          "id": 42,
+          "family_id": 1,
+          "periodic_line_index": 12,
+          "parameter_range_m": [
+            -0.0021143649053890347,
+            0.0018850486289041265
+          ],
+          "reference_arclength_m": 0.0045297907438633786,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24041,
+            24170
+          ],
+          "reference_volume_m3": 1.9647339329370935e-10,
+          "mass_kg": 2.9471008994056405e-07,
+          "particle_count": 2424,
+          "longitudinal_sections": 101,
+          "reference_section_spacing_m": 4.4849413305578005e-05,
+          "bounds_m": [
+            3.914339874879977e-05,
+            0.0021971868715396515,
+            1.949144297933882e-05,
+            0.0004992641201037839,
+            0.012381060534807278,
+            0.01593229173361159
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.00223470676714658,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.012301406279062817,
+            0.016
+          ]
+        },
+        {
+          "id": 43,
+          "family_id": 1,
+          "periodic_line_index": 13,
+          "parameter_range_m": [
+            -0.00038231409782015977,
+            0.0013076983597145012
+          ],
+          "reference_arclength_m": 0.0019150396249227545,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24170,
+            24226
+          ],
+          "reference_volume_m3": 8.306218866957755e-11,
+          "mass_kg": 1.2459328300436633e-07,
+          "particle_count": 1032,
+          "longitudinal_sections": 43,
+          "reference_section_spacing_m": 4.4535805230761734e-05,
+          "bounds_m": [
+            3.9067948784287515e-05,
+            0.0010425490129966006,
+            1.946824667366413e-05,
+            0.0004988938166762419,
+            0.014380905422436786,
+            0.015932395779563548
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.0010800062287673294,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.014301406279062814,
+            0.016
+          ]
+        },
+        {
+          "id": 44,
+          "family_id": 2,
+          "periodic_line_index": -14,
+          "parameter_range_m": [
+            -0.00038231409782015657,
+            0.0013076983597145062
+          ],
+          "reference_arclength_m": 0.0019150396249227567,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24226,
+            24282
+          ],
+          "reference_volume_m3": 8.306218866957765e-11,
+          "mass_kg": 1.2459328300436648e-07,
+          "particle_count": 1032,
+          "longitudinal_sections": 43,
+          "reference_section_spacing_m": 4.453580523076178e-05,
+          "bounds_m": [
+            0.0229574509870034,
+            0.023960932051215713,
+            2.0106183323757637e-05,
+            0.0004995317533263358,
+            0.014380905422436786,
+            0.015932395779563544
+          ],
+          "reference_tube_bounds_m": [
+            0.02291999377123267,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.014301406279062814,
+            0.016
+          ]
+        },
+        {
+          "id": 45,
+          "family_id": 2,
+          "periodic_line_index": -13,
+          "parameter_range_m": [
+            -0.0021143649053890325,
+            0.0018850486289041313
+          ],
+          "reference_arclength_m": 0.0045297907438633855,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24282,
+            24411
+          ],
+          "reference_volume_m3": 1.9647339329370966e-10,
+          "mass_kg": 2.9471008994056447e-07,
+          "particle_count": 2424,
+          "longitudinal_sections": 101,
+          "reference_section_spacing_m": 4.484941330557807e-05,
+          "bounds_m": [
+            0.02180281312846035,
+            0.0239608566012512,
+            1.9735879896215866e-05,
+            0.000499508557020661,
+            0.012381060534807278,
+            0.01593229173361159
+          ],
+          "reference_tube_bounds_m": [
+            0.021765293232853422,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.012301406279062815,
+            0.016
+          ]
+        },
+        {
+          "id": 46,
+          "family_id": 2,
+          "periodic_line_index": -12,
+          "parameter_range_m": [
+            -0.003846415712957912,
+            0.0024623988980937575
+          ],
+          "reference_arclength_m": 0.007144541862804017,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24411,
+            24614
+          ],
+          "reference_volume_m3": 3.098845979178418e-10,
+          "mass_kg": 4.6482689687676267e-07,
+          "particle_count": 3816,
+          "longitudinal_sections": 159,
+          "reference_section_spacing_m": 4.493422555222653e-05,
+          "bounds_m": [
+            0.020648129540017532,
+            0.02396083619039679,
+            1.9662814966381857e-05,
+            0.000499530911851015,
+            0.010381102493605451,
+            0.015932263595962736
+          ],
+          "reference_tube_bounds_m": [
+            0.02061059269447417,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.010301406279062812,
+            0.016
+          ]
+        },
+        {
+          "id": 47,
+          "family_id": 2,
+          "periodic_line_index": -11,
+          "parameter_range_m": [
+            -0.005578466520526792,
+            0.003039749167283383
+          ],
+          "reference_arclength_m": 0.009759292981744641,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24614,
+            24891
+          ],
+          "reference_volume_m3": 4.232958025419736e-10,
+          "mass_kg": 6.349437038129604e-07,
+          "particle_count": 5208,
+          "longitudinal_sections": 217,
+          "reference_section_spacing_m": 4.4973700376703415e-05,
+          "bounds_m": [
+            0.019493436890603108,
+            0.02396082668952158,
+            1.9632755733925964e-05,
+            0.0004995295677034359,
+            0.00838112202429163,
+            0.015932250499719476
+          ],
+          "reference_tube_bounds_m": [
+            0.019455892156094917,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.00830140627906281,
+            0.016
+          ]
+        },
+        {
+          "id": 48,
+          "family_id": 2,
+          "periodic_line_index": -10,
+          "parameter_range_m": [
+            -0.007310517328095671,
+            0.003617099436473008
+          ],
+          "reference_arclength_m": 0.012374044100685275,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            24891,
+            25242
+          ],
+          "reference_volume_m3": 5.367070071661058e-10,
+          "mass_kg": 8.050605107491587e-07,
+          "particle_count": 6600,
+          "longitudinal_sections": 275,
+          "reference_section_spacing_m": 4.499652400249191e-05,
+          "bounds_m": [
+            0.018338740913428866,
+            0.023960821196029707,
+            1.961652146746678e-05,
+            0.0004995307322699781,
+            0.00638113331700697,
+            0.01593224292773342
+          ],
+          "reference_tube_bounds_m": [
+            0.018301191617715665,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.006301406279062808,
+            0.016
+          ]
+        },
+        {
+          "id": 49,
+          "family_id": 2,
+          "periodic_line_index": -9,
+          "parameter_range_m": [
+            -0.009042568135664546,
+            0.004194449705662634
+          ],
+          "reference_arclength_m": 0.014988795219625905,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            25242,
+            25667
+          ],
+          "reference_volume_m3": 6.501182117902379e-10,
+          "mass_kg": 9.751773176853568e-07,
+          "particle_count": 8016,
+          "longitudinal_sections": 334,
+          "reference_section_spacing_m": 4.487663239408954e-05,
+          "bounds_m": [
+            0.01718401641480152,
+            0.023960850051010014,
+            1.9467968674996344e-05,
+            0.0004995254245348792,
+            0.004381074000318272,
+            0.015932282703272196
+          ],
+          "reference_tube_bounds_m": [
+            0.017146491079336412,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.004301406279062812,
+            0.016
+          ]
+        },
+        {
+          "id": 50,
+          "family_id": 2,
+          "periodic_line_index": -8,
+          "parameter_range_m": [
+            -0.010774618943233427,
+            0.00477179997485226
+          ],
+          "reference_arclength_m": 0.01760354633856656,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            25667,
+            26166
+          ],
+          "reference_volume_m3": 7.63529416414371e-10,
+          "mass_kg": 1.1452941246215565e-06,
+          "particle_count": 9408,
+          "longitudinal_sections": 392,
+          "reference_section_spacing_m": 4.4907005965731024e-05,
+          "bounds_m": [
+            0.016029321946655385,
+            0.023960842741328058,
+            1.9470091128590624e-05,
+            0.0004995313821919762,
+            0.0023810890269048016,
+            0.015932272626415056
+          ],
+          "reference_tube_bounds_m": [
+            0.01599179054095716,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0023014062790628073,
+            0.016
+          ]
+        },
+        {
+          "id": 51,
+          "family_id": 2,
+          "periodic_line_index": -7,
+          "parameter_range_m": [
+            -0.012506669750802302,
+            0.0053491502440418835
+          ],
+          "reference_arclength_m": 0.02021829745750716,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            26166,
+            26739
+          ],
+          "reference_volume_m3": 8.769406210385018e-10,
+          "mass_kg": 1.3154109315577527e-06,
+          "particle_count": 10800,
+          "longitudinal_sections": 450,
+          "reference_section_spacing_m": 4.492954990557147e-05,
+          "bounds_m": [
+            0.014874625913695226,
+            0.023960837315702706,
+            1.9473795563091582e-05,
+            0.000499531506733583,
+            0.000381100180330155,
+            0.01593226514716765
+          ],
+          "reference_tube_bounds_m": [
+            0.014837090002577913,
+            0.024,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0003014062790628108,
+            0.016
+          ]
+        },
+        {
+          "id": 52,
+          "family_id": 2,
+          "periodic_line_index": -6,
+          "parameter_range_m": [
+            -0.01227735347431739,
+            0.00592650051323151
+          ],
+          "reference_arclength_m": 0.02063430866039895,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            26739,
+            27323
+          ],
+          "reference_volume_m3": 8.949845301950289e-10,
+          "mass_kg": 1.3424767952925432e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875589e-05,
+          "bounds_m": [
+            0.013719930445665648,
+            0.022981775476506115,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.01368238946419866,
+            0.023019316457973105,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 53,
+          "family_id": 2,
+          "periodic_line_index": -5,
+          "parameter_range_m": [
+            -0.011700003205127764,
+            0.006503850782421135
+          ],
+          "reference_arclength_m": 0.020634308660398944,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            27323,
+            27907
+          ],
+          "reference_volume_m3": 8.949845301950286e-10,
+          "mass_kg": 1.3424767952925428e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875587e-05,
+          "bounds_m": [
+            0.012565229907286398,
+            0.021827074938126863,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994826024e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.01252768892581941,
+            0.021864615919593853,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 54,
+          "family_id": 2,
+          "periodic_line_index": -4,
+          "parameter_range_m": [
+            -0.01112265293593814,
+            0.007081201051610761
+          ],
+          "reference_arclength_m": 0.020634308660398948,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            27907,
+            28491
+          ],
+          "reference_volume_m3": 8.949845301950287e-10,
+          "mass_kg": 1.342476795292543e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875588e-05,
+          "bounds_m": [
+            0.011410529368907145,
+            0.02067237439974761,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.011372988387440157,
+            0.020709915381214604,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 55,
+          "family_id": 2,
+          "periodic_line_index": -3,
+          "parameter_range_m": [
+            -0.010545302666748513,
+            0.007658551320800387
+          ],
+          "reference_arclength_m": 0.020634308660398955,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            28491,
+            29075
+          ],
+          "reference_volume_m3": 8.94984530195029e-10,
+          "mass_kg": 1.3424767952925434e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.4954920828755894e-05,
+          "bounds_m": [
+            0.010255828830527895,
+            0.01951767386136836,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.010218287849060904,
+            0.01955521484283535,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 56,
+          "family_id": 2,
+          "periodic_line_index": -2,
+          "parameter_range_m": [
+            -0.009967952397558887,
+            0.008235901589990012
+          ],
+          "reference_arclength_m": 0.020634308660398944,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            29075,
+            29659
+          ],
+          "reference_volume_m3": 8.949845301950286e-10,
+          "mass_kg": 1.3424767952925428e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875587e-05,
+          "bounds_m": [
+            0.009101128292148644,
+            0.01836297332298911,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.009063587310681654,
+            0.0184005143044561,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 57,
+          "family_id": 2,
+          "periodic_line_index": -1,
+          "parameter_range_m": [
+            -0.009390602128369263,
+            0.008813251859179637
+          ],
+          "reference_arclength_m": 0.020634308660398955,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            29659,
+            30243
+          ],
+          "reference_volume_m3": 8.94984530195029e-10,
+          "mass_kg": 1.3424767952925434e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.4954920828755894e-05,
+          "bounds_m": [
+            0.007946427753769393,
+            0.01720827278460986,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.007908886772302403,
+            0.01724581376607685,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 58,
+          "family_id": 2,
+          "periodic_line_index": 0,
+          "parameter_range_m": [
+            -0.008813251859179637,
+            0.009390602128369263
+          ],
+          "reference_arclength_m": 0.020634308660398955,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            30243,
+            30827
+          ],
+          "reference_volume_m3": 8.94984530195029e-10,
+          "mass_kg": 1.3424767952925434e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.4954920828755894e-05,
+          "bounds_m": [
+            0.0067917272153901415,
+            0.016053572246230607,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.0067541862339231505,
+            0.016091113227697598,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            1.734723475976807e-18,
+            0.016
+          ]
+        },
+        {
+          "id": 59,
+          "family_id": 2,
+          "periodic_line_index": 1,
+          "parameter_range_m": [
+            -0.008235901589990012,
+            0.009967952397558887
+          ],
+          "reference_arclength_m": 0.020634308660398948,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            30827,
+            31411
+          ],
+          "reference_volume_m3": 8.949845301950287e-10,
+          "mass_kg": 1.342476795292543e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875588e-05,
+          "bounds_m": [
+            0.005637026677010892,
+            0.014898871707851357,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.005599485695543901,
+            0.014936412689318347,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 60,
+          "family_id": 2,
+          "periodic_line_index": 2,
+          "parameter_range_m": [
+            -0.007658551320800387,
+            0.010545302666748513
+          ],
+          "reference_arclength_m": 0.02063430866039895,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            31411,
+            31995
+          ],
+          "reference_volume_m3": 8.949845301950289e-10,
+          "mass_kg": 1.3424767952925432e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875589e-05,
+          "bounds_m": [
+            0.004482326138631639,
+            0.013744171169472106,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825677e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.004444785157164649,
+            0.013781712150939096,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 61,
+          "family_id": 2,
+          "periodic_line_index": 3,
+          "parameter_range_m": [
+            -0.007081201051610761,
+            0.01112265293593814
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            31995,
+            32579
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.0033276256002523867,
+            0.012589470631092853,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825677e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.0032900846187853983,
+            0.012627011612559844,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 62,
+          "family_id": 2,
+          "periodic_line_index": 4,
+          "parameter_range_m": [
+            -0.006503850782421135,
+            0.011700003205127764
+          ],
+          "reference_arclength_m": 0.02063430866039895,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            32579,
+            33163
+          ],
+          "reference_volume_m3": 8.949845301950289e-10,
+          "mass_kg": 1.3424767952925432e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.495492082875589e-05,
+          "bounds_m": [
+            0.002172925061873136,
+            0.011434770092713603,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825677e-05,
+            0.01593225673005174
+          ],
+          "reference_tube_bounds_m": [
+            0.0021353840804061476,
+            0.011472311074180591,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 63,
+          "family_id": 2,
+          "periodic_line_index": 5,
+          "parameter_range_m": [
+            -0.00592650051323151,
+            0.01227735347431739
+          ],
+          "reference_arclength_m": 0.020634308660398958,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            33163,
+            33747
+          ],
+          "reference_volume_m3": 8.949845301950292e-10,
+          "mass_kg": 1.3424767952925439e-06,
+          "particle_count": 11016,
+          "longitudinal_sections": 459,
+          "reference_section_spacing_m": 4.49549208287559e-05,
+          "bounds_m": [
+            0.0010182245234938835,
+            0.01028006955433435,
+            1.946793429026715e-05,
+            0.0004995257181401685,
+            6.774326994825851e-05,
+            0.015932256730051744
+          ],
+          "reference_tube_bounds_m": [
+            0.0009806835420268951,
+            0.01031761053580134,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.016
+          ]
+        },
+        {
+          "id": 64,
+          "family_id": 2,
+          "periodic_line_index": 6,
+          "parameter_range_m": [
+            -0.0053491502440418835,
+            0.012506669750802302
+          ],
+          "reference_arclength_m": 0.020218297457507157,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            33747,
+            34320
+          ],
+          "reference_volume_m3": 8.769406210385016e-10,
+          "mass_kg": 1.3154109315577524e-06,
+          "particle_count": 10800,
+          "longitudinal_sections": 450,
+          "reference_section_spacing_m": 4.492954990557146e-05,
+          "bounds_m": [
+            3.916268429729475e-05,
+            0.009125374086304774,
+            1.947379556309169e-05,
+            0.000499531506733583,
+            6.773485283235146e-05,
+            0.015618899819669841
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.009162909997422088,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.01569859372093719
+          ]
+        },
+        {
+          "id": 65,
+          "family_id": 2,
+          "periodic_line_index": 7,
+          "parameter_range_m": [
+            -0.00477179997485226,
+            0.010774618943233427
+          ],
+          "reference_arclength_m": 0.017603546338566544,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            34320,
+            34819
+          ],
+          "reference_volume_m3": 7.635294164143703e-10,
+          "mass_kg": 1.1452941246215555e-06,
+          "particle_count": 9408,
+          "longitudinal_sections": 392,
+          "reference_section_spacing_m": 4.490700596573098e-05,
+          "bounds_m": [
+            3.9157258671942974e-05,
+            0.007970678053344615,
+            1.9470091128590596e-05,
+            0.0004995313821919762,
+            6.772737358494256e-05,
+            0.0136189109730952
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.00800820945904284,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.013698593720937194
+          ]
+        },
+        {
+          "id": 66,
+          "family_id": 2,
+          "periodic_line_index": 8,
+          "parameter_range_m": [
+            -0.004194449705662634,
+            0.009042568135664546
+          ],
+          "reference_arclength_m": 0.014988795219625897,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            34819,
+            35244
+          ],
+          "reference_volume_m3": 6.501182117902375e-10,
+          "mass_kg": 9.751773176853564e-07,
+          "particle_count": 8016,
+          "longitudinal_sections": 334,
+          "reference_section_spacing_m": 4.487663239408951e-05,
+          "bounds_m": [
+            3.914994898998776e-05,
+            0.00681598358519848,
+            1.9467968674996344e-05,
+            0.0004995254245348792,
+            6.771729672780565e-05,
+            0.011618925999681728
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.006853508920663587,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.011698593720937189
+          ]
+        },
+        {
+          "id": 67,
+          "family_id": 2,
+          "periodic_line_index": 9,
+          "parameter_range_m": [
+            -0.003617099436473008,
+            0.007310517328095671
+          ],
+          "reference_arclength_m": 0.012374044100685282,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            35244,
+            35595
+          ],
+          "reference_volume_m3": 5.367070071661061e-10,
+          "mass_kg": 8.050605107491592e-07,
+          "particle_count": 6600,
+          "longitudinal_sections": 275,
+          "reference_section_spacing_m": 4.499652400249193e-05,
+          "bounds_m": [
+            3.9178803970295675e-05,
+            0.005661259086571135,
+            1.961652146746678e-05,
+            0.0004995307322699781,
+            6.775707226657976e-05,
+            0.009618866682993032
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.005698808382284337,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.009698593720937192
+          ]
+        },
+        {
+          "id": 68,
+          "family_id": 2,
+          "periodic_line_index": 10,
+          "parameter_range_m": [
+            -0.003039749167283383,
+            0.005578466520526792
+          ],
+          "reference_arclength_m": 0.009759292981744648,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            35595,
+            35872
+          ],
+          "reference_volume_m3": 4.232958025419739e-10,
+          "mass_kg": 6.349437038129608e-07,
+          "particle_count": 5208,
+          "longitudinal_sections": 217,
+          "reference_section_spacing_m": 4.497370037670345e-05,
+          "bounds_m": [
+            3.9173310478420736e-05,
+            0.004506563109396893,
+            1.9632755733925747e-05,
+            0.0004995295677034358,
+            6.774950028052423e-05,
+            0.007618877975708369
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.004544107843905085,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.00769859372093719
+          ]
+        },
+        {
+          "id": 69,
+          "family_id": 2,
+          "periodic_line_index": 11,
+          "parameter_range_m": [
+            -0.0024623988980937575,
+            0.003846415712957912
+          ],
+          "reference_arclength_m": 0.007144541862804012,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            35872,
+            36075
+          ],
+          "reference_volume_m3": 3.098845979178416e-10,
+          "mass_kg": 4.6482689687676235e-07,
+          "particle_count": 3816,
+          "longitudinal_sections": 159,
+          "reference_section_spacing_m": 4.4934225552226494e-05,
+          "bounds_m": [
+            3.916380960320917e-05,
+            0.003351870459982467,
+            1.966281496638191e-05,
+            0.000499530911851015,
+            6.773640403726598e-05,
+            0.005618897506394549
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.0033894073055258326,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.0056985937209371885
+          ]
+        },
+        {
+          "id": 70,
+          "family_id": 2,
+          "periodic_line_index": 12,
+          "parameter_range_m": [
+            -0.0018850486289041313,
+            0.0021143649053890325
+          ],
+          "reference_arclength_m": 0.004529790743863387,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            36075,
+            36204
+          ],
+          "reference_volume_m3": 1.9647339329370974e-10,
+          "mass_kg": 2.9471008994056463e-07,
+          "particle_count": 2424,
+          "longitudinal_sections": 101,
+          "reference_section_spacing_m": 4.484941330557809e-05,
+          "bounds_m": [
+            3.914339874879977e-05,
+            0.0021971868715396515,
+            1.9735879896216e-05,
+            0.000499508557020661,
+            6.770826638841099e-05,
+            0.0036189394651927236
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.00223470676714658,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.003698593720937186
+          ]
+        },
+        {
+          "id": 71,
+          "family_id": 2,
+          "periodic_line_index": 13,
+          "parameter_range_m": [
+            -0.0013076983597145062,
+            0.00038231409782015657
+          ],
+          "reference_arclength_m": 0.0019150396249227567,
+          "radius_m": 0.0001175,
+          "centreline_sample_slice": [
+            36204,
+            36260
+          ],
+          "reference_volume_m3": 8.306218866957765e-11,
+          "mass_kg": 1.2459328300436648e-07,
+          "particle_count": 1032,
+          "longitudinal_sections": 43,
+          "reference_section_spacing_m": 4.453580523076178e-05,
+          "bounds_m": [
+            3.9067948784287515e-05,
+            0.0010425490129966006,
+            2.0106183323757637e-05,
+            0.0004995317533263358,
+            6.760422043645617e-05,
+            0.001619094577563214
+          ],
+          "reference_tube_bounds_m": [
+            0.0,
+            0.0010800062287673294,
+            1.9999999999999944e-06,
+            0.0005169999999999999,
+            0.0,
+            0.0016985937209371875
+          ]
+        }
+      ]
+    },
+    "physical_parameters": {
+      "dimensions_m": [
+        0.024,
+        0.016
+      ],
+      "grip_length_m": 0.003,
+      "diameter_m": 0.000235,
+      "pitch_m": 0.001,
+      "crimp_amplitude_m": 0.00014,
+      "clearance_m": 2e-06,
+      "material": {
+        "young": 10000000000.0,
+        "poisson": 0.25,
+        "density": 1500.0,
+        "tensile_strength": 100000000.0,
+        "fracture_energy": 100.0,
+        "characteristic_length": 7.5e-05
+      }
+    },
+    "sampling_parameters": {
+      "requested_particle_spacing_m": 4.5e-05,
+      "packing": 1.0,
+      "max_particles": 1000000,
+      "nominal_sampling_spacing_m": 4.5e-05,
+      "packing_scope": "Sampling-density multiplier only; not a fibre volume fraction, physical packing change or constitutive characteristic length."
+    },
+    "fracture_length": {
+      "characteristic_length_m": 7.5e-05,
+      "strict_upper_bound_m": 0.0002,
+      "below_upper_bound": true,
+      "scope": "h=grid dx, independent of particle spacing and sampling packing; h < 2*E*Gf/ft^2."
+    },
+    "grid": {
+      "origin_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dx_m": 7.5e-05,
+      "padding_cells": 6,
+      "nodes": 25096460,
+      "max_nodes": 35000000,
+      "fibre_lower_indices": [
+        [
+          -6,
+          -6,
+          -1
+        ],
+        [
+          -6,
+          -6,
+          12
+        ],
+        [
+          -6,
+          -6,
+          25
+        ],
+        [
+          -6,
+          -6,
+          39
+        ],
+        [
+          -6,
+          -6,
+          52
+        ],
+        [
+          -6,
+          -6,
+          65
+        ],
+        [
+          -6,
+          -6,
+          79
+        ],
+        [
+          -6,
+          -6,
+          92
+        ],
+        [
+          -6,
+          -6,
+          105
+        ],
+        [
+          -6,
+          -6,
+          119
+        ],
+        [
+          -6,
+          -6,
+          132
+        ],
+        [
+          -6,
+          -6,
+          145
+        ],
+        [
+          -6,
+          -6,
+          159
+        ],
+        [
+          -6,
+          -6,
+          172
+        ],
+        [
+          -6,
+          -6,
+          185
+        ],
+        [
+          -6,
+          -6,
+          199
+        ],
+        [
+          299,
+          -6,
+          -6
+        ],
+        [
+          284,
+          -6,
+          -6
+        ],
+        [
+          268,
+          -6,
+          -6
+        ],
+        [
+          253,
+          -6,
+          -6
+        ],
+        [
+          238,
+          -6,
+          -6
+        ],
+        [
+          222,
+          -6,
+          -6
+        ],
+        [
+          207,
+          -6,
+          -6
+        ],
+        [
+          191,
+          -6,
+          -6
+        ],
+        [
+          176,
+          -6,
+          -6
+        ],
+        [
+          161,
+          -6,
+          -6
+        ],
+        [
+          145,
+          -6,
+          -6
+        ],
+        [
+          130,
+          -6,
+          -6
+        ],
+        [
+          114,
+          -6,
+          -6
+        ],
+        [
+          99,
+          -6,
+          -6
+        ],
+        [
+          84,
+          -6,
+          -6
+        ],
+        [
+          68,
+          -6,
+          -6
+        ],
+        [
+          53,
+          -6,
+          -6
+        ],
+        [
+          37,
+          -6,
+          -6
+        ],
+        [
+          22,
+          -6,
+          -6
+        ],
+        [
+          7,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -2
+        ],
+        [
+          -6,
+          -6,
+          24
+        ],
+        [
+          -6,
+          -6,
+          51
+        ],
+        [
+          -6,
+          -6,
+          78
+        ],
+        [
+          -6,
+          -6,
+          104
+        ],
+        [
+          -6,
+          -6,
+          131
+        ],
+        [
+          -6,
+          -6,
+          158
+        ],
+        [
+          -6,
+          -6,
+          184
+        ],
+        [
+          299,
+          -6,
+          184
+        ],
+        [
+          284,
+          -6,
+          158
+        ],
+        [
+          268,
+          -6,
+          131
+        ],
+        [
+          253,
+          -6,
+          104
+        ],
+        [
+          238,
+          -6,
+          78
+        ],
+        [
+          222,
+          -6,
+          51
+        ],
+        [
+          207,
+          -6,
+          24
+        ],
+        [
+          191,
+          -6,
+          -2
+        ],
+        [
+          176,
+          -6,
+          -6
+        ],
+        [
+          161,
+          -6,
+          -6
+        ],
+        [
+          145,
+          -6,
+          -6
+        ],
+        [
+          130,
+          -6,
+          -6
+        ],
+        [
+          114,
+          -6,
+          -6
+        ],
+        [
+          99,
+          -6,
+          -6
+        ],
+        [
+          84,
+          -6,
+          -6
+        ],
+        [
+          68,
+          -6,
+          -6
+        ],
+        [
+          53,
+          -6,
+          -6
+        ],
+        [
+          37,
+          -6,
+          -6
+        ],
+        [
+          22,
+          -6,
+          -6
+        ],
+        [
+          7,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ],
+        [
+          -6,
+          -6,
+          -6
+        ]
+      ],
+      "fibre_shapes": [
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          334,
+          20,
+          17
+        ],
+        [
+          29,
+          20,
+          36
+        ],
+        [
+          44,
+          20,
+          63
+        ],
+        [
+          60,
+          20,
+          89
+        ],
+        [
+          75,
+          20,
+          116
+        ],
+        [
+          90,
+          20,
+          143
+        ],
+        [
+          106,
+          20,
+          169
+        ],
+        [
+          121,
+          20,
+          196
+        ],
+        [
+          137,
+          20,
+          223
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          136,
+          20,
+          223
+        ],
+        [
+          120,
+          20,
+          197
+        ],
+        [
+          105,
+          20,
+          170
+        ],
+        [
+          89,
+          20,
+          143
+        ],
+        [
+          74,
+          20,
+          117
+        ],
+        [
+          59,
+          20,
+          90
+        ],
+        [
+          43,
+          20,
+          63
+        ],
+        [
+          28,
+          20,
+          37
+        ],
+        [
+          29,
+          20,
+          37
+        ],
+        [
+          44,
+          20,
+          63
+        ],
+        [
+          60,
+          20,
+          90
+        ],
+        [
+          75,
+          20,
+          117
+        ],
+        [
+          90,
+          20,
+          143
+        ],
+        [
+          106,
+          20,
+          170
+        ],
+        [
+          121,
+          20,
+          197
+        ],
+        [
+          137,
+          20,
+          223
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          139,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          138,
+          20,
+          227
+        ],
+        [
+          136,
+          20,
+          223
+        ],
+        [
+          120,
+          20,
+          196
+        ],
+        [
+          105,
+          20,
+          169
+        ],
+        [
+          89,
+          20,
+          143
+        ],
+        [
+          74,
+          20,
+          116
+        ],
+        [
+          59,
+          20,
+          89
+        ],
+        [
+          43,
+          20,
+          63
+        ],
+        [
+          28,
+          20,
+          36
+        ]
+      ],
+      "fibre_node_counts": [
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        113560,
+        20880,
+        55440,
+        106800,
+        174000,
+        257400,
+        358280,
+        474320,
+        611020,
+        626520,
+        626520,
+        631060,
+        626520,
+        631060,
+        626520,
+        626520,
+        631060,
+        626520,
+        631060,
+        626520,
+        626520,
+        606560,
+        472800,
+        357000,
+        254540,
+        173160,
+        106200,
+        54180,
+        20720,
+        21460,
+        55440,
+        108000,
+        175500,
+        257400,
+        360400,
+        476740,
+        611020,
+        626520,
+        626520,
+        631060,
+        626520,
+        631060,
+        626520,
+        626520,
+        631060,
+        626520,
+        631060,
+        626520,
+        626520,
+        606560,
+        470400,
+        354900,
+        254540,
+        171680,
+        105020,
+        54180,
+        20160
+      ],
+      "budget_scope": "max_nodes limits dense AABB addressing, including when grid_storage=tube. It is not an active-node or process-memory limit.",
+      "seven_float64_grid_scalars_bytes": 1405401760,
+      "memory_note": "Seven grid scalars are a storage subtotal, not a peak-memory prediction. Particle stencils, constitutive temporaries, contact search, compiled executables and checkpoints require additional memory.",
+      "storage": "tube",
+      "node_count_scope": "Dense AABB upper bound; actual active nodes are constructed and validated at runtime.",
+      "dense_to_active_int32_bytes": 100385840,
+      "planned_active_nodes": null
+    },
+    "particles": 683232,
+    "wave_speed_m_per_s": 2828.42712474619,
+    "CFL": 0.15,
+    "dt": 3.977475644174329e-09,
+    "load_time_s": 6.363961030678928e-05,
+    "requested_duration_s": 7.636753236814713e-05,
+    "load_transits": 10.0,
+    "gauge_transit_time_s": 6.363961030678928e-06,
+    "hold_fraction_of_loading": 0.2,
+    "requested_hold_time_s": 1.2727922061357858e-05,
+    "requested_hold_transits": 2.0,
+    "duration_rounding_seconds": -1.3552527156068805e-20,
+    "duration_s": 7.636753236814712e-05,
+    "steps": 19200,
+    "stop_steps": 19200,
+    "probe_steps": 0,
+    "frame_steps": [
+      0,
+      320,
+      640,
+      960,
+      1280,
+      1600,
+      1920,
+      2240,
+      2560,
+      2880,
+      3200,
+      3520,
+      3840,
+      4160,
+      4480,
+      4800,
+      5120,
+      5440,
+      5760,
+      6080,
+      6400,
+      6720,
+      7040,
+      7360,
+      7680,
+      8000,
+      8320,
+      8640,
+      8960,
+      9280,
+      9600,
+      9920,
+      10240,
+      10560,
+      10880,
+      11200,
+      11520,
+      11840,
+      12160,
+      12480,
+      12800,
+      13120,
+      13440,
+      13760,
+      14080,
+      14400,
+      14720,
+      15040,
+      15360,
+      15680,
+      16000,
+      16320,
+      16640,
+      16960,
+      17280,
+      17600,
+      17920,
+      18240,
+      18560,
+      18880,
+      19200
+    ],
+    "saved_states": 61,
+    "max_engineering_strain": 0.02,
+    "gauge_length_m": 0.018000000000000002,
+    "total_fixture_extension_m": 0.00036,
+    "grip_particle_counts": [
+      83030,
+      83030
+    ],
+    "grip_x_intervals_m": [
+      [
+        0.0,
+        0.003
+      ],
+      [
+        0.021,
+        0.024
+      ]
+    ],
+    "coverage_skin_m": 0.0005,
+    "search_window": 6,
+    "requested_work_of_adhesion_J_per_m2": 0.1,
+    "work_of_adhesion_J_per_m2": 0.0,
+    "particle_spacing_m": 4.5e-05,
+    "sampling_hash": {
+      "shape": [
+        683232,
+        3
+      ],
+      "dtype": "float64",
+      "sha256": "4d3fdacc21e9f91c502776db2d2665e136039634ff2ec80a8c16785f2ba3c73c"
+    },
+    "trajectory_estimated_bytes": 1875471840,
+    "interpretation": "An explicit dynamic finite coupon with 10 gauge-length elastic transit times of loading and a 20% hold. Kinetic/elastic energy ratio is recorded, not assumed negligible. First material failure, dynamic reaction maximum and sampled section-graph connectivity are distinct observations; they do not by themselves define a quasi-static or size-converged failure envelope.",
+    "contact_regions": {
+      "mode": "connected",
+      "capacity": 16384,
+      "max_patches": 4096,
+      "max_iterations": 128,
+      "scope": "One local circular Hertz force per connected active finite-segment region. Distinct regions on one fibre pair are independent; this is a discrete contact approximation, not an exact curved-surface solution. Adhesive branch merge/split is unsupported."
+    },
+    "source": {
+      "files": {
+        "examples/triaxial_failure.py": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+        "examples/triaxial_fibre_geometry.py": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+        "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+        "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+        "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+        "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+        "mpm_jax/local_contact_models.py": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+        "mpm_jax/maugis_dugdale.py": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+        "mpm_jax/cohesive_bem.py": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+        "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+        "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358"
+      },
+      "fingerprint": "67ac24b9ab029e4e958e0a45dcfafdd045b3441730afc833aaffcffed6d0253d"
+    },
+    "contact_model": {
+      "particles": 683232,
+      "sections": 28468,
+      "segments": 28396,
+      "candidate_pairs": 980,
+      "coverage_segment_pairs": 1200704,
+      "search_window_segments_each_side": 6,
+      "coverage_skin_m": 0.0005,
+      "proximity_margin_m": 0.0,
+      "centreline": "Current mass-weighted cross-section centroids with piecewise linear interpolation.",
+      "radius": "Fixed reference circular radii; only small cross-sectional strain is represented.",
+      "curvature": "Two projected cylinder curvature tensors; R_eff is the inverse square root of their summed determinant. Orthogonal equal cylinders give R_eff=R, not R/2. This circular replacement is not an exact elliptical JKR solution.",
+      "energy": "Normal force is the fixed-curvature indentation derivative. Curvature changes do not include their geometric work term, so global contact-energy conservation is not asserted.",
+      "coverage": "Every reference capsule within the recorded motion skin is audited at each accepted step. Discrete active cells are grouped by eight-neighbour connectivity on each fibre pair; each component contributes one local Hertz force.",
+      "limits": "Stateless Hertz only, no adhesive branch merge/split. Fixed circular radii and a circular equivalent-curvature approximation. Failed-section, physical endpoint, same-family/degenerate geometry, exhausted motion skin, overlapping local patches or component-budget overflow require rejection.",
+      "contact_regions": {
+        "mode": "connected",
+        "capacity": 16384,
+        "max_patches": 4096,
+        "max_iterations": 128,
+        "scope": "One local circular Hertz force per connected active finite-segment region. Distinct regions on one fibre pair are independent; this is a discrete contact approximation, not an exact curved-surface solution. Adhesive branch merge/split is unsupported."
+      },
+      "maximum_contact_radius_over_fibre_radius": 0.2,
+      "coverage_pairs": {
+        "shape": [
+          1200704,
+          2
+        ],
+        "dtype": "int32",
+        "sha256": "9329579a6107ad99acdde4153112415c48fb25aefcc4858dc5ba4a1d75d6dd80"
+      },
+      "neighbour_graph": {
+        "shape": [
+          1200704,
+          8
+        ],
+        "dtype": "int32",
+        "sha256": "ea09709128a24aa05120a38baaa0ea935d29a981a20cc5abb92251fce0659d01"
+      }
+    }
+  },
+  "particle_fields": {
+    "file": "particle_fields.npz",
+    "fields": {
+      "phase": {
+        "shape": [
+          683232
+        ],
+        "dtype": "int8",
+        "sha256": "bf4c26d5a1ea8fb1de39e4afdf1f156e2b9d4981f05c93b8d090d2b18d97bd85"
+      },
+      "yarn_id": {
+        "shape": [
+          683232
+        ],
+        "dtype": "int32",
+        "sha256": "a5b805254e1cb6174396afeb94cf1495a4800f556e5e6e6135d87b2c294db1da"
+      },
+      "family_id": {
+        "shape": [
+          683232
+        ],
+        "dtype": "int16",
+        "sha256": "fd1999bd3cf73be552734c8fef6c5af26c5c33ebf660dc6e65f391c7ac75b4c2"
+      }
+    }
+  },
+  "min_J": 0.9969889233591089,
+  "max_damage": 1.0,
+  "first_material_failure_time_s": 2.5443911695784165e-05,
+  "peak_dynamic_grip_force_N": 14.83068587968831,
+  "peak_dynamic_grip_force_time_s": 2.5340497329035628e-05,
+  "first_sampled_section_graph_disconnection_time_s": null,
+  "first_sampled_active_fibre_x_support_cut_time_s": null,
+  "graph_scope": "Section graph: adjacent occupied sections within each fibre plus active contact edges. Its connectivity is an approximation, not an exact 3D MPM support graph. Positive-weight x-node interval cuts are separately reconstructed and are only a sufficient axial-disconnection diagnostic.",
+  "peak_scope": "Partial or probe force maximum; not an accepted macroscopic failure load.",
+  "actual_clamp_work_J": 0.0013651476894718214,
+  "grid_kinetic_correction_J": 0.0011271306564474993,
+  "work_scope": "Actual clamp work sums each step's group impulse dotted with the prescribed fixture velocity. Core boundary_work is separately reported as a grid kinetic-energy correction. Dynamic contact curvature work and snap dissipation are not fully represented.",
+  "kinetic_energy_scope": "Particle translation plus the quadratic-APIC affine term dx^2/8 times sum(mass*Frobenius_norm(C)^2); both components are also saved separately.",
+  "source": {
+    "files": {
+      "examples/triaxial_failure.py": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c",
+      "examples/triaxial_fibre_geometry.py": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "mpm_jax/local_contact_models.py": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4",
+      "mpm_jax/maugis_dugdale.py": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443",
+      "mpm_jax/cohesive_bem.py": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e",
+      "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+      "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358"
+    },
+    "fingerprint": "67ac24b9ab029e4e958e0a45dcfafdd045b3441730afc833aaffcffed6d0253d"
+  },
+  "layout": {
+    "storage": "tube",
+    "dx_m": 7.5e-05,
+    "fibre_count": 72,
+    "dense_aabb_nodes": 25096460,
+    "active_nodes": 6530388,
+    "padding_cells": 6,
+    "scope": "Storage compression only; absent tube support invalidates a step. Material length, physical grid phase and particle discretization are unchanged.",
+    "node_map": {
+      "shape": [
+        25096460
+      ],
+      "dtype": "int32",
+      "sha256": "ef0b4a38d58dd1c275b8f2073a43f2d11903f2f8df8cca97d397c98ff8ddee46"
+    },
+    "dense_indices": {
+      "shape": [
+        6530388
+      ],
+      "dtype": "int32",
+      "sha256": "4f5187229bd1003c522afd3268c04d8349550db5d10d8b7bfa525926de251aba"
+    },
+    "dilation": "Three axis-separable maximum filters of width 2*padding+1 on reference quadratic stencil occupancy, intersected with the original dense fibre AABB."
+  },
+  "initial": {
+    "time": 0.0,
+    "mass": 8.325674261792475e-05,
+    "reference_volume": 5.550449507861649e-08,
+    "current_volume": 5.550449507861649e-08,
+    "min_J": 1.0,
+    "max_J": 1.0,
+    "max_damage": 0.0,
+    "failed_mass": 0.0,
+    "mass_relative_drift": 0.0,
+    "momentum_balance_residual_Ns": 0.0,
+    "state_valid": true,
+    "coupling_valid": true,
+    "failure_reason_code": 0
+  },
+  "final": {
+    "time": 2.6728636328852527e-05,
+    "mass": 8.325674261792475e-05,
+    "reference_volume": 5.550449507861649e-08,
+    "current_volume": 5.551777065332574e-08,
+    "min_J": 0.9969889233591089,
+    "max_J": 1.0523333978427742,
+    "max_damage": 1.0,
+    "failed_mass": 2.0117158306138147e-08,
+    "mass_relative_drift": 0.0,
+    "momentum_balance_residual_Ns": 8.171324808655358e-19,
+    "state_valid": true,
+    "coupling_valid": true,
+    "failure_reason_code": 0
+  },
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "accepted_steps": 0,
+      "prescribed_engineering_strain": 0.0,
+      "left_applied_force_x_N": 0.0,
+      "right_applied_force_x_N": 0.0,
+      "mean_grip_tensile_force_N": 0.0,
+      "peak_step_dynamic_grip_force_N": 0.0,
+      "peak_step_dynamic_grip_force_time_s": 0.0,
+      "first_material_failure_time_s": null,
+      "failed_particles": 0,
+      "max_damage": 0.0,
+      "damaged_reference_volume_fraction": 0.0,
+      "kinetic_energy_J": 0.0,
+      "kinetic_translational_energy_J": 0.0,
+      "kinetic_apic_affine_energy_J": 0.0,
+      "elastic_energy_J": 0.0,
+      "kinetic_to_elastic_ratio": null,
+      "actual_clamp_work_J": 0.0,
+      "grid_kinetic_correction_J": 0.0,
+      "contact_potential_J": 0.0,
+      "active_contact_pairs": 0,
+      "minimum_contact_gap_m": 8.382599233938324e-06,
+      "contact_force_balance_N": 0.0,
+      "contact_torque_balance_Nm": 0.0,
+      "coverage_nonrigid_displacement_m": 8.716877585302702e-18,
+      "sampled_section_graph_connects_grips": true,
+      "active_fibre_x_support_cuts": 0,
+      "grip_velocity_error_m_per_s": 0.0,
+      "grip_position_error_m": 0.0,
+      "left_accumulated_impulse_x_Ns": 0.0,
+      "left_applied_force_y_N": 0.0,
+      "left_accumulated_impulse_y_Ns": 0.0,
+      "left_applied_force_z_N": 0.0,
+      "left_accumulated_impulse_z_Ns": 0.0,
+      "right_accumulated_impulse_x_Ns": 0.0,
+      "right_applied_force_y_N": 0.0,
+      "right_accumulated_impulse_y_Ns": 0.0,
+      "right_applied_force_z_N": 0.0,
+      "right_accumulated_impulse_z_Ns": 0.0
+    },
+    "final": {
+      "time": 2.6728636328852527e-05,
+      "accepted_steps": 6720,
+      "prescribed_engineering_strain": 0.007513101128351942,
+      "left_applied_force_x_N": -13.954982518762332,
+      "right_applied_force_x_N": 13.952095236160858,
+      "mean_grip_tensile_force_N": 13.953538877461595,
+      "peak_step_dynamic_grip_force_N": 14.83068587968831,
+      "peak_step_dynamic_grip_force_time_s": 2.5340497329035628e-05,
+      "first_material_failure_time_s": 2.5443911695784165e-05,
+      "failed_particles": 165,
+      "max_damage": 1.0,
+      "damaged_reference_volume_fraction": 0.00071756187165303,
+      "kinetic_energy_J": 0.0004303476305931715,
+      "kinetic_translational_energy_J": 0.00042933764565527253,
+      "kinetic_apic_affine_energy_J": 1.0099849378990052e-06,
+      "elastic_energy_J": 0.0008460780648059972,
+      "kinetic_to_elastic_ratio": 0.5086382078606999,
+      "actual_clamp_work_J": 0.0013651476894718214,
+      "grid_kinetic_correction_J": 0.0011271306564474993,
+      "contact_potential_J": 2.413466597600347e-06,
+      "active_contact_pairs": 288,
+      "minimum_contact_gap_m": -1.4914845530444474e-06,
+      "contact_force_balance_N": 5.003707553108401e-17,
+      "contact_torque_balance_Nm": 2.6468748234287228e-18,
+      "coverage_nonrigid_displacement_m": 6.762893587348027e-05,
+      "sampled_section_graph_connects_grips": true,
+      "active_fibre_x_support_cuts": 0,
+      "grip_velocity_error_m_per_s": 1.7763568394002505e-15,
+      "grip_position_error_m": 8.557921419761094e-09,
+      "left_accumulated_impulse_x_Ns": -0.00021861986884157532,
+      "left_applied_force_y_N": 0.0035716168275741747,
+      "left_accumulated_impulse_y_Ns": 1.0403709646589022e-08,
+      "left_applied_force_z_N": 0.004103516407136467,
+      "left_accumulated_impulse_z_Ns": -1.3756007910677487e-08,
+      "right_accumulated_impulse_x_Ns": 0.00021861938671236805,
+      "right_applied_force_y_N": 0.006675214773214696,
+      "right_accumulated_impulse_y_Ns": -3.034399930055406e-09,
+      "right_applied_force_z_N": 0.004062522656133496,
+      "right_accumulated_impulse_z_Ns": -7.072460031573136e-10
+    }
+  }
+}

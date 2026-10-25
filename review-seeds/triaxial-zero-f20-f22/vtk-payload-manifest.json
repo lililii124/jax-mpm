@@ -1,0 +1,40 @@
+{
+  "schema": "triaxial-true-f20-f22-verified-vtk-payload-v1",
+  "files": {
+    "readonly-audit.json": {
+      "bytes": 17174,
+      "sha256": "776c246121bd4cd7b5b28e2c91191d2fc3bef9748990e9c24b5e98e553dfbd5c"
+    },
+    "particles.pvd": {
+      "bytes": 418,
+      "sha256": "bc6a2c8ae7cbcc663f28d058c02420a89fac870e2e5bd8e1664d2d1b3c3521b2"
+    },
+    "vtk_metadata.json": {
+      "bytes": 956,
+      "sha256": "008f523976194314b5cd92b588571774566e298c3ea0e6edbf3b09ee46933d8e"
+    },
+    "summary.json": {
+      "bytes": 117256,
+      "sha256": "0b72dec16f706d770ac5c00fcb94f37d907c768a207e5321b096f85139cc90f8"
+    },
+    "vtk/particles_00000.vtp": {
+      "bytes": 10876003,
+      "sha256": "cff457dad47e942b71cb8645ce4cfc0e0377ad84dd4a301c8873b2eab22c315a"
+    },
+    "vtk/particles_00001.vtp": {
+      "bytes": 10901259,
+      "sha256": "a04f968ec3871b14ec565067030d62bbb52fa70b337fce7980c5716feb3ae2af"
+    },
+    "vtk/particles_00002.vtp": {
+      "bytes": 10924799,
+      "sha256": "f5730c08f767643b13f51bf2ac573c30b1e537e1498748f9a0bd34e6f5e962c3"
+    }
+  },
+  "geometry_scale": 1,
+  "frames": [
+    20,
+    21,
+    22
+  ],
+  "production_eligible": false
+}
