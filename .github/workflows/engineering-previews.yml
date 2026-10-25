@@ -34,13 +34,13 @@ jobs:
         run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
       - uses: actions/download-artifact@v5
         with:
-          name: hjc-mat111-beam-40169284307-1
-          run-id: 40169284307
+          name: hjc-mat111-beam-40170774252-1
+          run-id: 40170774252
           github-token: ${{ github.token }}
           path: outputs/hjc-mat111-qualification/
-      - name: Verify parent and continue to frame 40
+      - name: Verify parent and continue to frame 60
         timeout-minutes: 32
-        run: python tools/run_hjc_mat111_beam.py --resume --stop-frame 40 --parent-review-sha256 93a3cfe44126c24fb342c06da7550987d2dc5e870692f885f59ee522060523ed
+        run: python tools/run_hjc_mat111_beam.py --resume --stop-frame 60 --parent-review-sha256 1a540c6bc4755f85394d4a8c5da3ead023989fa8060d3a5e4ab0d3b479624fc4
       - name: Preserve complete prefix and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
