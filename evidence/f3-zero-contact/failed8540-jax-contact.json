@@ -1,0 +1,164 @@
+{
+  "scope": "Read-only JAX contact-kernel re-evaluation of the rejected step8540 raw state; zero mechanical steps.",
+  "source_branch": "work/triaxial-zero-contact-coverage",
+  "source_commit": "b2a07c2a6d1448c3a82254b2288f8fb03f46ccef",
+  "source_kernel_sha256": "1960a50974fe26a1ecad729c72344cd2e43ca511b786ec0dbd6ec7885286749f",
+  "remote_container": "jaxmpm-triaxial-zero-jaxcontact8540",
+  "cpuset": "24-27",
+  "memory_limit_bytes": 8589934592,
+  "rejected_raw_checkpoint_sha256": "9b6d7302538578072d1baad5567d5bec546a02c890e33cd0ea9d84453d550151",
+  "parent_last_valid_step8520_sha256": "a49e22c6bd879de8e02205cddb5269667044329a8d4e5007c63fde6509146763",
+  "raw_state_time_s": 3.396764200125011e-05,
+  "saved_aggregate": [
+    8540.0,
+    2.5443911695784165e-05,
+    14.83068587968831,
+    2.5340497329035628e-05,
+    0.0,
+    1.0
+  ],
+  "saved_and_recomputed_contact_metrics": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    9.967949780063857e-05,
+    -1.7877367021634674e-06,
+    243.0,
+    0.0,
+    0.18425301279641407,
+    1.0,
+    0.0,
+    0.0,
+    3.7238012298709097e-16,
+    2.315222287330016e-18,
+    4.643450312403263e-06,
+    0.0
+  ],
+  "metrics_bitwise_match_after_correct_stat_aggregation": true,
+  "metric_note": "The diagnostic initially serialized active_cell_count=650; the original step statistic is sum(metrics.active)=243. Replacing that one aggregate with the exact 243 active patch count makes all 16 metrics bitwise identical to the rejected raw checkpoint.",
+  "contact_kernel_valid": false,
+  "failed_section_contact_count": 1,
+  "failed_cell": {
+    "coverage_pair_index": 917689,
+    "coverage_cell": 917689,
+    "segments": [
+      9075,
+      25043
+    ],
+    "owners": [
+      15,
+      60
+    ],
+    "endpoint_sections": [
+      [
+        9090,
+        9091
+      ],
+      [
+        25103,
+        25104
+      ]
+    ],
+    "closest_weights": [
+      0.935517383539321,
+      0.8943194829817511
+    ],
+    "failed_endpoint_flags": [
+      [
+        true,
+        false
+      ],
+      [
+        false,
+        false
+      ]
+    ],
+    "positive_weight_failed_support": [
+      [
+        true,
+        false
+      ],
+      [
+        false,
+        false
+      ]
+    ],
+    "failed_endpoint_positive_interpolation_weight": 0.06448261646067899,
+    "surface_gap_m": -2.951108556546625e-07,
+    "surface_midpoint_m": [
+      0.004863553539088617,
+      0.00027599497861078014,
+      0.015397639838059704
+    ],
+    "is_actual_live_patch_representative": false,
+    "representative_slots": [],
+    "same_segment_pair_live_patch_slots": [],
+    "same_owner_live_patches": [
+      {
+        "slot": 187,
+        "segments": [
+          9076,
+          25044
+        ],
+        "owners": [
+          15,
+          60
+        ],
+        "normal_force_N": 0.017518837490794834,
+        "contact_radius_m": 6.617484095028953e-06,
+        "same_owner_as_failed_cell": true,
+        "same_pair_as_failed_cell": false,
+        "representative_coverage_pair_index": 917774,
+        "same_selected_contact_component_as_failed_cell": true,
+        "candidate_cell_point_inside_this_exact_closed_patch_footprint": false,
+        "live_patch_damaged_positive_weight_endpoint_flags": [
+          [
+            false,
+            false
+          ],
+          [
+            false,
+            false
+          ]
+        ],
+        "live_patch_has_any_damaged_positive_weight_endpoint": false
+      },
+      {
+        "slot": 188,
+        "segments": [
+          9068,
+          25053
+        ],
+        "owners": [
+          15,
+          60
+        ],
+        "normal_force_N": 0.023047167822803947,
+        "contact_radius_m": 7.2583298696413076e-06,
+        "same_owner_as_failed_cell": true,
+        "same_pair_as_failed_cell": false,
+        "representative_coverage_pair_index": 918487,
+        "same_selected_contact_component_as_failed_cell": false,
+        "candidate_cell_point_inside_this_exact_closed_patch_footprint": false,
+        "live_patch_damaged_positive_weight_endpoint_flags": [
+          [
+            false,
+            false
+          ],
+          [
+            false,
+            false
+          ]
+        ],
+        "live_patch_has_any_damaged_positive_weight_endpoint": false
+      }
+    ]
+  },
+  "interpretation": {
+    "classification": "True uncovered damage-live proximity outside the healthy representative force footprint; not a duplicate failed touch inside that footprint, and not force applied by the active patch to the failed endpoint.",
+    "evidence": "The one retained failed cell is pair [9075,25043], owner [15,60]. Its section 9090 endpoint is failed and receives positive weight 0.0644826; surface gap is -0.2951 um. It is not any live patch representative. The same selected component has a healthy active representative [9076,25044] with 0.01752 N force and 6.617 um radius, but the failed-cell midpoint is outside its exact closed circular/slab/finite-cylinder footprint. The neighbouring representative has zero damaged positive-weight endpoints.",
+    "decision": "Keep cbed52e guard and the rejected step8540 result. Do not enlarge the footprint exemption or continue from the rejected checkpoint.",
+    "minimal_next_implementation": "Model the damage boundary and this adjacent contact support explicitly: identify intact material support at the failed section, then derive a bounded contact support/force distribution on only intact endpoints with an explicit work and torque balance. Keep current guard until that local contact model is independently reviewed; do not force a full Hertz disk across the damaged segment."
+  }
+}
