@@ -41,6 +41,9 @@ def restore(a):
     if DEST.exists() or CACHE.exists():raise FileExistsError('Fresh input and output required')
     DEST.mkdir(parents=True);CACHE.mkdir(parents=True)
     write(DEST/'control-source.json',identity)
+    for name in list(a['source_sha256'])+[str(ADMISSION.relative_to(ROOT)),'.github/workflows/metal-affine-dynamic125.yml',
+            '.github/workflows/engineering-previews.yml','evidence/metal-affine-local-resource-failures.json','evidence/metal-affine-original-be-correction-notice.json']:
+        target=DEST/'committed-source'/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/name,target)
     pin=a['parent_artifact'];api=f"https://api.github.com/repos/lililii124/jax-mpm/actions/artifacts/{pin['id']}"
     headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'}
     opener=urllib.request.build_opener(NoRedirect)
@@ -178,4 +181,7 @@ def package(a):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('phase',choices=('restore','install','run','package'));args=p.parse_args()
-    globals()[args.phase](json.loads(ADMISSION.read_text()))
+    try:globals()[args.phase](json.loads(ADMISSION.read_text()))
+    except BaseException as error:
+        if DEST.exists():write(DEST/f'{args.phase}-failure.json',dict(type=type(error).__name__,message=str(error),numerical_admission=False))
+        raise
