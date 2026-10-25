@@ -50,8 +50,13 @@ def shell(args, *, timeout=45, capture=True):
     result = subprocess.run(args, check=True, timeout=timeout,
                             stdout=subprocess.PIPE if capture else None,
                             stderr=subprocess.STDOUT if capture else None,
-                            text=True)
+                            universal_newlines=True)
     return result.stdout.strip() if capture else ''
+
+
+def ulp(value):
+    exponent = math.frexp(abs(value))[1]
+    return 2.0 ** (exponent - 53)
 
 
 def inspect_container(name):
@@ -135,7 +140,7 @@ def admit_segment(task_root, expected_start, expected_end, forming_sha):
     state_time = npy_scalar(cp, 'time', '<d')
     nominal = expected_end * 4e-5
     assert abs(state_time - rows[-1]['actual_state_time_s']) < 1e-12
-    assert abs(state_time - nominal) <= 8 * max(expected_end, 1) * abs(math.ulp(nominal))
+    assert abs(state_time - nominal) <= 8 * max(expected_end, 1) * ulp(nominal)
     assert abs(npy_scalar(cp, 'inlet_source_time_s', '<d') - nominal) < 1e-15
     plan = json.loads((output / 'plan.json').read_text())
     assert plan['forming']['checkpoint_sha256'] == forming_sha
