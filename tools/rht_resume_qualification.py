@@ -10,7 +10,8 @@ import ctypes
 import hashlib
 import json
 import os
-from pathlib import Path
+import re
+from pathlib import Path, PurePosixPath
 import shutil
 import signal
 import subprocess
@@ -48,24 +49,117 @@ def derive(raw):
     return derived
 
 
+def bounded_read(path,limit=262144):
+    with Path(path).open() as stream:
+        value=stream.read(limit+1)
+    if len(value)>limit:
+        raise RuntimeError('Resource evidence exceeds bounded read: '+str(path))
+    return value
+
+
+def cgroup_constraints(membership,mountinfo,read=bounded_read):
+    """Resolve controller mounts and ancestor limits, including cgroup v1/hybrid."""
+    unescape=lambda value: re.sub(r'\\([0-7]{3})',lambda m:chr(int(m[1],8)),value)
+    mounts=[]
+    for line in mountinfo.splitlines():
+        left,sep,right=line.partition(' - ')
+        if not sep:
+            raise RuntimeError('Malformed mountinfo')
+        fields,tail=left.split(),right.split()
+        if len(fields)<6 or len(tail)<3:
+            raise RuntimeError('Malformed mountinfo fields')
+        if tail[0] in ('cgroup','cgroup2'):
+            mounts.append((tail[0],unescape(fields[3]),unescape(fields[4]),set(tail[2].split(','))))
+    groups=[]
+    for line in membership.splitlines():
+        parts=line.split(':',2)
+        if len(parts)!=3 or not parts[2].startswith('/'):
+            raise RuntimeError('Malformed cgroup membership')
+        groups.append((set(parts[1].split(',')) if parts[1] else set(),parts[2]))
+    evidence=[]; memory=[]; cpu=[]; verified_memory=False
+    for controllers,path in groups:
+        kind='cgroup' if controllers else 'cgroup2'
+        relevant=controllers & {'memory','cpu'}
+        if kind=='cgroup' and not relevant:
+            continue
+        matches=[m for m in mounts if m[0]==kind and (kind=='cgroup2' or relevant<=m[3])]
+        if len(matches)!=1:
+            raise RuntimeError('Cannot uniquely resolve cgroup controller mount')
+        _,root,mount,options=matches[0]
+        root_path,member=PurePosixPath(root),PurePosixPath(path)
+        if '..' in member.parts or '..' in root_path.parts:
+            raise RuntimeError('Unsafe cgroup path')
+        if member.is_relative_to(root_path):
+            relative=member.relative_to(root_path)
+        elif path=='/':
+            # A cgroup namespace exposes its mount root as membership '/'.
+            relative=PurePosixPath('.')
+        else:
+            raise RuntimeError('Cgroup membership outside visible mount root')
+        base=Path(mount); leaf=base/str(relative)
+        observed=[]; found_memory=False
+        current=leaf
+        while True:
+            names=(('memory.max','memory.current','cpu.max') if kind=='cgroup2' else
+                   tuple((['memory.limit_in_bytes','memory.usage_in_bytes'] if 'memory' in controllers else [])+
+                         (['cpu.cfs_quota_us','cpu.cfs_period_us'] if 'cpu' in controllers else [])))
+            values={}
+            for name in names:
+                try:
+                    values[name]=read(current/name,16384).strip()
+                except FileNotFoundError:
+                    values[name]=None
+            if kind=='cgroup2':
+                limit,usage=values.get('memory.max'),values.get('memory.current')
+                quota=values.get('cpu.max')
+                if quota:
+                    q,period=quota.split()
+                    if int(period)<=0:raise RuntimeError('Invalid CPU period')
+                    if q!='max':cpu.append(int(q)/int(period))
+            else:
+                limit,usage=values.get('memory.limit_in_bytes'),values.get('memory.usage_in_bytes')
+                q,period=values.get('cpu.cfs_quota_us'),values.get('cpu.cfs_period_us')
+                if q is not None:
+                    if period is None or int(period)<=0:raise RuntimeError('Missing/invalid v1 CPU period')
+                    if int(q)>=0:cpu.append(int(q)/int(period))
+            if limit is not None:
+                found_memory=True
+                if usage is None:raise RuntimeError('Missing cgroup memory usage')
+                if int(usage)<0:raise RuntimeError('Invalid negative memory usage')
+                if limit!='max':
+                    if int(limit)<0:raise RuntimeError('Invalid negative memory limit')
+                    memory.append(max(0,int(limit)-int(usage)))
+            observed.append({'path':str(current),'files':values})
+            if current==base:break
+            if not current.is_relative_to(base):raise RuntimeError('Cgroup path escaped mount')
+            current=current.parent
+        # The true unified root has no memory.max/cpu.max by kernel design.
+        # Only this fully verified root may use host limits without memory.max.
+        true_root=(kind=='cgroup2' and root=='/' and path=='/' and leaf==base)
+        if kind=='cgroup2' or 'memory' in controllers:
+            if not found_memory and not true_root:
+                raise RuntimeError('Resolved memory controller has no readable limits')
+            verified_memory=True
+        evidence.append({'kind':kind,'controllers':sorted(controllers),'mount_root':root,
+                         'mount_point':mount,'membership':path,'true_unified_root':true_root,
+                         'ancestors':observed})
+    if not verified_memory:
+        raise RuntimeError('No verifiable memory cgroup controller/root')
+    return {'available_bounds':memory,'cpu_bounds':cpu,'resolved':evidence}
+
+
 def snapshot():
     import psutil
-    files = {}
-    for name in ('cpu.max', 'cpuset.cpus.effective', 'memory.max', 'memory.current',
-                 'memory.peak', 'memory.events', 'cpu.stat'):
-        p = Path('/sys/fs/cgroup')/name
-        files[name] = p.read_text().strip() if p.exists() else None
-    quota = files['cpu.max']
-    effective = float(len(os.sched_getaffinity(0))) if hasattr(os, 'sched_getaffinity') else float(psutil.cpu_count() or 0)
-    if quota and quota.split()[0] != 'max':
-        q, period = map(int, quota.split())
-        effective = min(effective, q/period)
-    available = psutil.virtual_memory().available
-    if files['memory.max'] and files['memory.max'] != 'max':
-        available = min(available, int(files['memory.max'])-int(files['memory.current']))
-    return {'logical_cpus': psutil.cpu_count(), 'effective_cpus': effective,
-            'effective_available_bytes': available, 'cgroup_v2': files,
-            'cgroup_membership': Path('/proc/self/cgroup').read_text() if Path('/proc/self/cgroup').exists() else None}
+    membership=bounded_read('/proc/self/cgroup',65536)
+    mountinfo=bounded_read('/proc/self/mountinfo')
+    constraints=cgroup_constraints(membership,mountinfo)
+    effective=float(len(os.sched_getaffinity(0)))
+    available=psutil.virtual_memory().available
+    effective=min([effective,*constraints['cpu_bounds']])
+    available=min([available,*constraints['available_bounds']])
+    return {'logical_cpus':psutil.cpu_count(),'effective_cpus':effective,
+            'effective_available_bytes':available,'cgroup_constraints':constraints,
+            'cgroup_membership':membership,'mountinfo':mountinfo}
 
 
 def admission(resources, policy):
@@ -162,9 +256,6 @@ def run_arm(parent, destination, policy, arm):
         relative = wrapper.relative_to(root).as_posix()
         if wrapper.read_bytes()!=subprocess.check_output(['git','show',binding['commit']+':'+relative],cwd=root):
             raise RuntimeError('Qualification wrapper differs from registered Git blob: '+relative)
-    membership = resources['cgroup_membership']
-    if membership and resources['cgroup_v2']['memory.max'] is None:
-        raise RuntimeError('Unsupported cgroup layout: effective memory cannot be established')
     old_admit, old_popen = original.resource_admission, subprocess.Popen
     processes = []
     process_lock = threading.RLock()
@@ -342,7 +433,24 @@ def main():
             p.error('Fresh publisher-confirmed --weekly-used <90 required; recheck before every arm')
         if not args.parent or not args.destination or not args.arm:
             p.error('--parent --destination --arm required')
-        run_arm(args.parent,args.destination,args.policy,args.arm)
+        existed=args.destination.exists()
+        try:
+            run_arm(args.parent,args.destination,args.policy,args.arm)
+        except BaseException as exc:
+            if not existed:
+                args.destination.mkdir(parents=True,exist_ok=True)
+                diagnostic={'status':'preflight-or-arm-failed','arm':args.arm,
+                            'error':f'{type(exc).__name__}: {exc}',
+                            'physical_result_admitted':False,'perforation_validated':False}
+                for name,limit in (('/proc/self/cgroup',65536),('/proc/self/mountinfo',262144)):
+                    try:diagnostic[name]=bounded_read(name,limit)
+                    except BaseException as read_exc:diagnostic[name]=f'{type(read_exc).__name__}: {read_exc}'
+                original.transport.write(args.destination/'resource-diagnostic.json',diagnostic)
+                if not (args.destination/'qualification.json').exists():
+                    original.transport.write(args.destination/'qualification.json',dict(diagnostic,status='preflight-failed'))
+                if not (args.destination/'receipt.json').exists():
+                    original.transport.write(args.destination/'receipt.json',dict(diagnostic,status='preflight-failed'))
+            raise
     else:
         if not args.destination or not args.other:
             p.error('--destination and --other required')

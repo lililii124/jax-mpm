@@ -12,9 +12,8 @@ admission revision motivated by the historical ~2 GiB peak, not established
 feasibility and not a silent bypass. Both retain original runtime, archive,
 controller Git/workflow identity, exact 48-frame plan and 35-step f3->f4 restore,
 finite/positive-J/material/signature/contact and endpoint validation, 10800 s,
-output/free disk guards and all final penetration claims/gates. cgroup v2 raw
-limits and effective admission are saved; v1 layouts fail closed, so use
-this experiment only on a verified cgroup-v2 runner (or uncontained runner).
+output/free disk guards and all final penetration claims/gates. Raw cgroup membership/mountinfo, resolved v1/v2/hybrid ancestor limits and
+effective admission are saved. Unknown/unreadable layouts fail closed.
 
 Publisher sequence, on original registered engineering-previews workflow only:
   python -m tools.rht_resume_qualification resources
@@ -111,3 +110,26 @@ Publisher must check fresh quota before each numerical-arm dispatch (currently
 75;15 headroom to90). One arm invocation has no code path to launch the other.
 The compare dispatch is read-only and must have no fallback to either arm.
 Separate official transport recovery remains mandatory before comparison.
+
+
+Cgroup resolution correction after official original-arm run40154998527
+---------------------------------------------------------------------
+That run failed at preflight before JAX/integration; its official log did not
+contain membership/mountinfo, so the actual layout is unknown. The old lookup
+assumed /sys/fs/cgroup/memory.max exists. New parsing resolves /proc/self/cgroup
+against cgroup/cgroup2 entries of /proc/self/mountinfo, including separate v1
+memory/CPU mounts, hybrid controllers, namespace roots and ancestor limits.
+Effective available memory is min(host available, every finite limit-usage);
+effective CPU is min(affinity, all finite quotas). Missing required memory
+accounting fails closed. A verified true unified root (mount root '/', member
+'/', resolved leaf equals mountpoint) legitimately has no memory.max, so uses
+host available memory. No guessed unlimited limit for unresolved subgroups.
+Bounded reads cap mountinfo at256KiB, membership64KiB and controller files16KiB.
+
+Any arm preflight failure now creates only real diagnostic evidence at the
+previously absent destination: resource-diagnostic.json, qualification.json and
+receipt.json. No raw state or numerical success is fabricated. Existing package
+can preserve this small diagnostic transport; qualification/compare still reject
+it. Previously existing destinations remain untouched by this diagnostic path.
+Policy >=4GiB effective available RAM and owned-session3GiB ceiling remain.
+Twelve lightweight tests pass; no JAX or cloud execution used for this fix.

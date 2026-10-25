@@ -52,7 +52,16 @@ jobs:
           git diff --exit-code HEAD -- tools/rht_resume_qualification.py tools/rht_qualification_child.py .github/workflows/rht-resume-qualification.yml .github/workflows/engineering-previews.yml
           cmp .github/workflows/rht-resume-qualification.yml .github/workflows/engineering-previews.yml
           python -m pip install psutil==7.2.2
-          python -c "from tools.rht_resume_qualification import snapshot,admission; print(admission(snapshot(),'measured-experimental'))"
+          python - <<'PYRESOURCE'
+          import json,traceback
+          from pathlib import Path
+          from tools.rht_resume_qualification import snapshot,admission
+          path=Path('.local/rht-resource-preflight.json');path.parent.mkdir(exist_ok=True)
+          try:
+              report=snapshot();path.write_text(json.dumps(report,indent=2));print(admission(report,'measured-experimental'))
+          except BaseException:
+              path.write_text(json.dumps({'failed':True,'traceback':traceback.format_exc(),'cgroup':Path('/proc/self/cgroup').read_text(),'mountinfo':Path('/proc/self/mountinfo').read_text()},indent=2));raise
+          PYRESOURCE
       - name: Retrieve immutable original transport and all raw parts
         uses: actions/download-artifact@v4
         with:
@@ -82,7 +91,22 @@ jobs:
         if: always()
         timeout-minutes: 15
         run: |
+          python - <<'PYPRESERVE'
+          import json,shutil
+          from pathlib import Path
+          dest=Path('.local/rht-impact-continuation');dest.mkdir(parents=True,exist_ok=True)
+          preflight=Path('.local/rht-resource-preflight.json')
+          if preflight.exists():shutil.copyfile(preflight,dest/'workflow-resource-preflight.json')
+          if not any(dest.iterdir()):(dest/'workflow-failure.json').write_text(json.dumps({'never_resumable':True,'raw_state_present':False,'error':'Workflow stopped before any raw state was created'}))
+          PYPRESERVE
           python -m tools.rht_impact_continue package --destination .local/rht-impact-continuation --delivery .local/rht-impact-delivery
+          python - <<'PYENVELOPE'
+          import json
+          from pathlib import Path
+          dest=Path('.local/rht-impact-continuation');path=Path('.local/rht-impact-delivery/transport.json');value=json.loads(path.read_text());raw_present=any((dest/'raw').rglob('*.npz'));value['raw_state_present']=raw_present
+          if not raw_present:value['scope']='Complete diagnostic-only failure evidence; no mechanical raw state produced';value['never_resumable']=True
+          path.write_text(json.dumps(value,indent=2)+'\n')
+          PYENVELOPE
           python - <<'PYCODE'
           import hashlib,os
           from pathlib import Path
@@ -441,3 +465,15 @@ jobs:
           path: .local/rht-impact-retrieved/retrieval-receipt.json
           if-no-files-found: warn
           retention-days: 7
+      - name: Preserve small resource qualification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-qualification-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .local/rht-resource-preflight.json
+            .local/rht-impact-continuation/resource-diagnostic.json
+            .local/rht-impact-continuation/qualification.json
+            .local/rht-impact-continuation/receipt.json
+          if-no-files-found: warn
+          retention-days: 30
