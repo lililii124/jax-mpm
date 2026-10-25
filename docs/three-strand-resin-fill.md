@@ -67,3 +67,26 @@ constraint, not arbitrary position projection. Subsequent actual flow reaches
 30.72ms/768steps with7547 active particles; pressure-mask/particle-volume ratio
 is1.06856, down from1.567 at the first thin inlet layer. These are bounded
 experimental results, not a completed filling or convergence certificate.
+
+The original quadratic-transport trajectory subsequently reached5376steps
+(215.04ms), but an actual bulk-density and occupied-volume audit rejected it
+for filling qualification. It remains a private reference, including its media.
+An incremental RT0 characteristic-transport candidate starts from its explicitly
+hashed5376 state. A particle-owned/reachable pressure-domain closure includes
+only open cells with complete positive free-face mass support; fixed walls remain
+fixed and no mass is manufactured. The fine mass-metric D/gradient system and
+residual admission remain unchanged. Symmetric Galerkin aggregation supplies an
+SPD preconditioner. A16-step real interval reached5392 with accumulated incremental
+logJ between -1.016e-10 and9.172e-11, no solid intrusion and conserved source mass.
+That result does not repair or certify the preceding density distribution.
+
+A later actual step5420 failed the original400-iteration pressure execution
+budget. The residual7.445e-7 failed the unchanged1e-7 admission and its rejected
+state was retained. The next bounded candidate uses800 standard PCG iterations
+maximum with actual counts recorded; it changes solver work, not physical
+parameters or error tolerance. Its last persisted parent is5408. Recovery uses
+a read-only view of the original checkpoint and the ledger truncated at that
+checkpoint, retaining the original rejection journal separately. Only after
+necessary incremental validation may a single clean corrected fill begin from
+the same physical empty-fluid initial state. Neither numeric completion nor an
+incremental logJ result by itself proves a filled, volume-qualified composite.
