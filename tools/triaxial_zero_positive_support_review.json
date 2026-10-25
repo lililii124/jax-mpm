@@ -1,0 +1,637 @@
+{
+  "original_failed_attempt": 8110,
+  "last_complete_valid_checkpoint": 8095,
+  "actual_support_condition": "Strictly positive interpolating force weights only, no epsilon or clipping; exactly zero endpoint does not bear the evaluated contact load",
+  "full_array_parity": {
+    "force_shape": [
+      683232,
+      3
+    ],
+    "force_bitexact": true,
+    "potential_shape": [
+      4096
+    ],
+    "potential_bitexact": true,
+    "whole_npz_sha256": "4407f2b2cb8c3480248affcb13a54882bd5f4daa7e516d537be0d7525e760286"
+  },
+  "negative_positive_loaded_section_rejected": true,
+  "strict_zero_and_positive_weight_results": [
+    false,
+    true,
+    true
+  ],
+  "physical_footprints": {
+    "mechanical_steps_executed": 0,
+    "actual_contact_points_corrected": true,
+    "important": "FibrePatchMetrics.closest_points are centreline points; surface points reconstructed using actual radius/normal. Original preliminary point-only audit is not a surface certificate.",
+    "scope": "Current deformed local-affine quadrature-cell enclosure using original equal-area angular-Jacobian sectors and uniform-arclength cells; not a continuum convergence proof. Dense reference sampling plus global analytic derivative bound encloses the entire cell, then actualF stretches the enclosure.",
+    "sampling_grid": [
+      33,
+      33,
+      65
+    ],
+    "global_reference_derivative_bounds": {
+      "Ls": 3.15117359102379,
+      "Lr": 1.9495646729853877,
+      "Lq": 0.00022907384907578306,
+      "K": 4145.23384845753,
+      "Kprime": 61825592.7414734
+    },
+    "patches": [
+      {
+        "slot": 162,
+        "representative_segments": [
+          9076,
+          25044
+        ],
+        "actual_surface_points_m": [
+          [
+            0.004868421549576245,
+            0.00028027512313502645,
+            0.015406017336076853
+          ],
+          [
+            0.004868583213497973,
+            0.0002800286746064614,
+            0.015406293563942056
+          ]
+        ],
+        "contact_radius_m": 6.895327473582538e-06,
+        "checks": [
+          {
+            "fibre": 15,
+            "failed_MP_count": 326,
+            "refined_cells": 51,
+            "minimum_cell_to_Hertz_disk_lower_bound_m": 5.69397273756657e-06,
+            "worst_particle": 218183,
+            "healthy": true
+          },
+          {
+            "fibre": 60,
+            "failed_MP_count": 0,
+            "refined_cells": 0,
+            "minimum_cell_to_Hertz_disk_lower_bound_m": null,
+            "worst_particle": null,
+            "healthy": true
+          }
+        ]
+      },
+      {
+        "slot": 163,
+        "representative_segments": [
+          9068,
+          25053
+        ],
+        "actual_surface_points_m": [
+          [
+            0.0045934041060527895,
+            0.0002507930290771224,
+            0.015572035257779915
+          ],
+          [
+            0.004592934229910393,
+            0.00024990788258648047,
+            0.015570990223716163
+          ]
+        ],
+        "contact_radius_m": 1.3062769388193043e-05,
+        "checks": [
+          {
+            "fibre": 15,
+            "failed_MP_count": 326,
+            "refined_cells": 50,
+            "minimum_cell_to_Hertz_disk_lower_bound_m": 9.31430606443878e-06,
+            "worst_particle": 218132,
+            "healthy": true
+          },
+          {
+            "fibre": 60,
+            "failed_MP_count": 0,
+            "refined_cells": 0,
+            "minimum_cell_to_Hertz_disk_lower_bound_m": null,
+            "worst_particle": null,
+            "healthy": true
+          }
+        ]
+      }
+    ],
+    "cell_bounds": [
+      {
+        "particle": 218088,
+        "fibre": 15,
+        "section": 117,
+        "ring": 0,
+        "reference_sample_radius_m": 4.278346666349483e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.0902136852960056,
+        "deformed_cell_enclosing_radius_m": 5.3715186167043915e-05
+      },
+      {
+        "particle": 218089,
+        "fibre": 15,
+        "section": 117,
+        "ring": 0,
+        "reference_sample_radius_m": 4.135628119367746e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.0560346119054802,
+        "deformed_cell_enclosing_radius_m": 5.0524014747139795e-05
+      },
+      {
+        "particle": 218090,
+        "fibre": 15,
+        "section": 117,
+        "ring": 0,
+        "reference_sample_radius_m": 4.135628119367746e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.059520567658405,
+        "deformed_cell_enclosing_radius_m": 5.0690793826047875e-05
+      },
+      {
+        "particle": 218091,
+        "fibre": 15,
+        "section": 117,
+        "ring": 0,
+        "reference_sample_radius_m": 4.278346666349483e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.0937088003682136,
+        "deformed_cell_enclosing_radius_m": 5.3887391634018876e-05
+      },
+      {
+        "particle": 218092,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.7206563219664824e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.111940568786835,
+        "deformed_cell_enclosing_radius_m": 5.7705611012054e-05
+      },
+      {
+        "particle": 218093,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.287523403921775e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.078922727509584,
+        "deformed_cell_enclosing_radius_m": 5.131893743546468e-05
+      },
+      {
+        "particle": 218094,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.1151789963291395e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0412464478670609,
+        "deformed_cell_enclosing_radius_m": 4.773233594379894e-05
+      },
+      {
+        "particle": 218095,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.0281528718001715e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0231529383407032,
+        "deformed_cell_enclosing_radius_m": 4.6012491335333306e-05
+      },
+      {
+        "particle": 218096,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.02815287180017e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0264274638729447,
+        "deformed_cell_enclosing_radius_m": 4.615975092090799e-05
+      },
+      {
+        "particle": 218097,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.115178996329138e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0503614794600036,
+        "deformed_cell_enclosing_radius_m": 4.815018298762215e-05
+      },
+      {
+        "particle": 218098,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.2875234039217794e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0873283558715887,
+        "deformed_cell_enclosing_radius_m": 5.1718750976339134e-05
+      },
+      {
+        "particle": 218099,
+        "fibre": 15,
+        "section": 117,
+        "ring": 1,
+        "reference_sample_radius_m": 4.7206563219664824e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.1156211233533233,
+        "deformed_cell_enclosing_radius_m": 5.789661820801785e-05
+      },
+      {
+        "particle": 218100,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 5.444477418065635e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.129156996457515,
+        "deformed_cell_enclosing_radius_m": 6.621900756640867e-05
+      },
+      {
+        "particle": 218101,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 4.653368563603457e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.0982557974808518,
+        "deformed_cell_enclosing_radius_m": 5.57184189634501e-05
+      },
+      {
+        "particle": 218102,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 4.345979836264124e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.0589151248506006,
+        "deformed_cell_enclosing_radius_m": 5.0467541128512824e-05
+      },
+      {
+        "particle": 218108,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 4.2084933930001537e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.0364542999703457,
+        "deformed_cell_enclosing_radius_m": 4.797208156448754e-05
+      },
+      {
+        "particle": 218109,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 4.345979836264124e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.0723308741412811,
+        "deformed_cell_enclosing_radius_m": 5.110693125828623e-05
+      },
+      {
+        "particle": 218110,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 4.653368563603461e-05,
+        "reference_Lipschitz_remainder_m": 4.19986759560367e-06,
+        "F_max_singular": 1.1077868541506601,
+        "deformed_cell_enclosing_radius_m": 5.620196333436163e-05
+      },
+      {
+        "particle": 218111,
+        "fibre": 15,
+        "section": 117,
+        "ring": 2,
+        "reference_sample_radius_m": 5.4444774180657904e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.1332805154455021,
+        "deformed_cell_enclosing_radius_m": 6.646082986031854e-05
+      },
+      {
+        "particle": 218112,
+        "fibre": 15,
+        "section": 118,
+        "ring": 0,
+        "reference_sample_radius_m": 4.29977925619082e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.188063737062362,
+        "deformed_cell_enclosing_radius_m": 5.879092316735073e-05
+      },
+      {
+        "particle": 218113,
+        "fibre": 15,
+        "section": 118,
+        "ring": 0,
+        "reference_sample_radius_m": 4.1301332358663984e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.0989798070812395,
+        "deformed_cell_enclosing_radius_m": 5.2518260192730535e-05
+      },
+      {
+        "particle": 218114,
+        "fibre": 15,
+        "section": 118,
+        "ring": 0,
+        "reference_sample_radius_m": 4.1301332358663984e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.105549816590496,
+        "deformed_cell_enclosing_radius_m": 5.283222908156048e-05
+      },
+      {
+        "particle": 218115,
+        "fibre": 15,
+        "section": 118,
+        "ring": 0,
+        "reference_sample_radius_m": 4.299779256190821e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.1980129883354513,
+        "deformed_cell_enclosing_radius_m": 5.92832584259078e-05
+      },
+      {
+        "particle": 218116,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.78278552124248e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.2536727353345378,
+        "deformed_cell_enclosing_radius_m": 6.583988411171376e-05
+      },
+      {
+        "particle": 218117,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.3968122923330196e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.1590962158095706,
+        "deformed_cell_enclosing_radius_m": 5.639915113421275e-05
+      },
+      {
+        "particle": 218118,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.167803420720084e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.073768488531222,
+        "deformed_cell_enclosing_radius_m": 4.978826070993354e-05
+      },
+      {
+        "particle": 218119,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.025547263378261e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0395024658445864,
+        "deformed_cell_enclosing_radius_m": 4.6720665055901775e-05
+      },
+      {
+        "particle": 218120,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.025547263378261e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0439607941239974,
+        "deformed_cell_enclosing_radius_m": 4.6921045592837184e-05
+      },
+      {
+        "particle": 218121,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.167803420720086e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0881032959782868,
+        "deformed_cell_enclosing_radius_m": 5.0452933903479605e-05
+      },
+      {
+        "particle": 218122,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.396812292333022e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.1817861752055299,
+        "deformed_cell_enclosing_radius_m": 5.750319619254994e-05
+      },
+      {
+        "particle": 218123,
+        "fibre": 15,
+        "section": 118,
+        "ring": 1,
+        "reference_sample_radius_m": 4.78278552124248e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.2663947035568577,
+        "deformed_cell_enclosing_radius_m": 6.650801135881938e-05
+      },
+      {
+        "particle": 218124,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 5.57814514941221e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.2975740961509468,
+        "deformed_cell_enclosing_radius_m": 7.783020590379243e-05
+      },
+      {
+        "particle": 218125,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 4.943328018778923e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.2164129957087797,
+        "deformed_cell_enclosing_radius_m": 6.524005796448866e-05
+      },
+      {
+        "particle": 218126,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 4.516057379886185e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.1159922242946179,
+        "deformed_cell_enclosing_radius_m": 5.50858687839737e-05
+      },
+      {
+        "particle": 218127,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 4.3228503278657444e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.0453930172451322,
+        "deformed_cell_enclosing_radius_m": 4.9581287731264974e-05
+      },
+      {
+        "particle": 218132,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 4.3228503278657444e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.063996848736782,
+        "deformed_cell_enclosing_radius_m": 5.04636371509332e-05
+      },
+      {
+        "particle": 218133,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 4.516057379886181e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.144770816260383,
+        "deformed_cell_enclosing_radius_m": 5.650639278611504e-05
+      },
+      {
+        "particle": 218134,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 4.943328018778918e-05,
+        "reference_Lipschitz_remainder_m": 4.19986759560367e-06,
+        "F_max_singular": 1.2476298496287648,
+        "deformed_cell_enclosing_radius_m": 6.691431610411173e-05
+      },
+      {
+        "particle": 218135,
+        "fibre": 15,
+        "section": 118,
+        "ring": 2,
+        "reference_sample_radius_m": 5.578145149412211e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.3110951103260056,
+        "deformed_cell_enclosing_radius_m": 7.864121416944338e-05
+      },
+      {
+        "particle": 218136,
+        "fibre": 15,
+        "section": 119,
+        "ring": 0,
+        "reference_sample_radius_m": 4.279775712076769e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.0529565776301273,
+        "deformed_cell_enclosing_radius_m": 5.18945634726626e-05
+      },
+      {
+        "particle": 218139,
+        "fibre": 15,
+        "section": 119,
+        "ring": 0,
+        "reference_sample_radius_m": 4.2797757120767716e-05,
+        "reference_Lipschitz_remainder_m": 6.486861613901199e-06,
+        "F_max_singular": 1.0554727487967714,
+        "deformed_cell_enclosing_radius_m": 5.2018572009281855e-05
+      },
+      {
+        "particle": 218140,
+        "fibre": 15,
+        "section": 119,
+        "ring": 1,
+        "reference_sample_radius_m": 4.6627333701071156e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.1352476816984325,
+        "deformed_cell_enclosing_radius_m": 5.825759517042835e-05
+      },
+      {
+        "particle": 218141,
+        "fibre": 15,
+        "section": 119,
+        "ring": 1,
+        "reference_sample_radius_m": 4.416028969884476e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.036868989082056,
+        "deformed_cell_enclosing_radius_m": 5.0651086591216904e-05
+      },
+      {
+        "particle": 218146,
+        "fibre": 15,
+        "section": 119,
+        "ring": 1,
+        "reference_sample_radius_m": 4.4160289698844826e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.0431237498066546,
+        "deformed_cell_enclosing_radius_m": 5.095663187264107e-05
+      },
+      {
+        "particle": 218147,
+        "fibre": 15,
+        "section": 119,
+        "ring": 1,
+        "reference_sample_radius_m": 4.662733370107117e-05,
+        "reference_Lipschitz_remainder_m": 4.689745478751309e-06,
+        "F_max_singular": 1.1417652893500279,
+        "deformed_cell_enclosing_radius_m": 5.8592059758348305e-05
+      },
+      {
+        "particle": 218148,
+        "fibre": 15,
+        "section": 119,
+        "ring": 2,
+        "reference_sample_radius_m": 5.263024425211977e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.240981917727425,
+        "deformed_cell_enclosing_radius_m": 7.052514118545189e-05
+      },
+      {
+        "particle": 218149,
+        "fibre": 15,
+        "section": 119,
+        "ring": 2,
+        "reference_sample_radius_m": 4.975680123682151e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.10739697790841,
+        "deformed_cell_enclosing_radius_m": 5.975145200303254e-05
+      },
+      {
+        "particle": 218158,
+        "fibre": 15,
+        "section": 119,
+        "ring": 2,
+        "reference_sample_radius_m": 4.975680123682148e-05,
+        "reference_Lipschitz_remainder_m": 4.19986759560367e-06,
+        "F_max_singular": 1.1220000506579795,
+        "deformed_cell_enclosing_radius_m": 6.053938516331684e-05
+      },
+      {
+        "particle": 218159,
+        "fibre": 15,
+        "section": 119,
+        "ring": 2,
+        "reference_sample_radius_m": 5.263024425211979e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.2518534109607253,
+        "deformed_cell_enclosing_radius_m": 7.114296936185214e-05
+      },
+      {
+        "particle": 218172,
+        "fibre": 15,
+        "section": 120,
+        "ring": 2,
+        "reference_sample_radius_m": 4.8204326728040464e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603671e-06,
+        "F_max_singular": 1.0451620502744419,
+        "deformed_cell_enclosing_radius_m": 5.477087518228017e-05
+      },
+      {
+        "particle": 218183,
+        "fibre": 15,
+        "section": 120,
+        "ring": 2,
+        "reference_sample_radius_m": 4.820432672804048e-05,
+        "reference_Lipschitz_remainder_m": 4.199867595603672e-06,
+        "F_max_singular": 1.0467055503004075,
+        "deformed_cell_enclosing_radius_m": 5.4851761057579445e-05
+      }
+    ],
+    "all_model_footprints_healthy": true,
+    "positive_support_guard_still_required": true
+  },
+  "scope": "Conditional permission only for8095+25steps after actual footprint exclusion. Cell enclosure uses original analytic quadrature material geometry and currentF; it is not a continuum convergence claim. Original failed state8109 never restored as accepted.",
+  "proof_capsule_sha256": "96ad246580c80a49555797dc8b5d753fa8c2295ee6d4fcbbb406c4be07e93340",
+  "guard_capsule_sha256": "286f07686890a0db52f869955bb9ac56ef4da127e1a33537e60980157bb202a6",
+  "runtime_source": "b56aba7"
+}
