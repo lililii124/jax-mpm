@@ -2,6 +2,10 @@ name: Bounded HJC step boundary work diagnostic
 on:
   workflow_dispatch:
     inputs:
+      time_step_divisor:
+        type: choice
+        options: ['1','2']
+        default: '1'
       review_only:
         type: choice
         options: ['false','true']
@@ -25,6 +29,7 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
+      TIME_STEP_DIVISOR: ${{ inputs.time_step_divisor }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -36,7 +41,8 @@ jobs:
       - name: Frozen original core material geometry source gate
         run: |
           git fetch --no-tags --depth=1 origin d857cec8d682446a1f4821ebd0fb3b713ef761a2
-          git diff --exit-code d857cec8d682446a1f4821ebd0fb3b713ef761a2 HEAD -- mpm_jax examples
+          git diff --exit-code d857cec8d682446a1f4821ebd0fb3b713ef761a2 HEAD -- mpm_jax
+          test "$(git diff --name-only d857cec8d682446a1f4821ebd0fb3b713ef761a2 HEAD -- examples)" = "examples/brittle_engineering.py"
       - name: Pinned original CPU environment
         run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
       - name: Download and completely authenticate original frame40 archive and source
@@ -50,10 +56,10 @@ jobs:
           parent,receipt=audit.official_archive('f40',audit.CHILD,output)
           state=audit.provenance_and_state(parent,audit.CHILD)
           assert audit.sha(parent/'prefix-review.json') == '1a540c6bc4755f85394d4a8c5da3ead023989fa8060d3a5e4ab0d3b479624fc4'
-          (output/'admission.json').write_text(json.dumps(dict(passed=True,commit=os.environ['GITHUB_SHA'],original_core_and_examples_unchanged=True,parent_archive=receipt,parent_min_J=state['min_J']),indent=2))
+          (output/'admission.json').write_text(json.dumps(dict(passed=True,commit=os.environ['GITHUB_SHA'],original_core_unchanged=True,example_change_scope='Explicit time divisor is passed into config before observer creation; default factory checked against original Git blob in worker',parent_archive=receipt,parent_min_J=state['min_J']),indent=2))
           PYCODE
       - name: Same config actual step work startup8 and damaged frame40 plus64 no full rerun
-        run: python tools/probe_hjc_step_work.py --output .local/hjc-step-work/probe --parent .local/hjc-step-work/input/f40/restored
+        run: python tools/probe_hjc_step_work.py --output .local/hjc-step-work/probe --parent .local/hjc-step-work/input/f40/restored --time-step-divisor "$TIME_STEP_DIVISOR"
       - uses: actions/upload-artifact@v7
         if: always()
         with:

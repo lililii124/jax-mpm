@@ -58,7 +58,9 @@ class LoadingBox(MovingVelocityBox):
         return distance * target, speed * target
 
 
-def _config(model, grid, domain, duration, frames, boundaries, *, profile=None):
+def _config(model, grid, domain, duration, frames, boundaries, *, profile=None, time_step_divisor=1):
+    if type(time_step_divisor) is not int or time_step_divisor not in (1, 2):
+        raise ValueError("time_step_divisor must be 1 or 2")
     material, density, kind, wave_speed = material_model(model)
     if profile is not None:
         if model != "hjc":
@@ -70,7 +72,7 @@ def _config(model, grid, domain, duration, frames, boundaries, *, profile=None):
         dim=3,
         n_grid=grid,
         domain_size=domain,
-        dt=duration / (frames * substeps),
+        dt=duration / (frames * substeps * time_step_divisor),
         material=kind,
         gravity=(0.0, 0.0, 0.0),
         boundary_cells=0,
@@ -157,7 +159,7 @@ def _reactions(state, material, config, names):
 
 
 def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
-                   hold_duration=0.0, ramp_time=None, profile=None):
+                   hold_duration=0.0, ramp_time=None, profile=None, time_step_divisor=1):
     if model not in ("hjc", "rht"):
         raise ValueError("concrete-bending requires model='hjc' or 'rht'")
     domain, duration = 0.4, loading_duration + hold_duration
@@ -199,7 +201,7 @@ def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
     )
     boundaries = (left, right, lateral_anchor, loading)
     material, density, cfg, wave_speed = _config(
-        model, grid, domain, duration, frames, boundaries, profile=profile
+        model, grid, domain, duration, frames, boundaries, profile=profile, time_step_divisor=time_step_divisor
     )
     state = block(
         cfg, lower, upper, particles_per_cell=ppc, density=density,
@@ -307,7 +309,7 @@ def concrete_bending(*, grid=64, ppc=3, model="hjc", frames=40):
 
 def concrete_bending_large(*, grid=80, ppc=3, model="hjc", frames=60,
                            displacement=0.012, loading_duration=0.0012,
-                           hold_duration=0.0003, profile="strain-floor"):
+                           hold_duration=0.0003, profile="strain-floor", time_step_divisor=1):
     """A 12 mm loading and hold with an explicitly selected HJC profile."""
     if model != "hjc":
         raise ValueError("concrete-bending-large requires model='hjc'")
@@ -320,7 +322,7 @@ def concrete_bending_large(*, grid=80, ppc=3, model="hjc", frames=60,
     return _concrete_beam(
         grid=grid, ppc=ppc, model=model, frames=frames, displacement=displacement,
         loading_duration=loading_duration, hold_duration=hold_duration,
-        ramp_time=loading_duration / 4, profile=profile,
+        ramp_time=loading_duration / 4, profile=profile, time_step_divisor=time_step_divisor,
     )
 
 
@@ -402,11 +404,11 @@ def _concrete_symmetry_observables(current, reference, pairs, center):
 
 
 def concrete_bending_symmetric(*, grid=64, ppc=3, model="hjc", frames=60,
-                               profile="strain-floor"):
+                               profile="strain-floor", time_step_divisor=1):
     """The 12 mm beam with two rollers and two explicit symmetry planes."""
     if not isinstance(grid, int) or grid < 12 or grid % 2:
         raise ValueError("concrete-bending-symmetric requires an even grid >= 12")
-    base = concrete_bending_large(grid=grid, ppc=ppc, model=model, frames=frames, profile=profile)
+    base = concrete_bending_large(grid=grid, ppc=ppc, model=model, frames=frames, profile=profile, time_step_divisor=time_step_divisor)
     original_config = base.configs[0]
     boundaries = _symmetric_concrete_boundaries(original_config.boundaries, grid, original_config.domain_size)
     cfg = replace(original_config, boundaries=boundaries)
@@ -662,7 +664,9 @@ def ceramic_indentation_wide(*, grid=96, ppc=2, model="jh2", frames=40):
     return Case((state,), (material,), (cfg,), duration, definition, observer=observe)
 
 
-def setup(scene, *, grid=64, ppc=3, model=None, frames=40):
+def setup(scene, *, grid=64, ppc=3, model=None, frames=40, time_step_divisor=1):
+    if time_step_divisor != 1 and scene != "concrete-bending-mat111":
+        raise ValueError("time refinement is isolated to the MAT111 beam qualification")
     if not isinstance(grid, int) or grid < 12:
         raise ValueError("brittle engineering examples require grid >= 12")
     if not isinstance(ppc, int) or ppc < 1 or not isinstance(frames, int) or frames < 1:
@@ -675,7 +679,7 @@ def setup(scene, *, grid=64, ppc=3, model=None, frames=40):
         return concrete_bending_symmetric(grid=grid, ppc=ppc, model=model or "hjc", frames=frames)
     if scene == "concrete-bending-mat111":
         return concrete_bending_symmetric(grid=grid, ppc=ppc, model=model or "hjc", frames=frames,
-                                          profile="mat111-compatible")
+                                          profile="mat111-compatible", time_step_divisor=time_step_divisor)
     if scene == "ceramic-indentation":
         return ceramic_indentation(grid=grid, ppc=ppc, model=model or "jh2", frames=frames)
     if scene == "ceramic-indentation-wide":

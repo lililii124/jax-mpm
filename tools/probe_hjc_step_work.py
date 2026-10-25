@@ -3,7 +3,7 @@
 The production core/config/material/loading remain unchanged. This is not an
 energy-convergence certificate; the stage identity is an accounting identity.
 """
-from dataclasses import replace
+from dataclasses import replace, asdict
 from functools import partial
 import argparse
 import hashlib
@@ -93,16 +93,40 @@ def numpy_work(previous,following):
         stored_increment_J=float(np.sum(previous.mass*measured)))
 
 
-def run(output,parent):
+def run(output,parent,time_step_divisor):
     import jax
     from mpm_jax import core
     from mpm_jax.materials.history import History
     from examples.brittle_engineering import setup
     jax.config.update('jax_enable_x64',True)
     output.mkdir(parents=True,exist_ok=False)
-    case = setup('concrete-bending-mat111',grid=64,ppc=3,frames=60)
+    # Build the reference factory from its exact authenticated original Git blob.
+    # This validates the default and ensures dt/2 reaches every observer closure.
+    import types
+    original_source=subprocess.check_output(['git','show','d857cec8d682446a1f4821ebd0fb3b713ef761a2:examples/brittle_engineering.py'],cwd=ROOT)
+    reference_module=types.ModuleType('examples._hjc_original_factory_reference')
+    reference_module.__package__='examples'
+    sys.modules[reference_module.__name__]=reference_module
+    exec(compile(original_source,'authenticated-original-brittle-engineering','exec'),reference_module.__dict__)
+    original_case=reference_module.setup('concrete-bending-mat111',grid=64,ppc=3,frames=60)
+    default_case=setup('concrete-bending-mat111',grid=64,ppc=3,frames=60)
+    assert asdict(default_case.configs[0])==asdict(original_case.configs[0])
+    assert default_case.description==original_case.description
+    assert all(np.array_equal(a,b) for a,b in zip(jax.tree.leaves(default_case.states),jax.tree.leaves(original_case.states)))
+    assert all(np.array_equal(a,b) for a,b in zip(jax.tree.leaves(default_case.materials),jax.tree.leaves(original_case.materials)))
+    case = setup('concrete-bending-mat111',grid=64,ppc=3,frames=60,time_step_divisor=time_step_divisor)
+    original_config=asdict(original_case.configs[0])
+    refined_config=asdict(case.configs[0])
+    assert refined_config.pop('dt')==original_config.pop('dt')/time_step_divisor
+    assert refined_config==original_config
+    assert all(np.array_equal(a,b) for a,b in zip(jax.tree.leaves(case.states),jax.tree.leaves(original_case.states)))
+    assert all(np.array_equal(a,b) for a,b in zip(jax.tree.leaves(case.materials),jax.tree.leaves(original_case.materials)))
+    for key in original_case.description:
+        if key not in ('time_step_s','acoustic_CFL'):
+            assert case.description[key]==original_case.description[key],key
+    del default_case,original_case,reference_module
     config,material = case.configs[0],case.materials[0]
-    assert config.dt == 1.4285714285714285e-7 and config.boundary_cells == 0
+    assert config.dt == 1.4285714285714285e-7/time_step_divisor and config.boundary_cells == 0
     assert not any(config.gravity) and config.failure_mode == 'retain'
     with np.load(parent/'raw/checkpoint_0_0.npz',allow_pickle=False) as raw:
         fields = {name:jax.numpy.asarray(raw[name]) for name in raw.files}
@@ -118,7 +142,7 @@ def run(output,parent):
         'prescribed_boundary_work_J','boundary_projection_loss_J','stage_identity_residual_J',
         'replayed_grid_velocity_error_m_per_s','boundary_work_identity_error_J']
     reports = []
-    for label,initial,steps in [('startup',case.states[0],8),('active-damaged-f40',restored,64)]:
+    for label,initial,steps in [('startup',case.states[0],8*time_step_divisor),('active-damaged-f40',restored,64*time_step_divisor)]:
         started = time.monotonic()
         baseline = core.advance(initial,material,config,steps)
         jax.block_until_ready(baseline.x)
@@ -132,6 +156,8 @@ def run(output,parent):
         before = jax.tree.map(np.asarray,previous)
         original = jax.tree.map(np.asarray,baseline)
         errors = [float(np.max(np.abs(a.astype(float)-b.astype(float)))) for a,b in zip(jax.tree.leaves(final),jax.tree.leaves(original))]
+        for first,second in zip(jax.tree.leaves(final),jax.tree.leaves(original)):
+            assert np.max(np.abs(first.astype(float)-second.astype(float))) <= 1e-12*max(1.,float(np.max(np.abs(second.astype(float)))))
         assert bool(final.valid) and np.all(final.history.valid)
         np.testing.assert_allclose(final.x,original.x,rtol=0,atol=1e-13)
         np.testing.assert_allclose(final.F,original.F,rtol=0,atol=1e-12)
@@ -148,8 +174,10 @@ def run(output,parent):
         assert np.max(np.abs(matrix[:,15])) < 1e-8
         assert np.max(np.abs(matrix[:,13])) < 1e-8
         assert np.max(np.abs(matrix[:,4]-matrix[:,5])) < 1e-8
-        observer = case.observer((value,),float(value.time))
-        assert abs(observer['boundary_sample_time_s']-(float(value.time)+config.dt)) < 1e-15
+        observer = case.observer((previous,),float(previous.time))
+        assert abs(observer['boundary_sample_time_s']-float(value.time)) < 1e-15
+        actual_loading_reaction=-float(stage_matrix[-1,-1,4])/config.dt
+        np.testing.assert_allclose(observer['loading_reaction_y_N'],actual_loading_reaction,rtol=1e-12,atol=1e-5)
         reports.append(dict(label=label,steps=steps,seconds=time.monotonic()-started,start_time_s=float(initial.time),
             end_time_s=float(value.time),max_state_leaf_absolute_difference=max(errors),
             all_state_leaves_bitwise_equal=all(np.array_equal(a,b) for a,b in zip(jax.tree.leaves(final),jax.tree.leaves(original))),
@@ -160,9 +188,13 @@ def run(output,parent):
             cumulative_stress_plus_material_change_J=float((matrix[:,7]+matrix[:,4]).sum()),
             max_stage_identity_residual_J=float(np.max(np.abs(matrix[:,13]))),
             min_J=float(np.linalg.det(final.F).min()),max_damage=float(final.history.damage.max()),
-            observer_uses_same_config=True,observer_is_next_step_probe=True))
+            observer_uses_same_config=True,observer_is_next_step_probe=True,
+            observer_loading_reaction_N=observer['loading_reaction_y_N'],actual_step_loading_reaction_N=actual_loading_reaction))
     report = dict(passed=True,commit=os.environ.get('GITHUB_SHA'),particles=121104,config_dt_s=config.dt,
-        baseline_equations_unchanged=True,cases=reports,steps_per_path=72,total_physical_steps_executed=144,
+        baseline_equations_unchanged=True,cases=reports,steps_per_path=72*time_step_divisor,total_physical_steps_executed=144*time_step_divisor,
+        time_step_divisor=time_step_divisor,default_factory_exactly_preserved=True,
+        identical_initial_state_geometry_material_and_loading=True,
+        refined_f40_seed_scope="Local seeded comparison only; not a globally refined f0-to-f40 history.",
         parent_frame40_checkpoint_sha256=hashlib.sha256((parent/'raw/checkpoint_0_0.npz').read_bytes()).hexdigest(),
         boundary_labels=['domain-clipping',*case.description['boundary_names']],
         work_definition='Sum impulse dot post-constraint velocity at actual t+dt sequential boundary application; work=grid kinetic change+positive projection term.',
@@ -178,9 +210,10 @@ if __name__=='__main__':
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--parent',type=Path,required=True)
     parser.add_argument('--worker',action='store_true')
+    parser.add_argument('--time-step-divisor',type=int,choices=(1,2),default=1)
     args=parser.parse_args()
     if args.worker:
-        run(args.output.resolve(),args.parent.resolve())
+        run(args.output.resolve(),args.parent.resolve(),args.time_step_divisor)
     else:
         import ctypes
         import psutil
@@ -196,7 +229,7 @@ if __name__=='__main__':
         try:
             with (output.parent/'worker.log').open('wb') as log:
                 process=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'--worker',
-                    '--output',str(output),'--parent',str(args.parent.resolve())],cwd=ROOT,
+                    '--output',str(output),'--parent',str(args.parent.resolve()),'--time-step-divisor',str(args.time_step_divisor)],cwd=ROOT,
                     stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
                 while process.poll() is None:
                     uss=owned_session_uss(process.pid,psutil)
