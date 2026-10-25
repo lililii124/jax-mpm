@@ -7,7 +7,7 @@ This is an explicit candidate, not a claim of unconditional energy stability.
 """
 import jax
 import jax.numpy as jnp
-from .fibre_mpm import FibreState,stencil,particle_to_grid,grid_to_particle
+from .fibre_mpm import FibreState,stencil,particle_to_grid,grid_to_particle,grid_coordinates
 from .materials.isotropic_brittle import update_brittle,brittle_energy
 from .fibre_forming_boundary import prescribe
 from .fibre_forming_contact import project,mass_gradient,PAIRS
@@ -58,6 +58,15 @@ def make_step(material,layout,config,masks,duration):
         p2gloss=K0-grid_energy(mass,pre);g2ploss=grid_energy(mass,post)-K1
         remainder=work-lossbc-contactloss-(K1-K0)-(U1-U0)
         grididentity=grid_energy(mass,post)-grid_energy(mass,pre)-work+lossbc+contactloss+S
-        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F))])
+        coordinates,_=grid_coordinates(layout,jnp.arange(layout.node_count))
+        fixture_torque=jnp.sum(jnp.cross(coordinates,fixture),axis=0)
+        def angular(position,velocity,affine):
+            spin=jnp.stack((affine[:,2,1]-affine[:,1,2],affine[:,0,2]-affine[:,2,0],affine[:,1,0]-affine[:,0,1]),axis=1)
+            return jnp.sum(s.mass[:,None]*(jnp.cross(position,velocity)+layout.dx**2/4*spin),axis=0)
+        Lold=angular(s.x,s.v,s.C);Lnew=angular(x,v,C)
+        angular_error=jnp.linalg.norm(Lnew-Lold-fixture_torque)
+        transport=jnp.linalg.norm(jnp.sum(s.mass[:,None]*jnp.cross(x-s.x,v),axis=0))
+        momentum_error=jnp.linalg.norm(jnp.sum(s.mass[:,None]*(v-s.v),axis=0)-impulse)
+        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew)])
         return new,metrics
     return step
