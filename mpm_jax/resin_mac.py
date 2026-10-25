@@ -64,7 +64,7 @@ class PressureResult(NamedTuple):
     valid: object
 
 
-def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400):
+def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400,preconditioner=None):
     inverse=tuple(jnp.where((m>0)&~f,1/jnp.maximum(m,1e-300),0.) for m,f in zip(mass,fixed))
     available=tuple((m>0)|f for m,f in zip(mass,fixed))
     a,b,c=available
@@ -81,8 +81,12 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
         correction=tuple(i*g for i,g in zip(inverse,gradient))
         return jnp.where(fluid,divergence(correction,h),value)
     rhs=jnp.where(fluid,divergence(velocity,h),0.)
+    M=lambda value:value/diag
+    if preconditioner=='galerkin':
+        from .resin_pressure_multigrid import make_preconditioner
+        M=make_preconditioner(inverse,fluid,h)
     def solve(_):
-        multiplier,_=cg(operator,rhs,x0=jnp.zeros_like(rhs),M=lambda value:value/diag,tol=tolerance,atol=0.,maxiter=max_iterations)
+        multiplier,_=cg(operator,rhs,x0=jnp.zeros_like(rhs),M=M,tol=tolerance,atol=0.,maxiter=max_iterations)
         return multiplier
     multiplier=jax.lax.cond(coverage&positive&(jnp.linalg.norm(rhs)>0),solve,lambda _:jnp.zeros_like(rhs),None)
     gradient=transpose_divergence(multiplier,h)

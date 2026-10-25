@@ -52,7 +52,7 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         fluid=open_cells&(cm>fill_threshold*density*h**3)
         domain_added=jnp.asarray(0);domain_valid=jnp.asarray(True)
         if transport=='rt0':fluid,domain_added,domain_valid=support_closed_domain(s.x,s.active,mass,fixed,fluid,open_cells,layout)
-        projection=pressure_projection(viscous,mass,fixed,fluid,h,dt)
+        projection=pressure_projection(viscous,mass,fixed,fluid,h,dt,preconditioner='galerkin' if transport=='rt0' else None)
         v,C=faces_to_particles(projection.velocity,supports,layout)
         v=jnp.where(s.active[:,None],v,0.);C=jnp.where(s.active[:,None,None],C,0.)
         Ktransfer=kinetic_particle(s.mass,v,C,s.active,h)
