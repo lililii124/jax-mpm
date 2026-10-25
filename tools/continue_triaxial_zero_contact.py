@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--input',default='input');parser.add_argument('--output',default='output');parser.add_argument('--steps',type=int,default=50);args=parser.parse_args();root=Path(args.input);out=Path(args.output);out.mkdir(exist_ok=False)
+    parser=argparse.ArgumentParser();parser.add_argument('--input',default='input');parser.add_argument('--output',default='output');parser.add_argument('--steps',type=int,default=50);parser.add_argument('--skip-rejected-diagnostic',action='store_true');args=parser.parse_args();root=Path(args.input);out=Path(args.output);out.mkdir(exist_ok=False)
     import jax
     jax.config.update('jax_enable_x64',True)
     import jax.numpy as jnp
@@ -19,7 +19,7 @@ def main():
     def save(name,value):(out/name).write_text(json.dumps(json_value(value),indent=2))
     binding=json.loads((root/'binding.json').read_text())
     for name,digest in binding['inputs'].items():
-        path=(Path('/diagnostic')/name[11:]) if name.startswith('diagnostic/') else root/name
+        path=(Path('/diagnostic')/name[11:]) if name.startswith('diagnostic/') else ((Path('/parent')/name[7:]) if name.startswith('parent/') else root/name)
         assert hashlib.sha256(path.read_bytes()).hexdigest()==digest,name
     plan=json.loads((root/'plan.json').read_text());kwargs=json.loads((root/'context.json').read_text())['kwargs'];names=('dimensions','diameter','pitch','crimp','clearance','particle_spacing','packing','density','grip_length','max_particles');geometry=make_geometry(theta_deg=-kwargs['theta'],**{k:kwargs[k] for k in names});config=FibreConfig(plan['dt']);material=isotropic_brittle(**plan['material']);regions=plan['contact_regions'];assert regions['mode']=='connected' and plan['law']=='hertz'
     old=build_contact_data(geometry,search_window=plan['search_window'],coverage_skin=plan['coverage_skin_m']);data=build_contact_data(geometry,search_window=plan['search_window'],coverage_skin=plan['coverage_skin_m'],register_cross_family_coverage=True)
@@ -32,14 +32,17 @@ def main():
         law=restore_contact_model(contact_law,p);template=initial_patch_history(data,max_patches=regions['max_patches']);contact=FibreCouplingHistory(restore_contact_history(template.law,p,jnp,parameters=law),jnp.asarray(p['contact_radius']),jnp.asarray(p['contact_segments']),jnp.asarray(p['contact_valid']))
         checks={k:np.array_equal(np.asarray(v),p['state_'+k]) for k,v in state._asdict().items() if k!='history'};checks.update({'history_'+k:np.array_equal(np.asarray(v),p['history_'+k]) for k,v in state.history._asdict().items()});checks.update(contact_active=np.array_equal(np.asarray(contact.law.active),p['contact_active']),contact_law_valid=np.array_equal(np.asarray(contact.law.valid),p['contact_law_valid']),contact_radius=np.array_equal(np.asarray(contact.radius),p['contact_radius']),contact_segments=np.array_equal(np.asarray(contact.segments),p['contact_segments']),contact_valid=np.array_equal(np.asarray(contact.valid),p['contact_valid']));assert all(checks.values());return state,contact,p,checks
     def evaluate_contact(state,history,data,law):return evaluate_hertz_patches(state,history,data,law,neighbours,capacity=regions['capacity'],max_patches=regions['max_patches'],max_iterations=regions['max_iterations'])
-    rejected,rejected_contact,rejected_payload,_=restore('/diagnostic/checkpoint.npz');assert not bool(rejected_payload['aggregate'][4])
-    evaluation=jax.jit(lambda s,c:(evaluate_contact(s,c,old,law),evaluate_contact(s,c,data,law)))
-    started=time.perf_counter();before,after=evaluation(rejected,rejected_contact);jax.block_until_ready((before,after));diagnostic_seconds=time.perf_counter()-started
-    save('rejected-state-contact-repair.json',dict(old_valid=bool(before[2].valid),new_valid=bool(after[2].valid),old_uncovered=int(before[2].uncovered_near_pairs),new_uncovered=int(after[2].uncovered_near_pairs),force_bitexact=np.array_equal(np.asarray(before[0]),np.asarray(after[0])),force_max_difference=float(np.max(abs(np.asarray(before[0])-np.asarray(after[0])))),old_pair_count=old.pair_count,new_pair_count=data.pair_count,evaluation_seconds=diagnostic_seconds,all_new_metrics={k:np.asarray(v) for k,v in after[2]._asdict().items()}))
-    assert bool(after[2].valid) and np.array_equal(np.asarray(before[0]),np.asarray(after[0]))
-    del rejected,rejected_contact,rejected_payload,before,after,evaluation
-    state,contact,payload,checks=restore(root/'checkpoint.npz');assert bool(payload['aggregate'][4]) and bool(state.valid) and bool(contact.valid);assert bool(np.all(payload['history_valid']));assert np.array_equal(payload['state_mass'],geometry['mass']);assert np.array_equal(payload['state_fibre_id'],geometry['fibre_id'])
-    start_step=int(payload['aggregate'][0]);assert start_step==binding['accepted_steps'];save('carry-migration.json',dict(parent_checkpoint_sha256=binding['inputs']['checkpoint.npz'],old_source=plan['source'],new_source=binding['source'],checks=checks,start_step=start_step,registry_migration_only=True,rejected_carry_never_resumed=True))
+    if not args.skip_rejected_diagnostic:
+        rejected,rejected_contact,rejected_payload,_=restore('/diagnostic/checkpoint.npz');assert not bool(rejected_payload['aggregate'][4])
+        evaluation=jax.jit(lambda s,c:(evaluate_contact(s,c,old,law),evaluate_contact(s,c,data,law)))
+        started=time.perf_counter();before,after=evaluation(rejected,rejected_contact);jax.block_until_ready((before,after));diagnostic_seconds=time.perf_counter()-started
+        save('rejected-state-contact-repair.json',dict(old_valid=bool(before[2].valid),new_valid=bool(after[2].valid),old_uncovered=int(before[2].uncovered_near_pairs),new_uncovered=int(after[2].uncovered_near_pairs),force_bitexact=np.array_equal(np.asarray(before[0]),np.asarray(after[0])),force_max_difference=float(np.max(abs(np.asarray(before[0])-np.asarray(after[0])))),old_pair_count=old.pair_count,new_pair_count=data.pair_count,evaluation_seconds=diagnostic_seconds,all_new_metrics={k:np.asarray(v) for k,v in after[2]._asdict().items()}))
+        assert bool(after[2].valid) and np.array_equal(np.asarray(before[0]),np.asarray(after[0]))
+        del rejected,rejected_contact,rejected_payload,before,after,evaluation
+    else:
+        receipt=json.loads((root/'previous-contact-repair.json').read_text());assert receipt['new_valid'] and receipt['new_uncovered']==0 and receipt['force_bitexact']
+    state,contact,payload,checks=restore(Path('/parent')/binding['parent_checkpoint_file'] if 'parent_checkpoint_file' in binding else root/'checkpoint.npz');assert bool(payload['aggregate'][4]) and bool(state.valid) and bool(contact.valid);assert bool(np.all(payload['history_valid']));assert np.array_equal(payload['state_mass'],geometry['mass']);assert np.array_equal(payload['state_fibre_id'],geometry['fibre_id'])
+    start_step=int(payload['aggregate'][0]);assert start_step==binding['accepted_steps'];save('carry-migration.json',dict(parent_checkpoint_sha256=binding['inputs'].get('checkpoint.npz',binding['inputs'].get('parent/'+binding.get('parent_checkpoint_file',''))),old_source=plan['source'],new_source=binding['source'],checks=checks,start_step=start_step,registry_migration_only=True,rejected_carry_never_resumed=True))
     bounds=np.asarray([f['reference_tube_bounds_m'] for f in geometry['metadata']['fibres']]);started=time.perf_counter();layout=build_tube_layout(geometry['x'],geometry['fibre_id'],dx=plan['grid']['dx_m'],padding_cells=plan['grid']['padding_cells'],reference_bounds=bounds,max_nodes=plan['grid']['max_nodes']);validate_state(state,layout)
     for key,field in [('node_map','node_map'),('dense_indices','dense_indices')]:assert descriptor(np.asarray(getattr(layout,field)))==binding['layout'][key]
     save('layout.json',dict(node_map=descriptor(np.asarray(layout.node_map)),dense_indices=descriptor(np.asarray(layout.dense_indices)),seconds=time.perf_counter()-started))
