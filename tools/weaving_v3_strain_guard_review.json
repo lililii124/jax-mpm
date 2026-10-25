@@ -94,7 +94,114 @@
     ],
     "two_endpoint_relative_speed_m_s": 0.0
   },
-  "interpretation": "Free fourth section next to three-section clamp; physical end distance does not increase, no contact/D. Prior large parked-layer alignment and feed produce local dynamic/clamp disturbance. Raw alone does not separate physical wave concentration from unresolved APIC/spatial effects. Do not raise strain guard or call this completed interlacing.",
+  "interpretation": "Free fourth section next to three-section clamp, principal tension within7degrees of fibreaxis. Physical end distance is constant and end vertical velocity zero while free body still descends2.069m/s after parked-layer alignment. This supports real transverse inertia/near-clamp bending, not imposed net axial spanextension; local peak spatial/APIC convergence remains unproved. Actual E10MPa/rho1500 and cL89.44m/s are bound, not E50k/rho1000. Preserve12%stop; use physical placement support/release or slower placement in a separately declared process if pursued.",
   "remaining_original_fine_steps": 617675,
-  "unchanged_history": "All earlier process versions, failed diagnostic and raw retained; only completeCP53760 may restore this trajectory, no rejected forensic restart."
+  "unchanged_history": "All earlier process versions, failed diagnostic and raw retained; only completeCP53760 may restore this trajectory, no rejected forensic restart.",
+  "wave_and_principal_direction_audit": {
+    "actual_bound_material": {
+      "young_Pa": 10000000.0,
+      "poisson": 0.25,
+      "density_kg_m3": 1500.0,
+      "elastic_wave_speed_m_s": 89.44271909999159
+    },
+    "source_of_parameters": "Immutable actual running binding.json; E50k/rho1000 does not describe this F7v3 case",
+    "rows": {
+      "accepted": {
+        "reference_fibre_axis": [
+          0.5000000000000001,
+          0.0,
+          0.8660254037844386
+        ],
+        "largest_stretch_reference_direction": [
+          -0.43146018934675406,
+          0.09661211816498627,
+          -0.8969438129741114
+        ],
+        "reference_principal_angle_to_axis_deg": 7.018747359917472,
+        "current_principal_angle_to_deformed_axis_deg": 6.125907929835449,
+        "axial_stretch": 1.1198738131539814,
+        "principal_stretches": [
+          1.121886266988532,
+          0.9867986276276296,
+          0.9712303194225713
+        ],
+        "point_velocity": [
+          0.40746501799869844,
+          -0.050903547833221305,
+          0.714639801618414
+        ],
+        "point_v_over_c": 0.009214994290095185,
+        "point_axial_velocity": 0.8226287317563673,
+        "point_transverse_velocity": 0.051097238876532725,
+        "left_clamped_particle_mean_velocity": [
+          0.3744300729523022,
+          0.0,
+          0.6485319102435829
+        ],
+        "right_clamped_particle_mean_velocity": [
+          0.37443007300402137,
+          0.0,
+          0.6485319102953019
+        ],
+        "free_body_middle_mean_velocity": [
+          0.4478793374689189,
+          -2.0694913365355143,
+          0.7762346738569895
+        ],
+        "free_body_middle_v_over_c": 0.025213911244155018,
+        "global_max_speed_m_s": 4.359112064191416,
+        "global_max_speed_point": 110386,
+        "global_max_v_over_c": 0.04873635448535717,
+        "shear_wave_speed_m_s": 51.63977794943222
+      },
+      "forensic": {
+        "reference_fibre_axis": [
+          0.5000000000000001,
+          0.0,
+          0.8660254037844386
+        ],
+        "largest_stretch_reference_direction": [
+          -0.40689798692285767,
+          0.0669666978567719,
+          -0.9110156363182169
+        ],
+        "reference_principal_angle_to_axis_deg": 7.062940151377701,
+        "current_principal_angle_to_deformed_axis_deg": 6.151697652338349,
+        "axial_stretch": 1.1254378202961979,
+        "principal_stretches": [
+          1.1275130970534488,
+          0.98558351701988,
+          0.967098924011736
+        ],
+        "point_velocity": [
+          0.42868893331972246,
+          -0.06998475605798612,
+          0.755493857994434
+        ],
+        "point_v_over_c": 0.009743222240990217,
+        "point_axial_velocity": 0.8686213400861543,
+        "point_transverse_velocity": 0.07028516661106225,
+        "left_clamped_particle_mean_velocity": [
+          0.3769130062246338,
+          0.0,
+          0.6528324768230965
+        ],
+        "right_clamped_particle_mean_velocity": [
+          0.3769130062504936,
+          0.0,
+          0.6528324768230965
+        ],
+        "free_body_middle_mean_velocity": [
+          0.4438368685596661,
+          -2.040126996806515,
+          0.7690989891714103
+        ],
+        "free_body_middle_v_over_c": 0.024876250179981168,
+        "global_max_speed_m_s": 4.3228164579076225,
+        "global_max_speed_point": 110373,
+        "global_max_v_over_c": 0.04833055727068151,
+        "shear_wave_speed_m_s": 51.63977794943222
+      }
+    }
+  }
 }
