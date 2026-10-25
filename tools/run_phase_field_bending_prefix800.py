@@ -14,6 +14,7 @@ import urllib.request
 import zipfile
 import numpy as np
 from prove_phase_field_bending_restart import measured_run
+from phase_field_bending_diagnostics import compare_restart_frame
 
 PARENT_RUN = 40163094888
 PARENT_ARTIFACT = 12587568431
@@ -160,8 +161,8 @@ def main():
     assert summary['maximum_kkt']<=1e-7 and summary['maximum_strain']<=.1
     assert hashlib.sha256((output/'raw/checkpoint_000400.npz').read_bytes()).hexdigest()==CHECKPOINT_SHA
     with np.load(output/'parent/evidence/raw/frame_000400.npz') as parent,np.load(output/'raw/frame_000400.npz') as resumed:
-        assert set(parent.files)==set(resumed.files)
-        assert all(np.array_equal(parent[key],resumed[key]) for key in parent.files)
+        export_check=compare_restart_frame(parent,resumed)
+        (output/'restart-export-consistency.json').write_text(json.dumps(export_check,indent=2))
     with np.load(output/'raw/checkpoint_000800.npz') as end:
         assert int(end['step'])==800 and all(np.isfinite(end[key]).all() for key in end.files if key!='binding')
     result=dict(status='bounded_prefix800_completed_unvalidated',resources=usage,

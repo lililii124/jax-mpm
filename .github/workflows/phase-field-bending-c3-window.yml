@@ -1,0 +1,64 @@
+name: AT2 C3 matched-time eight-dt operator diagnostic only
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: at2-bending-c3-window
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    if: github.ref == 'refs/heads/work/phase-field-bending'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Authenticate exactly the preserved step800 source run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/40165005721" > /tmp/parent-run.json
+          python -c "import json; r=json.load(open('/tmp/parent-run.json')); assert r['head_sha']=='7c8261cf2a008638fae25a86a964775e9bc735b4' and r['head_branch']=='work/phase-field-bending'; assert r['conclusion']=='failure'; assert r['path'] in ('.github/workflows/phase-field-persistent-grid-prefix800.yml','.github/workflows/engineering-previews.yml')"
+      - name: Install unchanged qualified runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
+      - name: Preserve exact old and new source closure
+        run: |
+          set -euo pipefail
+          mkdir -p outputs/at2-c3
+          git rev-parse HEAD > outputs/at2-c3/source-head.txt
+          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-c3/source-sha256.txt
+          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py examples/phase_field_bending_cfl_diagnostic.py tools/prove_phase_field_bending_restart.py tools/phase_field_bending_diagnostics.py tools/run_phase_field_bending_prefix800.py tools/run_phase_field_bending_c3_window.py .github/workflows/phase-field-bending-c3-window.yml .github/workflows/engineering-previews.yml >> outputs/at2-c3/source-sha256.txt
+          python -m pip freeze > outputs/at2-c3/runtime.txt
+      - name: Read-only telemetry control and .04/.02/.01 same-window runs only
+        timeout-minutes: 26
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ulimit -v 6291456
+          /usr/bin/time -v -o outputs/at2-c3/resources.txt timeout --signal=KILL 25m python tools/run_phase_field_bending_c3_window.py --output outputs/at2-c3/evidence 2>&1 | tee outputs/at2-c3/run.log
+      - name: Retain all old input, control, raw states and partial diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: at2-c3-window-${{ github.run_id }}
+          path: outputs/at2-c3/
+          compression-level: 0
+          if-no-files-found: warn
+          retention-days: 14
