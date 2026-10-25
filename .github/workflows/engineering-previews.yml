@@ -1,52 +1,62 @@
-name: HJC MAT111 beam continuation
-
+name: Bounded HJC step boundary work diagnostic
 on:
   workflow_dispatch:
-
 permissions:
   contents: read
   actions: read
-
 concurrency:
-  group: hjc-mat111-beam-${{ github.ref }}
+  group: hjc-step-work-${{ github.ref }}
   cancel-in-progress: false
-
 jobs:
-  solve:
+  probe:
     runs-on: ubuntu-24.04
-    timeout-minutes: 55
+    timeout-minutes: 40
     env:
+      GH_TOKEN: ${{ github.token }}
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '2'
       OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
     steps:
       - uses: actions/checkout@v7
         with:
           persist-credentials: false
+          fetch-depth: 2
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-      - name: Install pinned CPU environment
-        timeout-minutes: 15
+          python-version: '3.12.13'
+      - name: Frozen original core material geometry source gate
+        run: |
+          git fetch --no-tags --depth=1 origin d857cec8d682446a1f4821ebd0fb3b713ef761a2
+          git diff --exit-code d857cec8d682446a1f4821ebd0fb3b713ef761a2 HEAD -- mpm_jax examples
+      - name: Pinned original CPU environment
         run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
-      - uses: actions/download-artifact@v5
-        with:
-          name: hjc-mat111-beam-40170774252-1
-          run-id: 40170774252
-          github-token: ${{ github.token }}
-          path: outputs/hjc-mat111-qualification/
-      - name: Verify parent and continue to frame 60
-        timeout-minutes: 32
-        run: python tools/run_hjc_mat111_beam.py --resume --stop-frame 60 --parent-review-sha256 1a540c6bc4755f85394d4a8c5da3ead023989fa8060d3a5e4ab0d3b479624fc4
-      - name: Preserve complete prefix and diagnostics
+      - name: Download and completely authenticate original frame40 archive and source
+        run: |
+          python - <<'PYCODE'
+          from pathlib import Path
+          import json,os
+          import tools.audit_hjc_complete_prefix as audit
+          output=Path('.local/hjc-step-work/input')
+          output.mkdir(parents=True)
+          parent,receipt=audit.official_archive('f40',audit.CHILD,output)
+          state=audit.provenance_and_state(parent,audit.CHILD)
+          assert audit.sha(parent/'prefix-review.json') == '1a540c6bc4755f85394d4a8c5da3ead023989fa8060d3a5e4ab0d3b479624fc4'
+          (output/'admission.json').write_text(json.dumps(dict(passed=True,commit=os.environ['GITHUB_SHA'],original_core_and_examples_unchanged=True,parent_archive=receipt,parent_min_J=state['min_J']),indent=2))
+          PYCODE
+      - name: Same config actual step work startup8 and damaged frame40 plus64 no full rerun
+        run: python tools/probe_hjc_step_work.py --output .local/hjc-step-work/probe --parent .local/hjc-step-work/input/f40/restored
+      - uses: actions/upload-artifact@v7
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: hjc-mat111-beam-${{ github.run_id }}-${{ github.run_attempt }}
-          path: outputs/hjc-mat111-qualification/
+          name: hjc-step-work-bounded-${{ github.run_id }}
+          path: |
+            .local/hjc-step-work/probe/
+            .local/hjc-step-work/resource-guard.json
+            .local/hjc-step-work/worker.log
+            .local/hjc-step-work/input/admission.json
+            .local/hjc-step-work/input/f40/archive-review.json
           if-no-files-found: error
           compression-level: 6
-          retention-days: 7
