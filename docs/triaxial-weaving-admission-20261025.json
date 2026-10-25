@@ -1,0 +1,216 @@
+{
+  "scope": "Real 64-step opening prefix only; no crossing or final weave qualification",
+  "physical_case": {
+    "per_family": 1,
+    "particles": 6516,
+    "matrix_present": false,
+    "material_and_machine_commands_unchanged": true
+  },
+  "dense": {
+    "started_utc": "2026-10-25T11:32:06.539899+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "pilot.py"
+    ],
+    "cpu_affinity": [
+      52,
+      53,
+      54,
+      55
+    ],
+    "memory_headroom_at_start": 8580734976,
+    "limit_seconds": 900.0,
+    "uss_limit_bytes": 5368709120,
+    "peak_uss_bytes": 996081664,
+    "minimum_memory_headroom": 7580938240,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 40.891671650111675,
+    "returncode": 0
+  },
+  "tube": {
+    "started_utc": "2026-10-25T11:35:32.225530+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "pilot.py"
+    ],
+    "cpu_affinity": [
+      52,
+      53,
+      54,
+      55
+    ],
+    "memory_headroom_at_start": 8581107712,
+    "limit_seconds": 900.0,
+    "uss_limit_bytes": 5368709120,
+    "peak_uss_bytes": 660082688,
+    "minimum_memory_headroom": 7918682112,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 17.30087126046419,
+    "returncode": 0
+  },
+  "tube_layout": {
+    "allocation": "tube",
+    "active_nodes": 282880,
+    "dense_address_count": 3005150
+  },
+  "dense_tube_maximum_absolute_array_differences": {
+    "x": 0,
+    "v": 0,
+    "F": 0,
+    "C": 0,
+    "damage": 0,
+    "fibre_id": 0,
+    "family_id": 0,
+    "mass": 0,
+    "time": 0,
+    "fixture_targets": 0,
+    "contact_points": 0,
+    "contact_pair_segments": 0,
+    "contact_segment_fibre": 0,
+    "contact_segments": 0,
+    "particle_section": 0
+  },
+  "independent_dense_review": {
+    "status": "finite_MPM_prefix_audited_not_media_qualification",
+    "steps": 64,
+    "full_protocol_completed": false,
+    "matrix_present": false,
+    "free_particle_updates_observed": true,
+    "actual_crossing_order_requires_full_stage_review": true,
+    "frames": [
+      {
+        "step": 0,
+        "time": 0.0,
+        "freely_updated_body_particles_moved": 0,
+        "maximum_free_displacement": 0.0,
+        "maximum_free_F_change": 0.0,
+        "minimum_detF": 1.0,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 8,
+        "time": 5.366563145999493e-07,
+        "freely_updated_body_particles_moved": 290,
+        "maximum_free_displacement": 2.997887898863183e-09,
+        "maximum_free_F_change": 3.40700384182613e-05,
+        "minimum_detF": 0.9999995494058381,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 16,
+        "time": 1.0733126291998986e-06,
+        "freely_updated_body_particles_moved": 454,
+        "maximum_free_displacement": 1.1991498336839934e-08,
+        "maximum_free_F_change": 0.0001183958013926028,
+        "minimum_detF": 0.999996138059759,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 24,
+        "time": 1.6099689437998487e-06,
+        "freely_updated_body_particles_moved": 516,
+        "maximum_free_displacement": 2.6980671538959222e-08,
+        "maximum_free_F_change": 0.00023745283469862123,
+        "minimum_detF": 0.9999856338798759,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 32,
+        "time": 2.1466252583997985e-06,
+        "freely_updated_body_particles_moved": 574,
+        "maximum_free_displacement": 4.7965141220830676e-08,
+        "maximum_free_F_change": 0.0003814962410416216,
+        "minimum_detF": 0.9999646595052518,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 40,
+        "time": 2.6832815729997486e-06,
+        "freely_updated_body_particles_moved": 660,
+        "maximum_free_displacement": 7.49445345860425e-08,
+        "maximum_free_F_change": 0.00054338061758655,
+        "minimum_detF": 0.9999308360108596,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 48,
+        "time": 3.2199378875996987e-06,
+        "freely_updated_body_particles_moved": 712,
+        "maximum_free_displacement": 1.079183723391719e-07,
+        "maximum_free_F_change": 0.0007176206722317675,
+        "minimum_detF": 0.9998830050116814,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 56,
+        "time": 3.7565942021996487e-06,
+        "freely_updated_body_particles_moved": 748,
+        "maximum_free_displacement": 1.468860686918566e-07,
+        "maximum_free_F_change": 0.0008999311017056262,
+        "minimum_detF": 0.9998211508938035,
+        "maximum_damage": 0.0
+      },
+      {
+        "step": 64,
+        "time": 4.293250516799595e-06,
+        "freely_updated_body_particles_moved": 804,
+        "maximum_free_displacement": 1.9184693137233588e-07,
+        "maximum_free_F_change": 0.0010869392103269333,
+        "minimum_detF": 0.9997461861586295,
+        "maximum_damage": 0.0
+      }
+    ],
+    "limitations": [
+      "Circular-equivalent local Hertz; extended/line/end-cap contact rejected",
+      "No friction, no matrix, no industrial material/rate calibration",
+      "Initial straight cords and endpoint commands do not constitute a finished weave"
+    ]
+  },
+  "raw_evidence_sha256": {
+    "triaxial-weaving-probe64": {
+      "output\\plan.json": "a88e789a8d3a503589ec5997a08c26808652f5906b27a2cca3c67b590e80531c",
+      "output\\geometry.json": "d8eac1dbfcea66b5be6819f34ec9c84804300b97880b64b34b72175d428ff3fd",
+      "output\\reference.npz": "177fb24af4c54afab9016811d661fe97381d0b984302cb435e264e1aa2e0179f",
+      "output\\observations.json": "0a872b8022d38833d88c6c0f3698349f610c3e22c493bbda23d7fd0e6373d214",
+      "output\\frame_0000000.npz": "ab4e449df0b9fb0a7582f88e2eb8c47c976ba0a264e62f278b577e34323bcbc6",
+      "output\\checkpoint.npz": "0d0aa7a51956c3367169b5ba6aa3420217fc1f5484fe04bd74049ebde2eb847d",
+      "output\\frame_0000008.npz": "b0b57723411f6f4d2a942eac420c0bacc9be91730363226c3387818736bba770",
+      "output\\frame_0000016.npz": "7da22295dd54e2447a640df94e60aaca1de3e7fc32c0992cac377f2fb8f3b71a",
+      "output\\frame_0000024.npz": "9c92bbb48ec31a7d2376234b4d5fd11fe397b3b3e90fbfcb8b9fbab22ff188c0",
+      "output\\frame_0000032.npz": "07dfa34889b17019ca454675d0e6cbd1a47eac5bc70a301b94f8ce5590ff305d",
+      "output\\frame_0000040.npz": "b1634c7babffe818970b467b004ae2eded639d1f2298fc9c9c337ce3dc06352e",
+      "output\\frame_0000048.npz": "d6659751bf9d6e80103a6b65bc859ab21330c311804ff9c2b9abb0a081636d40",
+      "output\\frame_0000056.npz": "d1145beedf5689b3906cf6291bff5f3135efae2fb844cb852cbd77e2038959a6",
+      "output\\frame_0000064.npz": "a33475eab3a4312a1ceb9269eaedf2ff871bb7ce3142fddca6ad2160f2582b71",
+      "output\\summary.json": "b52ef29f459ff2efb61f1c0c3e0a59d50739d791738f82b35cdd158020c92bbb",
+      "job\\status.json": "966d0417a3c88b0bc15e40a31ce34ff4b06ac38072da4591457b48646bfeb971",
+      "job\\solver.log": "f3e16d27d10df382d6b498bb824f441656203ae74ae41b115855a9b1bfa6f7ef"
+    },
+    "triaxial-weaving-tube64": {
+      "output\\plan.json": "e1ad3647eba0350ea519732aa3850d3d09755f5a06d68d3650de4efe096d149d",
+      "output\\geometry.json": "d8eac1dbfcea66b5be6819f34ec9c84804300b97880b64b34b72175d428ff3fd",
+      "output\\reference.npz": "177fb24af4c54afab9016811d661fe97381d0b984302cb435e264e1aa2e0179f",
+      "output\\layout.json": "3a8ff0816631f90602d0d0fc9454115ecf9b27f98ad06330b4b3436fb8a9e087",
+      "output\\observations.json": "3a684e69b07a5187c67c2f2cbe63d3d16a4e827512f4a192b854ee0ffd3c6e8b",
+      "output\\frame_0000000.npz": "ab4e449df0b9fb0a7582f88e2eb8c47c976ba0a264e62f278b577e34323bcbc6",
+      "output\\checkpoint.npz": "b1c5bae9852c731148a35af41eaad41e61c46c2e86d6715ed9b67f708eb1f6e6",
+      "output\\frame_0000008.npz": "b0b57723411f6f4d2a942eac420c0bacc9be91730363226c3387818736bba770",
+      "output\\frame_0000016.npz": "7da22295dd54e2447a640df94e60aaca1de3e7fc32c0992cac377f2fb8f3b71a",
+      "output\\frame_0000024.npz": "9c92bbb48ec31a7d2376234b4d5fd11fe397b3b3e90fbfcb8b9fbab22ff188c0",
+      "output\\frame_0000032.npz": "07dfa34889b17019ca454675d0e6cbd1a47eac5bc70a301b94f8ce5590ff305d",
+      "output\\frame_0000040.npz": "b1634c7babffe818970b467b004ae2eded639d1f2298fc9c9c337ce3dc06352e",
+      "output\\frame_0000048.npz": "d6659751bf9d6e80103a6b65bc859ab21330c311804ff9c2b9abb0a081636d40",
+      "output\\frame_0000056.npz": "d1145beedf5689b3906cf6291bff5f3135efae2fb844cb852cbd77e2038959a6",
+      "output\\frame_0000064.npz": "a33475eab3a4312a1ceb9269eaedf2ff871bb7ce3142fddca6ad2160f2582b71",
+      "output\\summary.json": "b52ef29f459ff2efb61f1c0c3e0a59d50739d791738f82b35cdd158020c92bbb",
+      "job\\status.json": "b63be2b271712c78419dbf044897a5bdb07897c0ea5d40537e0036cbb671f80d",
+      "job\\solver.log": "f3e16d27d10df382d6b498bb824f441656203ae74ae41b115855a9b1bfa6f7ef"
+    }
+  }
+}
