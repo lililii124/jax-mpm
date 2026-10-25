@@ -162,6 +162,13 @@ def run_case(geometry,plan,output,*,resume=False,stop_after_frame=None):
                     return new,updated
                 return jax.lax.cond(old.valid,attempt,lambda _:carry,None)
             return jax.lax.fori_loop(0,count,body,(s,p))
+        # Private prototype instrumentation: separate compilation from actual
+        # integration throughput before sizing a bounded physical hold pilot.
+        compile_started=time.monotonic()
+        advance_executable=advance_block.lower(state,progress,jnp.asarray(16,dtype=jnp.int32)).compile()
+        compilation_seconds=time.monotonic()-compile_started
+        save_json(folder/f'compilation-profile-from-frame-{start}.json',
+                  {'seconds':compilation_seconds,'physical_steps_executed':0,'source':plan['source']})
         def record(frame,previous_impulse,previous_step):
             x,v,mass,F,C=(np.asarray(getattr(state,k)) for k in ('x','v','mass','F','C'))
             D=np.asarray(state.history.damage);failed=np.asarray(state.history.failed);t=float(state.time);steps=int(progress[0])
@@ -199,7 +206,9 @@ def run_case(geometry,plan,output,*,resume=False,stop_after_frame=None):
         for frame in range(start+1,end+1):
             oldimp=np.asarray(progress[1]).copy();oldstep=int(progress[0]);target=plan['frame_steps'][frame]
             while int(progress[0])<target:
-                started=time.monotonic();state,progress=advance_block(state,progress,jnp.asarray(min(16,target-int(progress[0])),dtype=jnp.int32));state.x.block_until_ready();solver_seconds+=time.monotonic()-started
+                block_start=int(progress[0]);started=time.monotonic();state,progress=advance_executable(state,progress,jnp.asarray(min(16,target-int(progress[0])),dtype=jnp.int32));state.x.block_until_ready();block_seconds=time.monotonic()-started;solver_seconds+=block_seconds
+                with (folder/'integration-block-profile.jsonl').open('a') as profile:
+                    profile.write(json.dumps({'start_step':block_start,'end_step':int(progress[0]),'seconds':block_seconds})+'\n')
                 if not bool(state.valid):raise FloatingPointError('Invalid constitutive/grid state; no resumable checkpoint for failed step')
             validate_state(state,layout);record(frame,oldimp,oldstep);print(json.dumps({'frame':frame,'steps':int(progress[0]),'solver_seconds':solver_seconds}),flush=True)
         if source_record()!=plan['source']:raise ValueError('Source changed while computing')

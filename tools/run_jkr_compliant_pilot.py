@@ -63,7 +63,8 @@ def prepare(root):
         protocol = dict(plan['protocol'], times_s=[0., .006, .010, .020, .045, .050])
         plan['protocol'] = protocol
         plan['physical_common']['protocol'] = protocol
-        plan['camera'] = dict(plan['camera'], direction=[1.4, .2, 1.8], projection='parallel',
+        plan['camera'] = dict(plan['camera'], direction=[1.4, .2, 1.8], projection='parallel', resolution=400,
+            position=[.0084, .0024, .0108], focal_point=[0., .0012, 0.], parallel_scale=.00471506391179459,
             framing_policy='Same fixed focus bounds and0.56 projected-bounds scale as original low-camera fibre renderer')
         plan['physical_common']['camera'] = plan['camera']
         plan['common_request_sha256'] = hashlib.sha256(json.dumps(
@@ -193,6 +194,10 @@ def guarded_run(root, model, stage, timeout):
     write(log.with_suffix('.monitor.json'), report)
     print(json.dumps(report, indent=2))
     if not report['passed']:
+        status = root/'data'/model/'status.json'
+        old = json.loads(status.read_text()) if status.exists() else {}
+        write(status, dict(old, phase='failed', never_resumable=True,
+                           termination_reason=reason or 'nonzero_worker_returncode'))
         raise SystemExit(1)
     from tools.review_jkr_compliant_pilot import review
     review(root/'data'/model, root/'logs'/f'{model}-{stage}.independent.json')
