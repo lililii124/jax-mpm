@@ -3,3 +3,7 @@
 *.png binary
 *.gif binary
 *.npz binary
+
+examples/metal_fragment_multifield_v3.py -text
+mpm_jax/fragment_v6_delta_candidate.py -text
+tools/metal_v6_process_guard.py -text

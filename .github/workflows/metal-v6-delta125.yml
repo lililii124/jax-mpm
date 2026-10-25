@@ -1,0 +1,49 @@
+name: Private fixed-schedule v6 delta transfer diagnostic
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: metal-v6-numerical-recovery-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  diagnostic:
+    if: github.ref == 'refs/heads/work/metal-fragment-v6-cloud'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '12585028870,12584968927'
+          run-id: '40159167374'
+          github-token: ${{ github.token }}
+          path: .local/metal-v6-delta-input
+          merge-multiple: true
+      - name: Authenticate whole evidence and deploy frozen source
+        run: python -m tools.run_metal_v6_delta125 restore
+      - name: Install preserved producer wheel and exact dependencies
+        run: python -m tools.run_metal_v6_delta125 install
+      - name: Bounded paired original schedule and candidate equivalence
+        timeout-minutes: 28
+        run: python -m tools.run_metal_v6_delta125 run
+      - name: Preserve whole raw on acceptance or rejection
+        if: always()
+        run: python -m tools.run_metal_v6_delta125 package
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: metal-v6-delta125-${{ github.run_id }}-${{ github.run_attempt }}-whole-delivery
+          path: .local/metal-v6-delta-delivery/*
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
