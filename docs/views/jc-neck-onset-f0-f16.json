@@ -1,0 +1,129 @@
+{
+  "schema": "jc-neck-onset-display-v1",
+  "passed": true,
+  "visual_review_passed": true,
+  "source_review_sha256": "7b65c44e6d2805c13924f257771a9528c3819ab947e502e35636cfc7a960eb4c",
+  "original_raw_source_frames": 61,
+  "source_frame_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16
+  ],
+  "first_neck_frame": 15,
+  "last_included_frame": 16,
+  "first_excluded_frame": 17,
+  "source_pngs": [
+    {
+      "frame": 0,
+      "png_sha256": "ead04cab533c3e130b06986b09c881a567e652b542af6649846944f743c8a362"
+    },
+    {
+      "frame": 1,
+      "png_sha256": "25eadc6e638b140a7311b7cfa07898e3b9dd6fd77b103f370cf416a85e72881a"
+    },
+    {
+      "frame": 2,
+      "png_sha256": "710e66e738aa72a06aa8eaa02aaca40e94c3ef6e2734dd89b29895ce3a786720"
+    },
+    {
+      "frame": 3,
+      "png_sha256": "d045d84579dfc2f2e0e99b806d0ab61cea20054150580cd11767d3ff6ae0869c"
+    },
+    {
+      "frame": 4,
+      "png_sha256": "e2c48de3dae2c533c037c508ec6902e0974e8a657bb04d5ffc3541aa2bee463c"
+    },
+    {
+      "frame": 5,
+      "png_sha256": "1e2126aa00f83bea73847a0d282e4ef279a68b07aeea837462b91fe00c32b46f"
+    },
+    {
+      "frame": 6,
+      "png_sha256": "13999c489011b3a297c9c0685998ad21479d19b3c1a12235ed623cf4ec359840"
+    },
+    {
+      "frame": 7,
+      "png_sha256": "16e548e76706225ede11a64e6f90e4b78da3f1c5c83224989298d0cc16b448cc"
+    },
+    {
+      "frame": 8,
+      "png_sha256": "e50856149891c072e67a3d7cd45ff4ab33598de7aea248df2eb7b90c86027096"
+    },
+    {
+      "frame": 9,
+      "png_sha256": "7047ee8557b578835ce0279e08d17c086bb1ab2a536147134067c9290ac962f7"
+    },
+    {
+      "frame": 10,
+      "png_sha256": "a5c4a53ad4fdd5c96a5f887b0094b24bd34b3955413b148dd967203a7db808d8"
+    },
+    {
+      "frame": 11,
+      "png_sha256": "bd8f61181c3947cd243226178c449ba638786b3dbf236a31d0b3a75d170b9f10"
+    },
+    {
+      "frame": 12,
+      "png_sha256": "fccc3bd8daca9c65e22a15660c42bc659aa64ade8c5420deb1355b70aa3aadbd"
+    },
+    {
+      "frame": 13,
+      "png_sha256": "066a00c4e1fd30347c24722cdcd981f9cc0e3c3aebdc50ea81b90aad159be1d2"
+    },
+    {
+      "frame": 14,
+      "png_sha256": "995863f1e495bbb9961e36ae0b0a4a1be884b58001bdebeaf2e68e286d2c832f"
+    },
+    {
+      "frame": 15,
+      "png_sha256": "7eb57c2a6a1ac8c0e4b9670efeda212aeda2a1110ead01b1f4af5f6082995e82"
+    },
+    {
+      "frame": 16,
+      "png_sha256": "8171a5636eb4cb5335375b37cf0f24ee0048b152aad5c17f2a9ed1551e5c151b"
+    }
+  ],
+  "decoded_pixel_sha256": [
+    "3d28b5ebe997544755b80fbb764f3706427ea546d81ed18db672227955723881",
+    "d8ec3c2b51b2df5fa977d31576762d88f4358de0b8acce74addf404c623a71f2",
+    "809ef6ac12278eae6133b22f915b015d3f217359e3ec9da1a273a1650648561f",
+    "148e87222d1777f332e0ec9ba60928d22d6ead3301e33a7f61f3934ebc09d5f0",
+    "382ffc9cd3be4765176862c536f480e1f6f4d871b07b1298b1ce0bf5c6c23646",
+    "2f8292d7fbbc4096ccd85ba8ba5f44c436ec7f30346008864ad18e11e2b7f336",
+    "568d746016afcd09e17b99c8c240694b35aae5c5535694acf284eeeca4ef3f2d",
+    "6095b3ca5fab8db7066eeb3c5624bc7af330e9242c72f08f18e1d83a6c7eef96",
+    "361f098b71c24d8f2bc1fe41ababd7276be8de73bb2d1fbe3141b26a7850259d",
+    "9951cfbbfc41e66264ccb4f997b14bb622becff04dcde73a633003ca9db9a47e",
+    "d7da3a0e32045129d71abae3b9360382347e19794492e0897a30babd15317c2c",
+    "c65268abac619033aed5c4996a5f7cc0b1cb4b381d8eef641153a445452dbfc1",
+    "55b52002ff9e10b8d6c8f9ba47e0426f6c11dceabf34b73d07a2e2c5e823a18e",
+    "a3f4c5bb9e5b9a826d4969c513ce29cb6f260fc22cbb2400d3075ab98c78ec82",
+    "3f396972bf998034b61ae8e1b9a11eb284d22be2067f06cc31fd20a516ad33ae",
+    "f85418d4304df1e04a0054967c1681d5f0b698437e49f1829bf3717153eb2fad",
+    "fb9ce3ffe9ef5f0fcc7eaa8d7df15285ab1c7af5440c3d37813225621d291577"
+  ],
+  "media": {
+    "completed--jc-necking-refined": {
+      "gif_sha256": "cacdd6c8cc446f4bc42ffa6992b530653cb65b122047c74230f4242c75d3ec0b",
+      "source_frames": 17,
+      "gif_frames": 17,
+      "dimensions": [
+        400,
+        400
+      ]
+    }
+  }
+}
