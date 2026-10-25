@@ -94,7 +94,8 @@ def main():
   definition=dict(particle_spacing_m=spacing),
   scope='Admitted actual saved frames 0..34 only; incomplete 40J run; particle-only review; integrated tool omitted; no depth acceptance.'))
  subprocess.run([os.environ['PARAVIEW_PYTHON'],'--force-offscreen-rendering',str(Path(__file__).resolve()),'--pv-check',str(raw),str(output)],check=True)
- render_directory(output,gif=False,field='family_id',resolution=400,matrix_opacity=.008)
+ render_directory(output,gif=True,field='family_id',resolution=400,matrix_opacity=.008)
+ (output/'simulation.gif').unlink()
  gif_check=encode_frames(output)
  render_record=json.loads((output/'render.json').read_text())
  render_record.update(animation='simulation.gif',animation_frames=35,distinct_decoded_frames=gif_check['distinct_decoded_frames'])

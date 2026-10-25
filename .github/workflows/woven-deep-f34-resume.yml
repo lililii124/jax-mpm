@@ -73,7 +73,7 @@ jobs:
         timeout-minutes: 60
         run: python tools/review_woven_deep_f34_prefix.py
       - name: Upload incomplete particle-only prefix review
-        if: inputs.mode == 'prefix-review' && success()
+        if: always() && inputs.mode == 'prefix-review'
         uses: actions/upload-artifact@v4
         with:
           name: woven-deep-f34-prefix-review-${{ github.run_id }}-${{ github.run_attempt }}
