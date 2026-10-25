@@ -1,0 +1,146 @@
+{
+  "status": "readonly-completed",
+  "source_task": "metal-balanced-continue175",
+  "stored_iteration": 11,
+  "original_total_tolerance_J": 1.414599609375e-08,
+  "old_internal_budget_J": 3.5364990234375e-10,
+  "proposed_internal_budget_J": 1.414599609375e-08,
+  "position_tolerance": 1.403321903126198e-16,
+  "F_tolerance": 1.5369364607255794e-14,
+  "maximum_old_F": 1.0815228862212263,
+  "iterations": [
+    {
+      "iteration": 0,
+      "work_bound_J": 0.7113930815585816,
+      "position_error": 5.8961861548288894e-09,
+      "F_error": 6.162808414427508e-05,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 1,
+      "work_bound_J": 0.015003457094044478,
+      "position_error": 1.6559863534411473e-10,
+      "F_error": 2.2629689851623447e-06,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 2,
+      "work_bound_J": 0.000718606935663274,
+      "position_error": 7.630935773561971e-12,
+      "F_error": 1.454224707476276e-07,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 3,
+      "work_bound_J": 4.3965271863533025e-05,
+      "position_error": 4.4764988405038053e-13,
+      "F_error": 9.671956439742668e-09,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 4,
+      "work_bound_J": 2.894466341050091e-06,
+      "position_error": 3.036315817930092e-14,
+      "F_error": 6.569181153909254e-10,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 5,
+      "work_bound_J": 1.9735401764027704e-07,
+      "position_error": 2.089157318854436e-15,
+      "F_error": 4.525446770792252e-11,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 6,
+      "work_bound_J": 2.035460568624092e-08,
+      "position_error": 3.3948520938267965e-16,
+      "F_error": 5.5822478199491475e-12,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 7,
+      "work_bound_J": 2.2784770977199986e-08,
+      "position_error": 4.4152605930374724e-16,
+      "F_error": 1.1120548249378556e-11,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 8,
+      "work_bound_J": 2.8633950777203145e-08,
+      "position_error": 7.18254841022251e-16,
+      "F_error": 1.1275274039223649e-11,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 9,
+      "work_bound_J": 2.161019934608028e-08,
+      "position_error": 5.292492885989955e-16,
+      "F_error": 1.0225174929383578e-11,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 10,
+      "work_bound_J": 1.2980889853229175e-08,
+      "position_error": 3.3556101306473496e-16,
+      "F_error": 6.978069161624114e-12,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    },
+    {
+      "iteration": 11,
+      "work_bound_J": 1.7055328389711182e-08,
+      "position_error": 5.070252660915065e-16,
+      "F_error": 6.3941145481896525e-12,
+      "position_passed": false,
+      "F_passed": false,
+      "stop_with_one_total_tolerance": false
+    }
+  ],
+  "stored_iterate": {
+    "material_valid": true,
+    "material_identity_J": -3.8163916471489756e-16,
+    "coupled_defect_J": 1.132774429812855e-15,
+    "contact_work_J": 0.0,
+    "boundary_work_J": 9.09139083460353e-13,
+    "viscosity_work_J": 0.04413163440300166,
+    "original_coupled_gates_passed": true
+  },
+  "scope": "Saved iterate only, original full sampler reconstructed without factorization; no material or dynamical recomputation. Full end-cone/remap/global gates remain mandatory in one subsequent real step.",
+  "consistent_guess": {
+    "position_error": 8.672334745063599e-19,
+    "F_error": 1.1102230246251565e-16,
+    "position_tolerance": 1.403321903126198e-16,
+    "F_tolerance": 1.5369364607255794e-14,
+    "original_kinematic_gates_passed": true,
+    "coupled_defect_J": -1.2241587951655752e-12,
+    "contact_work_J": 0.0,
+    "boundary_work_J": 9.122971475483688e-13,
+    "original_coupled_gates_passed": true,
+    "original_midpoint_sampler_closing_m_s": 5.666578317686799e-12,
+    "endpoint_before_required_inelastic_projection_closing_m_s": 7.202703142524356,
+    "original_midpoint_sampler_passed": true
+  },
+  "accepted_parent_sha256": "fc23bf81d08d400e34aef088c31d89c8f8013a6bae918f825fc147c806baefd5"
+}

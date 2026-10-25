@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "source_commit": "0906569cbf4aca0f2990c664f4c50d56c39dc0b0",
+  "task": "metal-consistent-endpoint-step4",
+  "previous_parent_task": "metal-balanced-continue175",
+  "parent_checkpoint_sha256": "fc23bf81d08d400e34aef088c31d89c8f8013a6bae918f825fc147c806baefd5",
+  "accepted_checkpoint_sha256": "cfaa56ac21382c8a850e7575ec7f88823ea18efa9c760060758508d239d2d8a8",
+  "accepted_checkpoint_remote_path": "/home/YZ/jax-mpm-compute-20261025/tasks/metal-consistent-endpoint-step4/result/step-1/accepted.npz",
+  "time_s": 1.5738711347015963e-07,
+  "new_physical_steps": 1,
+  "nonlinear_evaluations": 7,
+  "endpoint": {
+    "position_error": 8.673381730344686e-19,
+    "deformation_error": 1.1102230246251565e-16,
+    "position_tolerance": 1.403321903126198e-16,
+    "deformation_tolerance": 1.5369364607255794e-14,
+    "velocity_relative_residual": 7.773682084866825e-11,
+    "coupled_defect_J": 8.481316343678102e-11,
+    "material_identity_J": -2.0816681711721685e-17,
+    "contact_work_J": 0.0,
+    "boundary_work_J": -6.894276816105105e-13,
+    "viscosity_work_J": 0.044131634410576125,
+    "original_sample_closing_m_s": 6.0396132539608516e-12,
+    "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+    "complementarity_m_s": 7.545963853772264e-12,
+    "original_contact_gates_passed": true
+  },
+  "old_proposed_endpoint_errors": {
+    "position_error": 3.3948520938267965e-16,
+    "deformation_error": 5.5822478199491475e-12,
+    "residual_work_bound_J": 2.035460568624092e-08
+  },
+  "coupled": {
+    "material_work_J": 0.03166637335169265,
+    "material_change_J": 0.03166637335169267,
+    "material_identity_J": -2.0816681711721685e-17,
+    "viscosity_work_J": 0.044131634410576125,
+    "contact_work_J": 0.0,
+    "boundary_work_J": -6.894276816105105e-13,
+    "coupled_defect_J": 8.481316343678102e-11,
+    "contact_torque": [
+      -1.6191594329346432e-17,
+      -1.5780404579186946e-23,
+      1.6191696789134623e-17
+    ],
+    "midpoint_closing_speed": 6.0396132539608516e-12,
+    "endpoint_closing_before_final_projection": 7.202703142520306
+  },
+  "energy_residual_J": 8.452616384602152e-11,
+  "cumulative_energy_residual_J": 1.0123812899109907e-10,
+  "cumulative_angular_relative_error": 4.9273424235688944e-12,
+  "angular_roundoff_passed": false,
+  "original_final_energy_momentum_material_CFL_gates_unchanged": true,
+  "original_64eps_kinematic_gates_unchanged": true,
+  "nonlinear_stopping_contract_changed": true,
+  "full_future_trajectory_admitted": false,
+  "scope": "Only original rejected physical step4 retried from exact accepted3; material-consistent endpoint, actual coupled work and independent1e-10 fixed-point residual; no state correction or replay of prior accepted steps"
+}

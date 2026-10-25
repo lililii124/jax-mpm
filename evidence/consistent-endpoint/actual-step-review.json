@@ -1,0 +1,1225 @@
+{
+  "schema": "metal-common-time-level125-v1",
+  "dt_s": 6.027272808557944e-10,
+  "status": "bounded-window-passed",
+  "material_backend": "jax-in-process",
+  "contact_time_level": "midpoint",
+  "direct_projection": true,
+  "end_time_limit_s": 1.760001e-07,
+  "angular_relative_tolerance": 1e-10,
+  "nonlinear_iteration_cap": 12,
+  "iteration_records": "final",
+  "input_sha256": "fc23bf81d08d400e34aef088c31d89c8f8013a6bae918f825fc147c806baefd5",
+  "energy_roundoff_J": 1.414599609375e-08,
+  "iterations": [
+    {
+      "iteration": 0,
+      "velocity_residual_norm": 0.043960239907226965,
+      "residual_work_bound_J": 0.7113930815585816,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 172.1141084795741,
+        "final_closing_m_s": 5.5919713304319885e-12,
+        "complementarity_m_s": 6.103562100179261e-12,
+        "kinetic_loss_J": 0.0009401502628634262,
+        "instantaneous_work_identity_J": 5.714575088153527e-15,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": -5.768470386822824e-16,
+        "physical_contact_work_J": -0.0009401502628691438,
+        "original_sample_closing_m_s": 5.7056581681536045e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13
+      },
+      "position_error": 5.8961861548288894e-09,
+      "deformation_error": 6.162808414427508e-05,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.938639017028689,
+            "original_normal_residual": 3.550323435117635e-05,
+            "estimated_condition": 453.13566290892,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.3383990358431327e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 4.4206178558693374e-07,
+            "original_normal_residual": 3.2247709871794005e-11,
+            "estimated_condition": 1.0051974660476228,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.3595044526599875e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.772020250135127,
+            "original_normal_residual": 3.534592284532516e-05,
+            "estimated_condition": 453.1370042142253,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.558897077344677e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.673527262433707e-19,
+        "deformation_error": 1.1102230246251565e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 0.0027165047605847616,
+        "coupled_defect_J": 0.07751577408205594,
+        "material_identity_J": -1.1796119636642288e-16,
+        "contact_work_J": 4.988763231850157e-06,
+        "boundary_work_J": 1.853812242602615e-12,
+        "viscosity_work_J": 0.045470007700823614,
+        "original_sample_closing_m_s": 7.493568432437314e-09,
+        "restricted_sample_difference_m_s": 2.8421709430404007e-13,
+        "complementarity_m_s": 7.202703142517677,
+        "original_contact_gates_passed": false
+      }
+    },
+    {
+      "iteration": 1,
+      "velocity_residual_norm": 0.0009272687877565361,
+      "residual_work_bound_J": 0.015003457094044478,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 168.38948960377974,
+        "final_closing_m_s": 4.8760995241536875e-12,
+        "complementarity_m_s": 4.8760995241536875e-12,
+        "kinetic_loss_J": 0.0009171561350171942,
+        "instantaneous_work_identity_J": 7.956732563438815e-15,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": 4.688519199419794e-16,
+        "physical_contact_work_J": -0.0009171561350251461,
+        "original_sample_closing_m_s": 4.909850304102292e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13
+      },
+      "position_error": 1.6559863534411473e-10,
+      "deformation_error": 2.2629689851623447e-06,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.678514085606464,
+            "original_normal_residual": 3.6741933610395244e-05,
+            "estimated_condition": 453.2097009425559,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.5133053870917467e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 3.675267553157033e-07,
+            "original_normal_residual": 2.982818121054354e-11,
+            "estimated_condition": 1.004642542756588,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.4990859262946874e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.6535263522090925,
+            "original_normal_residual": 2.1541013524388518e-05,
+            "estimated_condition": 453.2080170086402,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.230738754400181e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.670533498695247e-19,
+        "deformation_error": 1.1101579089673364e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 5.730018948027134e-05,
+        "coupled_defect_J": -0.0007798708502995341,
+        "material_identity_J": 7.632783294297951e-17,
+        "contact_work_J": -4.163336342344337e-17,
+        "boundary_work_J": -8.380379723504916e-13,
+        "viscosity_work_J": 0.044108376467564846,
+        "original_sample_closing_m_s": 5.7056581681536045e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+        "complementarity_m_s": 6.103562100179261e-12,
+        "original_contact_gates_passed": true
+      }
+    },
+    {
+      "iteration": 2,
+      "velocity_residual_norm": 4.4412483415366325e-05,
+      "residual_work_bound_J": 0.000718606935663274,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 168.52024450611918,
+        "final_closing_m_s": 7.226219622680219e-12,
+        "complementarity_m_s": 8.022027486731531e-12,
+        "kinetic_loss_J": 0.0009176622896234221,
+        "instantaneous_work_identity_J": 2.7128420638591477e-14,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": 7.661678346776138e-16,
+        "physical_contact_work_J": -0.0009176622896505462,
+        "original_sample_closing_m_s": 7.318590178329032e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13
+      },
+      "position_error": 7.630935773561971e-12,
+      "deformation_error": 1.454224707476276e-07,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.718086008478155,
+            "original_normal_residual": 2.8777774186091773e-05,
+            "estimated_condition": 453.6034013083362,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.2619124364618906e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 3.747097435992894e-07,
+            "original_normal_residual": 2.9713416931992385e-11,
+            "estimated_condition": 1.0046815066459251,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.6203473010350154e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.8158914002632435,
+            "original_normal_residual": 3.205845295179701e-05,
+            "estimated_condition": 453.60292800593504,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.443484482484706e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.673464698821947e-19,
+        "deformation_error": 1.1102230246251565e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 2.7444509602733156e-06,
+        "coupled_defect_J": 1.4496493576614602e-05,
+        "material_identity_J": 8.326672684688674e-17,
+        "contact_work_J": 1.3877787807814457e-17,
+        "boundary_work_J": 1.801147772595435e-12,
+        "viscosity_work_J": 0.04413237837923618,
+        "original_sample_closing_m_s": 4.909850304102292e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+        "complementarity_m_s": 4.8760995241536875e-12,
+        "original_contact_gates_passed": true
+      }
+    },
+    {
+      "iteration": 3,
+      "velocity_residual_norm": 2.7172114053519708e-06,
+      "residual_work_bound_J": 4.3965271863533025e-05,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 168.51434487340043,
+        "final_closing_m_s": 5.31841237716435e-12,
+        "complementarity_m_s": 7.65965069149388e-12,
+        "kinetic_loss_J": 0.0009176433388802252,
+        "instantaneous_work_identity_J": 2.1469720581587152e-14,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": 2.387038300389593e-16,
+        "physical_contact_work_J": -0.0009176433389016872,
+        "original_sample_closing_m_s": 5.332623231879552e-12,
+        "restricted_sample_difference_m_s": 2.2737367544323206e-13
+      },
+      "position_error": 4.4764988405038053e-13,
+      "deformation_error": 9.671956439742668e-09,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.6421428251251046,
+            "original_normal_residual": 2.506058043701153e-05,
+            "estimated_condition": 453.5661220428943,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.5467570488921713e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 4.449042127380525e-07,
+            "original_normal_residual": 3.284858200153146e-11,
+            "estimated_condition": 1.0046793320448941,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.5145657984516614e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.7283279356365915,
+            "original_normal_residual": 3.253363286718096e-05,
+            "estimated_condition": 453.5657714857392,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.1984898824001388e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.671843077470109e-19,
+        "deformation_error": 1.110199069474617e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 1.6790894985403312e-07,
+        "coupled_defect_J": -4.897258961905973e-07,
+        "material_identity_J": -1.8735013540549517e-16,
+        "contact_work_J": 1.3877787807814457e-17,
+        "boundary_work_J": -3.3142846106448687e-13,
+        "viscosity_work_J": 0.04413159966714586,
+        "original_sample_closing_m_s": 7.318590178329032e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+        "complementarity_m_s": 8.022027486731531e-12,
+        "original_contact_gates_passed": true
+      }
+    },
+    {
+      "iteration": 4,
+      "velocity_residual_norm": 1.7888839562655306e-07,
+      "residual_work_bound_J": 2.894466341050091e-06,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 168.51464025090252,
+        "final_closing_m_s": 5.9614535530272406e-12,
+        "complementarity_m_s": 6.23856521997368e-12,
+        "kinetic_loss_J": 0.00091764429581076,
+        "instantaneous_work_identity_J": -1.7862710410001374e-14,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": -1.1229290471955873e-17,
+        "physical_contact_work_J": -0.0009176442957928993,
+        "original_sample_closing_m_s": 6.0822458181064576e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13
+      },
+      "position_error": 3.036315817930092e-14,
+      "deformation_error": 6.569181153909254e-10,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 1.3891176573978858,
+            "original_normal_residual": 5.040838663613414e-05,
+            "estimated_condition": 453.56952413385136,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.4226309503987582e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 4.94521669096576e-07,
+            "original_normal_residual": 3.505670039627248e-11,
+            "estimated_condition": 1.0046794411662534,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.4937985697893375e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 1.1004914969126507,
+            "original_normal_residual": 4.555428496534275e-05,
+            "estimated_condition": 453.5696978255666,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.4018768765999006e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.66757480733398e-19,
+        "deformation_error": 1.1101269393252024e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 1.1054334083673013e-08,
+        "coupled_defect_J": 2.3623214335209697e-08,
+        "material_identity_J": -2.3592239273284576e-16,
+        "contact_work_J": 0.0,
+        "boundary_work_J": 2.845649063609734e-13,
+        "viscosity_work_J": 0.044131636345415684,
+        "original_sample_closing_m_s": 5.332623231879552e-12,
+        "restricted_sample_difference_m_s": 2.2737367544323206e-13,
+        "complementarity_m_s": 7.65965069149388e-12,
+        "original_contact_gates_passed": true
+      }
+    },
+    {
+      "iteration": 5,
+      "velocity_residual_norm": 1.2197185742677612e-08,
+      "residual_work_bound_J": 1.9735401764027704e-07,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 168.51462483315953,
+        "final_closing_m_s": 5.9259264162392356e-12,
+        "complementarity_m_s": 7.545963853772264e-12,
+        "kinetic_loss_J": 0.0009176442399905227,
+        "instantaneous_work_identity_J": -2.8840357659145527e-14,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": -4.60336713465513e-16,
+        "physical_contact_work_J": -0.0009176442399616777,
+        "original_sample_closing_m_s": 6.0396132539608516e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13
+      },
+      "position_error": 2.089157318854436e-15,
+      "deformation_error": 4.525446770792252e-11,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.9682596633036046,
+            "original_normal_residual": 3.777111479206856e-05,
+            "estimated_condition": 453.56972005771274,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.191956740824604e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 4.976816683502652e-07,
+            "original_normal_residual": 3.5838638784520334e-11,
+            "estimated_condition": 1.0046794360336542,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.416471603255167e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.49001656779283365,
+            "original_normal_residual": 2.9069647845636877e-05,
+            "estimated_condition": 453.56930770172096,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.2808331955816794e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.67301954802101e-19,
+        "deformation_error": 1.1101687615769731e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 7.537200253148119e-10,
+        "coupled_defect_J": -1.3444650037372496e-09,
+        "material_identity_J": -1.249000902703301e-16,
+        "contact_work_J": -1.3877787807814457e-17,
+        "boundary_work_J": 1.5577322418081074e-12,
+        "viscosity_work_J": 0.04413163428463532,
+        "original_sample_closing_m_s": 6.0822458181064576e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+        "complementarity_m_s": 6.23856521997368e-12,
+        "original_contact_gates_passed": true
+      }
+    },
+    {
+      "iteration": 6,
+      "velocity_residual_norm": 1.257987596309957e-09,
+      "residual_work_bound_J": 2.035460568624092e-08,
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 168.51462564999912,
+        "final_closing_m_s": 4.590106073010247e-12,
+        "complementarity_m_s": 5.631051180898794e-12,
+        "kinetic_loss_J": 0.0009176442434295495,
+        "instantaneous_work_identity_J": 2.6919509462710258e-14,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": 4.548080130448117e-16,
+        "physical_contact_work_J": -0.0009176442434564586,
+        "original_sample_closing_m_s": 4.746425474877469e-12,
+        "restricted_sample_difference_m_s": 3.694822225952521e-13
+      },
+      "position_error": 3.3948520938267965e-16,
+      "deformation_error": 5.5822478199491475e-12,
+      "force_projection": {
+        "constrained": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.761174308212799,
+            "original_normal_residual": 2.9314823196018243e-05,
+            "estimated_condition": 453.56996931588424,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.3330956427576405e-05
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 4,
+            "scaled_normal_residual": 4.772410167778959e-07,
+            "original_normal_residual": 3.4019817539274016e-11,
+            "estimated_condition": 1.0046794362722027,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.864414405228892e-05
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 10,
+            "scaled_normal_residual": 0.37030892084247874,
+            "original_normal_residual": 2.2242715055747623e-05,
+            "estimated_condition": 453.56939761169394,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.380737258150215e-05
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual; only fixed nodes contribute global impulse/torque"
+      },
+      "consistent_endpoint": {
+        "position_error": 8.673381730344686e-19,
+        "deformation_error": 1.1102230246251565e-16,
+        "position_tolerance": 1.403321903126198e-16,
+        "deformation_tolerance": 1.5369364607255794e-14,
+        "velocity_relative_residual": 7.773682084866825e-11,
+        "coupled_defect_J": 8.481316343678102e-11,
+        "material_identity_J": -2.0816681711721685e-17,
+        "contact_work_J": 0.0,
+        "boundary_work_J": -6.894276816105105e-13,
+        "viscosity_work_J": 0.044131634410576125,
+        "original_sample_closing_m_s": 6.0396132539608516e-12,
+        "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+        "complementarity_m_s": 7.545963853772264e-12,
+        "original_contact_gates_passed": true
+      }
+    }
+  ],
+  "stages": [
+    {
+      "stage": "initial-projection",
+      "projection": {
+        "combined_projection_loss_J": 2.3056317611940904e-19,
+        "combined_projection_identity_J": 3.126390342976202e-13,
+        "constrained_projection": [
+          {
+            "component": 0,
+            "stop_flag": 1,
+            "iterations": 17,
+            "scaled_normal_residual": 9.804881660142481e-10,
+            "original_normal_residual": 3.853402333737408e-14,
+            "estimated_condition": 981.3118966724462,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 3.945087763503769e-18
+          },
+          {
+            "component": 1,
+            "stop_flag": 1,
+            "iterations": 4,
+            "scaled_normal_residual": 1.2366476422914272e-14,
+            "original_normal_residual": 1.4090735380805054e-18,
+            "estimated_condition": 1.0048617097600638,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 4.3871878160277953e-13
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 19,
+            "scaled_normal_residual": 4.465898339324375e-10,
+            "original_normal_residual": 1.4269380442012018e-14,
+            "estimated_condition": 980.4133645676978,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 6.526011821800716e-23
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual"
+      },
+      "geometry": {
+        "nodes": 33510,
+        "free_nodes": 25205,
+        "clamped_nodes": 8305,
+        "pairs": 137,
+        "mode_projection": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 6,
+            "scaled_normal_residual": 1.3768858791245679e-15,
+            "original_normal_residual": 1.7718318728204564e-19,
+            "estimated_condition": 663659.7498055334,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.4112965605682538e-29
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 6,
+            "scaled_normal_residual": 6.629076517820864e-16,
+            "original_normal_residual": 7.777921108301401e-20,
+            "estimated_condition": 448666.3111880842,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 7.503704084462849e-30
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 6,
+            "scaled_normal_residual": 5.790153399840722e-16,
+            "original_normal_residual": 7.037757588143271e-20,
+            "estimated_condition": 319328.7946975941,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.574197140138506e-30
+          },
+          {
+            "component": 3,
+            "stop_flag": 2,
+            "iterations": 6,
+            "scaled_normal_residual": 3.205513023481604e-16,
+            "original_normal_residual": 3.76951732255954e-20,
+            "estimated_condition": 314988.6885418794,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 9.040496792656074e-30
+          },
+          {
+            "component": 4,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 1.8013013925866663e-15,
+            "original_normal_residual": 2.103194043177304e-19,
+            "estimated_condition": 1.0073332227420713,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 9.610537505431103e-15
+          },
+          {
+            "component": 5,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 1.6479603246706961e-15,
+            "original_normal_residual": 1.9244117361888891e-19,
+            "estimated_condition": 1.0052951393272163,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 9.904597086533715e-15
+          },
+          {
+            "component": 6,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 6.999744377739809e-16,
+            "original_normal_residual": 5.142629323055696e-20,
+            "estimated_condition": 1.006146945076093,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 8.723172109307413e-15
+          },
+          {
+            "component": 7,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 7.620754527684169e-16,
+            "original_normal_residual": 8.689021889129317e-20,
+            "estimated_condition": 1.0052951393267013,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 9.90459692560604e-15
+          }
+        ],
+        "original_clamped_particle_count": 4864,
+        "eliminated_grid_dofs": 24915,
+        "coverage_valid": true,
+        "occupied_shared_nodes": 137,
+        "stencil_partition_error": 5.551115123125783e-16,
+        "stencil_first_moment_error": 1.6424085488084837e-18,
+        "free_factor": {
+          "built": false,
+          "physical_columns_removed": 0
+        },
+        "constrained_factor": {
+          "shift_preconditioner_only": 1e-08,
+          "physical_columns_removed": 0,
+          "L_nnz": 10810742,
+          "U_nnz": 10810742,
+          "minimum_pivot": 2.5547811009739993e-08,
+          "available_commit_before_factor_bytes": null,
+          "LDL_relative_residual": 5.094228045973272e-16
+        }
+      }
+    },
+    {
+      "stage": "initial-contact",
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 7.493412113035447e-09,
+        "final_closing_m_s": 7.493412113035447e-09,
+        "complementarity_m_s": 7.493412113035447e-09,
+        "kinetic_loss_J": 0.0,
+        "instantaneous_work_identity_J": 0.0,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": true,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": 0.0,
+        "physical_contact_work_J": 0.0,
+        "original_sample_closing_m_s": 7.493568432437314e-09,
+        "restricted_sample_difference_m_s": 2.8421709430404007e-13
+      },
+      "loss_J": 0.0,
+      "physical_impulse": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "physical_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_impulse": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_torque": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "stage": "end-old-cone-contact",
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 7.202703142520178,
+        "final_closing_m_s": 3.211653165635653e-12,
+        "complementarity_m_s": 3.211653165635653e-12,
+        "kinetic_loss_J": 4.427662645412056e-07,
+        "instantaneous_work_identity_J": 1.4983112182626053e-14,
+        "affine_reconstruction_error": 1.8985758474460748e-15,
+        "maximum_affine_correction": 92.47899657526818,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65746322.66912579,
+        "mobility_diagonal_max": 2048333238.704346,
+        "mobility_scale_min": 2.209528937640776e-05,
+        "mobility_scale_max": 0.00012332873206937175,
+        "unscaled_eigenvalue_min": 3755005.9339462854,
+        "unscaled_eigenvalue_max": 2328475267.1655254,
+        "unscaled_eigen_condition": 620.0989580643453,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.083247579624019e-05,
+        "balanced_eigenvalue_min": 0.029991884710771105,
+        "balanced_eigenvalue_max": 2.972898023649536,
+        "balanced_eigen_condition": 99.12341462761982,
+        "balanced_rank_threshold": 9.043588749868245e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": 5.55653584132662e-16,
+        "physical_contact_work_J": -4.427662795243375e-07,
+        "original_sample_closing_m_s": 3.268496584496461e-12,
+        "restricted_sample_difference_m_s": 2.8421709430404007e-13
+      },
+      "loss_J": 4.4276627952435134e-07,
+      "physical_impulse": [
+        1.0818346749120724e-23,
+        -2.0319103067803213e-22,
+        2.8855615108701325e-24
+      ],
+      "physical_torque": [
+        1.2977456616065571e-18,
+        -4.725594713429357e-25,
+        -1.297785422106937e-18
+      ],
+      "boundary_impulse": [
+        -2.4325036638696327e-12,
+        6.576915945489678e-12,
+        -2.432503668486188e-12
+      ],
+      "boundary_torque": [
+        2.703936539096182e-15,
+        -3.267299121154076e-24,
+        -2.7039374495854378e-15
+      ]
+    },
+    {
+      "stage": "end-projection",
+      "projection": {
+        "combined_projection_loss_J": 9.066934451004923e-05,
+        "combined_projection_identity_J": 1.219879367875612e-13,
+        "constrained_projection": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 9,
+            "scaled_normal_residual": 2.0201651987999756e-15,
+            "original_normal_residual": 1.8102307703392187e-19,
+            "estimated_condition": 266.1622552715623,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 3.835847412024546e-16
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 8,
+            "scaled_normal_residual": 1.1979936930578516e-14,
+            "original_normal_residual": 1.4853766100903649e-18,
+            "estimated_condition": 201.11386079450838,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.884599719120671e-16
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 9,
+            "scaled_normal_residual": 2.346680374289068e-15,
+            "original_normal_residual": 1.9581542677641684e-19,
+            "estimated_condition": 266.15638855183255,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 2.045890565701663e-16
+          }
+        ],
+        "reaction_scope": "fixed-node plus Galerkin-orthogonal residual"
+      },
+      "geometry": {
+        "nodes": 33510,
+        "free_nodes": 25205,
+        "clamped_nodes": 8305,
+        "pairs": 137,
+        "mode_projection": [
+          {
+            "component": 0,
+            "stop_flag": 2,
+            "iterations": 5,
+            "scaled_normal_residual": 1.6322445261756923e-15,
+            "original_normal_residual": 2.1085923532536707e-19,
+            "estimated_condition": 128.0213065649175,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 8.920508951117217e-30
+          },
+          {
+            "component": 1,
+            "stop_flag": 2,
+            "iterations": 5,
+            "scaled_normal_residual": 1.1768505717834302e-15,
+            "original_normal_residual": 1.3875256119359847e-19,
+            "estimated_condition": 47.12461074228887,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 3.3261730761064305e-30
+          },
+          {
+            "component": 2,
+            "stop_flag": 2,
+            "iterations": 5,
+            "scaled_normal_residual": 2.069497062855148e-16,
+            "original_normal_residual": 2.4395588040706235e-20,
+            "estimated_condition": 233.15749467947478,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.7236511578825856e-30
+          },
+          {
+            "component": 3,
+            "stop_flag": 2,
+            "iterations": 5,
+            "scaled_normal_residual": 3.215225456372548e-16,
+            "original_normal_residual": 3.7804871739165075e-20,
+            "estimated_condition": 165.0340851193731,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 7.897518527685429e-30
+          },
+          {
+            "component": 4,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 1.8028249335030132e-15,
+            "original_normal_residual": 2.104351024588635e-19,
+            "estimated_condition": 1.0073281332393582,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 9.872540121181024e-15
+          },
+          {
+            "component": 5,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 1.2162856188454787e-15,
+            "original_normal_residual": 1.4126279414022917e-19,
+            "estimated_condition": 1.0052930812309167,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.020555218378651e-14
+          },
+          {
+            "component": 6,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 1.1705962102463674e-15,
+            "original_normal_residual": 8.704785305505924e-20,
+            "estimated_condition": 1.0061513895423233,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 8.371717457482732e-15
+          },
+          {
+            "component": 7,
+            "stop_flag": 2,
+            "iterations": 3,
+            "scaled_normal_residual": 8.355657691266345e-16,
+            "original_normal_residual": 9.570527086152237e-20,
+            "estimated_condition": 1.00529308123061,
+            "condition_guard": 67108864.0,
+            "transformed_normal_residual": 1.0205552021319576e-14
+          }
+        ],
+        "original_clamped_particle_count": 4864,
+        "eliminated_grid_dofs": 24915,
+        "coverage_valid": true,
+        "occupied_shared_nodes": 137,
+        "stencil_partition_error": 5.551115123125783e-16,
+        "stencil_first_moment_error": 1.6421417845604255e-18,
+        "free_factor": {
+          "built": false,
+          "physical_columns_removed": 0
+        },
+        "constrained_factor": {
+          "shift_preconditioner_only": 1e-08,
+          "physical_columns_removed": 0,
+          "L_nnz": 11254878,
+          "U_nnz": 11254878,
+          "minimum_pivot": 2.5680706093762255e-08,
+          "available_commit_before_factor_bytes": null,
+          "LDL_relative_residual": 5.19786955778267e-16
+        }
+      }
+    },
+    {
+      "stage": "end-contact",
+      "contact": {
+        "valid": true,
+        "pairs": 137,
+        "mobility_rank": 137,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 40.36317283129644,
+        "final_closing_m_s": 6.0254023992456496e-12,
+        "complementarity_m_s": 6.0254023992456496e-12,
+        "kinetic_loss_J": 4.1504907301259664e-05,
+        "instantaneous_work_identity_J": -3.257301495532035e-14,
+        "affine_reconstruction_error": 2.0835289047752645e-15,
+        "maximum_affine_correction": 93.59942154206283,
+        "feasible_fast_path": false,
+        "solver_error": null,
+        "mobility_diagonal_min": 65408342.451157406,
+        "mobility_diagonal_max": 1794403144.3495252,
+        "mobility_scale_min": 2.360695592583603e-05,
+        "mobility_scale_max": 0.00012364695573034235,
+        "unscaled_eigenvalue_min": 3732261.338634741,
+        "unscaled_eigenvalue_max": 2308574521.847627,
+        "unscaled_eigen_condition": 618.5457856207096,
+        "unscaled_mobility_rank": 137,
+        "unscaled_rank_threshold": 7.022709291717998e-05,
+        "balanced_eigenvalue_min": 0.030338021784969478,
+        "balanced_eigenvalue_max": 2.982632813544624,
+        "balanced_eigen_condition": 98.31335855333603,
+        "balanced_rank_threshold": 9.073202088663323e-14,
+        "constraint_scaling": "Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization",
+        "true_zero_mobility_rows": 0,
+        "boundary_virtual_work_J": -3.6940394639144505e-16,
+        "physical_contact_work_J": -4.150490726868763e-05,
+        "original_sample_closing_m_s": 5.9756644077424426e-12,
+        "restricted_sample_difference_m_s": 1.4210854715202004e-13
+      },
+      "loss_J": 4.1504907268685514e-05,
+      "physical_impulse": [
+        2.4262447458974576e-22,
+        -6.4131781411505064e-21,
+        6.811419673485291e-23
+      ],
+      "physical_torque": [
+        -6.582158757703233e-25,
+        4.350061955249966e-24,
+        -3.724330228810682e-23
+      ],
+      "boundary_impulse": [
+        -6.947864632162792e-11,
+        2.448383548529393e-10,
+        -6.947864631854205e-11
+      ],
+      "boundary_torque": [
+        1.0018490095119519e-13,
+        -2.260260148830172e-23,
+        -1.0018490298985641e-13
+      ]
+    }
+  ],
+  "production_admitted": false,
+  "nonlinear_contract": {
+    "endpoint": "Material-consistent Picard guess; proposal remains a force-balance diagnostic",
+    "velocity_relative_tolerance": 1e-10,
+    "stopping_work": "Actual coupled work defect <= original total energy tolerance",
+    "old_work_bound_budget_J": 3.5364990234375e-10,
+    "old_norm_work_bound_diagnostic_only": true,
+    "original_64eps_kinematic_gates_unchanged": true
+  },
+  "ledger": {
+    "grid": 0.0,
+    "boundary": 0.0,
+    "contact": 4.1947673548209865e-05,
+    "viscosity": 0.044131634410576125,
+    "dynamic_contact": -0.0,
+    "combined_projection": 9.066934451004946e-05
+  },
+  "boundary_impulse": [
+    -1.7582202752375045e-09,
+    3.5056336601878633e-09,
+    -1.7582202783342112e-09
+  ],
+  "boundary_torque": [
+    1.7797055470689317e-12,
+    -1.0645782619523527e-20,
+    -1.7797056809540525e-12
+  ],
+  "accepted_endpoint_contract": {
+    "position_error": 8.673381730344686e-19,
+    "deformation_error": 1.1102230246251565e-16,
+    "position_tolerance": 1.403321903126198e-16,
+    "deformation_tolerance": 1.5369364607255794e-14,
+    "velocity_relative_residual": 7.773682084866825e-11,
+    "coupled_defect_J": 8.481316343678102e-11,
+    "material_identity_J": -2.0816681711721685e-17,
+    "contact_work_J": 0.0,
+    "boundary_work_J": -6.894276816105105e-13,
+    "viscosity_work_J": 0.044131634410576125,
+    "original_sample_closing_m_s": 6.0396132539608516e-12,
+    "restricted_sample_difference_m_s": 2.5579538487363607e-13,
+    "complementarity_m_s": 7.545963853772264e-12,
+    "original_contact_gates_passed": true
+  },
+  "retained_iteration_io_seconds": 3.1303446739912033,
+  "retained_iteration": 6,
+  "coupled": {
+    "material_work_J": 0.03166637335169265,
+    "material_change_J": 0.03166637335169267,
+    "material_identity_J": -2.0816681711721685e-17,
+    "viscosity_work_J": 0.044131634410576125,
+    "contact_work_J": 0.0,
+    "boundary_work_J": -6.894276816105105e-13,
+    "coupled_defect_J": 8.481316343678102e-11,
+    "contact_torque": [
+      -1.6191594329346432e-17,
+      -1.5780404579186946e-23,
+      1.6191696789134623e-17
+    ],
+    "midpoint_closing_speed": 6.0396132539608516e-12,
+    "endpoint_closing_before_final_projection": 7.202703142520306
+  },
+  "contact_split": "Fixed-cone midpoint motion, old-cone inelastic impact, remap, new-cone inelastic impact",
+  "energy_residual_J": 8.452616384602152e-11,
+  "momentum_residual": [
+    4.1710794146223234e-17,
+    0.0,
+    4.192975878053337e-17
+  ],
+  "angular_residual": [
+    -1.494518675612118e-17,
+    1.1170792780456668e-20,
+    1.4960972496447733e-17
+  ],
+  "angular_scale": 0.00016195740223565373,
+  "angular_roundoff_tolerance": 2.3015531132224073e-18,
+  "angular_tolerance": 1.6195740223565374e-14,
+  "angular_relative_error": 1.3057046860004836e-13,
+  "angular_roundoff_passed": false,
+  "min_J": 0.5748695572168042,
+  "max_temperature": 317.78224478633103,
+  "max_damage": 1.0,
+  "cumulative_energy_residual_J": 1.0123812899109907e-10,
+  "cumulative_momentum_residual": [
+    4.1740314567924027e-17,
+    -2.61143367837604e-16,
+    4.179201666493104e-17
+  ],
+  "cumulative_angular_residual": [
+    -5.642780198265856e-16,
+    1.134206185975097e-20,
+    5.642920914160384e-16
+  ],
+  "cumulative_angular_relative_error": 4.9273424235688944e-12,
+  "cumulative_angular_roundoff_passed": false,
+  "total_elapsed_s": 54.67030131816864
+}

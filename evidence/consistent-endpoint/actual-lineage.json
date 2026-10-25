@@ -1,0 +1,17 @@
+{
+  "source_commit": "0906569cbf4aca0f2990c664f4c50d56c39dc0b0",
+  "initial_state_sha256": "fc23bf81d08d400e34aef088c31d89c8f8013a6bae918f825fc147c806baefd5",
+  "steps": [
+    {
+      "step": 1,
+      "time_s": 1.5738711347015963e-07,
+      "dt_s": 6.027272808557944e-10,
+      "starting_cfl_limit_s": 6.696969787286604e-10,
+      "input_sha256": "fc23bf81d08d400e34aef088c31d89c8f8013a6bae918f825fc147c806baefd5",
+      "output_sha256": "cfaa56ac21382c8a850e7575ec7f88823ea18efa9c760060758508d239d2d8a8",
+      "energy_residual_J": 8.452616384602152e-11,
+      "cumulative_energy_residual_J": 1.0123812899109907e-10
+    }
+  ],
+  "scope": "actual continuation; reference solver; no fragment-cloud admission"
+}

@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "parent_task": "metal-balanced-continue175",
+  "source_commit": "0906569cbf4aca0f2990c664f4c50d56c39dc0b0",
+  "parent_checkpoint_sha256": "fc23bf81d08d400e34aef088c31d89c8f8013a6bae918f825fc147c806baefd5",
+  "original_physical_gates_unchanged": true,
+  "original_physical_gates_scope": "Final material, full/cumulative energy, linear/angular momentum, CFL, contact and64eps kinematic admissibility only; nonlinear stopping contract explicitly changed below",
+  "original_final_energy_momentum_material_CFL_gates_unchanged": true,
+  "fixed_state_verification_passed": true,
+  "nonlinear_stopping_contract_changed": true,
+  "nonlinear_contract": {
+    "previous": ".025*norm-based-work-bound and mismatched proposed-endpoint kinematics",
+    "current": "Material-consistent guess, actual coupled work <= original energy tolerance, independent whitened velocity relative residual <=1e-10; original sampler/KKT and64eps geometry rechecked",
+    "old_bound_retained_as_diagnostic": true,
+    "no_state_or_energy_correction": true,
+    "end_old_and_new_cone_inelastic_projections_retained": true
+  },
+  "saved_iterate_review": {
+    "position_error": 8.672334745063599e-19,
+    "F_error": 1.1102230246251565e-16,
+    "position_tolerance": 1.403321903126198e-16,
+    "F_tolerance": 1.5369364607255794e-14,
+    "original_kinematic_gates_passed": true,
+    "coupled_defect_J": -1.2241587951655752e-12,
+    "contact_work_J": 0.0,
+    "boundary_work_J": 9.122971475483688e-13,
+    "original_coupled_gates_passed": true,
+    "original_midpoint_sampler_closing_m_s": 5.666578317686799e-12,
+    "endpoint_before_required_inelastic_projection_closing_m_s": 7.202703142524356,
+    "original_midpoint_sampler_passed": true
+  },
+  "scope": "Fixed-state verification permits one standard necessary actual step from accepted parent3; not a completed trajectory or full new-step admission"
+}

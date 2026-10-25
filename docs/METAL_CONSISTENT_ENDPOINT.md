@@ -1,0 +1,9 @@
+# Material-consistent midpoint endpoint
+
+The material evaluation advances `x` and `F` with `(y0 + guess)/2`. Previously, the iteration accepted the next force/contact proposal as its endpoint. At the projection's floating-point floor, that substitution left a deformation-gradient discrepancy around `6e-12`, despite a very small actual work defect.
+
+The candidate retains `guess` as the endpoint, without correcting position, deformation, histories or energy. Acceptance requires an independent whitened-velocity fixed-point residual at most `1e-10` relative to `max(norm(y0), norm(guess), 1)`, actual coupled work within the existing total energy tolerance, and the original `64 eps` position/deformation checks. The old norm-based work upper bound remains diagnostic; its previous `.025` budget is no longer a stopping requirement. The original full and restricted contact sampler and complementarity checks are repeated on the retained midpoint velocity.
+
+All final material, full/cumulative energy, linear/angular momentum, CFL and contact gates remain. The old-cone endpoint inelastic projection and the new-geometry projection/contact are retained. This changes the nonlinear stopping contract; it does not claim bitwise equality with the rejected proposal or general long-time validation.
+
+The [actual one-step receipt](../evidence/consistent-endpoint/actual-step-admission.json) binds accepted parent3 at `156.784386189ns` to one necessary new step at `157.387113470ns`. Seven evaluations gave position/F discrepancies `8.67e-19m` / `1.11e-16`, within the original machine-scale gates. Full/cumulative energy defects were `8.45e-11J` / `1.01e-10J`, below the original `1.4146e-8J`. The cumulative angular relative error was `4.93e-12`, within its existing `1e-10` engineering gate; the stricter `64 eps` angular diagnostic remained false.
