@@ -60,22 +60,45 @@ class CompatibleContact:
     def sample(self,y):return self.B0@y.ravel()+self.C@(self.op.T.T@y).ravel()
     def adjoint(self,impulse):
         return (self.B0.T@impulse).reshape(4*self.op.n,3)+self.op.T@(self.C.T@impulse).reshape(self.op.T.shape[1],3)
+    def _balanced_system(self):
+        if hasattr(self,'_contact_balance'):return self._contact_balance
+        M=self.mobility;diag=np.diag(M);positive=diag>0;zero=diag==0
+        if np.any(diag<0) or np.any(M[zero]!=0):raise ValueError('Nonpositive contact diagonal is not a true zero mobility row')
+        scale=np.ones(len(diag));scale[positive]=1/np.sqrt(diag[positive])
+        balanced=scale[:,None]*M*scale[None,:]
+        raw_eig=np.linalg.eigvalsh(M);eig,V=np.linalg.eigh(balanced)
+        raw_threshold=max(M.shape)*np.finfo(float).eps*float(raw_eig.max(initial=0))
+        threshold=max(M.shape)*np.finfo(float).eps*float(eig.max(initial=0));keep=eig>threshold
+        if raw_eig.min(initial=0)<-raw_threshold or eig.min(initial=0)<-threshold:raise ValueError('Indefinite contact mobility')
+        condition=lambda values:float(values[-1]/values[0]) if len(values) and values[0]>0 else None
+        diagnostics=dict(mobility_diagonal_min=float(diag.min()) if len(diag) else 0.,mobility_diagonal_max=float(diag.max(initial=0)),
+            mobility_scale_min=float(scale.min()) if len(scale) else 1.,mobility_scale_max=float(scale.max(initial=0)),
+            unscaled_eigenvalue_min=float(raw_eig[0]) if len(raw_eig) else 0.,unscaled_eigenvalue_max=float(raw_eig.max(initial=0)),
+            unscaled_eigen_condition=condition(raw_eig),unscaled_mobility_rank=int(np.sum(raw_eig>raw_threshold)),unscaled_rank_threshold=raw_threshold,
+            balanced_eigenvalue_min=float(eig[0]) if len(eig) else 0.,balanced_eigenvalue_max=float(eig.max(initial=0)),
+            balanced_eigen_condition=condition(eig),balanced_rank_threshold=threshold,
+            constraint_scaling='Positive diagonal congruence SMS, Sg; physical multiplier lambda=S*mu; no regularization',true_zero_mobility_rows=int(zero.sum()))
+        self._contact_balance=(scale,zero,eig,V,keep,diagnostics)
+        return self._contact_balance
     def project(self,y,tolerance=.005,return_impulse=False):
         closing=self.sample(y)
-        eig,V=np.linalg.eigh(self.mobility)
-        threshold=max(self.mobility.shape)*np.finfo(float).eps*float(eig.max(initial=0))
-        keep=eig>threshold
-        if np.min(eig,initial=0)<-threshold:raise ValueError('Indefinite contact mobility')
-        A=np.sqrt(eig[keep])[:,None]*V[:,keep].T
-        target=(V[:,keep].T@closing)/np.sqrt(eig[keep])
-        multiplier=nnls(A,target,maxiter=1024)[0] if np.any(keep) else np.zeros(len(closing))
+        scale,zero,eig,V,keep,diagnostics=self._balanced_system()
+        feasible=bool(np.max(closing,initial=0)<=tolerance)
+        zero_solvable=bool(np.max(closing[zero],initial=0)<=tolerance)
+        multiplier=np.zeros(len(closing));solver_error=None
+        if not feasible and zero_solvable:
+            A=np.sqrt(eig[keep])[:,None]*V[:,keep].T
+            target=(V[:,keep].T@(scale*closing))/np.sqrt(eig[keep])
+            try:multiplier=scale*nnls(A,target,maxiter=1024)[0] if np.any(keep) else multiplier
+            except RuntimeError as error:solver_error=str(error)
         delta=-self.adjoint(multiplier);following=y+delta;final=self.sample(following)
         residual=np.where(multiplier>0,abs(final),np.maximum(final,0.))
         identity=float(.5*np.sum(following**2)-.5*np.sum(y*y)+.5*np.sum(delta**2)+np.dot(multiplier,final))
-        report=dict(valid=bool(np.max(residual,initial=0)<=tolerance),pairs=len(self.pairs),
+        report=dict(valid=bool(zero_solvable and solver_error is None and np.max(residual,initial=0)<=tolerance),pairs=len(self.pairs),
             mobility_rank=int(keep.sum()),mobility_nullity=int((~keep).sum()),
             initial_closing_m_s=float(np.max(closing,initial=0)),final_closing_m_s=float(np.max(final,initial=0)),
             complementarity_m_s=float(np.max(residual,initial=0)),kinetic_loss_J=float(.5*np.sum(y*y)-.5*np.sum(following**2)),
             instantaneous_work_identity_J=identity,affine_reconstruction_error=self.affine_reconstruction_error,
-            maximum_affine_correction=float(np.max(abs(self.C),initial=0)))
+            maximum_affine_correction=float(np.max(abs(self.C),initial=0)),feasible_fast_path=feasible,
+            solver_error=solver_error,**diagnostics)
         return (following,report,multiplier) if return_impulse else (following,report)

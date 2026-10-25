@@ -149,6 +149,16 @@ def main():
         loss = .5 * float(np.sum((y-before)**2))
         ledger['contact'] += loss
         reaction_at(state, reaction)
+        report['stages'].append(dict(stage=label, contact=row, loss_J=loss,
+            physical_impulse=moments(state, physical)[0], physical_torque=moments(state, physical)[1],
+            boundary_impulse=moments(state, reaction)[0], boundary_torque=moments(state, reaction)[1]))
+        np.savez_compressed(args.output/(label+'.npz'), white_before=before, white=y,
+                            physical=physical, reaction=reaction, multiplier=frame.restricted.last_multiplier,
+                            mobility=frame.restricted.mobility, constraint_scale=frame.restricted._balanced_system()[0],
+                            closing_before=frame.restricted.sample(before), closing_after=frame.restricted.sample(y),
+                            full_closing_after=frame.restricted.full_contact.sample(y),
+                            x=state['x'], F=state['F'])
+        record()
         gate(row['valid'] and row['original_sample_closing_m_s'] <= .005 and row['restricted_sample_difference_m_s'] <= .005,
              'Original full contact sampler tolerance failed')
         gate(abs(kinetic(y)-kinetic(before)+loss) <= tol, 'Contact projection energy identity failed')
@@ -159,11 +169,6 @@ def main():
             part = float(np.sum(per_particle_loss[selected]))
             state['contact_projection_loss'][body] += part
             state['contact_coupling_work'][body] += -float(np.sum(per_particle_change[selected]))-part
-        report['stages'].append(dict(stage=label, contact=row, loss_J=loss,
-            physical_impulse=moments(state, physical)[0], physical_torque=moments(state, physical)[1],
-            boundary_impulse=moments(state, reaction)[0], boundary_torque=moments(state, reaction)[1]))
-        np.savez_compressed(args.output/(label+'.npz'), white_before=before, white=y,
-                            physical=physical, reaction=reaction, x=state['x'], F=state['F'])
 
     def progress(phase):
         print(json.dumps({'phase': phase, 'elapsed_s': time.monotonic()-started}), flush=True)
