@@ -5,16 +5,19 @@ Galerkin dynamics, not the original particle-velocity PIC time integrator.
 """
 import argparse
 import json
+import hashlib
 from pathlib import Path
 import numpy as np
 from examples.phase_field_bending_geometry import reference_cells, preflight
 
 
 def run(dx=.025, length=.05, density=1., gc=.005, speed=.12,
-        displacement=.035, steps=None, output='outputs/at2-bending-grid', cfl=.04):
+        displacement=.035, steps=None, output='outputs/at2-bending-grid', cfl=.04,
+        restart=None):
     if length < 2*dx or density <= 0 or gc <= 0 or speed <= 0 or displacement <= 0 or cfl not in (.04,.02,.01):
         raise ValueError('Positive parameters and ell/h >=2 required')
     import jax
+    import jaxlib
     jax.config.update('jax_enable_x64', True)
     import jax.numpy as jnp
     from mpm_jax.fibre_mpm import build_layout, grid_coordinates
@@ -116,6 +119,44 @@ def run(dx=.025, length=.05, density=1., gc=.005, speed=.12,
         'frozen_damage_strain_integration_defect','kick_drift_work_difference',
         'damage_split_potential_change','algebraic_closure','punch_work','support_anchor_work',
         'force_drift_weak_identity_error']
+    source_root = Path(__file__).resolve().parents[1]
+    source_files = [Path(__file__).resolve(), source_root/'examples/phase_field_bending_geometry.py',
+                    *sorted((source_root/'mpm_jax').rglob('*.py'))]
+    source_hashes = {str(path.relative_to(source_root)).replace('\\', '/'):
+                     hashlib.sha256(path.read_bytes()).hexdigest() for path in source_files}
+    binding = dict(schema=1, dx=dx, length=length, density=density, gc=gc,
+        speed=speed, displacement=displacement, cfl=cfl, dt=dt, ramp=ramp,
+        duration=duration, required_steps=required, particles=len(x), nodes=n,
+        source_hashes=source_hashes, jax_version=jax.__version__,
+        jaxlib_version=jaxlib.__version__, numpy_version=np.__version__,
+        x64=bool(jax.config.jax_enable_x64), audit_fields=fields)
+    rows, cumulative = [], np.zeros(len(fields))
+    max_kkt, max_strain, start_step = 0., 0., 0
+    if restart is not None:
+        with np.load(restart, allow_pickle=False) as saved:
+            if json.loads(str(saved['binding'])) != binding:
+                raise RuntimeError('Restart source/runtime/physical binding mismatch')
+            if not all(np.array_equal(saved[key], np.asarray(value)) for key, value in
+                       [('reference', x), ('volume', volume), ('grid_coordinates', q), ('nodal_mass', mass)]):
+                raise RuntimeError('Restart reference layout/quadrature mismatch')
+            start_step = int(saved['step'])
+            if not 0 <= start_step < count:
+                raise RuntimeError('Restart step must precede absolute requested stop step')
+            u, v = jnp.asarray(saved['nodal_displacement']), jnp.asarray(saved['nodal_velocity'])
+            history, damage = jnp.asarray(saved['history']), jnp.asarray(saved['nodal_damage'])
+            cumulative = saved['cumulative_audit'].copy()
+            rows = saved['history_rows'].tolist()
+            max_kkt, max_strain = float(saved['maximum_kkt']), float(saved['maximum_strain'])
+            if not all(np.isfinite(np.asarray(value)).all() for value in
+                       (u, v, history, damage, cumulative, rows, max_kkt, max_strain)):
+                raise RuntimeError('Nonfinite restart state')
+            if u.shape != (n,3) or v.shape != (n,3) or history.shape != (len(x),) or damage.shape != (n,):
+                raise RuntimeError('Restart state shape mismatch')
+            if (float(jnp.min(damage)) < -1e-12 or float(jnp.max(damage)) > 1+1e-12
+                    or float(jnp.min(history)) < 0 or max_strain > .1 or max_kkt > 1e-7):
+                raise RuntimeError('Restart state outside qualification bounds')
+            if cumulative.shape != (len(fields),):
+                raise RuntimeError('Restart audit shape mismatch')
     def save(step):
         state = particle_state(u, v, history, damage)
         d, grad = interpolate(damage, basis)
@@ -136,10 +177,22 @@ def run(dx=.025, length=.05, density=1., gc=.005, speed=.12,
             fracture_energy_density=np.asarray(local_fracture+gradient_fracture),
             reference_cell_bounds=cell_bounds,
             time=step*dt, gc=gc, length=length, density=density)
-    save(0)
-    rows, cumulative = [], np.zeros(len(fields))
-    max_kkt, max_strain = 0., 0.
-    for step in range(1, count+1):
+    def checkpoint(step):
+        # Contact is an instantaneous projection; there is no independent
+        # friction/plastic/contact multiplier history to carry between steps.
+        path = destination/f'checkpoint_{step:06d}.npz'
+        temporary = path.with_suffix('.partial.npz')
+        np.savez_compressed(temporary, binding=json.dumps(binding, sort_keys=True),
+            step=step, nodal_displacement=np.asarray(u), nodal_velocity=np.asarray(v),
+            history=np.asarray(history), nodal_damage=np.asarray(damage),
+            cumulative_audit=cumulative, history_rows=np.asarray(rows),
+            maximum_kkt=max_kkt, maximum_strain=max_strain,
+            reference=x, volume=np.asarray(volume), grid_coordinates=np.asarray(q),
+            nodal_mass=np.asarray(mass))
+        temporary.replace(path)
+    save(start_step)
+    checkpoint(start_step)
+    for step in range(start_step+1, count+1):
         time = min(step*dt, duration)
         # Continuous prescribed displacement with a linearly ramped velocity.
         travel = speed*(time*time/(2*ramp) if time < ramp else time-ramp/2)
@@ -171,10 +224,13 @@ def run(dx=.025, length=.05, density=1., gc=.005, speed=.12,
             print(f'step={step} damage={float(jnp.max(pd)):.6f} kkt={float(solved.relative_kkt):.3e}',flush=True)
         if step % 200 == 0 or step == count:
             save(step)
+            checkpoint(step)
     summary = dict(status='numerically_completed_unvalidated_candidate', particles=len(x),nodes=n,
         dx=dx,length=length,density=density,gc=gc,speed=speed,dt=dt,steps=count,
         requested_displacement=displacement,reached_requested_displacement=count>=required,cfl=cfl,
         maximum_kkt=max_kkt,maximum_strain=max_strain,audit=dict(zip(fields,cumulative.tolist())),
+        resumed_from_step=start_step, restart_source=None if restart is None else str(restart),
+        checkpoint=f'checkpoint_{count:06d}.npz', checkpoint_binding=binding,
         maximum_particle_damage=float(jnp.max(pd)),particles_above_point9=int(jnp.sum(pd>.9)),
         final_energy=dict(zip(['nodal_kinetic','elastic','fracture'],energy.tolist())),
         kinetic_energy_definition='lumped nodal; particle interpolated velocity is export only',
@@ -194,6 +250,7 @@ if __name__ == '__main__':
     p.add_argument('--steps',type=int)
     p.add_argument('--cfl',type=float,choices=(.04,.02,.01),default=.04)
     p.add_argument('--output',default='outputs/at2-bending-grid')
+    p.add_argument('--restart',help='Exact checkpoint; --steps remains an absolute global stop step')
     p.add_argument('--preflight',action='store_true')
     a = p.parse_args()
     if a.preflight:
@@ -203,4 +260,4 @@ if __name__ == '__main__':
         print(json.dumps(dict(**preflight(a.dx),dt=dt,
             target_steps=int(np.ceil(duration/dt)))))
     else:
-        run(a.dx,a.length,a.density,a.gc,a.speed,a.displacement,a.steps,a.output,a.cfl)
+        run(a.dx,a.length,a.density,a.gc,a.speed,a.displacement,a.steps,a.output,a.cfl,a.restart)

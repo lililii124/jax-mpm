@@ -1,0 +1,54 @@
+name: AT2 bending exact restart parity only
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: at2-persistent-grid-restart-parity
+  cancel-in-progress: false
+jobs:
+  parity:
+    if: github.ref == 'refs/heads/work/phase-field-bending'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install exact qualification runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
+      - name: Record complete source closure and runtime
+        run: |
+          set -euo pipefail
+          mkdir -p outputs/at2-restart
+          git rev-parse HEAD > outputs/at2-restart/source-head.txt
+          printf '%s\n' "$GITHUB_REF" > outputs/at2-restart/source-ref.txt
+          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-restart/source-sha256.txt
+          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py tools/prove_phase_field_bending_restart.py .github/workflows/phase-field-persistent-grid-restart-parity.yml >> outputs/at2-restart/source-sha256.txt
+          python -m pip freeze > outputs/at2-restart/runtime.txt
+      - name: Actual JAX four-step versus two-plus-two exact state proof only
+        timeout-minutes: 14
+        run: |
+          set -euo pipefail
+          ulimit -v 6291456
+          /usr/bin/time -v -o outputs/at2-restart/resources.txt timeout --signal=KILL 13m python tools/prove_phase_field_bending_restart.py --output outputs/at2-restart/proof 2>&1 | tee outputs/at2-restart/proof.log
+      - name: Preserve parity arrays, checkpoints, timings and sampled USS
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: at2-restart-parity-${{ github.run_id }}
+          path: outputs/at2-restart/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
