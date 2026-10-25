@@ -128,3 +128,33 @@ carry array and physical time exactly; it is explicitly not the old binding.
 Only3200★3600 is authorized here. Snapshot3274 is retained for strict physical
 array comparison with the old guard failure state. No large-load extension or
 media follows automatically. Bandwidth/time-step/mesh checks remain necessary.
+
+
+## Independent ideal-brittle material (new case, not continuation)
+
+Approved new case: Gc*=1.25e-5 (old/16), speed*=.005 (old/4), target
+travel*=.00045 (old/4); E*=1000, nu=.2, rho*=1, ell*=.0375, h*=.0125,
+geometry, seed and coefficient BC remain explicit. It starts from zero actual
+state, not scaled old arrays. Load ramp*.06 and final time*.12 remain dynamic.
+
+One possible dimensional unit mapping is length=.1m, stress=30MPa and
+reference density=2400kg/m3, hence time=.000894427s. Then the ideal plate is
+60x60x2.5mm, E=30GPa, Gc=37.5J/m2, ell=3.75mm, Kc「1.06MPa sqrt(m).
+This is an ideal brittle benchmark assumption, not identification of a measured
+material. Its spectral homogeneous strength「5.88MPa and peak strain「.0339%;
+the 1D d=.99 strain scale「.574% leaves useful room below the nonseed2% cap.
+
+The equations admit a similarity prediction when displacement, velocity and
+stress scale by beta and Gc by beta squared. beta=.25 predicts strain four
+times smaller and a similar damage pattern at equal loading phase; this is not
+an observed validation and must not be used to manufacture fields. Fresh raw
+solves, phase-field widths, growth outside the actual initial seed, reactions,
+energy and time/grid checks remain required. First bounded fresh segment will
+end at2400 (t*.036, travel*.000054), then proceed in resource-bounded segments
+according to real localization. No crack is promised at that prefix.
+
+Before this fresh case, exactly one two-step-on/two-step-off observer check
+isolates read-only qualification effects, with explicit diagnostic source/binding
+forks and no loading extension. Input carry restoration remains bitwise strict;
+74-step cross-runner evolution equality is only a diagnostic record. The old
+failure and all raw3600 data are retained, not recomputed for an export check.
