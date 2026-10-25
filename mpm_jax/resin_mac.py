@@ -68,6 +68,7 @@ class PressureResult(NamedTuple):
     reconstruction_relative: object
     impulse_potential_base: object
     impulse_potential_correction: object
+    dual_velocity_selected: object
 
 
 def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400,preconditioner=None):
@@ -124,4 +125,4 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
     relative=jnp.linalg.norm(residual)/jnp.maximum(jnp.linalg.norm(rhs),1e-300)
     div=jnp.where(fluid,divergence(corrected,h),0.)/h**3
     valid=coverage&positive&jnp.isfinite(relative)&(relative<=10*tolerance)&jnp.all(jnp.stack([jnp.all(jnp.isfinite(v)) for v in corrected]))
-    return PressureResult(corrected,-multiplier/dt,fixture,relative,jnp.max(jnp.abs(div)),work,loss,work-change-loss,coverage,valid,iterations,jnp.asarray(0.),jnp.asarray(0.),relative,multiplier,jnp.zeros_like(multiplier))
+    return PressureResult(corrected,-multiplier/dt,fixture,relative,jnp.max(jnp.abs(div)),work,loss,work-change-loss,coverage,valid,iterations,jnp.asarray(0.),jnp.asarray(0.),relative,multiplier,jnp.zeros_like(multiplier),jnp.asarray(True))
