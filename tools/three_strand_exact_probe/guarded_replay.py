@@ -95,7 +95,6 @@ def main():
               'available_bytes': memory.available, 'total_bytes': memory.total,
               'scope': 'diagnostic only; never admission or resumable trajectory'}
     if os.name == 'nt':
-        import ctypes
         class PerformanceInformation(ctypes.Structure):
             _fields_ = [('cb', ctypes.c_ulong)] + [(k, ctypes.c_size_t) for k in
                 ('CommitTotal', 'CommitLimit', 'CommitPeak', 'PhysicalTotal',
