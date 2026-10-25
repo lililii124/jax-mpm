@@ -10,7 +10,7 @@ from .resin_apic import particle_to_faces,faces_to_particles,cell_mass,kinetic_p
 from .resin_mac import viscosity_force,pressure_projection
 from .resin_particle_boundary import advect
 from .resin_transport_rt0 import advect as advect_rt0
-from .resin_transport_extension import extend as extend_transport,support_closed_domain
+from .resin_transport_extension import Extension,support_closed_domain
 
 
 class FlowState(NamedTuple):
@@ -60,9 +60,9 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         transport_data=None
         if transport=='rt0':
             if solid is None:raise ValueError('RT0 requires the actual fixed voxel boundary')
-            extension=extend_transport(s.x,s.active,projection.velocity,fixed,fluid,solid,layout,projection.maximum_divergence_per_s)
+            extension=Extension(projection.velocity,fluid,jnp.asarray(0.),projection.maximum_divergence_per_s,jnp.asarray(0.),jnp.asarray(0.),domain_valid)
             transport_data=advect_rt0(s.x,extension.velocity,s.active,solid,extension.cells,layout,dt)
-            x=transport_data.x;wall_valid=transport_data.valid&extension.valid
+            x=transport_data.x;wall_valid=transport_data.valid&extension.valid&jnp.all(~s.active|(transport_data.projected_time>=dt*(1-1e-12)))
         elif solid is None:
             x=jnp.where(s.active[:,None],s.x+dt*v,s.x)
         else:
