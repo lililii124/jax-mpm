@@ -1,0 +1,57 @@
+{
+  "state": "accepted",
+  "step": 64,
+  "time_s": 4.293250516799595e-06,
+  "checkpoint_file": "checkpoint_0000064.npz",
+  "checkpoint_sha256": "03fe58de392126a3547d9a57a57eb6634afdc46ebf360299b3f8cd8f225bdbcf",
+  "binding": {
+    "schema": "f7-tl-rattle-checkpoint-v1",
+    "source_archive_sha256": "29cc0dd9e3d63000e4d0328b9f1876bdbc4a16d8cc92ec433082257aa261fca7",
+    "input_identity_sha256": {
+      "reference_x": "cb4f1e40c02c60b2e67758007de4c4f908596ea3e7d20880b2986749ac2eda65",
+      "volume": "0f100b1b11bde952e30812ef9f96bd33137f59fd2e38e3837bb73108a4947951",
+      "mass": "aa96df8de292e7c3b80667ff1930b38303d887cb04a04c9438e69eb02db13467",
+      "fibre_id": "1fa382c20e0304872c4a2a52f12ee9db033fb2f5b48e9f8fbdc2f2c52f959b15",
+      "grip_masks": "96d30a1745ce7d6ced871642f2b223d6f07571ad182af8f47b789e5180ee1027",
+      "guide_particle_ids": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456",
+      "fixture_times": "bde9c5f177a84fc5873509c75f37f468a6cb1ed32131843c6534326211157bae",
+      "fixture_positions": "8bbeb1b4ac7a3fcd97da6d620e7f9d015c238ad65608a70655e3404ff8f3a649"
+    },
+    "material": {
+      "dx_m": 7.5e-05,
+      "young_Pa": 10000000.0,
+      "poisson": 0.25,
+      "density_kg_m3": 1500.0,
+      "tensile_strength_Pa": 2000000.0,
+      "fracture_energy_J_m2": 1000.0
+    },
+    "dt_s": 6.708203932499368e-08,
+    "guide_particle_ids_sha256": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456",
+    "fixture_times_sha256": "bde9c5f177a84fc5873509c75f37f468a6cb1ed32131843c6534326211157bae",
+    "fixture_positions_sha256": "8bbeb1b4ac7a3fcd97da6d620e7f9d015c238ad65608a70655e3404ff8f3a649",
+    "guide_target": "centroid y follows fixture through min(t,release); no withdrawal before first release",
+    "reference_grid": "six-cell packed tube; fixed quadratic reference stencil",
+    "strain_cap_log": 0.12,
+    "work_gate_relative_maximum": 0.1
+  },
+  "binding_sha256": "9d9b48ee7bd9f18251758bad4cfb6756baa0502fddcc346d418bcf8b04d9c98d",
+  "absolute_machine_work_J": 3.033436103864427e-10,
+  "kinetic_J": 2.2107436017744717e-10,
+  "elastic_J": 8.30046520978791e-11,
+  "work_J": 3.033436103864427e-10,
+  "damage_work_J": 0.0,
+  "work_remainder_J": -7.354018888835591e-13,
+  "work_remainder_relative_to_absolute_work": 0.0024243196945757267,
+  "momentum_impulse": [
+    3.5771377568078293e-13,
+    -2.8190629328060736e-08,
+    -2.4280615168041297e-13
+  ],
+  "angular_impulse": [
+    -3.442537504776157e-10,
+    -1.806302043342098e-14,
+    1.607201169134358e-11
+  ],
+  "parent_checkpoint_sha256": null,
+  "checkpoint_artifact_storage": "Raw NPZ remains in private local/remote audit; its SHA256 and complete scalar restart summary are retained in qualification.json."
+}

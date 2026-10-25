@@ -1,0 +1,96 @@
+{
+  "schema": "F7-RATTLE-full-checkpoint-v1",
+  "accepted": true,
+  "case": "F7 unchanged geometry + TL/BrittleHistory + finite mass-weighted centroid RATTLE",
+  "step": 64,
+  "time_s": 4.293250516799595e-06,
+  "dt_s": 6.708203932499368e-08,
+  "source_archive_sha256": "29cc0dd9e3d63000e4d0328b9f1876bdbc4a16d8cc92ec433082257aa261fca7",
+  "binding_sha256": "9d9b48ee7bd9f18251758bad4cfb6756baa0502fddcc346d418bcf8b04d9c98d",
+  "checkpoint_sha256": "03fe58de392126a3547d9a57a57eb6634afdc46ebf360299b3f8cd8f225bdbcf",
+  "checkpoint_schema": [
+    "displacement",
+    "velocity",
+    "force",
+    "F",
+    "history_kappa",
+    "history_damage",
+    "history_failed",
+    "history_valid",
+    "time",
+    "valid",
+    "work",
+    "impulse",
+    "angular_impulse",
+    "damage_work",
+    "absolute_machine_work_J",
+    "binding_json",
+    "binding_sha256",
+    "source_archive_sha256",
+    "input_identity_sha256_json",
+    "work_gate_relative_maximum"
+  ],
+  "state_valid": true,
+  "cumulative": {
+    "absolute_machine_work_J": 3.033436103864427e-10,
+    "work_J": 3.033436103864427e-10,
+    "damage_work_J": 0.0,
+    "kinetic_J": 2.2107436017744717e-10,
+    "elastic_J": 8.30046520978791e-11,
+    "remainder_J": -7.354018888835591e-13,
+    "remainder_fraction": 0.0024243196945757267,
+    "work_gate_relative_maximum": 0.1
+  },
+  "global_impulse": {
+    "linear_Ns": [
+      3.5771377568078293e-13,
+      -2.8190629328060736e-08,
+      -2.4280615168041297e-13
+    ],
+    "angular_Nms": [
+      -3.442537504776157e-10,
+      -1.806302043342098e-14,
+      1.607201169134358e-11
+    ],
+    "max_relative_linear_error": 1.684721324830653e-21,
+    "max_relative_angular_error": 1.4381220351068673e-22
+  },
+  "guards": {
+    "all_rows_valid": true,
+    "all_linear_guards": true,
+    "all_angular_guards": true,
+    "max_log_strain": 0.0001932268047200414,
+    "max_log_strain_cap": 0.12,
+    "max_guide_position_error": 5.293955920339377e-23,
+    "max_guide_velocity_error": 2.720631256699813e-17
+  },
+  "resource_receipt": {
+    "started_utc": "2026-10-25T23:09:04.415620+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "run.py"
+    ],
+    "cpu_affinity": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "memory_headroom_at_start": 17170882560,
+    "limit_seconds": 900.0,
+    "uss_limit_bytes": 12884901888,
+    "peak_uss_bytes": 5457670144,
+    "minimum_memory_headroom": 11716890624,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 128.19128672778606,
+    "returncode": 0
+  },
+  "qualification_scope": "Bounded mechanics only; contact/interlacing/guide withdrawal-release/full-process acceptance not claimed"
+}

@@ -1,0 +1,31 @@
+{
+  "case": "F7 real reference stencil: finite centroid constraint Gram structure",
+  "state": "strictly-disjoint",
+  "input_identity_sha256": {
+    "reference_x": "cb4f1e40c02c60b2e67758007de4c4f908596ea3e7d20880b2986749ac2eda65",
+    "volume": "0f100b1b11bde952e30812ef9f96bd33137f59fd2e38e3837bb73108a4947951",
+    "fibre_id": "1fa382c20e0304872c4a2a52f12ee9db033fb2f5b48e9f8fbdc2f2c52f959b15",
+    "guide_particle_ids": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456"
+  },
+  "particles": 184224,
+  "fibres": 24,
+  "guides": 600,
+  "guide_particles_per_section": 12,
+  "packed_node_count": 4062992,
+  "sparse_stencil_entries": 194400,
+  "coalesced_guide_node_entries": 47546,
+  "duplicate_entries_merged": 146854,
+  "nodes_owned_by_multiple_guides": 0,
+  "maximum_guides_per_node": 1,
+  "conflicting_node_examples": [],
+  "gram_diagonal_min": 110892175.02535108,
+  "gram_diagonal_max": 133790686.52935413,
+  "test_rhs_seed": 90731,
+  "cg_iterations": 96,
+  "direct_vs_original_cg_lambda_relative_error": 6.748103637915341e-16,
+  "original_G_adjoint_residual_relative": 7.543281844437363e-16,
+  "compile_and_check_seconds": 6.406151354312897,
+  "mathematical_conclusion": "G M^-1 G^T is exactly diagonal after same-guide duplicate coalescing; exact Jacobi division is the exact solve",
+  "geometry_mutated": false,
+  "physical_steps": 0
+}

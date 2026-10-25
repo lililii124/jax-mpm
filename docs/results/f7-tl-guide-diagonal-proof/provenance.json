@@ -1,0 +1,61 @@
+{
+  "schema": "F7-guide-diagonal-proof-v1",
+  "upload_capsule_sha256": "fd906a66bcc29ccd17f6096e3f6c7adb7a9ddf1b24b8754971008ab18dcc7cab",
+  "proof_source_capsule_sha256": "fd906a66bcc29ccd17f6096e3f6c7adb7a9ddf1b24b8754971008ab18dcc7cab",
+  "support_structure": {
+    "case": "F7 real reference stencil: finite centroid constraint Gram structure",
+    "state": "strictly-disjoint",
+    "input_identity_sha256": {
+      "reference_x": "cb4f1e40c02c60b2e67758007de4c4f908596ea3e7d20880b2986749ac2eda65",
+      "volume": "0f100b1b11bde952e30812ef9f96bd33137f59fd2e38e3837bb73108a4947951",
+      "fibre_id": "1fa382c20e0304872c4a2a52f12ee9db033fb2f5b48e9f8fbdc2f2c52f959b15",
+      "guide_particle_ids": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456"
+    },
+    "particles": 184224,
+    "fibres": 24,
+    "guides": 600,
+    "guide_particles_per_section": 12,
+    "packed_node_count": 4062992,
+    "sparse_stencil_entries": 194400,
+    "coalesced_guide_node_entries": 47546,
+    "duplicate_entries_merged": 146854,
+    "nodes_owned_by_multiple_guides": 0,
+    "maximum_guides_per_node": 1,
+    "conflicting_node_examples": [],
+    "gram_diagonal_min": 110892175.02535108,
+    "gram_diagonal_max": 133790686.52935413,
+    "test_rhs_seed": 90731,
+    "cg_iterations": 96,
+    "direct_vs_original_cg_lambda_relative_error": 6.748103637915341e-16,
+    "original_G_adjoint_residual_relative": 7.543281844437363e-16,
+    "compile_and_check_seconds": 6.406151354312897,
+    "mathematical_conclusion": "G M^-1 G^T is exactly diagonal after same-guide duplicate coalescing; exact Jacobi division is the exact solve",
+    "geometry_mutated": false,
+    "physical_steps": 0
+  },
+  "unchanged_r9_input": {
+    "reference_x": "cb4f1e40c02c60b2e67758007de4c4f908596ea3e7d20880b2986749ac2eda65",
+    "volume": "0f100b1b11bde952e30812ef9f96bd33137f59fd2e38e3837bb73108a4947951",
+    "fibre_id": "1fa382c20e0304872c4a2a52f12ee9db033fb2f5b48e9f8fbdc2f2c52f959b15",
+    "guide_particle_ids": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456"
+  },
+  "single_step_no_guide_smoke": {
+    "state": "passed",
+    "physical_steps": 1,
+    "guide_operator_present": false,
+    "valid": true,
+    "momentum_error": 1.0331493317774011e-40,
+    "angular_momentum_error": 1.7431527984210495e-32,
+    "kinetic_J": 9.132102281433388e-20,
+    "elastic_J": 0.0,
+    "work_J": 9.132102959552816e-20,
+    "callbacks_absent": true,
+    "scope": "single-step API compatibility only; no F1 long-run calculation"
+  },
+  "files_sha256": {
+    "algebra-comparison.npz": "13503706aa4da460c77a5bc67807ddeb1b2e0caaa56440be57d7912b3e3640d6",
+    "guide-diagonality.json": "67ea7a804f44c0a822adc5521f7d42ecd338a9638bb49b772ed07ab5b3b069e7",
+    "no-guide-smoke.json": "ac5db0492371584f9675bc05308d1cd66f997ec35f410206837d01b792650bd2",
+    "proof-source-capsule.tar": "fd906a66bcc29ccd17f6096e3f6c7adb7a9ddf1b24b8754971008ab18dcc7cab"
+  }
+}
