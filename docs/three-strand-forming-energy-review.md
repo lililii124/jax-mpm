@@ -71,3 +71,17 @@ Full/packed projection both take42 sweeps and have the same9.032348e-9m/s
 residual; velocity differs at most1.39e-16m/s, impulses5.17e-25Ns, fixture0.
 One post-compilation contact-operator execution took1.9355s versus0.11639s;
 this is not a whole-step or whole-trajectory speed claim.
+
+
+Full actual baseline completed5164steps/20ms with source ab410cf; checkpoint
+SHA2561e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2.
+Total fixture work160.830206microJ, K13.696723microJ, U138.470571microJ.
+W-K-U=8.662911microJ includes physical contact/projection and numerical
+transfer/material terms; it is not automatically a solver energy error. The
+last235-step deceleration interval has positive signed remainder.877773microJ
+over cumulative absolute fixture work4.155987microJ(21.12%). The denominator
+shrinks as the fixture stops; this quantity is retained rather than hidden.
+Neither algebraic work identities nor finite positive J certify temporal or
+spatial convergence. Final localized compression and stretches are documented
+in three-strand-forming.md. Full raw audit and63 actual snapshot source hashes
+are in the independent full-state/render receipts; media is illustrative.

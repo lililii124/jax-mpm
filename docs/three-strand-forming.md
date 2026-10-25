@@ -25,12 +25,24 @@ forming step. Duration 20 ms, 5164 steps, CFL=0.15. The maximum commanded angula
 speed is about 331 rad/s; outer collar speed about 0.79 m/s versus longitudinal
 wave speed 7.75 m/s. This is a dynamic process, not certified quasistatic forming.
 
-Source closure and pure NumPy geometry planning pass. JAX kernel tests and actual
-64-step timing/geometry prefix are pending assigned Linux resources. No full-turn
-trajectory, resolution convergence, nonpenetration certification, or media exists.
-The saved section-centre circular gap is explicitly a proxy; nodal closing
-residual is not a sub-grid surface gap. Grid support, J>0, finite constitutive
-history, zero damage and converged simultaneous contact are step-level guards.
+The actual trajectory now reaches step5164 at20ms, with final imposed angle
+2pi and collar-position error5.30e-16m. The original integrator supplies0->1280;
+the boundary-aware midpoint candidate continues that exact checkpoint to5164.
+The original64-sweep contact QP remains unchanged; bounded exact active-set
+fallback and unique shared-node packing are described in the energy review.
+All52 source files, saved NPZ CRCs/fields, parent mass/volume/IDs, material
+validity and diagnostic elastic energy were checked on Linux. A63-snapshot
+400x400 fixed-camera GIF contains only actual nonuniform saved states; every
+PNG is distinct and first/last differ. No interior positions are interpolated.
+
+Final J is[.61244,1.27523], principal stretches[.61185,1.55921], damage zero.
+J<.8 affects.3046% of particles; max stretch>1.3 affects.3147%. This remains an
+illustrative compressible finite-elastic dynamic example, not calibrated
+manufacturing or demonstrated time/space convergence. The actual point/cell
+geometry guards find no foreign-centre cell intrusion at the saved resolution;
+this is not a smooth-surface or sub-grid nonpenetration certificate. Grid
+support, J>0, finite history, zero damage and converged contact remain guards.
+The separate dry tight candidate and resin filling are not this baseline.
 
 Run the small kernel check with python -m tools.check_fibre_forming_contact, then
 python -m tools.run_three_strand_forming --output OUTPUT --stop-steps 64.
@@ -42,8 +54,9 @@ Energy outputs distinguish imposed fixture work, initial fixture projection loss
 and contact projection loss. APIC transfer and constitutive time integration are
 not a conservative total-energy certificate. No such certificate is claimed.
 
-Stage 2 is planned as actual slow viscous MPM filling of a cylindrical mold with
-the accepted formed fibres held fixed as obstacles. A finite inlet reservoir can
-avoid dynamic JAX particle-count changes. This future approximation will be
-labelled fixed-obstacle filling, not curing or complete fluid-structure interaction.
-No prefabricated cylinder fade or manufactured fibre motion is permitted.
+Stage2 is an independent experimental actual viscous filling process with the
+accepted formed fibres frozen as obstacles. Preallocated particle slots become
+active only at the physical inlet; they are not preplaced in a final cylinder.
+Short inlet-flow pilots and a particle-wall event correction are under review,
+not a completed filling result. This is fixed-obstacle filling, not curing or
+complete fluid-structure interaction. No prefabricated cylinder fade is used.
