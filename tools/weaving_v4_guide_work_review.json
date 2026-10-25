@@ -1,0 +1,113 @@
+{
+  "source": "90e238e",
+  "capsule_sha256": "9505cf3c7ebc4b75686afe6b627d2a326e103764bc576c27f5b631a22dcfa9fe",
+  "old_missing_raw_failure_preserved": "triaxial-weaving-v4-guided-initial64",
+  "raw_rejection": {
+    "step": 64,
+    "K": 2.5617445643154617e-10,
+    "APIC_affine_K": 1.4476167525278958e-11,
+    "U": 6.370143290747307e-11,
+    "Hertz_potential": 0.0,
+    "machine_work": 3.992525092141571e-10,
+    "absolute_machine_work": 3.992525092141572e-10,
+    "grid_projection_work": 3.8644004907399563e-10,
+    "projection_loss": 1.2812460140161448e-11,
+    "raw_energy_defect": -6.490045234985892e-11,
+    "defect_including_projection_loss": -5.2087992209697473e-11,
+    "EV": 0.3659620329235881,
+    "guide_observation": {
+      "time_s": 4.293250516799595e-06,
+      "active_guides": 600,
+      "maximum_active_centroid_y_error_m": 3.469446951953614e-18,
+      "maximum_active_XZ_drift_m": 2.7635773060067427e-13,
+      "release_state": "Placement support active",
+      "scope": "Actual mass-weighted material-band centroids; no coordinate reset or finished-shape interpolation"
+    },
+    "parallel_execution": {
+      "workers": 8,
+      "local_rebuild_seconds": 2.4647557586431503,
+      "dispatch_wall_seconds": 29.658744782209396,
+      "dispatch_cpu_seconds": 133.835102427,
+      "cpu_wall_ratio": 4.512500559608312,
+      "occupied_nodes": 1589330,
+      "capacity": 2621440,
+      "map_bytes": 553648128,
+      "absolute_path_bound_m": 4.3824929593322814e-08,
+      "max_log_stretch": 0.00014458250523781733,
+      "source_operator": "Original _step, same material/SVD and world grid",
+      "contact_mode": "Certified empty real coverage and cumulative absolute path<skin/2; otherwise globally coupled original operator",
+      "fixed_fibre_id_reassembly": true
+    },
+    "old_gate_failed": true,
+    "resume_forbidden": true
+  },
+  "independent_work_layer_audit": {
+    "K_particle_plus_APIC": 2.7065062395682514e-10,
+    "U_independent": 6.370143290747379e-11,
+    "machine_J_w_new": 3.9925250921415707e-10,
+    "machine_absolute_work": 3.9925250921415707e-10,
+    "work_condition_number": 1.0,
+    "native_actual_grid_projection_DeltaK": 3.8644004907399563e-10,
+    "sum_group_grid_DeltaK": 3.8644004907399563e-10,
+    "machine_minus_grid_projection": 1.2812460140161442e-11,
+    "raw_energy_remainder": -6.490045234985814e-11,
+    "remainder_vs_grid_projection": -5.20879922096967e-11,
+    "normal_machine_time_centered_work_bounds": [
+      3.938637222716586e-10,
+      3.9655811579441873e-10
+    ],
+    "normal_time_centered_energy_remainder_bounds": [
+      -6.22060589301198e-11,
+      -5.951166540735968e-11
+    ],
+    "normal_work_centering_correction_bounds": [
+      2.6943934197383422e-12,
+      5.388786942498477e-12
+    ],
+    "counter_oriented_impulse_bound": 0.0,
+    "scope": "Saved64raw only. Normal J*(w_previous+w_next)/2 bound from aggregate impulse and known monotone machine clock; XZ stationary-clock floating jitter is roundoff, not a physical machine DOF. Grid projection difference is algorithmic, never claimed as heat/physical impact. Remainder vs grid still includes unmeasured APIC transfer/internal-force quadrature and is not called conservation.",
+    "guide_band_width_over_h": 0.8,
+    "old_work_gate_failed": true,
+    "full_release_not_yet_tested": true
+  },
+  "single_existing_state_filter": {
+    "scope": "Existing64raw, stress/force-free APIC projection only, no machine boundary or mechanical step, t/F/history untouched. Endpoint filter loss is not integrated64step loss or claimed physical heat.",
+    "input_sha256": "4cb82504ed03503aa89f03337c84f79804ae21ecc6f2b1ad807977da561be056",
+    "mechanical_steps_executed": 0,
+    "input_particle_plus_affine_K": 2.706506239568252e-10,
+    "P2G_grid_K": 2.6965655969272624e-10,
+    "G2P_particle_plus_affine_K": 2.6873007278023615e-10,
+    "P2G_numerical_loss": 9.94064264098951e-13,
+    "G2P_numerical_loss": 9.264869124900927e-13,
+    "total_single_filter_loss": 1.9205511765890436e-12,
+    "time": 4.293250516799595e-06,
+    "complete_stencil": true,
+    "node_count": 4194304,
+    "resource": {
+      "active_nodes": 4194304,
+      "occupied_nodes": 1589330,
+      "dense_address_count": 19556830,
+      "direct_map_capacity": 134217728,
+      "direct_map_bytes": 536870912,
+      "hash_capacity": 0,
+      "hash_bytes": 0,
+      "maximum_insert_probe_rounds": 0,
+      "complete_occupied_lookup_exact": true,
+      "lookup": "direct",
+      "grid_seconds": 2.553490675985813,
+      "contact_seconds": 0.7509783059358597,
+      "real_coverage_pairs": 0,
+      "coverage_capacity": 65536,
+      "padding_far_reference_gap_m": 0.03789614830008842,
+      "skin_m": 0.0003,
+      "carrier_margin_m": 2.25e-05,
+      "future_window_steps": 200,
+      "free_deformation_padding_cells": 3,
+      "complete_stencil_fail_closed": true,
+      "padding_proof": "far reference gap>skin and2*nonrigid displacement<=skin imply padding remains strictly inactive"
+    }
+  },
+  "admitted": false,
+  "release_tested": false,
+  "interpretation": "Normal-bearing control/kinematics and original material/strain/contact guards pass for64steps, but10%work budget fails. APIC filtering is demonstrated, not called physical impact/heat, not extrapolated64fold, and no term is added to force closure. No fullplacement/release or weaving completion claim. Preserve original v3 unsupported12%failure separately."
+}
