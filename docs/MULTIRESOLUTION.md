@@ -121,6 +121,13 @@ An actual 20+20-step restart matches a direct 40-step run exactly for every
 initial, state and diagnostic array. Parent archives are restored only after
 official run/source/digest checks; inputs are preserved separately from outputs.
 
+The first cross-runner restore stopped before integration because recomputed
+Gaussian velocities differed by at most two ULP and their affine moments by four
+ULP. Coordinates, deformation, mass and volume were identical. The restore check
+allows at most eight ULP only for these two reconstructed initial fields and
+records every difference. The original initial data and full continuation state
+are always copied from the verified parent; no reconstructed field replaces them.
+
 The basis design follows local-refinement work by
 [Sun et al.](https://doi.org/10.1002/nme.6312) and
 [THB-spline MPM](https://doi.org/10.1016/j.compgeo.2021.104097).

@@ -1,0 +1,62 @@
+{
+  "run": 40178392326,
+  "source": "de58939437c7253bebacf9e4cfae5df99257adef",
+  "official_artifact_sha256": "856af397a976d6cdb5166c3620c8518652357297c938d0eff2233e6262fa5a1f",
+  "zip_digest_and_all_crc_verified": true,
+  "physical_steps_executed": 0,
+  "failure": "Strict reconstructed initial velocity equality before checkpoint restore",
+  "initial_comparison": {
+    "reference": {
+      "exact": true,
+      "count": 0,
+      "max_absolute": 0.0,
+      "max_ulps": 0.0
+    },
+    "x": {
+      "exact": true,
+      "count": 0,
+      "max_absolute": 0.0,
+      "max_ulps": 0.0
+    },
+    "v": {
+      "exact": false,
+      "count": 29700,
+      "max_absolute": 3.469446951953614e-18,
+      "max_ulps": 2.0
+    },
+    "F": {
+      "exact": true,
+      "count": 0,
+      "max_absolute": 0.0,
+      "max_ulps": 0.0
+    },
+    "B": {
+      "exact": false,
+      "count": 80626,
+      "max_absolute": 2.6469779601696886e-23,
+      "max_ulps": 4.0
+    },
+    "mass": {
+      "exact": true,
+      "count": 0,
+      "max_absolute": 0.0,
+      "max_ulps": 0.0
+    },
+    "volume": {
+      "exact": true,
+      "count": 0,
+      "max_absolute": 0.0,
+      "max_ulps": 0.0
+    },
+    "time": {
+      "exact": true,
+      "count": 0,
+      "max_absolute": 0.0,
+      "max_ulps": 0.0
+    },
+    "valid": {
+      "exact": true
+    }
+  },
+  "correction": "Allow at most 8 ULP for reconstructed initial v/B only; preserve original parent initial data and checkpoint arrays unchanged"
+}

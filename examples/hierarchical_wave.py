@@ -61,10 +61,24 @@ def restore_prefix(folder, output, state, reference, binding, stop_step):
             raise ValueError(f"Resume numerical source differs: {name}")
     if parent["versions"] != {"jax": jax.__version__, "numpy": np.__version__}:
         raise ValueError("Resume numerical runtime differs")
+    reconstruction = {}
     with np.load(folder / "initial.npz", allow_pickle=False) as archive:
         for name, value in {"reference": reference, **state._asdict()}.items():
-            if not np.array_equal(archive[name], value):
+            stored, rebuilt = archive[name], np.asarray(value)
+            if stored.shape != rebuilt.shape or stored.dtype != rebuilt.dtype:
                 raise ValueError(f"Resume initial state differs: {name}")
+            exact = bool(np.array_equal(stored, rebuilt))
+            entry = {"exact": exact}
+            if not exact:
+                if name not in ("v", "B") or not np.isfinite(rebuilt).all():
+                    raise ValueError(f"Resume initial state differs: {name}")
+                difference = np.abs(stored-rebuilt)
+                spacing = np.maximum(np.abs(np.spacing(stored)), np.abs(np.spacing(rebuilt)))
+                ulps = float(np.max(difference/spacing))
+                entry.update(max_absolute=float(difference.max()), max_ulps=ulps, ulp_limit=8)
+                if ulps > 8:
+                    raise ValueError(f"Resume initial reconstruction exceeds 8 ULP: {name}")
+            reconstruction[name] = entry
     with np.load(folder / "checkpoint.npz", allow_pickle=False) as archive:
         arrays = {name: archive[name] for name in state._fields}
     if not all(np.isfinite(value).all() for value in arrays.values()) or not arrays["valid"]:
@@ -93,10 +107,13 @@ def restore_prefix(folder, output, state, reference, binding, stop_step):
     proof = dict(start_step=start_step, parent_commit=parent["commit"],
                  parent_checkpoint_sha256=hashlib.sha256((folder/"checkpoint.npz").read_bytes()).hexdigest(),
                  parent_review_sha256=hashlib.sha256((folder/"review.json").read_bytes()).hexdigest(),
-                 numerical_sources_equal=True, initial_arrays_equal=True)
+                 numerical_sources_equal=True,
+                 initial_arrays_equal=all(item["exact"] for item in reconstruction.values()),
+                 initial_reconstruction=reconstruction,
+                 initial_state_copied_from_parent=True)
     (output / "resume-proof.json").write_text(json.dumps(proof, indent=2)+"\n")
     restored = state._replace(**{name: jnp.asarray(value) for name, value in arrays.items()})
-    return restored, start_step, previous, parent["frames"], proof
+    return restored, start_step, previous, parent["frames"], proof, parent["initial_energy_J"]
 
 
 def main():
@@ -169,7 +186,7 @@ def main():
                    grid_nodes=len(grid.positions), particles=len(x), wave_speed_m_s=float(wave_speed))
     records, frames, start_step, resume_proof = [], [], 0, None
     if args.resume_from is not None:
-        state, start_step, previous, frames, resume_proof = restore_prefix(
+        state, start_step, previous, frames, resume_proof, initial_energy = restore_prefix(
             args.resume_from, args.output, state, reference, binding, steps)
         records.append(previous)
     start = perf_counter()
