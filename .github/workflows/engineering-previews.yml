@@ -37,6 +37,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
+      - name: Fetch exact frozen numerical commit for independent Git blob checks
+        run: git fetch --no-tags --depth=1 origin "$NUMERICAL_COMMIT"
       - name: NumPy only environment no JAX simulation
         run: python -m pip install numpy==2.5.4
       - name: Official whole ZIP digest CRC complete source and accepted-state audit
