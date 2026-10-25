@@ -59,3 +59,30 @@ state/historyfields are allbitexact; both finalNPZ SHA256:
 373e696ad257ad46a57d3b1da6259caca604800eea9bc52cc3fda309dc57c182.
 This does not qualify larger time steps. Production batch driver is still
 unchanged; optimization has only been measured in the diagnostic tool.
+
+## Same-world-grid fibre decomposition review
+
+ActualCP36016step comparison: all84same-family actual world-stencil support
+intersections are empty; same reference world grid, weights and offsets.
+Occupiednodes1589330unchanged. Localcapacity2621440vs4194304global.
+Parallel8worker wall.156566s/step vs.588773global,3.76054x faster,
+CPU/wall7.779vs2.028. Full23-field downloaded states were independently
+compared. The original relative-net-work1e-12gate failed and is retained;
+complete evidence was exported before the final old-gate failure.
+
+Engineering1e-12comparison passes for v/c,tau/E,F,dt*C,impulse/(Mc),and
+work/(EV), including full material/contacthistory and work/CFLaccumulators.
+E=1e7Pa,V=3.65962e-8m3,EV=.365962J;EV/|Wgrid|=1.994e8, while
+Wabs/|Wmachine|=1. There is no netpositive/negativework cancellation here;
+small-strain material stress subtracts O(E)terms, and normalizing by a tiny
+work quantity magnifies its floating-point effect. This is not bitexact and
+not a general contact-window proof. Fullsource/output reports are retained
+in local audit directories; compact numeric review is committed alongside.
+
+Actual continuation uses16workers then8workers in a source-bound fresh
+execution fork of the existing fineCP360, preserving every input carry bit.
+Empty real contact coverage plus absolute particle path<skin/2 certifies
+contact-free parallel blocks. A real coverage pair switches to the original
+global every-dtHertz/contact-history/APIC operator. Fixed-IDreassembly and
+original strain/material/CFL/geometry guards remain. LargerCFL.24 is still
+rejected by the separate predeclared time-sensitivity test.

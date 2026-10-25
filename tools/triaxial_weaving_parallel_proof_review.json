@@ -1,0 +1,319 @@
+{
+  "admitted_engineering": true,
+  "old_net_relative_gate_failed": true,
+  "old_failure_preserved": true,
+  "scales": {
+    "E": 10000000.0,
+    "V": 3.6596203292358816e-08,
+    "E_times_V": 0.36596203292358814,
+    "total_mass": 5.4894304938538226e-05,
+    "wave_speed": 89.44271909999159
+  },
+  "work_scale_condition_number": 199381916.78255934,
+  "work_absolute_to_signed_ratio": 1.0,
+  "comparison": {
+    "fibre_sequential": {
+      "state_x": {
+        "max_absolute": 1.3877787807814457e-17,
+        "engineering_dimensionless": 1.8503717077085943e-13,
+        "exact": false,
+        "passes": true
+      },
+      "state_v": {
+        "max_absolute": 1.2929893267177306e-11,
+        "engineering_dimensionless": 1.4456060143612651e-13,
+        "exact": false,
+        "passes": true
+      },
+      "state_F": {
+        "max_absolute": 7.105427357601002e-14,
+        "engineering_dimensionless": 7.105427357601002e-14,
+        "exact": false,
+        "passes": true
+      },
+      "state_C": {
+        "max_absolute": 1.9582561172626356e-07,
+        "engineering_dimensionless": 1.3136381386662156e-14,
+        "exact": false,
+        "passes": true
+      },
+      "state_mass": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_volume": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_fibre_id": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_tau": {
+        "max_absolute": 8.012648322620172e-07,
+        "engineering_dimensionless": 8.012648322620173e-14,
+        "exact": false,
+        "passes": true
+      },
+      "state_time": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_boundary_impulse": {
+        "max_absolute": 1.5432807950075344e-18,
+        "engineering_dimensionless": 3.1432047184771745e-16,
+        "exact": false,
+        "passes": true
+      },
+      "state_external_impulse": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_boundary_work": {
+        "max_absolute": 1.5003629425155268e-19,
+        "engineering_dimensionless": 4.099777593127532e-19,
+        "exact": false,
+        "passes": true
+      },
+      "history_kappa": {
+        "max_absolute": 2.2151169787321121e-13,
+        "engineering_dimensionless": 2.2151169787321121e-13,
+        "exact": false,
+        "passes": true
+      },
+      "history_damage": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "history_failed": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "history_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "law_active": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "law_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "contact_radius": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "contact_segments": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "contact_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "accumulator": {
+        "max_absolute": 1.5153287077481425e-19,
+        "engineering_dimensionless": 4.140671904247889e-19,
+        "exact": false,
+        "passes": true
+      }
+    },
+    "fibre_parallel": {
+      "state_x": {
+        "max_absolute": 1.3877787807814457e-17,
+        "engineering_dimensionless": 1.8503717077085943e-13,
+        "exact": false,
+        "passes": true
+      },
+      "state_v": {
+        "max_absolute": 1.2929893267177306e-11,
+        "engineering_dimensionless": 1.4456060143612651e-13,
+        "exact": false,
+        "passes": true
+      },
+      "state_F": {
+        "max_absolute": 7.105427357601002e-14,
+        "engineering_dimensionless": 7.105427357601002e-14,
+        "exact": false,
+        "passes": true
+      },
+      "state_C": {
+        "max_absolute": 1.9582561172626356e-07,
+        "engineering_dimensionless": 1.3136381386662156e-14,
+        "exact": false,
+        "passes": true
+      },
+      "state_mass": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_volume": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_fibre_id": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_tau": {
+        "max_absolute": 8.012648322620172e-07,
+        "engineering_dimensionless": 8.012648322620173e-14,
+        "exact": false,
+        "passes": true
+      },
+      "state_time": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_boundary_impulse": {
+        "max_absolute": 1.5432807950075344e-18,
+        "engineering_dimensionless": 3.1432047184771745e-16,
+        "exact": false,
+        "passes": true
+      },
+      "state_external_impulse": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "state_boundary_work": {
+        "max_absolute": 1.5003629425155268e-19,
+        "engineering_dimensionless": 4.099777593127532e-19,
+        "exact": false,
+        "passes": true
+      },
+      "history_kappa": {
+        "max_absolute": 2.2151169787321121e-13,
+        "engineering_dimensionless": 2.2151169787321121e-13,
+        "exact": false,
+        "passes": true
+      },
+      "history_damage": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "history_failed": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "history_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "law_active": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "law_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "contact_radius": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "contact_segments": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "contact_valid": {
+        "max_absolute": 0.0,
+        "engineering_dimensionless": 0.0,
+        "exact": true,
+        "passes": true
+      },
+      "accumulator": {
+        "max_absolute": 1.5153287077481425e-19,
+        "engineering_dimensionless": 4.140671904247889e-19,
+        "exact": false,
+        "passes": true
+      }
+    }
+  },
+  "timing": {
+    "global": {
+      "wall_seconds": 9.420364499092102,
+      "cpu_seconds": 19.106944539000004,
+      "cpu_wall_ratio": 2.0282595796416856,
+      "seconds_per_step": 0.5887727811932564
+    },
+    "fibre_sequential": {
+      "wall_seconds": 26.786358177661896,
+      "cpu_seconds": 43.672831535,
+      "cpu_wall_ratio": 1.63041318440296,
+      "seconds_per_step": 1.6741473861038685
+    },
+    "fibre_parallel": {
+      "wall_seconds": 2.505054883658886,
+      "cpu_seconds": 19.487547777000003,
+      "cpu_wall_ratio": 7.7792897489481225,
+      "seconds_per_step": 0.15656593022868037
+    }
+  },
+  "speedup": 3.760542158394832,
+  "same_family_support_intersection_count": 0,
+  "scope": "One realCP36016step contactfree decomposition; not general contact evolution proof"
+}
