@@ -8,7 +8,7 @@ def main():
     import jax
     jax.config.update('jax_enable_x64',True)
     import jax.numpy as jnp
-    from examples.triaxial_failure import loading_motion,descriptor,json_value,restore_contact_model,restore_contact_history
+    from examples.triaxial_failure import loading_motion,descriptor,json_value,restore_contact_model,restore_contact_history,_graph_observation
     from examples.triaxial_fibre_geometry import make_geometry
     from mpm_jax.fibre_mpm import FibreState,FibreConfig,build_tube_layout,reference_grips,step_with_diagnostics,validate_state
     from mpm_jax.fibre_coupling import build_contact_data,FibreCouplingHistory
@@ -89,5 +89,9 @@ def main():
         print(json.dumps(dict(step=int(carry[2][0]),time=float(carry[0].time),valid=bool(carry[2][4]),wall=time.perf_counter()-wall)),flush=True)
         if not bool(carry[2][4]):raise RuntimeError('Original coupled physical/contact guard rejected, raw retained')
     save('runtime.json',dict(steps=int(carry[2][0])-start_step,seconds=time.perf_counter()-wall,complete=True))
+    final_state,final_contact=carry[:2];connected,cuts=_graph_observation(np.asarray(final_state.x),np.asarray(final_state.history.failed),geometry,data,final_contact,plan['grid']['dx_m'],masks)
+    failed_per_section=np.bincount(np.asarray(data.particle_section),weights=np.asarray(final_state.history.failed),minlength=data.section_count)
+    save('failure-observation.json',dict(step=int(carry[2][0]),time_s=float(final_state.time),sampled_section_graph_connects_grips=connected,active_fibre_x_support_cuts=cuts,fully_failed_sections=int(np.sum(failed_per_section==geometry['metadata']['cross_section_particles'])),failed_particles=int(np.asarray(final_state.history.failed).sum()),maximum_damage=float(np.asarray(final_state.history.damage).max()),scope='Original saved-state sampled section graph and active fibre x-grid support, not a full3D continuous-surface fracture certificate'))
+
 
 if __name__=='__main__':main()
