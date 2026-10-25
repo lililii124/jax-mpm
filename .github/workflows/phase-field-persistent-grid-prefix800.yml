@@ -1,0 +1,64 @@
+name: AT2 frozen-state 400-to-800 bounded prefix only
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: at2-persistent-grid-prefix800
+  cancel-in-progress: false
+jobs:
+  prefix:
+    if: github.ref == 'refs/heads/work/phase-field-bending'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Require exact successful production-mesh parent
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/40163094888" > /tmp/parent-run.json
+          python -c "import json; r=json.load(open('/tmp/parent-run.json')); assert r['conclusion']=='success' and r['head_sha']=='a4267270ec0569a3e9708cd0f7f8ff67fdc08417'; assert r['head_branch']=='work/phase-field-bending'; assert r['path'] in ('.github/workflows/phase-field-persistent-grid-prefix400.yml','.github/workflows/engineering-previews.yml')"
+      - name: Install unchanged qualified runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0
+      - name: Record complete source closure
+        run: |
+          set -euo pipefail
+          mkdir -p outputs/at2-prefix
+          git rev-parse HEAD > outputs/at2-prefix/source-head.txt
+          find mpm_jax -name '*.py' -print0 | sort -z | xargs -0 sha256sum > outputs/at2-prefix/source-sha256.txt
+          sha256sum examples/phase_field_bending_geometry.py examples/phase_field_bending_persistent_grid.py tools/prove_phase_field_bending_restart.py tools/run_phase_field_bending_prefix800.py .github/workflows/phase-field-persistent-grid-prefix800.yml .github/workflows/engineering-previews.yml >> outputs/at2-prefix/source-sha256.txt
+          python -m pip freeze > outputs/at2-prefix/runtime.txt
+      - name: Fetch frozen official ZIP and advance exactly400 unchanged steps
+        timeout-minutes: 43
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ulimit -v 6291456
+          /usr/bin/time -v -o outputs/at2-prefix/resources.txt timeout --signal=KILL 42m python tools/run_phase_field_bending_prefix800.py --output outputs/at2-prefix/evidence 2>&1 | tee outputs/at2-prefix/run.log
+      - name: Preserve complete and partial raw prefix evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: at2-prefix800-${{ github.run_id }}
+          path: outputs/at2-prefix/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 14
