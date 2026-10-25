@@ -48,6 +48,7 @@ def exact_step(s,h):
  return new,updated,m,extent,unsupported,valid_before_contact
 out=[]
 for k in range(1,33):
+ previous_state=state
  state,h,m,e,u,mpmvalid=exact_step(state,h)
  state.x.block_until_ready()
  row={"attempted_step":3500+k,"mpm_valid_before_contact":bool(mpmvalid),"contact_valid":bool(m.valid),"combined_valid":bool(state.valid),"extent_m":float(e),"unsupported_local_extent":bool(u),"Jmin":float(np.linalg.det(np.asarray(state.F)).min()),"history_valid":bool(np.asarray(state.history.valid).all()),"damage_max":float(np.asarray(state.history.damage).max()),"process_uss_bytes":psutil.Process().memory_full_info().uss}
@@ -55,6 +56,11 @@ for k in range(1,33):
   a=np.asarray(getattr(m,name))
   if a.ndim==0: row[name]=a.item()
   elif a.dtype.kind=="b":row[name+"_count"]=int(a.sum())
+ if bool(u):
+  from patch_identity import identify
+  row['patch_identity']=identify(previous_state,data,nei,m)
+  if not np.isclose(row['patch_identity']['maximum_extent_m'],float(e),rtol=1e-12,atol=1e-15):
+   raise RuntimeError('Read-only patch extent does not reproduce original predicate')
  out.append(row);print(json.dumps(row),flush=True)
  if not bool(state.valid):break
 Path(os.environ["MPM_PROBE_OUTPUT"]).write_text(json.dumps({"scope":"Isolated exact dt/kernel/BC/contact-carry diagnostic from original last-valid f12 checkpoint; no trajectory/checkpoint written; failed evidence remains never-resumable","samples":out},indent=2))

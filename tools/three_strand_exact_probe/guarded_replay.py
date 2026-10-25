@@ -1,6 +1,6 @@
 """Resource preflight precedes JAX import; original inputs are never modified."""
 import argparse
-import ctypes
+import ctypes  # Module scope: Linux main() also uses CDLL for prctl.
 import signal
 import hashlib
 import json
@@ -128,7 +128,7 @@ def main():
         raise ValueError('Output must be outside original raw directory')
     payload = Path(__file__).with_name('exact_probe_guarded_payload.py')
     files = [data/n for n in ('checkpoint.npz', 'plan.json', 'trajectory_x.npy')]
-    files += [payload]
+    files += [payload, Path(__file__).with_name('patch_identity.py')]
     def digest(path):
         h = hashlib.sha256()
         with path.open('rb') as stream:

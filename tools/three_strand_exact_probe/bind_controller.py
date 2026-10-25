@@ -11,7 +11,7 @@ WORKFLOWS = ('.github/workflows/engineering-previews.yml',
              '.github/workflows/three-strand-exact-probe.yml')
 FILES = tuple('tools/three_strand_exact_probe/'+name for name in
               ('bind_controller.py', 'guarded_replay.py', 'exact_probe_guarded_payload.py',
-               'recover_original.py', 'original-pins.json')) + WORKFLOWS
+               'patch_identity.py', 'recover_original.py', 'original-pins.json')) + WORKFLOWS
 
 
 def main():
