@@ -550,6 +550,25 @@ def write_if_changed(path, content):
         path.write_bytes(data)
 
 
+def collect_archived_fibre_processes(root, destination, records):
+    """Retain reviewed source-bound fibre publications without local raw outputs."""
+    archive = root / "docs/results"
+    index = archive / "index.json"
+    if not index.exists():return
+    existing = {r["id"]: r for r in json.loads(index.read_text(encoding="utf-8"))}
+    present = {r["id"] for r in records}
+    for identifier in ("fibres--three-strand-tension", "fibres--three-strand-forming", "fibres--dry-three-strand-forming"):
+        if identifier in present or identifier not in existing:continue
+        folder = archive / identifier
+        summary = json.loads((folder/"summary.json").read_text(encoding="utf-8"))
+        if not is_ready_for_publication(folder,identifier,summary):
+            raise ValueError(f"Archived fibre publication has no matching review: {identifier}")
+        target=destination/identifier;target.mkdir(parents=True,exist_ok=True)
+        for source in folder.glob("*.json"):
+            if source.resolve() != (target/source.name).resolve():write_if_changed(target/source.name,source.read_bytes())
+        records.append(existing[identifier]);present.add(identifier)
+
+
 def collect(root, destination):
     destination.mkdir(parents=True, exist_ok=True)
     records = []
@@ -678,6 +697,7 @@ def collect(root, destination):
                 records[-1]["publication_scope"] = "coarse-preview"
             if reviewed_prefix:
                 records[-1]["publication_scope"] = "reviewed early-loading segment; full protocol incomplete"
+    collect_archived_fibre_processes(root, destination, records)
     if "visible-motion" in SOURCES:
         collect_wave_comparison(root, destination, records)
     if "adhesion" in SOURCES:
@@ -711,7 +731,7 @@ def write_catalogue(records, destination):
         "|---|---:|---:|---:|---:|---:|---|",
     ]
     for item in records:
-        label = item["id"] + (" · coarse preview" if item.get("publication_scope") == "coarse-preview" else "")
+        label = item["id"] + (" 路 coarse preview" if item.get("publication_scope") == "coarse-preview" else "")
         lines.append(
             f"| [{label}](results/{item['id']}/summary.json) | {item['particles']:,} | "
             f"{item['steps']:,} | {item['simulation_time']:.6g} | {item['min_J']:.6g} | "

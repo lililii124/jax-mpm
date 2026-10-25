@@ -63,6 +63,8 @@ def is_ready_for_publication(folder, identifier, summary):
     if not is_public_run(identifier):
         return False
     canonical = str(identifier).replace("\\", "/").replace("/", "--").lower()
+    if canonical == "fibres--dry-three-strand-forming":
+        return is_dry_three_strand_forming_ready(Path(folder), summary)
     if canonical == "fibres--three-strand-forming":
         return is_three_strand_forming_ready(Path(folder), summary)
     if canonical == "fibres--three-strand-tension":
@@ -181,6 +183,62 @@ def is_ready_for_publication(folder, identifier, summary):
     except (OSError, ValueError, TypeError, KeyError, AttributeError):
         return False
     return True
+
+
+def is_dry_three_strand_forming_ready(folder, summary):
+    """Admit the complete dry process while retaining the failed tight screen."""
+    try:
+        read = lambda name: json.loads((folder/name).read_text(encoding="utf-8"))
+        physical, media, render, snapshots, ledger, review = map(read, (
+            "physical-review.json", "media-review.json", "render.json",
+            "source-snapshots.json", "full-trajectory-ledger.json", "publication-review.json"))
+        state, coverage = physical["state"], physical["coverage"]
+        checkpoint = "06ff311f05f4e06bee30c08fb75353babf68fbfce9d9e9b3439e2adbb11366c5"
+        scope = summary["accuracy_scope"]
+        required = {"complete_saved_process", "source_bound_states", "physical_scope_explicit",
+                    "actual_paraview", "source_bound_media", "visual_review", "mechanical_screen_false_preserved"}
+        if not (summary["completed"] is True and summary["production_eligible"] is False
+                and summary["case"] == "Dry three-strand forming"
+                and summary["steps"] == state["step"] == ledger["steps"] == 12394
+                and abs(summary["simulation_time"]-.06) < 1e-12
+                and summary["frames"] == render["frames_rendered"] == media["frames"] == 61
+                and summary["source_checkpoint_sha256"] == state["checkpoint_sha256"] == media["source_checkpoint_sha256"] == checkpoint
+                and summary["source_commit"] == state["source"] == "5d2e4149f588c5455052d18c39cc58e45782615f"
+                and state["passed"] is True and state["full_turn"] is True and state["all_geometry_valid"] is True
+                and state["minJ"] > 0 and summary["max_damage"] == 0
+                and state["full_turn_geometry"]["full_support"] is True
+                and state["full_turn_geometry"]["collar_error_m"] < 1e-9
+                and coverage["all_deep_checks_pass"] is True
+                and scope["three_pair_70percent_tight_contact_screen_passed"] is False
+                and coverage["major_grid_contact_candidate"] is False
+                and scope["free_span_contact_fractions"] == [q["free_span_contact_fraction"] for q in coverage["pairs"]]
+                and scope["energy_temporal_spatial_convergence_certified"] is False
+                and scope["manufacturing_accuracy_certified"] is False
+                and scope["whole_trajectory_energy_remainder_over_absolute_work"] == ledger["remainder_over_absolute_fixture_work"]
+                and scope["final_segment_energy_remainder_over_absolute_work"] == state["remainder_over_abswork"]
+                and review["schema"] == "dry-forming-process-publication-v1" and review["passed"] is True
+                and set(review["checks"]) == required and all(review["checks"].values())
+                and render["renderer"] == "ParaView" and render["geometry_scale"] == 1
+                and render["resolution"] == media["resolution"] == [400,400]
+                and render["axes"] is False and render["annotations"] is False
+                and render["camera_position"] == [-.020,.016,.012]
+                and render["full_turn_completed"] is snapshots["full_turn_completed"] is True
+                and render["actual_steps"] == [f["step"] for f in snapshots["frames"]]
+                and render["actual_times_s"] == [f["time_s"] for f in snapshots["frames"]]
+                and render["actual_steps"][0] == 16 and render["actual_steps"][-1] == 12394
+                and media["passed"] is media["visual_review_passed"] is True
+                and media["source_manifest_sha256"] == hashlib.sha256((folder/"source-snapshots.json").read_bytes().replace(b"\r\n",b"\n")).hexdigest()
+                and media["position_interpolation"] is False and media["decoded_frames"] == 61
+                and media["distinct_decoded_frames"] == 61 and media["all_frame_timings_match"] is True and media["loop"] == 0):
+            return False
+        required_sources = {"summary.json","physical-review.json","media-review.json","render.json",
+                            "original-render.json","original-render-review.json","source-snapshots.json","full-trajectory-ledger.json","provenance.json"}
+        if not required_sources <= set(review["sources"]):return False
+        for name,digest in review["sources"].items():
+            if Path(name).name != name or hashlib.sha256((folder/name).read_bytes().replace(b"\r\n",b"\n")).hexdigest() != digest:return False
+        images=folder.parents[1]/"images";gif=images/"home/fibres--dry-three-strand-forming.gif";cover=images/"dry-three-strand-forming.png"
+        return gif.stat().st_size == media["gif_bytes"] and hashlib.sha256(gif.read_bytes()).hexdigest() == media["gif_sha256"] and hashlib.sha256(cover.read_bytes()).hexdigest() == media["cover_sha256"]
+    except (OSError,ValueError,TypeError,KeyError,IndexError):return False
 
 
 def is_three_strand_forming_ready(folder, summary):

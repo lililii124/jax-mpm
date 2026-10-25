@@ -13,7 +13,7 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <tr>
 <td width="33%" align="center"><img src="images/three-strand-tension.png" alt="Three-strand tension" width="100%"><br><strong>Three-strand tension</strong><br><a href="results/fibres--three-strand-tension/summary.json">Results</a> &middot; <a href="images/home/fibres--three-strand-tension.gif">GIF</a></td>
 <td width="33%" align="center"><img src="images/three-strand-forming.png" alt="Three-strand forming" width="100%"><br><strong>Three-strand forming</strong><br><a href="results/fibres--three-strand-forming/summary.json">Results</a> &middot; <a href="images/home/fibres--three-strand-forming.gif">GIF</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="images/dry-three-strand-forming.png" alt="Dry three-strand forming" width="100%"><br><strong>Dry three-strand forming</strong><br><a href="results/fibres--dry-three-strand-forming/summary.json">Results</a> &middot; <a href="images/home/fibres--dry-three-strand-forming.gif">GIF</a></td>
 </tr>
 </table>
 
