@@ -1,109 +1,71 @@
-name: engineering previews
-
+name: guarded AT2 full1200 real49 ParaView
 on:
   workflow_dispatch:
-    inputs:
-      preset:
-        description: Reviewed engineering cases or the round-bar density diagnostic
-        type: choice
-        options: [all, ceramic-wide, hjc-large, hjc-symmetric, adhesion-v2-pair, adhesion-v3-pair, adhesion-v4-pair, jc-density-diagnostic, jc-necking-formal]
-        default: all
-        required: true
-
 permissions:
   contents: read
-
 concurrency:
-  group: engineering-previews-${{ github.ref }}-${{ inputs.preset }}
+  group: phase-field-full1200
   cancel-in-progress: false
-
 jobs:
-  engineering:
+  solve:
+    if: github.ref == 'refs/heads/work/fibre-adhesion-pair-dynamic'
     runs-on: ubuntu-24.04
-    timeout-minutes: 360
-    strategy:
-      fail-fast: false
-      max-parallel: 2
-      matrix:
-        preset: ${{ fromJSON(inputs.preset == 'all' && '["ceramic-wide","hjc-large","adhesion-v3-pair","jc-density-diagnostic"]' || format('["{0}"]', inputs.preset)) }}
+    timeout-minutes: 300
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
       XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
-      OMP_NUM_THREADS: '4'
       OPENBLAS_NUM_THREADS: '1'
-      VTK_DEFAULT_OPENGL_WINDOW: vtkOSOpenGLRenderWindow
-      LIBGL_ALWAYS_SOFTWARE: '1'
+      OMP_NUM_THREADS: '2'
       PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: ${{ github.sha }}
           persist-credentials: false
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
-          cache: pip
-          cache-dependency-path: pyproject.toml
-      - name: Install CPU and rendering dependencies
-        timeout-minutes: 30
-        run: python tools/install_runner_dependencies.py --log-dir .local/engineering-ci
-      - name: Install official ParaView
-        timeout-minutes: 20
-        run: python tools/run_engineering_preview.py install --preset ${{ matrix.preset }}
-      - name: Solve and independently review
-        timeout-minutes: 300
-        run: python tools/run_engineering_preview.py run --preset ${{ matrix.preset }}
-      - name: Upload reviewed results or the explicitly marked diagnostic
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: .local/engineering-delivery/main/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state
-          path: .local/engineering-delivery/final-state/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second final state when needed
-        if: success() && hashFiles('.local/engineering-delivery/final-state-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-final-state-2
-          path: .local/engineering-delivery/final-state-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload separate media when needed
-        if: success() && hashFiles('.local/engineering-delivery/media/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media
-          path: .local/engineering-delivery/media/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload second media package when needed
-        if: success() && hashFiles('.local/engineering-delivery/media-2/delivery-manifest.json') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-media-2
-          path: .local/engineering-delivery/media-2/
-          if-no-files-found: error
-          retention-days: 1
-          compression-level: 6
-      - name: Upload diagnostic logs
+          python-version: '3.12.13'
+      - name: Install exact qualification runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+      - name: Full1200 CPU solve with resource guard
+        timeout-minutes: 273
+        run: python tools/run_phase_field_full.py
+      - name: Preserve raw arrays and receipts before rendering
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: engineering-${{ matrix.preset }}-${{ github.run_id }}-${{ github.run_attempt }}-logs
-          path: .local/engineering-ci/
+          name: phase-field-full1200-raw-${{ github.run_id }}
+          path: outputs/phase-field-full/
           if-no-files-found: warn
-          retention-days: 1
-          compression-level: 6
+          compression-level: 0
+          retention-days: 30
+      - name: Install ParaView only after full solve passes
+        timeout-minutes: 10
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0, 'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('outputs/phase-field-full/paraview-install')
+          p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Render 49 actual saved states then encode local review GIF
+        timeout-minutes: 8
+        run: |
+          "$PARAVIEW_PYTHON" --force-offscreen-rendering tools/render_phase_field_full.py outputs/phase-field-full > outputs/phase-field-full/render.log 2>&1
+          python tools/encode_phase_field_full.py outputs/phase-field-full
+      - name: Preserve complete media and any renderer failure logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-field-full1200-review-${{ github.run_id }}
+          path: outputs/phase-field-full/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 30
