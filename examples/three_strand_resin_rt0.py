@@ -4,7 +4,7 @@ Experimental independent stage: no cure/full FSI. Only run after operator checks
 and an authenticated full-turn forming checkpoint. No final-cylinder particles
 are prefilled or faded in. Every source mass/energy and outflow is explicit.
 """
-import argparse,json,time
+import argparse,json,time,shutil
 from pathlib import Path
 import numpy as np
 
@@ -47,7 +47,9 @@ def run(checkpoint,plan,output,steps=64,resume_from=None):
         leaves={name:np.asarray(v) for name,v in state._asdict().items()};np.savez(folder/('rejected-state.npz' if rejected else 'checkpoint.tmp.npz'),**leaves,transport_logJ=transport_logJ,step=k,emitted=emitted,source_mass_kg=source_mass,outflow_mass_kg=outflow_mass,source_energy_J=source_energy,outflow_energy_J=outflow_energy)
         if not rejected:(folder/'checkpoint.tmp.npz').replace(folder/'checkpoint.npz')
         (folder/'observables.json').write_text(json.dumps(rows,indent=2))
-    save(start);np.savez_compressed(folder/f'frame-{start:06d}.npz',x=np.asarray(state.x)[np.asarray(state.active)],time=np.asarray(state.time));started=time.monotonic()
+    save(start)
+    if start==0:shutil.copyfile(folder/'checkpoint.npz',folder/'initial-checkpoint.npz')
+    np.savez_compressed(folder/f'frame-{start:06d}.npz',x=np.asarray(state.x)[np.asarray(state.active)],time=np.asarray(state.time));started=time.monotonic()
     for k in range(start+1,start+steps+1):
         # Activate exclusively at the physical inlet. Quantization error is <=dt;
         # source kinetic energy is recorded before transfer, not fixture work.
