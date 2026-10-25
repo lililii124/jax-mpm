@@ -8,6 +8,10 @@ import numpy as np
 from .elastic import _concrete, _positive
 from .history import dev, equivalent, equivalent_strain, finish_update
 
+MAT111_SOURCE_SHA256 = '90e7542f33a46cbc9aedad49207679af05511e8033c8f2f2ce56008105c3425a'
+MAT111_PROFILE_SCOPE = ('Finite fixed-axis material-point translation of current MAT111 hjc_point; '
+    'not host ABI, erosion, beam validation or transfer of its D1=.04 impact finalcheck.')
+
 
 class HJC(NamedTuple):
     shear: float
@@ -33,6 +37,7 @@ class HJC(NamedTuple):
     initial_damage: float
     legacy_v3: bool = True
     mat111_compacted_tension: bool = False
+    mat111_compatible: bool = False
 
 
 def hjc(
@@ -61,9 +66,11 @@ def hjc(
     profile="legacy-v3",
     compacted_tension="legacy-polynomial",
 ):
-    """Select the supplied v3 profile or strain-floor strength/damage equations."""
-    if profile not in ("legacy-v3", "strain-floor"):
-        raise ValueError("HJC profile must be 'legacy-v3' or 'strain-floor'")
+    """Select legacy-v3, strain-floor, or the supplied MAT111 point profile."""
+    if profile not in ("legacy-v3", "strain-floor", "mat111-compatible"):
+        raise ValueError("Unknown HJC profile")
+    if profile == 'mat111-compatible' and cold_start_damage:
+        raise ValueError('MAT111-compatible requires zero cold-start damage')
     if compacted_tension not in ("legacy-polynomial", "mat111-linear"):
         raise ValueError("compacted_tension must be 'legacy-polynomial' or 'mat111-linear'")
     _positive(
@@ -112,8 +119,9 @@ def hjc(
         K3,
         density,
         initial_damage,
-        profile == "legacy-v3",
-        compacted_tension == "mat111-linear",
+        profile != "strain-floor",
+        compacted_tension == "mat111-linear" or profile == 'mat111-compatible',
+        profile == 'mat111-compatible',
     )
 
 
@@ -170,11 +178,24 @@ def update_hjc(old, strain, J, dt, p):
     )
     strength = jnp.where(p.legacy_v3, legacy_strength, floor_strength)
     strength = jnp.maximum(strength, 0.0) * p.compressive_strength
+    # MAT111 caps only the positive-pressure strength branch.
+    source_strength = jnp.where(pressure > 0,
+        jnp.minimum(compressive_strength*(1+p.C*log_rate), p.maximum_strength),
+        jnp.maximum((p.A*(1-old.damage)-p.A*pressure/p.tensile_strength)*(1+p.C*log_rate), 0.))
+    strength = jnp.where(p.mat111_compatible, source_strength*p.compressive_strength, strength)
     q = jnp.minimum(qtrial, strength)
+    source_active = qtrial**2 >= strength**2
+    q = jnp.where(p.mat111_compatible,
+        jnp.where(source_active & (qtrial > 0), strength, qtrial), q)
     plastic_increment = (qtrial - q) / (3 * p.shear)
     dep = jnp.where(
         p.legacy_v3, jnp.where(strength > 0, plastic_increment, 0.0), plastic_increment
     )
+    source_dep = jnp.where(qtrial > 0,
+        jnp.where(source_active & (strength >= 1e-8), plastic_increment, 0.), 1e-4)
+    ep_increment = jnp.where(p.mat111_compatible,
+        jnp.where(qtrial > 0, source_dep, 0.), dep)
+    dep = jnp.where(p.mat111_compatible, source_dep, dep)
     raw_fracture = (
         p.D1 * jnp.maximum((pressure + p.tensile_strength) / p.compressive_strength, 0.0) ** p.D2
     )
@@ -187,12 +208,16 @@ def update_hjc(old, strain, J, dt, p):
         1.0, old.damage + (dep + depv) / jnp.maximum(raw_fracture, p.minimum_fracture_strain)
     )
     damage = jnp.where(p.legacy_v3, legacy_damage, floor_damage)
+    source_denominator = jnp.maximum(raw_fracture, 1e-8)
+    source_damage = jnp.where(source_denominator > p.minimum_fracture_strain,
+        jnp.minimum(1., old.damage+jnp.maximum((dep+depv)/source_denominator, 0.)), old.damage)
+    damage = jnp.where(p.mat111_compatible, source_damage, damage)
     stress = trial * (q / jnp.maximum(qtrial, 1e-30))[..., None, None] - pressure[
         ..., None, None
     ] * jnp.eye(3)
     new = old._replace(
         stress=stress,
-        plastic_strain=old.plastic_strain + dep,
+        plastic_strain=old.plastic_strain + ep_increment,
         plastic_rate=dep / dt,
         plastic_tensor=old.plastic_tensor
         + (1.5 * dep / jnp.maximum(qtrial, 1e-30))[..., None, None] * trial,

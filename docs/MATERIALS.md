@@ -28,7 +28,7 @@ stresses, lengths, times, and temperatures use kg/m³, Pa, m, s, and K.
 | Johnson–Cook | Implicit rate-dependent radial return at old temperature, explicit plastic heating, optional D1–D5 failure | Closure differs from the supplied one-step old-rate implementation; examples leave optional failure disabled |
 | Steinberg–Guinan | Pressure/temperature strength, strain hardening cap, linear EOS, work energy | Selected GAMA=F=0 solid branch; no melting/spall; invalid temperatures rejected |
 | JH-2 | Intact/fractured strength, damage, delayed bulking, polynomial EOS, tensile cutoff | Supplied MAT110 revision-7 profile; negative FS unsupported |
-| HJC | Pressure/rate strength, compaction, lagged unloading modulus, damage | `legacy-v3` and `strain-floor` profiles; selectable compacted unloading; cold-start damage seed is off by default |
+| HJC | Pressure/rate strength, compaction, lagged unloading modulus, damage | `legacy-v3`, `strain-floor`, and `mat111-compatible` point profiles; cold-start damage seed is off by default |
 | RHT | Three surfaces, Lode dependence, hardening, damage, p-alpha compaction, energy coupling | Bounded adaptive integration; unsupported/nonconverged returns are marked invalid; no general interior fallback from the supplied core |
 
 Incremental kinematics use the right polar stretch of F_new inverse(F_old),
@@ -55,7 +55,7 @@ The rate multiplier is `1+C*max(log(rate/reference_rate), 0)`. The existing
 compressive pressure-hardening term and compressive strength cap remain.
 Plastic strain still accumulates when the returned equivalent stress is zero.
 
-Both profiles use the existing compaction/EOS integration, old damage for the
+These two profiles use the existing compaction/EOS integration, old damage for the
 current strength and tensile cutoff, and an explicit damage update afterward.
 The new profile does not establish full Radioss equivalence, strain-rate
 filtering, nonlocal damage regularization or automatic particle deletion.
@@ -80,9 +80,20 @@ supplied MAT111 scalar module; it does not certify the whole host adapter.
 The published symmetry-constrained beam never reached full compaction and
 retains its original source and result.
 
+`hjc(profile="mat111-compatible")` follows the supplied current MAT111
+`hjc_point` scalar path, including the uncapped nonpositive-pressure strength,
+subreference logarithmic rate factor, EFMIN activation gate, zero-strength
+plastic increment, and the zero-trial-stress damage increment. It selects
+`mat111-linear` compacted unloading and requires zero cold-start damage.
+Eight [compiled-reference points](../tests/data/materials/hjc_current_mat111_points.json)
+cover those branches at D1=0.04 and D1=0.004. These checks cover finite,
+fixed-axis material-point updates; host failure/erosion and structural
+validation remain separate. The source Final Check does not transfer to JAX.
+
 The strength profile and compacted unloading option are stored as Boolean
-material fields `legacy_v3` and `mat111_compacted_tension` for JAX and
-serialization. Material signatures include both choices; resume earlier
+material fields `legacy_v3`, `mat111_compacted_tension`, and
+`mat111_compatible` for JAX and serialization. Material signatures include
+these choices; resume earlier
 checkpoints with their original code version. Completed result records and
 their reference data are retained.
 
