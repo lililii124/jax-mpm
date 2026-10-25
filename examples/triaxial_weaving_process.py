@@ -8,7 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import numpy as np
-from .triaxial_weaving_geometry import make_process,fixture_position
+from .triaxial_weaving_geometry import make_process,fixture_position,swept_corridor_seeds
 
 
 def json_value(value):
@@ -48,14 +48,14 @@ def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_s
     return geometry,record
 
 
-def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006):
+def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense"):
     geometry,plan=plan_process(per_family,dx,pitch,diameter,particle_spacing)
     if not plan['within_initial_resource_limits']:raise ValueError('Need a new resource plan and swept sparse contact/grid strategy for this larger station')
     import jax
     jax.config.update('jax_enable_x64',True)
     import jax.numpy as jnp
     from mpm_jax.fibre_mpm import (FibreConfig,build_layout,make_state,reference_grips,
-        step_with_diagnostics,validate_state,stored_energy,FibreState)
+        step_with_diagnostics,validate_state,stored_energy,FibreState,build_tube_layout)
     from mpm_jax.materials.isotropic_brittle import isotropic_brittle,BrittleHistory
     from mpm_jax.fibre_coupling import FibreCouplingHistory
     from mpm_jax.fibre_contact import FibreContactHistory
@@ -71,6 +71,8 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
     if not 1<=count<=plan['full_steps']:raise ValueError('Bounded positive steps within fixed protocol required')
     root=Path(__file__).resolve().parents[1]
     sources=[Path(__file__),root/'examples/triaxial_weaving_geometry.py',root/'examples/triaxial_fibre_geometry.py',*sorted((root/'mpm_jax').rglob('*.py'))]
+    plan['grid_allocation']=grid
+    if grid not in ('dense','tube'):raise ValueError('Unknown grid allocation')
     plan['source_sha256']={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     runtime=dict(jax=jax.__version__,jaxlib=__import__('jaxlib').__version__,numpy=np.__version__,x64=bool(jax.config.jax_enable_x64))
     signature=hashlib.sha256(json.dumps(json_value(dict(plan=plan,geometry=geometry['metadata'],runtime=runtime)),sort_keys=True).encode()).hexdigest()
@@ -83,8 +85,15 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
         fibre_id=geometry['fibre_id'],family_id=geometry['family_id'],grip_masks=np.asarray(geometry['masks']))
     material=isotropic_brittle(young=plan['young_Pa'],poisson=plan['poisson'],density=plan['density_kg_m3'],
         tensile_strength=plan['tensile_strength_Pa'],fracture_energy=plan['fracture_energy_J_m2'],characteristic_length=plan['dx'])
-    layout=build_layout(geometry['x'],geometry['fibre_id'],dx=plan['dx'],padding_cells=6,
-        reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
+    if grid=='tube':
+        seeds,seed_ids=swept_corridor_seeds(geometry,plan['dx'])
+        layout=build_tube_layout(seeds,seed_ids,dx=plan['dx'],padding_cells=6,
+            reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
+    else:
+        layout=build_layout(geometry['x'],geometry['fibre_id'],dx=plan['dx'],padding_cells=6,
+            reference_bounds=geometry['swept_reference_bounds'],max_nodes=30_000_000)
+    (output/'layout.json').write_text(json.dumps(dict(allocation=grid,active_nodes=layout.node_count,
+        dense_address_count=int(np.sum(np.prod(np.asarray(layout.shape),axis=1))))))
     state=make_state(geometry['x'],geometry['volume'],geometry['fibre_id'],material,layout)
     config=FibreConfig(dt=plan['dt']);times=geometry['metadata']['fixture_times'];positions=geometry['metadata']['fixture_positions']
     def grip_speed(group):
@@ -182,9 +191,10 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(__doc__);parser.add_argument('--per-family',type=int,default=2)
     parser.add_argument('--dx',type=float,default=.000075);parser.add_argument('--pitch',type=float,default=.0027)
     parser.add_argument('--diameter',type=float,default=.000225);parser.add_argument('--particle-spacing',type=float,default=.00006)
+    parser.add_argument('--grid',choices=['dense','tube'],default='dense')
     parser.add_argument('--saved-frames',type=int,default=8);parser.add_argument('--resume',action='store_true')
     parser.add_argument('--run',action='store_true');parser.add_argument('--steps',type=int)
     parser.add_argument('--output',default='outputs/triaxial-weaving-process');args=parser.parse_args()
     parameters=dict(per_family=args.per_family,dx=args.dx,pitch=args.pitch,diameter=args.diameter,particle_spacing=args.particle_spacing)
-    if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,**parameters)
+    if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,grid=args.grid,**parameters)
     else:print(json.dumps(json_value(plan_process(**parameters)[1]),indent=2))

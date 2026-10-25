@@ -144,3 +144,26 @@ def make_process(*,per_family=2,pitch=.0027,diameter=.000225,spacing=.00006,
     return dict(x=x,volume=volume,mass=density*volume,fibre_id=fibre_id,family_id=family_id,
         masks=tuple(masks),contact_candidates=candidates,metadata=metadata,
         swept_reference_bounds=np.asarray(swept))
+
+
+def swept_corridor_seeds(geometry,dx):
+    """Static allocation seeds from guide sweeps; never a particle update.
+
+    Axial samples use existing section centres. Guide translations are sampled
+    no farther than one cell apart. Six padding cells cover section radius and
+    modest bending; an escaping actual stencil still invalidates the solver.
+    """
+    knots=np.asarray(geometry['metadata']['fixture_positions'])
+    points=[];labels=[]
+    for fibre in geometry['metadata']['fibres']:
+        i=fibre['id'];a,b=fibre['particle_slice'];sections=fibre['longitudinal_sections']
+        centre=geometry['x'][a:b].reshape(sections,-1,3).mean(axis=1)
+        alpha=np.linspace(0,1,sections)[:,None]
+        translation=knots[:,2*i:2*i+2]-knots[0,2*i:2*i+2]
+        for left,right in zip(translation[:-1],translation[1:]):
+            count=max(1,int(np.ceil(np.linalg.norm(right-left,axis=1).max()/dx)))
+            for fraction in np.linspace(0,1,count+1):
+                pair=left*(1-fraction)+right*fraction
+                sample=centre+(1-alpha)*pair[0]+alpha*pair[1]
+                points.append(sample);labels.append(np.full(sections,i,np.int32))
+    return np.concatenate(points),np.concatenate(labels)
