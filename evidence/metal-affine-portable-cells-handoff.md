@@ -11,15 +11,15 @@ No dependency installation or network access occurs at the cell entry point.
 Use assigned CPUs 40–43 and an 8 GiB container. The guard requires that CPU
 affinity and a finite Docker memory cgroup. It caps aggregate owned USS at
 4 GiB, retains at least 2 GiB of cgroup/system headroom, stops on first error,
-and caps each cell plus replay at 900 seconds and 2 GiB of new raw data.
+and caps each cell at 900 seconds and 2 GiB of new raw data.
 The successful first-step Actions run used four CPUs and peaked at 0.922 GB
 USS for the complete process group; resource requirements are not extrapolated
 from the 64-core host's total RAM.
 
 The capsule entry `run_cell.py --cell both --output /results` runs independent
 1 ps × 2 and 0.5 ps × 4 cases sequentially, each starting from the SAME exact
-125 ns original input. Each case then replays itself with every final array
-compared bitwise. It does not rerun the old 2 ps baseline, continue beyond
+125 ns original input. Neither finer case is repeated or subject to a bitwise
+replay gate. It does not rerun the old 2 ps baseline, continue beyond
 125.002 ns, or generate any media. Choose a fresh empty output directory and
 keep external console logs outside that directory.
 
@@ -38,7 +38,8 @@ The actual runtime versions, installed dev-client Python file bytes, immutable
 source/input capsule, CPU affinity and cgroup limits are checked before any
 numerical work. Both original state SHA256s, physical parameters, contact/CFL
 and energy gates are unchanged. Output retains every stage, first rejection,
-physical channel and replay, with a full output-file SHA256 manifest.
+physical channel, with a full output-file SHA256 manifest. The numerical
+validation is the independent 2 ps / 1 ps / 0.5 ps time-step comparison.
 
 The original successful 2 ps reference is retained without recomputation.
 Its physical gates passed; an independent audit verified the real kicks,

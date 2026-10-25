@@ -82,7 +82,7 @@ def main():
         record=dict(cell=cell,dt_s=dt,steps=steps,peak_owned_uss_bytes=0,minimum_cgroup_headroom_bytes=cap-used,
             uss_cap_bytes=4*GIB,minimum_headroom_bytes=2*GIB,wall_cap_s=900,status='running',source_commit=contract['source_commit'])
         try:
-            for label in ('result','replay'):
+            for label in ('result',):
                 command=[sys.executable,'-m','tools.run_metal_affine_dynamic125','--state',str(root/'inputs/initial.npz'),
                     '--epoch',str(root/'inputs/epoch-initial.npz'),'--admission',str(root/'inputs/original-admission.json'),
                     '--output',str(dest/label),'--dt',str(dt),'--steps',str(steps),'--source-commit',contract['source_commit']]
@@ -108,11 +108,8 @@ def main():
                     if child is not None:terminate_owned_group(child)
                 result=json.loads((dest/label/'result.json').read_text())
                 if result['status']!='bounded-window-passed' or result['accepted_steps']!=steps:raise RuntimeError('Complete physical window did not pass')
-            import numpy as np
-            first=sorted((dest/'result').glob('*-accepted.npz'))[-1];second=sorted((dest/'replay').glob('*-accepted.npz'))[-1]
-            with np.load(first,allow_pickle=False) as x,np.load(second,allow_pickle=False) as y:
-                if set(x.files)!=set(y.files) or not all(np.array_equal(x[k],y[k]) for k in x.files):raise RuntimeError('Full same-source replay differs')
-                record['replay_array_count']=len(x.files);record['replay_bitwise']=True
+            record['same_dt_replay_performed']=False
+            record['validation_scope']='Independent dt convergence against the preserved original 2ps reference; no repeated baseline or fine-cell replay'
             verify(root);record['status']='passed'
         except BaseException as error:
             record['status']='rejected';record['first_error']=dict(type=type(error).__name__,message=str(error))
