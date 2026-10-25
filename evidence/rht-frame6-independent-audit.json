@@ -1,0 +1,864 @@
+{
+  "saved_prefix_verified": true,
+  "segment_target_reached": true,
+  "physical_gate_failure": false,
+  "start_step": 140,
+  "last_complete_step": 210,
+  "target_step": 210,
+  "complete_state_pairs": 15,
+  "all28_fields_verified": true,
+  "mass_volume_exact": true,
+  "finite_positive_orientation": true,
+  "irreversible_histories": true,
+  "cumulative_contact_exact": true,
+  "maximum_recomputed_energy_error_J": 1.1641532182693481e-10,
+  "maximum_density_relative_error": 5.897811156781815e-16,
+  "projectile_momentum_contact_residual_Ns": [
+    2.049417654067724e-16,
+    8.681944052568724e-14,
+    1.4059235736370313e-18
+  ],
+  "total_momentum_change_Ns": [
+    -1.5642763452233168e-15,
+    3.0524915928253904e-11,
+    2.0328072955447414e-14
+  ],
+  "compile_seconds": 8.390010863542557,
+  "solve_seconds": 1634.1494885236025,
+  "terminal_state": "complete",
+  "guard_reason": null,
+  "last_observation": {
+    "time": 1.000000000000004e-05,
+    "external_work_trapezoidal": 0.0,
+    "boundary_impulse_x": -1.5642763452233168e-15,
+    "boundary_impulse_y": 3.0524915928253904e-11,
+    "boundary_impulse_z": 2.0328072955447414e-14,
+    "projectile_tip_y_m": 0.17035786664187752,
+    "projectile_center_y_m": 0.21818003509799058,
+    "projectile_center_vy_m_per_s": -1794.2549831936171,
+    "tip_past_front_m": -0.00035786664187750783,
+    "tip_past_rear_m": -0.030357866641877507,
+    "target_failed_reference_volume_fraction": 0.000396728515625,
+    "target_failed_count": 104,
+    "target_maximum_damage": 0.2403170136952082,
+    "corridor_intact_count": 1880,
+    "target_minimum_J": 0.8862398773075021,
+    "target_maximum_displacement_m": 0.0010579453015601384
+  },
+  "snapshots": [
+    {
+      "step": 140,
+      "time_s": 6.666666666666666e-06,
+      "frame": 4,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.9366044426703042,
+          "max_J": 1.0002170051987573,
+          "max_damage": 0.12381882144443884,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0493223758928107,
+          "Ktrans_J": 6.645261596038443,
+          "Kaff_diagnostic_J": 4.156135917810077,
+          "history_energy_J": 4.984801391505831,
+          "constitutive_work_J": 4.981971587507154,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            4.709660875521564e-15,
+            -0.1793415744200406,
+            1.7649180261442925e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.7387538699896701,
+          "max_J": 1.0007429052682397,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 334432.49027698685,
+          "Kaff_diagnostic_J": 8.597662035573245,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 132.68595842418975,
+          "momentum_Ns": [
+            -2.017477789504736e-17,
+            -371.74294690776003,
+            1.5308196502899316e-17
+          ],
+          "particle_nose_y_m": 0.17489254498906923
+        }
+      ],
+      "contact_impulse_cumulative": [
+        -2.383282045310644e-17,
+        0.17934157442006354,
+        2.0593569593820207e-17
+      ]
+    },
+    {
+      "step": 145,
+      "time_s": 6.904761904761904e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.9228703475197219,
+          "max_J": 1.0002521581455421,
+          "max_damage": 0.1404998200825316,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.06259611328992414,
+          "Ktrans_J": 9.689607507386931,
+          "Kaff_diagnostic_J": 5.729516240603974,
+          "history_energy_J": 7.714546365774889,
+          "constitutive_work_J": 7.709674255390995,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            4.99057153382504e-15,
+            -0.2258084386536021,
+            2.343838670816977e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.7113416320047118,
+          "max_J": 1.0005647257929338,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 334352.3110597651,
+          "Kaff_diagnostic_J": 8.647674246281085,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 173.4656650605871,
+          "momentum_Ns": [
+            -2.329610114342481e-17,
+            -371.69648004352706,
+            4.0767399574418756e-17
+          ],
+          "particle_nose_y_m": 0.17462844166752628
+        }
+      ],
+      "contact_impulse_cumulative": [
+        -3.174749631225062e-17,
+        0.22580843865362624,
+        3.8645535765703856e-17
+      ]
+    },
+    {
+      "step": 150,
+      "time_s": 7.142857142857142e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.9080956781624413,
+          "max_J": 1.0002794165573479,
+          "max_damage": 0.15758447707520595,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.07770092204690074,
+          "Ktrans_J": 13.72984373002716,
+          "Kaff_diagnostic_J": 7.735810493870374,
+          "history_energy_J": 11.524534569391308,
+          "constitutive_work_J": 11.516510525405259,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            5.048610901528875e-15,
+            -0.2793038412319849,
+            3.095312312857029e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.6861532890805997,
+          "max_J": 1.0004835395358538,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 334258.98547649046,
+          "Kaff_diagnostic_J": 8.250229788096,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 218.49330926764486,
+          "momentum_Ns": [
+            -5.152331296216865e-17,
+            -371.6429846409518,
+            4.923709734413777e-17
+          ],
+          "particle_nose_y_m": 0.1743607924814968
+        }
+      ],
+      "contact_impulse_cumulative": [
+        -5.01789332445042e-17,
+        0.27930384123202123,
+        4.777993906889423e-17
+      ]
+    },
+    {
+      "step": 155,
+      "time_s": 7.38095238095238e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8925519619331391,
+          "max_J": 1.000298220823463,
+          "max_damage": 0.17345254585268305,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.09461610210525645,
+          "Ktrans_J": 18.849806262897083,
+          "Kaff_diagnostic_J": 10.081242365590276,
+          "history_energy_J": 16.689789665424684,
+          "constitutive_work_J": 16.67713750470897,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            5.161858399241303e-15,
+            -0.33957628597363093,
+            4.006554152414301e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.6634805258616899,
+          "max_J": 1.0003033181605367,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 334153.0874364937,
+          "Kaff_diagnostic_J": 7.498513518973034,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 266.01751265135033,
+          "momentum_Ns": [
+            2.841329455771113e-17,
+            -371.58271219620866,
+            7.658433966517367e-17
+          ],
+          "particle_nose_y_m": 0.17408594130241103
+        }
+      ],
+      "contact_impulse_cumulative": [
+        -5.408206106545201e-17,
+        0.3395762859736604,
+        7.26942183305976e-17
+      ]
+    },
+    {
+      "step": 160,
+      "time_s": 7.619047619047618e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.000314819732891,
+          "max_damage": 0.1893790352039027,
+          "failed_particles": 4,
+          "max_plastic_strain": 0.10038128585598044,
+          "Ktrans_J": 24.064226760880988,
+          "Kaff_diagnostic_J": 10.95983897035651,
+          "history_energy_J": 22.822186244695928,
+          "constitutive_work_J": 22.80076353968146,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            5.4710714722295044e-15,
+            -0.4016974046783668,
+            5.1006287517552775e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.6437272268570792,
+          "max_J": 1.000315514482531,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 334041.5342950992,
+          "Kaff_diagnostic_J": 5.960620594426015,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 312.82327822065537,
+          "momentum_Ns": [
+            2.1985544666372778e-17,
+            -371.52059107750193,
+            1.0423186080542006e-16
+          ],
+          "particle_nose_y_m": 0.17379718455328866
+        }
+      ],
+      "contact_impulse_cumulative": [
+        -4.649264585805348e-17,
+        0.401697404678432,
+        1.0250284299169332e-16
+      ]
+    },
+    {
+      "step": 165,
+      "time_s": 7.85714285714286e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.000323859431412,
+          "max_damage": 0.20546181309293596,
+          "failed_particles": 12,
+          "max_plastic_strain": 0.10038128585598044,
+          "Ktrans_J": 29.192087278296576,
+          "Kaff_diagnostic_J": 10.570675251321575,
+          "history_energy_J": 29.612275958753123,
+          "constitutive_work_J": 29.583284548966695,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            5.240111423213075e-15,
+            -0.46501808739132716,
+            6.354800074632085e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.6260645277583652,
+          "max_J": 1.000307088183862,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333926.43817813054,
+          "Kaff_diagnostic_J": 4.607642745365592,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 356.1519007066788,
+          "momentum_Ns": [
+            5.649084176352311e-17,
+            -371.45727039478993,
+            1.6396847627383884e-16
+          ],
+          "particle_nose_y_m": 0.1734876569334906
+        }
+      ],
+      "contact_impulse_cumulative": [
+        -9.623050451520109e-18,
+        0.4650180873914079,
+        1.5792511543439876e-16
+      ]
+    },
+    {
+      "step": 170,
+      "time_s": 8.095238095238102e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.000359448755228,
+          "max_damage": 0.2170540325824479,
+          "failed_particles": 16,
+          "max_plastic_strain": 0.10038128585598044,
+          "Ktrans_J": 34.59512241700049,
+          "Kaff_diagnostic_J": 11.561527195504018,
+          "history_energy_J": 37.091598341854464,
+          "constitutive_work_J": 37.04687965130812,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            5.111714881959041e-15,
+            -0.5321478932323243,
+            7.737224710584175e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.6089939088666307,
+          "max_J": 1.0002177560968233,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333805.00248994696,
+          "Kaff_diagnostic_J": 3.904837961818389,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 395.559035758788,
+          "momentum_Ns": [
+            1.2230251331995028e-16,
+            -371.39014058894804,
+            2.1506032931747353e-16
+          ],
+          "particle_nose_y_m": 0.17315581778697234
+        }
+      ],
+      "contact_impulse_cumulative": [
+        3.529188053019133e-17,
+        0.532147893232336,
+        2.1249584546628085e-16
+      ]
+    },
+    {
+      "step": 175,
+      "time_s": 8.333333333333344e-06,
+      "frame": 5,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.0003869114773063,
+          "max_damage": 0.2170540325824479,
+          "failed_particles": 24,
+          "max_plastic_strain": 0.10038128585598044,
+          "Ktrans_J": 39.867554571657806,
+          "Kaff_diagnostic_J": 11.072352677013523,
+          "history_energy_J": 45.086602902661355,
+          "constitutive_work_J": 44.94510127638372,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            4.1265816723890785e-15,
+            -0.6011482759088262,
+            9.25595639170808e-15
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.5907903250815849,
+          "max_J": 1.0001853861995116,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333680.2822209946,
+          "Kaff_diagnostic_J": 3.6936613851525544,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 435.1035608767854,
+          "momentum_Ns": [
+            2.263317371023407e-16,
+            -371.32114020627125,
+            2.76645422262694e-16
+          ],
+          "particle_nose_y_m": 0.17281318351720146
+        }
+      ],
+      "contact_impulse_cumulative": [
+        9.439495355643921e-17,
+        0.6011482759085531,
+        2.748287100665278e-16
+      ]
+    },
+    {
+      "step": 180,
+      "time_s": 8.571428571428586e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.000387039277742,
+          "max_damage": 0.2170540325824479,
+          "failed_particles": 32,
+          "max_plastic_strain": 0.10050886207994952,
+          "Ktrans_J": 45.97520597492793,
+          "Kaff_diagnostic_J": 11.280210129808912,
+          "history_energy_J": 53.454492697749494,
+          "constitutive_work_J": 53.29827735634858,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            3.681549094320855e-15,
+            -0.6765512236681719,
+            1.0657579668643785e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.5708441668152093,
+          "max_J": 1.000175389281495,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333545.59146936116,
+          "Kaff_diagnostic_J": 4.240720357018418,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 478.056293684062,
+          "momentum_Ns": [
+            2.448384230943579e-16,
+            -371.24573725851485,
+            3.3542216582290956e-16
+          ],
+          "particle_nose_y_m": 0.17246700897135528
+        }
+      ],
+      "contact_impulse_cumulative": [
+        1.3901415185612888e-16,
+        0.6765512236673326,
+        3.3070579650031895e-16
+      ]
+    },
+    {
+      "step": 185,
+      "time_s": 8.809523809523828e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.000374896096278,
+          "max_damage": 0.2170540325824479,
+          "failed_particles": 32,
+          "max_plastic_strain": 0.10050886207994952,
+          "Ktrans_J": 52.1974003825343,
+          "Kaff_diagnostic_J": 12.853659210296279,
+          "history_energy_J": 62.1124532333867,
+          "constitutive_work_J": 61.95223140603053,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            2.8363474601334426e-15,
+            -0.7544014568700959,
+            1.1820714902993258e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.5492041770039873,
+          "max_J": 1.000150663541979,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333406.75060314615,
+          "Kaff_diagnostic_J": 5.110046361783244,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 528.6521315056798,
+          "momentum_Ns": [
+            2.2276576560460296e-16,
+            -371.16788702531136,
+            4.559933144660721e-16
+          ],
+          "particle_nose_y_m": 0.17212751280771577
+        }
+      ],
+      "contact_impulse_cumulative": [
+        1.9292068560918744e-16,
+        0.7544014568682882,
+        4.429391602819801e-16
+      ]
+    },
+    {
+      "step": 190,
+      "time_s": 9.04761904761907e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.0003523178665639,
+          "max_damage": 0.2170540325824479,
+          "failed_particles": 44,
+          "max_plastic_strain": 0.10068949988290163,
+          "Ktrans_J": 60.36678490967187,
+          "Kaff_diagnostic_J": 13.496831517896313,
+          "history_energy_J": 71.72111253234131,
+          "constitutive_work_J": 71.61033410880258,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            3.755678311880085e-15,
+            -0.843076876627238,
+            1.32860886852951e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.5259910445357728,
+          "max_J": 1.0001476265170142,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333250.1232817204,
+          "Kaff_diagnostic_J": 5.669884158849025,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 589.9723021606152,
+          "momentum_Ns": [
+            3.791715953536518e-16,
+            -371.0792116055548,
+            5.167300965830829e-16
+          ],
+          "particle_nose_y_m": 0.1718009584824129
+        }
+      ],
+      "contact_impulse_cumulative": [
+        2.2052288156992644e-16,
+        0.8430768766245385,
+        5.05681675499306e-16
+      ]
+    },
+    {
+      "step": 195,
+      "time_s": 9.285714285714313e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.0003200407831407,
+          "max_damage": 0.23107569835953348,
+          "failed_particles": 56,
+          "max_plastic_strain": 0.10068949988290163,
+          "Ktrans_J": 68.41505028450061,
+          "Kaff_diagnostic_J": 14.166101071548606,
+          "history_energy_J": 81.37858382754251,
+          "constitutive_work_J": 81.23347679712901,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            1.630846418330733e-15,
+            -0.9313195059247382,
+            1.4967268390031055e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.5051764215280639,
+          "max_J": 1.000111388512338,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 333092.32104408264,
+          "Kaff_diagnostic_J": 4.658900683515008,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 653.6540559318344,
+          "momentum_Ns": [
+            2.386947778913234e-16,
+            -370.9909689762582,
+            5.573231614531784e-16
+          ],
+          "particle_nose_y_m": 0.17147570555544095
+        }
+      ],
+      "contact_impulse_cumulative": [
+        2.586826720645208e-16,
+        0.9313195059224956,
+        5.520679392808285e-16
+      ]
+    },
+    {
+      "step": 200,
+      "time_s": 9.523809523809555e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.0003105216950023,
+          "max_damage": 0.2403170136952082,
+          "failed_particles": 68,
+          "max_plastic_strain": 0.10068949988290163,
+          "Ktrans_J": 76.85535114747313,
+          "Kaff_diagnostic_J": 15.434925474275444,
+          "history_energy_J": 91.35406610392644,
+          "constitutive_work_J": 91.22950868875984,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            2.3207424399331826e-15,
+            -1.020938502314316,
+            1.6583718285633385e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.4872160333884578,
+          "max_J": 1.0001013680677502,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 332931.2702668533,
+          "Kaff_diagnostic_J": 3.558624478419434,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 712.2495404028502,
+          "momentum_Ns": [
+            4.2208144016864316e-16,
+            -370.90134997986524,
+            6.164809107043257e-16
+          ],
+          "particle_nose_y_m": 0.17113800893574876
+        }
+      ],
+      "contact_impulse_cumulative": [
+        2.8869948154218386e-16,
+        1.020938502315859,
+        5.965369317917893e-16
+      ]
+    },
+    {
+      "step": 205,
+      "time_s": 9.761904761904798e-06,
+      "frame": null,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.0002913357843122,
+          "max_damage": 0.2403170136952082,
+          "failed_particles": 80,
+          "max_plastic_strain": 0.10068949988290163,
+          "Ktrans_J": 85.28011367585972,
+          "Kaff_diagnostic_J": 16.096206741728153,
+          "history_energy_J": 101.85729172027413,
+          "constitutive_work_J": 101.73069594251739,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            -2.011103498919746e-15,
+            -1.1099736414928234,
+            1.813974909054233e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.4733448447055366,
+          "max_J": 1.0001072286965769,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 332769.9836745647,
+          "Kaff_diagnostic_J": 2.1450992342932733,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 756.7473217020162,
+          "momentum_Ns": [
+            6.486996069369996e-16,
+            -370.81231484067524,
+            7.492657033239187e-16
+          ],
+          "particle_nose_y_m": 0.17077577075721798
+        }
+      ],
+      "contact_impulse_cumulative": [
+        4.1640265529788466e-16,
+        1.1099736415043269,
+        7.20623412769232e-16
+      ]
+    },
+    {
+      "step": 210,
+      "time_s": 1.000000000000004e-05,
+      "frame": 6,
+      "bodies": [
+        {
+          "body": 0,
+          "particles": 262144,
+          "mass_kg": 3.998592000000001,
+          "min_J": 0.8862398773075021,
+          "max_J": 1.0002659375106693,
+          "max_damage": 0.2403170136952082,
+          "failed_particles": 104,
+          "max_plastic_strain": 0.10068949988290163,
+          "Ktrans_J": 91.91894194410756,
+          "Kaff_diagnostic_J": 14.40353781748366,
+          "history_energy_J": 112.31139195251193,
+          "constitutive_work_J": 112.08447844510337,
+          "stored_elastic_J": null,
+          "momentum_Ns": [
+            -2.2469362608359035e-15,
+            -1.187055443302008,
+            1.953880550514665e-14
+          ],
+          "particle_nose_y_m": null
+        },
+        {
+          "body": 1,
+          "particles": 4151,
+          "mass_kg": 0.20662349360121135,
+          "min_J": 0.4674112035873281,
+          "max_J": 1.0000937162718462,
+          "max_damage": 0.0,
+          "failed_particles": 0,
+          "max_plastic_strain": 0.0,
+          "Ktrans_J": 332630.6472124339,
+          "Kaff_diagnostic_J": 4.748898141701662,
+          "history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 766.5902992619276,
+          "momentum_Ns": [
+            6.826599156125867e-16,
+            -370.73523303884934,
+            7.892674503007642e-16
+          ],
+          "particle_nose_y_m": 0.17035786664187752
+        }
+      ],
+      "contact_impulse_cumulative": [
+        4.777181502058143e-16,
+        1.187055443332467,
+        7.878615267271272e-16
+      ]
+    }
+  ],
+  "contact_scope": "Finite MLS-MPM support causes early numerical contact: at step140 the saved particle-nose proxy remains4.893mm above the original front surface (1.30 grid cells at h3.75mm), although nodal contact and target damage exist. This is not certified geometric surface contact or an IJIE accuracy validation. The existing baseline is unchanged; grid/geometry contact convergence remains future work.",
+  "energy_scope": "Actual stored component records only; not a global energy conservation certificate or numerical heat assignment.",
+  "original_full_run_completed": false,
+  "media_approved": false
+}

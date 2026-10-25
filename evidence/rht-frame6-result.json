@@ -1,0 +1,2062 @@
+{
+  "start_step": 140,
+  "target_step": 210,
+  "accepted_steps": 70,
+  "compile_seconds": 8.390010863542557,
+  "steps": [
+    {
+      "step": 141,
+      "solve_seconds": 18.863912291824818,
+      "valid": true,
+      "contact_impulse": [
+        -3.3610267347050637e-18,
+        0.008756240812365,
+        1.6263032587282567e-18
+      ],
+      "target_min_J": 0.9339443216648438,
+      "target_max_damage": 0.12705192711870317,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 142,
+      "solve_seconds": 18.666263222694397,
+      "valid": true,
+      "contact_impulse": [
+        0.0,
+        0.009018193669163652,
+        6.315477654728063e-18
+      ],
+      "target_min_J": 0.9312408702024992,
+      "target_max_damage": 0.13022660034504036,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 143,
+      "solve_seconds": 18.23233536630869,
+      "valid": true,
+      "contact_impulse": [
+        -1.5178830414797062e-18,
+        0.009287272657159534,
+        4.038653092508504e-18
+      ],
+      "target_min_J": 0.9284939648924179,
+      "target_max_damage": 0.1333454733187117,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 144,
+      "solve_seconds": 18.300200253725052,
+      "valid": true,
+      "contact_impulse": [
+        -4.336808689942018e-19,
+        0.009562492871331641,
+        3.0899761915836876e-18
+      ],
+      "target_min_J": 0.9257036738773907,
+      "target_max_damage": 0.13693961832884663,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 145,
+      "solve_seconds": 18.733233496546745,
+      "valid": true,
+      "contact_impulse": [
+        -2.6020852139652106e-18,
+        0.009842664223542859,
+        2.9815559743351372e-18
+      ],
+      "target_min_J": 0.9228703475197219,
+      "target_max_damage": 0.1404998200825316,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 146,
+      "solve_seconds": 23.184897415339947,
+      "valid": true,
+      "contact_impulse": [
+        -4.336808689942018e-18,
+        0.010126477271902797,
+        -2.439454888092385e-19
+      ],
+      "target_min_J": 0.9199946771987492,
+      "target_max_damage": 0.14401378073995283,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 147,
+      "solve_seconds": 22.44131723791361,
+      "valid": true,
+      "contact_impulse": [
+        -6.071532165918825e-18,
+        0.010412570010454052,
+        -1.3552527156068805e-19
+      ],
+      "target_min_J": 0.9170777265552547,
+      "target_max_damage": 0.1474786597360096,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 148,
+      "solve_seconds": 24.292673148214817,
+      "valid": true,
+      "contact_impulse": [
+        1.0842021724855044e-18,
+        0.01069955774406843,
+        5.8817967857338616e-18
+      ],
+      "target_min_J": 0.9141209495859884,
+      "target_max_damage": 0.15089517792839216,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 149,
+      "solve_seconds": 25.249083571135998,
+      "valid": true,
+      "contact_impulse": [
+        -2.8189256484623115e-18,
+        0.010986060050344255,
+        3.0086610286472748e-18
+      ],
+      "target_min_J": 0.9111261932706147,
+      "target_max_damage": 0.15426373910870242,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 150,
+      "solve_seconds": 24.49339870363474,
+      "valid": true,
+      "contact_impulse": [
+        -6.288372600415926e-18,
+        0.011270737501625447,
+        6.2341624917916505e-19
+      ],
+      "target_min_J": 0.9080956781624413,
+      "target_max_damage": 0.15758447707520595,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 151,
+      "solve_seconds": 24.40987142175436,
+      "valid": true,
+      "contact_impulse": [
+        0.0,
+        0.011543630080877528,
+        4.770489125958868e-18
+      ],
+      "target_min_J": 0.9050328243797819,
+      "target_max_damage": 0.16085705863130004,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 152,
+      "solve_seconds": 24.3397386521101,
+      "valid": true,
+      "contact_impulse": [
+        0.0,
+        0.011793798954494051,
+        5.52954688496183e-18
+      ],
+      "target_min_J": 0.9019430386767441,
+      "target_max_damage": 0.16408052300578277,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 153,
+      "solve_seconds": 25.25544809550047,
+      "valid": true,
+      "contact_impulse": [
+        -4.553649124439119e-18,
+        0.012052274194493055,
+        8.396875834148295e-19
+      ],
+      "target_min_J": 0.8988299921810612,
+      "target_max_damage": 0.1672547050024929,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 154,
+      "solve_seconds": 25.62028943002224,
+      "valid": true,
+      "contact_impulse": [
+        2.168404344971009e-19,
+        0.01231206535221187,
+        7.265504514412566e-18
+      ],
+      "target_min_J": 0.8956979906483478,
+      "target_max_damage": 0.1703790243513809,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 155,
+      "solve_seconds": 26.317220151424408,
+      "valid": true,
+      "contact_impulse": [
+        4.336808689942018e-19,
+        0.012570676159562626,
+        6.509051152955273e-18
+      ],
+      "target_min_J": 0.8925519619331391,
+      "target_max_damage": 0.17345254585268305,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 156,
+      "solve_seconds": 25.319869704544544,
+      "valid": true,
+      "contact_impulse": [
+        0.0,
+        0.012826509982588025,
+        6.401292680196765e-18
+      ],
+      "target_min_J": 0.889397329801341,
+      "target_max_damage": 0.17647412112392738,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 157,
+      "solve_seconds": 26.186094231903553,
+      "valid": true,
+      "contact_impulse": [
+        -6.071532165918825e-18,
+        0.013078384372629839,
+        -9.867933835512599e-19
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.17944251632576094,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 158,
+      "solve_seconds": 20.141017727553844,
+      "valid": true,
+      "contact_impulse": [
+        5.421010862427522e-18,
+        0.01146723121700667,
+        1.0549371841578684e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.182678091478131,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 159,
+      "solve_seconds": 24.7051902115345,
+      "valid": true,
+      "contact_impulse": [
+        4.336808689942018e-18,
+        0.012148452782214263,
+        8.045118933021345e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.18604534241084936,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 160,
+      "solve_seconds": 25.254563607275486,
+      "valid": true,
+      "contact_impulse": [
+        3.903127820947816e-18,
+        0.012600540350332801,
+        5.7996345898501944e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.1893790352039027,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 161,
+      "solve_seconds": 25.663312636315823,
+      "valid": true,
+      "contact_impulse": [
+        6.595428223416397e-18,
+        0.013014010056668229,
+        9.19335720448348e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.19267318814378134,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 162,
+      "solve_seconds": 25.465175576508045,
+      "valid": true,
+      "contact_impulse": [
+        2.1143235867150216e-18,
+        0.013479098964757828,
+        4.134965509884411e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.19592595084791278,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 163,
+      "solve_seconds": 25.613254465162754,
+      "valid": true,
+      "contact_impulse": [
+        4.779555458449801e-18,
+        0.01389337974257034,
+        7.604092845691488e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.1991327701480121,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 164,
+      "solve_seconds": 20.34694430977106,
+      "valid": true,
+      "contact_impulse": [
+        7.799658256125062e-18,
+        0.010982754352862334,
+        9.338838492875405e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.20230168227136955,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 165,
+      "solve_seconds": 20.205646120011806,
+      "valid": true,
+      "contact_impulse": [
+        1.5580629881827092e-17,
+        0.011951439596117126,
+        2.515101838977065e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.20546181309293596,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 166,
+      "solve_seconds": 19.909095413982868,
+      "valid": true,
+      "contact_impulse": [
+        2.4980461588310473e-18,
+        0.012657965387042638,
+        7.201301688768539e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.20860115105388777,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 167,
+      "solve_seconds": 20.91433098167181,
+      "valid": true,
+      "contact_impulse": [
+        4.837427288850695e-18,
+        0.013249092176381583,
+        3.957988587095427e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.21170877875193075,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 168,
+      "solve_seconds": 21.561584323644638,
+      "valid": true,
+      "contact_impulse": [
+        7.112904580647559e-18,
+        0.013768464863378085,
+        1.1605807681358896e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.21477685217458986,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 169,
+      "solve_seconds": 20.84942665696144,
+      "valid": true,
+      "contact_impulse": [
+        1.500317282145714e-17,
+        0.014237517177306083,
+        1.522790299510965e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 170,
+      "solve_seconds": 21.26019313186407,
+      "valid": true,
+      "contact_impulse": [
+        1.5463380131924997e-17,
+        0.013216766236819777,
+        1.6577729079549582e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 171,
+      "solve_seconds": 21.893140584230423,
+      "valid": true,
+      "contact_impulse": [
+        9.527631731508283e-18,
+        0.01385287665511483,
+        9.471037189142206e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 172,
+      "solve_seconds": 21.82636881619692,
+      "valid": true,
+      "contact_impulse": [
+        6.760102123226342e-18,
+        0.014370835841236598,
+        8.994142348305813e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 173,
+      "solve_seconds": 21.75135723501444,
+      "valid": true,
+      "contact_impulse": [
+        1.2610037566125886e-17,
+        0.014844182625559522,
+        1.4935004952802762e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 174,
+      "solve_seconds": 16.10834902524948,
+      "valid": true,
+      "contact_impulse": [
+        1.5806168740850647e-17,
+        0.012537881926912683,
+        1.4489863578816582e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 175,
+      "solve_seconds": 15.579198457300663,
+      "valid": true,
+      "contact_impulse": [
+        1.4399132864536722e-17,
+        0.013394605627393535,
+        1.444281653117959e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 176,
+      "solve_seconds": 15.309544950723648,
+      "valid": true,
+      "contact_impulse": [
+        1.0269270701785059e-17,
+        0.014054627175160251,
+        1.2103112986513566e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 177,
+      "solve_seconds": 16.90946513414383,
+      "valid": true,
+      "contact_impulse": [
+        5.496096734965951e-18,
+        0.014619023531500512,
+        6.808352991688825e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 178,
+      "solve_seconds": 17.251912645995617,
+      "valid": true,
+      "contact_impulse": [
+        8.016447819014491e-18,
+        0.01512355216980281,
+        9.99988840262903e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 179,
+      "solve_seconds": 17.502232886850834,
+      "valid": true,
+      "contact_impulse": [
+        1.0867408518239756e-17,
+        0.015586809422976553,
+        1.4133377031814877e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 180,
+      "solve_seconds": 17.758336909115314,
+      "valid": true,
+      "contact_impulse": [
+        9.96997452568441e-18,
+        0.016018935459339398,
+        1.2832355021144848e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 181,
+      "solve_seconds": 13.963970750570297,
+      "valid": true,
+      "contact_impulse": [
+        2.6669591282513664e-18,
+        0.014329352399126485,
+        2.1803965791898567e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 182,
+      "solve_seconds": 13.899203658103943,
+      "valid": true,
+      "contact_impulse": [
+        1.7631825835926634e-17,
+        0.015003764526329073,
+        2.4651973264889943e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 183,
+      "solve_seconds": 18.39601320028305,
+      "valid": true,
+      "contact_impulse": [
+        1.1860825757341188e-17,
+        0.01558582867279045,
+        3.1438934672851266e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 184,
+      "solve_seconds": 19.011003494262695,
+      "valid": true,
+      "contact_impulse": [
+        9.854568871560427e-18,
+        0.016196403037050305,
+        1.5026262301636244e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 185,
+      "solve_seconds": 25.5941214710474,
+      "valid": true,
+      "contact_impulse": [
+        1.1892354159978953e-17,
+        0.016734884565659247,
+        1.9312227750385147e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 186,
+      "solve_seconds": 25.26000352948904,
+      "valid": true,
+      "contact_impulse": [
+        1.1654244223596122e-17,
+        0.01722977980768698,
+        2.078898498739585e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 187,
+      "solve_seconds": 25.233136720955372,
+      "valid": true,
+      "contact_impulse": [
+        2.6727820661734334e-18,
+        0.017696737729868673,
+        1.0679128455713829e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 188,
+      "solve_seconds": 25.602812118828297,
+      "valid": true,
+      "contact_impulse": [
+        1.40589225775804e-17,
+        0.018139052839772858,
+        2.1114559101819568e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 189,
+      "solve_seconds": 25.505972914397717,
+      "valid": true,
+      "contact_impulse": [
+        -4.805624469044716e-18,
+        0.018563013191637393,
+        5.5017520266423086e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 190,
+      "solve_seconds": 19.552324555814266,
+      "valid": true,
+      "contact_impulse": [
+        4.021871562433758e-18,
+        0.017046836187284215,
+        4.658090645754348e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2170540325824479,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 191,
+      "solve_seconds": 19.30343845486641,
+      "valid": true,
+      "contact_impulse": [
+        1.266422782241546e-17,
+        0.017770292101628594,
+        1.3946956088411818e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.21825240787580447,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 192,
+      "solve_seconds": 26.561136722564697,
+      "valid": true,
+      "contact_impulse": [
+        -1.7169291666395664e-18,
+        0.018343263680440657,
+        -1.1810033972598288e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2214124692387718,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 193,
+      "solve_seconds": 27.30886749178171,
+      "valid": true,
+      "contact_impulse": [
+        6.645062806716142e-18,
+        0.017920752377023865,
+        8.096273371839364e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.22458501199112973,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 194,
+      "solve_seconds": 26.991768792271614,
+      "valid": true,
+      "contact_impulse": [
+        1.0538201594586767e-17,
+        0.01659668181263026,
+        1.1861873484984563e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.22763776208301068,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 195,
+      "solve_seconds": 33.13464408367872,
+      "valid": true,
+      "contact_impulse": [
+        1.0029227437515539e-17,
+        0.01761163932623363,
+        1.3662164233546604e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.23107569835953348,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 196,
+      "solve_seconds": 34.32008507847786,
+      "valid": true,
+      "contact_impulse": [
+        2.7419779991601787e-18,
+        0.018259978297218652,
+        7.040188425467729e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.23458757813192163,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 197,
+      "solve_seconds": 33.88568074256182,
+      "valid": true,
+      "contact_impulse": [
+        3.7076484985892845e-18,
+        0.01757618661165787,
+        7.203713450570607e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.23815182327264436,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 198,
+      "solve_seconds": 34.10788702219725,
+      "valid": true,
+      "contact_impulse": [
+        4.546197881481241e-18,
+        0.018049109556594625,
+        6.767668525235123e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 199,
+      "solve_seconds": 34.97060976922512,
+      "valid": true,
+      "contact_impulse": [
+        6.176153969794532e-18,
+        0.017521418665462255,
+        7.944851097697387e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 200,
+      "solve_seconds": 35.450670920312405,
+      "valid": true,
+      "contact_impulse": [
+        1.2844831128637837e-17,
+        0.018212303262429907,
+        1.5512571011989877e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 201,
+      "solve_seconds": 33.71095236390829,
+      "valid": true,
+      "contact_impulse": [
+        3.2032999355034524e-17,
+        0.018716699258024834,
+        3.0407495773163453e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 202,
+      "solve_seconds": 28.54185977578163,
+      "valid": true,
+      "contact_impulse": [
+        2.5304024038258553e-17,
+        0.01708630851482443,
+        2.6468024065943107e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 203,
+      "solve_seconds": 27.576128475368023,
+      "valid": true,
+      "contact_impulse": [
+        3.3997890799537887e-17,
+        0.01797189966744171,
+        2.95973383825204e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 204,
+      "solve_seconds": 27.44060206413269,
+      "valid": true,
+      "contact_impulse": [
+        8.498599197157616e-18,
+        0.017300255129301768,
+        1.1355645360751857e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 205,
+      "solve_seconds": 26.847488403320312,
+      "valid": true,
+      "contact_impulse": [
+        2.786966036571223e-17,
+        0.017959976618875242,
+        2.6257977395063874e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 206,
+      "solve_seconds": 28.138265125453472,
+      "valid": true,
+      "contact_impulse": [
+        1.2469846995910399e-18,
+        0.01846440819014578,
+        2.5821311877473822e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 207,
+      "solve_seconds": 15.696027748286724,
+      "valid": true,
+      "contact_impulse": [
+        1.8214596497756474e-17,
+        0.014705043615529882,
+        1.8770250111155296e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 208,
+      "solve_seconds": 21.248777844011784,
+      "valid": true,
+      "contact_impulse": [
+        6.938893903907228e-18,
+        0.015633261839594258,
+        8.260265498725567e-18
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 209,
+      "solve_seconds": 20.96839950978756,
+      "valid": true,
+      "contact_impulse": [
+        2.2991624039848705e-17,
+        0.01364957324800442,
+        2.419036100068193e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 210,
+      "solve_seconds": 22.242147520184517,
+      "valid": true,
+      "contact_impulse": [
+        1.192339576682623e-17,
+        0.014629514934865874,
+        1.3435106159585073e-17
+      ],
+      "target_min_J": 0.8862398773075021,
+      "target_max_damage": 0.2403170136952082,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    }
+  ],
+  "original_full_run_completed": false,
+  "target_reached": true,
+  "source_scope": "Original0to105, checked compact106 and107to110 bridge, subsequent explicitly versioned exact full-state candidate segments; not the original full run.",
+  "contact_scope": "Finite MLS-MPM support causes early numerical contact: at step140 the saved particle-nose proxy remains4.893mm above the original front surface (1.30 grid cells at h3.75mm), although nodal contact and target damage exist. This is not certified geometric surface contact or an IJIE accuracy validation. The existing baseline is unchanged; grid/geometry contact convergence remains future work.",
+  "checkpoint_interval": 5,
+  "seed_checkpoint_sha256": "cf60a99ca54b275f7a587b8f44741c0c47f23b76d4791826d989d9070ae890ba",
+  "checkpoints": [
+    {
+      "step": 140,
+      "time_s": 6.666666666666666e-06,
+      "frame": 4,
+      "states": [
+        "state140-body0.npz",
+        "state140-body1.npz"
+      ],
+      "raw_files": {
+        "state140-body0.npz": {
+          "bytes": 52919528,
+          "sha256": "67955930a3928892e450dc16ec8097a779a04dc01ff33c4acd2acd678cd20ffd"
+        },
+        "state140-body1.npz": {
+          "bytes": 600063,
+          "sha256": "6a22d0c8949ea4bf7828aa0c9a05c36e2b98fac863dedaa61ec48f95ade39210"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 6.645261596038443,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.156135917810077,
+          "material_history_energy_J": 4.984801391505831,
+          "constitutive_work_J": 4.981971587507154,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334432.49027698685,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 8.597662035573245,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 132.68595842418975
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        -2.383282045310644e-17,
+        0.17934157442006354,
+        2.0593569593820207e-17
+      ]
+    },
+    {
+      "step": 145,
+      "time_s": 6.904761904761904e-06,
+      "frame": null,
+      "states": [
+        "state145-body0.npz",
+        "state145-body1.npz"
+      ],
+      "raw_files": {
+        "state145-body0.npz": {
+          "bytes": 53116923,
+          "sha256": "60ad610057e86988d623f65196b1f8996a2715f408772f6306f86a39d2a14c2e"
+        },
+        "state145-body1.npz": {
+          "bytes": 598383,
+          "sha256": "8d0f17a90cbcc7e1c6686f2bb03a08165cf2d2c32cbdf82089687c937fdbe7ad"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 9.689607507386931,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 5.729516240603974,
+          "material_history_energy_J": 7.714546365774889,
+          "constitutive_work_J": 7.709674255390995,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334352.31105976505,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 8.647674246281085,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 173.4656650605871
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        -3.174749631225062e-17,
+        0.22580843865362624,
+        3.8645535765703856e-17
+      ]
+    },
+    {
+      "step": 150,
+      "time_s": 7.142857142857142e-06,
+      "frame": null,
+      "states": [
+        "state150-body0.npz",
+        "state150-body1.npz"
+      ],
+      "raw_files": {
+        "state150-body0.npz": {
+          "bytes": 53310871,
+          "sha256": "57f197306a8fca0792ae526062c3899b8a0e92113eda7118e940d1cb06df2f7e"
+        },
+        "state150-body1.npz": {
+          "bytes": 596756,
+          "sha256": "da4907cf437c712be8cd49f56e1976878ec999e82a86990a61a8b9fda9410d8c"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 13.72984373002716,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 7.735810493870374,
+          "material_history_energy_J": 11.524534569391308,
+          "constitutive_work_J": 11.516510525405259,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334258.98547649046,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 8.250229788096,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 218.49330926764486
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        -5.01789332445042e-17,
+        0.27930384123202123,
+        4.777993906889423e-17
+      ]
+    },
+    {
+      "step": 155,
+      "time_s": 7.38095238095238e-06,
+      "frame": null,
+      "states": [
+        "state155-body0.npz",
+        "state155-body1.npz"
+      ],
+      "raw_files": {
+        "state155-body0.npz": {
+          "bytes": 53497749,
+          "sha256": "a0aa98c5d3ac09ce54c3ddcaf7f45d77710cc1db3796fec81d6c7016cf7a0c58"
+        },
+        "state155-body1.npz": {
+          "bytes": 594099,
+          "sha256": "f7c2bdee6686907e8fe79cfd653fd1b741aa72fd795a154103dac66b3e9f8a25"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 18.849806262897083,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 10.081242365590276,
+          "material_history_energy_J": 16.689789665424684,
+          "constitutive_work_J": 16.67713750470897,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334153.0874364937,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 7.498513518973034,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 266.01751265135033
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        -5.408206106545201e-17,
+        0.3395762859736604,
+        7.26942183305976e-17
+      ]
+    },
+    {
+      "step": 160,
+      "time_s": 7.619047619047618e-06,
+      "frame": null,
+      "states": [
+        "state160-body0.npz",
+        "state160-body1.npz"
+      ],
+      "raw_files": {
+        "state160-body0.npz": {
+          "bytes": 53677425,
+          "sha256": "2b58a900133fe88e817a907f78ee8573598087c2843b772adefdef2d04889535"
+        },
+        "state160-body1.npz": {
+          "bytes": 592032,
+          "sha256": "0a288636cbba6d3f146c988d5536a7aa25b95a8bd0b2e5bc00cbbc22c0b3e1ac"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 24.064226760880988,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 10.95983897035651,
+          "material_history_energy_J": 22.822186244695928,
+          "constitutive_work_J": 22.80076353968146,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334041.5342950992,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 5.960620594426015,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 312.82327822065537
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        -4.649264585805348e-17,
+        0.401697404678432,
+        1.0250284299169332e-16
+      ]
+    },
+    {
+      "step": 165,
+      "time_s": 7.85714285714286e-06,
+      "frame": null,
+      "states": [
+        "state165-body0.npz",
+        "state165-body1.npz"
+      ],
+      "raw_files": {
+        "state165-body0.npz": {
+          "bytes": 53863882,
+          "sha256": "8c7bea4109052ecec55d1c8aba3231897db6ee6398231bab0645def86cea549e"
+        },
+        "state165-body1.npz": {
+          "bytes": 590137,
+          "sha256": "76e558f0c6711325d449907d75059fcc5d6090c7756d965d88d4e26882f4a988"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 29.192087278296576,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 10.570675251321575,
+          "material_history_energy_J": 29.612275958753123,
+          "constitutive_work_J": 29.583284548966695,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333926.43817813054,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.607642745365592,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 356.1519007066788
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        -9.623050451520109e-18,
+        0.4650180873914079,
+        1.5792511543439876e-16
+      ]
+    },
+    {
+      "step": 170,
+      "time_s": 8.095238095238102e-06,
+      "frame": null,
+      "states": [
+        "state170-body0.npz",
+        "state170-body1.npz"
+      ],
+      "raw_files": {
+        "state170-body0.npz": {
+          "bytes": 54043192,
+          "sha256": "a37c5f515df8596cee83c957b788d670fd7e6104cab7983cd5b4e6293a40da58"
+        },
+        "state170-body1.npz": {
+          "bytes": 587867,
+          "sha256": "0ce3b8b6a67cabdddd2887afafe3b409e48adf59bf899be0ea4aecaeeba31d9e"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 34.59512241700049,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 11.561527195504018,
+          "material_history_energy_J": 37.091598341854464,
+          "constitutive_work_J": 37.04687965130812,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333805.00248994696,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 3.904837961818389,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 395.559035758788
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        3.529188053019133e-17,
+        0.532147893232336,
+        2.1249584546628085e-16
+      ]
+    },
+    {
+      "step": 175,
+      "time_s": 8.333333333333344e-06,
+      "frame": 5,
+      "states": [
+        "state175-body0.npz",
+        "state175-body1.npz"
+      ],
+      "raw_files": {
+        "state175-body0.npz": {
+          "bytes": 54222550,
+          "sha256": "425fc4574bc1fc26c91f7d31fe6c9a17bc3bba7dd5365058475a5318c9d9ffcf"
+        },
+        "state175-body1.npz": {
+          "bytes": 585839,
+          "sha256": "def96613b125ddd87b3293658b1f3df01bd1cc99bfe76061b24dcf42c45c7a71"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 39.867554571657806,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 11.072352677013523,
+          "material_history_energy_J": 45.086602902661355,
+          "constitutive_work_J": 44.94510127638372,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333680.2822209946,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 3.6936613851525544,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 435.1035608767854
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        9.439495355643921e-17,
+        0.6011482759085531,
+        2.748287100665278e-16
+      ]
+    },
+    {
+      "step": 180,
+      "time_s": 8.571428571428586e-06,
+      "frame": null,
+      "states": [
+        "state180-body0.npz",
+        "state180-body1.npz"
+      ],
+      "raw_files": {
+        "state180-body0.npz": {
+          "bytes": 54388619,
+          "sha256": "eb34ba87cfb27d4da34f75bb7b0cb80b3bfa1ae7d8f2f14aabb499b00d6d542b"
+        },
+        "state180-body1.npz": {
+          "bytes": 583459,
+          "sha256": "4ecddcf6b4bc6e11dd5f2c6db75f448f1349c7c891b4dea0581fae2fb702bc11"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 45.97520597492793,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 11.280210129808912,
+          "material_history_energy_J": 53.454492697749494,
+          "constitutive_work_J": 53.29827735634858,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333545.59146936116,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.240720357018418,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 478.056293684062
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        1.3901415185612888e-16,
+        0.6765512236673326,
+        3.3070579650031895e-16
+      ]
+    },
+    {
+      "step": 185,
+      "time_s": 8.809523809523828e-06,
+      "frame": null,
+      "states": [
+        "state185-body0.npz",
+        "state185-body1.npz"
+      ],
+      "raw_files": {
+        "state185-body0.npz": {
+          "bytes": 54549233,
+          "sha256": "57289af07a7c332568ee08b51200ee2ad5695c6bb80290290973969eefa9a04d"
+        },
+        "state185-body1.npz": {
+          "bytes": 582072,
+          "sha256": "1cf17f502e87d992dd6870869b7f75bf5e52622ee2fcabf16611e9df64fae565"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 52.1974003825343,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 12.853659210296279,
+          "material_history_energy_J": 62.1124532333867,
+          "constitutive_work_J": 61.95223140603053,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333406.7506031461,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 5.110046361783244,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 528.6521315056798
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        1.9292068560918744e-16,
+        0.7544014568682882,
+        4.429391602819801e-16
+      ]
+    },
+    {
+      "step": 190,
+      "time_s": 9.04761904761907e-06,
+      "frame": null,
+      "states": [
+        "state190-body0.npz",
+        "state190-body1.npz"
+      ],
+      "raw_files": {
+        "state190-body0.npz": {
+          "bytes": 54699268,
+          "sha256": "f642c86735a1aa038a4dbf3658ce811adedec7fd0dc2babcb78833e850507bf3"
+        },
+        "state190-body1.npz": {
+          "bytes": 580042,
+          "sha256": "050d7df154fe2ea12f2d63a5871fecc5c68309b3e5ad90b93af5e4390cc7be9d"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 60.366784909671864,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 13.496831517896313,
+          "material_history_energy_J": 71.72111253234131,
+          "constitutive_work_J": 71.61033410880258,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333250.1232817204,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 5.669884158849025,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 589.9723021606152
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        2.2052288156992644e-16,
+        0.8430768766245385,
+        5.05681675499306e-16
+      ]
+    },
+    {
+      "step": 195,
+      "time_s": 9.285714285714313e-06,
+      "frame": null,
+      "states": [
+        "state195-body0.npz",
+        "state195-body1.npz"
+      ],
+      "raw_files": {
+        "state195-body0.npz": {
+          "bytes": 54839220,
+          "sha256": "2f1e4b0751872a8772940bcc2c1cd45fdb13cf74791bf3d7ebea1c5c4b307ded"
+        },
+        "state195-body1.npz": {
+          "bytes": 578446,
+          "sha256": "2dcf101e461ffa257a982a7e21ff99f4de45c05daca1b66f924cd73543306d0a"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 68.41505028450061,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 14.166101071548606,
+          "material_history_energy_J": 81.37858382754251,
+          "constitutive_work_J": 81.23347679712901,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 333092.32104408264,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.658900683515008,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 653.6540559318344
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        2.586826720645208e-16,
+        0.9313195059224956,
+        5.520679392808285e-16
+      ]
+    },
+    {
+      "step": 200,
+      "time_s": 9.523809523809555e-06,
+      "frame": null,
+      "states": [
+        "state200-body0.npz",
+        "state200-body1.npz"
+      ],
+      "raw_files": {
+        "state200-body0.npz": {
+          "bytes": 54973512,
+          "sha256": "e2c999464efe78fd9d68c051e7689c07cbe24f36151e9a65f285083de8adcd31"
+        },
+        "state200-body1.npz": {
+          "bytes": 576340,
+          "sha256": "65c1b3d6738cfdde5684fd11c7380b33c4897e53bd7c7a2ac9b053439f92d961"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 76.85535114747313,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 15.434925474275444,
+          "material_history_energy_J": 91.35406610392644,
+          "constitutive_work_J": 91.22950868875984,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 332931.2702668534,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 3.558624478419434,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 712.2495404028502
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        2.8869948154218386e-16,
+        1.020938502315859,
+        5.965369317917893e-16
+      ]
+    },
+    {
+      "step": 205,
+      "time_s": 9.761904761904798e-06,
+      "frame": null,
+      "states": [
+        "state205-body0.npz",
+        "state205-body1.npz"
+      ],
+      "raw_files": {
+        "state205-body0.npz": {
+          "bytes": 55111225,
+          "sha256": "15f92d0040f107019d2515d03a122b09d91d9fbbb8aadd57bd2e693fb18299c6"
+        },
+        "state205-body1.npz": {
+          "bytes": 574984,
+          "sha256": "f9157d48ce8ee947b69927c1d62b72c697cbfcb113a7d2aa49328d3f8a62ced3"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 85.28011367585974,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 16.096206741728153,
+          "material_history_energy_J": 101.85729172027413,
+          "constitutive_work_J": 101.73069594251739,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 332769.9836745647,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 2.1450992342932733,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 756.7473217020162
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        4.1640265529788466e-16,
+        1.1099736415043269,
+        7.20623412769232e-16
+      ]
+    },
+    {
+      "step": 210,
+      "time_s": 1.000000000000004e-05,
+      "frame": 6,
+      "states": [
+        "state210-body0.npz",
+        "state210-body1.npz"
+      ],
+      "raw_files": {
+        "state210-body0.npz": {
+          "bytes": 55246801,
+          "sha256": "ade33bdb6b23e668c8003f2438a2a42cbfc7e6b34d08b2687e1453ad0e2ddebe"
+        },
+        "state210-body1.npz": {
+          "bytes": 573442,
+          "sha256": "6273fda8721570d986f9151c7301ca0a82fe3c3ea385ca6e459685a2024cabcd"
+        }
+      },
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 91.91894194410754,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 14.40353781748366,
+          "material_history_energy_J": 112.31139195251193,
+          "constitutive_work_J": 112.08447844510337,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 332630.6472124339,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.748898141701662,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 766.5902992619276
+        }
+      ],
+      "external_work_J": 0.0,
+      "contact_impulse_cumulative_on_body1": [
+        4.777181502058143e-16,
+        1.187055443332467,
+        7.878615267271272e-16
+      ]
+    }
+  ],
+  "last_complete_step": 210
+}

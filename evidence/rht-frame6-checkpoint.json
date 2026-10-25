@@ -1,0 +1,3776 @@
+{
+  "signature": "8f627bfa4fde84218c2e601bc5b7c81126c08c3f4604bb70669b12189ea3a8cf",
+  "step": 210,
+  "frame": 6,
+  "states": [
+    "state210-body0.npz",
+    "state210-body1.npz"
+  ],
+  "raw_files": {
+    "state210-body0.npz": {
+      "bytes": 55246801,
+      "sha256": "ade33bdb6b23e668c8003f2438a2a42cbfc7e6b34d08b2687e1453ad0e2ddebe"
+    },
+    "state210-body1.npz": {
+      "bytes": 573442,
+      "sha256": "6273fda8721570d986f9151c7301ca0a82fe3c3ea385ca6e459685a2024cabcd"
+    }
+  },
+  "candidate_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+  "time_s": 1.000000000000004e-05,
+  "contact_impulse": [
+    4.777181502058143e-16,
+    1.187055443332467,
+    7.878615267271272e-16
+  ],
+  "external_impulse": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "external_work": 0.0,
+  "rows": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.155,
+      "com_z": 0.17999999999999994,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0017280000000000002,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017280000000000002,
+      "strain_energy": null
+    },
+    {
+      "time": 0.0,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 0.0,
+      "momentum_y": -371.9222884821819,
+      "momentum_z": 0.0,
+      "kinetic_energy": 334730.05963396234,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.23616906545354727,
+      "com_z": 0.18000000000000002,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 2.632146415302056e-05,
+      "max_speed": 1800.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 0.0
+    },
+    {
+      "time": 1.6666666666666667e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 9.555028193347354e-16,
+      "momentum_y": 2.408603007097464e-15,
+      "momentum_z": -5.288106797975441e-16,
+      "kinetic_energy": 1.0263969925152624e-24,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.155,
+      "com_z": 0.17999999999999994,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0017280000000000002,
+      "max_speed": 2.5296536405828875e-12,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 4.069961268249901e-23,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017280000000000002,
+      "strain_energy": null
+    },
+    {
+      "time": 1.6666666666666667e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.0029671421627253e-31,
+      "momentum_y": -371.9222884821813,
+      "momentum_z": 2.98904327368899e-31,
+      "kinetic_energy": 334730.0596339624,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.23316906545354743,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.9999999999999996,
+      "max_J": 1.0,
+      "current_volume": 2.632146415302056e-05,
+      "max_speed": 1800.0000000000055,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 1.7626869150611025e-12
+    },
+    {
+      "time": 3.3333333333333333e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 1.3425087294459562e-15,
+      "momentum_y": 8.585066823219992e-15,
+      "momentum_z": -1.5496234089843111e-15,
+      "kinetic_energy": 1.2573636953279181e-23,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.155,
+      "com_z": 0.17999999999999994,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0017280000000000002,
+      "max_speed": 7.788454435830677e-12,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 1.0735587823775854e-22,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017280000000000002,
+      "strain_energy": null
+    },
+    {
+      "time": 3.3333333333333333e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 8.320017359752859e-31,
+      "momentum_y": -371.9222884821798,
+      "momentum_z": -6.354028072522369e-30,
+      "kinetic_energy": 334730.05963396246,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.23016906545354776,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.9999999999999993,
+      "max_J": 1.0,
+      "current_volume": 2.632146415302056e-05,
+      "max_speed": 1800.000000000008,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 3.2979303572110965e-12
+    },
+    {
+      "time": 5e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 3.838083115819816e-15,
+      "momentum_y": -0.012052886782820387,
+      "momentum_z": -9.635061166858603e-16,
+      "kinetic_energy": 0.08319801023849191,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499999936337389,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9956178939799872,
+      "max_J": 1.0000217106921636,
+      "current_volume": 0.0017279991714115835,
+      "max_speed": 29.18647172748461,
+      "max_plastic_strain": 0.002181619024520016,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.023056169143829228,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279991714115835,
+      "strain_energy": null
+    },
+    {
+      "time": 5e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 1.5901621790852886e-18,
+      "momentum_y": -371.9102355953899,
+      "momentum_z": 5.017425271886593e-19,
+      "kinetic_energy": 334709.92355558195,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22716907777357984,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.9658298913115976,
+      "max_J": 1.0007221933024049,
+      "current_volume": 2.6321209762736055e-05,
+      "max_speed": 1805.7174510804052,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 1.205130552970188
+    },
+    {
+      "time": 5.238095238095238e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.145647603739914e-15,
+      "momentum_y": -0.023142250165485538,
+      "momentum_z": -6.243728668245191e-16,
+      "kinetic_energy": 0.23695769711174888,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.1549999982614099,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.991071060680709,
+      "max_J": 1.0000536594390956,
+      "current_volume": 0.0017279979331562033,
+      "max_speed": 44.69306939309414,
+      "max_plastic_strain": 0.0045510261278677395,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.09088328085243978,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279979331562033,
+      "strain_energy": null
+    },
+    {
+      "time": 5.238095238095238e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 4.9347220760666374e-18,
+      "momentum_y": -371.8991462320076,
+      "momentum_z": 6.132054842105102e-19,
+      "kinetic_energy": 334692.50199857005,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22674052767029096,
+      "com_z": 0.17999999999999997,
+      "min_J": 0.9328183493944724,
+      "max_J": 1.0009595936648839,
+      "current_volume": 2.6320923979172818e-05,
+      "max_speed": 1803.8666809393565,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 5.2357311169373
+    },
+    {
+      "time": 5.476190476190476e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.2946491668359584e-15,
+      "momentum_y": -0.036784605337687265,
+      "momentum_z": -2.4243669313451155e-16,
+      "kinetic_energy": 0.4856496152624873,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.1549999964089022,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9854891167416231,
+      "max_J": 1.000087988953992,
+      "current_volume": 0.0017279960572194253,
+      "max_speed": 59.35869374924849,
+      "max_plastic_strain": 0.008394180005557207,
+      "max_damage": 0.022502059937051386,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.24019970260200418,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279960572194253,
+      "strain_energy": null
+    },
+    {
+      "time": 5.476190476190476e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 1.0035110147199619e-17,
+      "momentum_y": -371.88550387683705,
+      "momentum_z": 9.04819815495709e-19,
+      "kinetic_energy": 334670.90919772955,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22631199209157588,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.89832681922494,
+      "max_J": 1.0008331949594922,
+      "current_volume": 2.6320597487282393e-05,
+      "max_speed": 1803.1285417174327,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 13.431178880518354
+    },
+    {
+      "time": 5.714285714285714e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.4249203061022044e-15,
+      "momentum_y": -0.053957668868344424,
+      "momentum_z": 2.38824201326052e-16,
+      "kinetic_energy": 0.8906178368751622,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499999362663602,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9788120811334682,
+      "max_J": 1.0001056867863118,
+      "current_volume": 0.0017279934661382863,
+      "max_speed": 76.39254060596922,
+      "max_plastic_strain": 0.013361932936100893,
+      "max_damage": 0.04578975795852476,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.514660547417692,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279934661382863,
+      "strain_energy": null
+    },
+    {
+      "time": 5.714285714285714e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 8.275485953686644e-18,
+      "momentum_y": -371.86833081330866,
+      "momentum_z": -1.7043703201051437e-18,
+      "kinetic_energy": 334642.81074759807,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22588347450560978,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.8649934377528985,
+      "max_J": 1.001029023773712,
+      "current_volume": 2.632023488544583e-05,
+      "max_speed": 1802.6970744069934,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 26.197666702482984
+    },
+    {
+      "time": 5.952380952380952e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.560124178599546e-15,
+      "momentum_y": -0.0764252085526511,
+      "momentum_z": 6.539906730375946e-16,
+      "kinetic_energy": 1.5917346003244863,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499998963895179,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9705950029473902,
+      "max_J": 1.0001181828226011,
+      "current_volume": 0.0017279899710827343,
+      "max_speed": 98.56820005658139,
+      "max_plastic_strain": 0.019765872301328348,
+      "max_damage": 0.06748064210173425,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.9964974694983294,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279899710827343,
+      "strain_energy": null
+    },
+    {
+      "time": 5.952380952380952e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.87164078610222e-18,
+      "momentum_y": -371.8458632736253,
+      "momentum_z": 6.779131280454218e-19,
+      "kinetic_energy": 334605.42304443434,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.2254549802469762,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.832313290055764,
+      "max_J": 1.0008411276738836,
+      "current_volume": 2.6319760785154116e-05,
+      "max_speed": 1803.1913784097947,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 44.01749060892744
+    },
+    {
+      "time": 6.19047619047619e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.6165322657791805e-15,
+      "momentum_y": -0.10487381379706931,
+      "momentum_z": 9.745575252082702e-16,
+      "kinetic_energy": 2.7225231456972594,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.1549999841004532,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9606797714645134,
+      "max_J": 1.0001424993223342,
+      "current_volume": 0.0017279853463801936,
+      "max_speed": 124.20949791310899,
+      "max_plastic_strain": 0.027885163451337232,
+      "max_damage": 0.08788459669596867,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 1.8039284149247947,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279853463801936,
+      "strain_energy": null
+    },
+    {
+      "time": 6.19047619047619e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": -1.2903811863888181e-17,
+      "momentum_y": -371.81741466838645,
+      "momentum_z": 5.11512274202811e-18,
+      "kinetic_energy": 334557.98255955207,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.2250265159998089,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.7997785707042597,
+      "max_J": 1.0006490008088484,
+      "current_volume": 2.6319121837213658e-05,
+      "max_speed": 1803.1942820367167,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 67.60664382690823
+    },
+    {
+      "time": 6.428571428571428e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.6622459852676356e-15,
+      "momentum_y": -0.1392258775051785,
+      "momentum_z": 1.3324313660582764e-15,
+      "kinetic_energy": 4.379513659343646,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.1549999766560806,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9492522627336069,
+      "max_J": 1.0001793374952146,
+      "current_volume": 0.0017279794076728557,
+      "max_speed": 151.13272430098812,
+      "max_plastic_strain": 0.03775807358913454,
+      "max_damage": 0.10668799985628813,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 3.0788555598689404,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279794076728557,
+      "strain_energy": null
+    },
+    {
+      "time": 6.428571428571428e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 5.45565913777413e-19,
+      "momentum_y": -371.7830626046751,
+      "momentum_z": 3.829767899468461e-18,
+      "kinetic_energy": 334500.4712863248,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22459808863524647,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.7682552660524983,
+      "max_J": 1.000713495914622,
+      "current_volume": 2.6318328858371444e-05,
+      "max_speed": 1802.9476114918837,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 97.25879254422509
+    },
+    {
+      "time": 6.666666666666666e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.709660875521564e-15,
+      "momentum_y": -0.1793415744200406,
+      "momentum_z": 1.7649180261442925e-15,
+      "kinetic_energy": 6.645261596038443,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499996696073684,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9366044426703042,
+      "max_J": 1.0002170051987573,
+      "current_volume": 0.0017279720188694623,
+      "max_speed": 178.30316291775583,
+      "max_plastic_strain": 0.0493223758928107,
+      "max_damage": 0.12381882144443884,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 4.981971587507154,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279720188694623,
+      "strain_energy": null
+    },
+    {
+      "time": 6.666666666666666e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": -2.017477789504736e-17,
+      "momentum_y": -371.74294690776003,
+      "momentum_z": 1.5308196502899316e-17,
+      "kinetic_energy": 334432.49027698685,
+      "com_x": 0.17999999999999997,
+      "com_y": 0.22416970483163082,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.7387538699896701,
+      "max_J": 1.0007429052682397,
+      "current_volume": 2.6317415463652165e-05,
+      "max_speed": 1802.742347774975,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 132.68595842418975
+    },
+    {
+      "time": 6.904761904761904e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.99057153382504e-15,
+      "momentum_y": -0.2258084386536021,
+      "momentum_z": 2.343838670816977e-15,
+      "kinetic_energy": 9.689607507386931,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499995465412733,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9228703475197219,
+      "max_J": 1.0002521581455421,
+      "current_volume": 0.0017279630447663414,
+      "max_speed": 206.79908143390577,
+      "max_plastic_strain": 0.06259611328992414,
+      "max_damage": 0.1404998200825316,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 7.709674255390995,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279630447663414,
+      "strain_energy": null
+    },
+    {
+      "time": 6.904761904761904e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": -2.329610114342481e-17,
+      "momentum_y": -371.69648004352706,
+      "momentum_z": 4.0767399574418756e-17,
+      "kinetic_energy": 334352.31105976505,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.2237413715614099,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.7113416320047118,
+      "max_J": 1.0005647257929338,
+      "current_volume": 2.6316350380233708e-05,
+      "max_speed": 1802.4974690770987,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 173.4656650605871
+    },
+    {
+      "time": 7.142857142857142e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 5.048610901528875e-15,
+      "momentum_y": -0.2793038412319849,
+      "momentum_z": 3.095312312857029e-15,
+      "kinetic_energy": 13.72984373002716,
+      "com_x": 0.17999999999999997,
+      "com_y": 0.15499993933127668,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.9080956781624413,
+      "max_J": 1.0002794165573479,
+      "current_volume": 0.0017279523182307673,
+      "max_speed": 236.96559697755546,
+      "max_plastic_strain": 0.07770092204690074,
+      "max_damage": 0.15758447707520595,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 11.516510525405259,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.0017279523182307673,
+      "strain_energy": null
+    },
+    {
+      "time": 7.142857142857142e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": -5.152331296216865e-17,
+      "momentum_y": -371.6429846409518,
+      "momentum_z": 4.923709734413777e-17,
+      "kinetic_energy": 334258.98547649046,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22331309666169422,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.6861532890805997,
+      "max_J": 1.0004835395358538,
+      "current_volume": 2.631511684024937e-05,
+      "max_speed": 1802.3223109503317,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 218.49330926764486
+    },
+    {
+      "time": 7.38095238095238e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 5.161858399241303e-15,
+      "momentum_y": -0.33957628597363093,
+      "momentum_z": 4.006554152414301e-15,
+      "kinetic_energy": 18.849806262897083,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499992057748269,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8925519619331391,
+      "max_J": 1.000298220823463,
+      "current_volume": 0.001727939703532382,
+      "max_speed": 267.15189946968945,
+      "max_plastic_strain": 0.09461610210525645,
+      "max_damage": 0.17345254585268305,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 16.67713750470897,
+      "active_particles": 262144,
+      "debris_particles": 0,
+      "active_mass": 3.998592000000001,
+      "debris_mass": 0.0,
+      "active_current_volume": 0.001727939703532382,
+      "strain_energy": null
+    },
+    {
+      "time": 7.38095238095238e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.841329455771113e-17,
+      "momentum_y": -371.58271219620866,
+      "momentum_z": 7.658433966517367e-17,
+      "kinetic_energy": 334153.0874364937,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.2228848881578283,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.6634805258616899,
+      "max_J": 1.0003033181605367,
+      "current_volume": 2.6313743122969614e-05,
+      "max_speed": 1802.2013739963552,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 266.01751265135033
+    },
+    {
+      "time": 7.619047619047618e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 5.4710714722295044e-15,
+      "momentum_y": -0.4016974046783668,
+      "momentum_z": 5.1006287517552775e-15,
+      "kinetic_energy": 24.064226760880988,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499989812164183,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.000314819732891,
+      "current_volume": 0.0017279255043939968,
+      "max_speed": 278.8651308071277,
+      "max_plastic_strain": 0.10038128585598044,
+      "max_damage": 0.1893790352039027,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 22.80076353968146,
+      "active_particles": 262140,
+      "debris_particles": 4,
+      "active_mass": 3.998530986328126,
+      "debris_mass": 6.1013671875e-05,
+      "active_current_volume": 0.0017279021367409817,
+      "strain_energy": null
+    },
+    {
+      "time": 7.619047619047618e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.1985544666372778e-17,
+      "momentum_y": -371.52059107750193,
+      "momentum_z": 1.0423186080542006e-16,
+      "kinetic_energy": 334041.5342950992,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22245675129622694,
+      "com_z": 0.17999999999999997,
+      "min_J": 0.6437272268570792,
+      "max_J": 1.000315514482531,
+      "current_volume": 2.6312299944484e-05,
+      "max_speed": 1802.0606042376858,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 312.82327822065537
+    },
+    {
+      "time": 7.85714285714286e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 5.240111423213075e-15,
+      "momentum_y": -0.46501808739132716,
+      "momentum_z": 6.354800074632085e-15,
+      "kinetic_energy": 29.192087278296576,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499987188537623,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.000323859431412,
+      "current_volume": 0.0017279101020665159,
+      "max_speed": 278.8651308071277,
+      "max_plastic_strain": 0.10038128585598044,
+      "max_damage": 0.20546181309293596,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 29.583284548966695,
+      "active_particles": 262132,
+      "debris_particles": 12,
+      "active_mass": 3.998408958984376,
+      "debris_mass": 0.00018304101562500002,
+      "active_current_volume": 0.0017278393553351954,
+      "strain_energy": null
+    },
+    {
+      "time": 7.85714285714286e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 5.649084176352311e-17,
+      "momentum_y": -371.45727039478993,
+      "momentum_z": 1.6396847627383884e-16,
+      "kinetic_energy": 333926.43817813054,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22202868759366448,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.6260645277583652,
+      "max_J": 1.000307088183862,
+      "current_volume": 2.6310804544256355e-05,
+      "max_speed": 1801.783781184263,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 356.1519007066788
+    },
+    {
+      "time": 8.095238095238102e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 5.111714881959041e-15,
+      "momentum_y": -0.5321478932323243,
+      "momentum_z": 7.737224710584175e-15,
+      "kinetic_energy": 34.59512241700049,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.1549998418227248,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.000359448755228,
+      "current_volume": 0.001727893722341663,
+      "max_speed": 278.8651308071277,
+      "max_plastic_strain": 0.10038128585598044,
+      "max_damage": 0.2170540325824479,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 37.04687965130812,
+      "active_particles": 262128,
+      "debris_particles": 16,
+      "active_mass": 3.998347945312501,
+      "debris_mass": 0.0002440546875,
+      "active_current_volume": 0.0017277989819181666,
+      "strain_energy": null
+    },
+    {
+      "time": 8.095238095238102e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 1.2230251331995028e-16,
+      "momentum_y": -371.39014058894804,
+      "momentum_z": 2.1506032931747353e-16,
+      "kinetic_energy": 333805.00248994696,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22160069793958256,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.6089939088666307,
+      "max_J": 1.0002177560968233,
+      "current_volume": 2.6309260279191905e-05,
+      "max_speed": 1801.6440409176432,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 395.559035758788
+    },
+    {
+      "time": 8.333333333333344e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 4.1265816723890785e-15,
+      "momentum_y": -0.6011482759088262,
+      "momentum_z": 9.25595639170808e-15,
+      "kinetic_energy": 39.867554571657806,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499980763819052,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.0003869114773063,
+      "current_volume": 0.0017278764991682256,
+      "max_speed": 278.8651308071277,
+      "max_plastic_strain": 0.10038128585598044,
+      "max_damage": 0.2170540325824479,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 44.94510127638372,
+      "active_particles": 262120,
+      "debris_particles": 24,
+      "active_mass": 3.998225917968751,
+      "debris_mass": 0.00036608203125,
+      "active_current_volume": 0.001727734786248765,
+      "strain_energy": null
+    },
+    {
+      "time": 8.333333333333344e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.263317371023407e-16,
+      "momentum_y": -371.32114020627125,
+      "momentum_z": 2.76645422262694e-16,
+      "kinetic_energy": 333680.2822209946,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22117278805245957,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.5907903250815849,
+      "max_J": 1.0001853861995116,
+      "current_volume": 2.6307665365632122e-05,
+      "max_speed": 1801.4762714838266,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 435.1035608767854
+    },
+    {
+      "time": 8.571428571428586e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 3.681549094320855e-15,
+      "momentum_y": -0.6765512236681719,
+      "momentum_z": 1.0657579668643785e-14,
+      "kinetic_energy": 45.97520597492793,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499976920735548,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.000387039277742,
+      "current_volume": 0.0017278586645446984,
+      "max_speed": 278.8651308071277,
+      "max_plastic_strain": 0.10050886207994952,
+      "max_damage": 0.2170540325824479,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 53.29827735634858,
+      "active_particles": 262112,
+      "debris_particles": 32,
+      "active_mass": 3.998103890625001,
+      "debris_mass": 0.000488109375,
+      "active_current_volume": 0.0017276693718836344,
+      "strain_energy": null
+    },
+    {
+      "time": 8.571428571428586e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.448384230943579e-16,
+      "momentum_y": -371.24573725851485,
+      "momentum_z": 3.3542216582290956e-16,
+      "kinetic_energy": 333545.59146936116,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.22074496034004001,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.5708441668152093,
+      "max_J": 1.000175389281495,
+      "current_volume": 2.630611554056452e-05,
+      "max_speed": 1801.4052694984878,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 478.056293684062
+    },
+    {
+      "time": 8.809523809523828e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 2.8363474601334426e-15,
+      "momentum_y": -0.7544014568700959,
+      "momentum_z": 1.1820714902993258e-14,
+      "kinetic_energy": 52.1974003825343,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499972621242228,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.000374896096278,
+      "current_volume": 0.0017278404554425739,
+      "max_speed": 278.8651308071277,
+      "max_plastic_strain": 0.10050886207994952,
+      "max_damage": 0.2170540325824479,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 61.95223140603053,
+      "active_particles": 262112,
+      "debris_particles": 32,
+      "active_mass": 3.998103890625001,
+      "debris_mass": 0.000488109375,
+      "active_current_volume": 0.00172765116278151,
+      "strain_energy": null
+    },
+    {
+      "time": 8.809523809523828e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.2276576560460296e-16,
+      "momentum_y": -371.16788702531136,
+      "momentum_z": 4.559933144660721e-16,
+      "kinetic_energy": 333406.7506031461,
+      "com_x": 0.17999999999999997,
+      "com_y": 0.22031722095236078,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.5492041770039873,
+      "max_J": 1.000150663541979,
+      "current_volume": 2.6304557364869967e-05,
+      "max_speed": 1801.2448749298683,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 528.6521315056798
+    },
+    {
+      "time": 9.04761904761907e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 3.755678311880085e-15,
+      "momentum_y": -0.843076876627238,
+      "momentum_z": 1.32860886852951e-14,
+      "kinetic_energy": 60.366784909671864,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499967812962626,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.0003523178665639,
+      "current_volume": 0.0017278212624924744,
+      "max_speed": 305.5030238975019,
+      "max_plastic_strain": 0.10068949988290163,
+      "max_damage": 0.2170540325824479,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 71.61033410880258,
+      "active_particles": 262100,
+      "debris_particles": 44,
+      "active_mass": 3.9979208496093754,
+      "debris_mass": 0.000671150390625,
+      "active_current_volume": 0.0017275606008008034,
+      "strain_energy": null
+    },
+    {
+      "time": 9.04761904761907e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 3.791715953536518e-16,
+      "momentum_y": -371.0792116055548,
+      "momentum_z": 5.167300965830829e-16,
+      "kinetic_energy": 333250.1232817204,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.21988958002535158,
+      "com_z": 0.17999999999999997,
+      "min_J": 0.5259910445357728,
+      "max_J": 1.0001476265170142,
+      "current_volume": 2.6302816446620543e-05,
+      "max_speed": 1801.1751508870811,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 589.9723021606152
+    },
+    {
+      "time": 9.285714285714313e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 1.630846418330733e-15,
+      "momentum_y": -0.9313195059247382,
+      "momentum_z": 1.4967268390031055e-14,
+      "kinetic_energy": 68.41505028450061,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499962475159718,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.0003200407831407,
+      "current_volume": 0.0017278018142338142,
+      "max_speed": 305.5030238975019,
+      "max_plastic_strain": 0.10068949988290163,
+      "max_damage": 0.23107569835953348,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 81.23347679712901,
+      "active_particles": 262088,
+      "debris_particles": 56,
+      "active_mass": 3.9977378085937505,
+      "debris_mass": 0.0008541914062499999,
+      "active_current_volume": 0.00172746890544072,
+      "strain_energy": null
+    },
+    {
+      "time": 9.285714285714313e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 2.386947778913234e-16,
+      "momentum_y": -370.9909689762582,
+      "momentum_z": 5.573231614531784e-16,
+      "kinetic_energy": 333092.32104408264,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.21946204157205418,
+      "com_z": 0.17999999999999997,
+      "min_J": 0.5051764215280639,
+      "max_J": 1.000111388512338,
+      "current_volume": 2.6300950928480807e-05,
+      "max_speed": 1801.067678612078,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 653.6540559318344
+    },
+    {
+      "time": 9.523809523809555e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": 2.3207424399331826e-15,
+      "momentum_y": -1.020938502314316,
+      "momentum_z": 1.6583718285633385e-14,
+      "kinetic_energy": 76.85535114747313,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499956609279886,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.0003105216950023,
+      "current_volume": 0.0017277819603821313,
+      "max_speed": 305.5030238975019,
+      "max_plastic_strain": 0.10068949988290163,
+      "max_damage": 0.2403170136952082,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 91.22950868875984,
+      "active_particles": 262076,
+      "debris_particles": 68,
+      "active_mass": 3.9975547675781256,
+      "debris_mass": 0.0010372324218749995,
+      "active_current_volume": 0.0017273765901854568,
+      "strain_energy": null
+    },
+    {
+      "time": 9.523809523809555e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 4.2208144016864316e-16,
+      "momentum_y": -370.90134997986524,
+      "momentum_z": 6.164809107043257e-16,
+      "kinetic_energy": 332931.2702668534,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.21903460531256572,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.4872160333884578,
+      "max_J": 1.0001013680677502,
+      "current_volume": 2.6299075573330468e-05,
+      "max_speed": 1800.9804468345233,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 712.2495404028502
+    },
+    {
+      "time": 9.761904761904798e-06,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": -2.011103498919746e-15,
+      "momentum_y": -1.1099736414928234,
+      "momentum_z": 1.813974909054233e-14,
+      "kinetic_energy": 85.28011367585974,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.15499950210482952,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.0002913357843122,
+      "current_volume": 0.0017277615799085348,
+      "max_speed": 305.5030238975019,
+      "max_plastic_strain": 0.10068949988290163,
+      "max_damage": 0.2403170136952082,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 101.73069594251739,
+      "active_particles": 262064,
+      "debris_particles": 80,
+      "active_mass": 3.9973717265625,
+      "debris_mass": 0.0012202734375,
+      "active_current_volume": 0.001727284325965971,
+      "strain_energy": null
+    },
+    {
+      "time": 9.761904761904798e-06,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 6.486996069369996e-16,
+      "momentum_y": -370.81231484067524,
+      "momentum_z": 7.492657033239187e-16,
+      "kinetic_energy": 332769.9836745647,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.21860727218355944,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.4733448447055366,
+      "max_J": 1.0001072286965769,
+      "current_volume": 2.6297148572653108e-05,
+      "max_speed": 1800.9898577509962,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 756.7473217020162
+    },
+    {
+      "time": 1.000000000000004e-05,
+      "body": 0,
+      "mass": 3.998592000000001,
+      "momentum_x": -2.2469362608359035e-15,
+      "momentum_y": -1.187055443302008,
+      "momentum_z": 1.953880550514665e-14,
+      "kinetic_energy": 91.91894194410754,
+      "com_x": 0.17999999999999994,
+      "com_y": 0.1549994331539056,
+      "com_z": 0.17999999999999994,
+      "min_J": 0.8862398773075021,
+      "max_J": 1.0002659375106693,
+      "current_volume": 0.0017277410150647716,
+      "max_speed": 305.5030238975019,
+      "max_plastic_strain": 0.10068949988290163,
+      "max_damage": 0.2403170136952082,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 112.08447844510337,
+      "active_particles": 262040,
+      "debris_particles": 104,
+      "active_mass": 3.9970056445312503,
+      "debris_mass": 0.0015863554687500002,
+      "active_current_volume": 0.001727119300722571,
+      "strain_energy": null
+    },
+    {
+      "time": 1.000000000000004e-05,
+      "body": 1,
+      "mass": 0.20662349360121135,
+      "momentum_x": 6.826599156125867e-16,
+      "momentum_y": -370.73523303884934,
+      "momentum_z": 7.892674503007642e-16,
+      "kinetic_energy": 332630.6472124339,
+      "com_x": 0.18000000000000002,
+      "com_y": 0.21818003509799058,
+      "com_z": 0.18000000000000002,
+      "min_J": 0.4674112035873281,
+      "max_J": 1.0000937162718462,
+      "current_volume": 2.629512605163139e-05,
+      "max_speed": 1888.3126686784335,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": 766.5902992619276
+    }
+  ],
+  "observations": [
+    {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "projectile_tip_y_m": 0.18593023255813954,
+      "projectile_center_y_m": 0.23616906545354727,
+      "projectile_center_vy_m_per_s": -1799.9999999999993,
+      "tip_past_front_m": -0.015930232558139523,
+      "tip_past_rear_m": -0.04593023255813952,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.0,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 1.0,
+      "target_maximum_displacement_m": 0.0
+    },
+    {
+      "time": 1.6666666666666667e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 9.555028193347356e-16,
+      "boundary_impulse_y": 6.252776074688882e-13,
+      "boundary_impulse_z": -5.288106797975438e-16,
+      "projectile_tip_y_m": 0.18293023255814,
+      "projectile_center_y_m": 0.23316906545354743,
+      "projectile_center_vy_m_per_s": -1800.0,
+      "tip_past_front_m": -0.012930232558139992,
+      "tip_past_rear_m": -0.04293023255813999,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.0,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 1.0,
+      "target_maximum_displacement_m": 0.0
+    },
+    {
+      "time": 3.3333333333333333e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 1.342508729445957e-15,
+      "boundary_impulse_y": 2.1032064978498966e-12,
+      "boundary_impulse_z": -1.5496234089843174e-15,
+      "projectile_tip_y_m": 0.17993023255814047,
+      "projectile_center_y_m": 0.23016906545354776,
+      "projectile_center_vy_m_per_s": -1800.0000000000002,
+      "tip_past_front_m": -0.009930232558140462,
+      "tip_past_rear_m": -0.03993023255814046,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.0,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 1.0,
+      "target_maximum_displacement_m": 0.0
+    },
+    {
+      "time": 5e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 3.839673277998902e-15,
+      "boundary_impulse_y": 9.15179043659009e-12,
+      "boundary_impulse_z": -9.630043741586716e-16,
+      "projectile_tip_y_m": 0.17698437415728527,
+      "projectile_center_y_m": 0.22716907777357984,
+      "projectile_center_vy_m_per_s": -1799.9416673942892,
+      "tip_past_front_m": -0.006984374157285256,
+      "tip_past_rear_m": -0.036984374157285255,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.0,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9956178939799872,
+      "target_maximum_displacement_m": 7.13327609468938e-06
+    },
+    {
+      "time": 5.238095238095238e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.1505823258159804e-15,
+      "boundary_impulse_y": 8.810729923425242e-12,
+      "boundary_impulse_z": -6.237596613403086e-16,
+      "projectile_tip_y_m": 0.1766328509928205,
+      "projectile_center_y_m": 0.22674052767029096,
+      "projectile_center_vy_m_per_s": -1799.8879979727271,
+      "tip_past_front_m": -0.006632850992820488,
+      "tip_past_rear_m": -0.03663285099282049,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.0,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.991071060680709,
+      "target_maximum_displacement_m": 1.6330087398959205e-05
+    },
+    {
+      "time": 5.476190476190476e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.304684276983158e-15,
+      "boundary_impulse_y": 7.16227077646181e-12,
+      "boundary_impulse_z": -2.4153187331901586e-16,
+      "projectile_tip_y_m": 0.1763089560378174,
+      "projectile_center_y_m": 0.22631199209157588,
+      "projectile_center_vy_m_per_s": -1799.8219727839437,
+      "tip_past_front_m": -0.0063089560378173926,
+      "tip_past_rear_m": -0.03630895603781739,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.022502059937051386,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9854891167416231,
+      "target_maximum_displacement_m": 2.906527952621218e-05
+    },
+    {
+      "time": 5.714285714285714e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.433195792055891e-15,
+      "boundary_impulse_y": 4.888534022029489e-12,
+      "boundary_impulse_z": 2.3711983100594687e-16,
+      "projectile_tip_y_m": 0.17600420364086358,
+      "projectile_center_y_m": 0.22588347450560978,
+      "projectile_center_vy_m_per_s": -1799.7388599528165,
+      "tip_past_front_m": -0.00600420364086357,
+      "tip_past_rear_m": -0.03600420364086357,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.04578975795852476,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9788120811334682,
+      "target_maximum_displacement_m": 4.553894617050723e-05
+    },
+    {
+      "time": 5.952380952380952e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.562995819385648e-15,
+      "boundary_impulse_y": 3.922195901395753e-12,
+      "boundary_impulse_z": 6.5466858616564e-16,
+      "projectile_tip_y_m": 0.175712137180563,
+      "projectile_center_y_m": 0.2254549802469762,
+      "projectile_center_vy_m_per_s": -1799.630123335829,
+      "tip_past_front_m": -0.005712137180562987,
+      "tip_past_rear_m": -0.035712137180562986,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.06748064210173425,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9705950029473902,
+      "target_maximum_displacement_m": 6.680516616390892e-05
+    },
+    {
+      "time": 6.19047619047619e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.603628453915292e-15,
+      "boundary_impulse_y": -1.5916157281026244e-12,
+      "boundary_impulse_z": 9.796726479502983e-16,
+      "projectile_tip_y_m": 0.17543060017851744,
+      "projectile_center_y_m": 0.2250265159998089,
+      "projectile_center_vy_m_per_s": -1799.4924400320158,
+      "tip_past_front_m": -0.005430600178517431,
+      "tip_past_rear_m": -0.03543060017851743,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.08788459669596867,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9606797714645134,
+      "target_maximum_displacement_m": 9.389336457885108e-05
+    },
+    {
+      "time": 6.428571428571428e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.662791551181413e-15,
+      "boundary_impulse_y": 1.6484591469634324e-12,
+      "boundary_impulse_z": 1.3362611339577449e-15,
+      "projectile_tip_y_m": 0.1751582488761959,
+      "projectile_center_y_m": 0.22459808863524647,
+      "projectile_center_vy_m_per_s": -1799.3261856380486,
+      "tip_past_front_m": -0.005158248876195898,
+      "tip_past_rear_m": -0.0351582488761959,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.10668799985628813,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9492522627336069,
+      "target_maximum_displacement_m": 0.00012730147459281721
+    },
+    {
+      "time": 6.666666666666666e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.689486097626517e-15,
+      "boundary_impulse_y": 1.8189894035458565e-12,
+      "boundary_impulse_z": 1.7802262226471916e-15,
+      "projectile_tip_y_m": 0.17489254498906923,
+      "projectile_center_y_m": 0.22416970483163082,
+      "projectile_center_vy_m_per_s": -1799.1320368691177,
+      "tip_past_front_m": -0.004892544989069214,
+      "tip_past_rear_m": -0.03489254498906921,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.12381882144443884,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9366044426703042,
+      "target_maximum_displacement_m": 0.00016715666600339323
+    },
+    {
+      "time": 6.904761904761904e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.967275432681615e-15,
+      "boundary_impulse_y": 1.2505552149377763e-12,
+      "boundary_impulse_z": 2.384606070391396e-15,
+      "projectile_tip_y_m": 0.17462844166752628,
+      "projectile_center_y_m": 0.2237413715614099,
+      "projectile_center_vy_m_per_s": -1798.907150224217,
+      "tip_past_front_m": -0.004628441667526267,
+      "tip_past_rear_m": -0.034628441667526266,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.1404998200825316,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9228703475197219,
+      "target_maximum_displacement_m": 0.00021363826091368821
+    },
+    {
+      "time": 7.142857142857142e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.9970875885667065e-15,
+      "boundary_impulse_y": -1.8758328224066645e-12,
+      "boundary_impulse_z": 3.144549410201167e-15,
+      "projectile_tip_y_m": 0.1743607924814968,
+      "projectile_center_y_m": 0.22331309666169422,
+      "projectile_center_vy_m_per_s": -1798.6482474167676,
+      "tip_past_front_m": -0.004360792481496789,
+      "tip_past_rear_m": -0.03436079248149679,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.15758447707520595,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.9080956781624413,
+      "target_maximum_displacement_m": 0.0002671600178356627
+    },
+    {
+      "time": 7.38095238095238e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 5.190271693799014e-15,
+      "boundary_impulse_y": -3.979039320256561e-13,
+      "boundary_impulse_z": 4.083138492079475e-15,
+      "projectile_tip_y_m": 0.17408594130241103,
+      "projectile_center_y_m": 0.2228848881578283,
+      "projectile_center_vy_m_per_s": -1798.356545618045,
+      "tip_past_front_m": -0.0040859413024110225,
+      "tip_past_rear_m": -0.03408594130241102,
+      "target_failed_reference_volume_fraction": 0.0,
+      "target_failed_count": 0,
+      "target_maximum_damage": 0.17345254585268305,
+      "corridor_intact_count": 1984,
+      "target_minimum_J": 0.8925519619331391,
+      "target_maximum_displacement_m": 0.0003278987603871397
+    },
+    {
+      "time": 7.619047619047618e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 5.493057016895877e-15,
+      "boundary_impulse_y": 1.5916157281026244e-12,
+      "boundary_impulse_z": 5.2048606125606975e-15,
+      "projectile_tip_y_m": 0.17379718455328866,
+      "projectile_center_y_m": 0.22245675129622694,
+      "projectile_center_vy_m_per_s": -1798.055896753668,
+      "tip_past_front_m": -0.003797184553288646,
+      "tip_past_rear_m": -0.033797184553288645,
+      "target_failed_reference_volume_fraction": 1.5258789062499998e-05,
+      "target_failed_count": 4,
+      "target_maximum_damage": 0.1893790352039027,
+      "corridor_intact_count": 1980,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0003940094322150426
+    },
+    {
+      "time": 7.85714285714286e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 5.296602264976598e-15,
+      "boundary_impulse_y": 6.252776074688882e-13,
+      "boundary_impulse_z": 6.518768550905924e-15,
+      "projectile_tip_y_m": 0.1734876569334906,
+      "projectile_center_y_m": 0.22202868759366448,
+      "projectile_center_vy_m_per_s": -1797.7494423345245,
+      "tip_past_front_m": -0.003487656933490596,
+      "tip_past_rear_m": -0.033487656933490595,
+      "target_failed_reference_volume_fraction": 4.57763671875e-05,
+      "target_failed_count": 12,
+      "target_maximum_damage": 0.20546181309293596,
+      "corridor_intact_count": 1972,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0004603992905630902
+    },
+    {
+      "time": 8.095238095238102e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 5.234017395278991e-15,
+      "boundary_impulse_y": 1.5347723092418164e-12,
+      "boundary_impulse_z": 7.952285039901649e-15,
+      "projectile_tip_y_m": 0.17315581778697234,
+      "projectile_center_y_m": 0.22160069793958256,
+      "projectile_center_vy_m_per_s": -1797.424552823313,
+      "tip_past_front_m": -0.003155817786972326,
+      "tip_past_rear_m": -0.033155817786972325,
+      "target_failed_reference_volume_fraction": 6.103515624999999e-05,
+      "target_failed_count": 16,
+      "target_maximum_damage": 0.2170540325824479,
+      "corridor_intact_count": 1968,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0005267908128974871
+    },
+    {
+      "time": 8.333333333333344e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.352913409491419e-15,
+      "boundary_impulse_y": 1.8189894035458565e-12,
+      "boundary_impulse_z": 9.532601813970774e-15,
+      "projectile_tip_y_m": 0.17281318351720146,
+      "projectile_center_y_m": 0.22117278805245957,
+      "projectile_center_vy_m_per_s": -1797.0906102426625,
+      "tip_past_front_m": -0.002813183517201445,
+      "tip_past_rear_m": -0.032813183517201444,
+      "target_failed_reference_volume_fraction": 9.155273437499999e-05,
+      "target_failed_count": 24,
+      "target_maximum_damage": 0.2170540325824479,
+      "corridor_intact_count": 1960,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0005931834404979759
+    },
+    {
+      "time": 8.571428571428586e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 3.926387517415213e-15,
+      "boundary_impulse_y": -1.1368683772161603e-12,
+      "boundary_impulse_z": 1.0993001834466694e-14,
+      "projectile_tip_y_m": 0.17246700897135528,
+      "projectile_center_y_m": 0.22074496034004001,
+      "projectile_center_vy_m_per_s": -1796.7256810352205,
+      "tip_past_front_m": -0.0024670089713552668,
+      "tip_past_rear_m": -0.032467008971355266,
+      "target_failed_reference_volume_fraction": 0.00012207031249999999,
+      "target_failed_count": 32,
+      "target_maximum_damage": 0.2170540325824479,
+      "corridor_intact_count": 1952,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0006595768395982821
+    },
+    {
+      "time": 8.809523809523828e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 3.0591132257380456e-15,
+      "boundary_impulse_y": 4.547473508864641e-13,
+      "boundary_impulse_z": 1.227670821745933e-14,
+      "projectile_tip_y_m": 0.17212751280771577,
+      "projectile_center_y_m": 0.22031722095236078,
+      "projectile_center_vy_m_per_s": -1796.3489076497542,
+      "tip_past_front_m": -0.0021275128077157535,
+      "tip_past_rear_m": -0.03212751280771575,
+      "target_failed_reference_volume_fraction": 0.00012207031249999999,
+      "target_failed_count": 32,
+      "target_maximum_damage": 0.2170540325824479,
+      "corridor_intact_count": 1952,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.000725970798526719
+    },
+    {
+      "time": 9.04761904761907e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 4.134849907233737e-15,
+      "boundary_impulse_y": -1.7053025658242404e-13,
+      "boundary_impulse_z": 1.3802818781878182e-14,
+      "projectile_tip_y_m": 0.1718009584824129,
+      "projectile_center_y_m": 0.21988958002535158,
+      "projectile_center_vy_m_per_s": -1795.9197433847876,
+      "tip_past_front_m": -0.0018009584824128788,
+      "tip_past_rear_m": -0.03180095848241288,
+      "target_failed_reference_volume_fraction": 0.00016784667968749992,
+      "target_failed_count": 44,
+      "target_maximum_damage": 0.2170540325824479,
+      "corridor_intact_count": 1940,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0007923651765557396
+    },
+    {
+      "time": 9.285714285714313e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 1.8695411962220566e-15,
+      "boundary_impulse_y": -1.0800249583553523e-12,
+      "boundary_impulse_z": 1.5524591551484234e-14,
+      "projectile_tip_y_m": 0.17147570555544095,
+      "projectile_center_y_m": 0.21946204157205418,
+      "projectile_center_vy_m_per_s": -1795.492673704762,
+      "tip_past_front_m": -0.001475705555440937,
+      "tip_past_rear_m": -0.031475705555440936,
+      "target_failed_reference_volume_fraction": 0.000213623046875,
+      "target_failed_count": 56,
+      "target_maximum_damage": 0.23107569835953348,
+      "corridor_intact_count": 1928,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.000858759876478004
+    },
+    {
+      "time": 9.523809523809555e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 2.7428238801018257e-15,
+      "boundary_impulse_y": 2.3305801732931286e-12,
+      "boundary_impulse_z": 1.720019919633771e-14,
+      "projectile_tip_y_m": 0.17113800893574876,
+      "projectile_center_y_m": 0.21903460531256572,
+      "projectile_center_vy_m_per_s": -1795.0589427924085,
+      "tip_past_front_m": -0.0011380089357487522,
+      "tip_past_rear_m": -0.03113800893574875,
+      "target_failed_reference_volume_fraction": 0.00025939941406249995,
+      "target_failed_count": 68,
+      "target_maximum_damage": 0.2403170136952082,
+      "corridor_intact_count": 1916,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0009251548289905027
+    },
+    {
+      "time": 9.761904761904798e-06,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -1.3624038919827466e-15,
+      "boundary_impulse_y": 1.3812950783176348e-11,
+      "boundary_impulse_z": 1.888901479386625e-14,
+      "projectile_tip_y_m": 0.17077577075721798,
+      "projectile_center_y_m": 0.21860727218355944,
+      "projectile_center_vy_m_per_s": -1794.6280375858585,
+      "tip_past_front_m": -0.000775770757217964,
+      "tip_past_rear_m": -0.030775770757217963,
+      "target_failed_reference_volume_fraction": 0.00030517578125,
+      "target_failed_count": 80,
+      "target_maximum_damage": 0.2403170136952082,
+      "corridor_intact_count": 1904,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0009915499833523262
+    },
+    {
+      "time": 1.000000000000004e-05,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": -1.5642763452233168e-15,
+      "boundary_impulse_y": 3.0524915928253904e-11,
+      "boundary_impulse_z": 2.0328072955447414e-14,
+      "projectile_tip_y_m": 0.17035786664187752,
+      "projectile_center_y_m": 0.21818003509799058,
+      "projectile_center_vy_m_per_s": -1794.2549831936171,
+      "tip_past_front_m": -0.00035786664187750783,
+      "tip_past_rear_m": -0.030357866641877507,
+      "target_failed_reference_volume_fraction": 0.000396728515625,
+      "target_failed_count": 104,
+      "target_maximum_damage": 0.2403170136952082,
+      "corridor_intact_count": 1880,
+      "target_minimum_J": 0.8862398773075021,
+      "target_maximum_displacement_m": 0.0010579453015601384
+    }
+  ],
+  "progress": {
+    "start_step": 140,
+    "target_step": 210,
+    "accepted_steps": 70,
+    "compile_seconds": 8.390010863542557,
+    "steps": [
+      {
+        "step": 141,
+        "solve_seconds": 18.863912291824818,
+        "valid": true,
+        "contact_impulse": [
+          -3.3610267347050637e-18,
+          0.008756240812365,
+          1.6263032587282567e-18
+        ],
+        "target_min_J": 0.9339443216648438,
+        "target_max_damage": 0.12705192711870317,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 142,
+        "solve_seconds": 18.666263222694397,
+        "valid": true,
+        "contact_impulse": [
+          0.0,
+          0.009018193669163652,
+          6.315477654728063e-18
+        ],
+        "target_min_J": 0.9312408702024992,
+        "target_max_damage": 0.13022660034504036,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 143,
+        "solve_seconds": 18.23233536630869,
+        "valid": true,
+        "contact_impulse": [
+          -1.5178830414797062e-18,
+          0.009287272657159534,
+          4.038653092508504e-18
+        ],
+        "target_min_J": 0.9284939648924179,
+        "target_max_damage": 0.1333454733187117,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 144,
+        "solve_seconds": 18.300200253725052,
+        "valid": true,
+        "contact_impulse": [
+          -4.336808689942018e-19,
+          0.009562492871331641,
+          3.0899761915836876e-18
+        ],
+        "target_min_J": 0.9257036738773907,
+        "target_max_damage": 0.13693961832884663,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 145,
+        "solve_seconds": 18.733233496546745,
+        "valid": true,
+        "contact_impulse": [
+          -2.6020852139652106e-18,
+          0.009842664223542859,
+          2.9815559743351372e-18
+        ],
+        "target_min_J": 0.9228703475197219,
+        "target_max_damage": 0.1404998200825316,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 146,
+        "solve_seconds": 23.184897415339947,
+        "valid": true,
+        "contact_impulse": [
+          -4.336808689942018e-18,
+          0.010126477271902797,
+          -2.439454888092385e-19
+        ],
+        "target_min_J": 0.9199946771987492,
+        "target_max_damage": 0.14401378073995283,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 147,
+        "solve_seconds": 22.44131723791361,
+        "valid": true,
+        "contact_impulse": [
+          -6.071532165918825e-18,
+          0.010412570010454052,
+          -1.3552527156068805e-19
+        ],
+        "target_min_J": 0.9170777265552547,
+        "target_max_damage": 0.1474786597360096,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 148,
+        "solve_seconds": 24.292673148214817,
+        "valid": true,
+        "contact_impulse": [
+          1.0842021724855044e-18,
+          0.01069955774406843,
+          5.8817967857338616e-18
+        ],
+        "target_min_J": 0.9141209495859884,
+        "target_max_damage": 0.15089517792839216,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 149,
+        "solve_seconds": 25.249083571135998,
+        "valid": true,
+        "contact_impulse": [
+          -2.8189256484623115e-18,
+          0.010986060050344255,
+          3.0086610286472748e-18
+        ],
+        "target_min_J": 0.9111261932706147,
+        "target_max_damage": 0.15426373910870242,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 150,
+        "solve_seconds": 24.49339870363474,
+        "valid": true,
+        "contact_impulse": [
+          -6.288372600415926e-18,
+          0.011270737501625447,
+          6.2341624917916505e-19
+        ],
+        "target_min_J": 0.9080956781624413,
+        "target_max_damage": 0.15758447707520595,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 151,
+        "solve_seconds": 24.40987142175436,
+        "valid": true,
+        "contact_impulse": [
+          0.0,
+          0.011543630080877528,
+          4.770489125958868e-18
+        ],
+        "target_min_J": 0.9050328243797819,
+        "target_max_damage": 0.16085705863130004,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 152,
+        "solve_seconds": 24.3397386521101,
+        "valid": true,
+        "contact_impulse": [
+          0.0,
+          0.011793798954494051,
+          5.52954688496183e-18
+        ],
+        "target_min_J": 0.9019430386767441,
+        "target_max_damage": 0.16408052300578277,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 153,
+        "solve_seconds": 25.25544809550047,
+        "valid": true,
+        "contact_impulse": [
+          -4.553649124439119e-18,
+          0.012052274194493055,
+          8.396875834148295e-19
+        ],
+        "target_min_J": 0.8988299921810612,
+        "target_max_damage": 0.1672547050024929,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 154,
+        "solve_seconds": 25.62028943002224,
+        "valid": true,
+        "contact_impulse": [
+          2.168404344971009e-19,
+          0.01231206535221187,
+          7.265504514412566e-18
+        ],
+        "target_min_J": 0.8956979906483478,
+        "target_max_damage": 0.1703790243513809,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 155,
+        "solve_seconds": 26.317220151424408,
+        "valid": true,
+        "contact_impulse": [
+          4.336808689942018e-19,
+          0.012570676159562626,
+          6.509051152955273e-18
+        ],
+        "target_min_J": 0.8925519619331391,
+        "target_max_damage": 0.17345254585268305,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 156,
+        "solve_seconds": 25.319869704544544,
+        "valid": true,
+        "contact_impulse": [
+          0.0,
+          0.012826509982588025,
+          6.401292680196765e-18
+        ],
+        "target_min_J": 0.889397329801341,
+        "target_max_damage": 0.17647412112392738,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 157,
+        "solve_seconds": 26.186094231903553,
+        "valid": true,
+        "contact_impulse": [
+          -6.071532165918825e-18,
+          0.013078384372629839,
+          -9.867933835512599e-19
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.17944251632576094,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 158,
+        "solve_seconds": 20.141017727553844,
+        "valid": true,
+        "contact_impulse": [
+          5.421010862427522e-18,
+          0.01146723121700667,
+          1.0549371841578684e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.182678091478131,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 159,
+        "solve_seconds": 24.7051902115345,
+        "valid": true,
+        "contact_impulse": [
+          4.336808689942018e-18,
+          0.012148452782214263,
+          8.045118933021345e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.18604534241084936,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 160,
+        "solve_seconds": 25.254563607275486,
+        "valid": true,
+        "contact_impulse": [
+          3.903127820947816e-18,
+          0.012600540350332801,
+          5.7996345898501944e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.1893790352039027,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 161,
+        "solve_seconds": 25.663312636315823,
+        "valid": true,
+        "contact_impulse": [
+          6.595428223416397e-18,
+          0.013014010056668229,
+          9.19335720448348e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.19267318814378134,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 162,
+        "solve_seconds": 25.465175576508045,
+        "valid": true,
+        "contact_impulse": [
+          2.1143235867150216e-18,
+          0.013479098964757828,
+          4.134965509884411e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.19592595084791278,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 163,
+        "solve_seconds": 25.613254465162754,
+        "valid": true,
+        "contact_impulse": [
+          4.779555458449801e-18,
+          0.01389337974257034,
+          7.604092845691488e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.1991327701480121,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 164,
+        "solve_seconds": 20.34694430977106,
+        "valid": true,
+        "contact_impulse": [
+          7.799658256125062e-18,
+          0.010982754352862334,
+          9.338838492875405e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.20230168227136955,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 165,
+        "solve_seconds": 20.205646120011806,
+        "valid": true,
+        "contact_impulse": [
+          1.5580629881827092e-17,
+          0.011951439596117126,
+          2.515101838977065e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.20546181309293596,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 166,
+        "solve_seconds": 19.909095413982868,
+        "valid": true,
+        "contact_impulse": [
+          2.4980461588310473e-18,
+          0.012657965387042638,
+          7.201301688768539e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.20860115105388777,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 167,
+        "solve_seconds": 20.91433098167181,
+        "valid": true,
+        "contact_impulse": [
+          4.837427288850695e-18,
+          0.013249092176381583,
+          3.957988587095427e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.21170877875193075,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 168,
+        "solve_seconds": 21.561584323644638,
+        "valid": true,
+        "contact_impulse": [
+          7.112904580647559e-18,
+          0.013768464863378085,
+          1.1605807681358896e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.21477685217458986,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 169,
+        "solve_seconds": 20.84942665696144,
+        "valid": true,
+        "contact_impulse": [
+          1.500317282145714e-17,
+          0.014237517177306083,
+          1.522790299510965e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 170,
+        "solve_seconds": 21.26019313186407,
+        "valid": true,
+        "contact_impulse": [
+          1.5463380131924997e-17,
+          0.013216766236819777,
+          1.6577729079549582e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 171,
+        "solve_seconds": 21.893140584230423,
+        "valid": true,
+        "contact_impulse": [
+          9.527631731508283e-18,
+          0.01385287665511483,
+          9.471037189142206e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 172,
+        "solve_seconds": 21.82636881619692,
+        "valid": true,
+        "contact_impulse": [
+          6.760102123226342e-18,
+          0.014370835841236598,
+          8.994142348305813e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 173,
+        "solve_seconds": 21.75135723501444,
+        "valid": true,
+        "contact_impulse": [
+          1.2610037566125886e-17,
+          0.014844182625559522,
+          1.4935004952802762e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 174,
+        "solve_seconds": 16.10834902524948,
+        "valid": true,
+        "contact_impulse": [
+          1.5806168740850647e-17,
+          0.012537881926912683,
+          1.4489863578816582e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 175,
+        "solve_seconds": 15.579198457300663,
+        "valid": true,
+        "contact_impulse": [
+          1.4399132864536722e-17,
+          0.013394605627393535,
+          1.444281653117959e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 176,
+        "solve_seconds": 15.309544950723648,
+        "valid": true,
+        "contact_impulse": [
+          1.0269270701785059e-17,
+          0.014054627175160251,
+          1.2103112986513566e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 177,
+        "solve_seconds": 16.90946513414383,
+        "valid": true,
+        "contact_impulse": [
+          5.496096734965951e-18,
+          0.014619023531500512,
+          6.808352991688825e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 178,
+        "solve_seconds": 17.251912645995617,
+        "valid": true,
+        "contact_impulse": [
+          8.016447819014491e-18,
+          0.01512355216980281,
+          9.99988840262903e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 179,
+        "solve_seconds": 17.502232886850834,
+        "valid": true,
+        "contact_impulse": [
+          1.0867408518239756e-17,
+          0.015586809422976553,
+          1.4133377031814877e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 180,
+        "solve_seconds": 17.758336909115314,
+        "valid": true,
+        "contact_impulse": [
+          9.96997452568441e-18,
+          0.016018935459339398,
+          1.2832355021144848e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 181,
+        "solve_seconds": 13.963970750570297,
+        "valid": true,
+        "contact_impulse": [
+          2.6669591282513664e-18,
+          0.014329352399126485,
+          2.1803965791898567e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 182,
+        "solve_seconds": 13.899203658103943,
+        "valid": true,
+        "contact_impulse": [
+          1.7631825835926634e-17,
+          0.015003764526329073,
+          2.4651973264889943e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 183,
+        "solve_seconds": 18.39601320028305,
+        "valid": true,
+        "contact_impulse": [
+          1.1860825757341188e-17,
+          0.01558582867279045,
+          3.1438934672851266e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 184,
+        "solve_seconds": 19.011003494262695,
+        "valid": true,
+        "contact_impulse": [
+          9.854568871560427e-18,
+          0.016196403037050305,
+          1.5026262301636244e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 185,
+        "solve_seconds": 25.5941214710474,
+        "valid": true,
+        "contact_impulse": [
+          1.1892354159978953e-17,
+          0.016734884565659247,
+          1.9312227750385147e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 186,
+        "solve_seconds": 25.26000352948904,
+        "valid": true,
+        "contact_impulse": [
+          1.1654244223596122e-17,
+          0.01722977980768698,
+          2.078898498739585e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 187,
+        "solve_seconds": 25.233136720955372,
+        "valid": true,
+        "contact_impulse": [
+          2.6727820661734334e-18,
+          0.017696737729868673,
+          1.0679128455713829e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 188,
+        "solve_seconds": 25.602812118828297,
+        "valid": true,
+        "contact_impulse": [
+          1.40589225775804e-17,
+          0.018139052839772858,
+          2.1114559101819568e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 189,
+        "solve_seconds": 25.505972914397717,
+        "valid": true,
+        "contact_impulse": [
+          -4.805624469044716e-18,
+          0.018563013191637393,
+          5.5017520266423086e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 190,
+        "solve_seconds": 19.552324555814266,
+        "valid": true,
+        "contact_impulse": [
+          4.021871562433758e-18,
+          0.017046836187284215,
+          4.658090645754348e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2170540325824479,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 191,
+        "solve_seconds": 19.30343845486641,
+        "valid": true,
+        "contact_impulse": [
+          1.266422782241546e-17,
+          0.017770292101628594,
+          1.3946956088411818e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.21825240787580447,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 192,
+        "solve_seconds": 26.561136722564697,
+        "valid": true,
+        "contact_impulse": [
+          -1.7169291666395664e-18,
+          0.018343263680440657,
+          -1.1810033972598288e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2214124692387718,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 193,
+        "solve_seconds": 27.30886749178171,
+        "valid": true,
+        "contact_impulse": [
+          6.645062806716142e-18,
+          0.017920752377023865,
+          8.096273371839364e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.22458501199112973,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 194,
+        "solve_seconds": 26.991768792271614,
+        "valid": true,
+        "contact_impulse": [
+          1.0538201594586767e-17,
+          0.01659668181263026,
+          1.1861873484984563e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.22763776208301068,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 195,
+        "solve_seconds": 33.13464408367872,
+        "valid": true,
+        "contact_impulse": [
+          1.0029227437515539e-17,
+          0.01761163932623363,
+          1.3662164233546604e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.23107569835953348,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 196,
+        "solve_seconds": 34.32008507847786,
+        "valid": true,
+        "contact_impulse": [
+          2.7419779991601787e-18,
+          0.018259978297218652,
+          7.040188425467729e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.23458757813192163,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 197,
+        "solve_seconds": 33.88568074256182,
+        "valid": true,
+        "contact_impulse": [
+          3.7076484985892845e-18,
+          0.01757618661165787,
+          7.203713450570607e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.23815182327264436,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 198,
+        "solve_seconds": 34.10788702219725,
+        "valid": true,
+        "contact_impulse": [
+          4.546197881481241e-18,
+          0.018049109556594625,
+          6.767668525235123e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 199,
+        "solve_seconds": 34.97060976922512,
+        "valid": true,
+        "contact_impulse": [
+          6.176153969794532e-18,
+          0.017521418665462255,
+          7.944851097697387e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 200,
+        "solve_seconds": 35.450670920312405,
+        "valid": true,
+        "contact_impulse": [
+          1.2844831128637837e-17,
+          0.018212303262429907,
+          1.5512571011989877e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 201,
+        "solve_seconds": 33.71095236390829,
+        "valid": true,
+        "contact_impulse": [
+          3.2032999355034524e-17,
+          0.018716699258024834,
+          3.0407495773163453e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 202,
+        "solve_seconds": 28.54185977578163,
+        "valid": true,
+        "contact_impulse": [
+          2.5304024038258553e-17,
+          0.01708630851482443,
+          2.6468024065943107e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 203,
+        "solve_seconds": 27.576128475368023,
+        "valid": true,
+        "contact_impulse": [
+          3.3997890799537887e-17,
+          0.01797189966744171,
+          2.95973383825204e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 204,
+        "solve_seconds": 27.44060206413269,
+        "valid": true,
+        "contact_impulse": [
+          8.498599197157616e-18,
+          0.017300255129301768,
+          1.1355645360751857e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 205,
+        "solve_seconds": 26.847488403320312,
+        "valid": true,
+        "contact_impulse": [
+          2.786966036571223e-17,
+          0.017959976618875242,
+          2.6257977395063874e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 206,
+        "solve_seconds": 28.138265125453472,
+        "valid": true,
+        "contact_impulse": [
+          1.2469846995910399e-18,
+          0.01846440819014578,
+          2.5821311877473822e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 207,
+        "solve_seconds": 15.696027748286724,
+        "valid": true,
+        "contact_impulse": [
+          1.8214596497756474e-17,
+          0.014705043615529882,
+          1.8770250111155296e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 208,
+        "solve_seconds": 21.248777844011784,
+        "valid": true,
+        "contact_impulse": [
+          6.938893903907228e-18,
+          0.015633261839594258,
+          8.260265498725567e-18
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 209,
+        "solve_seconds": 20.96839950978756,
+        "valid": true,
+        "contact_impulse": [
+          2.2991624039848705e-17,
+          0.01364957324800442,
+          2.419036100068193e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      },
+      {
+        "step": 210,
+        "solve_seconds": 22.242147520184517,
+        "valid": true,
+        "contact_impulse": [
+          1.192339576682623e-17,
+          0.014629514934865874,
+          1.3435106159585073e-17
+        ],
+        "target_min_J": 0.8862398773075021,
+        "target_max_damage": 0.2403170136952082,
+        "body_valid": [
+          true,
+          true
+        ],
+        "all_history_valid": [
+          true,
+          true
+        ]
+      }
+    ],
+    "original_full_run_completed": false,
+    "target_reached": true,
+    "source_scope": "Original0to105, checked compact106 and107to110 bridge, subsequent explicitly versioned exact full-state candidate segments; not the original full run.",
+    "contact_scope": "Finite MLS-MPM support causes early numerical contact: at step140 the saved particle-nose proxy remains4.893mm above the original front surface (1.30 grid cells at h3.75mm), although nodal contact and target damage exist. This is not certified geometric surface contact or an IJIE accuracy validation. The existing baseline is unchanged; grid/geometry contact convergence remains future work.",
+    "checkpoint_interval": 5,
+    "seed_checkpoint_sha256": "cf60a99ca54b275f7a587b8f44741c0c47f23b76d4791826d989d9070ae890ba",
+    "checkpoints": [
+      {
+        "step": 140,
+        "time_s": 6.666666666666666e-06,
+        "frame": 4,
+        "states": [
+          "state140-body0.npz",
+          "state140-body1.npz"
+        ],
+        "raw_files": {
+          "state140-body0.npz": {
+            "bytes": 52919528,
+            "sha256": "67955930a3928892e450dc16ec8097a779a04dc01ff33c4acd2acd678cd20ffd"
+          },
+          "state140-body1.npz": {
+            "bytes": 600063,
+            "sha256": "6a22d0c8949ea4bf7828aa0c9a05c36e2b98fac863dedaa61ec48f95ade39210"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 6.645261596038443,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 4.156135917810077,
+            "material_history_energy_J": 4.984801391505831,
+            "constitutive_work_J": 4.981971587507154,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 334432.49027698685,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 8.597662035573245,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 132.68595842418975
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          -2.383282045310644e-17,
+          0.17934157442006354,
+          2.0593569593820207e-17
+        ]
+      },
+      {
+        "step": 145,
+        "time_s": 6.904761904761904e-06,
+        "frame": null,
+        "states": [
+          "state145-body0.npz",
+          "state145-body1.npz"
+        ],
+        "raw_files": {
+          "state145-body0.npz": {
+            "bytes": 53116923,
+            "sha256": "60ad610057e86988d623f65196b1f8996a2715f408772f6306f86a39d2a14c2e"
+          },
+          "state145-body1.npz": {
+            "bytes": 598383,
+            "sha256": "8d0f17a90cbcc7e1c6686f2bb03a08165cf2d2c32cbdf82089687c937fdbe7ad"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 9.689607507386931,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 5.729516240603974,
+            "material_history_energy_J": 7.714546365774889,
+            "constitutive_work_J": 7.709674255390995,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 334352.31105976505,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 8.647674246281085,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 173.4656650605871
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          -3.174749631225062e-17,
+          0.22580843865362624,
+          3.8645535765703856e-17
+        ]
+      },
+      {
+        "step": 150,
+        "time_s": 7.142857142857142e-06,
+        "frame": null,
+        "states": [
+          "state150-body0.npz",
+          "state150-body1.npz"
+        ],
+        "raw_files": {
+          "state150-body0.npz": {
+            "bytes": 53310871,
+            "sha256": "57f197306a8fca0792ae526062c3899b8a0e92113eda7118e940d1cb06df2f7e"
+          },
+          "state150-body1.npz": {
+            "bytes": 596756,
+            "sha256": "da4907cf437c712be8cd49f56e1976878ec999e82a86990a61a8b9fda9410d8c"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 13.72984373002716,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 7.735810493870374,
+            "material_history_energy_J": 11.524534569391308,
+            "constitutive_work_J": 11.516510525405259,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 334258.98547649046,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 8.250229788096,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 218.49330926764486
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          -5.01789332445042e-17,
+          0.27930384123202123,
+          4.777993906889423e-17
+        ]
+      },
+      {
+        "step": 155,
+        "time_s": 7.38095238095238e-06,
+        "frame": null,
+        "states": [
+          "state155-body0.npz",
+          "state155-body1.npz"
+        ],
+        "raw_files": {
+          "state155-body0.npz": {
+            "bytes": 53497749,
+            "sha256": "a0aa98c5d3ac09ce54c3ddcaf7f45d77710cc1db3796fec81d6c7016cf7a0c58"
+          },
+          "state155-body1.npz": {
+            "bytes": 594099,
+            "sha256": "f7c2bdee6686907e8fe79cfd653fd1b741aa72fd795a154103dac66b3e9f8a25"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 18.849806262897083,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 10.081242365590276,
+            "material_history_energy_J": 16.689789665424684,
+            "constitutive_work_J": 16.67713750470897,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 334153.0874364937,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 7.498513518973034,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 266.01751265135033
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          -5.408206106545201e-17,
+          0.3395762859736604,
+          7.26942183305976e-17
+        ]
+      },
+      {
+        "step": 160,
+        "time_s": 7.619047619047618e-06,
+        "frame": null,
+        "states": [
+          "state160-body0.npz",
+          "state160-body1.npz"
+        ],
+        "raw_files": {
+          "state160-body0.npz": {
+            "bytes": 53677425,
+            "sha256": "2b58a900133fe88e817a907f78ee8573598087c2843b772adefdef2d04889535"
+          },
+          "state160-body1.npz": {
+            "bytes": 592032,
+            "sha256": "0a288636cbba6d3f146c988d5536a7aa25b95a8bd0b2e5bc00cbbc22c0b3e1ac"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 24.064226760880988,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 10.95983897035651,
+            "material_history_energy_J": 22.822186244695928,
+            "constitutive_work_J": 22.80076353968146,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 334041.5342950992,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 5.960620594426015,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 312.82327822065537
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          -4.649264585805348e-17,
+          0.401697404678432,
+          1.0250284299169332e-16
+        ]
+      },
+      {
+        "step": 165,
+        "time_s": 7.85714285714286e-06,
+        "frame": null,
+        "states": [
+          "state165-body0.npz",
+          "state165-body1.npz"
+        ],
+        "raw_files": {
+          "state165-body0.npz": {
+            "bytes": 53863882,
+            "sha256": "8c7bea4109052ecec55d1c8aba3231897db6ee6398231bab0645def86cea549e"
+          },
+          "state165-body1.npz": {
+            "bytes": 590137,
+            "sha256": "76e558f0c6711325d449907d75059fcc5d6090c7756d965d88d4e26882f4a988"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 29.192087278296576,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 10.570675251321575,
+            "material_history_energy_J": 29.612275958753123,
+            "constitutive_work_J": 29.583284548966695,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333926.43817813054,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 4.607642745365592,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 356.1519007066788
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          -9.623050451520109e-18,
+          0.4650180873914079,
+          1.5792511543439876e-16
+        ]
+      },
+      {
+        "step": 170,
+        "time_s": 8.095238095238102e-06,
+        "frame": null,
+        "states": [
+          "state170-body0.npz",
+          "state170-body1.npz"
+        ],
+        "raw_files": {
+          "state170-body0.npz": {
+            "bytes": 54043192,
+            "sha256": "a37c5f515df8596cee83c957b788d670fd7e6104cab7983cd5b4e6293a40da58"
+          },
+          "state170-body1.npz": {
+            "bytes": 587867,
+            "sha256": "0ce3b8b6a67cabdddd2887afafe3b409e48adf59bf899be0ea4aecaeeba31d9e"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 34.59512241700049,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 11.561527195504018,
+            "material_history_energy_J": 37.091598341854464,
+            "constitutive_work_J": 37.04687965130812,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333805.00248994696,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 3.904837961818389,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 395.559035758788
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          3.529188053019133e-17,
+          0.532147893232336,
+          2.1249584546628085e-16
+        ]
+      },
+      {
+        "step": 175,
+        "time_s": 8.333333333333344e-06,
+        "frame": 5,
+        "states": [
+          "state175-body0.npz",
+          "state175-body1.npz"
+        ],
+        "raw_files": {
+          "state175-body0.npz": {
+            "bytes": 54222550,
+            "sha256": "425fc4574bc1fc26c91f7d31fe6c9a17bc3bba7dd5365058475a5318c9d9ffcf"
+          },
+          "state175-body1.npz": {
+            "bytes": 585839,
+            "sha256": "def96613b125ddd87b3293658b1f3df01bd1cc99bfe76061b24dcf42c45c7a71"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 39.867554571657806,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 11.072352677013523,
+            "material_history_energy_J": 45.086602902661355,
+            "constitutive_work_J": 44.94510127638372,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333680.2822209946,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 3.6936613851525544,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 435.1035608767854
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          9.439495355643921e-17,
+          0.6011482759085531,
+          2.748287100665278e-16
+        ]
+      },
+      {
+        "step": 180,
+        "time_s": 8.571428571428586e-06,
+        "frame": null,
+        "states": [
+          "state180-body0.npz",
+          "state180-body1.npz"
+        ],
+        "raw_files": {
+          "state180-body0.npz": {
+            "bytes": 54388619,
+            "sha256": "eb34ba87cfb27d4da34f75bb7b0cb80b3bfa1ae7d8f2f14aabb499b00d6d542b"
+          },
+          "state180-body1.npz": {
+            "bytes": 583459,
+            "sha256": "4ecddcf6b4bc6e11dd5f2c6db75f448f1349c7c891b4dea0581fae2fb702bc11"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 45.97520597492793,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 11.280210129808912,
+            "material_history_energy_J": 53.454492697749494,
+            "constitutive_work_J": 53.29827735634858,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333545.59146936116,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 4.240720357018418,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 478.056293684062
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          1.3901415185612888e-16,
+          0.6765512236673326,
+          3.3070579650031895e-16
+        ]
+      },
+      {
+        "step": 185,
+        "time_s": 8.809523809523828e-06,
+        "frame": null,
+        "states": [
+          "state185-body0.npz",
+          "state185-body1.npz"
+        ],
+        "raw_files": {
+          "state185-body0.npz": {
+            "bytes": 54549233,
+            "sha256": "57289af07a7c332568ee08b51200ee2ad5695c6bb80290290973969eefa9a04d"
+          },
+          "state185-body1.npz": {
+            "bytes": 582072,
+            "sha256": "1cf17f502e87d992dd6870869b7f75bf5e52622ee2fcabf16611e9df64fae565"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 52.1974003825343,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 12.853659210296279,
+            "material_history_energy_J": 62.1124532333867,
+            "constitutive_work_J": 61.95223140603053,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333406.7506031461,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 5.110046361783244,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 528.6521315056798
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          1.9292068560918744e-16,
+          0.7544014568682882,
+          4.429391602819801e-16
+        ]
+      },
+      {
+        "step": 190,
+        "time_s": 9.04761904761907e-06,
+        "frame": null,
+        "states": [
+          "state190-body0.npz",
+          "state190-body1.npz"
+        ],
+        "raw_files": {
+          "state190-body0.npz": {
+            "bytes": 54699268,
+            "sha256": "f642c86735a1aa038a4dbf3658ce811adedec7fd0dc2babcb78833e850507bf3"
+          },
+          "state190-body1.npz": {
+            "bytes": 580042,
+            "sha256": "050d7df154fe2ea12f2d63a5871fecc5c68309b3e5ad90b93af5e4390cc7be9d"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 60.366784909671864,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 13.496831517896313,
+            "material_history_energy_J": 71.72111253234131,
+            "constitutive_work_J": 71.61033410880258,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333250.1232817204,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 5.669884158849025,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 589.9723021606152
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          2.2052288156992644e-16,
+          0.8430768766245385,
+          5.05681675499306e-16
+        ]
+      },
+      {
+        "step": 195,
+        "time_s": 9.285714285714313e-06,
+        "frame": null,
+        "states": [
+          "state195-body0.npz",
+          "state195-body1.npz"
+        ],
+        "raw_files": {
+          "state195-body0.npz": {
+            "bytes": 54839220,
+            "sha256": "2f1e4b0751872a8772940bcc2c1cd45fdb13cf74791bf3d7ebea1c5c4b307ded"
+          },
+          "state195-body1.npz": {
+            "bytes": 578446,
+            "sha256": "2dcf101e461ffa257a982a7e21ff99f4de45c05daca1b66f924cd73543306d0a"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 68.41505028450061,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 14.166101071548606,
+            "material_history_energy_J": 81.37858382754251,
+            "constitutive_work_J": 81.23347679712901,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 333092.32104408264,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 4.658900683515008,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 653.6540559318344
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          2.586826720645208e-16,
+          0.9313195059224956,
+          5.520679392808285e-16
+        ]
+      },
+      {
+        "step": 200,
+        "time_s": 9.523809523809555e-06,
+        "frame": null,
+        "states": [
+          "state200-body0.npz",
+          "state200-body1.npz"
+        ],
+        "raw_files": {
+          "state200-body0.npz": {
+            "bytes": 54973512,
+            "sha256": "e2c999464efe78fd9d68c051e7689c07cbe24f36151e9a65f285083de8adcd31"
+          },
+          "state200-body1.npz": {
+            "bytes": 576340,
+            "sha256": "65c1b3d6738cfdde5684fd11c7380b33c4897e53bd7c7a2ac9b053439f92d961"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 76.85535114747313,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 15.434925474275444,
+            "material_history_energy_J": 91.35406610392644,
+            "constitutive_work_J": 91.22950868875984,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 332931.2702668534,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 3.558624478419434,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 712.2495404028502
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          2.8869948154218386e-16,
+          1.020938502315859,
+          5.965369317917893e-16
+        ]
+      },
+      {
+        "step": 205,
+        "time_s": 9.761904761904798e-06,
+        "frame": null,
+        "states": [
+          "state205-body0.npz",
+          "state205-body1.npz"
+        ],
+        "raw_files": {
+          "state205-body0.npz": {
+            "bytes": 55111225,
+            "sha256": "15f92d0040f107019d2515d03a122b09d91d9fbbb8aadd57bd2e693fb18299c6"
+          },
+          "state205-body1.npz": {
+            "bytes": 574984,
+            "sha256": "f9157d48ce8ee947b69927c1d62b72c697cbfcb113a7d2aa49328d3f8a62ced3"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 85.28011367585974,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 16.096206741728153,
+            "material_history_energy_J": 101.85729172027413,
+            "constitutive_work_J": 101.73069594251739,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 332769.9836745647,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 2.1450992342932733,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 756.7473217020162
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          4.1640265529788466e-16,
+          1.1099736415043269,
+          7.20623412769232e-16
+        ]
+      },
+      {
+        "step": 210,
+        "time_s": 1.000000000000004e-05,
+        "frame": 6,
+        "states": [
+          "state210-body0.npz",
+          "state210-body1.npz"
+        ],
+        "raw_files": {
+          "state210-body0.npz": {
+            "bytes": 55246801,
+            "sha256": "ade33bdb6b23e668c8003f2438a2a42cbfc7e6b34d08b2687e1453ad0e2ddebe"
+          },
+          "state210-body1.npz": {
+            "bytes": 573442,
+            "sha256": "6273fda8721570d986f9151c7301ca0a82fe3c3ea385ca6e459685a2024cabcd"
+          }
+        },
+        "bodies": [
+          {
+            "body": 0,
+            "translational_kinetic_J": 91.91894194410754,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 14.40353781748366,
+            "material_history_energy_J": 112.31139195251193,
+            "constitutive_work_J": 112.08447844510337,
+            "stored_elastic_J": null
+          },
+          {
+            "body": 1,
+            "translational_kinetic_J": 332630.6472124339,
+            "quadratic_APIC_affine_kinetic_diagnostic_J": 4.748898141701662,
+            "material_history_energy_J": 0.0,
+            "constitutive_work_J": 0.0,
+            "stored_elastic_J": 766.5902992619276
+          }
+        ],
+        "external_work_J": 0.0,
+        "contact_impulse_cumulative_on_body1": [
+          4.777181502058143e-16,
+          1.187055443332467,
+          7.878615267271272e-16
+        ]
+      }
+    ],
+    "last_complete_step": 210
+  },
+  "original_full_run_completed": false,
+  "source_scope": "Original0to105, checked compact106 and107to110 bridge, subsequent explicitly versioned exact full-state candidate segments; not the original full run.",
+  "contact_scope": "Finite MLS-MPM support causes early numerical contact: at step140 the saved particle-nose proxy remains4.893mm above the original front surface (1.30 grid cells at h3.75mm), although nodal contact and target damage exist. This is not certified geometric surface contact or an IJIE accuracy validation. The existing baseline is unchanged; grid/geometry contact convergence remains future work."
+}
