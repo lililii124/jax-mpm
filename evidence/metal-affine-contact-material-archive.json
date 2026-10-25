@@ -6,5 +6,8 @@
   "verified_source_pins": 35,
   "resource_guard_expected_exit_verified": true,
   "accepted_dynamic_window": false,
-  "production_admitted": false
+  "production_admitted": false,
+  "legacy_BE_comparison_certified": false,
+  "correction_notice": "evidence/metal-affine-original-be-correction-notice.json",
+  "authoritative_BE_comparison": "evidence/metal-affine-original-be-corrected-window125.json"
 }

@@ -1,0 +1,22 @@
+{
+  "schema": "material-BE-call-convention-correction-v1",
+  "base_zip_sha256": "31c9896033a236d64c85eacbb1eb078ab4279ef1e3204741b1264d018b39faab",
+  "legacy_BE_comparison_certified": false,
+  "error": "BE branch supplied spatial strain instead of original Cayley old-frame strain",
+  "correction": "BE branch now directly calls original cayley_kinematics(F,Lmid,dt) for rotation and strain",
+  "corrected_work_difference_J": [
+    -3.480068069350653e-08,
+    -1.7085469651047236e-08,
+    -8.299422281582772e-09
+  ],
+  "corrected_deviatoric_work_difference_J": [
+    -3.4771809154300376e-08,
+    -1.7078252888669385e-08,
+    -8.297615527556596e-09
+  ],
+  "corrected_original_call_comparison_passed": true,
+  "midpoint_candidate_self_checks_affected": false,
+  "attribution": "Near-first-order material-work discrepancy persists in this corrected prescribed-path experiment; no claim about model physics or complete impact-trajectory superiority.",
+  "production_admitted": false,
+  "accepted_dynamic_window": false
+}

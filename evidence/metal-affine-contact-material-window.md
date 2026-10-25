@@ -1,5 +1,10 @@
 # Compatible contact and material work: bounded operator windows
 
+**Correction:** The V4 archive BE comparison is uncertified because its strain
+input used the wrong frame. Preserve V4 unchanged; follow
+`metal-affine-original-be-correction-notice.json` and the corrected native-call
+raw evidence. Midpoint candidate self-checks are separate and remain valid.
+
 These diagnostics use the original authenticated 125 ns metal state and
 unchanged material parameters. They do not advance or admit a full impact
 trajectory. No homepage or public media changes are made.
@@ -47,7 +52,9 @@ histories. Final prescribed-path raw files explicitly carry
 accepted_impact_state=False and save W, E0, D0, Lphysical and Ctransfer.
 
 The original backward-Euler return has a first-order deviatoric work deficit
-of -3.474e-8/-1.706e-8/-8.289e-9 J. The first two exceed the original global
+in the original V4 comparison, now explicitly uncertified. The corrected
+native-call experiment gives total work differences
+-3.480068e-8/-1.708547e-8/-8.299422e-9 J. The first two exceed the original global
 1.414599609375e-8 J energy tolerance. This failure is retained, not hidden by
 a reservoir or a finer-step success.
 

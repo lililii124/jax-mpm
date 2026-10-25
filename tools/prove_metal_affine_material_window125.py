@@ -16,7 +16,7 @@ import jax
 jax.config.update('jax_enable_x64',True)
 import jax.numpy as j
 from mpm_jax.materials.linear_metal import linear_metal,deviatoric_return
-from mpm_jax.fragment_multifield_v6_mpm import elastic_energy,damage_volume_energy,ImpactConfig
+from mpm_jax.fragment_multifield_v6_mpm import elastic_energy,damage_volume_energy,ImpactConfig,cayley_kinematics
 from mpm_jax.fragment_v6_midpoint_strength import midpoint_return
 
 
@@ -27,6 +27,11 @@ def update(F,tau,ep,cold,fracture,damage,internal,W,dt,material,midpoint_strengt
     skew=.5*(L-j.swapaxes(L,-1,-2));eye=j.eye(3)
     rotation=j.linalg.solve(eye-.5*dt*skew,eye+.5*dt*skew)
     strain=.5*dt*(L+j.swapaxes(L,-1,-2))
+    if not midpoint_strength:
+        # Match the actual original cayley_kinematics -> deviatoric_return
+        # interface: the original return receives OLD-FRAME strain, not the
+        # spatial midpoint strain consumed by the new midpoint candidate.
+        _,rotation,strain=cayley_kinematics(F,L,dt)
     heat=internal-cold-fracture-elastic_energy(tau,material,damage)-damage_volume_energy(J,damage,material)
     temperature=material.reference_temperature+heat/material.heat_capacity
     factor=1-damage

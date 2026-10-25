@@ -72,5 +72,8 @@
     "evidence/metal-affine-original-material-independent.json": "368dc9baecd2f7856a07771b30644a7b49b2f35d3fb5f795dc617282d0d49c4e",
     "evidence/metal-affine-projection-memory-guard125.json": "7aa32ab1da8bb626c1993bd8caed50edb14123884731845e6a803cc2d4f3b146",
     "evidence/metal-affine-projection-memory-reference.json": "cf0fe0459b7fc90c3e53c2eacf1ca576c9846df28b84f7abd70eadc4002f1db6"
-  }
+  },
+  "legacy_BE_comparison_certified": false,
+  "correction_notice": "evidence/metal-affine-original-be-correction-notice.json",
+  "authoritative_BE_comparison": "evidence/metal-affine-original-be-corrected-window125.json"
 }
