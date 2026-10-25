@@ -14,7 +14,7 @@ from tools.metal_affine_resource import require_commit_headroom
 
 
 class ConsistentAffineProjection:
-    def __init__(self,x,mass,body,dx,F,reference_root,preconditioner_shift=1e-8,clamped_particles=None):
+    def __init__(self,x,mass,body,dx,F,reference_root,preconditioner_shift=1e-8,clamped_particles=None,build_solver=True):
         self.x,self.mass,self.body,self.dx=map(np.asarray,(x,mass,body,dx))
         self.F,self.reference_root=F,reference_root
         self.n=len(x)
@@ -41,6 +41,11 @@ class ConsistentAffineProjection:
         self.column_norm=np.sqrt(np.asarray(Q0.power(2).sum(axis=0)).ravel())
         if np.any(self.column_norm<=0):raise ValueError('Unexpected zero physical column')
         Q=Q0@diags(1/self.column_norm);self.Q=Q
+        if not build_solver:
+            self._build_modes(Q0, ids, r, body, x, dx)
+            self.tri=self.A=self.Qp=None
+            self.factor_report=dict(built=False, physical_columns_removed=0)
+            return
         gram=(Q.T@Q).tocsc()
         factor_headroom=require_commit_headroom()
         if not 0<preconditioner_shift<1:raise ValueError('Positive preconditioner-only shift required')
@@ -71,6 +76,11 @@ class ConsistentAffineProjection:
         require_commit_headroom()
         self.tri=splu(U.tocsc(),permc_spec='NATURAL',diag_pivot_thresh=0)
         del U
+        self._build_modes(Q0, ids, r, body, x, dx)
+        self.A=LinearOperator(Q.shape,matvec=lambda z:self.orth(self.Qp@self.right(z)),
+            rmatvec=lambda z:self.right_transpose(self.Qp.T@self.orth(z)),dtype=float)
+
+    def _build_modes(self, Q0, ids, r, body, x, dx):
         # These polynomial grid fields are explicitly in range(Q), including
         # each body's translations and rotations. Deflation is exact algebra:
         # range(Q)=span(T) orthogonal-sum range((I-T T.T)Q).
@@ -90,8 +100,6 @@ class ConsistentAffineProjection:
         active_rows=np.diff(Q0.indptr)>0
         self.T=np.zeros_like(K)
         self.T[active_rows],_=np.linalg.qr(K[active_rows],mode='reduced')
-        self.A=LinearOperator(Q.shape,matvec=lambda z:self.orth(self.Qp@self.right(z)),
-            rmatvec=lambda z:self.right_transpose(self.Qp.T@self.orth(z)),dtype=float)
 
     def right(self,z):return self.tri.solve(self.root*z)
     def right_transpose(self,z):return self.root*self.tri.solve(z,trans='T')

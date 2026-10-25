@@ -61,18 +61,22 @@ def stress_force(state,y,p):
 
 
 class DynamicFrame:
-    def __init__(self,state,fixed,incoming_y,progress=lambda phase:None):
+    def __init__(self,state,fixed,incoming_y,progress=lambda phase:None,direct_projection=False):
         require_commit_headroom()
         args=(state['x'],state['mass'],state['body_id'],.00025,state['F'],state['reference_root'])
-        self.full=ConsistentAffineProjection(*args)
-        progress('free-factor-ready')
+        self.direct_projection=direct_projection
+        self.full=ConsistentAffineProjection(*args,build_solver=not direct_projection)
+        progress('free-basis-ready' if direct_projection else 'free-factor-ready')
         self.contact=CompatibleContact(self.full)
         self.incoming_y=incoming_y.copy()
-        self.free_state,self.free_projection_rows=self.full.project(incoming_y)
+        if direct_projection:
+            self.free_state=self.free_projection_rows=None
+        else:
+            self.free_state,self.free_projection_rows=self.full.project(incoming_y)
         # Only the known affine modes and assembled contact sampler survive.
         # Do not hold two large SuperLU factors at once.
         self.full.tri=None;self.full.A=None;self.full.Q=None;self.full.Qp=None;self.full.Q0=None
-        gc.collect();progress('free-state-projected-factor-released')
+        gc.collect();progress('free-basis-released' if direct_projection else 'free-state-projected-factor-released')
         self.allowed=ConsistentAffineProjection(*args,clamped_particles=fixed)
         progress('fixed-node-factor-ready')
         self.restricted=DirichletContact(self.contact,self.allowed)
@@ -92,6 +96,13 @@ class DynamicFrame:
             free_factor=self.full.factor_report,constrained_factor=self.allowed.factor_report)
     def project(self,y):
         if not np.array_equal(y,self.incoming_y):raise ValueError('Stale free-state projection')
+        if self.direct_projection:
+            allowed,rows=self.allowed.project(y)
+            loss=float(.5*np.sum((allowed-y)**2))
+            return allowed,dict(combined_projection_loss_J=loss,
+                combined_projection_identity_J=kinetic(allowed)-kinetic(y)+loss,
+                constrained_projection=rows,
+                reaction_scope='fixed-node plus Galerkin-orthogonal residual'),allowed-y
         free,free_rows=self.free_state,self.free_projection_rows;allowed,bc_rows=self.allowed.project(free)
         grid_loss=float(.5*np.sum((free-y)**2));boundary_loss=float(.5*np.sum((allowed-free)**2))
         return allowed,dict(grid_projection_loss_J=grid_loss,boundary_projection_loss_J=boundary_loss,
