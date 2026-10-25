@@ -90,3 +90,14 @@ def inlet_schedule(*,radius=.0025,spacing=.0002,maximum_speed=.2,duration=.32,le
     stream=np.repeat(np.arange(len(yz)),counts);layer=np.concatenate([np.arange(n) for n in counts]);birth=(layer+.5)*spacing/u[stream]
     x=np.column_stack((np.full(len(stream),left+spacing*.5),yz[stream]));v=np.column_stack((u[stream],np.zeros((len(stream),2))))
     order=np.argsort(birth,kind='stable');return dict(x=x[order],v=v[order],birth_time=birth[order],mass=np.full(len(order),density*spacing**3),nominal_flow_m3_per_s=float(np.sum(u)*spacing**2),capacity=len(order))
+
+
+def continued_inlet_schedule(horizons,**kwargs):
+    """Append future physical births, preserving every previous particle ID."""
+    horizons=list(horizons);assert horizons and all(b>a for a,b in zip(horizons,horizons[1:]))
+    source=inlet_schedule(duration=horizons[0],**kwargs)
+    for previous,end in zip(horizons,horizons[1:]):
+        extra=inlet_schedule(duration=end,**kwargs);future=extra['birth_time']>previous+1e-12
+        for name in ['x','v','mass','birth_time']:source[name]=np.concatenate((source[name],extra[name][future]),axis=0)
+        source['capacity']=len(source['mass'])
+    return source
