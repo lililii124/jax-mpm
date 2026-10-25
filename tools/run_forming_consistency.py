@@ -24,15 +24,21 @@ def main():
         start=int(cp['step'])
     material=isotropic_brittle(**p['material']);layout=build_layout(g['x'],g['ids'],dx=p['dx'],reference_bounds=np.broadcast_to(np.asarray(p['bounds']),(3,3,2)),padding_cells=3,max_nodes=1600000)
     step=make_step(material,layout,FibreConfig(p['dt']),tuple(jnp.asarray(m) for m in g['masks']),p['duration'])
-    names=['fixture_work_J','initial_fixture_projection_loss_J','signed_contact_loss_J','kinetic_increment_J','elastic_increment_J','stress_midpoint_velocity_work_J','P2G_loss_J','G2P_loss_J','energy_remainder_J','grid_work_identity_residual_J','stress_virtual_work_residual_J','material_endpoint_remainder_J','closing_residual_m_per_s','contact_sweeps','minJ','momentum_step_residual_Ns','angular_step_residual_kg_m2_per_s','angular_transport_term_kg_m2_per_s','fixture_torque_impulse_kg_m2_per_s','angular_momentum_norm_kg_m2_per_s']
+    names=['fixture_work_J','initial_fixture_projection_loss_J','signed_contact_loss_J','kinetic_increment_J','elastic_increment_J','stress_midpoint_velocity_work_J','P2G_loss_J','G2P_loss_J','energy_remainder_J','grid_work_identity_residual_J','stress_virtual_work_residual_J','material_endpoint_remainder_J','closing_residual_m_per_s','contact_sweeps','minJ','momentum_step_residual_Ns','angular_step_residual_kg_m2_per_s','angular_transport_term_kg_m2_per_s','fixture_torque_impulse_kg_m2_per_s','angular_momentum_norm_kg_m2_per_s','fixture_torque_x','fixture_torque_y','fixture_torque_z','angular_residual_x','angular_residual_y','angular_residual_z','angular_momentum_x','angular_momentum_y','angular_momentum_z']
+    from tools.review_forming_snapshot import inspect
+    geometry_records=[inspect(state,p,g)]
+    if not geometry_records[-1]['geometry_valid']:raise FloatingPointError('Parent geometry diagnostic rejected')
     rows=[];begun=time.monotonic()
     for k in range(a.steps):
         state,metrics=step(state);metrics=np.asarray(metrics)
         if not bool(state.valid):raise FloatingPointError('Candidate state invalid; no accepted checkpoint')
         rows.append(dict(step=start+k+1,**dict(zip(names,map(float,metrics)))))
+        if (k+1)%16==0 or k+1==a.steps:
+            geometry_records.append(inspect(state,p,g))
+            if not geometry_records[-1]['geometry_valid']:raise FloatingPointError('Actual particle geometry diagnostic rejected; original parent preserved')
     leaves={'state_'+k:np.asarray(v) for k,v in state._asdict().items() if k!='history'};leaves.update({'history_'+k:np.asarray(v) for k,v in state.history._asdict().items()})
     np.savez_compressed(a.output/'checkpoint.npz',**leaves,step=start+a.steps,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
-    receipt=dict(parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),original_plan=p,accepted_steps=[start,start+a.steps],solver_seconds=time.monotonic()-begun,rows=rows,production_eligible=False,scope='Isolated explicit candidate; initial boundary projection then midpoint configuration. Signed contact work and material endpoint defect remain explicit; no unconditional stability claim.')
+    receipt=dict(parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),original_plan=p,accepted_steps=[start,start+a.steps],solver_seconds=time.monotonic()-begun,rows=rows,geometry_records=geometry_records,production_eligible=False,scope='Isolated explicit candidate; initial boundary projection then midpoint configuration. Signed contact work and material endpoint defect remain explicit; no unconditional stability claim.')
     (a.output/'plan.json').write_text(json.dumps(p,indent=2))
     (a.output/'review.json').write_text(json.dumps(receipt,indent=2));print(json.dumps(receipt,indent=2),flush=True)
 

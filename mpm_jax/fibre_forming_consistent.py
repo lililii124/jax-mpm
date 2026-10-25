@@ -64,9 +64,10 @@ def make_step(material,layout,config,masks,duration):
             spin=jnp.stack((affine[:,2,1]-affine[:,1,2],affine[:,0,2]-affine[:,2,0],affine[:,1,0]-affine[:,0,1]),axis=1)
             return jnp.sum(s.mass[:,None]*(jnp.cross(position,velocity)+layout.dx**2/4*spin),axis=0)
         Lold=angular(s.x,s.v,s.C);Lnew=angular(x,v,C)
-        angular_error=jnp.linalg.norm(Lnew-Lold-fixture_torque)
+        angular_vector=Lnew-Lold-fixture_torque
+        angular_error=jnp.linalg.norm(angular_vector)
         transport=jnp.linalg.norm(jnp.sum(s.mass[:,None]*jnp.cross(x-s.x,v),axis=0))
         momentum_error=jnp.linalg.norm(jnp.sum(s.mass[:,None]*(v-s.v),axis=0)-impulse)
-        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew)])
+        metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew])
         return new,metrics
     return step
