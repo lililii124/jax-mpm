@@ -48,7 +48,7 @@ def plan_process(per_family=2,dx=.000075,pitch=.0027,diameter=.000225,particle_s
     return geometry,record
 
 
-def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense"):
+def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,pitch=.0027,diameter=.000225,particle_spacing=.00006,grid="dense",upgrade_work_observer=False):
     geometry,plan=plan_process(per_family,dx,pitch,diameter,particle_spacing)
     if not plan['within_initial_resource_limits']:raise ValueError('Need a new resource plan and swept sparse contact/grid strategy for this larger station')
     import jax
@@ -78,7 +78,17 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
     signature=hashlib.sha256(json.dumps(json_value(dict(plan=plan,geometry=geometry['metadata'],runtime=runtime)),sort_keys=True).encode()).hexdigest()
     plan['requested_steps']=count;plan['signature']=signature;plan['runtime']=runtime
     if resume:
-        prior=json.loads((output/'plan.json').read_text());assert prior['signature']==signature
+        prior=json.loads((output/'plan.json').read_text())
+        if prior['signature']!=signature:
+            if not upgrade_work_observer:raise ValueError('Source signature differs; explicit documented observer upgrade required')
+            omit={'source_sha256','requested_steps','signature','runtime'}
+            assert {k:v for k,v in prior.items() if k not in omit}=={k:json_value(v) for k,v in plan.items() if k not in omit}
+            old_sources=prior['source_sha256'];new_sources=plan['source_sha256']
+            assert old_sources['examples/triaxial_weaving_process.py']=='d6af5976dae9b1429fdf5601c4230adb172ecefafcdde2b4def2550006d938f4','Only the audited pre-work-observer source may upgrade'
+            assert set(old_sources)==set(new_sources)
+            assert all(old_sources[k]==new_sources[k] for k in old_sources if k!='examples/triaxial_weaving_process.py')
+            (output/'work-observer-upgrade.json').write_text(json.dumps(dict(old_signature=prior['signature'],new_signature=signature,
+                only_changed_source='examples/triaxial_weaving_process.py',scope='Add physical fixture work and projection-loss observer; no solver/material/guide changes'),indent=2))
     (output/'plan.json').write_text(json.dumps(json_value(plan),indent=2))
     (output/'geometry.json').write_text(json.dumps(json_value(geometry['metadata']),indent=2))
     np.savez_compressed(output/'reference.npz',reference=geometry['x'],mass=geometry['mass'],volume=geometry['volume'],
@@ -131,18 +141,33 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
                 new=new._replace(valid=new.valid&metrics.valid&local&constitutive_ok)
                 contact_work=jnp.sum(force*(new.x-old.x))
                 return new,new_h,a+jnp.array([contact_work,jnp.abs(diag.boundary_work),
-                    jnp.linalg.norm(metrics.force_residual),jnp.linalg.norm(metrics.torque_residual)])
+                    jnp.linalg.norm(metrics.force_residual),jnp.linalg.norm(metrics.torque_residual),
+                    jnp.sum(diag.group_impulses*jnp.stack([grip_speed(i)(old.time+config.dt) for i in range(len(geometry['masks']))])),
+                    jnp.sum(diag.group_impulses*jnp.stack([grip_speed(i)(old.time+config.dt) for i in range(len(geometry['masks']))]))-diag.boundary_work])
             return jax.lax.cond(old.valid,attempt,lambda _:carry,None)
         return jax.lax.fori_loop(0,n,body,(s,h,accumulator))
-    observations=[];accumulator=jnp.zeros(4);start=0
+    observations=[];accumulator=jnp.zeros(6);start=0
+    observer_start=0;observer_initial_energy=0.;observer_initial_grid_work=0.;observer_initial_abs_work=0.
     if resume:
         with np.load(output/'checkpoint.npz',allow_pickle=False) as cp:
-            assert str(cp['signature'])==signature and json.loads(str(cp['runtime']))==runtime
+            assert (str(cp['signature'])==signature or (upgrade_work_observer and str(cp['signature'])==prior['signature'])) and json.loads(str(cp['runtime']))==runtime
             values={name:jnp.asarray(cp['state_'+name]) for name in state._fields if name!='history'}
             values['history']=BrittleHistory(*(jnp.asarray(cp['history_'+name]) for name in state.history._fields))
             state=FibreState(**values)
             history=FibreCouplingHistory(FibreContactHistory(jnp.asarray(cp['contact_law_active']),jnp.asarray(cp['contact_law_valid'])),jnp.asarray(cp['contact_radius']),jnp.asarray(cp['contact_segments']),jnp.asarray(cp['contact_valid']))
             accumulator=jnp.asarray(cp['accumulator']);start=int(cp['step'])
+            if len(accumulator)==4:
+                assert upgrade_work_observer
+                accumulator=jnp.concatenate([accumulator,jnp.zeros(2)])
+                observer_start=start;observer_initial_grid_work=float(state.boundary_work);observer_initial_abs_work=float(accumulator[1])
+                observer_initial_energy=float(.5*jnp.sum(state.mass[:,None]*state.v**2)+stored_energy(state,material)+jnp.sum(evaluate(state,history)[2].potential))
+            else:
+                observer_start=int(cp['observer_start']);observer_initial_energy=float(cp['observer_initial_energy'])
+                observer_initial_grid_work=float(cp['observer_initial_grid_work']);observer_initial_abs_work=float(cp['observer_initial_abs_work'])
+            exact={name:bool(np.array_equal(cp['state_'+name],np.asarray(getattr(state,name)))) for name in state._fields if name!='history'}
+            exact.update({'history_'+name:bool(np.array_equal(cp['history_'+name],np.asarray(getattr(state.history,name)))) for name in state.history._fields})
+            assert all(exact.values()) and np.array_equal(cp['accumulator'][:4],np.asarray(accumulator)[:4])
+            (output/'restore-exact.json').write_text(json.dumps(dict(step=start,physical_fields=exact,original_accumulator_first4_exact=True),indent=2))
         if not start<count:raise ValueError('Resume endpoint must advance the actual checkpoint')
         observations=json.loads((output/'observations.json').read_text());assert observations[-1]['step']==start
         validate_state(state,layout)
@@ -157,6 +182,11 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
         K=float(.5*jnp.sum(state.mass[:,None]*state.v**2));U=float(stored_energy(state,material));H=float(jnp.sum(metrics.potential))
         row=dict(step=step,time_s=float(state.time),K=K,U=U,Hertz_potential=H,boundary_work=float(state.boundary_work),
             contact_particle_work=float(accumulator[0]),absolute_boundary_step_work=float(accumulator[1]),
+            work_observer_start_step=observer_start,window_machine_work=float(accumulator[4]),window_projection_loss=float(accumulator[5]),
+            window_grid_kinetic_projection_work=float(state.boundary_work)-observer_initial_grid_work,
+            window_energy_change=K+U+H-observer_initial_energy,
+            window_energy_minus_machine_work=K+U+H-observer_initial_energy-float(accumulator[4]),
+            window_absolute_grid_work=float(accumulator[1])-observer_initial_abs_work,
             energy_minus_boundary_work=K+U+H-float(state.boundary_work),maximum_grip_error_m=error,
             minimum_gap_m=float(metrics.minimum_coverage_gap),contact_patches=int(metrics.patch_count),maximum_patch_extent_m=float(extent),
             force_residual=float(jnp.linalg.norm(metrics.force_residual)),torque_residual=float(jnp.linalg.norm(metrics.torque_residual)),
@@ -171,7 +201,7 @@ def run(output,*,per_family=2,steps=None,saved_frames=8,resume=False,dx=.000075,
         payload={'state_'+k:np.asarray(v) for k,v in state._asdict().items() if k!='history'}
         payload.update({'history_'+k:np.asarray(v) for k,v in state.history._asdict().items()})
         temporary=output/'checkpoint.partial.npz'
-        np.savez_compressed(temporary,step=step,signature=signature,runtime=json.dumps(runtime,sort_keys=True),accumulator=np.asarray(accumulator),**payload,
+        np.savez_compressed(temporary,step=step,signature=signature,runtime=json.dumps(runtime,sort_keys=True),accumulator=np.asarray(accumulator),observer_start=observer_start,observer_initial_energy=observer_initial_energy,observer_initial_grid_work=observer_initial_grid_work,observer_initial_abs_work=observer_initial_abs_work,**payload,
             **{'contact_'+k:np.asarray(v) for k,v in history._asdict().items() if k!='law'},
             contact_law_active=np.asarray(history.law.active),contact_law_valid=np.asarray(history.law.valid))
         temporary.replace(output/'checkpoint.npz')
@@ -191,10 +221,11 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(__doc__);parser.add_argument('--per-family',type=int,default=2)
     parser.add_argument('--dx',type=float,default=.000075);parser.add_argument('--pitch',type=float,default=.0027)
     parser.add_argument('--diameter',type=float,default=.000225);parser.add_argument('--particle-spacing',type=float,default=.00006)
+    parser.add_argument('--upgrade-work-observer',action='store_true')
     parser.add_argument('--grid',choices=['dense','tube'],default='dense')
     parser.add_argument('--saved-frames',type=int,default=8);parser.add_argument('--resume',action='store_true')
     parser.add_argument('--run',action='store_true');parser.add_argument('--steps',type=int)
     parser.add_argument('--output',default='outputs/triaxial-weaving-process');args=parser.parse_args()
     parameters=dict(per_family=args.per_family,dx=args.dx,pitch=args.pitch,diameter=args.diameter,particle_spacing=args.particle_spacing)
-    if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,grid=args.grid,**parameters)
+    if args.run:run(args.output,steps=args.steps,saved_frames=args.saved_frames,resume=args.resume,grid=args.grid,upgrade_work_observer=args.upgrade_work_observer,**parameters)
     else:print(json.dumps(json_value(plan_process(**parameters)[1]),indent=2))
