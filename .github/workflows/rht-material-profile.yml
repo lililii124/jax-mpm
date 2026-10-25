@@ -1,0 +1,47 @@
+name: RHT constitutive performance profile
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: rht-material-profile-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install the original numerical runtime
+        timeout-minutes: 10
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 numpy==2.5.4 scipy==1.18.1 ml-dtypes==0.6.0 opt-einsum==3.4.0 psutil==7.2.2 pillow==13.0.0
+      - name: Verify and restore the complete original parent archive
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/restore_rht_profile.py
+      - name: Trace at most the next35 original steps
+        timeout-minutes: 22
+        run: python tools/run_rht_profile.py
+      - name: Preserve traces, source and the last returned state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rht-material-profile-${{ github.run_id }}-${{ github.run_attempt }}
+          path: outputs/rht-profile/
+          if-no-files-found: error
+          compression-level: 6
+          retention-days: 14
