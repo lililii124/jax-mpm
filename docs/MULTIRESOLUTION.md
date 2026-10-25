@@ -96,6 +96,17 @@ remains two points per cell. A separate uniform-grid check confirms that reducin
 transverse sampling from two to one does not alter this constrained plane-strain
 mode. This equivalence does not apply to general three-dimensional deformation.
 
+`mpm_jax.hierarchical_streaming` evaluates stencils in particle batches. It keeps
+the full grid and all material points; batches accumulate into the same grid
+mass, momentum and internal force before any grid velocity is updated. A second
+pass gathers the shared updated grid and evaluates the unchanged energy record.
+Initialization and initial energy also use batches. Three focused comparisons
+cover uniform and hierarchical grids, partial final batches, nonuniform particle
+masses, stressed motion and prescribed boundary work over 25 steps. These pass
+against the full-stencil implementation; large-run memory and timing remain to
+be measured. `--batch-size 4096` selects this storage path. `--stop-after-steps`
+ends a capacity probe at the original time step without accelerating its loading.
+
 The basis design follows local-refinement work by
 [Sun et al.](https://doi.org/10.1002/nme.6312) and
 [THB-spline MPM](https://doi.org/10.1016/j.compgeo.2021.104097).

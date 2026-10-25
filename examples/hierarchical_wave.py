@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT))
 from mpm_jax.boundaries import fixed_box
 from mpm_jax.hierarchical_dynamics import advance, initial_state, kinetic_energy, strain_energy
 from mpm_jax.hierarchical_grid import grid_stencil, hierarchical_grid, moment_matrix, uniform_grid
+from mpm_jax.hierarchical_streaming import advance_streamed, initial_state_streamed, streamed_energy
 from mpm_jax.materials import neo_hookean
 
 jax.config.update("jax_enable_x64", True)
@@ -50,6 +51,9 @@ def main():
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--coarse-cells", type=int, default=80)
     parser.add_argument("--transverse-ppc", type=int, choices=(1, 2), default=2)
+    parser.add_argument("--batch-size", type=int, default=0)
+    parser.add_argument("--transverse-padding-cells", type=int)
+    parser.add_argument("--stop-after-steps", type=int)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     density, amplitude, width, centre = 1200., .02, .006, .045
@@ -57,13 +61,24 @@ def main():
     wave_speed = np.sqrt((material.lam + 2 * material.mu) / density)
     h = .2 / args.coarse_cells
     duration, chunk = .00065, 20
-    steps = int(np.ceil(600 * args.coarse_cells / 80 / chunk)) * chunk
-    dt = duration / steps
+    planned_steps = int(np.ceil(600 * args.coarse_cells / 80 / chunk)) * chunk
+    dt = duration / planned_steps
+    steps = planned_steps if args.stop_after_steps is None else args.stop_after_steps
+    if steps < chunk or steps > planned_steps or steps % chunk:
+        parser.error("Stop step must be a multiple of 20 within the planned run")
+    if args.batch_size < 0:
+        parser.error("Batch size must be nonnegative; zero selects the full stencil")
+    if args.transverse_padding_cells is not None and args.transverse_padding_cells < 4:
+        parser.error("Transverse storage padding requires at least four coarse cells")
     reference, volume = sample_bar(args.resolution, h, args.transverse_ppc)
     cells = args.coarse_cells * (2 if args.resolution == "fine" else 1)
     grid_h = .2 / cells
     bounds = ((0, round(.08 / grid_h), round(.08 / grid_h)),
               (cells, round(.12 / grid_h), round(.12 / grid_h)))
+    if args.transverse_padding_cells is not None:
+        lower = int(np.floor((.095 - args.transverse_padding_cells*h)/grid_h))
+        upper = int(np.ceil((.105 + args.transverse_padding_cells*h)/grid_h))
+        bounds = ((0, lower, lower), (cells, upper, upper))
     if args.resolution == "hierarchical":
         grid = hierarchical_grid(cells=cells, domain_size=.2, node_bounds=bounds,
                                  refined_lower=(.070 - .5*h, .095 - 3.5*h, .095 - 3.5*h),
@@ -81,13 +96,18 @@ def main():
     F[:, 0, 0] -= pulse / wave_speed
     C = np.zeros_like(F)
     C[:, 0, 0] = -2 * phase / width * pulse / F[:, 0, 0]
-    state = initial_state(x, volume, density, grid, velocity=v, deformation=F, affine=C)
+    initializer = initial_state_streamed if args.batch_size else initial_state
+    storage_options = {"batch_size": args.batch_size} if args.batch_size else {}
+    state = initializer(x, volume, density, grid, velocity=v, deformation=F, affine=C, **storage_options)
     boundaries = (fixed_box((0.,) * 3, (.2,) * 3, components=(False, True, True)),)
-    initial_energy = float(kinetic_energy(state, moment_matrix(grid_stencil(state.x, grid)))
+    initial_energy = float(streamed_energy(state, material, grid, **storage_options) if args.batch_size else
+                           kinetic_energy(state, moment_matrix(grid_stencil(state.x, grid)))
                            + strain_energy(state, material))
     np.savez_compressed(args.output / "initial.npz", reference=reference, **state._asdict())
     start = perf_counter()
-    compiled = advance.lower(state, material, grid, dt, steps=chunk, boundaries=boundaries).compile()
+    integrator = advance_streamed if args.batch_size else advance
+    compiled = integrator.lower(state, material, grid, dt, steps=chunk, boundaries=boundaries,
+                                **storage_options).compile()
     compile_seconds = perf_counter() - start
     records, frames = [], []
     start = perf_counter()
@@ -107,7 +127,8 @@ def main():
     solver_seconds = perf_counter() - start
     values = {key: np.concatenate([r[key] for r in records]) for key in records[0]}
     np.savez_compressed(args.output / "step_records.npz", **values)
-    exact = amplitude * np.exp(-((reference[:, 0] - wave_speed * duration - centre) / width)**2)
+    completed_duration = steps*dt
+    exact = amplitude * np.exp(-((reference[:, 0] - wave_speed * completed_duration - centre) / width)**2)
     actual = np.asarray(state.v)[:, 0]
     mass = np.asarray(state.mass)
     l2 = np.sqrt(np.sum(mass * (actual - exact)**2) / np.sum(mass * exact**2))
@@ -119,11 +140,15 @@ def main():
     files = [Path(__file__).resolve(), ROOT / "mpm_jax/hierarchical_grid.py",
              ROOT / "mpm_jax/hierarchical_dynamics.py", ROOT / "mpm_jax/materials/elastic.py",
              ROOT / "mpm_jax/boundaries.py"]
+    if args.batch_size:
+        files.append(ROOT / "mpm_jax/hierarchical_streaming.py")
     report = {
         "resolution": args.resolution, "particles": len(x), "grid_nodes": len(grid.positions),
         "coarse_cells": args.coarse_cells, "coarse_spacing_m": h, "transverse_ppc": args.transverse_ppc,
         "node_bounds": bounds,
-        "steps": steps, "duration_s": duration, "dt_s": dt, "wave_speed_m_s": wave_speed,
+        "steps": steps, "planned_steps": planned_steps, "duration_s": completed_duration,
+        "target_duration_s": duration, "complete": steps == planned_steps,
+        "batch_size": args.batch_size, "dt_s": dt, "wave_speed_m_s": wave_speed,
         "physical_case": "0.16 x 0.01 x 0.01 m bar; transverse velocities fixed, axial end faces free",
         "reference": "Linear plane-strain right-going Gaussian; neo-Hookean amplitude/c = 1.34e-4",
         "initial_energy_J": initial_energy, "final_energy_J": energy,
