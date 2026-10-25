@@ -1,0 +1,39 @@
+{
+  "completed": true,
+  "peak_owned_uss_bytes": 922460160,
+  "minimum_observed_available_bytes": 14682513408,
+  "uss_limit_bytes": 8589934592,
+  "minimum_available_bytes": 1610612736,
+  "seconds_limit": 900,
+  "host": {
+    "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+    "cpu_count": 4,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "memory_total_bytes": 16766414848,
+    "memory_available_bytes": 15600115712
+  },
+  "runs": [
+    {
+      "label": "result",
+      "status": "bounded-window-passed",
+      "accepted_steps": 1
+    },
+    {
+      "label": "replay",
+      "status": "bounded-window-passed",
+      "accepted_steps": 1
+    }
+  ],
+  "production_admitted": false,
+  "public_media_allowed": false,
+  "replay_bitwise_all_arrays": true,
+  "replay_array_count": 55,
+  "failure": null,
+  "source_unchanged": true,
+  "elapsed_seconds": 153.020757601
+}

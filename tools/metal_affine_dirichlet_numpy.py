@@ -28,6 +28,7 @@ class DirichletContact(CompatibleContact):
 
     def apply(self,y,tolerance=.005):
         following,report,multiplier=self.project(y,tolerance,return_impulse=True)
+        self.last_multiplier=multiplier.copy()
         physical_impulse=-self.full_contact.adjoint(multiplier)
         boundary_reaction=(following-y)-physical_impulse
         midpoint=.5*(y+following)

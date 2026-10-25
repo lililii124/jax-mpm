@@ -1,0 +1,217 @@
+{
+  "passed": true,
+  "run": 40180997172,
+  "artifact": 12593544553,
+  "whole_zip_sha256": "81bbb5fffca440ca20ed0bfd5693ff9c9f08b0ac124ad1072caca9af98bbcc55",
+  "physical_steps_accepted": 1,
+  "global_time_ns": 125.002,
+  "all_arrays_replay_bitwise": true,
+  "replay_array_count": 55,
+  "complete_source_pins_verified": 15,
+  "coverage": [
+    {
+      "stage": "001-initial-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "shared_pairs": 114,
+      "all_pairs_present": true
+    },
+    {
+      "stage": "005-step-0-new-space-boundary.npz",
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "shared_pairs": 114,
+      "all_pairs_present": true
+    }
+  ],
+  "stages": [
+    {
+      "stage": "000-mapped-initial.npz",
+      "time_s": 1.25e-07,
+      "white_roundtrip_norm": 9.100784152842787e-17,
+      "energy_residual_J": 0.0,
+      "old_C_metric_minus_material_metric_J": 0.0,
+      "min_J": 0.7738429647005093,
+      "max_T": 315.032792355446
+    },
+    {
+      "stage": "001-initial-space-boundary.npz",
+      "time_s": 1.25e-07,
+      "white_roundtrip_norm": 9.312110851529621e-16,
+      "energy_residual_J": 1.9895196601282805e-13,
+      "old_C_metric_minus_material_metric_J": 0.0,
+      "min_J": 0.7738429647005093,
+      "max_T": 315.032792355446
+    },
+    {
+      "stage": "002-initial-impact-contact.npz",
+      "time_s": 1.25e-07,
+      "white_roundtrip_norm": 9.227910346132226e-16,
+      "energy_residual_J": 2.2737367544323206e-13,
+      "old_C_metric_minus_material_metric_J": 0.0,
+      "min_J": 0.7738429647005093,
+      "max_T": 315.032792355446
+    },
+    {
+      "stage": "003-step-0-half-kick.npz",
+      "time_s": 1.25e-07,
+      "white_roundtrip_norm": 8.95189492836988e-16,
+      "energy_residual_J": -3.134668065740698e-05,
+      "old_C_metric_minus_material_metric_J": 0.0,
+      "min_J": 0.7738429647005093,
+      "max_T": 315.032792355446
+    },
+    {
+      "stage": "004-step-0-drift-material.npz",
+      "time_s": 1.25002e-07,
+      "white_roundtrip_norm": 1.443415877307638e-16,
+      "energy_residual_J": 3.134920544312081e-05,
+      "old_C_metric_minus_material_metric_J": -1.4756618213596084e-05,
+      "min_J": 0.7738326135027068,
+      "max_T": 315.0331682168258
+    },
+    {
+      "stage": "005-step-0-new-space-boundary.npz",
+      "time_s": 1.25002e-07,
+      "white_roundtrip_norm": 1.0157353134834737e-15,
+      "energy_residual_J": 3.134920586944645e-05,
+      "old_C_metric_minus_material_metric_J": -1.4756576092622709e-05,
+      "min_J": 0.7738326135027068,
+      "max_T": 315.0331682168258
+    },
+    {
+      "stage": "006-step-0-geometric-contact.npz",
+      "time_s": 1.25002e-07,
+      "white_roundtrip_norm": 9.058679751702198e-16,
+      "energy_residual_J": 3.134920581260303e-05,
+      "old_C_metric_minus_material_metric_J": -1.4757344388272031e-05,
+      "min_J": 0.7738326135027068,
+      "max_T": 315.0331682168258
+    },
+    {
+      "stage": "007-step-0-final-half-kick.npz",
+      "time_s": 1.25002e-07,
+      "white_roundtrip_norm": 9.47254509912517e-16,
+      "energy_residual_J": -7.350990927079692e-10,
+      "old_C_metric_minus_material_metric_J": -1.4757241899587825e-05,
+      "min_J": 0.7738326135027068,
+      "max_T": 315.0331682168258
+    },
+    {
+      "stage": "008-step-0-accepted.npz",
+      "time_s": 1.25002e-07,
+      "white_roundtrip_norm": 9.47254509912517e-16,
+      "energy_residual_J": -7.350990927079692e-10,
+      "old_C_metric_minus_material_metric_J": -1.4757241899587825e-05,
+      "min_J": 0.7738326135027068,
+      "max_T": 315.0331682168258
+    }
+  ],
+  "kicks": [
+    {
+      "stage": "003-step-0-half-kick.npz",
+      "real_kick_increment_residual_norm": 7.762442654643224e-16,
+      "power_identity_J": 7.150711348323817e-14,
+      "stress_work_J": 0.00013964785431186259,
+      "viscosity_work_J": 0.00010830117339505591,
+      "contact_work_J": -2.710505431213761e-20,
+      "boundary_work_J": -1.0133055148003195e-17
+    },
+    {
+      "stage": "007-step-0-final-half-kick.npz",
+      "real_kick_increment_residual_norm": 7.533048068939689e-16,
+      "power_identity_J": -1.362629271434634e-14,
+      "stress_work_J": 0.0001396509246546173,
+      "viscosity_work_J": 0.00010830096228344321,
+      "contact_work_J": 2.1432020586953197e-11,
+      "boundary_work_J": 1.3481969311562522e-16
+    }
+  ],
+  "F_drift_residual": 1.1101985819434788e-16,
+  "x_drift_residual_m": 4.332644117580782e-19,
+  "plastic_only_calorimetry_weighted_L1_J": 1.328065232761641e-15,
+  "cold_work_weighted_L1_J": 1.3752375967894438e-19,
+  "global_energy_residual_J": -7.350990927079692e-10,
+  "global_momentum_residual": [
+    -9.238540068371063e-19,
+    -6.956874917256077e-17,
+    -3.601421604124827e-20
+  ],
+  "global_angular_residual": [
+    -1.258861098628411e-22,
+    -4.7549857460035726e-23,
+    -1.6272559811531482e-20
+  ],
+  "material_work_residual_J": -1.4617484739992692e-14,
+  "force_time_work_residual_J": 7.571903576283076e-10,
+  "actual_displacement_max_m": 1.0071324612459142e-08,
+  "actual_velocity_change_max_m_s": 704.0349313186257,
+  "numerical_heat_added_J": 0.0,
+  "resource": {
+    "completed": true,
+    "peak_owned_uss_bytes": 922460160,
+    "minimum_observed_available_bytes": 14682513408,
+    "uss_limit_bytes": 8589934592,
+    "minimum_available_bytes": 1610612736,
+    "seconds_limit": 900,
+    "host": {
+      "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "cpu_count": 4,
+      "cpu_affinity": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "memory_total_bytes": 16766414848,
+      "memory_available_bytes": 15600115712
+    },
+    "runs": [
+      {
+        "label": "result",
+        "status": "bounded-window-passed",
+        "accepted_steps": 1
+      },
+      {
+        "label": "replay",
+        "status": "bounded-window-passed",
+        "accepted_steps": 1
+      }
+    ],
+    "production_admitted": false,
+    "public_media_allowed": false,
+    "replay_bitwise_all_arrays": true,
+    "replay_array_count": 55,
+    "failure": null,
+    "source_unchanged": true,
+    "elapsed_seconds": 153.020757601
+  },
+  "production_admitted": false,
+  "public_media_allowed": false,
+  "derived_raw_channels": {
+    "grid_projection_J": 2.5984691366580184e-06,
+    "boundary_projection_J": 1.0498179162722425e-11,
+    "zero_time_contact_projection_J": 0.22918751380133395,
+    "viscosity_J": 0.00021660213567849913
+  },
+  "all_loss_channels_recomputed_without_energy_remainder": true,
+  "dynamic_step_velocity_change_after_initial_contact_max_m_s": 0.20815061224562806,
+  "initial_zero_time_velocity_change_max_m_s": 703.9015260732938,
+  "exact_runtime": {
+    "python": "3.12.13",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "jaxlib": "0.12.0.1",
+      "jax": "0.12.1.dev20261022",
+      "ml_dtypes": "0.6.0",
+      "opt_einsum": "3.4.0",
+      "psutil": "7.2.2"
+    }
+  },
+  "original_material_source_preserved": true,
+  "scope": "Physical real-step/energy/material/constraint audit; diagnostic recording gap separately retained",
+  "diagnostic_metadata_complete": false,
+  "diagnostic_recording_gap": "Seed contact maxima/cache counters were not updated by the first-step driver. Cold NNLS did not use them. Physical closure and every joint impulse/work were independently verified. Recording patch adds real multipliers/pair coordinates, updates maxima, marks legacy cache unused, and sets rejected-state valid=false.",
+  "baseline_recalculated_for_recording_patch": false
+}

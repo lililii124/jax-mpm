@@ -5,7 +5,7 @@ material return. Contact force and stress use the SAME kick midpoint velocity.
 Only independently derived zero-time losses and viscosity enter the old
 noncalorimetric ledger; no balance remainder is fed into any state variable.
 """
-import argparse,gc,hashlib,json,os,subprocess,sys,time
+import argparse,gc,hashlib,json,os,re,subprocess,sys,time
 from pathlib import Path
 os.environ['OPENBLAS_NUM_THREADS']='1';os.environ['OMP_NUM_THREADS']='1'
 from tools.metal_affine_resource import require_commit_headroom,commit_headroom_bytes
@@ -18,7 +18,9 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--state',type=Path,required=True)
     p.add_argument('--epoch',type=Path,required=True);p.add_argument('--admission',type=Path,required=True)
     p.add_argument('--output',type=Path,required=True);p.add_argument('--dt',type=float,required=True);p.add_argument('--steps',type=int,default=1)
+    p.add_argument('--source-commit',help='Commit label supplied only by a hash-verified portable capsule')
     a=p.parse_args()
+    if a.source_commit and not re.fullmatch('[0-9a-f]{40}',a.source_commit):raise ValueError('Full source commit label required')
     if not (0<a.dt<=2e-12 and 1<=a.steps<=4 and a.dt*a.steps<=8e-12):raise ValueError('Extreme short-window bounds required')
     if a.output.exists():raise FileExistsError('Preserve prior raw data')
     a.output.mkdir(parents=True)
@@ -40,10 +42,11 @@ def main():
     base_boundary_loss=float(seed['boundary_projection_loss']);base_impulse=seed['boundary_impulse'].copy()
     ledger=dict(grid_projection=0.,boundary_projection=0.,contact_projection=0.,viscosity=0.,
         boundary_impulse=np.zeros(3),boundary_torque=np.zeros(3),contact_loss_by_body=np.zeros(2),contact_coupling_by_body=np.zeros(2))
-    report=dict(schema='material-affine-real-dynamic125-v1',source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+    report=dict(schema='material-affine-real-dynamic125-v1',source_commit=a.source_commit or subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         initial_sha256=digest(a.state),reference_sha256=digest(a.epoch),dt_s=a.dt,steps_requested=a.steps,
         fixed_particles=int(fixed.sum()),material_parameters=params,energy_roundoff_J=tol,
         initialization='W=Cseed Fseed; E0=Fseed^-1 h/2; D0=E0 E0^T; all original histories preserved before instantaneous projection/contact',
+        diagnostic_cache_policy='Original contact warm-start/iteration counter retained as legacy and unused; new NNLS solves cold, cap1024, actual multipliers saved',
         accepted_steps=0,status='running',stages=[],steps=[],production_admitted=False,public_media_allowed=False)
     stage=0;frame=None
     def progress(label):
@@ -78,6 +81,15 @@ def main():
         progress(label);write_report()
     def boundary_reaction(delta):
         dp,dl=moments(s,delta);ledger['boundary_impulse']+=dp;ledger['boundary_torque']+=dl
+    def contact_metadata(row,impulse_duration=0.):
+        s['maximum_contact_closing_speed']=np.asarray(max(float(s['maximum_contact_closing_speed']),row['original_sample_closing_m_s'],row['final_closing_m_s']))
+        s['maximum_contact_complementarity_residual']=np.asarray(max(float(s['maximum_contact_complementarity_residual']),row['complementarity_m_s']+row['restricted_sample_difference_m_s']))
+        s['candidate_contact_iteration_cap']=np.asarray(1024,dtype=np.int64)
+        s['candidate_contact_iterations_measured']=np.asarray(False)
+        s['candidate_legacy_contact_cache_ignored']=np.asarray(True)
+        s['candidate_contact_multiplier']=frame.restricted.last_multiplier.copy()
+        s['candidate_contact_pair_coordinates']=frame.contact.node_coordinates[frame.contact.pairs]
+        s['candidate_contact_impulse_duration_s']=np.asarray(impulse_duration)
     def project_geometry(label):
         nonlocal y
         before=y.copy();y,row,reaction=frame.project(y)
@@ -93,6 +105,7 @@ def main():
     def instantaneous_contact(label):
         nonlocal y
         before=y.copy();y,row,reaction,physical=frame.restricted.apply(y)
+        contact_metadata(row)
         delta=y-before;loss=float(.5*np.sum(delta*delta));ledger['contact_projection']+=loss;boundary_reaction(reaction)
         body=s['body_id'];perparticle=.5*np.sum(delta.reshape(len(body),4,3)**2,axis=(1,2))
         oldK=.5*np.sum(before.reshape(len(body),4,3)**2,axis=(1,2));newK=.5*np.sum(y.reshape(len(body),4,3)**2,axis=(1,2))
@@ -104,12 +117,15 @@ def main():
         gate(abs(kinetic(y)-kinetic(before)+loss)<=tol,'Instantaneous contact power identity failed')
         gate(abs(row['boundary_virtual_work_J'])<=tol,'Contact boundary reaction has nonzero allowed work')
         report['stages'].append(dict(stage=label,contact=row,derived_projection_loss_J=loss))
-        save(label,dict(candidate_white_before=before,candidate_contact_physical_impulse=physical,candidate_boundary_reaction=reaction))
+        save(label,dict(candidate_white_before=before,candidate_contact_physical_impulse=physical,candidate_boundary_reaction=reaction,
+            candidate_contact_multiplier=frame.restricted.last_multiplier,
+            candidate_contact_solver_input_full_sample=frame.contact.sample(before),candidate_contact_final_full_sample=frame.contact.sample(y)))
     def coupled_kick(label,halfdt):
         nonlocal y
         synchronize(s,y);before=y.copy();raw,tau,viscous,q=stress_force(s,y,params)
         force,reaction_force,force_rows=frame.force(raw)
         temporary=y+halfdt*force;y,row,reaction_contact,physical_contact=frame.restricted.apply(temporary)
+        contact_metadata(row,halfdt)
         reaction=halfdt*reaction_force+reaction_contact;boundary_reaction(reaction)
         midpoint=.5*(before+y);_,Wmid=unpack(s,midpoint);Lmid=Wmid@np.linalg.inv(s['F'])
         work=float(halfdt*np.sum(s['volume'][:,None,None]*tau*Lmid))
@@ -128,7 +144,10 @@ def main():
         report['stages'].append(data)
         save(label,dict(candidate_white_before=before,candidate_raw_force=raw,candidate_projected_force=force,
             candidate_stress=tau,candidate_viscous_stress=viscous,candidate_viscosity=q,
-            candidate_contact_physical_impulse=physical_contact,candidate_boundary_reaction=reaction))
+            candidate_contact_physical_impulse=physical_contact,candidate_boundary_reaction=reaction,
+            candidate_contact_multiplier=frame.restricted.last_multiplier,
+            candidate_contact_solver_input_full_sample=frame.contact.sample(temporary),
+            candidate_contact_joint_input_full_sample=frame.contact.sample(before),candidate_contact_final_full_sample=frame.contact.sample(y)))
         validate_state()
         return data
     def validate_state():
@@ -188,6 +207,7 @@ def main():
         report['status']='bounded-window-passed'
     except Exception as error:
         report['status']='rejected';report['first_error']=dict(type=type(error).__name__,message=str(error),stage=stage)
+        s['valid']=np.asarray(False)
         np.savez_compressed(a.output/'first-rejected-state.npz',**s,candidate_white=y)
     finally:
         if frame is not None:frame.release()
