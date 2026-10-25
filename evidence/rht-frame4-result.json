@@ -1,0 +1,827 @@
+{
+  "start_step": 110,
+  "target_step": 140,
+  "accepted_steps": 30,
+  "compile_seconds": 9.826283298432827,
+  "steps": [
+    {
+      "step": 111,
+      "solve_seconds": 5.567945823073387,
+      "valid": true,
+      "contact_impulse": [
+        1.2468324983583301e-18,
+        0.002516199832406963,
+        5.996993266560446e-19
+      ],
+      "target_min_J": 0.9900318525693339,
+      "target_max_damage": 0.0014710237128414988,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 112,
+      "solve_seconds": 6.0117113292217255,
+      "valid": true,
+      "contact_impulse": [
+        7.047314121155779e-19,
+        0.0026187001409680296,
+        3.3881317890172014e-21
+      ],
+      "target_min_J": 0.9889534921115252,
+      "target_max_damage": 0.006996039715749254,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 113,
+      "solve_seconds": 6.36190003156662,
+      "valid": true,
+      "contact_impulse": [
+        5.963111948670274e-19,
+        0.0027242038125563626,
+        -1.6940658945086007e-20
+      ],
+      "target_min_J": 0.987836688350143,
+      "target_max_damage": 0.012337512880780417,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 114,
+      "solve_seconds": 5.760217130184174,
+      "valid": true,
+      "contact_impulse": [
+        7.047314121155779e-19,
+        0.002832960487454725,
+        2.405573570202213e-19
+      ],
+      "target_min_J": 0.9866820496251946,
+      "target_max_damage": 0.017501206309002988,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 115,
+      "solve_seconds": 6.345940828323364,
+      "valid": true,
+      "contact_impulse": [
+        6.776263578034403e-19,
+        0.0029502908988179198,
+        5.759824041329242e-20
+      ],
+      "target_min_J": 0.9854891167416231,
+      "target_max_damage": 0.022502059937051386,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 116,
+      "solve_seconds": 5.640992641448975,
+      "valid": true,
+      "contact_impulse": [
+        1.8973538018496328e-19,
+        0.0030886393019385707,
+        -1.1858461261560205e-19
+      ],
+      "target_min_J": 0.984254617146935,
+      "target_max_damage": 0.0273608462662825,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 117,
+      "solve_seconds": 5.578683979809284,
+      "valid": true,
+      "contact_impulse": [
+        -3.7947076036992655e-19,
+        0.003244173019720462,
+        -6.030874584450618e-19
+      ],
+      "target_min_J": 0.9829743799044496,
+      "target_max_damage": 0.0320997649500321,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 118,
+      "solve_seconds": 6.042484164237976,
+      "valid": true,
+      "contact_impulse": [
+        -3.2526065174565133e-19,
+        0.003418133898955328,
+        -6.2002811739014785e-19
+      ],
+      "target_min_J": 0.9816435969441393,
+      "target_max_damage": 0.03673998440398132,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 119,
+      "solve_seconds": 5.338194362819195,
+      "valid": true,
+      "contact_impulse": [
+        -5.963111948670274e-19,
+        0.003608657193336795,
+        -6.166399856011306e-19
+      ],
+      "target_min_J": 0.9802575741266162,
+      "target_max_damage": 0.04129892478090256,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 120,
+      "solve_seconds": 5.846629925072193,
+      "valid": true,
+      "contact_impulse": [
+        -1.5178830414797062e-18,
+        0.0038134601167059915,
+        -1.260385025514399e-18
+      ],
+      "target_min_J": 0.9788120811334682,
+      "target_max_damage": 0.04578975795852476,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 121,
+      "solve_seconds": 5.524388343095779,
+      "valid": true,
+      "contact_impulse": [
+        -8.131516293641283e-19,
+        0.004030043079328825,
+        -4.811147140404426e-19
+      ],
+      "target_min_J": 0.9773035637162084,
+      "target_max_damage": 0.0502216849208957,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 122,
+      "solve_seconds": 5.850583307445049,
+      "valid": true,
+      "contact_impulse": [
+        -7.047314121155779e-19,
+        0.004255932988871646,
+        0.0
+      ],
+      "target_min_J": 0.9757291733013241,
+      "target_max_damage": 0.054600550950772916,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 123,
+      "solve_seconds": 5.902419880032539,
+      "valid": true,
+      "contact_impulse": [
+        -4.87890977618477e-19,
+        0.004488733983029916,
+        7.995991022080595e-19
+      ],
+      "target_min_J": 0.9740869339395146,
+      "target_max_damage": 0.05892920304723671,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 124,
+      "solve_seconds": 8.174696110188961,
+      "valid": true,
+      "contact_impulse": [
+        -8.131516293641283e-19,
+        0.004726242048648393,
+        1.1587410718438829e-18
+      ],
+      "target_min_J": 0.9723756846004757,
+      "target_max_damage": 0.06323043482837246,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 125,
+      "solve_seconds": 8.196392312645912,
+      "valid": true,
+      "contact_impulse": [
+        -1.7889335846010823e-18,
+        0.004966587584428468,
+        1.8295911660692887e-19
+      ],
+      "target_min_J": 0.9705950029473902,
+      "target_max_damage": 0.06748064210173425,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 126,
+      "solve_seconds": 8.695723548531532,
+      "valid": true,
+      "contact_impulse": [
+        4.87890977618477e-19,
+        0.005208227847711012,
+        2.2768245622195593e-18
+      ],
+      "target_min_J": 0.968745237140988,
+      "target_max_damage": 0.07167779125812257,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 127,
+      "solve_seconds": 8.807391092181206,
+      "valid": true,
+      "contact_impulse": [
+        -2.710505431213761e-19,
+        0.0054499757511244475,
+        2.032879073410321e-18
+      ],
+      "target_min_J": 0.9668272686983478,
+      "target_max_damage": 0.07581937243448968,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 128,
+      "solve_seconds": 12.141536116600037,
+      "valid": true,
+      "contact_impulse": [
+        -2.168404344971009e-18,
+        0.0056909782806154885,
+        2.439454888092385e-19
+      ],
+      "target_min_J": 0.9648424831295767,
+      "target_max_damage": 0.07990272066221409,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 129,
+      "solve_seconds": 11.097355619072914,
+      "valid": true,
+      "contact_impulse": [
+        -2.6020852139652106e-18,
+        0.005930676485107321,
+        -6.911788849595091e-19
+      ],
+      "target_min_J": 0.962792646342809,
+      "target_max_damage": 0.08392522687977066,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 130,
+      "solve_seconds": 11.61748942732811,
+      "valid": true,
+      "contact_impulse": [
+        1.0842021724855044e-19,
+        0.006168746879859964,
+        2.7647155398380363e-18
+      ],
+      "target_min_J": 0.9606797714645134,
+      "target_max_damage": 0.08788459669596867,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 131,
+      "solve_seconds": 11.704561538994312,
+      "valid": true,
+      "contact_impulse": [
+        -3.903127820947816e-18,
+        0.006405027902393791,
+        -1.6940658945086007e-18
+      ],
+      "target_min_J": 0.9585060869197695,
+      "target_max_damage": 0.09177886877619183,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 132,
+      "solve_seconds": 12.611291833221912,
+      "valid": true,
+      "contact_impulse": [
+        -2.168404344971009e-18,
+        0.006639499750535823,
+        8.538092108323347e-19
+      ],
+      "target_min_J": 0.9562739921300408,
+      "target_max_damage": 0.0956064780909383,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 133,
+      "solve_seconds": 11.581648215651512,
+      "valid": true,
+      "contact_impulse": [
+        -1.0842021724855044e-18,
+        0.006872178056051007,
+        2.588532686809142e-18
+      ],
+      "target_min_J": 0.9539859708254157,
+      "target_max_damage": 0.09936631321957125,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 134,
+      "solve_seconds": 11.791128680109978,
+      "valid": true,
+      "contact_impulse": [
+        -2.710505431213761e-18,
+        0.0071030860202553146,
+        5.963111948670274e-19
+      ],
+      "target_min_J": 0.9516445435538928,
+      "target_max_damage": 0.10305767896572073,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 135,
+      "solve_seconds": 14.42347276955843,
+      "valid": true,
+      "contact_impulse": [
+        -4.119968255444917e-18,
+        0.007332271978876496,
+        -1.0164395367051604e-18
+      ],
+      "target_min_J": 0.9492522627336069,
+      "target_max_damage": 0.10668799985628813,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 136,
+      "solve_seconds": 14.997780308127403,
+      "valid": true,
+      "contact_impulse": [
+        -2.6020852139652106e-18,
+        0.007559777699974455,
+        5.827586677109586e-19
+      ],
+      "target_min_J": 0.9468116770308793,
+      "target_max_damage": 0.11024923195752737,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 137,
+      "solve_seconds": 14.699854604899883,
+      "valid": true,
+      "contact_impulse": [
+        -1.4094628242311558e-18,
+        0.007785718465369592,
+        2.574980159653073e-18
+      ],
+      "target_min_J": 0.9443253018902823,
+      "target_max_damage": 0.11374166668303932,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 138,
+      "solve_seconds": 16.372221499681473,
+      "valid": true,
+      "contact_impulse": [
+        1.1926223897340549e-18,
+        0.008012696793657226,
+        4.6349642873755315e-18
+      ],
+      "target_min_J": 0.941795202807502,
+      "target_max_damage": 0.1171660854762605,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 139,
+      "solve_seconds": 16.912075847387314,
+      "valid": true,
+      "contact_impulse": [
+        -3.903127820947816e-18,
+        0.008255456635820693,
+        -1.3552527156068805e-19
+      ],
+      "target_min_J": 0.9392214053109604,
+      "target_max_damage": 0.12052445102533278,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    },
+    {
+      "step": 140,
+      "solve_seconds": 18.22761818021536,
+      "valid": true,
+      "contact_impulse": [
+        0.0,
+        0.00850204732004183,
+        5.1228552649940085e-18
+      ],
+      "target_min_J": 0.9366044426703042,
+      "target_max_damage": 0.12381882144443884,
+      "body_valid": [
+        true,
+        true
+      ],
+      "all_history_valid": [
+        true,
+        true
+      ]
+    }
+  ],
+  "original_full_run_completed": false,
+  "candidate_frame4_reached": true,
+  "source_scope": "Original0to105 followed by independently checked compact106 and107to110 bridge, then this compact candidate; not the original complete run.",
+  "checkpoint_interval": 5,
+  "parent_solver_seconds": 406.45341051700007,
+  "bridge106_solve_seconds": 3.4070871844887733,
+  "bridge107to110_solve_seconds": 20.839712411165237,
+  "last_complete_step": 140,
+  "checkpoint_energy_records": [
+    {
+      "step": 110,
+      "time_s": 5.238095238095238e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 0.23695769711174888,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 0.2506959343408329,
+          "material_history_energy_J": 0.0909041409686126,
+          "constitutive_work_J": 0.09088328085243978,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334692.50199857005,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 3.3554688421598997,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 5.2357311169373
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        4.627486574638052e-18,
+        0.023142250165500627,
+        5.32441271049358e-19
+      ]
+    },
+    {
+      "step": 115,
+      "time_s": 5.476190476190476e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 0.4856496152624873,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 0.4295030787383262,
+          "material_history_energy_J": 0.24026530619982583,
+          "constitutive_work_J": 0.24019970260200418,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334670.90919772955,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.647861558903146,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 13.431178880518354
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        8.557719449898006e-18,
+        0.036784605337704626,
+        1.4167436679828475e-18
+      ]
+    },
+    {
+      "step": 120,
+      "time_s": 5.714285714285714e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 0.8906178368751622,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 0.712340912505701,
+          "material_history_energy_J": 0.5148224215005945,
+          "constitutive_work_J": 0.514660547417692,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334642.81074759807,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 5.741981414667378,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 26.197666702482984
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        5.9285291816206574e-18,
+        0.05395766886836177,
+        -1.8019815315834938e-18
+      ]
+    },
+    {
+      "step": 125,
+      "time_s": 5.952380952380952e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 1.5917346003244863,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 1.2040439629171475,
+          "material_history_energy_J": 0.9968652783539909,
+          "constitutive_work_J": 0.9964974694983294,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334605.42304443434,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 6.7337745117499415,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 44.01749060892744
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        1.3206699485572636e-18,
+        0.07642520855266903,
+        -1.417969549650651e-19
+      ]
+    },
+    {
+      "step": 130,
+      "time_s": 6.19047619047619e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 2.7225231456972594,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 1.9441249047523397,
+          "material_history_energy_J": 1.8047126518039833,
+          "constitutive_work_J": 1.8039284149247947,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334557.98255955207,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 7.596284757372175,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 67.60664382690823
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        -3.1245589586333046e-18,
+        0.10487381379708727,
+        6.485388824352581e-18
+      ]
+    },
+    {
+      "step": 135,
+      "time_s": 6.428571428571428e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 4.379513659343646,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 2.928151960045067,
+          "material_history_energy_J": 3.080403767966316,
+          "constitutive_work_J": 3.0788555598689404,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334500.4712863248,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 8.222657818683354,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 97.25879254422509
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        -1.7110766983696312e-17,
+        0.1392258775051997,
+        7.813536485647324e-18
+      ]
+    },
+    {
+      "step": 140,
+      "time_s": 6.666666666666666e-06,
+      "bodies": [
+        {
+          "body": 0,
+          "translational_kinetic_J": 6.645261596038443,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 4.156135917810077,
+          "material_history_energy_J": 4.984801391505831,
+          "constitutive_work_J": 4.981971587507154,
+          "stored_elastic_J": null
+        },
+        {
+          "body": 1,
+          "translational_kinetic_J": 334432.49027698685,
+          "quadratic_APIC_affine_kinetic_diagnostic_J": 8.597662035573245,
+          "material_history_energy_J": 0.0,
+          "constitutive_work_J": 0.0,
+          "stored_elastic_J": 132.68595842418975
+        }
+      ],
+      "external_work_J": 0.0,
+      "external_work_scope": "No applied particle forces or gravity; stationary fixed clamps. Original common external-force work remains zero. No inferred numerical loss is assigned as heat.",
+      "contact_impulse_cumulative_on_body1": [
+        -2.383282045310644e-17,
+        0.17934157442006354,
+        2.0593569593820207e-17
+      ]
+    }
+  ],
+  "compile_sessions": [
+    {
+      "start_step": 110,
+      "seconds": 9.826283298432827
+    }
+  ]
+}

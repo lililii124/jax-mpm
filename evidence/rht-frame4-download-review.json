@@ -1,0 +1,113 @@
+{
+  "all_downloaded_sha256_verified": true,
+  "all_runtime_source_hashes_verified": true,
+  "read_only_download": true,
+  "remote": "/home/YZ/jax-mpm-compute-20261025/tasks/rht-step140-compact",
+  "downloaded_files": {
+    "result/source-review.json": {
+      "bytes": 8929,
+      "sha256": "0c25e29126fc386d47fb1d632a20a163542cd53fb305493c6fe47d1911243c5e"
+    },
+    "result/case.json": {
+      "bytes": 4196,
+      "sha256": "e47c611535c22a7b6e67015dd2c9a87b4505ca8e403384baed7b3091260a8768"
+    },
+    "result/state110-body0.npz": {
+      "bytes": 51488609,
+      "sha256": "28703f14d8f2a3421a82f700509d39e5fbaa3e63606b18034cd8ca4bc2a60eae"
+    },
+    "result/state110-body1.npz": {
+      "bytes": 600651,
+      "sha256": "9cff0b7563f4e6432fc4b7d5872debca92016219cf9f4f0c6b1e4c79f0aa39e4"
+    },
+    "result/checkpoint.json": {
+      "bytes": 50369,
+      "sha256": "cf60a99ca54b275f7a587b8f44741c0c47f23b76d4791826d989d9070ae890ba"
+    },
+    "result/diagnostics.json": {
+      "bytes": 17011,
+      "sha256": "e8ea88b7daad70cab5bb8d8d71c2481e0c8ed16d14f233abe999958a53d3ca56"
+    },
+    "result/observations.json": {
+      "bytes": 7924,
+      "sha256": "9d5376ddde6a715a0bf6eafa4c75bdc37591f8756fbd0033b01ad786adfdb7a1"
+    },
+    "result/result.json": {
+      "bytes": 21413,
+      "sha256": "f3a72bfbcde3fe41156e7ce26c0191ea0c47882af2fc46867ece79250b7d9532"
+    },
+    "result/state115-body0.npz": {
+      "bytes": 51769297,
+      "sha256": "cab33daacd528ee1b69a70c3530943ccc62a9e6bf6a47bd8eb486fec34a93213"
+    },
+    "result/state115-body1.npz": {
+      "bytes": 601784,
+      "sha256": "bc9abc50501807e7aaea7d3af3d9b99a739bf9705b06fd8226e13dcaaf61b8bc"
+    },
+    "result/state120-body0.npz": {
+      "bytes": 52024355,
+      "sha256": "0a2cd158bae99ac23f15afa4f45e194aabf23c6c29e5ae2e5b6fada8d6fa1f34"
+    },
+    "result/state120-body1.npz": {
+      "bytes": 602437,
+      "sha256": "2505b7f8b339979d8fc6463e1b61ca6e04d70c9ac59688da7ac99a61c6a2bf3b"
+    },
+    "result/state125-body0.npz": {
+      "bytes": 52252412,
+      "sha256": "d1564f83844f6e5eb7e9199df0eea9c735b6b72bcf64bb99ae3ec726c7920a52"
+    },
+    "result/state125-body1.npz": {
+      "bytes": 602697,
+      "sha256": "003593d688376dd4bd0e10b2542043d387b6f650f89a9bd8169fa9f44ff6c371"
+    },
+    "result/state130-body0.npz": {
+      "bytes": 52479641,
+      "sha256": "aa1e6a60e4378648edbe7826bef96256313d2863d0c481cc3a9ff3bd1ec146fc"
+    },
+    "result/state130-body1.npz": {
+      "bytes": 602916,
+      "sha256": "dacaf070048d687727459a0b84c813dd15eaaa8edc1d5da8a9de8c7861ae05ed"
+    },
+    "result/state135-body0.npz": {
+      "bytes": 52709542,
+      "sha256": "111cdadc1cac40c1895448409fd0f2141435b708f7b14767ee4a67c9daa0b1f7"
+    },
+    "result/state135-body1.npz": {
+      "bytes": 602060,
+      "sha256": "f650c955ba0d8131bf6be1780a7947b1a89449aee8176043d3010c852b6fbe9f"
+    },
+    "result/state140-body0.npz": {
+      "bytes": 52919528,
+      "sha256": "67955930a3928892e450dc16ec8097a779a04dc01ff33c4acd2acd678cd20ffd"
+    },
+    "result/state140-body1.npz": {
+      "bytes": 600063,
+      "sha256": "6a22d0c8949ea4bf7828aa0c9a05c36e2b98fac863dedaa61ec48f95ade39210"
+    },
+    "result/runtime-source/mpm_jax/materials/rht.py": {
+      "bytes": 24747,
+      "sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844"
+    },
+    "job/status.json": {
+      "bytes": 535,
+      "sha256": "bae0865f5c7e73f284ee125921219894f4faafd67e2f80099aa10c84fba98ca0"
+    },
+    "job/solver.log": {
+      "bytes": 13928,
+      "sha256": "bbf81d59ba8c1a002bde03d145b2af2217c91e83279e2ee935444a1fa42eeadd"
+    },
+    "run.py": {
+      "bytes": 10289,
+      "sha256": "10cca75b65b54f98d32b3f2efbe4a592ce57668828a09f305e89503ea66164e9"
+    },
+    "capsule.json": {
+      "bytes": 15037,
+      "sha256": "71269f3daf4c63c31227a398a3bb2bb8bb8dc3603f9502c14bc17a84fda4eac2"
+    },
+    "upload.json": {
+      "bytes": 115,
+      "sha256": "2e45d2ab87278509015e018c7836c7a4f903a5001c2a3ef8a27b87154d1bcbf8"
+    }
+  },
+  "source_closure_in_original_capsule": true
+}
