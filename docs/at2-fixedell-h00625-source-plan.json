@@ -1,0 +1,32 @@
+{
+  "scope": "source-only initial-seed/resource pilot, not dispatched",
+  "dx": 0.00625,
+  "ell": 0.0375,
+  "ell_over_h": 6.0,
+  "particles": 294912,
+  "particle_spacing": 0.003125,
+  "dt": 7.5e-06,
+  "cfl": 0.04,
+  "steps": 64,
+  "E": 1000.0,
+  "Gc": 1.25e-05,
+  "rho": 1.0,
+  "seed_coefficient_cutoff_half_width": 0.0125,
+  "realised_seed_node_y": [
+    0.2875,
+    0.29375,
+    0.3,
+    0.30625,
+    0.3125
+  ],
+  "initial_fracture_energy": "unknown until actually solved; do not substitute coarse Gamma",
+  "initial_profile_note": "same coefficient-band endpoints, but quadratic basis support changes the native plateau/tails; measure rather than assume initial field identity",
+  "budget": {
+    "cpus": 8,
+    "container_GiB": 16,
+    "outer_USS_GiB": 12,
+    "outer_seconds": 2400,
+    "inner_seconds": 2100,
+    "inner_GiB": 14
+  }
+}
