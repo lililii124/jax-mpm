@@ -1,12 +1,39 @@
-name: independent artifact-only single fibre tension stages
+# Publisher: place this at .github/workflows/single-fibre-energy-replay.yml
+# and this entire isolated directory at tools/single_fibre_energy_replay/.
+name: isolated single fibre passive energy replay
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        type: string
+        required: true
+      end_frame:
+        type: choice
+        options: ['2', '60']
+        default: '2'
+      parent_run_id:
+        type: string
+        default: ''
+      parent_artifact_id:
+        type: string
+        default: ''
+      parent_commit:
+        type: string
+        default: ''
+      parent_zip_sha:
+        type: string
+        default: ''
+      parent_receipt_sha:
+        type: string
+        default: ''
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: single-fibre-tension
+  group: isolated-single-fibre-energy-replay
   cancel-in-progress: false
 jobs:
-  stage:
+  replay:
     runs-on: ubuntu-24.04
     timeout-minutes: 300
     env:
@@ -16,201 +43,48 @@ jobs:
       OMP_NUM_THREADS: '2'
       OPENBLAS_NUM_THREADS: '1'
       PYTHONUNBUFFERED: '1'
+      END_FRAME: ${{ inputs.end_frame }}
+      SOURCE_REF: ${{ inputs.source_ref }}
       GH_TOKEN: ${{ github.token }}
-      PARENT_ARTIFACT_ID: ${{ inputs.parent_artifact_id }}
-      PARENT_RUN_ID: ${{ inputs.parent_run_id }}
-      PARENT_KEY: ${{ inputs.restore_key }}
-      PARENT_SHA: ${{ inputs.parent_receipt }}
-      END_FRAME: ${{ inputs.stop_after_frame }}
+      PARENT_COMMIT: ${{ inputs.parent_commit }}
+      PARENT_ZIP: ${{ inputs.parent_zip_sha }}
+      PARENT_SHA: ${{ inputs.parent_receipt_sha }}
+      PARENT_RUN: ${{ inputs.parent_run_id }}
+      PARENT_ARTIFACT: ${{ inputs.parent_artifact_id }}
     steps:
-    - uses: actions/checkout@v7
-      with:
-        ref: ${{ github.sha }}
-        persist-credentials: false
-    - uses: actions/setup-python@v7
-      with:
-        python-version: 3.12.13
-    - name: Install host-only planning dependencies
-      run: python -m pip install numpy==2.5.4 scipy==1.18.1 psutil==7.2.2
-    - name: Bind unchanged physical plan and exact parent key
-      id: prepare
-      run: python tools/run_single_fibre_tension.py prepare --stop-after-frame "$END_FRAME" --restore-key "$PARENT_KEY" --parent-receipt
-        "$PARENT_SHA"       
-    - uses: actions/download-artifact@v5
-      if: inputs.restore_key != ''
-      id: restore
-      with:
-        artifact-ids: ${{ inputs.parent_artifact_id }}
-        run-id: ${{ inputs.parent_run_id }}
-        github-token: ${{ github.token }}
-        path: .local/single-fibre-parent-delivery/
-        merge-multiple: true
-    - name: Verify exact parent artifact and restore every original raw member before installing lock
-      if: inputs.restore_key != ''
-      run: 'python tools/run_single_fibre_tension.py restore-parent --parent-receipt "$PARENT_SHA" --restore-key "$PARENT_KEY"
-            
-         
-
-        python -m pip install -r .local/single-fibre-tension-cache/requirements.txt
-
-        python -m pip install --no-deps -e .
-
-        '
-    - name: Install initial numerical environment
-      if: inputs.restore_key == ''
-      run: 'python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0
-        psutil==7.2.2 scipy==1.18.1
-
-        python -m pip install --no-deps -e .
-
-        '
-    - name: Compute guarded whole-frame prefix and independent material/raw review
-      if: inputs.phase == 'numerical'
-      id: numerical
-      run: python tools/run_single_fibre_tension.py run --stop-after-frame "$END_FRAME" --restore-key "$PARENT_KEY" --parent-receipt
-        "$PARENT_SHA"       
-    - name: Archive every raw byte in bounded192MiB parts
-      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
-      run: python tools/package_single_fibre_raw.py package --cache .local/single-fibre-tension-cache --delivery .local/single-fibre-raw-delivery
-    - uses: actions/upload-artifact@v4
-      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
-      id: raw_upload
-      with:
-        name: single-fibre-complete-raw-f${{ inputs.stop_after_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
-        path: .local/single-fibre-raw-delivery/
-        include-hidden-files: true
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/download-artifact@v5
-      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
-      with:
-        artifact-ids: ${{ steps.raw_upload.outputs.artifact-id }}
-        path: .local/single-fibre-raw-retrieved/
-        merge-multiple: true
-    - name: Independently verify retrieved full raw archive and all members
-      if: inputs.phase == 'numerical' && steps.numerical.outcome == 'success'
-      run: python tools/package_single_fibre_raw.py verify --delivery .local/single-fibre-raw-retrieved
-    - name: Install real offscreen ParaView
-      if: inputs.phase == 'media'
-      run: 'test -n "$PARENT_KEY"
-
-        sudo apt-get update
-
-        sudo apt-get install -y --no-install-recommends libegl1 libosmesa6 ffmpeg
-
-        python - <<''PY''
-
-        import sys
-
-        from pathlib import Path
-
-        sys.path.insert(0,''tools'')
-
-        import run_woven_preview as p
-
-        p.LOGS=Path(''.local/single-fibre-pv-install'');p.LOGS.mkdir()
-
-        p.install()
-
-        PY
-
-        '
-    - name: Render independently accepted full fracture only
-      if: inputs.phase == 'media'
-      run: python tools/run_single_fibre_tension.py render --parent-receipt "$PARENT_SHA"
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: single-fibre-tension-${{ inputs.phase }}-f${{ inputs.stop_after_frame }}-${{ github.run_id }}-${{ github.run_attempt
-          }}
-        path: '.local/single-fibre-tension-logs/
-
-          .local/single-fibre-tension-media/*.json
-
-          .local/single-fibre-tension-media/*.csv
-
-          .local/single-fibre-tension-media/*.gif
-
-          .local/single-fibre-tension-media/*.mp4
-
-          .local/single-fibre-tension-media/frames/
-
-          .local/single-fibre-retrieval-receipt.json
-
-          .local/single-fibre-parent-artifact.json
-
-          .local/single-fibre-pv-install/
-
-          '
-        include-hidden-files: true
-        if-no-files-found: warn
-        retention-days: 30
-        compression-level: 1
-    - name: Seal bounded whole failed diagnostic bytes
-      if: failure()
-      id: diagnostic
-      run: python tools/package_single_fibre_raw.py diagnostic --cache .local/single-fibre-tension-cache --delivery .local/single-fibre-failed-delivery
-    - uses: actions/upload-artifact@v4
-      if: failure() && steps.diagnostic.outcome == 'success'
-      id: diagnostic_upload
-      with:
-        name: single-fibre-failed-diagnostic-${{ github.run_id }}-${{ github.run_attempt }}
-        path: .local/single-fibre-failed-delivery/
-        include-hidden-files: true
-        compression-level: 0
-        retention-days: 30
-        if-no-files-found: error
-    - uses: actions/download-artifact@v5
-      if: failure() && steps.diagnostic_upload.outcome == 'success'
-      with:
-        artifact-ids: ${{ steps.diagnostic_upload.outputs.artifact-id }}
-        path: .local/single-fibre-failed-retrieved/
-        merge-multiple: true
-    - name: Verify retrieved failed diagnostic archive and every original member
-      if: failure() && steps.diagnostic_upload.outcome == 'success'
-      run: python tools/package_single_fibre_raw.py verify --delivery .local/single-fibre-failed-retrieved
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: single-fibre-diagnostic-retrieval-${{ github.run_id }}-${{ github.run_attempt }}
-        path: .local/single-fibre-retrieval-receipt.json
-        if-no-files-found: ignore
-        retention-days: 30
-'on':
-  workflow_dispatch:
-    inputs:
-      phase:
-        type: choice
-        options:
-        - numerical
-        - media
-        default: numerical
-        required: true
-      stop_after_frame:
-        type: choice
-        options:
-        - '2'
-        - '10'
-        - '20'
-        - '30'
-        - '40'
-        - '50'
-        - '60'
-        default: '2'
-        required: true
-      parent_artifact_id:
-        description: Exact successful whole-raw parent artifact ID, empty for fresh f2
-        type: string
-        default: ''
-      parent_run_id:
-        description: Exact successful parent workflow run ID, empty for fresh f2
-        type: string
-        default: ''
-      restore_key:
-        description: Logical sealed parent capsule key, not Actions cache storage
-        type: string
-        default: ''
-      parent_receipt:
-        type: string
-        default: ''
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Bind exact HEAD fixed ref registered workflow and official ZIP parents
+        run: python tools/single_fibre_energy_replay/control.py
+      - name: Install exact original runtime and restore complete immutable baseline
+        run: |
+          python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+          python -m pip install --no-deps -e .
+          python tools/package_single_fibre_raw.py restore --delivery .local/energy-original-capsule --cache .local/energy-original --receipt-sha ad1a6c2fbe7470b416e5ec5b8ef93899a10fda2b38cd05e2a2908eca80e47f06
+      - name: Guarded unchanged-physics passive replay
+        run: >-
+          python tools/single_fibre_energy_replay/guard.py --log-dir .local/energy-replay-logs --
+          python tools/single_fibre_energy_replay/replay.py --baseline .local/energy-original
+          --output .local/energy-replay --end-frame "$END_FRAME" --parent-receipt "$PARENT_SHA"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: passive-single-fibre-f${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/energy-replay/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
+          compression-level: 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: passive-single-fibre-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/energy-replay-logs/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30

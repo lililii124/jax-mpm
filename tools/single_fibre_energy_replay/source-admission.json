@@ -1,0 +1,21 @@
+{
+  "schema": "single-fibre-passive-source-admission-v1",
+  "baseline": {
+    "run": "40117848533",
+    "artifact": "12571264792",
+    "commit": "697e19bda2f2b4c8f473cdefdcc070baff27de90",
+    "zip": "e8ccbe5caf2bb7e38703e898771600acaece415fc29474f673df5d916fce328e"
+  },
+  "files": {
+    "tools/single_fibre_energy_replay/control.py": "10730289ec747d1c20ff816092ae3e98499054d7d499b35395a028b320bdaa5b",
+    "tools/single_fibre_energy_replay/replay.py": "3e945a08eb4bcf879ebc5b0e4421192bb9d0744d231b32bd4d35b32b88c5d9cd",
+    "tools/single_fibre_energy_replay/guard.py": "b1b8c8ecdb748e9b3169acea74b3f2148b4bb04ddd97b69029765452648a1e14",
+    "tools/single_fibre_energy_replay/energy_terms.py": "561a027c95eeff1705c3832a39bf85b430a158c7b595e6648ac9e34cf1ca0aca",
+    ".github/workflows/single-fibre-energy-replay.yml": "eba00e6f936dc368b40f526f3e92de14b82aa794886f5b4e1cc03a27d549dd48",
+    ".github/workflows/engineering-previews.yml": "eba00e6f936dc368b40f526f3e92de14b82aa794886f5b4e1cc03a27d549dd48",
+    "tools/package_single_fibre_raw.py": "5f89f7881addf6daad2a71102cbe7718c159a8ef4bf3105a82283c8eecc19f48",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/single_fibre_tension.py": "ae2a67cf6f777f39661837550ff36ac1e5de4c05fc15d1c454acfbeb7a83b595"
+  }
+}

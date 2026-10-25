@@ -1,0 +1,90 @@
+# Publisher: place this at .github/workflows/single-fibre-energy-replay.yml
+# and this entire isolated directory at tools/single_fibre_energy_replay/.
+name: isolated single fibre passive energy replay
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        type: string
+        required: true
+      end_frame:
+        type: choice
+        options: ['2', '60']
+        default: '2'
+      parent_run_id:
+        type: string
+        default: ''
+      parent_artifact_id:
+        type: string
+        default: ''
+      parent_commit:
+        type: string
+        default: ''
+      parent_zip_sha:
+        type: string
+        default: ''
+      parent_receipt_sha:
+        type: string
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: isolated-single-fibre-energy-replay
+  cancel-in-progress: false
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OMP_NUM_THREADS: '2'
+      OPENBLAS_NUM_THREADS: '1'
+      PYTHONUNBUFFERED: '1'
+      END_FRAME: ${{ inputs.end_frame }}
+      SOURCE_REF: ${{ inputs.source_ref }}
+      GH_TOKEN: ${{ github.token }}
+      PARENT_COMMIT: ${{ inputs.parent_commit }}
+      PARENT_ZIP: ${{ inputs.parent_zip_sha }}
+      PARENT_SHA: ${{ inputs.parent_receipt_sha }}
+      PARENT_RUN: ${{ inputs.parent_run_id }}
+      PARENT_ARTIFACT: ${{ inputs.parent_artifact_id }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Bind exact HEAD fixed ref registered workflow and official ZIP parents
+        run: python tools/single_fibre_energy_replay/control.py
+      - name: Install exact original runtime and restore complete immutable baseline
+        run: |
+          python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+          python -m pip install --no-deps -e .
+          python tools/package_single_fibre_raw.py restore --delivery .local/energy-original-capsule --cache .local/energy-original --receipt-sha ad1a6c2fbe7470b416e5ec5b8ef93899a10fda2b38cd05e2a2908eca80e47f06
+      - name: Guarded unchanged-physics passive replay
+        run: >-
+          python tools/single_fibre_energy_replay/guard.py --log-dir .local/energy-replay-logs --
+          python tools/single_fibre_energy_replay/replay.py --baseline .local/energy-original
+          --output .local/energy-replay --end-frame "$END_FRAME" --parent-receipt "$PARENT_SHA"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: passive-single-fibre-f${{ inputs.end_frame }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/energy-replay/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
+          compression-level: 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: passive-single-fibre-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/energy-replay-logs/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 30
