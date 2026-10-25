@@ -1,0 +1,34 @@
+{
+  "started_utc": "2026-10-25T13:24:50.781747+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "/work/audit.py",
+    "--task",
+    "/original",
+    "--expected",
+    "/work/expected-source.json",
+    "--oldseed",
+    "/work/old-postcontact.npz",
+    "--baseline",
+    "/baseline",
+    "--output",
+    "/work/audit.json"
+  ],
+  "cpu_affinity": [
+    56,
+    57,
+    58,
+    59
+  ],
+  "memory_headroom_at_start": 8581103616,
+  "limit_seconds": 900.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 577359872,
+  "minimum_memory_headroom": 8001597440,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 11.154892817139626,
+  "returncode": 0
+}

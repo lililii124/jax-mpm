@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "scope": "One actual common-time-level2ps step only; no dynamics rerun and no long-window admission.",
+  "source_files_verified": 202,
+  "input_matches_original_postcontact_state": true,
+  "material_evaluations_verified": 3,
+  "fixed_particles": 4864,
+  "geometry_coverage": [
+    {
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    },
+    {
+      "nodes": 33575,
+      "clamped_nodes": 8305,
+      "pairs": 114
+    }
+  ],
+  "x_midpoint_error_m": 4.333389786679682e-19,
+  "F_midpoint_error": 1.1257639616249048e-16,
+  "plastic_only_heat_L1_error_J": 1.4481380642675823e-15,
+  "cold_work_L1_error_J": 1.5415467524567375e-19,
+  "fracture_release_L1_error_J": 2.4168167467308876e-20,
+  "coupled_defect_J": -7.011135649912653e-14,
+  "material_work_identity_J": -9.047667129391535e-17,
+  "contact_work_J": 3.5236570605778894e-19,
+  "contact_torque": [
+    3.0942213650597327e-27,
+    -1.9431727853340823e-26,
+    1.4804264388732064e-25
+  ],
+  "boundary_work_J": 2.6125206598753836e-16,
+  "independently_derived_channels_J": {
+    "grid": 2.276767907747674e-10,
+    "boundary": 5.569462185261384e-14,
+    "contact": 7.30652182038075e-10,
+    "viscosity": 0.00021658836752962444,
+    "dynamic_contact": -3.5236570605778894e-19
+  },
+  "energy_residual_J": 4.4645659239873903e-13,
+  "momentum_residual": [
+    -1.8664791078715437e-18,
+    -4.2589107553457264e-17,
+    -3.1664752158460046e-20
+  ],
+  "angular_residual": [
+    -4.591382026297927e-22,
+    4.9141684064594934e-23,
+    -3.504609998897262e-21
+  ],
+  "angular_tolerance": 2.4658362587046083e-18,
+  "old_step_force_time_remainder_J": 7.571903576283076e-10,
+  "old_step_global_energy_residual_J": -7.350990927079692e-10,
+  "original_CFL_limit_s": 5.752835241019074e-10,
+  "min_J": 0.773832613502756,
+  "max_temperature": 315.0331682168255,
+  "max_damage": 0.5350788939069242,
+  "old_final_state_differences": {
+    "x": 6.288372600415926e-18,
+    "v": 0.0012671090106550764,
+    "W": 23.53649606043473,
+    "F": 1.9229062786507711e-13,
+    "tau": 0.004278719425201416,
+    "plastic_strain": 1.074140776324839e-14,
+    "damage": 5.3734794391857577e-14,
+    "internal_energy": 7.985217962414026e-07
+  },
+  "global_energy_improvement_factor": 1646.5186206757544,
+  "numerical_heat_added_J": 0.0,
+  "physical_steps_recomputed": 0,
+  "production_admitted": false
+}

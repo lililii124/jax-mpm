@@ -1,0 +1,121 @@
+{
+  "source_commit": "3e2d4ae30011bf482555407fe5f311d161db3e0e",
+  "accepted_npz_sha256": "4ca270bcaff58e46df19765e6c48500edcd68e289f749d8bca8cd74fbb64d78d",
+  "raw_archive_sha256": "52cd31ea795ba85791fde7cb8da61c9a690748e6bc3d2ee98dc59af96e1130ad",
+  "raw_members": {
+    "result/accepted.npz": {
+      "bytes": 19991151,
+      "sha256": "4ca270bcaff58e46df19765e6c48500edcd68e289f749d8bca8cd74fbb64d78d"
+    },
+    "result/coupled-before-remap.npz": {
+      "bytes": 21885784,
+      "sha256": "c5902c3dcaf53ce2430d3c175331a397487b025d810f485988c3ffc6770e9921"
+    },
+    "result/end-contact.npz": {
+      "bytes": 7053358,
+      "sha256": "07da3e1b781c9281ed17216182a1904e05cb236a00928cff2a194ac56889ad1f"
+    },
+    "result/end-projection.npz": {
+      "bytes": 5648840,
+      "sha256": "33650c772c66e3da8037a5575865ac9ecb9842429b4410bfb68eac9ecc85093b"
+    },
+    "result/initial-contact.npz": {
+      "bytes": 5555145,
+      "sha256": "ae2475268223434087902c5a3e9a428d20689caa12a231ee2d455d4c2d2287ac"
+    },
+    "result/initial-projection.npz": {
+      "bytes": 4975252,
+      "sha256": "fcb0dccfa3cb5ddaf5ee86560ce9180bc9af8fef19b0fc496faa82b4a623ec6d"
+    },
+    "result/iteration-0-force.npz": {
+      "bytes": 13183162,
+      "sha256": "60a8a49d9f234ed3b189a239e767b7b02cb4cea0e68da29169bbeb40fbad90fb"
+    },
+    "result/iteration-0-request.npz": {
+      "bytes": 18312347,
+      "sha256": "47371552f34953f1580df92938644cab5941a72e54e37c6251ef1bd2a50158fd"
+    },
+    "result/iteration-0-response.npz": {
+      "bytes": 19962962,
+      "sha256": "9b5749b1b21916e269848d63e6c9ff481489d17e50a515a3b5f2dd6a9751e5c3"
+    },
+    "result/iteration-0-worker.log": {
+      "bytes": 69,
+      "sha256": "630fbee1515ba2dd07123917c0c91ac30a04386544f5b8d7dc5e7fde0f2b591a"
+    },
+    "result/iteration-1-force.npz": {
+      "bytes": 13538353,
+      "sha256": "8227561c75fc92eed33708f31085ad18168c527f02976edd940619927c561843"
+    },
+    "result/iteration-1-request.npz": {
+      "bytes": 18316469,
+      "sha256": "1a0e3b86f75e6e40d7229cf588672230d4a4bcf1b36f3bbba7b1b589236db95b"
+    },
+    "result/iteration-1-response.npz": {
+      "bytes": 19980783,
+      "sha256": "4ca93af3bdc6fbc67120c85480be906d9712dc9c7365caff90831f6ae60ce3d6"
+    },
+    "result/iteration-1-worker.log": {
+      "bytes": 69,
+      "sha256": "2dc33ce7332b1aa95636cf5e387a67e293e386b12ae069050cb4d3a8fd03f886"
+    },
+    "result/iteration-2-force.npz": {
+      "bytes": 13538327,
+      "sha256": "7c2b0a43d1ebc9289018a2875d4d746ffd0b204e87294333c46ef83665853b63"
+    },
+    "result/iteration-2-request.npz": {
+      "bytes": 18316148,
+      "sha256": "f35d36f7648a205f7098827f6507f1e426e042a2d6616de026f81fda04a14165"
+    },
+    "result/iteration-2-response.npz": {
+      "bytes": 19980573,
+      "sha256": "7c6ec40872d8ae20f727f0d712453bdceca8c2965da59e641652921a9fb641a0"
+    },
+    "result/iteration-2-worker.log": {
+      "bytes": 69,
+      "sha256": "439bf2433e2d07a4261c92f006d80720540b04866ced985e93f57113e27ca99f"
+    },
+    "result/result.json": {
+      "bytes": 24708,
+      "sha256": "2bef333ab2262fe99c54dbd98d9e8d02366c25ca564cddbc4b4409453991f910"
+    },
+    "job/solver.log": {
+      "bytes": 636,
+      "sha256": "bc1633a7f908b3b9ea0b224bc72340718ae92d6cd1c6df3768d502f3fbe95cc3"
+    },
+    "job/status.json": {
+      "bytes": 467,
+      "sha256": "52e6587c62394aa7b83d63e7df7e316bc04b22d176e9663cd0d9b2269291f430"
+    },
+    "runtime.json": {
+      "bytes": 697,
+      "sha256": "39b8019bf8d9a709bacef5312106814beef2905c130da6f791b683ba3d679326"
+    },
+    "contract.json": {
+      "bytes": 843,
+      "sha256": "8d4a5e78cb15a9334955551ca2aef13d04666ac995e6c4cd4bcfae43527380e2"
+    }
+  },
+  "contract": {
+    "source_commit": "3e2d4ae30011bf482555407fe5f311d161db3e0e",
+    "image": "sha256:639be564c801378d4dd43ea5ea630a3c378c2d2a745177c8a52857656e954180",
+    "versions": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "jaxlib": "0.12.0.1",
+      "jax": "0.12.1.dev20261022",
+      "ml_dtypes": "0.6.0",
+      "opt_einsum": "3.4.0",
+      "psutil": "7.2.2"
+    },
+    "scope": "one bounded common-time-level step, no production or fragment-cloud claim",
+    "files": {
+      "source.tar": "6c0da12f803cd601740b2239e0d95f020f58aa1cef191f7f4f943809a3dc0ec2",
+      "start.py": "77a222cc4df23c81d433c4b362b9f99bd7aed1fb346e729a06cabcf9a002fe81",
+      "inputs/admission.json": "02f7f83880ea9e5afb4faadfb2cad17106a1c2a9aea3a6ec52b51482ef83b28d",
+      "inputs/post-contact.npz": "cb3da5037c6060772b501bd668d9ee3b946e93d0ecd69da1c1b9b54f9c44e523"
+    }
+  },
+  "auditor_sha256": "a868eee93e6df280650068c6be29a00b6e00878e000d917197a12425d629e973",
+  "scope": "Independent reading of the actual2ps result, with source and legacy step002 equality; no physical step rerun. Subsequent200ps continuation remains a separate candidate."
+}
