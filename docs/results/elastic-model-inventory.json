@@ -1,0 +1,383 @@
+{
+  "schema": "elastic-model-inventory-v1",
+  "source_commit": "3eed727c16a89f5d4ed0b3340ac4094616d51ee2",
+  "method": "Read-only source, historical XML and summary metadata inspection; no numerical rerun or raw-array validation",
+  "source_sha256": {
+    "mpm_jax/materials/elastic.py": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+    "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+    "examples/elastic_models.py": "d8d7ae280fe91227432f9e3213b0cc71d9990817266c1bff8c08fb31a241f47f",
+    "examples/scenarios.py": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d",
+    "examples/suite.py": "787f46ad8509808784bba3c32d9a8ef1bd160d7e00f51dfd6939e23ba18c95b0",
+    "tests/test_elastic_materials.py": "640f3e33cdbf912a4ae0a954c0482de2d58f979c181f180197a9edca4486cfd6",
+    "tests/test_additional_materials.py": "70d31281daa60ac54fa8fb79d4fa374cc2a8b176f3445d583804ae270b58814b",
+    "tests/test_3d.py": "6abe1e195857639a20e364cdc4d3c1f1da2883369470e5eb85134dd48653b763",
+    "tests/test_physics.py": "dd4ed9a42db746600504495eab9c7d53f35ed2d8a28b3f6897ae8a39e5407a83",
+    "docs/results/tests-public.xml": "c674ab3278599e988d10acc8be49c4541c2924c4d6d8f32b7a46656420b5802e"
+  },
+  "historical_tests": [
+    {
+      "classname": "tests.test_3d",
+      "name": "test_3d_transfer_moments_and_conservation",
+      "time": "2.864",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_3d",
+      "name": "test_3d_affine_reproduction",
+      "time": "0.222",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_3d",
+      "name": "test_3d_free_fall[elastic-material0]",
+      "time": "0.420",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_3d",
+      "name": "test_3d_free_fall[fluid-material1]",
+      "time": "0.217",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_3d",
+      "name": "test_3d_hyperelastic_energy_gradient_and_rotation",
+      "time": "2.642",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_3d",
+      "name": "test_3d_material_parameter_gradient",
+      "time": "1.092",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_additional_materials",
+      "name": "test_blatz_ko_energy_and_small_strain_limit",
+      "time": "0.054",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_elastic_materials",
+      "name": "test_linear_uniaxial_and_shear",
+      "time": "0.343",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_elastic_materials",
+      "name": "test_orthotropic_engineering_constants",
+      "time": "0.099",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_elastic_materials",
+      "name": "test_anisotropic_orientation",
+      "time": "0.010",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_elastic_materials",
+      "name": "test_transverse_isotropy_and_isotropic_limit",
+      "time": "0.014",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_elastic_materials",
+      "name": "test_invalid_compliance_rejected",
+      "time": "0.076",
+      "failure_or_error_or_skip": false
+    },
+    {
+      "classname": "tests.test_elastic_materials",
+      "name": "test_linear_parameter_gradient",
+      "time": "0.822",
+      "failure_or_error_or_skip": false
+    }
+  ],
+  "local_run_metadata": [
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_models\\blatz-ko\\summary.json",
+      "sha256": "f3a299062c2fa5a57741c9eacd0eaa6f3999e9196df3f5b6c7307dcae1e0789f",
+      "case": "blatz-ko",
+      "steps": 600,
+      "simulation_time": 0.12000000000000001,
+      "particles": [
+        2197
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9478996915669164,
+      "config": {
+        "dim": 3,
+        "n_grid": 20,
+        "dt": 0.0002,
+        "material": "blatz-ko"
+      },
+      "orientation": null,
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_models\\linear\\summary.json",
+      "sha256": "0299951924739917a3d3f813aa582ed35ac579e5d998399916b87d75f9b133db",
+      "case": "linear",
+      "steps": 600,
+      "simulation_time": 0.12000000000000001,
+      "particles": [
+        2197
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9944712382673208,
+      "config": {
+        "dim": 3,
+        "n_grid": 20,
+        "dt": 0.0002,
+        "material": "linear"
+      },
+      "orientation": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_models\\neo-hookean\\summary.json",
+      "sha256": "b69aad23a1b43917c131fdf2dacdda2b4480c90538b267739ac00210cdd54ebc",
+      "case": "neo-hookean",
+      "steps": 600,
+      "simulation_time": 0.12000000000000001,
+      "particles": [
+        2197
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9408435216155587,
+      "config": {
+        "dim": 3,
+        "n_grid": 20,
+        "dt": 0.0002,
+        "material": "neo-hookean"
+      },
+      "orientation": null,
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_models\\orthotropic\\summary.json",
+      "sha256": "b4bf7de12a0a0c5782d765439595f3d168d84d36976d9e5bf72523fbfc4de042",
+      "case": "orthotropic",
+      "steps": 600,
+      "simulation_time": 0.12000000000000001,
+      "particles": [
+        2197
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9914792610173827,
+      "config": {
+        "dim": 3,
+        "n_grid": 20,
+        "dt": 0.0002,
+        "material": "orthotropic"
+      },
+      "orientation": [
+        [
+          0.8660254037844387,
+          -0.49999999999999994,
+          0.0
+        ],
+        [
+          0.49999999999999994,
+          0.8660254037844387,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_models\\transverse-isotropic\\summary.json",
+      "sha256": "1ab26b84bfc7a8d0a9402636382632b5f19d9485b2aef89d18002ca15f63af9e",
+      "case": "transverse-isotropic",
+      "steps": 600,
+      "simulation_time": 0.12000000000000001,
+      "particles": [
+        2197
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9918077910231143,
+      "config": {
+        "dim": 3,
+        "n_grid": 20,
+        "dt": 0.0002,
+        "material": "transverse-isotropic"
+      },
+      "orientation": [
+        [
+          0.8660254037844387,
+          -0.49999999999999994,
+          0.0
+        ],
+        [
+          0.49999999999999994,
+          0.8660254037844387,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_cantilever\\cantilever\\blatz-ko\\summary.json",
+      "sha256": "3a2dbd66815254e551c0341849326a8f6ecaedd1550677d1789fd889b9960bc2",
+      "case": "cantilever / blatz-ko",
+      "steps": 520,
+      "simulation_time": 0.15,
+      "particles": [
+        36540
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.999250607768762,
+      "config": {
+        "dim": 3,
+        "n_grid": 48,
+        "dt": 0.00028846153846153843,
+        "material": "blatz-ko"
+      },
+      "orientation": null,
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_cantilever\\cantilever\\linear\\summary.json",
+      "sha256": "35ffb0c9e7f44e7add978687fa1139e993111ffd29d37cd71a677662bab2aa63",
+      "case": "cantilever / linear",
+      "steps": 280,
+      "simulation_time": 0.15,
+      "particles": [
+        36540
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9977051645399372,
+      "config": {
+        "dim": 3,
+        "n_grid": 48,
+        "dt": 0.0005357142857142857,
+        "material": "linear"
+      },
+      "orientation": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_cantilever\\cantilever\\orthotropic\\summary.json",
+      "sha256": "bdec87a6b138728fe6b95f338ea5f3f0a34d70c73097ff5e229184a9fe9ed441",
+      "case": "cantilever / orthotropic",
+      "steps": 440,
+      "simulation_time": 0.15,
+      "particles": [
+        36540
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9966032856523476,
+      "config": {
+        "dim": 3,
+        "n_grid": 48,
+        "dt": 0.0003409090909090909,
+        "material": "orthotropic"
+      },
+      "orientation": [
+        [
+          0.8660254037844387,
+          0.0,
+          0.49999999999999994
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -0.49999999999999994,
+          0.0,
+          0.8660254037844387
+        ]
+      ],
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    },
+    {
+      "path": "H:\\test\\mpm\\outputs\\elastic_cantilever\\cantilever\\transverse-isotropic\\summary.json",
+      "sha256": "7f82fa73d7b2c509ce0b431a682f59def134251b8beeb84b2e170251c7021988",
+      "case": "cantilever / transverse-isotropic",
+      "steps": 460,
+      "simulation_time": 0.15,
+      "particles": [
+        36540
+      ],
+      "jax_version": "0.12.1.dev20261022",
+      "min_J": 0.9972101912426233,
+      "config": {
+        "dim": 3,
+        "n_grid": 48,
+        "dt": 0.0003260869565217391,
+        "material": "transverse-isotropic"
+      },
+      "orientation": [
+        [
+          0.8660254037844387,
+          0.0,
+          0.49999999999999994
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -0.49999999999999994,
+          0.0,
+          0.8660254037844387
+        ]
+      ],
+      "scope": "Historical summary only, not source-bound independent acceptance"
+    }
+  ],
+  "new_computation": false,
+  "gaps": [
+    "No separately published source-bound spatial refinement study for the generic orthotropic or transverse-isotropic law was found in docs/results. Woven finite-strain laws are distinct implementations.",
+    "Historical free-release TI metadata rotates only inside the isotropic plane; current examples.elastic_models tilts its longitudinal axis. Do not use old metadata as validation of the current tilted case.",
+    "Generic small-strain laws use sym(F)-I and are not objective finite-rotation laws.",
+    "Historical suite wave folders can retain neo-hookean names although actual configuration is linear; identify the law from configs/material, not directory name.",
+    "The common example ledger omits APIC affine kinetic and full constraint/contact work; its energy columns are not a discrete conservation certificate."
+  ]
+}
