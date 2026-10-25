@@ -1,0 +1,82 @@
+{
+  "scope": "one frozen-position affine transfer and virtual-work check; no time integration, contact or speedup claim",
+  "passed": true,
+  "particles": 260096,
+  "grid_nodes": 556444,
+  "coarse_nodes": 528796,
+  "fine_nodes": 27648,
+  "stencil": {
+    "compile_seconds": 0.2695110999629833,
+    "execution_seconds": 0.503804600040894
+  },
+  "transfer_and_force": {
+    "compile_seconds": 0.44089399999938905,
+    "execution_seconds": 0.7058476000092924
+  },
+  "metrics": {
+    "affine_moment_max_error": 2.05187824827063e-17,
+    "angular_grid_error": 6.938893903907228e-18,
+    "angular_return_error": 8.673617379884035e-19,
+    "finite": true,
+    "grid_mass": 0.30720000000000003,
+    "grid_power": -0.8960000000000101,
+    "internal_force_resultant": 1.0373646386341306e-14,
+    "internal_force_torque": 1.4988010832439613e-15,
+    "mass_error": 5.551115123125783e-17,
+    "material_power": -0.8959999999999967,
+    "momentum_grid_error": 1.6653345369377348e-16,
+    "momentum_return_error": 1.1102230246251565e-16,
+    "occupied_nodes": 50760,
+    "particle_mass": 0.3072,
+    "physical_gradient_max_error": 5.33332017438326e-12,
+    "velocity_max_error": 7.549516567451064e-15,
+    "virtual_work_error": 1.3433698597964394e-14,
+    "valid_support": true,
+    "partition_max_error": 4.440892098500626e-16,
+    "minimum_weight": 0.0,
+    "moment_minimum_eigenvalue": 3.9062499999998567e-07,
+    "volume_error": 5.421010862427522e-20
+  },
+  "absolute_limits_SI": {
+    "mass_error": 1e-12,
+    "momentum_grid_error": 1e-12,
+    "momentum_return_error": 1e-12,
+    "angular_grid_error": 1e-12,
+    "angular_return_error": 1e-12,
+    "velocity_max_error": 1e-12,
+    "affine_moment_max_error": 1e-15,
+    "physical_gradient_max_error": 1e-09,
+    "internal_force_resultant": 1e-10,
+    "internal_force_torque": 1e-10,
+    "virtual_work_error": 1e-10,
+    "partition_max_error": 2e-14,
+    "volume_error": 1e-16
+  },
+  "environment": {
+    "python": "3.12.13 (main, Jun 11 2026, 04:05:29) [MSC v.1944 64 bit (AMD64)]",
+    "jax": "0.12.0.1",
+    "numpy": "2.5.4",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "devices": [
+      "cpu:0"
+    ]
+  },
+  "source": {
+    "tools/check_hierarchical_transfer.py": "2c27979d53937c8aefd6b6fcbc530c5e38a9245677c1317aba9a910b3ab390fd",
+    "mpm_jax/hierarchical_grid.py": "4bd3a97c27462faf115b2b1ae70b1adab877e5bb5306f3dac8e28d50e110d274"
+  },
+  "base_commit": "ec4ec709efc3e5276308eeee30c4c6609a932b69",
+  "resource_measurement": {
+    "exit_code": 0,
+    "termination": null,
+    "peak_uss_bytes": 2299437056,
+    "peak_rss_bytes": 2392539136,
+    "wall_seconds": 3.651841200015042,
+    "sample_seconds": 0.25,
+    "limits": {
+      "uss_GiB": 5.5,
+      "min_available_GiB": 2,
+      "wall_seconds": 600
+    }
+  }
+}
