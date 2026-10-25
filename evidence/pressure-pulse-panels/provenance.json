@@ -1,0 +1,60 @@
+{
+  "schema": "pressure-panel-source-prefix-evidence-v1",
+  "source_commit": "3328c738d1a25da63b1244f63e9291c110776e00",
+  "base_main": "5971e08",
+  "source_branch": "work/pressure-pulse-panels",
+  "models": [
+    "jc",
+    "hjc",
+    "jh2",
+    "rht"
+  ],
+  "source_files": [
+    "examples/pressure_pulse_panels.py",
+    "mpm_jax/pressure_pulse.py",
+    "tools/check_pressure_pulse_loading.py",
+    "docs/PRESSURE_PULSE_PANELS.md"
+  ],
+  "load_check": {
+    "source_commit": "a897431ff5f8d665bbdb47efd24de21722d15038",
+    "pressure_helper_sha256": "1183e5947a8b9ad8fb787e734911bd5f389c2e322fba8c9b2fe4d09941760540",
+    "helper_identical_to_resource_prefix_source": true,
+    "fixture_peak_pressure_Pa": 5000000.0,
+    "scope": "One amplitude-linear area/time/rotation operator check; this5MPa fixture is not the four actual default presets"
+  },
+  "presets_Pa": {
+    "jc": 50000000.0,
+    "hjc": 15000000.0,
+    "jh2": 80000000.0,
+    "rht": 15000000.0
+  },
+  "default_grid": 128,
+  "default_ppc": 2,
+  "particles_each": 479232,
+  "runtime_image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+  "resources": {
+    "cpu": "16-19",
+    "cores": 4,
+    "memory_GiB": 16,
+    "USS_limit_GiB": 12,
+    "wall_limit_s": 900
+  },
+  "full_protocols_completed": 0,
+  "material_tests_repeated": 0,
+  "physical_claim": "Four actual20-step resource prefixes only; smooth pulse peaks and complete mechanical response not reached or validated",
+  "retained_raw_tasks": [
+    "pressure-panel-jc20",
+    "pressure-panel-hjc20",
+    "pressure-panel-jh220",
+    "pressure-panel-rht20"
+  ],
+  "final_cli_only_change": "Resume preserves the existing case.json rather than overwriting it before the original framework signature gate; no force/material/step function changed or rerun",
+  "files_sha256": {
+    "hjc20.json": "a18d887fbfd77eafd856afba98bf07387a98ddb441b9559097a9e4f4bdaef30a",
+    "jc20.json": "91add4b44c197c507e2f1be7fcfaf3fed98d73ada905c9c2038d41849fcc4de7",
+    "jh220.json": "e47d2fa0b17ae87b55cbe37c031ead2e961a0dc36145c41acaea87be56e7965f",
+    "loading-check-resource.json": "246bd0e67aa7b291b0c713588c067ed11564af4d4358edd7f58f2985907b0a6c",
+    "loading-check.json": "170da12a49a12755a3ec78dcdf4ef954dcb5f34bfb86900f6996914daf8a7829",
+    "rht20.json": "4771f2141ea1be5026edb39376e675e7be079db9b7e580310ecc8c416cb1ea38"
+  }
+}

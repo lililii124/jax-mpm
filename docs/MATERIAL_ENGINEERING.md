@@ -4,6 +4,9 @@ These 3D cases use physical dimensions in SI units and prescribed mechanical
 boundaries. They cover metal tension, concrete bending and ceramic indentation.
 Their specimen dimensions and loading histories are demonstration configurations.
 
+[Pressure-pulse panels](PRESSURE_PULSE_PANELS.md) add four-edge-clamped JC,
+HJC, JH-2 and RHT plates under prescribed follower pressure.
+
 ## Run
 
 ```bash

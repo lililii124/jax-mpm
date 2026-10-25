@@ -194,6 +194,7 @@ python -m examples.suite --case elastic-gate --grid 48 --ppc 3 --gif
 python -m examples.suite --case perforated-panel --grid 48 --ppc 3 --gif
 python -m examples.suite --case cellular-cushion --grid 48 --ppc 3 --gif
 python -m examples.material_paths --model all
+python -m examples.pressure_pulse_panels --model jc --grid 128 --ppc 2
 python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gif
 python -m examples.material_engineering --case jc-tension --grid 80 --frames 60 --gif
 python -m examples.material_engineering --case concrete-bending --frames 40 --gif
