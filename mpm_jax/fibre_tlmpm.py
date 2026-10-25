@@ -4,7 +4,7 @@ import jax
 import jax.numpy as jnp
 from .fibre_mpm import stencil,grid_coordinates
 from .materials.isotropic_brittle import initial_brittle_history,update_brittle,brittle_first_piola,brittle_energy
-from .fibre_tl_guides import project,make_guide_operator,sample as sample_guides
+from .fibre_tl_guides import project,make_guide_operator,sample as sample_guides,nodal_impulse
 
 
 class TLState(NamedTuple):
@@ -48,6 +48,11 @@ def make_solver(reference,volume,layout,material,masks,dt,protocol,*,duration,
     mass=jnp.zeros(layout.node_count,dtype=reference.dtype).at[support.indices].add(
         material.density*volume[:,None]*support.weights,mode='drop')
     node_reference,_=grid_coordinates(layout,jnp.arange(layout.node_count,dtype=jnp.int32))
+    mu=material.young/(2*(1+material.poisson));lam=material.young*material.poisson/((1+material.poisson)*(1-2*material.poisson))
+    wave_speed=jnp.sqrt((lam+2*mu)/material.density)
+    characteristic_span=jnp.maximum(jnp.max(jnp.ptp(reference,axis=0)),layout.dx)
+    momentum_scale=material.density*jnp.sum(volume)*wave_speed
+    angular_momentum_scale=momentum_scale*characteristic_span
     group=jnp.full(layout.node_count,-1,dtype=jnp.int32);valid_boundary=jnp.asarray(True)
     for i,mask in enumerate(masks):
         selected=jnp.zeros(layout.node_count,dtype=jnp.int32).at[support.indices].max(
@@ -133,10 +138,17 @@ def make_solver(reference,volume,layout,material,masks,dt,protocol,*,duration,
         u=jnp.where(fixed[:,None],prescribe(s.time+dt,0),u)
         guide_position_multiplier=jnp.zeros((0,),dtype=reference.dtype)
         guide_position_error=jnp.zeros((0,),dtype=reference.dtype)
+        guide_midpoint_speed=jnp.zeros((0,),dtype=reference.dtype)
+        guide_end_speed=jnp.zeros((0,),dtype=reference.dtype)
+        guide_impulse0=jnp.zeros_like(s.force)
+        guide_impulse1=jnp.zeros_like(s.force)
         if guide_operator is not None:
             predicted=u
             target=guide_displacement(s.time+dt)
             u,guide_position_multiplier,guide_position_error=project(guide_operator,u,target)
+            guide_midpoint_speed=.5*(guide_velocity(s.time)+guide_velocity(s.time+dt))
+            guide_impulse0=jnp.zeros_like(s.force).at[:,1].set(
+                nodal_impulse(guide_operator,guide_position_multiplier,layout.node_count)/dt)
             # RATTLE position correction contributes the matching half-step
             # velocity, so the subsequent force evaluation sees constrained F.
             half=half+(u-predicted)/dt
@@ -156,8 +168,11 @@ def make_solver(reference,volume,layout,material,masks,dt,protocol,*,duration,
         if guide_operator is not None:
             velocity_pre_projection=velocity
             guide_velocity_target=guide_velocity(s.time+dt)
+            guide_end_speed=guide_velocity_target
             velocity,guide_velocity_multiplier,guide_velocity_error=project(
                 guide_operator,velocity_pre_projection,guide_velocity_target)
+            guide_impulse1=jnp.zeros_like(s.force).at[:,1].set(
+                nodal_impulse(guide_operator,guide_velocity_multiplier,layout.node_count))
             guide_velocity_before=sample_guides(guide_operator,velocity_pre_projection[:,1])
             guide_velocity_after=sample_guides(guide_operator,velocity[:,1])
             guide_velocity_impulse_work=jnp.sum(guide_velocity_multiplier*.5*(guide_velocity_before+guide_velocity_after))
@@ -173,56 +188,69 @@ def make_solver(reference,volume,layout,material,masks,dt,protocol,*,duration,
         if guide_operator is not None:
             # Generalized constraint impulses times commanded centroid motion.
             # Position and velocity multipliers are the two RATTLE impulses.
-            midpoint_speed=.5*(guide_velocity(s.time)+guide_velocity(s.time+dt))
             # Position projection changes the half-step velocity by
             # M^-1 G^T lambda_x / dt.  Its impulse dotted with the prescribed
             # centroid velocity is therefore lambda_x * v_guide / dt.
-            guide_work_position=guide_position_multiplier*midpoint_speed/dt
+            guide_work_position=guide_position_multiplier*guide_midpoint_speed/dt
             # Prescribed machine work uses the target constraint velocity;
             # separately record the actual impulse/midpoint-velocity jump.
             guide_work_velocity=guide_velocity_multiplier*guide_velocity_target
             work=work+jnp.sum(guide_work_position)+jnp.sum(guide_work_velocity)
-        impulse0=jnp.where(fixed[:,None],mass[:,None]*(half-s.velocity)-.5*dt*s.force,0.)
-        impulse1=jnp.where(fixed[:,None],mass[:,None]*(velocity-half)-.5*dt*force,0.)
+        impulse0=jnp.where(fixed[:,None],mass[:,None]*(half-s.velocity)-.5*dt*s.force,0.)+guide_impulse0
+        impulse1=jnp.where(fixed[:,None],mass[:,None]*(velocity-half)-.5*dt*force,0.)+guide_impulse1
         impulse=jnp.sum(impulse0+impulse1,axis=0)
         torque=jnp.sum(jnp.cross(node_reference+s.displacement,impulse0)+jnp.cross(node_reference+u,impulse1),axis=0)
         damage=jnp.sum(volume*(brittle_energy(F,s.history,material)-brittle_energy(F,history,material)))
+        max_log_strain=jnp.max(abs(jnp.log(jnp.linalg.svd(F,compute_uv=False))))
         guide_ok=jnp.asarray(True)
         if guide_operator is not None:
             guide_ok=jnp.all(abs(guide_position_error)<=1e-11*layout.dx)&jnp.all(abs(guide_velocity_error)<=1e-10*jnp.sqrt(material.young/material.density))
-        valid=s.valid&jnp.all(history.valid)&jnp.all(jnp.isfinite(u))&jnp.all(jnp.isfinite(velocity))&jnp.all(jnp.linalg.det(F)>0)&guide_ok
+        linear_error=jnp.linalg.norm(jnp.sum(mass[:,None]*velocity,axis=0)-(s.impulse+impulse))
+        angular_error=jnp.linalg.norm(jnp.sum(jnp.cross(node_reference+u,mass[:,None]*velocity),axis=0)-(s.angular_impulse+torque))
+        linear_relative=linear_error/jnp.maximum(momentum_scale,1e-300)
+        angular_relative=angular_error/jnp.maximum(angular_momentum_scale,1e-300)
+        valid=s.valid&jnp.all(history.valid)&jnp.all(jnp.isfinite(u))&jnp.all(jnp.isfinite(velocity))&jnp.all(jnp.linalg.det(F)>0)&guide_ok&(max_log_strain<=.12)&(linear_relative<=1e-8)&(angular_relative<=1e-8)
         new=TLState(u,velocity,force,history,F,s.time+dt,valid,s.work+work,s.impulse+impulse,s.angular_impulse+torque,s.damage_work+damage)
         K,U=energy(new)
         row=dict(work_J=work,damage_J=damage,kinetic_J=K,elastic_J=U,
             residual_J=new.work-K-U-new.damage_work,min_J=jnp.min(jnp.linalg.det(F)),max_damage=jnp.max(history.damage),
+            max_log_strain=max_log_strain,strain_guard_passed=max_log_strain<=.12,
             machine_abs_work_J=jnp.sum(abs(jnp.concatenate((end_work_group,guide_work_position,guide_work_velocity)))),
             end_constraint_work_J=jnp.sum(end_work_group),
             guide_position_constraint_work_J=jnp.sum(guide_work_position),
             guide_velocity_constraint_work_J=jnp.sum(guide_work_velocity),
             guide_position_impulse_L1_Ns=jnp.sum(abs(guide_position_multiplier/dt)),
             guide_velocity_impulse_L1_Ns=jnp.sum(abs(guide_velocity_multiplier)),
-            guide_position_speed_max_m_s=jnp.max(abs(.5*(guide_velocity(s.time)+guide_velocity(s.time+dt))),initial=0.),
-            guide_velocity_speed_max_m_s=jnp.max(abs(guide_velocity(s.time+dt)),initial=0.),
+            guide_position_speed_max_m_s=jnp.max(abs(guide_midpoint_speed),initial=0.),
+            guide_velocity_speed_max_m_s=jnp.max(abs(guide_end_speed),initial=0.),
             guide_position_multiplier_kg_m=guide_position_multiplier,
-            guide_position_target_speed_m_s=.5*(guide_velocity(s.time)+guide_velocity(s.time+dt)),
+            guide_position_target_speed_m_s=guide_midpoint_speed,
             guide_velocity_multiplier_Ns=guide_velocity_multiplier,
             guide_velocity_target_speed_m_s=guide_velocity_target,
             guide_velocity_before_projection_m_s=guide_velocity_before,
             guide_velocity_after_projection_m_s=guide_velocity_after,
             guide_velocity_impulse_midpoint_work_J=guide_velocity_impulse_work,
             guide_velocity_kinetic_jump_J=guide_velocity_kinetic_jump,
+            guide_position_nodal_impulse_Ns=guide_impulse0.sum(axis=0),
+            guide_velocity_nodal_impulse_Ns=guide_impulse1.sum(axis=0),
+            guide_total_constraint_impulse_Ns=(guide_impulse0+guide_impulse1).sum(axis=0),
             guide_position_error=jnp.max(abs(guide_position_error),initial=0.),
             guide_velocity_error=jnp.max(abs(guide_velocity_error),initial=0.),
             fixture_work_total_J=new.work,damage_work_total_J=new.damage_work,
             tensile_load_N=.5*(jnp.sum(jnp.where((group==1)[:,None],reaction1,0.),axis=0)[0]
                 -jnp.sum(jnp.where((group==0)[:,None],reaction1,0.),axis=0)[0]),
             momentum_error=jnp.linalg.norm(jnp.sum(mass[:,None]*velocity,axis=0)-new.impulse),valid=valid)
-        row['angular_momentum_error']=jnp.linalg.norm(jnp.sum(jnp.cross(node_reference+u,mass[:,None]*velocity),axis=0)-new.angular_impulse)
+        row['angular_momentum_error']=angular_error;row['momentum_error']=linear_error
+        row['momentum_relative_error']=linear_relative;row['angular_momentum_relative_error']=angular_relative
+        row['momentum_guard_passed']=linear_relative<=1e-8;row['angular_momentum_guard_passed']=angular_relative<=1e-8
+        row['momentum_scale_Ns']=momentum_scale;row['angular_momentum_scale_Nms']=angular_momentum_scale
         return new,row
     def particles(s):return reference+sample(s.displacement),sample(s.velocity)
     geometry_check=dict(partition_error=jnp.max(abs(support.weights.sum(1)-1)),
         gradient_constant_error=jnp.max(abs(gradient.sum(1))),reference_mass=material.density*volume.sum(),nodal_mass=mass.sum(),
         gradient_affine_error=jnp.max(abs(jnp.einsum('pki,pkj->pij',support.dpos,gradient)-jnp.eye(3))),
         initial_largest_acoustic_eigenvalue=eigenvalues[-1],acoustic_64_iteration_relative_change=abs(eigenvalues[-1]/eigenvalues[-9]-1),
-        estimated_initial_critical_dt=critical_dt,dt=jnp.asarray(dt),planned_steps=jnp.asarray(planned_steps))
+        estimated_initial_critical_dt=critical_dt,dt=jnp.asarray(dt),planned_steps=jnp.asarray(planned_steps),
+        wave_speed_m_s=wave_speed,characteristic_span_m=characteristic_span,
+        linear_momentum_scale_Ns=momentum_scale,angular_momentum_scale_Nms=angular_momentum_scale)
     return initial,step,particles,energy,geometry_check

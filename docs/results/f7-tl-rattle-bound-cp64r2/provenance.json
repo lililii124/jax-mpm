@@ -1,0 +1,79 @@
+{
+  "schema": "F7-RATTLE-full-checkpoint-v1",
+  "accepted": true,
+  "container": "jaxmpm-f7-tl-rattle-bound-cp64r2-20261026",
+  "container_id": "d6708fa4a66a6b4125bd1e3f76f8a6733388c2ac1b922ea3d1d4f5ec67142cf0",
+  "uploaded_capsule_sha256": "702332e08bb588e6fa85a90202683bd64efa2074101704f1d772a54f43389138",
+  "source_archive_sha256": "29cc0dd9e3d63000e4d0328b9f1876bdbc4a16d8cc92ec433082257aa261fca7",
+  "binding_sha256": "9d9b48ee7bd9f18251758bad4cfb6756baa0502fddcc346d418bcf8b04d9c98d",
+  "checkpoint_file": "checkpoint_0000064.npz",
+  "checkpoint_sha256": "03fe58de392126a3547d9a57a57eb6634afdc46ebf360299b3f8cd8f225bdbcf",
+  "checkpoint_step": 64,
+  "checkpoint_time_s": 4.293250516799595e-06,
+  "checkpoint_schema": [
+    "displacement",
+    "velocity",
+    "force",
+    "F",
+    "history_kappa",
+    "history_damage",
+    "history_failed",
+    "history_valid",
+    "time",
+    "valid",
+    "work",
+    "impulse",
+    "angular_impulse",
+    "damage_work",
+    "absolute_machine_work_J",
+    "binding_json",
+    "binding_sha256",
+    "source_archive_sha256",
+    "input_identity_sha256_json",
+    "work_gate_relative_maximum"
+  ],
+  "cumulative": {
+    "machine_work_absolute_J": 3.033436103864427e-10,
+    "work_J": 3.033436103864427e-10,
+    "damage_work_J": 0.0,
+    "kinetic_J": 2.2107436017744717e-10,
+    "elastic_J": 8.30046520978791e-11,
+    "remainder_J": -7.354018888835591e-13,
+    "remainder_fraction": 0.0024243196945757267,
+    "gate": 0.1
+  },
+  "final_global_impulse": {
+    "linear_Ns": [
+      3.5771377568078293e-13,
+      -2.8190629328060736e-08,
+      -2.4280615168041297e-13
+    ],
+    "angular_Nms": [
+      -3.442537504776157e-10,
+      -1.806302043342098e-14,
+      1.607201169134358e-11
+    ],
+    "max_relative_linear_error": 1.684721324830653e-21,
+    "max_relative_angular_error": 1.4381220351068673e-22
+  },
+  "guards": {
+    "all_rows_valid": true,
+    "work_gate": true,
+    "max_log_strain": 0.0001932268047200414,
+    "max_log_strain_cap": 0.12,
+    "max_guide_position_error": 5.293955920339377e-23,
+    "max_guide_velocity_error": 2.720631256699813e-17
+  },
+  "r9_nonrestartable_parent": {
+    "path": "docs/results/f7-tl-rattle-qualification64r9",
+    "state": "accepted-short-qualification-but-no-lossless-checkpoint",
+    "replaced_by_fresh_bound_step64": true
+  },
+  "file_sha256": {
+    "checkpoint_0000064.npz": "03fe58de392126a3547d9a57a57eb6634afdc46ebf360299b3f8cd8f225bdbcf",
+    "latest.json": "bed8177dd966629224b9a78f7ba739c989bbc76050d855e4c60a3397d22ce719",
+    "observations.jsonl": "d59fbd79cdb441fc0633a4e8e48bf38a3c2e7e1ebd177d015cd4c99fa6acbc29",
+    "report.json": "4af3e4fae73c325b48a0b524a5861cfadadf6d4c37906dc4600fd5b58a2bbb94",
+    "source-capsule.tar": "702332e08bb588e6fa85a90202683bd64efa2074101704f1d772a54f43389138"
+  }
+}

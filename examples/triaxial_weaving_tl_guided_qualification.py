@@ -4,12 +4,14 @@ from pathlib import Path
 import numpy as np
 
 
-def run(output):
+def run(output,*,steps=64,checkpoint_every=64,resume_from=None):
     import jax
     import jax.numpy as jnp
     from mpm_jax.fibre_mpm import build_tube_layout
     from mpm_jax.fibre_tlmpm import make_solver
     from mpm_jax.materials.isotropic_brittle import isotropic_brittle
+    from mpm_jax.fibre_tlmpm import TLState
+    from mpm_jax.materials.isotropic_brittle import BrittleHistory
     from examples.triaxial_weaving_guided_geometry import plan_guided
     from examples.triaxial_weaving_geometry import fixture_position
 
@@ -55,47 +57,112 @@ def run(output):
     dt=float(plan['dt'])
     def guide_speed(t):return (guide_position(t)-guide_position(t-dt))/dt
     protocol=dict(fixture_times=np.asarray(meta['fixture_times']).tolist(),fixture_positions=np.asarray(meta['fixture_positions']).tolist())
-    solver_dt=dt;duration=64*solver_dt
+    solver_dt=dt;duration=steps*solver_dt
     initial,step,particles,energy,geometry_check=make_solver(x,volume,layout,material,geometry['masks'],solver_dt,protocol,
         duration=duration,guide_particles=guides,guide_displacement=guide_position,guide_velocity=guide_speed,particle_fibre_ids=ids)
-    state=initial;rows=[];t0=time.perf_counter()
-    for i in range(64):
-        state,row=step(state);jax.block_until_ready(row['valid'])
-        rows.append({k:np.asarray(v).tolist() for k,v in row.items()})
-        if not bool(row['valid']):raise RuntimeError(f'RATTLE/TL guard rejected physical step {i+1}')
+    if steps<1 or checkpoint_every<1:raise ValueError('steps and checkpoint interval must be positive')
+    source_path=Path('/work/source.tar');source_sha=hashlib.sha256(source_path.read_bytes()).hexdigest() if source_path.exists() else 'unbound-local-source'
+    binding=dict(schema='f7-tl-rattle-checkpoint-v1',source_archive_sha256=source_sha,
+        input_identity_sha256=identity,material=actual_material,dt_s=solver_dt,
+        guide_particle_ids_sha256=identity['guide_particle_ids'],fixture_times_sha256=identity['fixture_times'],
+        fixture_positions_sha256=identity['fixture_positions'],guide_target='centroid y follows fixture through min(t,release); no withdrawal before first release',
+        reference_grid='six-cell packed tube; fixed quadratic reference stencil',strain_cap_log=.12,work_gate_relative_maximum=.10)
+    binding_text=json.dumps(binding,sort_keys=True,separators=(',',':'));binding_sha=hashlib.sha256(binding_text.encode()).hexdigest()
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
-    K,U=energy(state);K=float(K);U=float(U);wabs=float(sum(float(r['machine_abs_work_J']) for r in rows))
-    remainder=float(state.work)-K-U-float(state.damage_work);work_ratio=abs(remainder)/max(wabs,1e-30)
-    work_accepted=work_ratio<=.10;accepted=bool(state.valid)&work_accepted
-    array_payload=dict(displacement=np.asarray(state.displacement),velocity=np.asarray(state.velocity),F=np.asarray(state.F),
-        kappa=np.asarray(state.history.kappa),damage=np.asarray(state.history.damage),failed=np.asarray(state.history.failed))
-    state_file='qualification.npz' if accepted else 'rejected-state-not-checkpoint.npz'
-    if not accepted:array_payload['resume_forbidden']=np.asarray(True)
-    np.savez_compressed(output/state_file,**array_payload)
-    report=dict(case='F7 unchanged geometry + TL/BrittleHistory + finite mass-weighted centroid RATTLE',steps=64,
-        dt_s=solver_dt,duration_s=float(state.time),runtime_s=time.perf_counter()-t0,particles=len(x),guides=len(guides),
-        cpus=sorted(os.sched_getaffinity(0)),machine=dict(platform=platform.platform(),jax=jax.__version__),
-        geometry=json.loads(json.dumps(meta,default=lambda z:np.asarray(z).tolist())),plan=plan,
-        immutable_input_identity_sha256=identity,material_identity=actual_material,
-        geometry_check={k:np.asarray(v).tolist() for k,v in geometry_check.items()},rows=rows,
-        valid=bool(state.valid),state='accepted' if accepted else 'work-budget-rejected',
-        machine_work_absolute_J=wabs,work_remainder_J=remainder,work_remainder_relative_to_absolute_work=work_ratio,
-        work_gate_relative_maximum=.10,work_gate_passed=work_accepted,resume_forbidden=not accepted,
+    latest_path=output/'latest.json';observations_path=output/'observations.jsonl';rows=[];absolute_machine_work=0.;start_step=0;parent_cp_sha=None
+    if resume_from:
+        parent=Path(resume_from);latest=json.loads((parent/'latest.json').read_text(encoding='utf-8'))
+        if latest.get('state') not in ('accepted','continuable') or latest.get('binding_sha256')!=binding_sha:
+            raise RuntimeError('Resume parent is not an admitted checkpoint with identical physical/source binding')
+        cp_path=parent/latest['checkpoint_file'];actual_sha=hashlib.sha256(cp_path.read_bytes()).hexdigest()
+        if actual_sha!=latest['checkpoint_sha256']:raise RuntimeError('Resume checkpoint SHA mismatch')
+        with np.load(cp_path,allow_pickle=False) as cp:
+            if str(cp['binding_sha256'].item())!=binding_sha or str(cp['binding_json'].item())!=binding_text:
+                raise RuntimeError('Checkpoint embedded binding mismatch')
+            required={'step','binding_sha256','binding_json','source_archive_sha256','input_identity_sha256_json',
+                'absolute_machine_work_J','work_gate_relative_maximum','displacement','velocity','force','F','time','valid',
+                'work','impulse','angular_impulse','damage_work',*[('history_'+name) for name in BrittleHistory._fields]}
+            if not required.issubset(cp.files):raise RuntimeError('Restart checkpoint is missing required TLState/history/ledger fields')
+            history=BrittleHistory(*(jnp.asarray(cp['history_'+name]) for name in BrittleHistory._fields))
+            state=TLState(jnp.asarray(cp['displacement']),jnp.asarray(cp['velocity']),jnp.asarray(cp['force']),history,
+                jnp.asarray(cp['F']),jnp.asarray(cp['time']),jnp.asarray(cp['valid']),jnp.asarray(cp['work']),
+                jnp.asarray(cp['impulse']),jnp.asarray(cp['angular_impulse']),jnp.asarray(cp['damage_work']))
+            start_step=int(cp['step'].item());absolute_machine_work=float(cp['absolute_machine_work_J'].item())
+            if not bool(state.valid) or abs(float(state.time)-start_step*solver_dt)>1e-12*solver_dt:
+                raise RuntimeError('Checkpoint state/time is invalid or inconsistent with step index')
+        parent_cp_sha=actual_sha
+        old_obs=parent/'observations.jsonl'
+        if old_obs.exists():observations_path.write_bytes(old_obs.read_bytes())
+    else:state=initial
+    with observations_path.open('a',encoding='utf-8') as observations:
+        t0=time.perf_counter()
+        for local_step in range(1,steps+1):
+            state,row=step(state);jax.block_until_ready(row['valid'])
+            row_host={k:np.asarray(v).tolist() for k,v in row.items()};rows.append(row_host)
+            observations.write(json.dumps(dict(step=start_step+local_step,**row_host),allow_nan=False)+'\n');observations.flush()
+            if not bool(row['valid']):
+                raise RuntimeError(f'TL/RATTLE/J/log-strain guard rejected actual step {start_step+local_step}')
+            absolute_machine_work+=float(row['machine_abs_work_J'])
+            step_number=start_step+local_step
+            if step_number%checkpoint_every==0 or local_step==steps:
+                K,U=energy(state);K=float(K);U=float(U)
+                remainder=float(state.work)-K-U-float(state.damage_work)
+                work_ratio=abs(remainder)/max(absolute_machine_work,1e-30)
+                if work_ratio>.10:
+                    raw=output/'work-budget-rejected-state-not-checkpoint.npz'
+                    payload=dict(step=np.asarray(step_number),binding_sha256=np.asarray(binding_sha),binding_json=np.asarray(binding_text),
+                        source_archive_sha256=np.asarray(source_sha),input_identity_sha256_json=np.asarray(json.dumps(identity,sort_keys=True)),
+                        absolute_machine_work_J=np.asarray(absolute_machine_work),work_gate_relative_maximum=np.asarray(.10),work_remainder_J=np.asarray(remainder),
+                        displacement=np.asarray(state.displacement),velocity=np.asarray(state.velocity),force=np.asarray(state.force),
+                        F=np.asarray(state.F),time=np.asarray(state.time),valid=np.asarray(state.valid),work=np.asarray(state.work),
+                        impulse=np.asarray(state.impulse),angular_impulse=np.asarray(state.angular_impulse),damage_work=np.asarray(state.damage_work),
+                        **{'history_'+name:np.asarray(getattr(state.history,name)) for name in BrittleHistory._fields})
+                    tmp=raw.with_suffix('.partial.npz');np.savez_compressed(tmp,**payload);tmp.replace(raw)
+                    (output/'work-budget-rejection.json').write_text(json.dumps(dict(step=step_number,state='rejected',
+                        binding_sha256=binding_sha,work_remainder_J=remainder,absolute_machine_work_J=absolute_machine_work,
+                        ratio=work_ratio,gate=.10,checkpoint_remains_previous=True),indent=2)+'\n')
+                    return
+                payload=dict(step=np.asarray(step_number),binding_sha256=np.asarray(binding_sha),binding_json=np.asarray(binding_text),
+                    source_archive_sha256=np.asarray(source_sha),input_identity_sha256_json=np.asarray(json.dumps(identity,sort_keys=True)),
+                    work_gate_relative_maximum=np.asarray(.10),absolute_machine_work_J=np.asarray(absolute_machine_work),displacement=np.asarray(state.displacement),
+                    velocity=np.asarray(state.velocity),force=np.asarray(state.force),F=np.asarray(state.F),time=np.asarray(state.time),
+                    valid=np.asarray(state.valid),work=np.asarray(state.work),impulse=np.asarray(state.impulse),
+                    angular_impulse=np.asarray(state.angular_impulse),damage_work=np.asarray(state.damage_work),
+                    **{'history_'+name:np.asarray(getattr(state.history,name)) for name in BrittleHistory._fields})
+                cp_path=output/f'checkpoint_{step_number:07d}.npz';temporary=output/f'checkpoint_{step_number:07d}.partial.npz'
+                np.savez_compressed(temporary,**payload);temporary.replace(cp_path)
+                cp_sha=hashlib.sha256(cp_path.read_bytes()).hexdigest()
+                pointer=dict(state='accepted' if step_number==64 else 'continuable',step=step_number,
+                    time_s=float(state.time),checkpoint_file=cp_path.name,checkpoint_sha256=cp_sha,
+                    binding=binding,binding_sha256=binding_sha,absolute_machine_work_J=absolute_machine_work,
+                    kinetic_J=K,elastic_J=U,work_J=float(state.work),damage_work_J=float(state.damage_work),
+                    work_remainder_J=remainder,work_remainder_relative_to_absolute_work=work_ratio,
+                    momentum_impulse= np.asarray(state.impulse).tolist(),angular_impulse=np.asarray(state.angular_impulse).tolist(),
+                    parent_checkpoint_sha256=parent_cp_sha)
+                tmp_pointer=output/'latest.partial.json';tmp_pointer.write_text(json.dumps(pointer,indent=2)+'\n',encoding='utf-8');tmp_pointer.replace(latest_path)
+                old_checkpoints=sorted(output.glob('checkpoint_*.npz'))
+                for old in old_checkpoints[:-2]:old.unlink()
+        runtime=time.perf_counter()-t0
+    latest=json.loads(latest_path.read_text(encoding='utf-8'));K=float(latest['kinetic_J']);U=float(latest['elastic_J'])
+    report=dict(case='F7 unchanged geometry + TL/BrittleHistory + finite mass-weighted centroid RATTLE',
+        start_step=start_step,steps=steps,final_step=start_step+steps,dt_s=solver_dt,duration_s=float(state.time),
+        runtime_s=runtime,particles=len(x),guides=len(guides),cpus=sorted(os.sched_getaffinity(0)),
+        machine=dict(platform=platform.platform(),jax=jax.__version__),binding=binding,binding_sha256=binding_sha,
+        source_archive_sha256=source_sha,geometry=json.loads(json.dumps(meta,default=lambda z:np.asarray(z).tolist())),
+        plan=plan,geometry_check={k:np.asarray(v).tolist() for k,v in geometry_check.items()},rows=rows,
+        state=latest['state'],valid=bool(state.valid),machine_work_absolute_J=absolute_machine_work,
+        work_remainder_J=latest['work_remainder_J'],work_remainder_relative_to_absolute_work=latest['work_remainder_relative_to_absolute_work'],
+        work_gate_relative_maximum=.10,work_gate_passed=latest['work_remainder_relative_to_absolute_work']<=.10,
         final_work_J=float(state.work),final_damage_work_J=float(state.damage_work),final_kinetic_J=K,final_elastic_J=U,
-        final_max_damage=float(jnp.max(state.history.damage)),guide_projection='position and velocity; mass metric; only centroid y; x/z unconstrained',
-        constraint_work_definition=dict(
-            position_multiplier='lambda_x has kg*m; correction is M^-1 G^T lambda_x; half-step constraint impulse is G^T lambda_x/dt',
-            position_machine_work='sum_g (lambda_x[g]/dt)*v_guide_mid[g], v_guide_mid=(g(t+dt)-g(t))/dt',
-            velocity_multiplier='lambda_v has kg*m/s and is the velocity projection impulse',
-            velocity_ideal_machine_work='sum_g lambda_v[g]*v_target(t+dt)[g]',
-            velocity_actual_jump='sum_g lambda_v[g]*(Gv_before[g]+Gv_after[g])/2; separately compare with nodal delta kinetic energy',
-            discrete_constraint_error='ideal prescribed-velocity work minus actual impulse-midpoint work; reported per step, never hidden in heat or tuned away',
-            machine_work_absolute='sum over each end group and guide position/velocity channel of absolute channel work'),
-        qualification_scope='64-step mechanics/guide integration only; contact/interlacing/release and full-process acceptance not claimed')
-    text=json.dumps(report,indent=2,allow_nan=False,default=lambda z:np.asarray(z).tolist())+'\n';(output/'report.json').write_text(text)
-    report['state_sha256']=hashlib.sha256((output/state_file).read_bytes()).hexdigest();report['state_file']=state_file
-    (output/'latest.json').write_text(json.dumps(report,indent=2,allow_nan=False,default=lambda z:np.asarray(z).tolist())+'\n')
+        final_max_damage=float(jnp.max(state.history.damage)),final_max_log_strain=float(max((r['max_log_strain'] for r in rows),default=0.)),
+        final_linear_impulse=latest['momentum_impulse'],final_angular_impulse=latest['angular_impulse'],
+        parent_checkpoint_sha256=parent_cp_sha,checkpoint_file=latest['checkpoint_file'],checkpoint_sha256=latest['checkpoint_sha256'],
+        state_schema='Full TLState: displacement, velocity, force, F, all BrittleHistory fields, time, valid, work, linear/angular impulse, damage_work, absolute machine work and immutable binding',
+        qualification_scope='Bounded mechanics only; contact/interlacing/guide withdrawal-release/full-process acceptance not claimed')
+    (output/'report.json').write_text(json.dumps(report,indent=2,allow_nan=False,default=lambda z:np.asarray(z).tolist())+'\n',encoding='utf-8')
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',default='output');run(p.parse_args().output)
+    p=argparse.ArgumentParser();p.add_argument('--output',default='output');p.add_argument('--steps',type=int,default=64)
+    p.add_argument('--checkpoint-every',type=int,default=64);p.add_argument('--resume-from')
+    a=p.parse_args();run(a.output,steps=a.steps,checkpoint_every=a.checkpoint_every,resume_from=a.resume_from)
