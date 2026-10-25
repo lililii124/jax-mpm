@@ -1,8 +1,21 @@
 # Original process and isolated consistency candidate
 
 Original numerical source: 7b6ea1020b1b431c210e588c6bd0e42dfa8d542d.
-The original process completed step1280, t=4.957397 ms, right collar84.457 deg.
-It has not completed a turn, established tight contact, or produced qualified media.
+The original integrator supplies steps 0→1280; the boundary-aware midpoint
+candidate continues that exact checkpoint to step 5164, 20 ms and 2π. The
+[complete illustrative process](results/fibres--three-strand-forming/summary.json)
+has 63 authentic saved states. Its final checkpoint SHA256 is
+1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2.
+
+Total fixture work is 160.830206 µJ, K=13.696723 µJ and U=138.470571 µJ.
+W−K−U=8.662911 µJ includes contact/projection and transfer/material terms;
+it is not automatically a solver energy error. In the last 235-step deceleration
+interval, the signed remainder is 0.877773 µJ over 4.155987 µJ absolute fixture
+work (21.12%). The shrinking denominator as the fixture stops remains explicit.
+Local compression/stretch limits are in the [physical review](results/fibres--three-strand-forming/physical-review.json).
+Manufacturing accuracy and temporal/spatial convergence remain unqualified.
+
+The original prefix alone ends at step1280, t=4.957397 ms, right collar84.457 deg.
 J is0.895708..1.107069; principal stretch0.859274..1.170046; no damage.
 Three nearest actual particle-centre distances are0.390020/0.407250/0.408249 mm.
 These distances are not certified continuous surface gaps.
@@ -50,9 +63,10 @@ grid work identity error1.20e-22 J and material endpoint defect0.084694 nJ.
 This is an improvement in split/time compatibility, not proof the candidate is
 physically more accurate or stable for a whole process. Midpoint position
 advection adds angular transport truncation:6.60e-14 kg m^2/s in that step.
-A subsequent bounded64-step candidate window measures this term and actual
+A subsequent bounded64-step candidate diagnostic recorded this term and actual
 angular/fixture torque balance explicitly. Exact angular conservation is not
-claimed, and the old trajectory is not overwritten or mixed with the candidate.
+claimed. Original states are retained, with candidate continuation starting
+from the exact step1280 checkpoint.
 
 
 Actual step2163 stopped because one shared node failed the unchanged PGS64

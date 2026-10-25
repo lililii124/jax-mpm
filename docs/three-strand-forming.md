@@ -70,6 +70,8 @@ is a media check; numerical admission and publication review remain separate.
 The [complete illustrative process](results/fibres--three-strand-forming/summary.json)
 records 5,164 actual steps over 20 ms and a full 2π end rotation. Its 63 saved
 states pass the recorded finite-state, contact, support and collar checks.
+The original integrator supplies steps 0→1280; the boundary-aware midpoint
+candidate continues that exact checkpoint through step 5164.
 The final deceleration segment has a 21.12% signed energy remainder relative
 to its absolute fixture work, and local compression reaches J≈0.612 with a
 maximum principal stretch of 1.559. These limits remain visible in the
