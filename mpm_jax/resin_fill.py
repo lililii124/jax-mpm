@@ -9,6 +9,7 @@ import jax.numpy as jnp
 from .resin_apic import particle_to_faces,faces_to_particles,cell_mass,kinetic_particle,kinetic_grid,support
 from .resin_mac import viscosity_force,pressure_projection
 from .resin_particle_boundary import advect
+from .resin_transport_rt0 import advect as advect_rt0
 
 
 class FlowState(NamedTuple):
@@ -21,7 +22,7 @@ class FlowState(NamedTuple):
     valid: object
 
 
-def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,dt=.00004,fill_threshold=.25,solid=None):
+def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,dt=.00004,fill_threshold=.25,solid=None,transport='point-toi'):
     """Freeze an actual voxelized mold/fibre boundary, not final fluid geometry.
 
     Pressure cells have APIC cell mass > threshold*rho*h^3, a documented
@@ -53,7 +54,12 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         v=jnp.where(s.active[:,None],v,0.);C=jnp.where(s.active[:,None,None],C,0.)
         Ktransfer=kinetic_particle(s.mass,v,C,s.active,h)
         wall_loss=jnp.asarray(0.);wall_impulse=jnp.zeros(3);wall_events=jnp.asarray(0);wall_valid=jnp.asarray(True)
-        if solid is None:
+        transport_data=None
+        if transport=='rt0':
+            if solid is None:raise ValueError('RT0 requires the actual fixed voxel boundary')
+            transport_data=advect_rt0(s.x,projection.velocity,s.active,solid,fluid,layout,dt)
+            x=transport_data.x;wall_valid=transport_data.valid
+        elif solid is None:
             x=jnp.where(s.active[:,None],s.x+dt*v,s.x)
         else:
             collision=advect(s.x,v,s.mass,s.active,solid,layout,dt)
@@ -70,5 +76,23 @@ def make_step(layout,fixed,prescribed,open_cells,*,density=1100.,viscosity=.05,d
         particle_momentum1=jnp.sum(jnp.where(s.active,s.mass,0.)[:,None]*v,axis=0)
         momentum_error=jnp.linalg.norm(particle_momentum1-particle_momentum0-fixture_vector)
         metrics=dict(particle_wall_loss_J=wall_loss,particle_wall_events=wall_events,particle_wall_valid=wall_valid,momentum_step_residual_Ns=momentum_error,fixture_impulse_x_Ns=fixture_vector[0],fixture_impulse_y_Ns=fixture_vector[1],fixture_impulse_z_Ns=fixture_vector[2],kinetic_before_J=K0,kinetic_after_J=K1,fixture_work_J=W,p2g_loss_J=K0-Kg0,boundary_loss_J=Lbc,viscous_loss_J=Lvisc,pressure_loss_J=projection.projection_loss_J,g2p_loss_J=Kg1-Ktransfer,energy_identity_J=residual,pressure_identity_J=projection.work_identity_J,maximum_divergence_per_s=projection.maximum_divergence_per_s,pressure_relative_residual=projection.relative_residual,pressure_coverage_valid=projection.coverage_valid,pressure_cells=jnp.sum(fluid),pressure_volume_m3=h**3*jnp.sum(fluid),particle_volume_m3=jnp.sum(jnp.where(s.active,s.mass/density,0.)),maximum_speed_m_per_s=jnp.max(jnp.linalg.norm(v,axis=1)),valid=valid)
-        return FlowState(x,v,C,s.mass,s.active,s.time+dt,valid),metrics
+        new=FlowState(x,v,C,s.mass,s.active,s.time+dt,valid)
+        if transport=='rt0':
+            effective=jnp.where(s.active,s.mass,0.)
+            def angular(position,velocity,affine):
+                spin=jnp.stack([affine[:,2,1]-affine[:,1,2],affine[:,0,2]-affine[:,2,0],affine[:,1,0]-affine[:,0,1]],axis=1)*h*h/4
+                return jnp.sum(effective[:,None]*(jnp.cross(position,velocity)+spin),axis=0)
+            torque=jnp.zeros(3)
+            for c,(I,f,F,P) in enumerate(zip(fixture_initial,fixed,force,projection.fixture_impulse)):
+                impulse=I-dt*jnp.where(f,F,0.)+P
+                for r in range(3):
+                    if r==c:continue
+                    axis=(jnp.arange(impulse.shape[r])+.5)*h+layout.origin[r]
+                    axes=tuple(k for k in range(3) if k!=r);moment=jnp.sum(jnp.sum(impulse,axis=axes)*axis)
+                    cross=jnp.cross(jax.nn.one_hot(r,3),jax.nn.one_hot(c,3));torque=torque+moment*cross
+            transport_torque=jnp.sum(effective[:,None]*jnp.cross(x-s.x,v),axis=0)
+            actual=angular(x,v,C)-angular(s.x,s.v,s.C)-torque
+            metrics.update(transport_angular_remainder_norm=jnp.linalg.norm(transport_torque),transport_angular_identity_norm=jnp.linalg.norm(actual-transport_torque),fixture_torque_norm=jnp.linalg.norm(torque),transport_torque_x=transport_torque[0],transport_torque_y=transport_torque[1],transport_torque_z=transport_torque[2],fixture_torque_x=torque[0],fixture_torque_y=torque[1],fixture_torque_z=torque[2],transport_logJ_mean=jnp.sum(effective*transport_data.logJ)/jnp.maximum(jnp.sum(effective),1e-300),transport_logJ_max=jnp.where(jnp.any(s.active),jnp.max(jnp.where(s.active,transport_data.logJ,-jnp.inf)),0.),transport_logJ_min=jnp.where(jnp.any(s.active),jnp.min(jnp.where(s.active,transport_data.logJ,jnp.inf)),0.),transport_maximum_roundoff_distance_m=jnp.max(transport_data.roundoff_distance),transport_maximum_path_over_h=jnp.max(transport_data.path_bound)/h,transport_maximum_crossings=jnp.max(transport_data.crossings),transport_unprojected_particle_fraction=jnp.sum(s.active&(transport_data.projected_time<dt*(1-1e-12)))/jnp.maximum(jnp.sum(s.active),1))
+            return new,metrics,transport_data.logJ
+        return new,metrics
     return step
