@@ -28,14 +28,29 @@ def main():
     from tools.review_forming_snapshot import inspect
     geometry_records=[inspect(state,p,g)]
     if not geometry_records[-1]['geometry_valid']:raise FloatingPointError('Parent geometry diagnostic rejected')
+    (a.output/'plan.json').write_text(json.dumps(p,indent=2))
+    def checkpoint(name,current_step):
+        leaves={'state_'+key:np.asarray(value) for key,value in state._asdict().items() if key!='history'}
+        leaves.update({'history_'+key:np.asarray(value) for key,value in state.history._asdict().items()})
+        temporary=a.output/(name+'.tmp.npz')
+        np.savez_compressed(temporary,**leaves,step=current_step,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
+        temporary.replace(a.output/(name+'.npz'))
     rows=[];begun=time.monotonic()
     for k in range(a.steps):
         state,metrics=step(state);metrics=np.asarray(metrics)
-        if not bool(state.valid):raise FloatingPointError('Candidate state invalid; no accepted checkpoint')
+        if not bool(state.valid):
+            checkpoint('rejected-state',start+k+1)
+            raise FloatingPointError('Candidate state invalid; last accepted checkpoint and rejected diagnostic preserved')
         rows.append(dict(step=start+k+1,**dict(zip(names,map(float,metrics)))))
         if (k+1)%16==0 or k+1==a.steps:
             geometry_records.append(inspect(state,p,g))
-            if not geometry_records[-1]['geometry_valid']:raise FloatingPointError('Actual particle geometry diagnostic rejected; original parent preserved')
+            progress=dict(step=start+k+1,rows=rows,geometry_records=geometry_records,geometry_valid=geometry_records[-1]['geometry_valid'])
+            (a.output/'progress.json').write_text(json.dumps(progress,indent=2))
+            print(json.dumps(dict(step=start+k+1,time_s=float(state.time),geometry=geometry_records[-1],solver_seconds=time.monotonic()-begun)),flush=True)
+            if not geometry_records[-1]['geometry_valid']:
+                checkpoint('rejected-state',start+k+1)
+                raise FloatingPointError('Actual particle geometry diagnostic rejected; original parent and last accepted checkpoint preserved')
+            checkpoint('checkpoint',start+k+1)
     leaves={'state_'+k:np.asarray(v) for k,v in state._asdict().items() if k!='history'};leaves.update({'history_'+k:np.asarray(v) for k,v in state.history._asdict().items()})
     np.savez_compressed(a.output/'checkpoint.npz',**leaves,step=start+a.steps,parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),candidate=np.array('boundary-aware-midpoint-configuration-v1'))
     receipt=dict(parent_checkpoint_sha256=hashlib.sha256(cpfile.read_bytes()).hexdigest(),original_plan=p,accepted_steps=[start,start+a.steps],solver_seconds=time.monotonic()-begun,rows=rows,geometry_records=geometry_records,production_eligible=False,scope='Isolated explicit candidate; initial boundary projection then midpoint configuration. Signed contact work and material endpoint defect remain explicit; no unconditional stability claim.')
