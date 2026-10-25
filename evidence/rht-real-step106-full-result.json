@@ -1,0 +1,42 @@
+{
+  "mode": "full",
+  "start_step": 105,
+  "target_step": 106,
+  "compile_seconds": 7.022119499742985,
+  "solve_seconds": 104.5510188266635,
+  "original_initial_state_valid": true,
+  "accepted_steps": 1,
+  "production_continuation_complete": false,
+  "valid": true,
+  "contact_impulse": [
+    -2.710505431213761e-20,
+    0.002015244330232879,
+    -5.692061405548898e-19
+  ],
+  "time_s": [
+    5.047619047619047e-06,
+    5.047619047619047e-06
+  ],
+  "raw_files": {
+    "state106-body0.npz": {
+      "bytes": 51266327,
+      "sha256": "eab587dc88bebfd73410582f1031fdaf4fec0267bb1df4c0210779e0cfb7c236"
+    },
+    "state106-body1.npz": {
+      "bytes": 599287,
+      "sha256": "a8b7e3799871faa89597021e1bacbcf3381897ee683c3a2b8312346b5ff49e89"
+    },
+    "contact-impulse.npy": {
+      "bytes": 152,
+      "sha256": "838fce16d4572777c6ac186c4961891e15a78ec220577286988e130b9cdde13c"
+    }
+  },
+  "body_valid": [
+    true,
+    true
+  ],
+  "all_history_valid": [
+    true,
+    true
+  ]
+}

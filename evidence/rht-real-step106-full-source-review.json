@@ -1,0 +1,24 @@
+{
+  "mode": "full",
+  "parent_source_commit": "0c99377fac0ff77b376958dff2e124e2a4691f21",
+  "original_rht_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+  "candidate_rht_sha256": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844",
+  "only_allowed_replacement": null,
+  "parent_checkpoint_sha256": {
+    "checkpoint.json": "39921adf3277486fd0f6ae562bd2f5db9cdde719ed567f98074634e75881e729",
+    "checkpoint_1_0.npz": "b282fdb5e50cd8dca99f8672b8cd301baae39e43fd5bee1e07a97e2b67708228",
+    "checkpoint_1_1.npz": "103af25799483e013815c3c18e940f94d86a9d4bbe8a3ee2145217edaf233874"
+  },
+  "exact_original_56_bisections_64_roots_and_tolerances": true,
+  "instrumentation_added": false,
+  "physical_steps_requested": 1,
+  "versions": {
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "ml_dtypes": "0.6.0",
+    "opt_einsum": "3.4.0",
+    "psutil": "7.2.2"
+  }
+}

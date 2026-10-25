@@ -1,0 +1,32 @@
+{
+  "started_utc": "2026-10-25T11:27:17.706202+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "/work/run.py",
+    "--parent",
+    "/parent",
+    "--candidate",
+    "/work/compact-rht.py",
+    "--mode",
+    "full",
+    "--output",
+    "/work/result"
+  ],
+  "cpu_affinity": [
+    40,
+    41,
+    42,
+    43
+  ],
+  "memory_headroom_at_start": 8581001216,
+  "limit_seconds": 900.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 1923850240,
+  "minimum_memory_headroom": 6656770048,
+  "guard_reason": null,
+  "pid": 6,
+  "nice": 10,
+  "wall_seconds": 119.24739187210798,
+  "returncode": 0
+}

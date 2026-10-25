@@ -1,0 +1,24 @@
+{
+  "all_raw_sha256_verified": true,
+  "read_only_download": true,
+  "mode": "full",
+  "remote": "/home/YZ/jax-mpm-compute-20261025/tasks/rht-step106-full",
+  "files": 10,
+  "compile_seconds": 7.022119499742985,
+  "solve_seconds": 104.5510188266635,
+  "valid": true,
+  "raw_files": {
+    "state106-body0.npz": {
+      "bytes": 51266327,
+      "sha256": "eab587dc88bebfd73410582f1031fdaf4fec0267bb1df4c0210779e0cfb7c236"
+    },
+    "state106-body1.npz": {
+      "bytes": 599287,
+      "sha256": "a8b7e3799871faa89597021e1bacbcf3381897ee683c3a2b8312346b5ff49e89"
+    },
+    "contact-impulse.npy": {
+      "bytes": 152,
+      "sha256": "838fce16d4572777c6ac186c4961891e15a78ec220577286988e130b9cdde13c"
+    }
+  }
+}
