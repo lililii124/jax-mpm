@@ -18,7 +18,7 @@ from mpm_jax.phase_field import (material, reference_basis, State, explicit_step
 from mpm_jax.phase_field_diagnostics import audited_step
 
 
-def run(dx=.05, steps=2000, output='outputs/at2-visible-crack', length=.1, gc=.02, speed=.15, damage_interval=1, snapshot_every=100):
+def run(dx=.05, steps=2000, output='outputs/at2-visible-crack', length=.1, gc=.02, speed=.15, damage_interval=1, snapshot_every=100, resume=None):
     if not isinstance(damage_interval, int) or damage_interval < 1:
         raise ValueError('damage_interval must be a positive integer')
     if not isinstance(snapshot_every, int) or snapshot_every < 1:
@@ -53,16 +53,31 @@ def run(dx=.05, steps=2000, output='outputs/at2-visible-crack', length=.1, gc=.0
     advance = jax.jit(advance)
     destination = Path(output)
     destination.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(destination/'frame_000000.npz', position=x, reference=x,
-        damage=np.zeros(len(x)), time=0., nodal_coordinates=np.asarray(coordinates),
-        nodal_damage=np.asarray(state.damage))
     rows = []
     maximum_residual = 0.
     minimum_increment = 0.
     maximum_abs_audit = np.zeros(8)
     boundary_work = 0.
     audit_totals = np.zeros(8)
-    for step in range(steps):
+    start = 0
+    if resume is not None:
+        from tools.phase_field_restart import load
+        state, parent, rows = load(resume,destination,x,basis,
+            dict(dx=dx,length=length,gc=gc,speed=speed,damage_interval=damage_interval,
+                 snapshot_every=snapshot_every,dt=dt),coordinates)
+        start = parent['steps']
+        if steps <= start:
+            raise ValueError('Final global step must exceed the restart step')
+        maximum_residual = parent['maximum_kkt']
+        minimum_increment = parent['minimum_nodal_damage_increment']
+        maximum_abs_audit = np.array([parent['maximum_abs_step_audit'][k] for k in parent['energy_audit']])
+        audit_totals = np.array(list(parent['energy_audit'].values()))
+        boundary_work = parent['end_velocity_boundary_work']
+    else:
+        np.savez_compressed(destination/'frame_000000.npz', position=x, reference=x,
+            damage=np.zeros(len(x)), time=0., nodal_coordinates=np.asarray(coordinates),
+            nodal_damage=np.asarray(state.damage))
+    for step in range(start,steps):
         previous = state.damage
         ramp_speed = speed*min(1., (step+1)*dt/.012)
         state, result, reaction, audit = advance(state, ramp_speed,
@@ -106,6 +121,7 @@ def run(dx=.05, steps=2000, output='outputs/at2-visible-crack', length=.1, gc=.0
         basis_gradient=np.asarray(basis.gradient), particle_volume=np.asarray(volume),
         particle_fracture_density=np.asarray(fracture_density))
     np.savez_compressed(destination/'particles.npz', reference=x,
+        displacement=np.asarray(state.displacement),
         position=x+np.asarray(state.displacement), velocity=np.asarray(state.velocity),
         strain=np.asarray(state.strain), history=np.asarray(state.history),
         damage=np.asarray(d), damage_gradient=np.asarray(gradient))
@@ -138,5 +154,6 @@ if __name__ == '__main__':
     parser.add_argument('--steps', type=int, default=2000)
     parser.add_argument('--snapshot-every', type=int, default=100)
     parser.add_argument('--output', default='outputs/at2')
+    parser.add_argument('--resume', type=Path, help='Source-bound parent export; --steps remains the final global step')
     args = parser.parse_args()
-    run(args.dx, args.steps, args.output, args.length, args.gc, args.speed, args.damage_interval, args.snapshot_every)
+    run(args.dx, args.steps, args.output, args.length, args.gc, args.speed, args.damage_interval, args.snapshot_every,args.resume)

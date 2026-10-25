@@ -1,0 +1,76 @@
+name: guarded AT2 reconstructed-state2400 native97 review
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: phase-field-visible-crack2400
+  cancel-in-progress: false
+jobs:
+  solve:
+    if: github.ref == 'refs/heads/work/phase-field-visible-crack-continue'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 115
+    env:
+      JAX_PLATFORMS: cpu
+      JAX_ENABLE_X64: 'true'
+      XLA_PYTHON_CLIENT_PREALLOCATE: 'false'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PYTHONUNBUFFERED: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12.13'
+      - name: Install exact parent runtime
+        run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
+      - name: Fetch only independently verified original2000 artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/fetch_phase_field_parent.py
+      - name: Continue global2000 to2400 with original loading and all ledgers
+        timeout-minutes: 93
+        run: python tools/run_phase_field_visible_crack_continue.py
+      - name: Preserve full raw and failures before renderer installation
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-field-visible-crack2400-raw-${{ github.run_id }}
+          path: outputs/phase-field-visible-crack-continue/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 30
+      - name: Install ParaView only after all original physical gates pass
+        timeout-minutes: 10
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libegl1 libosmesa6
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          sys.path.insert(0,'tools')
+          import run_woven_preview as p
+          p.LOGS=Path('outputs/phase-field-visible-crack-continue/paraview-install')
+          p.LOGS.mkdir()
+          p.install()
+          PY
+      - name: Render97 authentic states with native nodal d=.99 contour
+        timeout-minutes: 8
+        run: |
+          "$PARAVIEW_PYTHON" --force-offscreen-rendering tools/render_phase_field_visible_crack.py outputs/phase-field-visible-crack-continue/raw > outputs/phase-field-visible-crack-continue/render.log 2>&1
+          python tools/encode_phase_field_visible_crack.py outputs/phase-field-visible-crack-continue/raw
+      - name: Preserve complete media and renderer failure logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-field-visible-crack2400-review-${{ github.run_id }}
+          path: outputs/phase-field-visible-crack-continue/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 30

@@ -14,7 +14,8 @@ if json.loads((root/'crack-checks.json').read_text())['passed'] is not True:
     raise RuntimeError('Crack admission required')
 render = json.loads((root/'render.json').read_text())
 files = sorted((root/'png').glob('*.png'))
-if len(files) != render['frames'] or (not args.smoke and (len(files) != 81 or render['smoke'])):
+complete = json.loads((root/'complete-checks.json').read_text())
+if len(files) != render['frames'] or (not args.smoke and (not complete['completed'] or len(files) != complete['frames'] or len(files) < 81 or render['smoke'])):
     raise RuntimeError('Exact complete render series required')
 frames = []
 for path, record in zip(files, render['records']):
@@ -24,7 +25,8 @@ for path, record in zip(files, render['records']):
         if image.size != (400, 400):
             raise RuntimeError('Expected 400 square frames')
         frames.append(image.convert('RGB').quantize(colors=256))
-target = root/'phase-field-visible-crack2000.gif'
+steps = json.loads((root/'summary.json').read_text())['steps']
+target = root/f'phase-field-visible-crack{steps}.gif'
 with target.open('wb') as stream:
     header, _ = GifImagePlugin.getheader(frames[0], info={'loop': 0})
     for block in header:

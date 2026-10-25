@@ -1,16 +1,17 @@
-name: guarded AT2 visible-crack2000 real81 ParaView
+name: guarded AT2 reconstructed-state2400 native97 review
 on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 concurrency:
-  group: phase-field-visible-crack2000
+  group: phase-field-visible-crack2400
   cancel-in-progress: false
 jobs:
   solve:
-    if: github.ref == 'refs/heads/work/phase-field-visible-crack'
+    if: github.ref == 'refs/heads/work/phase-field-visible-crack-continue'
     runs-on: ubuntu-24.04
-    timeout-minutes: 300
+    timeout-minutes: 115
     env:
       JAX_PLATFORMS: cpu
       JAX_ENABLE_X64: 'true'
@@ -27,21 +28,25 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12.13'
-      - name: Install exact qualification runtime
+      - name: Install exact parent runtime
         run: python -m pip install jax==0.12.0.1 jaxlib==0.12.0.1 ml-dtypes==0.6.0 numpy==2.5.4 opt-einsum==3.4.0 pillow==13.0.0 psutil==7.2.2 scipy==1.18.1
-      - name: Fresh2000 CPU solve with resource guard
-        timeout-minutes: 273
-        run: python tools/run_phase_field_visible_crack.py
-      - name: Preserve raw arrays and receipts before rendering
+      - name: Fetch only independently verified original2000 artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/fetch_phase_field_parent.py
+      - name: Continue global2000 to2400 with original loading and all ledgers
+        timeout-minutes: 93
+        run: python tools/run_phase_field_visible_crack_continue.py
+      - name: Preserve full raw and failures before renderer installation
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: phase-field-visible-crack2000-raw-${{ github.run_id }}
-          path: outputs/phase-field-visible-crack/
+          name: phase-field-visible-crack2400-raw-${{ github.run_id }}
+          path: outputs/phase-field-visible-crack-continue/
           if-no-files-found: warn
           compression-level: 0
           retention-days: 30
-      - name: Install ParaView only after full solve passes
+      - name: Install ParaView only after all original physical gates pass
         timeout-minutes: 10
         run: |
           sudo apt-get update
@@ -49,23 +54,23 @@ jobs:
           python - <<'PY'
           import sys
           from pathlib import Path
-          sys.path.insert(0, 'tools')
+          sys.path.insert(0,'tools')
           import run_woven_preview as p
-          p.LOGS=Path('outputs/phase-field-visible-crack/paraview-install')
+          p.LOGS=Path('outputs/phase-field-visible-crack-continue/paraview-install')
           p.LOGS.mkdir()
           p.install()
           PY
-      - name: Render 81 actual saved states then encode local review GIF
+      - name: Render97 authentic states with native nodal d=.99 contour
         timeout-minutes: 8
         run: |
-          "$PARAVIEW_PYTHON" --force-offscreen-rendering tools/render_phase_field_visible_crack.py outputs/phase-field-visible-crack > outputs/phase-field-visible-crack/render.log 2>&1
-          python tools/encode_phase_field_visible_crack.py outputs/phase-field-visible-crack
-      - name: Preserve complete media and any renderer failure logs
+          "$PARAVIEW_PYTHON" --force-offscreen-rendering tools/render_phase_field_visible_crack.py outputs/phase-field-visible-crack-continue/raw > outputs/phase-field-visible-crack-continue/render.log 2>&1
+          python tools/encode_phase_field_visible_crack.py outputs/phase-field-visible-crack-continue/raw
+      - name: Preserve complete media and renderer failure logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: phase-field-visible-crack2000-review-${{ github.run_id }}
-          path: outputs/phase-field-visible-crack/
+          name: phase-field-visible-crack2400-review-${{ github.run_id }}
+          path: outputs/phase-field-visible-crack-continue/
           if-no-files-found: warn
           compression-level: 0
           retention-days: 30
