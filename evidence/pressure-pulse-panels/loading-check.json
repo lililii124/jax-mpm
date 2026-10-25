@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "physical_steps_executed": 0,
+  "material_updates_executed": 0,
+  "reference_area_m2": 0.0324,
+  "default_counts": [
+    192,
+    13,
+    192
+  ],
+  "default_particles": 479232,
+  "flat_peak_force_N": [
+    -0.0,
+    -162000.0,
+    -0.0
+  ],
+  "pressure_impulse_Pa_s": 200.00000000000003,
+  "flat_reference_impulse_Ns": 6.48,
+  "discrete_time_integral_error_Pa_s": 0.0,
+  "max_cofactor_force_error_N": 1.4551915228366852e-11,
+  "max_rotation_force_error_N": 1.4551915228366852e-11,
+  "scope": "Only surface quadrature units, prescribed time integral and objective follower direction; not plate dynamics/material/energy qualification"
+}

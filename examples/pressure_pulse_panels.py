@@ -118,7 +118,8 @@ def main():
     output=a.output/a.model;output.mkdir(parents=True,exist_ok=True)
     if (output/'checkpoint.json').exists() and not a.resume:p.error('Existing checkpoint requires --resume or a fresh output directory')
     if a.resume and not (output/'checkpoint.json').exists():p.error('--resume requires the original checkpoint directory')
-    (output/'case.json').write_text(json.dumps(case.description,indent=2)+'\n')
+    if a.resume and not (output/'case.json').exists():p.error('--resume requires the original case.json loading record')
+    if not a.resume:(output/'case.json').write_text(json.dumps(case.description,indent=2)+'\n')
     print(json.dumps(dict(model=a.model,particles=len(case.states[0].x),planned_steps=case.description['planned_steps'],stop_after_steps=a.stop_after_steps,grid=a.grid,ppc=a.ppc)),flush=True)
     run(case.states,case.materials,case.configs,frames=case.description['frames'],substeps=20,output=output,label='Pressure pulse panel / '+a.model,
         forces=case.forces,observer=case.observer,metadata=case.description,render_output=False,resume=a.resume,stop_after_frame=stop,
