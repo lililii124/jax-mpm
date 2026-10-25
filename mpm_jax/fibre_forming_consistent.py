@@ -14,7 +14,8 @@ from .fibre_forming_contact import mass_gradient,PAIRS
 from .fibre_forming_contact_packed import project
 
 
-def make_step(material,layout,config,masks,duration):
+def make_step(material,layout,config,masks,duration,*,boundary=None,contact_bins=0):
+    boundary=prescribe if boundary is None else boundary
     nodes=layout.node_count//3
     def particle_energy(s,v,C):
         return .5*jnp.sum(s.mass*jnp.sum(v*v,axis=1))+layout.dx**2/8*jnp.sum(s.mass*jnp.sum(C*C,axis=(1,2)))
@@ -26,11 +27,11 @@ def make_step(material,layout,config,masks,duration):
         _,pforce=particle_to_grid(s,layout,config,support)
         divide=jnp.where(mass>0,mass,1)[:,None]
         pre=p0/divide
-        begin,clamped,valid0=prescribe(pre,mass,s,support,layout,masks,config.dt,duration)
+        begin,clamped,valid0=boundary(pre,mass,s,support,layout,masks,config.dt,duration)
         target=begin
         force_impulse=pforce-p0
         force=begin+force_impulse/divide
-        admissible,clamped1,valid1=prescribe(force,mass,s,support,layout,masks,config.dt,duration)
+        admissible,clamped1,valid1=boundary(force,mass,s,support,layout,masks,config.dt,duration)
         gradient=mass_gradient(s,support,layout).reshape(3,nodes,3)
         centres=jnp.stack([jnp.sum(jnp.where((s.fibre_id==i)[:,None],s.mass[:,None]*s.x,0),axis=0)/jnp.sum(jnp.where(s.fibre_id==i,s.mass,0)) for i in range(3)])
         contact=project(mass.reshape(3,nodes),admissible.reshape(3,nodes,3),gradient,centres,clamped.reshape(3,nodes))
@@ -76,5 +77,12 @@ def make_step(material,layout,config,masks,duration):
         pair_xmin=jnp.where(pair_nodes>0,jnp.min(jnp.where(normal_impulse>0,node_x[None,:],jnp.inf),axis=1),0.)
         pair_xmax=jnp.where(pair_nodes>0,jnp.max(jnp.where(normal_impulse>0,node_x[None,:],-jnp.inf),axis=1),0.)
         metrics=jnp.array([work,lossbc,contactloss,K1-K0,U1-U0,S,p2gloss,g2ploss,remainder,grididentity,forcework+S,(U1-U0)-S,contact.closing_residual,contact.sweeps,jnp.min(jnp.linalg.det(F)),momentum_error,angular_error,transport,jnp.linalg.norm(fixture_torque),jnp.linalg.norm(Lnew),*fixture_torque,*angular_vector,*Lnew,contact.exact_nodes,contact.exact_successes,contact.capacity_valid,contact.rank_rejections,*pair_force,*pair_nodes,*pair_xmin,*pair_xmax,contact.shared_nodes,contact.shared_capacity_valid])
+        if contact_bins:
+            # Optional read-only fixed physical axial bins; no force feedback.
+            bins=jnp.floor(node_x/.024*contact_bins).astype(jnp.int32)
+            inside=(bins>=0)&(bins<contact_bins)
+            bins=jnp.where(inside,bins,contact_bins)
+            forces=jnp.stack([jnp.zeros(contact_bins,dtype=s.x.dtype).at[bins].add(normal_impulse[p]/config.dt,mode='drop') for p in range(3)])
+            metrics=jnp.concatenate((metrics,forces.ravel()))
         return new,metrics,U1
     return step
