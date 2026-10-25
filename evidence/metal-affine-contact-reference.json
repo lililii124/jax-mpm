@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "fixtures": [
+    {
+      "valid": true,
+      "pairs": 27,
+      "mobility_rank": 20,
+      "mobility_nullity": 7,
+      "initial_closing_m_s": 4.000000000000002,
+      "final_closing_m_s": 1.0305758809131916e-14,
+      "complementarity_m_s": 2.3485679798172428e-14,
+      "kinetic_loss_J": 29.119999999999997,
+      "instantaneous_work_identity_J": 8.9995730843285e-16,
+      "affine_reconstruction_error": 1.5181189656465891e-15,
+      "maximum_affine_correction": 8.881784197001252e-16,
+      "fixture": "seed",
+      "analytic_loss_J": 29.119999999999997,
+      "affine_common_point_velocity_error": 1.734137399746429e-15,
+      "adjoint_identity": -7.105427357601002e-15
+    },
+    {
+      "valid": true,
+      "pairs": 27,
+      "mobility_rank": 20,
+      "mobility_nullity": 7,
+      "initial_closing_m_s": 4.000000000000002,
+      "final_closing_m_s": 2.766068764650658e-13,
+      "complementarity_m_s": 2.7902332442322874e-13,
+      "kinetic_loss_J": 29.119999999999997,
+      "instantaneous_work_identity_J": 5.534952188238463e-16,
+      "affine_reconstruction_error": 1.192133437828696e-15,
+      "maximum_affine_correction": 0.3015076738967871,
+      "fixture": "transported",
+      "analytic_loss_J": 29.119999999999997,
+      "affine_common_point_velocity_error": 1.3065231185342095e-15,
+      "adjoint_identity": -1.7763568394002505e-15
+    }
+  ],
+  "production_admitted": false,
+  "source_sha256": {
+    "H:\\temp\\jax-mpm-metal-conservative-20261025\\tools\\prove_metal_affine_contact_reference.py": "0bb48c6a2cddda2d6e182215c981c4426c85dadd1b9965c1bea09d4d77186137",
+    "tools\\metal_affine_contact_numpy.py": "f9a9ed5ca2f1a82e23fc775c2bb190800080a0a50428541a6f04bda94c2dcaa3",
+    "tools\\metal_affine_projection_numpy.py": "abac19c230bc9f072d87026e0b6e3d7627344001d455e6904d1878df8870bf3e"
+  }
+}

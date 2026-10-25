@@ -10,6 +10,7 @@ import numpy as np
 from scipy.sparse import coo_matrix,diags,eye
 from scipy.sparse.linalg import splu,LinearOperator,lsmr
 from tools.metal_frozen_transfer import support
+from tools.metal_affine_resource import require_commit_headroom
 
 
 class ConsistentAffineProjection:
@@ -32,6 +33,7 @@ class ConsistentAffineProjection:
         if np.any(self.column_norm<=0):raise ValueError('Unexpected zero physical column')
         Q=Q0@diags(1/self.column_norm);self.Q=Q
         gram=(Q.T@Q).tocsc()
+        factor_headroom=require_commit_headroom()
         if not 0<preconditioner_shift<1:raise ValueError('Positive preconditioner-only shift required')
         factor=splu(gram+preconditioner_shift*eye(self.nodes,format='csc'),permc_spec='MMD_AT_PLUS_A',
                     diag_pivot_thresh=0,options={'SymmetricMode':True})
@@ -40,11 +42,24 @@ class ConsistentAffineProjection:
         U=factor.U;D=U.diagonal()
         if np.any(D<=0):raise ValueError('Positive LDL pivots required')
         self.root=np.sqrt(D)
+        # Avoid constructing a full sparse subtraction with capacity for
+        # twice the factor nonzeros. The symmetric-pattern difference is
+        # accumulated in bounded chunks, with the identical Frobenius norm.
+        transpose_L=factor.L.T.tocsc()
+        error_squared=0.
+        diagonal=diags(D,format='csc')
+        for start in range(0,U.shape[1],64):
+            stop=min(start+64,U.shape[1])
+            difference=U[:,start:stop]-diagonal@transpose_L[:,start:stop]
+            error_squared+=float(np.dot(difference.data,difference.data))
+        del transpose_L,difference
         self.factor_report=dict(shift_preconditioner_only=preconditioner_shift,physical_columns_removed=0,
             L_nnz=int(factor.L.nnz),U_nnz=int(U.nnz),minimum_pivot=float(D.min()),
-            LDL_relative_residual=float(np.linalg.norm((U-diags(D)@factor.L.T).data)/np.linalg.norm(U.data)))
+            available_commit_before_factor_bytes=factor_headroom,
+            LDL_relative_residual=float(np.sqrt(error_squared)/np.linalg.norm(U.data)))
         del factor,gram
         gc.collect()
+        require_commit_headroom()
         self.tri=splu(U.tocsc(),permc_spec='NATURAL',diag_pivot_thresh=0)
         del U
         # These polynomial grid fields are explicitly in range(Q), including

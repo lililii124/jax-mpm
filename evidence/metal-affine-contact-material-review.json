@@ -1,0 +1,76 @@
+{
+  "scope": "instantaneous coupled-work and prescribed material windows; no accepted dynamic impact",
+  "original_energy_tolerance_J": 1.414599609375e-08,
+  "contact_valid": true,
+  "maximum_coupled_work_residual_J": 5.173162245797336e-14,
+  "original_material_work_residual_J": [
+    -3.476420011366485e-08,
+    -1.7067247067232075e-08,
+    -8.29031545084187e-09
+  ],
+  "midpoint_material_work_residual_J": [
+    -2.8871523444565228e-11,
+    -7.2167567061187654e-12,
+    -1.806754398869792e-12
+  ],
+  "original_material_energy_gate_per_level": [
+    false,
+    false,
+    true
+  ],
+  "midpoint_material_energy_gate_per_level": [
+    true,
+    true,
+    true
+  ],
+  "midpoint_state_convergence": {
+    "tau": {
+      "successive_massweighted_L2": [
+        2423.2419812572602,
+        1022.6760205382535
+      ],
+      "ratio": 0.4220280221489289
+    },
+    "plastic_strain": {
+      "successive_massweighted_L2": [
+        3.949543471854371e-08,
+        1.654405405295069e-08
+      ],
+      "ratio": 0.4188852248582291
+    },
+    "damage": {
+      "successive_massweighted_L2": [
+        1.0355834531996656e-07,
+        3.89457752584898e-08
+      ],
+      "ratio": 0.3760756811839563
+    },
+    "internal_energy": {
+      "successive_massweighted_L2": [
+        0.00046879917849798673,
+        0.0002412610110777875
+      ],
+      "ratio": 0.5146361643609911
+    }
+  },
+  "numerical_heat_added_J": 0.0,
+  "accepted_dynamic_window": false,
+  "production_admitted": false,
+  "remaining": [
+    "Integrate force/drift/material stages and original clamped-boundary impulse/work.",
+    "Rebuild moving-grid/contact coverage and retain original CFL/material/contact/energy/momentum gates.",
+    "Audit complete dynamic steps before any longer integration."
+  ],
+  "evidence_sha256": {
+    "evidence/metal-affine-contact-reference.json": "5b8a0eff3988823c6ca6b663d1264bc1a207dadeb7e9883e2535265da7149506",
+    "evidence/metal-affine-contact125.json": "470243c5199e255b1d3c7c7c6cf9871fc23bef12b36d733d4ffbba8b1d237573",
+    "evidence/metal-affine-coupled-work125.json": "deb99913c7d379da7eea22eeb1b3da09cd3843204a33721252a4f500c6383c83",
+    "evidence/metal-affine-material-original-window125.json": "9378ade3f19fbe00d2988db3758fea7cbd5427fb63809752584bc9ba2eed57e9",
+    "evidence/metal-affine-material-midpoint-window125.json": "979b7e6820e2e12e9aaaf924fc84aa35f939b299c535a8adf7cefe0a3b7ab7ac",
+    "evidence/metal-affine-midpoint-strength-proof.json": "de0e2d2ee2ca0d6820626bfe5f1689c57cb53e41e8b63ed7be66a98ff6e99f39",
+    "evidence/metal-affine-midpoint-material-independent.json": "f3f9f9e28f41ca7995e36a8713460836242a4850626e82f6b3cab596be42dd8b",
+    "evidence/metal-affine-original-material-independent.json": "368dc9baecd2f7856a07771b30644a7b49b2f35d3fb5f795dc617282d0d49c4e",
+    "evidence/metal-affine-projection-memory-guard125.json": "7aa32ab1da8bb626c1993bd8caed50edb14123884731845e6a803cc2d4f3b146",
+    "evidence/metal-affine-projection-memory-reference.json": "cf0fe0459b7fc90c3e53c2eacf1ca576c9846df28b84f7abd70eadc4002f1db6"
+  }
+}

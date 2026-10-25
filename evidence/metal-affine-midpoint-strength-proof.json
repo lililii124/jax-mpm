@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "fixtures": [
+    {
+      "fixture": "elastic",
+      "energy_identity_J_kg": 2.168404344971009e-19,
+      "plastic_work_J_kg": 0.0,
+      "plastic_strain_increment": 0.0,
+      "endpoint_yield_residual_Pa": -99220000.0
+    },
+    {
+      "fixture": "plastic",
+      "energy_identity_J_kg": -8.526512829121202e-14,
+      "plastic_work_J_kg": 251.58481771486984,
+      "plastic_strain_increment": 0.007753650221581657,
+      "endpoint_yield_residual_Pa": 2.9802322387695312e-08
+    },
+    {
+      "fixture": "nonproportional",
+      "energy_identity_J_kg": -5.684341886080802e-14,
+      "plastic_work_J_kg": 187.29800512550085,
+      "plastic_strain_increment": 0.0030860019039976594,
+      "endpoint_yield_residual_Pa": 2.9802322387695312e-08
+    },
+    {
+      "fixture": "rotation",
+      "energy_identity_J_kg": 0.0,
+      "plastic_work_J_kg": 0.0,
+      "plastic_strain_increment": 0.0,
+      "endpoint_yield_residual_Pa": -87126456.8844625
+    },
+    {
+      "fixture": "unloading",
+      "energy_identity_J_kg": 0.0,
+      "plastic_work_J_kg": 0.0,
+      "plastic_strain_increment": 0.0,
+      "endpoint_yield_residual_Pa": -94926456.8844625
+    }
+  ],
+  "original_material_parameters_unchanged": true,
+  "numerical_heat_added_J": 0.0,
+  "production_admitted": false,
+  "source_sha256": {
+    "H:\\temp\\jax-mpm-metal-conservative-20261025\\tools\\prove_metal_midpoint_strength.py": "d5682df8001e0f5589ed895744979ab507398a8814b94c6502c1126e168f605a",
+    "mpm_jax\\fragment_v6_midpoint_strength.py": "4879ddb2415627db3439d303ce98a27e9a2a6a344e16b64644e1e88769aae2d7",
+    "mpm_jax\\materials\\shock_metal.py": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3"
+  }
+}

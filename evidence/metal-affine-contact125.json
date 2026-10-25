@@ -1,0 +1,34 @@
+{
+  "valid": true,
+  "pairs": 114,
+  "mobility_rank": 114,
+  "mobility_nullity": 0,
+  "initial_closing_m_s": 3665.357145569408,
+  "final_closing_m_s": 5.913706102806502e-11,
+  "complementarity_m_s": 5.913706102806502e-11,
+  "kinetic_loss_J": 0.2291875130706842,
+  "instantaneous_work_identity_J": -9.192360767828584e-15,
+  "affine_reconstruction_error": 1.2579727397019224e-13,
+  "maximum_affine_correction": 1.318767317570746e-11,
+  "linear_change": [
+    -2.0311002288715224e-20,
+    -1.8434400064830812e-17,
+    3.326097811051282e-21
+  ],
+  "angular_change": [
+    5.153778690673241e-23,
+    3.905246626553371e-23,
+    -7.280102360742291e-22
+  ],
+  "range_preservation_weighted_norm": 1.3252552264565337e-10,
+  "state_sha256": "3abe31b2fde3f8d93ec63b138e0d868011aef53ca18e5f3162c0b145b0dc2817",
+  "projected_npz_sha256": "3b161f305b958b3d06170ae49ff5c63fd2a1a3c2b3ed34d97bae21db2331dc7c",
+  "time_advanced_s": 0.0,
+  "internal_heat_added_J": 0.0,
+  "production_admitted": false,
+  "source_sha256": {
+    "H:\\temp\\jax-mpm-metal-conservative-20261025\\tools\\prove_metal_affine_contact125.py": "889f853dcff6bf32ef4fda8801d82152f015f705ed5ebc1185a162b1ae95c833",
+    "tools\\metal_affine_contact_numpy.py": "f9a9ed5ca2f1a82e23fc775c2bb190800080a0a50428541a6f04bda94c2dcaa3",
+    "tools\\metal_affine_projection_numpy.py": "abac19c230bc9f072d87026e0b6e3d7627344001d455e6904d1878df8870bf3e"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "kind": "frozen geometry and stress; no material/time advancement or accepted impact state",
+  "state_sha256": "3abe31b2fde3f8d93ec63b138e0d868011aef53ca18e5f3162c0b145b0dc2817",
+  "projected_npz_sha256": "3b161f305b958b3d06170ae49ff5c63fd2a1a3c2b3ed34d97bae21db2331dc7c",
+  "initial_contact": {
+    "valid": true,
+    "pairs": 114,
+    "mobility_rank": 114,
+    "mobility_nullity": 0,
+    "initial_closing_m_s": 3665.357145569408,
+    "final_closing_m_s": 5.913706102806502e-11,
+    "complementarity_m_s": 5.913706102806502e-11,
+    "kinetic_loss_J": 0.2291875130706842,
+    "instantaneous_work_identity_J": -9.192360767828584e-15,
+    "affine_reconstruction_error": 1.2579727397019224e-13,
+    "maximum_affine_correction": 1.318767317570746e-11
+  },
+  "projected_force_diagnostics": [
+    {
+      "component": 0,
+      "stop_flag": 7,
+      "iterations": 256,
+      "scaled_normal_residual": 1.7095050259851566e-05,
+      "original_normal_residual": 1.286569144106155e-09,
+      "estimated_condition": 386.6194851828108,
+      "condition_guard": 67108864.0,
+      "transformed_normal_residual": 0.006457091960171328
+    },
+    {
+      "component": 1,
+      "stop_flag": 7,
+      "iterations": 256,
+      "scaled_normal_residual": 9.611168162689802e-06,
+      "original_normal_residual": 7.276309186619637e-10,
+      "estimated_condition": 610.9061313968854,
+      "condition_guard": 67108864.0,
+      "transformed_normal_residual": 0.00283259911345547
+    },
+    {
+      "component": 2,
+      "stop_flag": 7,
+      "iterations": 256,
+      "scaled_normal_residual": 1.662409658239594e-05,
+      "original_normal_residual": 1.2378640289641137e-09,
+      "estimated_condition": 188.75544876604846,
+      "condition_guard": 67108864.0,
+      "transformed_normal_residual": 0.0064567572116086824
+    }
+  ],
+  "levels": [
+    {
+      "dt_s": 2e-11,
+      "final_contact": {
+        "valid": true,
+        "pairs": 114,
+        "mobility_rank": 114,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 13.237250985674075,
+        "final_closing_m_s": 4.842541656661388e-12,
+        "complementarity_m_s": 6.8332110676628235e-12,
+        "kinetic_loss_J": 3.3005206034886214e-06,
+        "instantaneous_work_identity_J": 1.7910129747180403e-14,
+        "affine_reconstruction_error": 1.2579727397019224e-13,
+        "maximum_affine_correction": 1.318767317570746e-11
+      },
+      "stress_work_J": 0.0027885708344122188,
+      "viscosity_work_J": 0.0021625395838493983,
+      "stress_virtual_work_residual_J": -9.107298248878237e-18,
+      "coupled_work_residual_J": 6.886852199627924e-16,
+      "kinetic_change_J": -0.2319793844256992
+    },
+    {
+      "dt_s": 1e-11,
+      "final_contact": {
+        "valid": true,
+        "pairs": 114,
+        "mobility_rank": 114,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 6.61862549284169,
+        "final_closing_m_s": 5.334746651843971e-12,
+        "complementarity_m_s": 7.2497201888232495e-12,
+        "kinetic_loss_J": 8.251301153450186e-07,
+        "instantaneous_work_identity_J": 4.000521943506018e-14,
+        "affine_reconstruction_error": 1.2579727397019224e-13,
+        "maximum_affine_correction": 1.318767317570746e-11
+      },
+      "stress_work_J": 0.001395396272902754,
+      "viscosity_work_J": 0.0010821520839333083,
+      "stress_virtual_work_residual_J": -2.3852447794681098e-18,
+      "coupled_work_residual_J": -5.173162245797336e-14,
+      "kinetic_change_J": -0.23058373447375402
+    },
+    {
+      "dt_s": 5e-12,
+      "final_contact": {
+        "valid": true,
+        "pairs": 114,
+        "mobility_rank": 114,
+        "mobility_nullity": 0,
+        "initial_closing_m_s": 3.3093127464247996,
+        "final_closing_m_s": 4.9871910739839105e-12,
+        "complementarity_m_s": 4.9871910739839105e-12,
+        "kinetic_loss_J": 2.0628257857424614e-07,
+        "instantaneous_work_identity_J": -3.973635927519174e-14,
+        "affine_reconstruction_error": 1.2579727397019224e-13,
+        "maximum_affine_correction": 1.318767317570746e-11
+      },
+      "stress_work_J": 0.0006979758503755381,
+      "viscosity_work_J": 0.0005412966149688066,
+      "stress_virtual_work_residual_J": -7.589415207398531e-19,
+      "coupled_work_residual_J": 1.7958616364832647e-14,
+      "kinetic_change_J": -0.22988569520362034
+    }
+  ],
+  "numerical_heat_added_J": 0.0,
+  "production_admitted": false,
+  "source_sha256": {
+    "H:\\temp\\jax-mpm-metal-conservative-20261025\\tools\\prove_metal_affine_coupled_work125.py": "07c0cb3dc78d323a660d92a1885d41c1158433c6c6b3a32590038cc589cc0a88",
+    "tools\\metal_affine_contact_numpy.py": "f9a9ed5ca2f1a82e23fc775c2bb190800080a0a50428541a6f04bda94c2dcaa3",
+    "tools\\metal_affine_projection_numpy.py": "abac19c230bc9f072d87026e0b6e3d7627344001d455e6904d1878df8870bf3e"
+  }
+}
