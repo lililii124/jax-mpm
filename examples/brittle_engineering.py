@@ -163,21 +163,24 @@ def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
     domain, duration = 0.4, loading_duration + hold_duration
     large = profile is not None
     dx = domain / grid
+    if profile == "mat111-compatible" and grid < 32:
+        raise ValueError("MAT111 beam fixtures require grid >= 32")
+    fixture_dx = domain / 64 if profile == "mat111-compatible" else dx
     lower, upper = (0.05, 0.15, 0.17), (0.35, 0.21, 0.23)
     support_half_width = 0.009375
     left = fixed_box(
         (0.075 - support_half_width, 0.0, 0.0),
-        (0.075 + support_half_width, lower[1] + 0.25 * dx, domain),
+        (0.075 + support_half_width, lower[1] + 0.25 * fixture_dx, domain),
         components=(True, True, False),
     )
     right = fixed_box(
         (0.325 - support_half_width, 0.0, 0.0),
-        (0.325 + support_half_width, lower[1] + 0.25 * dx, domain),
+        (0.325 + support_half_width, lower[1] + 0.25 * fixture_dx, domain),
         components=(False, True, False),
     )
     lateral_anchor = fixed_box(
-        (0.075 - support_half_width, 0.0, 0.2 - 0.55 * dx),
-        (0.075 + support_half_width, lower[1] + 0.25 * dx, 0.2 + 0.55 * dx),
+        (0.075 - support_half_width, 0.0, 0.2 - 0.55 * fixture_dx),
+        (0.075 + support_half_width, lower[1] + 0.25 * fixture_dx, 0.2 + 0.55 * fixture_dx),
         components=(False, False, True),
     )
     ramp_time = 0.25 * loading_duration if ramp_time is None else ramp_time
@@ -190,8 +193,8 @@ def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
         if large else nominal_loading_x
     )
     loading = loading_type(
-        (loading_x[0], upper[1] - 0.5 * dx, 0.0),
-        (loading_x[1], upper[1] + 2.0 * dx, domain),
+        (loading_x[0], upper[1] - 0.5 * fixture_dx, 0.0),
+        (loading_x[1], upper[1] + 2.0 * fixture_dx, domain),
         (0.0, -speed, 0.0),
         components=(False, True, False),
         ramp_time=ramp_time,
@@ -261,6 +264,13 @@ def _concrete_beam(*, grid, ppc, model, frames, displacement, loading_duration,
             "loading_distance_integral_s": loading_duration - ramp_time,
             "geometry_scale": 1.0,
         })
+    if profile == "mat111-compatible":
+        definition["fixture_geometry"] = {
+            "grid_independent": True,
+            "support_upper_y_m": lower[1] + 0.25 * fixture_dx,
+            "loading_reference_y_bounds_m": [upper[1] - 0.5 * fixture_dx, upper[1] + 2 * fixture_dx],
+            "baseline_grid": 64,
+        }
 
     def observe(states, time):
         current = states[0]
@@ -468,7 +478,7 @@ def concrete_bending_symmetric(*, grid=64, ppc=3, model="hjc", frames=60,
         definition.update(
             purpose="concrete-bending-mat111",
             comparison_baseline_case="concrete-bending-symmetric",
-            comparison_scope="same geometry, loading and symmetry constraints; different HJC profile",
+            comparison_scope="same fixtures as the grid-64 symmetric baseline; fixed physical fixture dimensions on finer grids",
             material_source_sha256=MAT111_SOURCE_SHA256,
         )
 

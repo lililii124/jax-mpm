@@ -1,0 +1,268 @@
+{
+  "status": "passed",
+  "geometry": [
+    {
+      "grid": 32,
+      "fixtures": [
+        {
+          "lower": [
+            0.06562499999999999,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.084375,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity
+        },
+        {
+          "lower": [
+            0.31562499999999993,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.3343750000000001,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity
+        },
+        {
+          "lower": [
+            0.18749999999999997,
+            0.206875,
+            0.0
+          ],
+          "upper": [
+            0.21250000000000002,
+            0.2225,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            -13.333333333333334,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity,
+          "ramp_time": 0.0003,
+          "loading_duration": 0.0012
+        }
+      ],
+      "selected_y_nodes": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "grid": 64,
+      "fixtures": [
+        {
+          "lower": [
+            0.06562499999999999,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.084375,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity
+        },
+        {
+          "lower": [
+            0.31562499999999993,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.3343750000000001,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity
+        },
+        {
+          "lower": [
+            0.18749999999999997,
+            0.206875,
+            0.0
+          ],
+          "upper": [
+            0.21250000000000002,
+            0.2225,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            -13.333333333333334,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity,
+          "ramp_time": 0.0003,
+          "loading_duration": 0.0012
+        }
+      ],
+      "selected_y_nodes": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "grid": 96,
+      "fixtures": [
+        {
+          "lower": [
+            0.06562499999999999,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.084375,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity
+        },
+        {
+          "lower": [
+            0.31562499999999993,
+            0.0,
+            0.0
+          ],
+          "upper": [
+            0.3343750000000001,
+            0.1515625,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity
+        },
+        {
+          "lower": [
+            0.18749999999999997,
+            0.206875,
+            0.0
+          ],
+          "upper": [
+            0.21250000000000002,
+            0.2225,
+            0.4
+          ],
+          "velocity": [
+            0.0,
+            -13.333333333333334,
+            0.0
+          ],
+          "components": [
+            false,
+            true,
+            false
+          ],
+          "start": 0.0,
+          "end": Infinity,
+          "ramp_time": 0.0003,
+          "loading_duration": 0.0012
+        }
+      ],
+      "selected_y_nodes": [
+        4,
+        3,
+        4,
+        4
+      ]
+    }
+  ],
+  "grid64_particles": 121104,
+  "grid64_physical_steps_per_version": 12,
+  "grid64_all_state_fields_bitwise_equal": true,
+  "material_parameters_and_configs_unchanged_at_grid64": true,
+  "grid32_prescribed_boundary_momentum_residual": 5.551115123125783e-17,
+  "baseline_file_sha256": "723a68646040759df2397c357fc0bcbf78cd9943a55b30cbe2033654a070fe2b",
+  "implementation_sha256": "8401f03e213146aaa313d310d14553639fb7ce3513f6ef35b276d5bd7222669f",
+  "scope": "Fixture geometry and baseline identity, not full dynamic or mesh convergence"
+}

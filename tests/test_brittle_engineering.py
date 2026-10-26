@@ -27,7 +27,8 @@ def test_bending_fixtures_allow_axial_slide_and_reach_prescribed_displacement():
 
 @pytest.mark.parametrize("scene", ["concrete-bending", "concrete-bending-large", "concrete-bending-symmetric", "concrete-bending-mat111", "ceramic-indentation"])
 def test_boundary_reactions_balance_specimen_momentum(scene):
-    case = setup(scene, grid=16, ppc=1, frames=4)
+    grid = 32 if scene == "concrete-bending-mat111" else 16
+    case = setup(scene, grid=grid, ppc=1, frames=4)
     state, material, config = case.states[0], case.materials[0], case.configs[0]
     state = state._replace(time=jnp.asarray(0.2 * case.duration))
     forces = jnp.stack(
@@ -162,8 +163,8 @@ def test_symmetric_bending_reuses_the_large_initial_state_material_and_loading()
 def test_mat111_beam_keeps_the_symmetric_boundary_value_problem():
     from mpm_jax.materials.hjc import MAT111_SOURCE_SHA256
 
-    base = setup("concrete-bending-symmetric", grid=16, ppc=1, frames=4)
-    case = setup("concrete-bending-mat111", grid=16, ppc=1, frames=4)
+    base = setup("concrete-bending-symmetric", grid=64, ppc=1, frames=4)
+    case = setup("concrete-bending-mat111", grid=64, ppc=1, frames=4)
     assert case.configs == base.configs
     assert case.duration == base.duration
     for expected, actual in zip(jax.tree.leaves(base.states), jax.tree.leaves(case.states)):
@@ -176,3 +177,23 @@ def test_mat111_beam_keeps_the_symmetric_boundary_value_problem():
     assert case.description["comparison_baseline_case"] == "concrete-bending-symmetric"
     assert case.description["material_source_sha256"] == MAT111_SOURCE_SHA256
     assert case.description["material_parameters_SI"]["mat111_compatible"] is True
+
+
+def test_mat111_fixture_geometry_is_fixed_during_refinement():
+    descriptions = []
+    for grid in (32, 64, 96):
+        case = setup("concrete-bending-mat111", grid=grid, ppc=1, frames=4)
+        left, right, _, _, loading = case.configs[0].boundaries
+        descriptions.append((left, right, loading))
+        for time in (0.0, .0006, .0012, .0015):
+            displacement, _ = loading.motion(time)
+            coordinates = np.arange(grid + 1) * case.configs[0].dx
+            lower = loading.lower[1] + float(displacement[1])
+            upper = loading.upper[1] + float(displacement[1])
+            assert np.any((coordinates >= lower) & (coordinates <= upper))
+    assert descriptions[0] == descriptions[1] == descriptions[2]
+
+
+def test_mat111_rejects_grid_that_cannot_resolve_fixture_depth():
+    with pytest.raises(ValueError, match="fixtures require grid >= 32"):
+        setup("concrete-bending-mat111", grid=16, ppc=1, frames=4)

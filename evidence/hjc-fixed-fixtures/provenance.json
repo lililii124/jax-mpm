@@ -1,0 +1,42 @@
+{
+  "task": "hjc-fixed-fixtures-check-v2",
+  "baseline_commit": "c569c15bc5eadb609344fadeb531746e92a0a741",
+  "implementation_sha256": "8401f03e213146aaa313d310d14553639fb7ce3513f6ef35b276d5bd7222669f",
+  "validator_sha256": "e3fecdde00d6b717e806a66f652a8f3a73905e6f13c29e3edfc9cc8bd03b08e1",
+  "upload": {
+    "remote": "/home/YZ/jax-mpm-compute-20261025/tasks/hjc-fixed-fixtures-check-v2",
+    "archive": ".local\\hjc-fixed-fixtures-check-v2.tar.gz",
+    "sha256": "56d203636ed0c507998920ebdb7d4e0fb29f5a24bf862ebab1f52deae898dae8",
+    "result": {
+      "archive_sha256": "56d203636ed0c507998920ebdb7d4e0fb29f5a24bf862ebab1f52deae898dae8",
+      "archive_bytes": 284274
+    }
+  },
+  "launch": {
+    "container": "jaxmpm-hjc-fixed-fixtures-check-v2",
+    "id": "c1ccf7c42559316d28dc79519579410b24cecdef094ee427514be81a9ab64acb",
+    "remote": "/home/YZ/jax-mpm-compute-20261025/tasks/hjc-fixed-fixtures-check-v2",
+    "spec": {
+      "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+      "cpu_set": "52-55",
+      "cpus": 4,
+      "memory": "8g",
+      "uss_gib": 6,
+      "seconds": 900,
+      "env": {
+        "OMP_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "1"
+      },
+      "command": [
+        "python",
+        "-m",
+        "tools.check_hjc_fixtures",
+        "--baseline-file",
+        "baseline.py",
+        "--output",
+        "review.json"
+      ]
+    }
+  },
+  "failed_v1_scope": "Verifier used dataclass class identity across separately imported baseline/candidate modules. No solver step ran. v2 compares dataclass fields then executes both versions."
+}

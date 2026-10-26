@@ -1,0 +1,29 @@
+{
+  "started_utc": "2026-10-26T18:56:33.264393+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "-m",
+    "tools.check_hjc_fixtures",
+    "--baseline-file",
+    "baseline.py",
+    "--output",
+    "review.json"
+  ],
+  "cpu_affinity": [
+    52,
+    53,
+    54,
+    55
+  ],
+  "memory_headroom_at_start": 8581083136,
+  "limit_seconds": 900.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 878280704,
+  "minimum_memory_headroom": 7702966272,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 15.217667400836945,
+  "returncode": 0
+}
