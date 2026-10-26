@@ -21,3 +21,14 @@ are excluded. It does not establish spatial convergence or complete filling.
 
 `python -m tools.verify_resin_pressure_surface` checks the occupied-cell
 negative control and an independent six-face analytic pressure projection.
+
+The bounded continuation reaches step 2048 with the original pressure and
+transport checks. All state arrays immediately before the former step 1966
+rejection match the old source exactly. At most one empty threshold cell is
+excluded during this interval. The largest pressure relative residual is
+9.961e-8 against the original 1e-7 bound; stationarity is 6.628e-11 against
+1e-10. The cumulative transport log-J range is [-2.181e-10, 2.465e-10].
+The final checkpoint SHA256 is
+`cb03eccfd1c5730a4724f1395ab062bd75aee4fa4c06046ccf788408dc26728d`.
+Source-bound receipts and every step's observables are in
+`evidence/resin-supported-pressure-2048`.

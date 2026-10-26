@@ -1,0 +1,105 @@
+{
+  "kind": "read-only failed pressure-input geometry audit",
+  "physical_steps_reexecuted": 0,
+  "step": 1966,
+  "input_files": {
+    "rejected-pressure-input.npz": {
+      "sha256": "849d833cb6694e3f63922a747daee315cbcd2886320bca143cc514fd49aefe15",
+      "bytes": 6051910
+    },
+    "rejected-state.npz": {
+      "sha256": "791030511f3fbb3c9f29beed13cfe8f7e8aa92531be3f9059c8b6c7490ba7750",
+      "bytes": 12650497
+    },
+    "checkpoint.npz": {
+      "sha256": "364965e842370ce757871546354b5cff68160eac7616807a3d12f9e0871ef680",
+      "bytes": 12650497
+    }
+  },
+  "fluid_cells": 11327,
+  "undercovered_cells": 1,
+  "grid_origin_m": [
+    -0.00175,
+    -0.00395,
+    -0.00395
+  ],
+  "h_m": 0.00025,
+  "rejected_time_s": 0.07863999999999748,
+  "rows": [
+    {
+      "index": [
+        10,
+        16,
+        17
+      ],
+      "center_m": [
+        0.0008750000000000001,
+        0.0001749999999999998,
+        0.00042500000000000003
+      ],
+      "missing_faces": [
+        {
+          "component": 2,
+          "side": 1,
+          "mass_kg": 0.0,
+          "fixed": false,
+          "velocity_m_s": 0.0
+        }
+      ],
+      "rejected_state_owned_particle_count": 0,
+      "nearest_rejected_state_particle_distance_m": [
+        0.0002947264706207341,
+        0.0002954329555368869,
+        0.00029654480606263004,
+        0.0002988604676410713,
+        0.0002989870612820397,
+        0.000301152429826765,
+        0.0003050859390222885,
+        0.0003052997024134341
+      ],
+      "nearest_rejected_state_particles_m": [
+        [
+          0.0008840587647623017,
+          0.0001025093642026753,
+          0.00013947112407457744
+        ],
+        [
+          0.0008672562928810433,
+          0.0001031569441341429,
+          0.0001385401571927204
+        ],
+        [
+          0.0009004749469954924,
+          0.00010180868610417441,
+          0.00013876079819755214
+        ],
+        [
+          0.0008500578212416048,
+          0.0001034141149363568,
+          0.0001359136324606797
+        ],
+        [
+          0.0009165029674003781,
+          0.00010062583802319562,
+          0.00013840053987964075
+        ],
+        [
+          0.0009330994080012582,
+          0.00010027524280698578,
+          0.00013910936454141582
+        ],
+        [
+          0.0008324353263455535,
+          0.00010308511880684444,
+          0.00013158233078293274
+        ],
+        [
+          0.0009483557746390386,
+          9.979934391783e-05,
+          0.00013834393439934116
+        ]
+      ]
+    }
+  ],
+  "scope": "Particle ownership is from rejected POST-advection/birth state, not reconstructed pre-step pressure geometry. No validity exemption or numerical source changes."
+}

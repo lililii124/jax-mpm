@@ -1,0 +1,49 @@
+{
+  "physical_steps_reexecuted": 14,
+  "parent_step": 1952,
+  "parent_sha256": "364965e842370ce757871546354b5cff68160eac7616807a3d12f9e0871ef680",
+  "original_rejection_reproduced": true,
+  "pressure_input_arrays_bitexact": {
+    "velocity0": true,
+    "velocity1": true,
+    "velocity2": true,
+    "mass0": true,
+    "mass1": true,
+    "mass2": true,
+    "fixed0": true,
+    "fixed1": true,
+    "fixed2": true,
+    "fluid": true,
+    "h": true,
+    "dt": true,
+    "step": true
+  },
+  "pre_step": 1965,
+  "pre_time_s": 0.07859999999999748,
+  "fluid_cells": 11327,
+  "owned_cells": 7110,
+  "owned_incomplete_cells": 0,
+  "undercovered": [
+    {
+      "index": [
+        10,
+        16,
+        17
+      ],
+      "center_m": [
+        0.0008750000000000001,
+        0.0001749999999999998,
+        0.00042500000000000003
+      ],
+      "owned_particle_count": 0,
+      "cell_mass_over_rho_h3": 0.31153189960212546,
+      "nearest_particle_distance_m": 0.00029459065999143624,
+      "nearest_particle_m": [
+        0.0008828629453496862,
+        0.00010265584608848168,
+        0.0001395386988759345
+      ]
+    }
+  ],
+  "no_physics_changes": true
+}
