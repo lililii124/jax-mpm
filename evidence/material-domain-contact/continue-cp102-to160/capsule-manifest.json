@@ -1,0 +1,1121 @@
+{
+  "schema": "metal-material-domain-continuation-capsule-v1",
+  "task": "material-domain-contact-continue-cp102-r1-20261026",
+  "files": [
+    {
+      "path": "__pycache__/run_metal_tl_fresh.cpython-311.pyc",
+      "bytes": 55953,
+      "sha256": "d52433e5b106efa37306599cc1a6789756f01b60276d626e773e27f3e8188fb9"
+    },
+    {
+      "path": "__pycache__/run.cpython-311.pyc",
+      "bytes": 409,
+      "sha256": "519db86d35624095cc6fd916b4417018bf1437c0de66eb54e3ba1de7cee3c241"
+    },
+    {
+      "path": "resume-bridge.json",
+      "bytes": 3567,
+      "sha256": "0eeee3dcc732fb91b54845a2e18be50dd27f2a747bb6a4c6698170af4511a90e"
+    },
+    {
+      "path": "resume-checkpoint.npz",
+      "bytes": 147831,
+      "sha256": "644868af5937bf3737ae5c7fa8043757e410d6cf7c044e02accb2072d72692b2"
+    },
+    {
+      "path": "resume-contact-history.jsonl",
+      "bytes": 92829,
+      "sha256": "96577391fb471f6d1a05b28092f11131340ce195d594deafbe3cb0bf45d4b03f"
+    },
+    {
+      "path": "resume-e0-activation.json",
+      "bytes": 11300,
+      "sha256": "70e2b15cc2239533824f30f5f0fe6b65ac6d0d4fafff75c58f27918f2280df5b"
+    },
+    {
+      "path": "resume-first-domain-intersection.json",
+      "bytes": 11576,
+      "sha256": "53581adeaa72b9ec69fd4049f65c965f521f031427d2491991fe9f5f66617d9a"
+    },
+    {
+      "path": "resume-prior-run.json",
+      "bytes": 18101,
+      "sha256": "ec086b34b809835d50222aedbc0816b7203a32c7695c7f7cc511f6384eefb436"
+    },
+    {
+      "path": "run_metal_tl_fresh.py",
+      "bytes": 33538,
+      "sha256": "29839563a521810180d726a1f9ea16c6ff2f6d73b95711c9cce037b6ce045452"
+    },
+    {
+      "path": "run.py",
+      "bytes": 89,
+      "sha256": "2a6bed3b7a4fe2f9367bcbe32a1f86b63c99836b39bbe62123293273856ba467"
+    },
+    {
+      "path": "source/__pycache__/run_metal_tl_fresh.cpython-311.pyc",
+      "bytes": 55960,
+      "sha256": "358ec89573c0e9d9dcd402eb6ffb40da29f44ea30f379b5e7ac1b44df06a9f9f"
+    },
+    {
+      "path": "source/examples/__init__.py",
+      "bytes": 35,
+      "sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3"
+    },
+    {
+      "path": "source/examples/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 244,
+      "sha256": "fd0f00247253fe0666aed3165a78c317c176ce5c04c07b3ed66167d012e99185"
+    },
+    {
+      "path": "source/examples/__pycache__/adhesion_contrast.cpython-311.pyc",
+      "bytes": 4258,
+      "sha256": "a3d7ca04b14deb0d15df00c3ba9c4993c8ea0824b92d9d77a01ac26735186aa4"
+    },
+    {
+      "path": "source/examples/__pycache__/adhesive_array.cpython-311.pyc",
+      "bytes": 23352,
+      "sha256": "987a1cf62586409261e0c3aeeb037f551e264128cefe4b7ec74fb9b367e8d7f0"
+    },
+    {
+      "path": "source/examples/__pycache__/adhesive_contact.cpython-311.pyc",
+      "bytes": 14378,
+      "sha256": "64d9ea0f541e1abfa9a0d1df420bf3d4a2ebb5b17c318cb52d1962cd2800cc88"
+    },
+    {
+      "path": "source/examples/__pycache__/adhesive_suite.cpython-311.pyc",
+      "bytes": 3368,
+      "sha256": "b6edf02bb72667a82e1f78113ca2e4bcfbfee11d2104466559d84bd8c6b15ab4"
+    },
+    {
+      "path": "source/examples/__pycache__/benchmarks.cpython-311.pyc",
+      "bytes": 15206,
+      "sha256": "ece1c56e69879e4aeeac0eed949f3c764822a546f1218dcf7d1c015f295e7714"
+    },
+    {
+      "path": "source/examples/__pycache__/brittle_engineering.cpython-311.pyc",
+      "bytes": 55454,
+      "sha256": "09f79d65af8f70a5aa1c32585667f0ae28feefea0294f14e0ad7c926aafc6adc"
+    },
+    {
+      "path": "source/examples/__pycache__/common.cpython-311.pyc",
+      "bytes": 42210,
+      "sha256": "201f92890953d9db16bc61a6ce3d20442df8d0b9a0f5f3310fc23bb51b7536e2"
+    },
+    {
+      "path": "source/examples/__pycache__/contact_pull_off.cpython-311.pyc",
+      "bytes": 20685,
+      "sha256": "8f2cfc4a68335fd31d7ec411c2fb573fa99a49c1e4d1df8c4380ae597f7a5a7b"
+    },
+    {
+      "path": "source/examples/__pycache__/contact.cpython-311.pyc",
+      "bytes": 1937,
+      "sha256": "6bce9deb348218c806b55c7d19b5e22c8fdce7cf5a73a13543aaee780bcc9b57"
+    },
+    {
+      "path": "source/examples/__pycache__/elastic_models.cpython-311.pyc",
+      "bytes": 4828,
+      "sha256": "d19332ee2bdd96a7552d41e708c700b558b49c92309ac2f40b6d926505eca2e3"
+    },
+    {
+      "path": "source/examples/__pycache__/engineering.cpython-311.pyc",
+      "bytes": 16031,
+      "sha256": "6aa34bfb23e85f7cfaf8c0de72c9f5096f3806dbb3161b179162b37f4a00b715"
+    },
+    {
+      "path": "source/examples/__pycache__/fibre_pull_off.cpython-311.pyc",
+      "bytes": 74868,
+      "sha256": "cbf4487073e797109678f4c346ae2eb362f13890cf18aa32724a7039f2bc308a"
+    },
+    {
+      "path": "source/examples/__pycache__/fluids.cpython-311.pyc",
+      "bytes": 2282,
+      "sha256": "afcd81846f97c8aeb0c827859f5ffd8aa1432da3ffcfb8875c6604c326d4ff93"
+    },
+    {
+      "path": "source/examples/__pycache__/gradient.cpython-311.pyc",
+      "bytes": 3056,
+      "sha256": "ee191b4ed2dff4172c41f38262169cb9e8537bcc45b47eccc0df2baa3ae6754d"
+    },
+    {
+      "path": "source/examples/__pycache__/jc_necking.cpython-311.pyc",
+      "bytes": 28612,
+      "sha256": "165bc45b99cc29134a03df0999b684089eac9577ef640e91cceda80b838d81c7"
+    },
+    {
+      "path": "source/examples/__pycache__/material_engineering.cpython-311.pyc",
+      "bytes": 18697,
+      "sha256": "1b2c6f3374ef43d8316ee70448217e100fa97935b5f038042d33c81826decb15"
+    },
+    {
+      "path": "source/examples/__pycache__/material_paths.cpython-311.pyc",
+      "bytes": 9437,
+      "sha256": "1b88ab6eceac71128af47b1c5f6dc5a684d2c586a6e06a79d771989c8584e593"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_formal_v6.cpython-311.pyc",
+      "bytes": 19712,
+      "sha256": "e734330da21137729d6c5bf06c35b9958b9c7484c86e4bff62aaa1c7a02efc78"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_multifield_compact.cpython-311.pyc",
+      "bytes": 16976,
+      "sha256": "7a63c2c7070858348044ae4e90d6a9ffd91f7bea15b820afa03ea8f71a8979db"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_multifield_v2.cpython-311.pyc",
+      "bytes": 16523,
+      "sha256": "42df4cf97d4da63e37c48861ee141ecedf9eb4628ffa5f96deba15fd209f799b"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_multifield_v3.cpython-311.pyc",
+      "bytes": 18388,
+      "sha256": "c9cd36d82d5a97c4a025d39f9edc79ec91379dee7d35726114e478a51c92ccf3"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_multifield.cpython-311.pyc",
+      "bytes": 16176,
+      "sha256": "9f48d1667b34d1f0207edb521229082160e825cac3ddcd00d0c6f3a648a9fcf8"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_delta125.cpython-311.pyc",
+      "bytes": 27457,
+      "sha256": "5c09735bfba7a185e1e59e102e435bc539e92731753a03dc496d6342accea32e"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_dt_convergence.cpython-311.pyc",
+      "bytes": 28773,
+      "sha256": "b5768b073d5e09e3c966b4222107407690fe57cf9ba21a0b2c2befa3455cedee"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_energy_admission.cpython-311.pyc",
+      "bytes": 21242,
+      "sha256": "804d255b28fbdbe77876e67aa0600e448ddceda326c5a1489bc669ca68c70a44"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_energy_probe125.cpython-311.pyc",
+      "bytes": 25038,
+      "sha256": "ac18b550eebfd6a3693776a5cecef2093e34dd8862883df005d1d0c799e14cf8"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_geometric125.cpython-311.pyc",
+      "bytes": 23158,
+      "sha256": "3d109733f6f818c32d5f90aa2a80f0cdea0087df1205b8f8fc93d7cd3620b817"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_onset_probe.cpython-311.pyc",
+      "bytes": 28470,
+      "sha256": "08913c015781a1eb5f4e5aff01178bf5f5d6e14fb964e9ffeca682ed459e7af4"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_recover.cpython-311.pyc",
+      "bytes": 29111,
+      "sha256": "165236ac930f15f72a7fdb223538679ad88e82101942a76708a9f39ee912ce8d"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_fragment_v6_relaxed125.cpython-311.pyc",
+      "bytes": 30517,
+      "sha256": "5f2a84ff8f27f31305799c10a9c49e60d5814641f2e34282d56aeed99df3fe88"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_plate_geometry.cpython-311.pyc",
+      "bytes": 6612,
+      "sha256": "3a2c3ce91dea5934d3f928d5323f988d5c3b178a7ca9b4c9697754a35af8314c"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_sphere_geometry.cpython-311.pyc",
+      "bytes": 13252,
+      "sha256": "8ac0f920913f4168c3df1492f836a255e905d7bc9ab14d1ce54d9253be9f17c5"
+    },
+    {
+      "path": "source/examples/__pycache__/metal_sphere_impact_fracture.cpython-311.pyc",
+      "bytes": 59345,
+      "sha256": "7409c50d4bb29958b232a54bed9f10064048b29304875fc0bfa73d54a4562bc4"
+    },
+    {
+      "path": "source/examples/__pycache__/scenarios.cpython-311.pyc",
+      "bytes": 21258,
+      "sha256": "43caf6d41a202ed74b9ac5c661711ff382aac33143c4205fb88f4145a87869ee"
+    },
+    {
+      "path": "source/examples/__pycache__/suite.cpython-311.pyc",
+      "bytes": 6528,
+      "sha256": "0f64a43d186c65f50850c9318b4d87d2a928277ec2205c77529b1526b83aa10a"
+    },
+    {
+      "path": "source/examples/__pycache__/triaxial_failure.cpython-311.pyc",
+      "bytes": 96298,
+      "sha256": "edec866cfaa50cddd47878fb099d76cfb4b957c4129850b7506c20b1646cac9d"
+    },
+    {
+      "path": "source/examples/__pycache__/triaxial_fibre_geometry.cpython-311.pyc",
+      "bytes": 43290,
+      "sha256": "63c02cca0ba0424be26524a975bd1697e5f8b5ff69b6161c2d3e7d482c6b46fc"
+    },
+    {
+      "path": "source/examples/__pycache__/visible_motion.cpython-311.pyc",
+      "bytes": 19353,
+      "sha256": "36f7a60ab3fecb36157efaa458caa569bac5c0fa857c6ac657d35d4378cb0104"
+    },
+    {
+      "path": "source/examples/__pycache__/woven_composite.cpython-311.pyc",
+      "bytes": 41928,
+      "sha256": "636f70e920183ab8be470bb2802b7289934b45746a7839a838bf4bb8a3599c3b"
+    },
+    {
+      "path": "source/examples/__pycache__/woven_geometry.cpython-311.pyc",
+      "bytes": 25524,
+      "sha256": "12762255a25a665f743a8a311546fbe7939818a4af2e9a25fc766f6a1433dbb5"
+    },
+    {
+      "path": "source/examples/__pycache__/woven_hemisphere.cpython-311.pyc",
+      "bytes": 6832,
+      "sha256": "c757ae385543228f4430deff16917113593e724a7fc2620803af37d49d7aeff9"
+    },
+    {
+      "path": "source/examples/__pycache__/woven_large_geometry.cpython-311.pyc",
+      "bytes": 19619,
+      "sha256": "59b54740c0fba5ce9848bfe1559f238f27a942535bb32103f21910f6fe430a69"
+    },
+    {
+      "path": "source/examples/__pycache__/woven_large_plate.cpython-311.pyc",
+      "bytes": 71308,
+      "sha256": "08927694f964e740e8c4476bb3aa2977393493aeefafc311ad5cb0d64135011e"
+    },
+    {
+      "path": "source/examples/adhesion_contrast.py",
+      "bytes": 2516,
+      "sha256": "838c9bfdb092aa67ad6318d9f90009114189a5437083b203a7309da275d86835"
+    },
+    {
+      "path": "source/examples/adhesive_array.py",
+      "bytes": 17338,
+      "sha256": "a684ef8e298358843d8af2f55962eeb9b78d76c144b62735a6511f6222560f5e"
+    },
+    {
+      "path": "source/examples/adhesive_contact.py",
+      "bytes": 9665,
+      "sha256": "6cbdc8e6081329c39a830e8fe373f53b738410108d5025dac9e6f56a7071cb2e"
+    },
+    {
+      "path": "source/examples/adhesive_suite.py",
+      "bytes": 1803,
+      "sha256": "683aca65ea2365d3822d757565fd0c1a7000707ffc229381015d5936007387dc"
+    },
+    {
+      "path": "source/examples/benchmarks.py",
+      "bytes": 9596,
+      "sha256": "e6d3254670c094a81e72786581509c7d7e2a2b290ace27ad626ea537da1aa15d"
+    },
+    {
+      "path": "source/examples/brittle_engineering.py",
+      "bytes": 36216,
+      "sha256": "23aaa6c5aa88ee21ce8fe4d63ae4942970bc7ddf945d3a85f91405087a120a0d"
+    },
+    {
+      "path": "source/examples/common.py",
+      "bytes": 21886,
+      "sha256": "bb5b3ff00b4d4edb54632a11f54b81d2edca767f440d9c6f4a7d52a8a3e5a46f"
+    },
+    {
+      "path": "source/examples/contact_pull_off.py",
+      "bytes": 10437,
+      "sha256": "eac805dd55dc72cf47909466f357e1d5c2ad1659a019174dd3b53cfc33f106cd"
+    },
+    {
+      "path": "source/examples/contact.py",
+      "bytes": 935,
+      "sha256": "e475ab3f090d1796ee7f680c58ded359ef54d47452bb92360d6f2ef1a1735f80"
+    },
+    {
+      "path": "source/examples/elastic_models.py",
+      "bytes": 2617,
+      "sha256": "d8d7ae280fe91227432f9e3213b0cc71d9990817266c1bff8c08fb31a241f47f"
+    },
+    {
+      "path": "source/examples/engineering.py",
+      "bytes": 9176,
+      "sha256": "566fa9629d007a48393ebee3ddc141691f39587581f1d4e2b09a4394d4be13ec"
+    },
+    {
+      "path": "source/examples/fibre_pull_off.py",
+      "bytes": 39551,
+      "sha256": "5e6ddd5c8fdb2cea004421b1a689ff391f9c9b0e8e51b205d6c0334ed1bee432"
+    },
+    {
+      "path": "source/examples/fluids.py",
+      "bytes": 1084,
+      "sha256": "5ff6e6cbadb921877f5658d187e520126324d14d202dbc66df81eea397819d9d"
+    },
+    {
+      "path": "source/examples/gradient.py",
+      "bytes": 1462,
+      "sha256": "aac17faf397ce4f56361d9de59edfcaa6512e10a99082fd4c89b0262440f47a6"
+    },
+    {
+      "path": "source/examples/jc_necking.py",
+      "bytes": 17996,
+      "sha256": "6fce5973ddf465bb929ebf02173c656f645e27847acba3934c491af81475f677"
+    },
+    {
+      "path": "source/examples/material_engineering.py",
+      "bytes": 12190,
+      "sha256": "cf318eee7aa6ed71bdc4e4e435eeceeab13b8612959c2c90075b7bba44a70414"
+    },
+    {
+      "path": "source/examples/material_paths.py",
+      "bytes": 4987,
+      "sha256": "764ae920856e7c94553ec79d2dec15b4d21bd8927e933c628c87923b98b30974"
+    },
+    {
+      "path": "source/examples/metal_fragment_formal_v6.py",
+      "bytes": 8157,
+      "sha256": "d0c9c276c9c4144fb1bb83675d3bdbbfc469a5bb874f8473abb946749bb14d9d"
+    },
+    {
+      "path": "source/examples/metal_fragment_multifield_compact.py",
+      "bytes": 7124,
+      "sha256": "40151803555480dc169c71b20aa9e5d7d470d0dfd16e74b7d6deacc858c31b5d"
+    },
+    {
+      "path": "source/examples/metal_fragment_multifield_v2.py",
+      "bytes": 6878,
+      "sha256": "f72383821f7769884a66221d69b4f8ad61b3b33ec7a4bfc407e02e3636348d96"
+    },
+    {
+      "path": "source/examples/metal_fragment_multifield_v3.py",
+      "bytes": 7362,
+      "sha256": "4a1fce817f9e93a0a8a031c275b9b7269f774f8df94447b78964b70323505655"
+    },
+    {
+      "path": "source/examples/metal_fragment_multifield.py",
+      "bytes": 6589,
+      "sha256": "44210cd5294492f25014e23750a02ec80ba5e303bebc5ba9d15bcc8a28417de6"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_delta125.py",
+      "bytes": 11696,
+      "sha256": "9409bf6a2fa5ddf10a67214935033dc8e4f2bf91f28fb606e7c23f0affd4e9c7"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_dt_convergence.py",
+      "bytes": 12147,
+      "sha256": "a026e63c4852c39b280fb45e1ed2c769f050f95eba9a113072d0e0ef93084129"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_energy_admission.py",
+      "bytes": 9612,
+      "sha256": "b3b06186a5b7bacdde54bdf25215fa97b9e494d09b986cbdf0c0b1259575ddd5"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_energy_probe125.py",
+      "bytes": 10609,
+      "sha256": "25e501c4ea8f1d437bafd9c89246742233cc9dbade1d91e367acd95513dec526"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_geometric125.py",
+      "bytes": 11070,
+      "sha256": "a881a4061694328a672c03211e2b379046bf54cc34e798bf39f7ce355a9390d3"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_onset_probe.py",
+      "bytes": 11993,
+      "sha256": "7fb76ed6a37f0074be9e6a9021d03f3d87de2d0ae895e8ee875f48f52c45e6e6"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_recover.py",
+      "bytes": 12373,
+      "sha256": "e32a512bef2936b606ef24a7f2b82c8215e3b5d42074dc0f3005e9ca625ef7df"
+    },
+    {
+      "path": "source/examples/metal_fragment_v6_relaxed125.py",
+      "bytes": 12509,
+      "sha256": "4cb53037edd6bd6b66a8b128ab1e4b410ba6cc69dd490a2ae872b0410f1a5674"
+    },
+    {
+      "path": "source/examples/metal_plate_geometry.py",
+      "bytes": 3105,
+      "sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf"
+    },
+    {
+      "path": "source/examples/metal_sphere_geometry.py",
+      "bytes": 7557,
+      "sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd"
+    },
+    {
+      "path": "source/examples/metal_sphere_impact_fracture.py",
+      "bytes": 30713,
+      "sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc"
+    },
+    {
+      "path": "source/examples/scenarios.py",
+      "bytes": 14582,
+      "sha256": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d"
+    },
+    {
+      "path": "source/examples/suite.py",
+      "bytes": 3850,
+      "sha256": "787f46ad8509808784bba3c32d9a8ef1bd160d7e00f51dfd6939e23ba18c95b0"
+    },
+    {
+      "path": "source/examples/triaxial_failure.py",
+      "bytes": 56160,
+      "sha256": "bbe4bfac6ee54b05bf81759013fcbaecf13a7f2a00330e49dd75c8c0608e417c"
+    },
+    {
+      "path": "source/examples/triaxial_fibre_geometry.py",
+      "bytes": 24405,
+      "sha256": "5f7d37a9c22e8c1104a698893baf3d409bc134d94477cbcd06760626569e8bf2"
+    },
+    {
+      "path": "source/examples/visible_motion.py",
+      "bytes": 12945,
+      "sha256": "0de51bf641eec60e8ce9313c45155f53dc8b6d4386bb34295ef5aff3d2221e12"
+    },
+    {
+      "path": "source/examples/woven_composite.py",
+      "bytes": 26481,
+      "sha256": "ddc5e2b351e62563b37d6836e1418894821ee541357709fa63bece6939545866"
+    },
+    {
+      "path": "source/examples/woven_geometry.py",
+      "bytes": 16097,
+      "sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a"
+    },
+    {
+      "path": "source/examples/woven_hemisphere.py",
+      "bytes": 3746,
+      "sha256": "13f464445d885e819e55d1966bbf99c21a6f1be8b1ccdb29e6cd4ee9bbd3e4c7"
+    },
+    {
+      "path": "source/examples/woven_large_geometry.py",
+      "bytes": 11369,
+      "sha256": "bc1ddb95ef0578ebd3f68dac898b1529a547f8b12b2f2c91a21db1e64a0f1cc6"
+    },
+    {
+      "path": "source/examples/woven_large_plate.py",
+      "bytes": 39228,
+      "sha256": "9384d9b4ca344d8aace1e75d91e73455a0bcd0b3779fad7721eb10966ef011df"
+    },
+    {
+      "path": "source/mpm_jax/__init__.py",
+      "bytes": 1430,
+      "sha256": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494"
+    },
+    {
+      "path": "source/mpm_jax/__main__.py",
+      "bytes": 30,
+      "sha256": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 1785,
+      "sha256": "d38790b7de4c4f3b931de2f663e169e75dee958be2305dd931c1a38ab0a42eae"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/__main__.cpython-311.pyc",
+      "bytes": 276,
+      "sha256": "a4be487c7a5f0180ef59ad5d05509005e628df639a12f66256b3f6f026297dca"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/adhesion.cpython-311.pyc",
+      "bytes": 11071,
+      "sha256": "89bfee3fd8e776a303273e420dc0e5648bb4a7a732e8311b5d06fe6629750e6a"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/boundaries.cpython-311.pyc",
+      "bytes": 18612,
+      "sha256": "4f452916dcabf0565a2d7285308dc741afa5ffdbabb4f4b5878d39a0fb817c99"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/cli.cpython-311.pyc",
+      "bytes": 12469,
+      "sha256": "5b723c4acec1cdda03290269eb58262d602cd3c12d4390d02bed5bc3623bbdc3"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/cohesive_bem.cpython-311.pyc",
+      "bytes": 17780,
+      "sha256": "7e5ddcc59a5d9d2d6d459fb1e6af411b309839305f72e789dfe49d2c76099ec9"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/contact_laws.cpython-311.pyc",
+      "bytes": 16760,
+      "sha256": "1863742bd40c76809a6960c9980187f717cf3b33e6a2c641c26ec0e68d374c64"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/contact_patches.cpython-311.pyc",
+      "bytes": 10720,
+      "sha256": "b8ed7053412cd35e9f2a64e32ae9567382b102c16501af27c1b201f0f988539f"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/contact.cpython-311.pyc",
+      "bytes": 8642,
+      "sha256": "6f1341f979125e673cb22c44b559f88fa3df0d2047f11cc8f252ff99af845598"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/core.cpython-311.pyc",
+      "bytes": 19812,
+      "sha256": "ff7b76423c43cb6730d3c380fd393c2cca43a5b9a1578e4b0826075522151951"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/export.cpython-311.pyc",
+      "bytes": 12010,
+      "sha256": "9f00aaa99ca23094ca8d1327888d560888c728499d2ea905a0fe048155308b8a"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fibre_contact.cpython-311.pyc",
+      "bytes": 12714,
+      "sha256": "3b8a99650d411e273e012aaf33f80f7843ce9966b24d29dc9fd69e76f77842d5"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fibre_coupling.cpython-311.pyc",
+      "bytes": 44745,
+      "sha256": "836b68b36c5c2819c5f7c170c9d99e6ba5bab46afc2a3c76b849686f76cf0bdc"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fibre_mpm.cpython-311.pyc",
+      "bytes": 42331,
+      "sha256": "1980f78a2b505a6fabf94b56079669faff271c53ac10a53f52a62d2460468ede"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fibre_patch_contact.cpython-311.pyc",
+      "bytes": 20017,
+      "sha256": "b95c4ddf83334b9c1eae9a6ff6589e011ab4dc199455d8408c3251ea771f8180"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fracture_impact_mpm.cpython-311.pyc",
+      "bytes": 50661,
+      "sha256": "4090f47be531d1f53ddf841979493420a3f1d63d5944346fe8a9976c9d60898b"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_multifield_v6_mpm.cpython-311.pyc",
+      "bytes": 75168,
+      "sha256": "49d6775aae5418de78f3d8bcc0505648446f2581b429758962332f7206ba47f0"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_delta_candidate.cpython-311.pyc",
+      "bytes": 19050,
+      "sha256": "edce0975ad81889dc3ea232157169c94ad92dbc6d566dde351ee218c88ab4da3"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_delta_diagnostic.cpython-311.pyc",
+      "bytes": 7118,
+      "sha256": "f9122d4d06f2c0f2e08864eee6a810f96eaf9a088c7a96d3257ae52b90137b00"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_delta_transfer.cpython-311.pyc",
+      "bytes": 2096,
+      "sha256": "9e336febce545db615edce81d65e4d71ecd90e24006fa8226012b98d9657465a"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_discrete_work.cpython-311.pyc",
+      "bytes": 8131,
+      "sha256": "522e79ed89e750a7c8510c9c66ddd2fdea1767b5efd94085729cf9aa187470d9"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_energy_probe.cpython-311.pyc",
+      "bytes": 4201,
+      "sha256": "bf73f2dc6e2697f6b39c3f8ec9244d17fe40a7968658826c80331a4e5eb33e7b"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_geometric_delta_candidate.cpython-311.pyc",
+      "bytes": 32218,
+      "sha256": "27cccd53c31c006d9d6caad8bf52c64cf47fe2916dbe5a6180af1842e52d2160"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_geometric_delta_diagnostic.cpython-311.pyc",
+      "bytes": 4005,
+      "sha256": "4d60efa0bab070f16ae01ea427805244a45233eb2f8fe4859636c16c0eafde32"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_geometric_kinematics.cpython-311.pyc",
+      "bytes": 3207,
+      "sha256": "23020348554827382f375658d7ebe39e6d26ea1bb8e2a8267f4293db261c85ac"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_matrixfree_projection.cpython-311.pyc",
+      "bytes": 50882,
+      "sha256": "8ea4fe5371957bbe15474aa8d90de1d68b2db33bad9dcbb218e25ce635af8349"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_midpoint_strength.cpython-311.pyc",
+      "bytes": 9924,
+      "sha256": "2d26dc2d9919b167ef2933c20615b38e8a56d6cb3e37988de59a708349f0c64b"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_onset_probe.cpython-311.pyc",
+      "bytes": 4289,
+      "sha256": "653f1fc152a29d737d9b7a1c11eb9d7bbfdf093d6502d81f958f37953cd77010"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_relaxed_candidate.cpython-311.pyc",
+      "bytes": 17174,
+      "sha256": "06abf630c3e9537895a5003101ffa1ebc6bc6e610b34cbe7eb24f37aa5411986"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_relaxed_diagnostic.cpython-311.pyc",
+      "bytes": 5530,
+      "sha256": "9ef009102f4f66a4f927d954a4748ef3be0026a5101d9e3bc796f0f7073b20b0"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_relaxed_transfer.cpython-311.pyc",
+      "bytes": 6062,
+      "sha256": "ae2950b146b510d608e9377508e87a4040410831952b2eaa14df27f398e23840"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/fragment_v6_sym_delta_transfer.cpython-311.pyc",
+      "bytes": 6061,
+      "sha256": "b3b739be6954dbf8c8e3511eb4913b329d2cb22e660977d22c4748cf979fd5cb"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/initialization.cpython-311.pyc",
+      "bytes": 14047,
+      "sha256": "aca273780fdcbe14a43939c4b37a16a4dc5f7992a0eddb4b6ed0d254fa1aee8f"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/local_contact_models.cpython-311.pyc",
+      "bytes": 14371,
+      "sha256": "83f41e5c6ee7ce177f477a0d2605b962de2438d3b923a7a5c13e9c1719ab76f4"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/material_domain_contact.cpython-311.pyc",
+      "bytes": 42222,
+      "sha256": "2142dd03f261c53015e2af4573d6d20c264b94858b6318e9c046e3fe466c4e76"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/maugis_dugdale.cpython-311.pyc",
+      "bytes": 20661,
+      "sha256": "edabd7a41d33bd4a3e69ac229bd66938c15140e21e6f816ecc924d9a2a743421"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/metal_tl_midpoint.cpython-311.pyc",
+      "bytes": 31612,
+      "sha256": "b83f11f4190d1780144b88847e95fd246fba491b1ac9a823397344eafe41387b"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/packed_woven.cpython-311.pyc",
+      "bytes": 25869,
+      "sha256": "62efb5ba9c1082ed59bd7db4a4558a7c3bb57220e5c1cb6f4d3882cf8788714a"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/paraview_scene.cpython-311.pyc",
+      "bytes": 48254,
+      "sha256": "b5ab4563960f08023547f1b2411707a6251c7f055b7a7f8f64b37f3120df0928"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/particle_fields.cpython-311.pyc",
+      "bytes": 3056,
+      "sha256": "ef16f6b1babedfdfc94738a7406388a56573c8ba42b406f185e1bd28ff9ce864"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/rigid_sphere_contact.cpython-311.pyc",
+      "bytes": 11932,
+      "sha256": "cb444e011d37911e9d1472dd7a170d33c4ac988c07f51e4f817728cb19868b4a"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/saved_tool_motion.cpython-311.pyc",
+      "bytes": 15272,
+      "sha256": "e3be44b914a6c226db5d44ea5a324ba09a7b317c4873bc59831ada5f97eab923"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/total_lagrangian.cpython-311.pyc",
+      "bytes": 16405,
+      "sha256": "344879e1d9c5d7e2f7b0d86d89a593da1470cf44b755d69a31e477965bfbb759"
+    },
+    {
+      "path": "source/mpm_jax/__pycache__/visualization.cpython-311.pyc",
+      "bytes": 19652,
+      "sha256": "383cb1ad98e437c261aa052af5227c439b8a25f64a9425fe6c762882c1a03381"
+    },
+    {
+      "path": "source/mpm_jax/adhesion.py",
+      "bytes": 5515,
+      "sha256": "12cda0bc77b95a8740245050bc2ae86b78018bd2642329efff3920cb8d9f9042"
+    },
+    {
+      "path": "source/mpm_jax/boundaries.py",
+      "bytes": 9959,
+      "sha256": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0"
+    },
+    {
+      "path": "source/mpm_jax/cli.py",
+      "bytes": 6467,
+      "sha256": "be61ba75adfa3a0fd05892402e1970ef62d7fd7250fce329b63b2c0d8b34f105"
+    },
+    {
+      "path": "source/mpm_jax/cohesive_bem.py",
+      "bytes": 9560,
+      "sha256": "f8288d7b8b4dca46c3b0e40290d4d02b3e6017af9b047804a0e49775fdd8e42e"
+    },
+    {
+      "path": "source/mpm_jax/contact_laws.py",
+      "bytes": 9546,
+      "sha256": "101008865ed200d94d02b88a674c3943fcb82549ca2913961c2649f37df2175a"
+    },
+    {
+      "path": "source/mpm_jax/contact_patches.py",
+      "bytes": 5588,
+      "sha256": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7"
+    },
+    {
+      "path": "source/mpm_jax/contact.py",
+      "bytes": 4189,
+      "sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00"
+    },
+    {
+      "path": "source/mpm_jax/core.py",
+      "bytes": 11478,
+      "sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08"
+    },
+    {
+      "path": "source/mpm_jax/export.py",
+      "bytes": 6564,
+      "sha256": "b7791643972cb723dbd29c06d56438ae639fcc47df1b43079808059a85aa977d"
+    },
+    {
+      "path": "source/mpm_jax/fibre_contact.py",
+      "bytes": 6846,
+      "sha256": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab"
+    },
+    {
+      "path": "source/mpm_jax/fibre_coupling.py",
+      "bytes": 24964,
+      "sha256": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70"
+    },
+    {
+      "path": "source/mpm_jax/fibre_mpm.py",
+      "bytes": 21592,
+      "sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e"
+    },
+    {
+      "path": "source/mpm_jax/fibre_patch_contact.py",
+      "bytes": 11541,
+      "sha256": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358"
+    },
+    {
+      "path": "source/mpm_jax/fracture_impact_mpm.py",
+      "bytes": 29045,
+      "sha256": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd"
+    },
+    {
+      "path": "source/mpm_jax/fragment_multifield_v6_mpm.py",
+      "bytes": 40469,
+      "sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_delta_candidate.py",
+      "bytes": 11100,
+      "sha256": "343a52e94b121ca8715f3792d0d6204b10256e4a394537a27ac83ed81a1390f0"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_delta_diagnostic.py",
+      "bytes": 3794,
+      "sha256": "9712e49cc8108ff5d1df5d7a35ee73e1a0236e8ca7e1c7ee37074394f302fd50"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_delta_transfer.py",
+      "bytes": 1286,
+      "sha256": "62f26bdfa848f73de85a49cc28249edbc4815431fd8b6c096c3ea4a85664ee10"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_discrete_work.py",
+      "bytes": 4722,
+      "sha256": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_energy_probe.py",
+      "bytes": 2482,
+      "sha256": "98d141b12e4f01d672466b00008e7da2c7b97c3989c6575e379d740aaa273932"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_geometric_delta_candidate.py",
+      "bytes": 16744,
+      "sha256": "bda95dbcdd37af61f8bf93f925c8749de73a9bbba4e48716f0f01ea70ceab5bd"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_geometric_delta_diagnostic.py",
+      "bytes": 2028,
+      "sha256": "0e690f5d0d5457da713457ad7f953b43f0a6fad435bb9be494d102ecce13aecb"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_geometric_kinematics.py",
+      "bytes": 1395,
+      "sha256": "98f6e45dff75cf4f7020d02eb6d0a4177a5375ac4c683c7157d05087d66194f6"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_matrixfree_projection.py",
+      "bytes": 22790,
+      "sha256": "cc51f3d84e060253ccaeca5d8cd8afbe734085c68f6ea7e0efc71e777513b623"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_midpoint_strength.py",
+      "bytes": 4038,
+      "sha256": "4879ddb2415627db3439d303ce98a27e9a2a6a344e16b64644e1e88769aae2d7"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_onset_probe.py",
+      "bytes": 2348,
+      "sha256": "199f729a11b58adfe234f802704770b4ee5b0b419792985d7fafd97175d915a2"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_relaxed_candidate.py",
+      "bytes": 10067,
+      "sha256": "40773cac1e58420041e486713acce20274d79b56ff934f88bfb46fca0061832b"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_relaxed_diagnostic.py",
+      "bytes": 2530,
+      "sha256": "b9da4ce828964e72569acd9b92811820874ba5903e98ef27587f7c29df888653"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_relaxed_transfer.py",
+      "bytes": 2496,
+      "sha256": "6a7437cab6edfa87248ef5c87338ee8606001d18105cd2cd6ccc575282da64fb"
+    },
+    {
+      "path": "source/mpm_jax/fragment_v6_sym_delta_transfer.py",
+      "bytes": 2406,
+      "sha256": "e89b945d6591d29470ac03d8cf6f11dc019b46985c59669fd9461038ab59d9d8"
+    },
+    {
+      "path": "source/mpm_jax/initialization.py",
+      "bytes": 6909,
+      "sha256": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d"
+    },
+    {
+      "path": "source/mpm_jax/local_contact_models.py",
+      "bytes": 8591,
+      "sha256": "e85f9c1373c936cc3b381d7b57e70efbaf69ef613e424c80f8e750783ea369c4"
+    },
+    {
+      "path": "source/mpm_jax/material_domain_contact.py",
+      "bytes": 21143,
+      "sha256": "5d9bfc3b3190c8f873237233dc65b3f45c2dbfbbdf576207778737f8509002dd"
+    },
+    {
+      "path": "source/mpm_jax/materials/__init__.py",
+      "bytes": 1613,
+      "sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/__init__.cpython-311.pyc",
+      "bytes": 2656,
+      "sha256": "6df6114f4b787ed79b8ce1d9f8b8fa0adcc7c3e6c323ca62ccbd2bb2ffd50f16"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/elastic.cpython-311.pyc",
+      "bytes": 11494,
+      "sha256": "31c150d2a9c74441cc19aef472f22b6ca0f1a01562fdefab991710c842e7132b"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/history.cpython-311.pyc",
+      "bytes": 6544,
+      "sha256": "8d5efcb18f53c2d073f7797f53e53c6cecbd3b512582d914b1321e1866ef86b6"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/hjc.cpython-311.pyc",
+      "bytes": 9186,
+      "sha256": "5af81b6708d2fdb33e3531e318308976f83eb87af486f9eca78494f86bbab0be"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/isotropic_brittle.cpython-311.pyc",
+      "bytes": 12470,
+      "sha256": "4120808bcac806126e47e4f40448a7098669849ae064c2333cb740437c30568c"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/jh2.cpython-311.pyc",
+      "bytes": 9053,
+      "sha256": "96722c21c353319c4eef1c1292dc50e2762924647fea48e82523c7853134d902"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/johnson_cook.cpython-311.pyc",
+      "bytes": 9542,
+      "sha256": "5ba4b975524dcc16e4899e05a56f51e614b2a6127150f789f9b4dc553174a7cd"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/linear_metal.cpython-311.pyc",
+      "bytes": 6572,
+      "sha256": "02083d86455996024c37c453633b43fc663afb3b985ae37926dfca9e9730434c"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/plastic.cpython-311.pyc",
+      "bytes": 9144,
+      "sha256": "64783015fea1b00c8b715a10b58f272dba66916cd32c08deeafb9a6a50c170ab"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/rht.cpython-311.pyc",
+      "bytes": 40913,
+      "sha256": "f8883a57fa1130d3ca8f70bbd6d8c97039ae33818852d181d8c4eab3b71d0aae"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/shock_metal.cpython-311.pyc",
+      "bytes": 22454,
+      "sha256": "3f14f59af040a87302ffe8b390934bc5bc9258b02d3fb00215ebc40c23468f2c"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/steinberg.cpython-311.pyc",
+      "bytes": 5797,
+      "sha256": "f6409a289e7e5a15c29fdc26f6250d14cdeda809aef9e9a79efaaa27e05b727a"
+    },
+    {
+      "path": "source/mpm_jax/materials/__pycache__/woven.cpython-311.pyc",
+      "bytes": 8076,
+      "sha256": "78fdf38423c71d1fbf4bf0c9747db754fa627fd5add9f3119a3e5181f4397e62"
+    },
+    {
+      "path": "source/mpm_jax/materials/elastic.py",
+      "bytes": 5652,
+      "sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655"
+    },
+    {
+      "path": "source/mpm_jax/materials/history.py",
+      "bytes": 3323,
+      "sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b"
+    },
+    {
+      "path": "source/mpm_jax/materials/hjc.py",
+      "bytes": 6912,
+      "sha256": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35"
+    },
+    {
+      "path": "source/mpm_jax/materials/isotropic_brittle.py",
+      "bytes": 7172,
+      "sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084"
+    },
+    {
+      "path": "source/mpm_jax/materials/jh2.py",
+      "bytes": 5917,
+      "sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a"
+    },
+    {
+      "path": "source/mpm_jax/materials/johnson_cook.py",
+      "bytes": 5734,
+      "sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205"
+    },
+    {
+      "path": "source/mpm_jax/materials/linear_metal.py",
+      "bytes": 3323,
+      "sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc"
+    },
+    {
+      "path": "source/mpm_jax/materials/plastic.py",
+      "bytes": 5076,
+      "sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea"
+    },
+    {
+      "path": "source/mpm_jax/materials/rht.py",
+      "bytes": 21395,
+      "sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1"
+    },
+    {
+      "path": "source/mpm_jax/materials/shock_metal.py",
+      "bytes": 11390,
+      "sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3"
+    },
+    {
+      "path": "source/mpm_jax/materials/steinberg.py",
+      "bytes": 4471,
+      "sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342"
+    },
+    {
+      "path": "source/mpm_jax/materials/woven.py",
+      "bytes": 4375,
+      "sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207"
+    },
+    {
+      "path": "source/mpm_jax/maugis_dugdale.py",
+      "bytes": 9196,
+      "sha256": "29acf6c07f6a5c10bf26254ab9d27efe51e03230c0da26be5bb792a4d46b3443"
+    },
+    {
+      "path": "source/mpm_jax/metal_tl_midpoint.py",
+      "bytes": 20621,
+      "sha256": "279a9b7535842615ed8ac7ee88ba93efb3b986f09b7b7909159986a1cabc2902"
+    },
+    {
+      "path": "source/mpm_jax/packed_woven.py",
+      "bytes": 13893,
+      "sha256": "5bbe2c67503a23c7c2231675fc5d4a970b6bf956cfee161a468ebf745273d668"
+    },
+    {
+      "path": "source/mpm_jax/paraview_scene.py",
+      "bytes": 35310,
+      "sha256": "300b759949033c707514426b69483894340d638ab58dc8ed07f2cd3421c43958"
+    },
+    {
+      "path": "source/mpm_jax/particle_fields.py",
+      "bytes": 1622,
+      "sha256": "3f58745d8fbd2c2e9f46fa02079293c469deba664fc5809b439e00b9d02b80d7"
+    },
+    {
+      "path": "source/mpm_jax/rigid_sphere_contact.py",
+      "bytes": 6209,
+      "sha256": "5bd156e02c010da968585382e793d9b89b3daba78cd55fcb9628a3e86469977f"
+    },
+    {
+      "path": "source/mpm_jax/saved_tool_motion.py",
+      "bytes": 7467,
+      "sha256": "62a161077334bb53cd8775233f202bbf397eeb4c29cbbb4a9430e9921be678af"
+    },
+    {
+      "path": "source/mpm_jax/total_lagrangian.py",
+      "bytes": 8023,
+      "sha256": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33"
+    },
+    {
+      "path": "source/mpm_jax/visualization.py",
+      "bytes": 11454,
+      "sha256": "d834330c0fe1c1f55fbe997e0f5e62e7e22c36ed5766ada8d35da2cacc23dd69"
+    },
+    {
+      "path": "source/run_metal_tl_fresh.py",
+      "bytes": 33538,
+      "sha256": "29839563a521810180d726a1f9ea16c6ff2f6d73b95711c9cce037b6ce045452"
+    },
+    {
+      "path": "source/tools/__pycache__/audit_metal_fragments.cpython-311.pyc",
+      "bytes": 7254,
+      "sha256": "0e139fe30b0a75ac497500bd79b87e14a81ecc622525e0c2ee9251383442962f"
+    },
+    {
+      "path": "source/tools/__pycache__/verify_material_domain_contact.cpython-311.pyc",
+      "bytes": 11867,
+      "sha256": "6309ffdf2cd666e69e30ce78d3970c7ba82fba63ab137ca7c79eceafd2b974b5"
+    },
+    {
+      "path": "source/tools/__pycache__/verify_tl_adjoint.cpython-311.pyc",
+      "bytes": 3929,
+      "sha256": "6672c2b5e0d564ab2167651e3a14dda5490cad033beee07cd14af5e4df5b14db"
+    },
+    {
+      "path": "source/tools/__pycache__/verify_tl_viscous_power.cpython-311.pyc",
+      "bytes": 3311,
+      "sha256": "76d9006dc6182f10a60ddb0825f59a899a1ea81c415c0a63c5c8947c5e68b975"
+    },
+    {
+      "path": "source/tools/audit_metal_fragments.py",
+      "bytes": 3009,
+      "sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242"
+    },
+    {
+      "path": "source/tools/verify_material_domain_contact.py",
+      "bytes": 5901,
+      "sha256": "c4a2d3dee887d04f34282da119dc5b83d775dd17b63b14f098a389cacf0fac80"
+    },
+    {
+      "path": "source/tools/verify_tl_adjoint.py",
+      "bytes": 2070,
+      "sha256": "0544ef768f23091bfa725c3c8c04fc5e36f9eb2735e70933ae19fa36b4110206"
+    },
+    {
+      "path": "source/tools/verify_tl_viscous_power.py",
+      "bytes": 1365,
+      "sha256": "2893371ff21d0e052bcc60feef7cb2344caf2d0ba67854e5c9a4b4a90f16dd91"
+    },
+    {
+      "path": "spec.json",
+      "bytes": 704,
+      "sha256": "4f6d5983077c5ae704b26c1e7149078f2a55f0d4923df7e86ddbe343fe9b03f7"
+    }
+  ]
+}

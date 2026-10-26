@@ -1,0 +1,29 @@
+{
+  "image": "sha256:639be564c801378d4dd43ea5ea630a3c378c2d2a745177c8a52857656e954180",
+  "cpu_set": "20-23",
+  "cpus": 4,
+  "memory": "12g",
+  "seconds": 1800,
+  "uss_gib": 9,
+  "cwd": "/work",
+  "command": [
+    "python",
+    "/work/run.py",
+    "--output",
+    "/work/result",
+    "--end-time",
+    "1.6e-7",
+    "--max-seconds",
+    "1600",
+    "--resume-checkpoint",
+    "/work/resume-checkpoint.npz",
+    "--resume-bridge",
+    "/work/resume-bridge.json"
+  ],
+  "env": {
+    "OMP_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "1",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false intra_op_parallelism_threads=4"
+  }
+}

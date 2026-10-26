@@ -1,0 +1,28 @@
+{
+  "started_utc": "2026-10-26T00:09:17.282382+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "/work/source/tools/audit_material_domain_contact_state.py",
+    "--result",
+    "/parent-result",
+    "--output",
+    "/work/audit.json"
+  ],
+  "cpu_affinity": [
+    20,
+    21,
+    22,
+    23
+  ],
+  "memory_headroom_at_start": 8580841472,
+  "limit_seconds": 600.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 414298112,
+  "minimum_memory_headroom": 8168099840,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 8.105282627046108,
+  "returncode": 0
+}

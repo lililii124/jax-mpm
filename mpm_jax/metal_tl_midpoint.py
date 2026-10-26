@@ -288,9 +288,12 @@ def _force_material_midpoint(state, reference, material, dt, fixed, cell_length,
         from .materials.shock_metal import artificial_viscosity
         q = artificial_viscosity(density, thermo.sound_speed, divergence,
                                  cell_length, material)
-        # q is compression-positive Cauchy pressure, so its Piola term is
-        # J q F^{-T}; its negative work is accounted separately, never heated.
-        piola = piola + (J*q)[:, None, None] * jnp.linalg.inv(F1).swapaxes(-1, -2)
+        # Cauchy stress is tensile-positive, while artificial_viscosity returns
+        # compression-positive pressure. Its stress is therefore -q I and its
+        # Piola stress is -J q F^{-T}. Use this same endpoint Piola and actual
+        # discrete deformation increment for the separate nonthermal loss.
+        viscous_piola = -(J*q)[:, None, None] * jnp.linalg.inv(F1).swapaxes(-1, -2)
+        piola = piola + viscous_piola
         particle_force = -reference.volume[:, None, None] * jnp.einsum(
             'pij,pkj->pki', piola, reference.gradients)
         force = jnp.zeros_like(vpre).at[reference.indices].add(particle_force)
@@ -301,9 +304,10 @@ def _force_material_midpoint(state, reference, material, dt, fixed, cell_length,
         scale = jnp.maximum(jnp.linalg.norm(jnp.where(active[:, None] & ~fixed,
                                                        vproposal, 0.)), 1.)
         residual = jnp.linalg.norm(delta) / scale
-        viscous_work = dt * reference.volume * q * divergence
+        viscous_loss_increment = reference.volume * jnp.sum(
+            viscous_piola * (F1-F0), axis=(-2, -1))
         return (vproposal, residual, u1, x1, F1, vm, mat, force,
-                -jnp.sum(viscous_work), q)
+                jnp.sum(viscous_loss_increment), q)
 
     initial_result = evaluate(state.velocity)
     def pending(carry):

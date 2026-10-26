@@ -146,7 +146,10 @@ def main():
     from mpm_jax.fragment_v6_discrete_work import update as material_update
     from mpm_jax.materials.linear_metal import linear_metal, volume_energy, eos_state
     from mpm_jax.metal_tl_midpoint import (
-        initial_state, step, actual_q1_contact_jump, endpoint_e0_jump)
+        initial_state, step, endpoint_e0_jump)
+    from mpm_jax.material_domain_contact import (
+        material_domain_contact_jump, minimum_material_domain_gap,
+        _world_corners)
 
     geometry, plan = plan_case(speed=5000., sphere_diameter=.002, plate_size=(.02, .02),
         plate_thickness=.0005, gap=.00075, clamp_width=.001, dx=.00025,
@@ -154,6 +157,11 @@ def main():
     if len(geometry['x']) != 26336 or plan['material']['density'] != 2700.:
         raise ValueError('The original C2 geometry or density changed')
     reference, body_id, fixed, v0, reference_record = make_reference(geometry, .00025)
+    particle_spacing = np.asarray(plan['particle_spacing_m'], dtype=np.float64)
+    domain_gap = minimum_material_domain_gap(
+        np.asarray(geometry['x']), np.broadcast_to(np.eye(3),
+            (len(geometry['x']), 3, 3)), np.asarray(geometry['body_id']), particle_spacing)
+    expected_first_contact_time = domain_gap['minimum_sat_gap_m']/5000.
     material = linear_metal(**plan['material'])
     particle_mass = np.asarray(reference.particle_mass)
     eye = jnp.broadcast_to(jnp.eye(3), (len(particle_mass), 3, 3))
@@ -185,8 +193,11 @@ def main():
     if not control_record['passed']:
         raise FloatingPointError('Independent newly-active e0 control failed')
     atomic_json(args.output/'e0-startup-control.json', control_record)
-    source_root = Path(__file__).resolve().parents[0]
-    source_files = ['mpm_jax/metal_tl_midpoint.py', 'mpm_jax/total_lagrangian.py',
+    # All hash-bound implementation sources live under /work/source; keeping
+    # the runner itself there makes the capsule tree a single immutable root.
+    source_root = Path(__file__).resolve().parent
+    source_files = ['mpm_jax/metal_tl_midpoint.py', 'mpm_jax/material_domain_contact.py',
+                    'mpm_jax/total_lagrangian.py',
                     'mpm_jax/fragment_v6_discrete_work.py', 'mpm_jax/fragment_v6_midpoint_strength.py',
                     'mpm_jax/fragment_multifield_v6_mpm.py', 'mpm_jax/fragment_v6_matrixfree_projection.py',
                     'mpm_jax/materials/linear_metal.py', 'mpm_jax/materials/shock_metal.py',
@@ -194,7 +205,9 @@ def main():
                     'mpm_jax/fracture_impact_mpm.py',
                     'examples/metal_sphere_impact_fracture.py', 'examples/metal_sphere_geometry.py',
                     'examples/metal_plate_geometry.py', 'examples/woven_geometry.py',
-                    'tools/audit_metal_fragments.py', 'run_metal_tl_fresh.py']
+                    'tools/audit_metal_fragments.py', 'tools/verify_material_domain_contact.py',
+                    'tools/verify_tl_viscous_power.py',
+                    'run_metal_tl_fresh.py']
     hashes = {name: hashlib.sha256((source_root/name).read_bytes()).hexdigest() for name in source_files}
     resume_record = None
     resumed_steps = 0
@@ -209,6 +222,22 @@ def main():
             raise ValueError('Continuation source differs from the source bridge')
         if bridge.get('case_geometry_particles') != len(geometry['x']):
             raise ValueError('Resume bridge geometry differs from the fresh formal case')
+        continuation_dir = args.resume_bridge.resolve().parent
+        prior_history = continuation_dir/'resume-contact-history.jsonl'
+        prior_event = continuation_dir/'resume-first-domain-intersection.json'
+        prior_activation = continuation_dir/'resume-e0-activation.json'
+        if (not prior_history.is_file() or not prior_event.is_file()
+                or not prior_activation.is_file()):
+            raise ValueError('Resume capsule omits the source-bound contact/activation receipts')
+        if (bridge.get('prior_contact_history_sha256') != hashlib.sha256(prior_history.read_bytes()).hexdigest()
+                or bridge.get('prior_first_event_sha256') != hashlib.sha256(prior_event.read_bytes()).hexdigest()
+                or bridge.get('prior_e0_activation_sha256') != hashlib.sha256(prior_activation.read_bytes()).hexdigest()):
+            raise ValueError('Resume capsule receipts differ from their source bridge hashes')
+        (args.output/'contact-history.jsonl').write_bytes(prior_history.read_bytes())
+        atomic_json(args.output/'first-domain-intersection.json',
+                    json.loads(prior_event.read_text(encoding='utf-8')))
+        atomic_json(args.output/'e0-activation.json',
+                    json.loads(prior_activation.read_text(encoding='utf-8')))
         with np.load(args.resume_checkpoint, allow_pickle=False) as saved:
             required = {'displacement', 'velocity', 'F', 'tau', 'ep', 'cold', 'fracture',
                         'damage', 'internal', 'time_s', 'step', 'initial_P', 'initial_L',
@@ -237,7 +266,7 @@ def main():
         if resumed_checked:
             prior_e0 = dict(schema='metal-tl-e0-check-receipt-v1',
                 status='passed-attested-by-source-bound-checkpoint',
-                interpretation='Actual-q1 finite-support phase sampler closing-row e0 projection; not a geometric free-surface contact timestamp.',
+                interpretation='Actual-q1 intersection of advected initial material cuboids; shared-world contact points and independent physical postclosing route.',
                 newly_active_e0_checked=True, prior_step=bridge.get('prior_step'),
                 prior_time_s=bridge.get('prior_time_s'),
                 accepted_checkpoint_sha256=checkpoint_hash,
@@ -249,9 +278,15 @@ def main():
     case = dict(status='running', protocol='C2 fresh-t0 metal TL common-midpoint; endpoint e0; no fracture remap',
         geometry_particles=len(geometry['x']), plan_particles=plan['particles'],
         source_sha256=hashes, reference=reference_record, dt_cfl=.1,
+        contact_geometry='advected initial material cuboids; 15-axis SAT, clipped shared-world contact points; no background-support candidate search',
+        geometry_interpretation='The initial coarse particle quadrature defines a staircase material boundary; this is not an analytic sphere surface.',
+        particle_spacing_m=particle_spacing.tolist(),
+        initial_material_domain_gap=domain_gap,
+        nominal_domain_first_contact_time_s=expected_first_contact_time,
         adjoint_power_check=adjoint_power_check,
         initial_momentum_kg_m_s=p0.tolist(), initial_angular_momentum_kg_m2_s=l0.tolist(),
         initial_kinetic_J=k0, energy_tolerance_J=1.414599609375e-8,
+        dt_rule='dt=min(0.1*0.00025/max(longitudinal_speed+particle_speed+1.5*sqrt(3)*0.00025*|L|+viscous_signal), end_time-time); dt is a dynamic scalar input to the compiled midpoint kernel.',
         requested_end_time_s=args.end_time, max_seconds=args.max_seconds)
     if resume_record is not None:
         case['resume'] = resume_record
@@ -267,6 +302,65 @@ def main():
     max_angular_error = float(resumed_metrics.get('max_angular_relative', 0.))
     max_energy_error = float(resumed_metrics.get('max_energy_error_J', 0.))
     angular_scale = max(float(np.sum(particle_mass))*.00025*5000., 1e-30)
+
+    def write_endpoint_audit(status):
+        u = np.asarray(state.displacement)
+        v = np.asarray(state.velocity)
+        Fend, tauend, internal_end = map(np.asarray,
+            (state.material[0], state.material[1], state.material[-1]))
+        p_x = np.asarray(reference.positions) + np.sum(
+            np.asarray(reference.weights)[..., None]*u[np.asarray(reference.indices)], axis=1)
+        half = particle_spacing*.5
+        local_corners = _world_corners(np.zeros(3), np.eye(3), half)
+        corners = p_x[:, None, :] + np.einsum(
+            'pij,kj->pki', Fend, local_corners)
+        sphere_mask, plate_mask = body_id == 0, body_id == 1
+        local_y = corners[sphere_mask, :, 1]
+        flat = int(np.argmin(local_y))
+        local_particle, local_corner = np.unravel_index(flat, local_y.shape)
+        sphere_ids = np.flatnonzero(sphere_mask)
+        nose = corners[sphere_ids[local_particle], local_corner]
+        plate_corners = corners[plate_mask].reshape(-1, 3)
+        nearby = np.linalg.norm(plate_corners[:, (0, 2)]-nose[[0, 2]], axis=1) <= .0025
+        if not np.any(nearby):
+            raise FloatingPointError('No deformed plate top support near the sphere nose')
+        surface_y = float(np.max(plate_corners[nearby, 1]))
+        body_node = {}
+        start = 0
+        mass_nodes = np.asarray(reference.nodal_mass)
+        for item in reference_record['bodies']:
+            b, end = item['body'], start+item['nodes']
+            mb, vb = mass_nodes[start:end], v[start:end]
+            initial_vb = np.asarray(v0)[start:end]
+            body_node[str(b)] = dict(
+                initial_P_kg_m_s=(mb[:, None]*initial_vb).sum(axis=0).tolist(),
+                final_P_kg_m_s=(mb[:, None]*vb).sum(axis=0).tolist(),
+                delta_P_kg_m_s=(mb[:, None]*(vb-initial_vb)).sum(axis=0).tolist(),
+                initial_K_J=float(.5*np.sum(mb[:, None]*initial_vb**2)),
+                final_K_J=float(.5*np.sum(mb[:, None]*vb**2)))
+            start = end
+        particle_internal = [float(np.sum(particle_mass[mask]*internal_end[mask]))
+                             for mask in (sphere_mask, plate_mask)]
+        plate_nodes = np.arange(reference_record['bodies'][0]['nodes'], len(mass_nodes))
+        sym_sigma = .5*(tauend+tauend.swapaxes(-1, -2))/np.maximum(
+            np.linalg.det(Fend)[:, None, None], 1e-30)
+        dev = sym_sigma-.5*np.trace(sym_sigma, axis1=-2, axis2=-1)[:, None, None]*np.eye(3)
+        vm = np.sqrt(np.maximum(1.5*np.sum(dev*dev, axis=(-2, -1)), 0.))
+        report = dict(status=status, step=steps, time_s=float(state.time),
+            sphere_nose_world_m=nose.tolist(), nearby_deformed_plate_surface_y_m=surface_y,
+            sphere_nose_to_plate_surface_gap_m=float(nose[1]-surface_y),
+            positive_value_means_gap_negative_means_vertical_intrusion=True,
+            plate_surface_deflection_near_nose_m=surface_y,
+            plate_max_nodal_displacement_m=float(np.max(np.linalg.norm(u[plate_nodes], axis=1))),
+            plate_max_particle_von_mises_Pa=float(np.max(vm[plate_mask])),
+            plate_min_F_determinant=float(np.min(np.linalg.det(Fend[plate_mask]))),
+            sphere_min_F_determinant=float(np.min(np.linalg.det(Fend[sphere_mask]))),
+            sphere_internal_energy_J=particle_internal[0], plate_internal_energy_J=particle_internal[1],
+            body_nodal_transfer=body_node,
+            geometry='deformed quadrature material cuboid corners; local plate surface within 2.5 mm of sphere nose',
+            dt_last_s=dt_last, dt_cfl_limit=.1)
+        atomic_json(args.output/'endpoint-physical-audit.json', report)
+
     try:
         while float(state.time) < args.end_time:
             if time.monotonic()-started > args.max_seconds:
@@ -290,13 +384,8 @@ def main():
                 raise FloatingPointError('Original CFL admitted a nonpositive/nonfinite step')
 
             def contact(vpre, x1, F1):
-                # E0 is identity for the fresh undeformed reference; both the
-                # phase sampler and its transpose use the same exact A map.
-                return actual_q1_contact_jump(vpre, reference, particle_mass,
-                    jnp.asarray(body_id), x1, F1, jnp.eye(3), .00025, fixed,
-                    fixed_particles=jnp.asarray((body_id == 1) &
-                        ((np.abs(geometry['x'][:, 0]) >= .009) |
-                         (np.abs(geometry['x'][:, 2]) >= .009))))
+                return material_domain_contact_jump(vpre, reference, particle_mass,
+                    body_id, x1, F1, particle_spacing, fixed)
 
             accepted = step(state, reference, material, dt, jnp.asarray(fixed), contact,
                             cell_length=.00025)
@@ -304,7 +393,9 @@ def main():
                 atomic_npz(args.output/'rejected.npz', displacement=np.asarray(state.displacement),
                     velocity=np.asarray(state.velocity), material=np.asarray(state.material[0]),
                     time_s=np.asarray(state.time), force_residual=np.asarray(accepted.force_residual),
-                    contact_work_J=np.asarray(accepted.contact_work))
+                    contact_work_J=np.asarray(accepted.contact_work), viscous_loss_J=np.asarray(accepted.viscous_loss),
+                    kinetic_J=np.asarray(accepted.geometry['kinetic']),
+                    internal_energy_J=np.asarray(jnp.sum(jnp.asarray(particle_mass)*state.material[-1])))
                 atomic_json(args.output/'rejected.json', dict(
                     step=steps+1, time_s=float(state.time), dt_s=dt,
                     step_valid=bool(np.asarray(accepted.valid)),
@@ -322,6 +413,12 @@ def main():
                 physical_route_pre_closing_m_s=float(report.get('physical_route_pre_closing_m_s', 0.)),
                 physical_route_post_closing_m_s=float(report.get('physical_route_post_closing_m_s', 0.)),
                 physical_route_complementarity_m_s=float(report.get('physical_route_complementarity_m_s', 0.)),
+                dot_v_Atlambda_vs_Av_lambda_pre_abs_error=float(report.get('dot_v_Atlambda_vs_Av_lambda_pre_abs_error', 0.)),
+                dot_v_Atlambda_vs_Av_lambda_pre_roundoff_bound=float(report.get('dot_v_Atlambda_vs_Av_lambda_pre_roundoff_bound', 0.)),
+                dot_v_Atlambda_vs_Av_lambda_post_abs_error=float(report.get('dot_v_Atlambda_vs_Av_lambda_post_abs_error', 0.)),
+                dot_v_Atlambda_vs_Av_lambda_post_roundoff_bound=float(report.get('dot_v_Atlambda_vs_Av_lambda_post_roundoff_bound', 0.)),
+                maximum_material_domain_penetration_m=float(report.get('maximum_penetration_m', 0.)),
+                body_contact_impulse_Ns=report.get('body_contact_impulse_Ns', [[0., 0., 0.], [0., 0., 0.]]),
                 JphaseA_vs_Jnode_pre_max_abs_m_s=float(report.get('JphaseA_vs_Jnode_pre_max_abs_m_s', 0.)),
                 JphaseA_vs_Jnode_post_max_abs_m_s=float(report.get('JphaseA_vs_Jnode_post_max_abs_m_s', 0.)),
                 complementarity_m_s=float(report.get('complementarity_m_s', 0.)),
@@ -333,6 +430,15 @@ def main():
             with (args.output/'contact-history.jsonl').open('a', encoding='utf-8') as stream:
                 stream.write(json.dumps(contact_row, allow_nan=False, separators=(',', ':'))+'\n')
                 stream.flush()
+            if report.get('pairs', 0) and not (args.output/'first-domain-intersection.json').exists():
+                event_time = float(state.time)+dt
+                event = dict(step=steps+1, time_s=event_time, dt_s=dt,
+                    initial_domain_gap_m=domain_gap['minimum_sat_gap_m'],
+                    expected_initial_gap_over_speed_time_s=expected_first_contact_time,
+                    activation_time_error_s=event_time-expected_first_contact_time,
+                    contact=report, source_sha256=hashes,
+                    interpretation='First intersection of actual affine initial material cuboids at q1; coarse particle quadrature produces a staircase domain.')
+                atomic_json(args.output/'first-domain-intersection.json', event)
             if (report['pairs'] and report['initial_closing_m_s'] > .005
                     and not newly_active_checked):
                 closure = float(report['final_closing_m_s'])
@@ -367,7 +473,10 @@ def main():
                     cold=np.asarray(state.material[3]), fracture=np.asarray(state.material[4]),
                     damage=np.asarray(state.material[5]), internal=np.asarray(state.material[6]),
                     time_s=np.asarray(state.time), momentum_relative=np.asarray(max_momentum_error),
-                    angular_relative=np.asarray(max_angular_error), energy_error_J=np.asarray(max_energy_error))
+                    angular_relative=np.asarray(max_angular_error), energy_error_J=np.asarray(max_energy_error),
+                    viscous_loss_J=np.asarray(state.viscous_loss), contact_work_J=np.asarray(state.contact_work),
+                    kinetic_J=np.asarray(K), internal_energy_J=np.asarray(jnp.sum(
+                        jnp.asarray(particle_mass)*state.material[-1])))
                 raise FloatingPointError('Original global energy/linear/angular guard failed')
             # Complete atomic state every accepted step is the CP on timeout.
             atomic_npz(args.output/'accepted.npz', displacement=np.asarray(state.displacement),
@@ -394,7 +503,12 @@ def main():
                 max_linear_relative=max_momentum_error, max_angular_relative=max_angular_error,
                 max_energy_error_J=max_energy_error)
             atomic_json(args.output/'run.json', case)
+        write_endpoint_audit(case['status'])
     except BaseException as exc:
+        try:
+            write_endpoint_audit('failed-at-last-accepted-state')
+        except BaseException as audit_exc:
+            case['endpoint_audit_error'] = repr(audit_exc)
         case.update(status='failed-preserved', steps=steps, time_s=float(state.time),
                     elapsed_s=time.monotonic()-started, error=repr(exc), traceback=traceback.format_exc())
         atomic_json(args.output/'run.json', case)

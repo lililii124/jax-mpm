@@ -1,0 +1,30 @@
+{
+  "started_utc": "2026-10-25T23:53:30.217761+00:00",
+  "state": "failed",
+  "command": [
+    "python",
+    "/work/run.py",
+    "--output",
+    "/work/result",
+    "--end-time",
+    "1.6e-7",
+    "--max-seconds",
+    "1750"
+  ],
+  "cpu_affinity": [
+    20,
+    21,
+    22,
+    23
+  ],
+  "memory_headroom_at_start": 12875927552,
+  "limit_seconds": 1800.0,
+  "uss_limit_bytes": 9663676416,
+  "peak_uss_bytes": 1542893568,
+  "minimum_memory_headroom": 11335241728,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 131.85464589297771,
+  "returncode": 1
+}

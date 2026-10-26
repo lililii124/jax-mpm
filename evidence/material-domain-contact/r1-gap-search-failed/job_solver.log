@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/work/run.py", line 4, in <module>
+    main()
+  File "/work/source/run_metal_tl_fresh.py", line 161, in main
+    domain_gap = minimum_material_domain_gap(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/source/mpm_jax/material_domain_contact.py", line 232, in minimum_material_domain_gap
+    raise FloatingPointError('No opposite-body material domains in gap search envelope')
+FloatingPointError: No opposite-body material domains in gap search envelope

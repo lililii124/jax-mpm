@@ -1,0 +1,25 @@
+{
+  "accepted": {
+    "step": 116,
+    "time_s": 1.6e-07,
+    "energy_error_J": null,
+    "total_velocity_min": -30551.257131902505,
+    "total_velocity_max": 34110.899761177265,
+    "plate_max_nodal_displacement_m": 9.655511784450333e-05,
+    "plate_max_particle_von_mises_Pa": 253559856.55387872,
+    "plate_min_detF": 0.9212370243334179,
+    "sphere_min_detF": 0.8912568403497202,
+    "plate_internal_energy_J": 0.017050216213571324,
+    "sphere_internal_energy_J": 0.02789686463257424,
+    "sphere_nose_m": [
+      0.00024572280397070043,
+      0.00023365117032730524,
+      0.00024572280397070043
+    ],
+    "nearby_deformed_plate_surface_y_m": 0.00025063536352560667,
+    "nose_surface_gap_m": -1.698419319830143e-05,
+    "candidate_count": 20,
+    "max_intersection_depth_m": 2.516489012107745e-06
+  },
+  "rejected_attempt": {}
+}

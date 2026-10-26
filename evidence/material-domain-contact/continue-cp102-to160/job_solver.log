@@ -1,0 +1,23 @@
+{"step":103,"time_s":1.5248066514028094e-07,"dt_s":5.964050487698578e-10,"force_residual":8.173594001544924e-12,"energy_error_J":1.1937117960769683e-11,"momentum_relative":2.4525999646546554e-16,"angular_relative":5.136299923363099e-18}
+{"step":104,"time_s":1.5307184186022097e-07,"dt_s":5.911767199400365e-10,"force_residual":7.660526845889668e-13,"energy_error_J":1.1937117960769683e-11,"momentum_relative":2.4525999646546554e-16,"angular_relative":5.136299923363099e-18}
+{"step":105,"time_s":1.5367206691641538e-07,"dt_s":6.002250561943978e-10,"force_residual":7.592802799292897e-13,"energy_error_J":1.1937117960769683e-11,"momentum_relative":2.4525999646546554e-16,"angular_relative":5.136299923363099e-18}
+{"step":106,"time_s":1.5428544448888317e-07,"dt_s":6.133775724677992e-10,"force_residual":8.40242825597789e-12,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4525999646546554e-16,"angular_relative":5.136299923363099e-18}
+{"step":107,"time_s":1.5487617528070957e-07,"dt_s":5.907307918263902e-10,"force_residual":9.453977304929053e-13,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4525999646546554e-16,"angular_relative":5.136299923363099e-18}
+{"step":108,"time_s":1.5547982777241773e-07,"dt_s":6.036524917081624e-10,"force_residual":9.282999873084582e-13,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":109,"time_s":1.5609778605342254e-07,"dt_s":6.179582810048168e-10,"force_residual":9.009231489088586e-13,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":110,"time_s":1.5673087700739574e-07,"dt_s":6.330909539731955e-10,"force_residual":8.674877709886788e-13,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":111,"time_s":1.573796027920297e-07,"dt_s":6.487257846339715e-10,"force_residual":8.305627767872216e-13,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":112,"time_s":1.578924398968248e-07,"dt_s":5.128371047951024e-10,"force_residual":2.502065837678717e-12,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":113,"time_s":1.5841781191292768e-07,"dt_s":5.253720161028666e-10,"force_residual":1.845882965992374e-12,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":114,"time_s":1.5895487012958134e-07,"dt_s":5.370582166536653e-10,"force_residual":1.3862108420697828e-12,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":115,"time_s":1.5950261554108854e-07,"dt_s":5.477454115071906e-10,"force_residual":1.0602694991950634e-12,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.4526018925691007e-16,"angular_relative":5.136299923363099e-18}
+{"step":116,"time_s":1.6e-07,"dt_s":4.973844589114636e-10,"force_residual":3.163937937799868e-12,"energy_error_J":2.1117330106790178e-11,"momentum_relative":2.452602949229375e-16,"angular_relative":5.136299923363099e-18}
+Traceback (most recent call last):
+  File "/work/run.py", line 4, in <module>
+    main()
+  File "/work/source/run_metal_tl_fresh.py", line 506, in main
+    write_endpoint_audit(case['status'])
+  File "/work/source/run_metal_tl_fresh.py", line 324, in write_endpoint_audit
+    nearby = np.linalg.norm(plate_corners[:, (0, 2)]-nose[(0, 2)], axis=1) <= .0025
+                                                     ~~~~^^^^^^^^
+IndexError: too many indices for array: array is 1-dimensional, but 2 were indexed

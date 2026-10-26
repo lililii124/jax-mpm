@@ -1,0 +1,43 @@
+{
+  "schema": "metal-tl-source-bridge-v1",
+  "bridge_reason": "Continue only from accepted CP102 after first actual advected material-cuboid intersection/e0; apply the work-conjugate compression-viscosity Piola correction. Rejected step103 is not a parent.",
+  "checkpoint_sha256": "644868af5937bf3737ae5c7fa8043757e410d6cf7c044e02accb2072d72692b2",
+  "continuation_source_sha256": {
+    "mpm_jax/metal_tl_midpoint.py": "279a9b7535842615ed8ac7ee88ba93efb3b986f09b7b7909159986a1cabc2902",
+    "mpm_jax/material_domain_contact.py": "5d9bfc3b3190c8f873237233dc65b3f45c2dbfbbdf576207778737f8509002dd",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+    "mpm_jax/fragment_v6_discrete_work.py": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4",
+    "mpm_jax/fragment_v6_midpoint_strength.py": "4879ddb2415627db3439d303ce98a27e9a2a6a344e16b64644e1e88769aae2d7",
+    "mpm_jax/fragment_multifield_v6_mpm.py": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
+    "mpm_jax/fragment_v6_matrixfree_projection.py": "cc51f3d84e060253ccaeca5d8cd8afbe734085c68f6ea7e0efc71e777513b623",
+    "mpm_jax/materials/linear_metal.py": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
+    "mpm_jax/materials/shock_metal.py": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/contact.py": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+    "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+    "mpm_jax/fracture_impact_mpm.py": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd",
+    "examples/metal_sphere_impact_fracture.py": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
+    "examples/metal_sphere_geometry.py": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+    "examples/metal_plate_geometry.py": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+    "examples/woven_geometry.py": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+    "tools/audit_metal_fragments.py": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
+    "tools/verify_material_domain_contact.py": "c4a2d3dee887d04f34282da119dc5b83d775dd17b63b14f098a389cacf0fac80",
+    "tools/verify_tl_viscous_power.py": "2893371ff21d0e052bcc60feef7cb2344caf2d0ba67854e5c9a4b4a90f16dd91",
+    "run_metal_tl_fresh.py": "29839563a521810180d726a1f9ea16c6ff2f6d73b95711c9cce037b6ce045452"
+  },
+  "case_geometry_particles": 26336,
+  "prior_step": 102,
+  "prior_time_s": 1.5188426009151109e-07,
+  "newly_active_e0_checked": true,
+  "prior_metrics": {
+    "max_linear_relative": 2.4525999646546554e-16,
+    "max_angular_relative": 5.136299923363099e-18,
+    "max_energy_error_J": 2.842170943040401e-14
+  },
+  "prior_run_json_sha256": "ec086b34b809835d50222aedbc0816b7203a32c7695c7f7cc511f6384eefb436",
+  "prior_runner_sha256": "b55e6547dc375ec803ec8d1461340740149630dfba451d4c3e279214b918003d",
+  "prior_capsule_sha256": "846f1e63033ec84d6195e4597913af907d2604209d7bf61eff66f843a1f0f60a",
+  "prior_contact_history_sha256": "96577391fb471f6d1a05b28092f11131340ce195d594deafbe3cb0bf45d4b03f",
+  "prior_first_event_sha256": "53581adeaa72b9ec69fd4049f65c965f521f031427d2491991fe9f5f66617d9a",
+  "prior_e0_activation_sha256": "70e2b15cc2239533824f30f5f0fe6b65ac6d0d4fafff75c58f27918f2280df5b"
+}
