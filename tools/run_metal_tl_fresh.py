@@ -255,6 +255,8 @@ def main():
         prior_history = continuation_dir/'resume-contact-history.jsonl'
         prior_event = continuation_dir/'resume-first-domain-intersection.json'
         prior_activation = continuation_dir/'resume-e0-activation.json'
+        prior_damage = continuation_dir/'resume-damage-history.jsonl'
+        prior_failure = continuation_dir/'resume-first-fully-failed-point.json'
         if (not prior_history.is_file() or not prior_event.is_file()
                 or not prior_activation.is_file()):
             raise ValueError('Resume capsule omits the source-bound contact/activation receipts')
@@ -262,6 +264,17 @@ def main():
                 or bridge.get('prior_first_event_sha256') != hashlib.sha256(prior_event.read_bytes()).hexdigest()
                 or bridge.get('prior_e0_activation_sha256') != hashlib.sha256(prior_activation.read_bytes()).hexdigest()):
             raise ValueError('Resume capsule receipts differ from their source bridge hashes')
+        if bridge.get('prior_damage_history_sha256') is not None:
+            if (not prior_damage.is_file() or bridge['prior_damage_history_sha256'] !=
+                    hashlib.sha256(prior_damage.read_bytes()).hexdigest()):
+                raise ValueError('Resume damage-history receipt differs from its source bridge')
+            (args.output/'damage-history.jsonl').write_bytes(prior_damage.read_bytes())
+        if bridge.get('prior_first_failed_sha256') is not None:
+            if (not prior_failure.is_file() or bridge['prior_first_failed_sha256'] !=
+                    hashlib.sha256(prior_failure.read_bytes()).hexdigest()):
+                raise ValueError('Resume first-failure receipt differs from its source bridge')
+            atomic_json(args.output/'first-fully-failed-point.json',
+                        json.loads(prior_failure.read_text(encoding='utf-8')))
         (args.output/'contact-history.jsonl').write_bytes(prior_history.read_bytes())
         atomic_json(args.output/'first-domain-intersection.json',
                     json.loads(prior_event.read_text(encoding='utf-8')))
