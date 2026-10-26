@@ -1,0 +1,98 @@
+{
+  "source_branch": "work/resin-supported-pressure-domain",
+  "source_diff_sha256": "2b13e5985593757454e9a5855a2e6e4e57c907eea732b029290b2ec2c018b3ad",
+  "image_sha256": "8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+  "original_rejected_step": 4044,
+  "original_reproduction": {
+    "diagnostic_sha256": "4bad62847213a13bba11505975bcd7076052279091b2aad2cb90c36f5f88f546",
+    "particle_id": 39204,
+    "index": [
+      3,
+      10,
+      21
+    ],
+    "original_back": [
+      3,
+      11,
+      21
+    ],
+    "physical_source_unchanged": true
+  },
+  "represent_fix": {
+    "code_sha256": "362b1f6ccbe5a7dbbd35f1f880132e8f1abf3ee48dfb4b568397df55ed58b5c0",
+    "original_64eps_guard_retained": true,
+    "corrected_back": [
+      3,
+      10,
+      21
+    ],
+    "corrected_q_y": 10.999999999999922,
+    "boundary_distance_q": 7.815970093361102E-14,
+    "allowed_boundary_distance_q": 1.5631940186722204E-13,
+    "physical_displacement_m": 1.951563910473908E-17,
+    "target_to_stored_nextafter_steps": 0
+  },
+  "corrected_segment": {
+    "task": "resin-rt0-represent-fix-v3",
+    "input_task": "three-resin-supported-v2-cont-4080",
+    "input_step": 4032,
+    "input_checkpoint_sha256": "c3256d32019a909a235c23589accd88c6c7ba0da57e22c441bc1d42021cf02ff",
+    "output_step": 4096,
+    "output_checkpoint_sha256": "9a6bf8f6026c5f9a6381bce413bce4dc3108ddf0a8aa430944df453fe2a69524",
+    "audit_task": "resin-rt0-represent-audit-v4",
+    "audit_status": "passed",
+    "accepted_steps": 64,
+    "all_rows_valid": true,
+    "no_particle_state_pruning": true,
+    "particle_slots": 78412,
+    "max_solid_intrusions": 0,
+    "max_escaped_particles": 0,
+    "checkpoint_time_s": 0.16384000000000748,
+    "nominal_time_s": 0.16384,
+    "final_mass_identity_kg": 4.391018798566293E-18,
+    "final_global_energy_identity_J": 3.457249677513152E-17,
+    "audit_cpu_set": "48-51",
+    "audit_cpus": 4,
+    "audit_memory_gib": 8,
+    "audit_uss_limit_gib": 5,
+    "audit_wall_seconds": 4.0569,
+    "audit_peak_uss_bytes": 141496320,
+    "simulation_guard_status": "failed_after_run",
+    "simulation_guard_reason": "Test harness exact-failure witness assertion did not recur after the repaired trajectory diverged; output independently accepted by audit task",
+    "simulation_wall_seconds": 159.7589,
+    "simulation_peak_uss_bytes": 1115340800,
+    "simulation_run_task": "resin-rt0-represent-fix-v3",
+    "simulation_guard_failure_after_output": "AssertionError: witness_matches==1; exact old-coordinate input did not recur after the repaired trajectory changed"
+  },
+  "midpoint_volume_review": {
+    "task": "resin-rt0-volume-review-4096-v1",
+    "checkpoint_sha256": "9a6bf8f6026c5f9a6381bce413bce4dc3108ddf0a8aa430944df453fe2a69524",
+    "physical_particle_volume_m3": 3.2064E-07,
+    "integrated_incremental_transport_volume_m3": 3.206400000001675E-07,
+    "true_volume_relative_error": 5.223951014207145E-13,
+    "bulk_density_mean_over_rho": 1.0284299271595105,
+    "homogeneous_reference_mean_over_rho": 1.0014552977848605,
+    "bulk_mean_delta": 0.026974629374650005,
+    "gate_rule": "0.95<=bulk mean/rho<=1.05; abs(mean-reference)<=0.05; abs(volume relative error)<=1e-7",
+    "gate_passed": true,
+    "physical_steps_executed": 0,
+    "review_cpu_set": "48-51",
+    "review_cpus": 4,
+    "review_wall_seconds": 4.0431,
+    "uss_limit_gib": 5
+  },
+  "next_chain": {
+    "name": "three-resin-supported-8000-chain-v3",
+    "start_step": 4096,
+    "target_step": 8000,
+    "segment_max_steps": 256,
+    "seconds_per_segment": 1800,
+    "cpus": 4,
+    "cpu_set": "48-51",
+    "memory_gib": 8,
+    "uss_limit_gib": 5,
+    "state_pruning": false,
+    "source_commit": "pending"
+  },
+  "source_commit_base": "8185cfd3d6f11f771136a1fe289172521829cbbd"
+}

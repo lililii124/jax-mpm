@@ -105,3 +105,16 @@ Four compatible two-cell Neumann components were found in the saved5532 input;
 their constant pressure gauges are legitimate, with exactly zero component net
 rhs. No incompatible component flux is projected away. Incremental qualification
 and any later clean empty-fluid fill remain distinct from the rejected old run.
+
+An RT0 representation edge at step4044 exposed a stored-coordinate roundtrip
+failure at a cell face: particle39204 targeted cell[3,10,21], while the
+physical-coordinate nudge still floored to[3,11,21]. `represent()` now places
+the physical coordinate halfway inside the existing64-epsilon grid-distance
+guard, then checks the stored-coordinate cell identity with optimization
+barriers and bounded physical `nextafter` correction. The guard and material
+validity rules are unchanged. From the preserved step4032 checkpoint, a
+corrected64-step segment reached4096 with every row valid, no solid intrusion
+or escaped particles, and mass/energy identities admitted. The independent
+4096 checkpoint audit and midpoint volume review are recorded under
+`evidence/resin-rt0-represent-fix/`; this intermediate continuation is not a
+complete-fill claim.

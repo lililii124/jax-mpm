@@ -22,18 +22,38 @@ class Transport(NamedTuple):
 
 
 def represent(position,index,layout):
-    origin=jnp.asarray(layout.origin,dtype=position.dtype);q=(position-origin)/layout.dx
+    origin=jnp.asarray(layout.origin,dtype=position.dtype)
+    # Freeze the physical coordinate before cell quantization so XLA cannot
+    # fuse the transport update with the subtraction that follows it.
+    position=jax.lax.optimization_barrier(position)
+    offset=jax.lax.optimization_barrier(position-origin)
+    q=jax.lax.optimization_barrier(offset/layout.dx)
     outside=(q<index)|(q>=index+1)
-    lower=q<index;boundary=jnp.where(lower,index,index+1).astype(position.dtype);toward=index.astype(position.dtype)+.5
+    lower=q<index;boundary=jnp.where(lower,index,index+1).astype(position.dtype)
+    toward=index.astype(position.dtype)+.5
     distance=jnp.abs(q-boundary);allowed=64*jnp.finfo(position.dtype).eps*jnp.maximum(jnp.abs(boundary),1.)
     valid=jnp.all(~outside|(distance<=allowed))
-    candidate=jnp.nextafter(boundary,toward)
+    # Aim inside the same tolerance band, then resolve any remaining physical
+    # roundtrip ambiguity with nextafter on the stored coordinate itself.
+    margin=allowed*.5
+    target_q=boundary+jnp.where(lower,margin,-margin)
+    target_physical=jax.lax.optimization_barrier(origin+target_q*layout.dx)
+    candidate=jnp.where(outside,target_physical,position)
+    physical_toward=jax.lax.optimization_barrier(origin+toward*layout.dx)
     def body(_,value):
-        physical=origin+value*layout.dx;back=jnp.floor((physical-origin)/layout.dx).astype(jnp.int32)
-        return jnp.where(back==index,value,jnp.nextafter(value,toward))
-    candidate=jax.lax.fori_loop(0,4,body,candidate);physical=origin+candidate*layout.dx
-    adjusted=jnp.where(outside,physical,position);back=jnp.floor((adjusted-origin)/layout.dx).astype(jnp.int32)
-    valid=valid&jnp.all(back==index)
+        value=jax.lax.optimization_barrier(value)
+        cell_offset=jax.lax.optimization_barrier(value-origin)
+        cell_q=jax.lax.optimization_barrier(cell_offset/layout.dx)
+        back=jnp.floor(cell_q).astype(jnp.int32)
+        needs=outside&(back!=index)
+        next_value=jnp.where(needs,jnp.nextafter(value,physical_toward),value)
+        return jax.lax.optimization_barrier(next_value)
+    adjusted=jax.lax.optimization_barrier(jax.lax.fori_loop(0,64,body,candidate))
+    adjusted_offset=jax.lax.optimization_barrier(adjusted-origin)
+    adjusted_q=jax.lax.optimization_barrier(adjusted_offset/layout.dx)
+    back=jnp.floor(adjusted_q).astype(jnp.int32)
+    adjusted_distance=jnp.abs(adjusted_q-boundary)
+    valid=valid&jnp.all(~outside|((back==index)&(adjusted_distance<=allowed)))
     return adjusted,jnp.max(jnp.abs(adjusted-position),axis=1),valid
 
 
