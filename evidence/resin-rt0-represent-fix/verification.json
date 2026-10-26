@@ -92,7 +92,12 @@
     "memory_gib": 8,
     "uss_limit_gib": 5,
     "state_pruning": false,
-    "source_commit": "7200c99"
+    "source_commit": "7200c99d20329952bb333a23d4feeaf0a8f09216",
+    "chain_root": "three-resin-supported-8000-chain-v3",
+    "source_tree_sha256": "8ad637366e2e4bb91c98b8b49ac5c85ba83a025a957af5f266e7e619b35e63e0",
+    "controller_sha256": "8f5c91be22fa55c839352d2ca6a1a89cffa8ba8fb278fe8b86b0bc27fe5ea89d",
+    "source_manifest_entries": 169,
+    "slot_monotonicity_admission": true
   },
   "source_commit_base": "8185cfd3d6f11f771136a1fe289172521829cbbd",
   "source_commit": "7200c99"
