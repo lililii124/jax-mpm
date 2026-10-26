@@ -1,0 +1,83 @@
+{
+  "source_commit": "32f0e67de66acf28a720286a3901710f01f4d423",
+  "task": "run-5008-to5072-primary-5120",
+  "container": "jaxmpm-resin-supported-5008-to5072-primary5120",
+  "container_id": "685db9d374448aeb1d5a72d16a7f9b84c68946c728352e69b9b73b7bb66e5d60",
+  "guard": {
+    "started_utc": "2026-10-26T20:20:22.008543+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "/work/start.py"
+    ],
+    "cpu_affinity": [
+      48,
+      49,
+      50,
+      51
+    ],
+    "memory_headroom_at_start": 8581152768,
+    "limit_seconds": 1800.0,
+    "uss_limit_bytes": 5368709120,
+    "peak_uss_bytes": 1166176256,
+    "minimum_memory_headroom": 7390879744,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 322.5119822472334,
+    "returncode": 0
+  },
+  "row_count": 64,
+  "row_endpoints": [
+    5009,
+    5072
+  ],
+  "row_failures": {},
+  "all_rows_finite": true,
+  "max_abs_pressure_residual": 9.724198493739846e-08,
+  "max_pressure_stationarity": 9.878702504739345e-11,
+  "max_abs_logJ": 2.9628085940203166e-12,
+  "max_abs_mass_identity": 6.613633252161577e-18,
+  "max_abs_global_energy_identity": 8.355132991716419e-17,
+  "max_abs_inlet_balance": 7.01035569138691e-23,
+  "max_momentum_residual": 6.086279980722567e-19,
+  "checkpoint": {
+    "sha256": "00ec13a091182bc01746c8d4ffac97e1da35b2e8976bece1e4a7883189736449",
+    "step": 5072,
+    "time_s": 0.20288000000001943,
+    "valid": true,
+    "all_numeric_finite": true,
+    "slots": 78412,
+    "start_slots": 78412,
+    "active": 49660,
+    "source_mass_kg": 0.00043700799999999346,
+    "source_energy_J": 4.3740128079999905e-06,
+    "inlet_source_time_s": 0.20288,
+    "active_mass_kg": 0.000437008,
+    "expected_active_mass_kg": 0.000437008,
+    "expected_source_mass_kg": 0.00043700799999999346,
+    "expected_source_energy_J": 4.3740128079999905e-06,
+    "mass_slot_prefix_equal": true
+  },
+  "forming_checkpoint_sha256": "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2",
+  "plan_forming_sha256": "1e807f9aae76e6df5970b2d1e7cfa73323d182a62d167b4183f0987e6af2d2e2",
+  "cp_parent_sha256": "2e7022245baea43514ba09e936c53a03847cc77d910d67160d81ee683247b224",
+  "source_tree_sha256": "90eb3643657ade9b832d219d54946d59ef3e79ef825850dc2162451713e91a7b",
+  "all_passed": true,
+  "source_budget": {
+    "total": 6144,
+    "primary": 5120,
+    "dual": 1024,
+    "tolerances_changed": false,
+    "main_base": "60706f060269781e72fa662163401702e97259e0",
+    "resin_fill_sha256": "5fb47cfab5fef5ac5df7710b1707b58655ecf97c65644485fdc5930a1250c945",
+    "old_primary": 3072,
+    "old_total": 4096
+  },
+  "accepted_steps": [
+    5008,
+    5072
+  ],
+  "scope": "Bounded filling continuation; full filling and convergence remain incomplete",
+  "prefix": "Extra primary iterations change the accepted states at5010/5011; no bitwise-prefix identity claim"
+}

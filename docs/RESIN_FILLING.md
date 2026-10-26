@@ -60,8 +60,15 @@ A [main-branch integration replay](../evidence/resin-main-integration/checkpoint
 repeated the same 32 physical steps and reproduced every checkpoint field
 exactly. The replay completed in 130 s with peak process USS of 1.14 GB.
 
-This remains an experimental filling example. A subsequent segment passed
-steps 4913–5011 but rejected step 5012 for a pressure residual of 6.80e−4.
-Complete filling, spatial/time convergence, and the smooth-boundary error have
-not been established. The saved GIF gallery does not present this partial run
-as a completed injected cylinder.
+Step 5012 subsequently exhausted its primary pressure iteration budget.
+Increasing that budget from 3072 to 5120, with 1024 dual-refinement iterations,
+passed a [64-step continuation](../evidence/resin-primary-refinement/actual-continuation.json)
+from step 5008 to 5072. All original thresholds remained in force: maximum
+primal residual 9.73e−8 and stationarity residual 9.88e−11. Increasing only
+the dual budget did not resolve the original failure. The extra primary
+iterations also change the previously accepted states at steps 5010–5011;
+this is not a bitwise-preserving continuation of the smaller-budget run.
+
+This remains an experimental filling example. Complete filling, spatial/time
+convergence, and the smooth-boundary error have not been established. The
+gallery does not present this partial run as a completed injected cylinder.
