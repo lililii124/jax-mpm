@@ -1,0 +1,26 @@
+{
+  "verification": "remote actual JC archive-versus-stream split/resume",
+  "task": "common-streaming-history-validation-v3",
+  "image_sha256": "8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+  "capsule_sha256": "b8028b8be60014ab7d8d73a0cd54f36941574a07f45feedb9d321f7c5c650f7d",
+  "source_common_sha256": "3e9ecef3d5cc8fa63e71eb2e5005b6cd94e23b392983c17ac7c13fc22aca3157",
+  "status": "passed",
+  "particles": 1648,
+  "frames": 5,
+  "archived_and_streamed_resume_match": true,
+  "full_material_state_equal": true,
+  "saved_prefix_validation_retained": true,
+  "no_derived_history_arrays": true,
+  "terminal_zero_step_resume_matches": true,
+  "ballistic_failed_flag_true_across_split_resume": true,
+  "resources": {
+    "cpu_set": "0-3",
+    "cpu_count": 4,
+    "memory_gib": 8,
+    "uss_limit_gib": 6,
+    "wall_seconds": 13.2034,
+    "peak_uss_bytes": 277573632,
+    "guard_reason": null,
+    "returncode": 0
+  }
+}
