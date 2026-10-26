@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/work/run.py", line 2, in <module>
+    runpy.run_path('/work/source/run_metal_tl_fresh.py', run_name='__main__')
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/source/run_metal_tl_fresh.py", line 637, in <module>
+    main()
+  File "/work/source/run_metal_tl_fresh.py", line 144, in main
+    adjoint_power_check = verify_adjoint_power_identity()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/source/run_metal_tl_fresh.py", line 95, in verify_adjoint_power_identity
+    from mpm_jax.total_lagrangian import ReferenceGrid
+ModuleNotFoundError: No module named 'mpm_jax'

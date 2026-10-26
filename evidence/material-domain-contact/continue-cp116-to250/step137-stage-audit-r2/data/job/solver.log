@@ -1,0 +1,141 @@
+{"startup_imports": "passed", "mpm_jax": "/work/source/mpm_jax/__init__.py"}
+{
+  "schema": "c2-tl-one-step-angular-stage-audit-v1",
+  "checkpoint_sha256": "70065611e770579e7586fcbd02645ff3a1f69ebf9b7c41c5175f79c842c3292a",
+  "step_before": 136,
+  "time_before_s": 1.6999466497559776e-07,
+  "diagnostic_dt_s": 4.742279697664581e-10,
+  "candidate_step": 137,
+  "candidate_time_s": 1.7046889294536423e-07,
+  "candidate_valid": true,
+  "angular_guard_limit_relative": 1e-10,
+  "angular_scale_kg_m2_s": 0.0006891459960937503,
+  "deltaL_force_Nms": [
+    1.8407740507748765e-22,
+    3.3972280853078124e-24,
+    3.558116765964569e-13
+  ],
+  "deltaL_force_relative": 5.163081242774178e-10,
+  "dt_sum_qmid_cross_f_material_Nms": [
+    -5.768611185967584e-26,
+    3.1600769733389234e-26,
+    -4.522079637760248e-25
+  ],
+  "dt_sum_qmid_cross_f_viscous_current_Nms": [
+    -3.1823824825223987e-25,
+    -4.250877782529622e-25,
+    3.558116761162043e-13
+  ],
+  "dt_sum_qmid_cross_f_viscous_mid_same_q_Nms": [
+    -2.0579549755228508e-25,
+    1.6944976890312513e-25,
+    -7.954254286114676e-25
+  ],
+  "fixed_reaction_impulse_torque_qmid_Nms": [
+    -2.684398746134482e-83,
+    9.332389637120858e-82,
+    2.126773984309316e-82
+  ],
+  "force_balance_angular_residual_current_Nms": [
+    1.8445332943759956e-22,
+    3.790715093827385e-24,
+    4.807048250442898e-22
+  ],
+  "force_balance_angular_residual_mid_viscosity_Nms": [
+    1.843408866868996e-22,
+    3.196177546671298e-24,
+    3.5581167659770454e-13
+  ],
+  "material_P_FmidT_skew": {
+    "max_abs": 3.5156347827810916e-07,
+    "max_relative": 7.631824919718894e-16,
+    "rms_abs": 8.688194001266753e-09
+  },
+  "viscous_current_P_FmidT_skew": {
+    "max_abs": 660851404.8044003,
+    "max_relative": 0.0020226792002566545,
+    "rms_abs": 9016989.249220964
+  },
+  "viscous_mid_P_FmidT_skew_same_q": {
+    "max_abs": 4.236541203316007e-06,
+    "max_relative": 2.3837804267475846e-17,
+    "rms_abs": 5.4001086577452505e-08
+  },
+  "viscous_mid_P_FmidT_skew_qmid": {
+    "max_abs": 7.449770158023078e-06,
+    "max_relative": 2.0013102327560454e-17,
+    "rms_abs": 5.760342454826118e-08
+  },
+  "viscous_pressure_current_q_minmax_Pa": [
+    0.0,
+    286406486200.58325
+  ],
+  "viscous_pressure_mid_q_minmax_Pa": [
+    0.0,
+    281029772433.9446
+  ],
+  "F_material_vs_geometry_max_abs": 3.552713678800501e-15,
+  "F_material_vs_F0_dtW_max_abs": 1.1102230246251565e-16,
+  "F_64eps_bound": 1.4870493435734752e-14,
+  "F_material_geometry_within_64eps": true,
+  "F_material_increment_within_64eps": true,
+  "contact_deltaL_q1_Nms": [
+    1.0624100992477949e-23,
+    -2.772953366934966e-24,
+    -8.536503921547246e-22
+  ],
+  "contact_impulse_torque_q1_Nms": [
+    8.364545686936675e-24,
+    -1.2692456420643746e-25,
+    3.4681746285892963e-23
+  ],
+  "contact_impulse_torque_by_body_q1_Nms": [
+    [
+      -1.039145644519741e-23,
+      -2.2267839414833886e-24,
+      3.078036248382395e-11
+    ],
+    [
+      1.8807700920418653e-23,
+      2.1025856805653947e-24,
+      -3.078036248378905e-11
+    ]
+  ],
+  "contact_common_point_torque_by_body_Nms": [
+    [
+      -1.2924697071141057e-23,
+      -1.5476456995695673e-24,
+      3.078036248379257e-11
+    ],
+    [
+      1.2924697071141057e-23,
+      1.5476456995695673e-24,
+      -3.078036248379257e-11
+    ]
+  ],
+  "contact_deltaL_vs_q1_impulse_torque_Nms": [
+    2.259555305541274e-24,
+    -2.6460288027285285e-24,
+    -8.883321384406176e-22
+  ],
+  "contact_node_vs_commonpoint_torque_by_body_Nms": [
+    [
+      2.5332406259436473e-24,
+      -6.791382419138213e-25,
+      3.138116448873049e-23
+    ],
+    [
+      5.883003849277595e-24,
+      5.549399809958274e-25,
+      3.5155176033503676e-24
+    ]
+  ],
+  "contact_common_point_reconstruction_max_abs_m": 5.679543821953874e-20,
+  "contact_pairs": 24,
+  "contact_route_preclosing_m_s": 117.99256371146477,
+  "contact_route_postclosing_m_s": 1.463664971343232e-12,
+  "contact_pair_point_count": 24,
+  "checkpoint_cumulative_viscous_loss_J": 2.2364936941072813,
+  "checkpoint_cumulative_contact_work_J": -1.7136553607165281,
+  "interpretation": "One unaccepted diagnostic replay from the exact accepted checkpoint. It writes no checkpoint and makes no ledger update."
+}

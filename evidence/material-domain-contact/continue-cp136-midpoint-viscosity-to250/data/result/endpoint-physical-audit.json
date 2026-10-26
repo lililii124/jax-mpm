@@ -1,0 +1,101 @@
+{
+  "status": "stopped-for-fracture-audit",
+  "step": 145,
+  "time_s": 1.741739886706902e-07,
+  "sphere_nose_world_m": [
+    -6.483283640599667e-06,
+    0.00019098330677773666,
+    6.446277472794618e-06
+  ],
+  "nearby_deformed_plate_surface_y_m": 0.0002523159129036041,
+  "sphere_nose_to_plate_surface_gap_m": -6.133260612586742e-05,
+  "positive_value_means_gap_negative_means_vertical_intrusion": true,
+  "plate_surface_deflection_near_nose_m": 0.0002523159129036041,
+  "plate_max_nodal_displacement_m": 0.00017093402080877373,
+  "plate_max_particle_von_mises_Pa": 269410899.095959,
+  "plate_min_F_determinant": 0.8542229836012003,
+  "sphere_min_F_determinant": 0.7013270844054854,
+  "sphere_internal_energy_J": 0.16447529014183848,
+  "plate_internal_energy_J": 0.10225080563960062,
+  "pressure_sign": "positive means compression; EOS pressure",
+  "material_by_body": {
+    "0": {
+      "pressure_min_Pa": 7742.630894008646,
+      "pressure_max_Pa": 23081666921.830784,
+      "temperature_min_K": 300.0,
+      "temperature_max_K": 317.4464199257383,
+      "plastic_strain_max": 0.3042029051358449,
+      "damage_max": 1.0,
+      "damaged_particle_count": 40,
+      "fully_failed_particle_count": 4
+    },
+    "1": {
+      "pressure_min_Pa": -34815951.98652083,
+      "pressure_max_Pa": 11265757160.06154,
+      "temperature_min_K": 300.0,
+      "temperature_max_K": 313.263023917676,
+      "plastic_strain_max": 0.16783364103529372,
+      "damage_max": 0.33916820517646856,
+      "damaged_particle_count": 16,
+      "fully_failed_particle_count": 0
+    }
+  },
+  "speed_sampling": {
+    "nodal_max_m_s": 409571.8920102662,
+    "nodal_max_node": 1373,
+    "nodal_max_node_mass_kg": 1.2153905117884088e-13,
+    "nodal_max_node_body": 0,
+    "nodal_mass_weighted_rms_m_s": 704.9465925702474,
+    "particle_sampled_max_m_s": 4999.973854399211,
+    "particle_sampled_max_id": 365,
+    "particle_sampled_max_mass_kg": 1.746826171875e-08,
+    "particle_sampled_max_body": 0,
+    "particle_mass_weighted_rms_m_s": 701.9636623858495,
+    "particle_mass_weighted_p95_m_s": 0.00036125426094371784,
+    "particle_mass_weighted_p99_m_s": 4995.019392199922
+  },
+  "support_topology": "Reference supports remain attached; no conservative split/remap or fragment claim.",
+  "body_nodal_transfer": {
+    "0": {
+      "initial_P_kg_m_s": [
+        0.0,
+        -0.0565839843749999,
+        0.0
+      ],
+      "final_P_kg_m_s": [
+        1.4865617102965775e-06,
+        -0.05511653795562635,
+        4.839315907786835e-19
+      ],
+      "delta_P_kg_m_s": [
+        1.4865617102965775e-06,
+        0.0014674464193736169,
+        4.839315907786835e-19
+      ],
+      "initial_K_J": 141.4599609375,
+      "final_K_J": 135.95796914211078
+    },
+    "1": {
+      "initial_P_kg_m_s": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "final_P_kg_m_s": [
+        -1.4865617102963117e-06,
+        -0.0014674464193736125,
+        -4.450350862094992e-19
+      ],
+      "delta_P_kg_m_s": [
+        -1.4865617102963117e-06,
+        -0.0014674464193736125,
+        -4.450350862094992e-19
+      ],
+      "initial_K_J": 0.0,
+      "final_K_J": 1.030388816326997
+    }
+  },
+  "geometry": "deformed quadrature material cuboid corners; local plate surface within 2.5 mm of sphere nose",
+  "dt_last_s": 4.526836955208977e-10,
+  "dt_cfl_limit": 0.1
+}

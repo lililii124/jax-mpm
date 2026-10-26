@@ -1,0 +1,115 @@
+{
+  "schema": "c2-tl-cp116-to250-stop-receipt-v1",
+  "task": "material-domain-contact-cp116-to250-r4-20261026",
+  "container_id": "afab3a845cbed82a8ff5eff9bbd46dff6fe8193fe4f7ae82975b49ae84509118",
+  "capsule_sha256": "ab13ee94ce38be0292e747f5f36c2d39b7cd816abdc7b4000fd92b5cc54284a4",
+  "status": "failed-closed-at-original-angular-momentum-guard",
+  "last_fully_accepted_checkpoint": {
+    "step": 136,
+    "time_s": 1.6999466497559776e-07,
+    "sha256": "70065611e770579e7586fcbd02645ff3a1f69ebf9b7c41c5175f79c842c3292a",
+    "ledger": {
+      "initial_K_J": 141.4599609375,
+      "viscous_loss_J": 2.2364936941072813,
+      "contact_work_J": -1.7136553607165281
+    },
+    "material_summary": {
+      "step": 136,
+      "time_s": 1.6999466497559776e-07,
+      "dt_s": 4.711796351911705e-10,
+      "max_damage": 0.5721412306207364,
+      "max_plastic_strain": 0.2144282461241473,
+      "fully_failed_particle_count": 0,
+      "fully_failed_particle_ids": [],
+      "fully_failed_point_details": [],
+      "pressure_min_Pa": -19350801.60842678,
+      "pressure_max_Pa": 17880616239.523422,
+      "temperature_min_K": 300.0,
+      "temperature_max_K": 315.6069946048948,
+      "pressure_sign": "positive means compression; EOS pressure",
+      "material_by_body": {
+        "0": {
+          "pressure_min_Pa": 3868.3145071873037,
+          "pressure_max_Pa": 17880616239.523422,
+          "temperature_min_K": 300.0,
+          "temperature_max_K": 315.6069946048948,
+          "plastic_strain_max": 0.2144282461241473,
+          "damage_max": 0.5721412306207364,
+          "damaged_particle_count": 32,
+          "fully_failed_particle_count": 0
+        },
+        "1": {
+          "pressure_min_Pa": -19350801.60842678,
+          "pressure_max_Pa": 10451383014.542402,
+          "temperature_min_K": 300.0,
+          "temperature_max_K": 311.5105907475131,
+          "plastic_strain_max": 0.14223146264956746,
+          "damage_max": 0.21115731324783726,
+          "damaged_particle_count": 4,
+          "fully_failed_particle_count": 0
+        }
+      },
+      "support_topology": "Reference supports remain unchanged; damage is not a conservative split."
+    },
+    "last_accepted_contact": {
+      "step": 136,
+      "time_before_s": 1.695234853404066e-07,
+      "time_after_s": 1.6999466497559776e-07,
+      "dt_s": 4.711796351911705e-10,
+      "candidate_pairs": 24,
+      "resolved_normal_pairs": 24,
+      "positive_multiplier_pairs": 16,
+      "pre_closing_m_s": 562.5956076676365,
+      "post_closing_m_s": 1.2395640069939873e-12,
+      "physical_route_pre_closing_m_s": 562.5956076676364,
+      "physical_route_post_closing_m_s": 1.4545552608359797e-12,
+      "physical_route_complementarity_m_s": 1.5560945015901356e-12,
+      "dot_v_Atlambda_vs_Av_lambda_pre_abs_error": 6.938893903907228e-18,
+      "dot_v_Atlambda_vs_Av_lambda_pre_roundoff_bound": 1.2474588836440988e-14,
+      "dot_v_Atlambda_vs_Av_lambda_post_abs_error": 3.654238259461584e-19,
+      "dot_v_Atlambda_vs_Av_lambda_post_roundoff_bound": 1.1975257012608563e-14,
+      "maximum_material_domain_penetration_m": 1.186797733371858e-06,
+      "body_contact_impulse_Ns": [
+        [
+          1.6787563809724396e-05,
+          1.0357088290196185e-05,
+          1.444455872864599e-19
+        ],
+        [
+          -1.6787563809724396e-05,
+          -1.0357088290196185e-05,
+          -1.444455872864599e-19
+        ]
+      ],
+      "JphaseA_vs_Jnode_pre_max_abs_m_s": 2.4726887204451486e-12,
+      "JphaseA_vs_Jnode_post_max_abs_m_s": 1.128794769030813e-12,
+      "complementarity_m_s": 2.1184579281801838e-12,
+      "maximum_multiplier": 1.0084920656341787e-05,
+      "nodal_impulse_norm_Ns": 1.7181442543573334e-05,
+      "physical_contact_work_J": -0.011028702794754867,
+      "kinetic_loss_J": 0.011028702794732226,
+      "candidate_e0_pass": true
+    }
+  },
+  "rejected_attempt": {
+    "step": 137,
+    "time_s": 1.7046889294536423e-07,
+    "metrics": {
+      "time_s": 1.7046889294536423e-07,
+      "momentum_relative": 2.452602949229375e-16,
+      "angular_relative": 5.16308122213115e-10,
+      "energy_error_J": 3.0667024475405924e-11,
+      "viscous_loss_J": 2.265121122571068,
+      "contact_work_J": -1.714248471496742,
+      "kinetic_J": 137.2754945209952,
+      "internal_energy_J": 0.20509682245637695
+    },
+    "rule": "max angular relative <=1e-10; rejected value exceeds this guard",
+    "note": "rejected.npz and endpoint-physical-audit.json are retained, but neither is accepted physical state"
+  },
+  "requested_end_time_s": 2.5e-07,
+  "achieved_accepted_time_s": 1.6999466497559776e-07,
+  "fully_failed_count_at_last_accepted": 0,
+  "support_topology": "Reference supports remain attached; no fracture remap or fragment claim.",
+  "accepted_endpoint_audit": "Not generated correctly by this run version: optional reporter used the rejected step 137 state. Runner fix committed eec5c71 makes future failure reports read last accepted.npz; raw step-137 audit is retained separately."
+}

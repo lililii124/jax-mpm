@@ -1,0 +1,30 @@
+{
+  "started_utc": "2026-10-26T00:31:42.216904+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "/work/diagnose.py",
+    "--checkpoint",
+    "/work/resume-checkpoint.npz",
+    "--expected-sha256",
+    "70065611e770579e7586fcbd02645ff3a1f69ebf9b7c41c5175f79c842c3292a",
+    "--output",
+    "/work/result/stage-angular.json"
+  ],
+  "cpu_affinity": [
+    20,
+    21,
+    22,
+    23
+  ],
+  "memory_headroom_at_start": 12875808768,
+  "limit_seconds": 1800.0,
+  "uss_limit_bytes": 9663676416,
+  "peak_uss_bytes": 939610112,
+  "minimum_memory_headroom": 11966349312,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 16.277982361614704,
+  "returncode": 0
+}

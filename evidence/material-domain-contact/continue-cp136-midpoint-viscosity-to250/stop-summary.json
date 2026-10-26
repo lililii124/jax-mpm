@@ -1,0 +1,198 @@
+{
+  "schema": "c2-tl-cp136-midpoint-viscosity-stop-summary-v1",
+  "task": "material-domain-contact-cp136-midpoint-viscosity-to250-20261026",
+  "container_id": "ceccaf1da93bc5c1cae31003087625b3a8561e5b4e767c6368c19424b565792d",
+  "capsule_sha256": "c363017f85352db459aa05c71d4046c96910ae55ada25a59e3cbcc9f399ed513",
+  "source_commit": "2c2824d",
+  "status": "stopped-for-fracture-audit",
+  "requested_end_time_s": 2.5e-07,
+  "final_accepted_checkpoint": {
+    "step": 145,
+    "time_s": 1.741739886706902e-07,
+    "sha256": "918a8ba8dfe09cadaffccc5ca5e8ddc1151f1a7f8f1aba2abf6968b84434cb47",
+    "dt_last_s": 4.526836955208977e-10,
+    "ledger": {
+      "initial_kinetic_J": 141.4599609375,
+      "viscous_loss_J": 2.4677131290345793,
+      "contact_work_J": -1.7371637542708829
+    }
+  },
+  "runtime": {
+    "simulation_elapsed_s": 38.423306323587894,
+    "container_wall_s": 65.20939892530441,
+    "peak_uss_bytes": 1305800704,
+    "cpu_set": "20-23",
+    "cpus": 4,
+    "memory": "12g",
+    "uss_limit_gib": 9
+  },
+  "guards": {
+    "max_energy_error_J": 3.0667024475405924e-11,
+    "max_linear_relative": 2.452602949229375e-16,
+    "max_angular_relative": 5.136299923363099e-18,
+    "energy_tolerance_J": 1.414599609375e-08,
+    "linear_angular_limit_relative": 1e-10,
+    "status": "all-original-guards-passed-through-first-fully-failed-step"
+  },
+  "viscosity_torque_diagnosis_before_fix": {
+    "checkpoint_step": 136,
+    "current_Pvisc_skew_relative": 0.0020226792002566545,
+    "current_viscous_torque_z_Nms": 3.558116761162043e-13,
+    "deltaL_force_z_Nms": 3.558116765964569e-13,
+    "material_torque_z_Nms": -4.522079637760248e-25,
+    "q1_contact_deltaL_z_Nms": -8.536503921547246e-22,
+    "fixed_reaction_torque_norm_Nms": 9.575422908971603e-82,
+    "midpoint_same_q_skew_relative": 2.3837804267475846e-17,
+    "midpoint_same_q_viscous_torque_z_Nms": -7.954254286114676e-25,
+    "material_skew_relative": 7.631824919718894e-16,
+    "kinematic_64eps_pass": true,
+    "contact_cp_reconstruction_error_m": 5.679543821953874e-20
+  },
+  "nominal_geometry_onset": {
+    "initial_sat_gap_m": 0.0007591391509433965,
+    "nominal_gap_over_5000_m_s_time_s": 1.518278301886793e-07,
+    "observed_first_intersection_time_s": 1.5188426009151109e-07,
+    "step": 102,
+    "time_difference_s": 5.642990283177709e-11
+  },
+  "final_physical_metrics": {
+    "sphere_nose_world_m": [
+      -6.483283640599667e-06,
+      0.00019098330677773666,
+      6.446277472794618e-06
+    ],
+    "nearby_deformed_plate_surface_y_m": 0.0002523159129036041,
+    "reported_vertical_gap_m": -6.133260612586742e-05,
+    "actual_sat_max_material_domain_overlap_m": 1.4347927516633596e-06,
+    "contact_candidate_pairs": 32,
+    "contact_preclosing_m_s": 110.17788273297737,
+    "contact_postclosing_m_s": 1.2923006896651425e-12,
+    "plate_max_nodal_displacement_m": 0.00017093402080877373,
+    "plate_vm_max_Pa": 269410899.095959,
+    "plate_internal_energy_J": 0.10225080563960062,
+    "plate_pressure_minmax_Pa": [
+      -34815951.98652083,
+      11265757160.06154
+    ],
+    "plate_temperature_max_K": 313.263023917676,
+    "plate_plastic_strain_max": 0.16783364103529372,
+    "plate_damage_max": 0.33916820517646856,
+    "sphere_internal_energy_J": 0.16447529014183848,
+    "body_nodal_transfer": {
+      "0": {
+        "initial_P_kg_m_s": [
+          0.0,
+          -0.0565839843749999,
+          0.0
+        ],
+        "final_P_kg_m_s": [
+          1.4865617102965775e-06,
+          -0.05511653795562635,
+          4.839315907786835e-19
+        ],
+        "delta_P_kg_m_s": [
+          1.4865617102965775e-06,
+          0.0014674464193736169,
+          4.839315907786835e-19
+        ],
+        "initial_K_J": 141.4599609375,
+        "final_K_J": 135.95796914211078
+      },
+      "1": {
+        "initial_P_kg_m_s": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "final_P_kg_m_s": [
+          -1.4865617102963117e-06,
+          -0.0014674464193736125,
+          -4.450350862094992e-19
+        ],
+        "delta_P_kg_m_s": [
+          -1.4865617102963117e-06,
+          -0.0014674464193736125,
+          -4.450350862094992e-19
+        ],
+        "initial_K_J": 0.0,
+        "final_K_J": 1.030388816326997
+      }
+    }
+  },
+  "speed_sampling": {
+    "nodal_max_m_s": 409571.8920102662,
+    "nodal_max_node": 1373,
+    "nodal_max_node_mass_kg": 1.2153905117884088e-13,
+    "nodal_max_node_body": 0,
+    "nodal_mass_weighted_rms_m_s": 704.9465925702474,
+    "particle_sampled_max_m_s": 4999.973854399211,
+    "particle_sampled_max_id": 365,
+    "particle_sampled_max_mass_kg": 1.746826171875e-08,
+    "particle_sampled_max_body": 0,
+    "particle_mass_weighted_rms_m_s": 701.9636623858495,
+    "particle_mass_weighted_p95_m_s": 0.00036125426094371784,
+    "particle_mass_weighted_p99_m_s": 4995.019392199922
+  },
+  "first_fully_failed_material_point": {
+    "step": 145,
+    "time_s": 1.741739886706902e-07,
+    "count": 4,
+    "ids": [
+      144,
+      147,
+      480,
+      483
+    ],
+    "details": [
+      {
+        "particle_id": 144,
+        "body": 0,
+        "damage": 1.0,
+        "plastic_strain": 0.3042029051358449,
+        "detF": 0.7013270844054854,
+        "pressure_Pa": 23081666921.830784,
+        "temperature_K": 317.4464199257383
+      },
+      {
+        "particle_id": 147,
+        "body": 0,
+        "damage": 1.0,
+        "plastic_strain": 0.30420290513584475,
+        "detF": 0.7013270844054875,
+        "pressure_Pa": 23081666921.83062,
+        "temperature_K": 317.4464199257373
+      },
+      {
+        "particle_id": 480,
+        "body": 0,
+        "damage": 1.0,
+        "plastic_strain": 0.3041088357879848,
+        "detF": 0.7013539294431393,
+        "pressure_Pa": 23079592317.18711,
+        "temperature_K": 317.44604551274097
+      },
+      {
+        "particle_id": 483,
+        "body": 0,
+        "damage": 1.0,
+        "plastic_strain": 0.3041088357879839,
+        "detF": 0.7013539294431449,
+        "pressure_Pa": 23079592317.18668,
+        "temperature_K": 317.44604551274097
+      }
+    ],
+    "first_point": {
+      "particle_id": 144,
+      "body": 0,
+      "position_m": [
+        -0.00031445505382745903,
+        0.0002810215269427262,
+        -0.00031457238625326884
+      ],
+      "damage": 1.0,
+      "plastic_strain": 0.3042029051358449,
+      "detF": 0.7013270844054854
+    }
+  },
+  "scope": "Stopped at the first accepted state with damage=1 material points. Reference supports remain attached; no conservative split, support-connectivity event, detached fragment, or penetration qualification is established. The initial coarse quadrature defines staircase material cells."
+}
