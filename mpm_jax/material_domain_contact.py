@@ -166,8 +166,14 @@ def parallelepiped_sat_gap(center_a, F_a, half_a, center_b, F_b, half_b):
     return float(max(gaps))
 
 
-def material_domain_candidates(x, F, body_id, spacing, *, max_pairs=8192):
-    """Current true material-cuboid intersections via cKDTree + 15-axis SAT."""
+def material_domain_candidates(x, F, body_id, spacing, *, max_pairs=8192,
+                               component_id=None):
+    """Current true material-cuboid intersections via cKDTree + 15-axis SAT.
+
+    With no component labels, preserve the original opposite-body-only scope.
+    With labels, admit cross-body pairs and same-body pairs from distinct
+    material-support components, while never self-contacting one component.
+    """
     from scipy.spatial import cKDTree
     x, F = np.asarray(x, float), np.asarray(F, float)
     body_id = np.asarray(body_id, np.int32)
@@ -177,20 +183,44 @@ def material_domain_candidates(x, F, body_id, spacing, *, max_pairs=8192):
     if spacing.shape != (3,) or np.any(spacing <= 0):
         raise ValueError('Three positive material sampling spacings are required')
     half = .5*spacing
-    by_body = [np.flatnonzero(body_id == b) for b in (0, 1)]
-    if not len(by_body[0]) or not len(by_body[1]):
-        return []
-    local_corners = half[None, None, :]*_SIGNS[None, :, :]
-    transformed_corners = np.einsum('pij,pkj->pki', F, local_corners)
-    radii = np.max(np.linalg.norm(transformed_corners, axis=-1), axis=1)
+    if component_id is not None:
+        component_id = np.asarray(component_id, np.int64)
+        if component_id.shape != body_id.shape or np.any(component_id < 0):
+            raise ValueError('A nonnegative support-component label is required per particle')
+        search_groups = np.arange(len(body_id), dtype=np.int64)
+    else:
+        by_body = [np.flatnonzero(body_id == b) for b in (0, 1)]
+        if not len(by_body[0]) or not len(by_body[1]):
+            return []
+        search_groups = by_body[0]
     aabb_half = np.einsum('pij,j->pi', np.abs(F), half)
-    max_radius = [float(radii[idx].max()) for idx in by_body]
-    tree = cKDTree(x[by_body[1]])
+    if component_id is None:
+        local_corners = half[None, None, :]*_SIGNS[None, :, :]
+        transformed_corners = np.einsum('pij,pkj->pki', F, local_corners)
+        radii = np.max(np.linalg.norm(transformed_corners, axis=-1), axis=1)
+    else:
+        # AABB circumspheres are a looser but conservative broadphase for the
+        # many newly independent same-body components; SAT remains exact.
+        radii = np.linalg.norm(aabb_half, axis=1)
+    if component_id is None:
+        target_ids = by_body[1]
+        max_target_radius = float(radii[target_ids].max())
+        tree = cKDTree(x[target_ids])
+    else:
+        target_ids = np.arange(len(body_id), dtype=np.int64)
+        max_target_radius = float(radii.max(initial=0.))
+        tree = cKDTree(x)
     candidates = []
-    for ia in by_body[0]:
-        local = tree.query_ball_point(x[ia], float(radii[ia]+max_radius[1]))
+    for ia in search_groups:
+        local = tree.query_ball_point(x[ia], float(radii[ia]+max_target_radius))
         for j in local:
-            ib = int(by_body[1][j])
+            ib = int(target_ids[j])
+            if component_id is None:
+                if body_id[ia] == body_id[ib]:
+                    continue
+            else:
+                if ib <= ia or component_id[ia] == component_id[ib]:
+                    continue
             # The tree uses a circumscribed-radius query; this componentwise
             # AABB test cheaply rejects corner-near pairs before SAT.
             if np.any(np.abs(x[ia]-x[ib]) > aabb_half[ia]+aabb_half[ib]):
@@ -298,13 +328,14 @@ def _nnls_nonnegative(mobility, closing):
 
 def material_domain_contact_jump(velocity_preimpact, reference, particle_mass,
                                  body_id, x1, F1, spacing, fixed,
-                                 *, tolerance=.005, max_pairs=8192):
+                                 *, tolerance=.005, max_pairs=8192,
+                                 component_id=None):
     """Endpoint e0 QP on intersections of deformed initial material cells."""
     v = np.asarray(velocity_preimpact, float)
     mass = np.asarray(reference.nodal_mass, float)
     fixed = np.asarray(fixed, bool)
     candidates = material_domain_candidates(np.asarray(x1), np.asarray(F1),
-                                            body_id, spacing, max_pairs=max_pairs)
+        body_id, spacing, max_pairs=max_pairs, component_id=component_id)
     rows = []
     for hit in candidates:
         ca = point_velocity_coefficients(reference.weights[hit.first],

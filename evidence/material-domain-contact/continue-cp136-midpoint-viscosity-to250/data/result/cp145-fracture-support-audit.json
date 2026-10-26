@@ -1,0 +1,872 @@
+{
+  "schema": "c2-cp145-zero-time-support-split-audit-v1",
+  "status": "passed",
+  "parent_checkpoint_sha256": "918a8ba8dfe09cadaffccc5ca5e8ddc1151f1a7f8f1aba2abf6968b84434cb47",
+  "parent_source_commit": "2c2824d",
+  "parent_source_manifest_sha256": "ade0710c352ed680bbce086a78efa555ea39224f4dc14a4f0865ffce16d0a3a9",
+  "support_checkpoint": "cp145-fracture-support-adapter.npz",
+  "support_checkpoint_sha256": "f11534d52b632ee9e4d12292387f0eb974c3c0f8e58eb0e247d2898f6930ecd8",
+  "adapter_metadata": {
+    "schema": "tl-fracture-support-checkpoint-v1",
+    "parent_checkpoint_sha256": "918a8ba8dfe09cadaffccc5ca5e8ddc1151f1a7f8f1aba2abf6968b84434cb47",
+    "source_manifest_sha256": "ade0710c352ed680bbce086a78efa555ea39224f4dc14a4f0865ffce16d0a3a9",
+    "support_hash": "6ad7674b871f04ddf8a0fed10f74c7a32c395ce0743cae9acdf66dd000155e8f",
+    "topology_hash": "817702b24bc3e64f44063a78600c96753bffee1f98109b188f7312b2e4d39a37",
+    "old_reference_fingerprint": "c7cf4fc45796c51897c89325fcbb3ffed70405b081c52787aa8966ac03c69c51",
+    "state_field_hashes": {
+      "F": "9ac957c3a3349910495ba0500a08aedd0a55e914be8251b7ae2836fc59ca7a5e",
+      "tau": "f7a2656a0b6e8050cfa2a2b216966ab89b77aee9aabef6c42f93e0aa4cbb6464",
+      "ep": "f9de7419c574035ecdbbd71d62cb7e9973fcafb6a7cca6ec1556c84996d262e4",
+      "cold": "63635a6a51ea7abaf58cd47ef3439e2d9b16822e0970afcddfa9f2cc82c109bc",
+      "fracture": "13846243370efba34dcac06730940ec2c690e3a3e02af591e0a9cf08c65431a7",
+      "damage": "d0565df8402b381d432453bfb4de0521ab20faa5e9f1f96691c2c0d94f10bc59",
+      "internal": "2d7d81bb53ae65f7eb8bf3b834881d846fe7b503ee720213ff0959f041948037"
+    }
+  },
+  "step": 145,
+  "time_s": 1.741739886706902e-07,
+  "original_nodes": 616322,
+  "split_nodes": 34395,
+  "particle_count": 26336,
+  "failed_ids": [
+    144,
+    147,
+    480,
+    483
+  ],
+  "failed_point_energy": [
+    {
+      "particle_id": 144,
+      "body": 0,
+      "J": 0.7013270844054854,
+      "damage": 1.0,
+      "tau_norm_Pa": 0.0,
+      "dev_elastic_Jkg": 0.0,
+      "volume_recoverable_Jkg": 1276642.3622823453,
+      "thermal_residual_Jkg": 15701.7779331645,
+      "cold_Jkg": 1744.6419925738212,
+      "fracture_Jkg": 139.70520685499773,
+      "internal_Jkg": 1294228.4874149386,
+      "pressure_Pa": 23081666921.830784,
+      "temperature_K": 317.4464199257383,
+      "mass_kg": 9.8876953125e-10,
+      "internal_J": 0.0012796936948316654,
+      "volume_recoverable_J": 0.0012623050701278072,
+      "thermal_residual_J": 1.5525439606766657e-05
+    },
+    {
+      "particle_id": 147,
+      "body": 0,
+      "J": 0.7013270844054875,
+      "damage": 1.0,
+      "tau_norm_Pa": 0.0,
+      "dev_elastic_Jkg": 0.0,
+      "volume_recoverable_Jkg": 1276642.3622823274,
+      "thermal_residual_Jkg": 15701.777933163568,
+      "cold_Jkg": 1744.6419925738267,
+      "fracture_Jkg": 139.70520685499847,
+      "internal_Jkg": 1294228.4874149198,
+      "pressure_Pa": 23081666921.83062,
+      "temperature_K": 317.4464199257373,
+      "mass_kg": 9.8876953125e-10,
+      "internal_J": 0.0012796936948316468,
+      "volume_recoverable_J": 0.0012623050701277897,
+      "thermal_residual_J": 1.5525439606765735e-05
+    },
+    {
+      "particle_id": 480,
+      "body": 0,
+      "J": 0.7013539294431393,
+      "damage": 1.0,
+      "tau_norm_Pa": 0.0,
+      "dev_elastic_Jkg": 0.0,
+      "volume_recoverable_Jkg": 1276412.880663378,
+      "thermal_residual_Jkg": 15701.44096146687,
+      "cold_Jkg": 1744.6045512741032,
+      "fracture_Jkg": 139.69744360185643,
+      "internal_Jkg": 1293998.6236197208,
+      "pressure_Pa": 23079592317.18711,
+      "temperature_K": 317.44604551274097,
+      "mass_kg": 9.8876953125e-10,
+      "internal_J": 0.0012794664125146166,
+      "volume_recoverable_J": 0.0012620781656949905,
+      "thermal_residual_J": 1.5525106419419146e-05
+    },
+    {
+      "particle_id": 483,
+      "body": 0,
+      "J": 0.7013539294431449,
+      "damage": 1.0,
+      "tau_norm_Pa": 0.0,
+      "dev_elastic_Jkg": 0.0,
+      "volume_recoverable_Jkg": 1276412.8806633304,
+      "thermal_residual_Jkg": 15701.44096146687,
+      "cold_Jkg": 1744.6045512741161,
+      "fracture_Jkg": 139.6974436018584,
+      "internal_Jkg": 1293998.6236196733,
+      "pressure_Pa": 23079592317.18668,
+      "temperature_K": 317.44604551274097,
+      "mass_kg": 9.8876953125e-10,
+      "internal_J": 0.0012794664125145695,
+      "volume_recoverable_J": 0.0012620781656949435,
+      "thermal_residual_J": 1.5525106419419146e-05
+    }
+  ],
+  "material_energy_ledger": {
+    "total_internal_J": 0.2667260957814391,
+    "thermal_residual_J": 0.015729363711201493,
+    "cold_work_J": 0.0017477070790223991,
+    "fracture_reservoir_J": 2.686154094303063e-05,
+    "deviatoric_elastic_J": 0.0007125407447452793,
+    "volumetric_recoverable_J": 0.2485096227055269,
+    "max_decomposition_error_Jkg": 1.1641532182693481e-10
+  },
+  "pressure_convention": "positive compression; current failed J<1 keeps EOS compression energy and K(1-J) pressure",
+  "failed_material_interpretation": "all four points have exactly zero deviatoric stress and zero damaged tensile-volume energy; compression-volume storage and positive pressure remain. Existing internal/cold/fracture/elastic/volume decomposition closes without adding another release.",
+  "support_topology": {
+    "reference_face_edge_count": 71684,
+    "severed_failed_incident_edge_count": 12,
+    "component_count": 6,
+    "component_particle_counts": {
+      "body0": [
+        732,
+        1,
+        1,
+        1,
+        1
+      ],
+      "body1": [
+        25600
+      ]
+    },
+    "failed_face_neighbors": {
+      "144": [
+        256,
+        149,
+        145
+      ],
+      "147": [
+        146,
+        259,
+        152
+      ],
+      "480": [
+        368,
+        485,
+        481
+      ],
+      "483": [
+        371,
+        482,
+        488
+      ]
+    },
+    "failed_point_remains_mass_bearing": true
+  },
+  "zero_time_conservation": {
+    "mass_before_kg": 0.000551316796875,
+    "mass_after_kg": 0.000551316796875,
+    "momentum_before_Ns": [
+      1.2998429271286282e-19,
+      -0.05658398437499979,
+      -1.0939176576776824e-19
+    ],
+    "momentum_after_Ns": [
+      1.8081175573674121e-19,
+      -0.056583984374999806,
+      -1.2710788164734844e-19
+    ],
+    "angular_before_Nms": [
+      -7.7385895593177655e-22,
+      -2.6009779386911165e-23,
+      -1.7525568622416962e-20
+    ],
+    "angular_after_Nms": [
+      -6.747079612047766e-22,
+      -2.1056754909589621e-23,
+      -1.9531931460879077e-21
+    ],
+    "K_before_J": 136.98835795843775,
+    "K_after_J": 136.98835795843777,
+    "U_before_J": 0.2667260957814391,
+    "U_after_J": 0.2667260957814391,
+    "thermal_residual_before_J": 0.015729363711201493,
+    "thermal_residual_after_J": 0.015729363711201493,
+    "F_and_all_history_byte_identical": true,
+    "max_particle_position_change_m": 0.0,
+    "max_particle_F_change": 1.3322676295501878e-15,
+    "fixed_component_flags_copied": true
+  },
+  "same_body_component_SAT": {
+    "pair_count": 36,
+    "cross_body_candidate_count": 32,
+    "maximum_penetration_m": 6.191459251623976e-05,
+    "max_positive_closing_m_s": 14.209162751062784,
+    "rows": [
+      {
+        "first": 52,
+        "second": 144,
+        "component_first": 0,
+        "component_second": 2,
+        "penetration_m": 7.238910327002053e-06,
+        "closing_m_s": -258.96168936177264,
+        "point_m": [
+          -0.00042933996025200935,
+          0.00031817050222832663,
+          -0.0003104304501871398
+        ],
+        "normal": [
+          0.06001980105416151,
+          -0.9981166782499619,
+          0.012677542375439232
+        ]
+      },
+      {
+        "first": 55,
+        "second": 147,
+        "component_first": 0,
+        "component_second": 3,
+        "penetration_m": 7.238910327002189e-06,
+        "closing_m_s": -258.9616893617671,
+        "point_m": [
+          -0.00042933996025200925,
+          0.00031817050222832577,
+          0.0003104304501871397
+        ],
+        "normal": [
+          0.06001980105416564,
+          -0.9981166782499616,
+          -0.012677542375440025
+        ]
+      },
+      {
+        "first": 144,
+        "second": 150,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 3.211189441966438e-05,
+        "closing_m_s": -359.76104986062626,
+        "point_m": [
+          -0.0003497446822651107,
+          0.0003074663890284597,
+          -0.0002200636290617325
+        ],
+        "normal": [
+          -0.012292121494501968,
+          0.9998729988399997,
+          0.010143467842427457
+        ]
+      },
+      {
+        "first": 144,
+        "second": 261,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 3.2112163337606414e-05,
+        "closing_m_s": -359.81231231769425,
+        "point_m": [
+          -0.0002199621619858998,
+          0.0003074661409273533,
+          -0.0003498343320116238
+        ],
+        "normal": [
+          0.010146094260332247,
+          0.9998728673250753,
+          -0.012300648698052637
+        ]
+      },
+      {
+        "first": 144,
+        "second": 148,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 7.2369682468961496e-06,
+        "closing_m_s": -259.2579719207139,
+        "point_m": [
+          -0.00031041659197723973,
+          0.0003181706216470832,
+          -0.0004293670184162785
+        ],
+        "normal": [
+          -0.012691351635402111,
+          0.9981159958011544,
+          -0.06002823102121649
+        ]
+      },
+      {
+        "first": 144,
+        "second": 257,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 6.145839740102301e-05,
+        "closing_m_s": -190.43614259037096,
+        "point_m": [
+          -0.0002210998457581389,
+          0.00027118564841138216,
+          -0.00022131339031596924
+        ],
+        "normal": [
+          0.012427184343134579,
+          -0.9998455362415665,
+          0.012428545655715037
+        ]
+      },
+      {
+        "first": 144,
+        "second": 262,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 3.573633366599663e-05,
+        "closing_m_s": -357.8777799085134,
+        "point_m": [
+          -0.00022118597363234176,
+          0.0003079076475501419,
+          -0.0002213295478385064
+        ],
+        "normal": [
+          0.01626964042992786,
+          0.9997351118150282,
+          0.016278974306567356
+        ]
+      },
+      {
+        "first": 144,
+        "second": 256,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 6.191459251623962e-05,
+        "closing_m_s": 13.551048876860134,
+        "point_m": [
+          -0.000215911068286788,
+          0.00027697378706185077,
+          -0.00032517145583836523
+        ],
+        "normal": [
+          0.9963341760795547,
+          -0.08554643589586168,
+          0.0001299284039745162
+        ]
+      },
+      {
+        "first": 144,
+        "second": 149,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 2.7188974003175624e-05,
+        "closing_m_s": -291.9908098126415,
+        "point_m": [
+          -0.00033906294512197493,
+          0.0003098092636258856,
+          -0.00033912350277670334
+        ],
+        "normal": [
+          -0.02950852623478906,
+          0.999129114026691,
+          -0.02950017599422705
+        ]
+      },
+      {
+        "first": 144,
+        "second": 145,
+        "component_first": 2,
+        "component_second": 0,
+        "penetration_m": 6.190162025337514e-05,
+        "closing_m_s": 13.523964370814143,
+        "point_m": [
+          -0.00032502761520638137,
+          0.0002769724947753843,
+          -0.00021607009517594437
+        ],
+        "normal": [
+          0.00048235398026860347,
+          -0.0868338083120178,
+          0.9962226945159749
+        ]
+      },
+      {
+        "first": 146,
+        "second": 147,
+        "component_first": 0,
+        "component_second": 3,
+        "penetration_m": 6.190162025337538e-05,
+        "closing_m_s": 13.52396437081521,
+        "point_m": [
+          -0.00032502761520638137,
+          0.0002769724947753837,
+          0.00021607009517594418
+        ],
+        "normal": [
+          -0.0004823539802690753,
+          0.0868338083120167,
+          0.996222694515975
+        ]
+      },
+      {
+        "first": 147,
+        "second": 151,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 3.211189441966403e-05,
+        "closing_m_s": -359.76104986063274,
+        "point_m": [
+          -0.0003497446822651107,
+          0.00030746638902845913,
+          0.00022006362906173228
+        ],
+        "normal": [
+          -0.012292121494503134,
+          0.9998729988399997,
+          -0.01014346784242549
+        ]
+      },
+      {
+        "first": 147,
+        "second": 264,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 3.2112163337606305e-05,
+        "closing_m_s": -359.81231231769976,
+        "point_m": [
+          -0.00021996216198590007,
+          0.0003074661409273528,
+          0.00034983433201162385
+        ],
+        "normal": [
+          0.010146094260331032,
+          0.9998728673250753,
+          0.012300648698053439
+        ]
+      },
+      {
+        "first": 147,
+        "second": 152,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 2.71889740031753e-05,
+        "closing_m_s": -291.99080981265024,
+        "point_m": [
+          -0.0003390629451219751,
+          0.000309809263625885,
+          0.00033912350277670323
+        ],
+        "normal": [
+          -0.029508526234790274,
+          0.999129114026691,
+          0.02950017599422791
+        ]
+      },
+      {
+        "first": 147,
+        "second": 258,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 6.145839740102332e-05,
+        "closing_m_s": -190.43614259037204,
+        "point_m": [
+          -0.00022109984575813902,
+          0.0002711856484113816,
+          0.000221313390315969
+        ],
+        "normal": [
+          0.012427184343135743,
+          -0.9998455362415665,
+          -0.012428545655715835
+        ]
+      },
+      {
+        "first": 147,
+        "second": 259,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 6.191459251623976e-05,
+        "closing_m_s": 13.551048876862493,
+        "point_m": [
+          -0.00021591106828678825,
+          0.00027697378706185034,
+          0.0003251714558383651
+        ],
+        "normal": [
+          0.9963341760795547,
+          -0.08554643589586211,
+          -0.0001299284039746662
+        ]
+      },
+      {
+        "first": 147,
+        "second": 263,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 3.573633366599624e-05,
+        "closing_m_s": -357.8777799085219,
+        "point_m": [
+          -0.00022118597363234187,
+          0.00030790764755014166,
+          0.0002213295478385062
+        ],
+        "normal": [
+          0.016269640429927675,
+          0.9997351118150283,
+          -0.01627897430656705
+        ]
+      },
+      {
+        "first": 147,
+        "second": 153,
+        "component_first": 3,
+        "component_second": 0,
+        "penetration_m": 7.2369682468957565e-06,
+        "closing_m_s": -259.25797192072434,
+        "point_m": [
+          -0.00031041659197723984,
+          0.00031817062164708266,
+          0.0004293670184162786
+        ],
+        "normal": [
+          -0.01269135163540328,
+          0.9981159958011544,
+          0.0600282310212158
+        ]
+      },
+      {
+        "first": 368,
+        "second": 480,
+        "component_first": 0,
+        "component_second": 4,
+        "penetration_m": 6.187531254862297e-05,
+        "closing_m_s": 13.455932417754527,
+        "point_m": [
+          0.0002161034612026216,
+          0.0002769717410468489,
+          -0.00032495949941032775
+        ],
+        "normal": [
+          0.9961967581301228,
+          0.08712979621994109,
+          -0.0006462984646979463
+        ]
+      },
+      {
+        "first": 369,
+        "second": 480,
+        "component_first": 0,
+        "component_second": 4,
+        "penetration_m": 6.146521577775331e-05,
+        "closing_m_s": -190.3303899395343,
+        "point_m": [
+          0.00022139412282714142,
+          0.00027118261521436623,
+          -0.00022104054790065696
+        ],
+        "normal": [
+          0.012433785301072893,
+          0.999845521310612,
+          -0.012423143651971998
+        ]
+      },
+      {
+        "first": 370,
+        "second": 483,
+        "component_first": 0,
+        "component_second": 5,
+        "penetration_m": 6.146521577775357e-05,
+        "closing_m_s": -190.3303899395396,
+        "point_m": [
+          0.00022139412282714128,
+          0.0002711826152143659,
+          0.00022104054790065685
+        ],
+        "normal": [
+          0.012433785301075499,
+          0.9998455213106119,
+          0.012423143651972878
+        ]
+      },
+      {
+        "first": 371,
+        "second": 483,
+        "component_first": 0,
+        "component_second": 5,
+        "penetration_m": 6.187531254862316e-05,
+        "closing_m_s": 13.455932417753731,
+        "point_m": [
+          0.00021610346120262144,
+          0.00027697174104684855,
+          0.00032495949941032764
+        ],
+        "normal": [
+          0.9961967581301227,
+          0.08712979621994187,
+          0.0006462984646978092
+        ]
+      },
+      {
+        "first": 373,
+        "second": 480,
+        "component_first": 0,
+        "component_second": 4,
+        "penetration_m": 3.211459581838199e-05,
+        "closing_m_s": -359.1870669601825,
+        "point_m": [
+          0.0002200872979554003,
+          0.0003074677556140621,
+          -0.00034970202479556433
+        ],
+        "normal": [
+          0.010138064602465708,
+          -0.9998731420713642,
+          0.012284926147665706
+        ]
+      },
+      {
+        "first": 374,
+        "second": 480,
+        "component_first": 0,
+        "component_second": 4,
+        "penetration_m": 3.573843686524082e-05,
+        "closing_m_s": -358.07332243129736,
+        "point_m": [
+          0.00022138430998495977,
+          0.00030790922546830883,
+          -0.0002211507157404394
+        ],
+        "normal": [
+          0.01628120799092277,
+          -0.9997351050122292,
+          -0.01626782322695281
+        ]
+      },
+      {
+        "first": 375,
+        "second": 483,
+        "component_first": 0,
+        "component_second": 5,
+        "penetration_m": 3.573843686524095e-05,
+        "closing_m_s": -358.07332243130185,
+        "point_m": [
+          0.00022138430998495966,
+          0.0003079092254683089,
+          0.00022115071574043926
+        ],
+        "normal": [
+          0.01628120799092234,
+          -0.9997351050122292,
+          0.016267823226952412
+        ]
+      },
+      {
+        "first": 376,
+        "second": 483,
+        "component_first": 0,
+        "component_second": 5,
+        "penetration_m": 3.211459581838241e-05,
+        "closing_m_s": -359.1870669601831,
+        "point_m": [
+          0.00022008729795540004,
+          0.00030746775561406184,
+          0.0003497020247955644
+        ],
+        "normal": [
+          0.010138064602464518,
+          -0.9998731420713644,
+          -0.012284926147666575
+        ]
+      },
+      {
+        "first": 480,
+        "second": 481,
+        "component_first": 4,
+        "component_second": 0,
+        "penetration_m": 6.186916664014443e-05,
+        "closing_m_s": 14.209162751061882,
+        "point_m": [
+          0.0003252094314439156,
+          0.00027697371301860306,
+          -0.00021584529949428424
+        ],
+        "normal": [
+          -9.379394808943956e-05,
+          -0.08498905353075675,
+          0.9963818805973148
+        ]
+      },
+      {
+        "first": 480,
+        "second": 485,
+        "component_first": 4,
+        "component_second": 0,
+        "penetration_m": 2.719070757493998e-05,
+        "closing_m_s": -291.74874060746623,
+        "point_m": [
+          0.000339130491722848,
+          0.00030981067085552146,
+          -0.0003390300910993758
+        ],
+        "normal": [
+          0.029496577814894162,
+          0.99912933806944,
+          -0.029504537043183173
+        ]
+      },
+      {
+        "first": 480,
+        "second": 484,
+        "component_first": 4,
+        "component_second": 0,
+        "penetration_m": 7.239885797387605e-06,
+        "closing_m_s": -258.39323100867364,
+        "point_m": [
+          0.00031043445673369443,
+          0.00031817250457908617,
+          -0.00042932354457166826
+        ],
+        "normal": [
+          0.01267708992140776,
+          0.9981167041825442,
+          -0.06001946536666401
+        ]
+      },
+      {
+        "first": 480,
+        "second": 486,
+        "component_first": 4,
+        "component_second": 0,
+        "penetration_m": 3.2114877100763016e-05,
+        "closing_m_s": -359.4169731126561,
+        "point_m": [
+          0.0003498615249649272,
+          0.0003074660993520591,
+          -0.00021992870682851123
+        ],
+        "normal": [
+          0.012308690826010967,
+          0.999872904988195,
+          0.010132620619457565
+        ]
+      },
+      {
+        "first": 480,
+        "second": 592,
+        "component_first": 4,
+        "component_second": 0,
+        "penetration_m": 7.237727991776777e-06,
+        "closing_m_s": -258.8803812134431,
+        "point_m": [
+          0.0004293703853915282,
+          0.00031817150982252243,
+          -0.0003104122463978717
+        ],
+        "normal": [
+          0.06003272363617548,
+          0.9981156922854525,
+          -0.012693971260192847
+        ]
+      },
+      {
+        "first": 482,
+        "second": 483,
+        "component_first": 0,
+        "component_second": 5,
+        "penetration_m": 6.186916664014424e-05,
+        "closing_m_s": 14.209162751062784,
+        "point_m": [
+          0.00032520943144391566,
+          0.0002769737130186024,
+          0.00021584529949428434
+        ],
+        "normal": [
+          9.379394809075306e-05,
+          0.08498905353075624,
+          0.9963818805973148
+        ]
+      },
+      {
+        "first": 483,
+        "second": 488,
+        "component_first": 5,
+        "component_second": 0,
+        "penetration_m": 2.7190707574939872e-05,
+        "closing_m_s": -291.74874060746987,
+        "point_m": [
+          0.0003391304917228479,
+          0.000309810670855521,
+          0.00033903009109937597
+        ],
+        "normal": [
+          0.029496577814895127,
+          0.9991293380694399,
+          0.029504537043184145
+        ]
+      },
+      {
+        "first": 483,
+        "second": 487,
+        "component_first": 5,
+        "component_second": 0,
+        "penetration_m": 3.211487710076322e-05,
+        "closing_m_s": -359.41697311266387,
+        "point_m": [
+          0.0003498615249649273,
+          0.0003074660993520588,
+          0.00021992870682851134
+        ],
+        "normal": [
+          0.012308690826013593,
+          0.999872904988195,
+          -0.010132620619455891
+        ]
+      },
+      {
+        "first": 483,
+        "second": 595,
+        "component_first": 5,
+        "component_second": 0,
+        "penetration_m": 7.237727991776669e-06,
+        "closing_m_s": -258.88038121344516,
+        "point_m": [
+          0.0004293703853915286,
+          0.0003181715098225218,
+          0.00031041224639787187
+        ],
+        "normal": [
+          0.06003272363617579,
+          0.9981156922854524,
+          0.012693971260193709
+        ]
+      },
+      {
+        "first": 483,
+        "second": 489,
+        "component_first": 5,
+        "component_second": 0,
+        "penetration_m": 7.2398857973877945e-06,
+        "closing_m_s": -258.39323100867296,
+        "point_m": [
+          0.00031043445673369443,
+          0.0003181725045790857,
+          0.0004293235445716685
+        ],
+        "normal": [
+          0.012677089921410308,
+          0.9981167041825442,
+          0.06001946536666413
+        ]
+      }
+    ]
+  },
+  "zero_time_e0_projection": {
+    "valid": true,
+    "candidates": 68,
+    "positive_multiplier_pairs": 20,
+    "max_closing_before_m_s": 14.209162751062731,
+    "physical_route_closing_after_m_s": 1.7115198147621413e-12,
+    "impulse_norm_Ns": 1.4840141442088875e-08,
+    "contact_work_J": -4.4596421278341806e-07,
+    "kinetic_loss_J": 4.4596419002118637e-07,
+    "K_before_J": 136.98835795843777,
+    "K_after_J": 136.98835751247358,
+    "P_error_Ns": 2.0816844826972198e-17,
+    "L_error_Nms": 1.5906166703091384e-20,
+    "max_route_power_identity_error_J": 5.305545266830312e-21
+  },
+  "production_continuation": "not started until the first accepted split event, topology receipt, and contact-energy bridge are source-bound"
+}

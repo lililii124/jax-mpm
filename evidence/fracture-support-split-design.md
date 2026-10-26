@@ -72,3 +72,36 @@ only the instantaneous support-copy invariants and a true-SAT frictionless
 impact between independent rigid components. It does not validate the C2
 constitutive fracture-energy release, production topology extraction, or
 post-split impact trajectory.
+
+## Accepted CP145 audit and adapter
+
+The source-bound CP145 audit is in
+`evidence/material-domain-contact/continue-cp136-midpoint-viscosity-to250/data/result/cp145-fracture-support-audit.json`.
+It verifies the raw checkpoint SHA and every source hash against the producer
+commit before rebuilding the original C2 reference map. On this state the
+four fully failed sphere points have exactly zero deviatoric stress and
+zero tensile-volume energy. Their (J\simeq0.7013) compression remains
+active: EOS pressure is about23.08GPa and recoverable compression energy is
+about1.262mJ per point. Their existing internal, thermal residual, cold-work,
+fracture-reservoir, and recoverable-volume terms close to a maximum
+1.2e-10J/kg decomposition residual. No second energy release was added.
+
+The actual face graph has one 732-cell intact sphere component, one 25,600-cell
+plate component, and four retained mass-bearing failed-cell singleton
+components. Duplicating the support increases used nodes from 616,322 to
+34,395 after unused zero-mass grid nodes are compacted. The serialized adapter
+contains copied `q/v`, remapped incidence, masses, fixed flags, body ownership,
+all seven particle material fields, cumulative ledgers, and hash-bound parent
+and source metadata. The zero-time split leaves mass, P/L/K/U and thermal
+residual unchanged; particle `x/F/history` are retained.
+
+There are36 true SAT pairs between the new components in this accepted state,
+with maximum pre-existing affine-domain overlap61.9µm and maximum positive
+closing14.21m/s. The existing nonnegative e0 projection on the remapped
+diagonal nodal mass resolves all68 total contact candidates (including32
+sphere/plate pairs); 20 rows are active, route post-closing is
+1.71e-12m/s, jump work is−4.46e-7J, and total P/L errors are
+2.1e-17Ns/1.6e-20Nms. This overlap is recorded rather than hidden or position
+corrected. The adapter is eligible for a bounded continuation using same-body
+cross-component SAT; this remains a cell-scale support split, not a fragment
+or mesh-objectivity claim.

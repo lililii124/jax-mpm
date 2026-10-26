@@ -129,6 +129,10 @@ def main():
     parser.add_argument('--max-seconds', type=float, default=1800.)
     parser.add_argument('--resume-checkpoint', type=Path)
     parser.add_argument('--resume-bridge', type=Path)
+    parser.add_argument('--resume-parent-checkpoint', type=Path,
+                        help='Raw accepted parent for a duplicated-support checkpoint')
+    parser.add_argument('--resume-support-audit', type=Path,
+                        help='Source-bound zero-time support-split audit receipt')
     parser.add_argument('--audit-only', action='store_true',
                         help='Write read-only physical/material metrics for a source-bound checkpoint')
     args = parser.parse_args()
@@ -136,6 +140,10 @@ def main():
         parser.error('The bounded contact/fracture-review window is limited to 150–250 ns and 1800 s')
     if bool(args.resume_checkpoint) != bool(args.resume_bridge):
         parser.error('--resume-checkpoint and --resume-bridge must be supplied together')
+    if bool(args.resume_parent_checkpoint) != bool(args.resume_support_audit):
+        parser.error('--resume-parent-checkpoint and --resume-support-audit must be supplied together')
+    if args.resume_parent_checkpoint is not None and args.resume_checkpoint is None:
+        parser.error('A support parent requires --resume-checkpoint')
     if args.audit_only and args.resume_checkpoint is None:
         parser.error('--audit-only requires a source-bound accepted checkpoint')
     if args.output.exists() and any(args.output.iterdir()):
@@ -151,6 +159,7 @@ def main():
     from mpm_jax.materials.linear_metal import linear_metal, volume_energy, eos_state
     from mpm_jax.metal_tl_midpoint import (
         initial_state, step, endpoint_e0_jump)
+    from mpm_jax.total_lagrangian import ReferenceGrid
     from mpm_jax.material_domain_contact import (
         material_domain_contact_jump, minimum_material_domain_gap,
         _world_corners)
@@ -160,7 +169,17 @@ def main():
         spacing=(.00025, .000125, .00025), end_time=1e-6, frames=60)
     if len(geometry['x']) != 26336 or plan['material']['density'] != 2700.:
         raise ValueError('The original C2 geometry or density changed')
+    sphere_center = np.asarray((0., .00025+.00075+.001, 0.))
+    cell_origins = np.where((np.asarray(geometry['body_id']) == 0)[:, None],
+        sphere_center-.001, np.asarray((-.01, -.00025, -.01)))
+    material_cell_ijk = np.floor((np.asarray(geometry['x'])-cell_origins)/
+        np.asarray((.00025, .000125, .00025))+1e-10).astype(np.int64)
     reference, body_id, fixed, v0, reference_record = make_reference(geometry, .00025)
+    original_reference = reference
+    support_component_id = None
+    node_body_id = np.concatenate((
+        np.zeros(reference_record['bodies'][0]['nodes'], dtype=np.int32),
+        np.ones(reference_record['bodies'][1]['nodes'], dtype=np.int32)))
     particle_spacing = np.asarray(plan['particle_spacing_m'], dtype=np.float64)
     domain_gap = minimum_material_domain_gap(
         np.asarray(geometry['x']), np.broadcast_to(np.eye(3),
@@ -252,8 +271,90 @@ def main():
             required = {'displacement', 'velocity', 'F', 'tau', 'ep', 'cold', 'fracture',
                         'damage', 'internal', 'time_s', 'step', 'initial_P', 'initial_L',
                         'initial_K', 'viscous_loss', 'contact_work'}
-            if set(saved.files) != required:
+            has_split_support = 'particle_component' in saved.files
+            has_adapter_metadata = 'metadata_json' in saved.files
+            if ((not has_split_support and set(saved.files) != required)
+                    or (has_split_support and not required.issubset(saved.files))):
                 raise ValueError('Resume checkpoint schema is incomplete or unexpected')
+            if has_split_support:
+                if bridge.get('support_checkpoint_sha256') != checkpoint_hash:
+                    raise ValueError('Duplicated-support state differs from the continuation bridge')
+                parent_hash = bridge.get('support_parent_checkpoint_sha256')
+                if has_adapter_metadata:
+                    if args.resume_parent_checkpoint is None or args.resume_support_audit is None:
+                        raise ValueError('A topology event adapter requires its exact parent and split audit')
+                    support_mod = __import__('mpm_jax.tl_fracture_support', fromlist=['validate_support_checkpoint'])
+                    audit_hash = hashlib.sha256(args.resume_support_audit.read_bytes()).hexdigest()
+                    audit_receipt = json.loads(args.resume_support_audit.read_text(encoding='utf-8'))
+                    parent_hash = hashlib.sha256(args.resume_parent_checkpoint.read_bytes()).hexdigest()
+                    if bridge.get('support_audit_sha256') != audit_hash:
+                        raise ValueError('Support split audit differs from the continuation bridge')
+                    if bridge.get('support_parent_checkpoint_sha256') != parent_hash:
+                        raise ValueError('Support parent checkpoint differs from the continuation bridge')
+                    if audit_receipt.get('parent_checkpoint_sha256') != parent_hash:
+                        raise ValueError('Support audit is bound to a different parent checkpoint')
+                    if audit_receipt.get('support_checkpoint_sha256') != checkpoint_hash:
+                        raise ValueError('Support audit is bound to a different duplicated-support state')
+                    with np.load(args.resume_parent_checkpoint, allow_pickle=False) as parent:
+                        if not required.issubset(parent.files):
+                            raise ValueError('Raw support parent is not a complete accepted checkpoint')
+                        if 'particle_component' in parent.files:
+                            parent_reference = ReferenceGrid(jnp.asarray(parent['positions']),
+                                jnp.asarray(parent['indices']), jnp.asarray(parent['weights']),
+                                jnp.asarray(parent['gradients']), jnp.asarray(parent['volume']),
+                                jnp.asarray(parent['particle_mass']), jnp.asarray(parent['nodal_mass']),
+                                jnp.asarray(parent['nodes']), jnp.asarray(True))
+                        else:
+                            parent_reference = original_reference
+                        metadata = json.loads(str(saved['metadata_json']))
+                        if metadata.get('parent_checkpoint_sha256') != parent_hash:
+                            raise ValueError('Serialized support parent SHA does not match raw CP')
+                        source_manifest = audit_receipt.get('parent_source_manifest_sha256')
+                        if metadata.get('source_manifest_sha256') != source_manifest:
+                            raise ValueError('Serialized parent source manifest differs from split audit')
+                        support_mod.validate_support_checkpoint(args.resume_checkpoint,
+                            parent_checkpoint_sha256=parent_hash,
+                            source_manifest_sha256=source_manifest,
+                            reference=parent_reference,
+                            component_id=np.asarray(saved['particle_component']))
+                        old_node = np.asarray(saved['old_node_for_new'], dtype=np.int64)
+                        if not np.array_equal(saved['displacement'], parent['displacement'][old_node]):
+                            raise ValueError('Duplicated displacements do not copy the parent node map')
+                        if not np.array_equal(saved['velocity'], parent['velocity'][old_node]):
+                            raise ValueError('Duplicated velocities do not copy the parent node map')
+                        for name in ('F', 'tau', 'ep', 'cold', 'fracture', 'damage', 'internal'):
+                            if not np.array_equal(saved[name], parent[name]):
+                                raise ValueError(f'Support adapter changed parent material field {name}')
+                        for name in ('time_s', 'step', 'initial_P', 'initial_L', 'initial_K',
+                                     'viscous_loss', 'contact_work'):
+                            if not np.array_equal(saved[name], parent[name]):
+                                raise ValueError(f'Support adapter changed parent ledger {name}')
+                else:
+                    if 'support_map_hash' not in saved.files:
+                        raise ValueError('Resumable support checkpoint omits its map hash')
+                    expected_map = hashlib.sha256(np.asarray(saved['indices']).tobytes()+
+                        np.asarray(saved['particle_component']).tobytes()).hexdigest()
+                    if str(saved['support_map_hash']) != expected_map or bridge.get('support_map_hash') != expected_map:
+                        raise ValueError('Resumable support map hash differs from the bridge')
+                reference = ReferenceGrid(jnp.asarray(saved['positions']),
+                    jnp.asarray(saved['indices']), jnp.asarray(saved['weights']),
+                    jnp.asarray(saved['gradients']), jnp.asarray(saved['volume']),
+                    jnp.asarray(saved['particle_mass']), jnp.asarray(saved['nodal_mass']),
+                    jnp.asarray(saved['nodes']), jnp.asarray(True))
+                body_id = np.asarray(saved['body_id'], dtype=np.int32)
+                node_body_id = np.asarray(saved['node_body'], dtype=np.int32)
+                fixed = np.asarray(saved['fixed'], dtype=bool)
+                particle_mass = np.asarray(saved['particle_mass'], dtype=np.float64)
+                support_component_id = np.asarray(saved['particle_component'], dtype=np.int64)
+                if has_adapter_metadata:
+                    v0 = v0[old_node]
+                else:
+                    v0 = np.asarray(saved['initial_node_velocity'], dtype=np.float64)
+                reference_record = dict(reference_record,
+                    node_count=int(len(reference.nodes)),
+                    support_component_count=int(np.unique(support_component_id).size),
+                    support_parent_checkpoint_sha256=parent_hash,
+                    support_checkpoint_sha256=checkpoint_hash)
             resumed_time = float(saved['time_s'])
             resumed_steps = int(saved['step'])
             fields_resume = tuple(jnp.asarray(saved[k]) for k in
@@ -272,7 +373,10 @@ def main():
         resume_record = dict(checkpoint=args.resume_checkpoint.name,
             checkpoint_sha256=checkpoint_hash,
             prior_source_sha256=bridge.get('prior_source_sha256'),
-            bridge_reason=bridge.get('bridge_reason'))
+            bridge_reason=bridge.get('bridge_reason'),
+            support_checkpoint=bool(support_component_id is not None),
+            support_component_count=(None if support_component_id is None else
+                                     int(np.unique(support_component_id).size)))
         if resumed_checked:
             prior_e0 = dict(schema='metal-tl-e0-check-receipt-v1',
                 status='passed-attested-by-source-bound-checkpoint',
@@ -307,6 +411,8 @@ def main():
     started = time.monotonic()
     steps = resumed_steps
     dt_last = None
+    known_failed_mask = np.asarray(state.material[5]) >= 1.
+    support_split_events = []
     newly_active_checked = resumed_checked
     max_momentum_error = float(resumed_metrics.get('max_linear_relative', 0.))
     max_angular_error = float(resumed_metrics.get('max_angular_relative', 0.))
@@ -337,22 +443,20 @@ def main():
             raise FloatingPointError('No deformed plate top support near the sphere nose')
         surface_y = float(np.max(plate_corners[nearby, 1]))
         body_node = {}
-        start = 0
         mass_nodes = np.asarray(reference.nodal_mass)
-        for item in reference_record['bodies']:
-            b, end = item['body'], start+item['nodes']
-            mb, vb = mass_nodes[start:end], v[start:end]
-            initial_vb = np.asarray(v0)[start:end]
+        for b in (0, 1):
+            selected_nodes = np.flatnonzero(node_body_id == b)
+            mb, vb = mass_nodes[selected_nodes], v[selected_nodes]
+            initial_vb = np.asarray(v0)[selected_nodes]
             body_node[str(b)] = dict(
                 initial_P_kg_m_s=(mb[:, None]*initial_vb).sum(axis=0).tolist(),
                 final_P_kg_m_s=(mb[:, None]*vb).sum(axis=0).tolist(),
                 delta_P_kg_m_s=(mb[:, None]*(vb-initial_vb)).sum(axis=0).tolist(),
                 initial_K_J=float(.5*np.sum(mb[:, None]*initial_vb**2)),
                 final_K_J=float(.5*np.sum(mb[:, None]*vb**2)))
-            start = end
         particle_internal = [float(np.sum(particle_mass[mask]*internal_end[mask]))
                              for mask in (sphere_mask, plate_mask)]
-        plate_nodes = np.arange(reference_record['bodies'][0]['nodes'], len(mass_nodes))
+        plate_nodes = np.flatnonzero(node_body_id == 1)
         sym_sigma = .5*(tauend+tauend.swapaxes(-1, -2))/np.maximum(
             np.linalg.det(Fend)[:, None, None], 1e-30)
         dev = sym_sigma-.5*np.trace(sym_sigma, axis1=-2, axis2=-1)[:, None, None]*np.eye(3)
@@ -380,7 +484,7 @@ def main():
         speed_sampling = dict(
             nodal_max_m_s=float(node_speed[fastest_node]), nodal_max_node=fastest_node,
             nodal_max_node_mass_kg=float(mass_nodes[fastest_node]),
-            nodal_max_node_body=int(0 if fastest_node < reference_record['bodies'][0]['nodes'] else 1),
+            nodal_max_node_body=int(node_body_id[fastest_node]),
             nodal_mass_weighted_rms_m_s=float(np.sqrt(np.sum(mass_nodes[:, None]*v*v)/np.sum(mass_nodes))),
             particle_sampled_max_m_s=float(particle_speed[fastest_particle]),
             particle_sampled_max_id=fastest_particle,
@@ -412,7 +516,9 @@ def main():
             sphere_internal_energy_J=particle_internal[0], plate_internal_energy_J=particle_internal[1],
             pressure_sign='positive means compression; EOS pressure',
             material_by_body=material_body, speed_sampling=speed_sampling,
-            support_topology='Reference supports remain attached; no conservative split/remap or fragment claim.',
+            support_topology=('Reference support remains attached; no conservative split/remap.'
+                if support_component_id is None else
+                f'Cell face-connectivity support split active across {np.unique(support_component_id).size} components; no macroscopic fragment claim.'),
             body_nodal_transfer=body_node,
             geometry='deformed quadrature material cuboid corners; local plate surface within 2.5 mm of sphere nose',
             dt_last_s=dt_last, dt_cfl_limit=.1)
@@ -503,8 +609,12 @@ def main():
                 raise FloatingPointError('Original CFL admitted a nonpositive/nonfinite step')
 
             def contact(vpre, x1, F1):
+                if support_component_id is None:
+                    return material_domain_contact_jump(vpre, reference, particle_mass,
+                        body_id, x1, F1, particle_spacing, fixed)
                 return material_domain_contact_jump(vpre, reference, particle_mass,
-                    body_id, x1, F1, particle_spacing, fixed)
+                    body_id, x1, F1, particle_spacing, fixed,
+                    component_id=support_component_id)
 
             accepted = step(state, reference, material, dt, jnp.asarray(fixed), contact,
                             cell_length=.00025)
@@ -597,27 +707,134 @@ def main():
                     kinetic_J=np.asarray(K), internal_energy_J=np.asarray(jnp.sum(
                         jnp.asarray(particle_mass)*state.material[-1])))
                 raise FloatingPointError('Original global energy/linear/angular guard failed')
-            # Complete atomic state every accepted step is the CP on timeout.
-            atomic_npz(args.output/'accepted.npz', displacement=np.asarray(state.displacement),
-                velocity=np.asarray(state.velocity), F=np.asarray(state.material[0]),
-                tau=np.asarray(state.material[1]), ep=np.asarray(state.material[2]),
-                cold=np.asarray(state.material[3]), fracture=np.asarray(state.material[4]),
-                damage=np.asarray(state.material[5]), internal=np.asarray(state.material[6]),
-                time_s=np.asarray(state.time), step=np.asarray(steps), initial_P= p0,
-                initial_L=l0, initial_K=np.asarray(k0), viscous_loss=np.asarray(state.viscous_loss),
-                contact_work=np.asarray(state.contact_work))
             monitor = append_damage_history(steps, float(state.time), dt)
+            failed_now = np.asarray(state.material[5]) >= 1.
+            newly_failed_ids = np.flatnonzero(failed_now & ~known_failed_mask)
+            if len(newly_failed_ids):
+                # Preserve the exact accepted pre-split state so the new
+                # incidence map is always reversible and source-auditable.
+                parent_path = args.output/f'pre-split-step{steps}.npz'
+                parent_values = dict(displacement=np.asarray(state.displacement),
+                    velocity=np.asarray(state.velocity), F=np.asarray(state.material[0]),
+                    tau=np.asarray(state.material[1]), ep=np.asarray(state.material[2]),
+                    cold=np.asarray(state.material[3]), fracture=np.asarray(state.material[4]),
+                    damage=np.asarray(state.material[5]), internal=np.asarray(state.material[6]),
+                    time_s=np.asarray(state.time), step=np.asarray(steps), initial_P=p0,
+                    initial_L=l0, initial_K=np.asarray(k0),
+                    viscous_loss=np.asarray(state.viscous_loss), contact_work=np.asarray(state.contact_work))
+                if support_component_id is not None:
+                    parent_values.update(indices=np.asarray(reference.indices),
+                        positions=np.asarray(reference.positions), weights=np.asarray(reference.weights),
+                        gradients=np.asarray(reference.gradients), volume=np.asarray(reference.volume),
+                        particle_mass=particle_mass, nodal_mass=np.asarray(reference.nodal_mass),
+                        nodes=np.asarray(reference.nodes), fixed=fixed, body_id=body_id,
+                        particle_component=support_component_id, node_body=node_body_id,
+                        old_node_for_new=np.arange(len(reference.nodes), dtype=np.int64),
+                        initial_node_velocity=v0)
+                atomic_npz(parent_path, **parent_values)
+                parent_sha = hashlib.sha256(parent_path.read_bytes()).hexdigest()
+                support_mod = __import__('mpm_jax.tl_fracture_support', fromlist=[
+                    'face_connected_components', 'split_reference_support', 'save_support_checkpoint'])
+                topology = support_mod.face_connected_components(material_cell_ijk,
+                    body_id, failed_now, spacing=particle_spacing,
+                    sphere_center=sphere_center, sphere_radius=.001)
+                adapter = support_mod.split_reference_support(reference,
+                    state.displacement, state.velocity, fixed, topology['component_id'],
+                    body_id=body_id)
+                adapter.update(body_id=body_id.copy(), step=np.asarray(steps),
+                    time_s=np.asarray(state.time), initial_P=p0.copy(), initial_L=l0.copy(),
+                    initial_K=np.asarray(k0), viscous_loss=np.asarray(state.viscous_loss),
+                    contact_work=np.asarray(state.contact_work),
+                    initial_node_velocity=v0.copy(),
+                    state_fields={name: np.asarray(value) for name, value in zip(
+                        ('F', 'tau', 'ep', 'cold', 'fracture', 'damage', 'internal'), state.material)})
+                parent_source_manifest = hashlib.sha256(json.dumps(hashes, sort_keys=True,
+                    separators=(',', ':')).encode()).hexdigest()
+                support_mod.save_support_checkpoint(args.output/'accepted.npz', parent_sha,
+                    parent_source_manifest, adapter)
+                reference = ReferenceGrid(jnp.asarray(adapter['positions']),
+                    jnp.asarray(adapter['indices']), jnp.asarray(adapter['weights']),
+                    jnp.asarray(adapter['gradients']), jnp.asarray(adapter['volume']),
+                    jnp.asarray(adapter['particle_mass']), jnp.asarray(adapter['nodal_mass']),
+                    jnp.asarray(adapter['nodes']), jnp.asarray(True))
+                fixed = np.asarray(adapter['fixed'], dtype=bool)
+                support_component_id = topology['component_id']
+                node_body_id = np.asarray(adapter['node_body'], dtype=np.int32)
+                v0 = v0[np.asarray(adapter['old_node_for_new'], dtype=np.int64)]
+                # Rebuild current-domain SAT rows now so the event receipt
+                # proves that subsequent same-body contacts use this map.
+                from mpm_jax.material_domain_contact import material_domain_candidates
+                event_pairs = material_domain_candidates(
+                    np.asarray(accepted.geometry['position']),
+                    np.asarray(state.material[0]), body_id, particle_spacing,
+                    component_id=support_component_id)
+                event = dict(schema='c2-tl-component-support-event-v1',
+                    status='accepted-zero-time-conservative-support-split',
+                    step=steps, time_s=float(state.time),
+                    parent_checkpoint=parent_path.name, parent_checkpoint_sha256=parent_sha,
+                    source_manifest_sha256=parent_source_manifest,
+                    parent_source_manifest_sha256=parent_source_manifest,
+                    support_checkpoint='accepted.npz',
+                    support_checkpoint_sha256=hashlib.sha256(
+                        (args.output/'accepted.npz').read_bytes()).hexdigest(),
+                    support_metadata=adapter['support_hash'], topology_hash=adapter['topology_hash'],
+                    new_fully_failed_ids=newly_failed_ids.tolist(),
+                    fully_failed_count=int(np.count_nonzero(failed_now)),
+                    component_count=int(len(topology['components'])),
+                    component_particle_counts=[int(g['particle_count']) for g in topology['components']],
+                    reference_face_edge_count=int(topology['reference_face_edge_count']),
+                    severed_failed_incident_edge_count=int(topology['severed_failed_incident_edge_count']),
+                    same_body_and_cross_body_sat_pair_count=len(event_pairs),
+                    support_node_count=int(len(adapter['nodes'])),
+                    max_position_change_m=adapter['max_position_change_m'],
+                    max_F_change=adapter['max_F_change'],
+                    mass_kg=adapter['after_mass_kg'],
+                    momentum_Ns=adapter['after_momentum'].tolist(),
+                    angular_momentum_Nms=adapter['after_angular_momentum'].tolist(),
+                    kinetic_J=adapter['after_kinetic_J'],
+                    material_history_unchanged=True,
+                    source_sha256=hashes)
+                event_path = args.output/f'support-split-step{steps}.json'
+                atomic_json(event_path, event)
+                support_split_events.append(event)
+                case['support_split_events'] = support_split_events
+                case['support_event_receipt'] = event_path.name
+                reference_record.update(node_count=int(len(reference.nodes)),
+                    support_component_count=int(np.unique(support_component_id).size))
+            else:
+                checkpoint_values = dict(displacement=np.asarray(state.displacement),
+                    velocity=np.asarray(state.velocity), F=np.asarray(state.material[0]),
+                    tau=np.asarray(state.material[1]), ep=np.asarray(state.material[2]),
+                    cold=np.asarray(state.material[3]), fracture=np.asarray(state.material[4]),
+                    damage=np.asarray(state.material[5]), internal=np.asarray(state.material[6]),
+                    time_s=np.asarray(state.time), step=np.asarray(steps), initial_P=p0,
+                    initial_L=l0, initial_K=np.asarray(k0), viscous_loss=np.asarray(state.viscous_loss),
+                    contact_work=np.asarray(state.contact_work))
+                if support_component_id is not None:
+                    checkpoint_values.update(indices=np.asarray(reference.indices),
+                        positions=np.asarray(reference.positions), weights=np.asarray(reference.weights),
+                        gradients=np.asarray(reference.gradients), volume=np.asarray(reference.volume),
+                        particle_mass=particle_mass, nodal_mass=np.asarray(reference.nodal_mass),
+                        nodes=np.asarray(reference.nodes), fixed=fixed, body_id=body_id,
+                        particle_component=support_component_id, node_body=node_body_id,
+                        initial_node_velocity=v0,
+                        old_node_for_new=np.arange(len(reference.nodes), dtype=np.int64),
+                        support_map_hash=np.asarray(hashlib.sha256(
+                            np.asarray(reference.indices).tobytes()+
+                            support_component_id.tobytes()).hexdigest()))
+                atomic_npz(args.output/'accepted.npz', **checkpoint_values)
+            known_failed_mask = failed_now
             case.update(status='running', steps=steps, time_s=float(state.time), dt_last_s=dt_last,
                 elapsed_s=time.monotonic()-started, newly_active_e0_checked=newly_active_checked,
                 max_linear_relative=max_momentum_error, max_angular_relative=max_angular_error,
                 max_energy_error_J=max_energy_error)
-            if monitor['fully_failed_particle_count']:
+            if len(newly_failed_ids):
                 failed_ids = np.flatnonzero(np.asarray(state.material[5]) >= 1.)
                 first = int(failed_ids[0])
                 Fm = np.asarray(state.material[0])
                 epm = np.asarray(state.material[2])
                 receipt = dict(schema='c2-first-fully-failed-point-stop-v1',
-                    status='stopped-for-conservative-support-review', step=steps,
+                    status='conservative-support-split-applied-and-continuing', step=steps,
                     time_s=float(state.time), dt_s=dt,
                     accepted_checkpoint_sha256=hashlib.sha256((args.output/'accepted.npz').read_bytes()).hexdigest(),
                     fully_failed_particle_count=int(len(failed_ids)),
@@ -627,13 +844,11 @@ def main():
                         position_m=np.asarray(accepted.geometry['position'])[first].tolist(),
                         damage=float(np.asarray(state.material[5])[first]),
                         plastic_strain=float(epm[first]), detF=float(np.linalg.det(Fm[first]))),
-                    interpretation='Stop at the first fully failed material point. Its fixed reference support remains attached; this is not a detached fragment or a penetration qualification until a conservative split is designed and audited.',
+                    interpretation='New fully_failed particles retain mass and material state and receive component-specific copied nodal support; this is a cell-scale support split, not a macroscopic fragment claim.',
                     source_sha256=hashes)
                 atomic_json(args.output/'first-fully-failed-point.json', receipt)
-                case.update(status='stopped-for-fracture-audit',
+                case.update(status='running-after-conservative-support-split',
                     first_fully_failed_point=receipt)
-                atomic_json(args.output/'run.json', case)
-                break
             atomic_json(args.output/'run.json', case)
             print(json.dumps(dict(step=steps, time_s=float(state.time), dt_s=dt,
                 force_residual=float(accepted.force_residual), energy_error_J=max_energy_error,
