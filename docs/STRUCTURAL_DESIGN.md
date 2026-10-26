@@ -68,6 +68,29 @@ mass/volume constraint check, design bounds, directional AD/finite-difference
 comparison, objective values on the optimization and production meshes, and
 per-load tip responses. The CLI prints the same JSON to stdout.
 
+The benchmark was produced with 21 accepted Adam updates followed by a uniform
+control-amplitude feasibility projection (`beta = 0.9670227802309797`). The
+replay bundle in [`structural-design-evidence/`](structural-design-evidence/)
+includes the raw preprojection history, raw feasible-forward summary, task
+status records, and ParaView frame audit. To replay the recorded design and
+rerun both forward checks, use:
+
+```bash
+python -m examples.structural_design \
+  --design-grid 24 --production-grid 64 --iterations 0 \
+  --time-horizon 0.24 --design-dt 5e-4 --production-dt 2e-4 \
+  --resume-history docs/structural-design-evidence/optimization-history-preprojection.csv \
+  --project-resume-amplitude 0.9670227802309797 \
+  --output outputs/structural-design-replay
+```
+
+`optimization-history-preprojection.csv` has rows 0–21 from the original
+21-update run. The CLI reconstructs the saved controls and applies the same
+projection; zero additional updates make this an exact recorded-design replay,
+followed by fresh differentiability and independent forward checks. The
+shorter `--iterations 5` command above is a fresh run and does not reproduce
+the benchmark.
+
 Every optimizer update atomically checkpoints the control field and both Adam
 moments in `optimizer-state.npz`, and rewrites the CSV history. Continue from
 that checkpoint with `--resume-state PATH`; if only an older CSV is available,
@@ -113,8 +136,9 @@ Each initial/optimized pair shares a camera and material-fraction color scale.
 | 8 N y-direction | ![Uniform y-load response](assets/structural-y-initial.gif) | ![Optimized y-load response](assets/structural-y-optimized.gif) |
 
 The recorded optimization used 21 Adam updates and reduced the coarse dynamic
-objective from `0.0815990` to `0.0574304` after a final feasibility projection
-that scaled the saved controls by `0.9670228`. A separate 64-cubed, 67,704-
+objective from `0.0815990` to `0.0571938` before projection, then to
+`0.0574304` after the final feasibility projection scaled the controls by
+`0.9670228`. A separate 64-cubed, 67,704-
 particle forward analysis over the same 0.24 s horizon reduced the two-load
 objective from `0.0829364` to `0.0592507` (28.56%). The local solid fractions
 were `0.611–0.995` on the design mesh and `0.614–0.9995` on the production
@@ -124,3 +148,9 @@ determinants `0.9835` and `0.9861`. The final central directional
 finite-difference check differed from the autodiff derivative by `1.51e-7`
 relative. This is a finite-budget feasible design, not a claim of convergence
 or a global optimum.
+
+The machine-generated summary retains its run command verbatim; the replay
+command above documents the feasible design path from the archived history.
+Job status JSON records successful exits for optimization, forward
+confirmation, and ParaView rendering. The render manifest checks all 21 fetched
+frames at deformation scale 1.0 and records source summary and trajectory SHA-256.

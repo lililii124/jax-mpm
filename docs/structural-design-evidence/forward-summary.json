@@ -1,0 +1,216 @@
+{
+  "model": "3D total-Lagrangian MPM dynamic solid-fraction material-layout redistribution",
+  "constitutive_model": "compressible Neo-Hookean, E=200 kPa, nu=0.25, rho=1000 kg/m^3",
+  "simulation_precision": "float64 for design, gradient checks, and refined forward confirmation; VTK/NPZ visual state exports are float32",
+  "design_variables": "10 smooth axial solid-volume fraction controls, fixed envelope and particle positions/stencil topology; linear p=1 Voigt mixture",
+  "constraints": {
+    "reference_volume_fraction": 0.75,
+    "mass_before_kg": 23.76000000000002,
+    "mass_after_kg": 23.76,
+    "mass_relative_error": 7.476249324075122e-16,
+    "volume_scale_min": 0.6109618658036844,
+    "volume_scale_max": 0.9947957139529193,
+    "local_solid_fraction_bound": [
+      0.0,
+      1.0
+    ],
+    "design_grid_fraction": {
+      "min": 0.6109618658036844,
+      "max": 0.9947957139529193,
+      "mean": 0.75
+    },
+    "production_grid_fraction": {
+      "min": 0.6141499027213507,
+      "max": 0.9995000174725577,
+      "mean": 0.75
+    },
+    "unconstrained_analytical_scale_bounds": [
+      0.4284067978866112,
+      1.313004375222076
+    ]
+  },
+  "differentiation": {
+    "jax_value_and_grad": true,
+    "jit": true,
+    "lax_scan": true,
+    "checkpointed_12_step_blocks": true,
+    "sequential_checkpointed_load_cases": 2,
+    "initial_directional_ad": 0.002139063388597126,
+    "initial_directional_finite_difference": 0.0021390637109323235,
+    "directional_relative_error": 1.506898536721935e-07
+  },
+  "load_patch_audit": {
+    "design_initial": {
+      "grid": 24,
+      "particles": 3840,
+      "patch_particle_counts": [
+        100,
+        120
+      ],
+      "prescribed_resultant_force_N": [
+        [
+          0.0,
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          7.999999999999999
+        ]
+      ],
+      "solid_mass_on_patch_kg": [
+        0.6187499999999999,
+        0.7424999999999998
+      ]
+    },
+    "design_optimized": {
+      "grid": 24,
+      "particles": 3840,
+      "patch_particle_counts": [
+        100,
+        120
+      ],
+      "prescribed_resultant_force_N": [
+        [
+          0.0,
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          7.999999999999999
+        ]
+      ],
+      "solid_mass_on_patch_kg": [
+        0.8138306933567208,
+        0.976596832028065
+      ]
+    },
+    "production_initial": {
+      "grid": 64,
+      "particles": 67704,
+      "patch_particle_counts": [
+        1560,
+        1860
+      ],
+      "prescribed_resultant_force_N": [
+        [
+          0.0,
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          8.000000000000002
+        ]
+      ],
+      "solid_mass_on_patch_kg": [
+        0.5474654377880183,
+        0.6527472527472524
+      ]
+    },
+    "production_optimized": {
+      "grid": 64,
+      "particles": 67704,
+      "patch_particle_counts": [
+        1560,
+        1860
+      ],
+      "prescribed_resultant_force_N": [
+        [
+          0.0,
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          8.000000000000002
+        ]
+      ],
+      "solid_mass_on_patch_kg": [
+        0.7230545364410935,
+        0.8621034857566885
+      ]
+    }
+  },
+  "optimization": {
+    "design_grid": 24,
+    "production_grid": 64,
+    "particle_count_production": 67704,
+    "time_horizon_s": 0.24,
+    "design_time_steps": 480,
+    "design_dt_s": 0.0005,
+    "production_time_steps": 1200,
+    "production_dt_s": 0.0002,
+    "capture_stride_steps": 60,
+    "design_cfl": 0.18590320061795604,
+    "production_cfl": 0.19829674732581976,
+    "iterations": 21,
+    "optimizer_last_iteration": 21,
+    "additional_iterations_this_run": 0,
+    "post_optimizer_feasibility_projection_amplitude": 0.9670227802309797,
+    "objective_initial_design_mesh": 0.08159897865569604,
+    "objective_resume_start_design_mesh": 0.057430398143071146,
+    "objective_optimized_design_mesh": 0.057430398143071146,
+    "objective_initial_production_mesh": 0.08293637313126921,
+    "objective_optimized_production_mesh": 0.05925070875002716,
+    "production_relative_improvement": 0.28558837922358976,
+    "two_load_cases": {
+      "initial": {
+        "y": {
+          "tip_response_m2": 0.00012761730422659407,
+          "valid": true,
+          "min_J": 0.9811286735357849,
+          "momentum_error_kg_m_s": 8.979104782897446e-16,
+          "angular_momentum_error_kg_m2_s": 4.994105896591352e-16
+        },
+        "z": {
+          "tip_response_m2": 0.0001377790897934674,
+          "valid": true,
+          "min_J": 0.9839610255239998,
+          "momentum_error_kg_m_s": 4.166053240472135e-17,
+          "angular_momentum_error_kg_m2_s": 2.4425522557946865e-15
+        }
+      },
+      "optimized": {
+        "y": {
+          "tip_response_m2": 9.032146096350117e-05,
+          "valid": true,
+          "min_J": 0.9835260368530001,
+          "momentum_error_kg_m_s": 1.780269396821512e-15,
+          "angular_momentum_error_kg_m2_s": 8.025154038416283e-16
+        },
+        "z": {
+          "tip_response_m2": 9.656206435295965e-05,
+          "valid": true,
+          "min_J": 0.9860980926038724,
+          "momentum_error_kg_m_s": 1.3323083360654882e-15,
+          "angular_momentum_error_kg_m2_s": 1.195748050376258e-15
+        }
+      }
+    },
+    "final_design_controls": [
+      -1.370992014223345,
+      -1.3806916138609289,
+      -1.398641250649612,
+      -1.4268674707208042,
+      -1.4572475440001522,
+      -1.0733428764684871,
+      0.7269317912562545,
+      1.3838989018285872,
+      1.4169960701231232,
+      1.4218001180370547
+    ]
+  },
+  "artifacts": {
+    "design_history": "design-history.csv",
+    "optimizer_checkpoint": "optimizer-state.npz",
+    "initial_states": "initial/load-y/series.pvd and initial/load-z/series.pvd",
+    "optimized_states": "optimized/load-y/series.pvd and optimized/load-z/series.pvd",
+    "render_command": "pvpython --force-offscreen-rendering tools/render_structural_design_pv.py --input outputs/structural-design --output outputs/structural-design/paraview-gif"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "started_utc": "2026-10-26T18:33:55.218186+00:00",
+  "state": "complete",
+  "command": [
+    "/opt/paraview/bin/pvpython",
+    "--force-offscreen-rendering",
+    "/work/tools/render_structural_design_pv.py",
+    "--input",
+    "/input",
+    "--output",
+    "/work/paraview-gif",
+    "--case",
+    "y"
+  ],
+  "cpu_affinity": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "memory_headroom_at_start": 8581005312,
+  "limit_seconds": 1200.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 887853056,
+  "minimum_memory_headroom": 7906107392,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 39.4628397077322,
+  "returncode": 0
+}

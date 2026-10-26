@@ -1,0 +1,36 @@
+{
+  "phase": "optimization-only",
+  "model_signature": {
+    "design_grid": 24,
+    "design_dt": 0.0005,
+    "time_horizon": 0.24,
+    "design_steps": 480,
+    "control_count": 10,
+    "material": "neo-hookean",
+    "young_pa": 200000.0,
+    "poisson": 0.25,
+    "density_kg_m3": 1000.0,
+    "volume_fraction": 0.75
+  },
+  "last_iteration": 21,
+  "objective_initial_design_mesh": 0.08159897865569604,
+  "objective_final_design_mesh": 0.057193807484814785,
+  "mass_kg": 23.76,
+  "solid_fraction_mean": 0.75,
+  "solid_fraction_min": 0.6092711634281296,
+  "solid_fraction_max": 0.9979376210824967,
+  "controls": [
+    -1.417745312986189,
+    -1.427775686453986,
+    -1.4463374382096124,
+    -1.4755262232602087,
+    -1.506942311795467,
+    -1.1099458031506892,
+    0.7517214755609192,
+    1.4310923487221614,
+    1.4653181901099213,
+    1.47028606471654
+  ],
+  "history_csv": "design-history.csv",
+  "optimizer_checkpoint": "optimizer-state.npz"
+}

@@ -1,0 +1,25 @@
+{
+  "started_utc": "2026-10-26T17:49:09.438957+00:00",
+  "state": "complete",
+  "command": [
+    "bash",
+    "-lc",
+    "set -e; python -m examples.structural_design --help >/tmp/structural-design-cli.txt; python -u -m examples.structural_design --design-grid 24 --production-grid 64 --iterations 6 --time-horizon 0.24 --design-dt 5e-4 --production-dt 2e-4 --resume-state /resume/optimizer-state.npz --optimization-only --output outputs/structural-design-optimization-iteration21"
+  ],
+  "cpu_affinity": [
+    28,
+    29,
+    30,
+    31
+  ],
+  "memory_headroom_at_start": 12875923456,
+  "limit_seconds": 3600.0,
+  "uss_limit_bytes": 9663676416,
+  "peak_uss_bytes": 487833600,
+  "minimum_memory_headroom": 12388507648,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 202.36523865163326,
+  "returncode": 0
+}
