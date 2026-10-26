@@ -1,0 +1,68 @@
+{
+  "case": "JC pressure pulse panel",
+  "completed": true,
+  "completion_evidence": "../../../evidence/pressure-jc-complete/terminal-review.json",
+  "physics_source_commit": "3328c738d1a25da63b1244f63e9291c110776e00",
+  "steps": 6680,
+  "simulation_time": 0.00020000000000002836,
+  "source_frames": 335,
+  "gif_frames": 61,
+  "gif_sha256": "38ca5893b02b9693a4eced86e4c399ce45373ddeefffc9fdc12117383732cc23",
+  "checkpoint_sha256": "135a8bfff59d759f15d2301984d4b4ef55fe6076cad5812f2c75cd1a1b246780",
+  "min_J": 0.9844535771573786,
+  "max_J": 1.0155814855849843,
+  "max_damage": 0.30487473100027573,
+  "max_temperature": 307.48339433389026,
+  "maximum_fixed_clamp_motion_m": 0.0,
+  "maximum_displacement_m": 0.005841214588597288,
+  "final_observation": {
+    "time": 0.0002,
+    "external_work_trapezoidal": 805.6439747787026,
+    "boundary_impulse_x": -4.00842855796852e-14,
+    "boundary_impulse_y": 75.80205203222538,
+    "boundary_impulse_z": 6.255049854153831e-15,
+    "pressure_Pa": 0.0,
+    "load_sample_time_s": 0.0002,
+    "reference_pressure_impulse_Pa_s": 2000.0000000000002,
+    "flat_reference_resultant_impulse_Ns": 64.8,
+    "current_loaded_area_m2": 0.0324235583493588,
+    "resultant_pressure_force_x_N": 0.0,
+    "resultant_pressure_force_y_N": 0.0,
+    "resultant_pressure_force_z_N": 0.0,
+    "centre_surface_deflection_y_m": -0.003850769240513611,
+    "centre_surface_velocity_y_m_per_s": 45.47125809799311,
+    "maximum_displacement_m": 0.003950445218955321,
+    "fully_supported_clamp_max_motion_m": 0.0,
+    "maximum_equivalent_plastic_strain": 0.06052852016345128,
+    "maximum_damage": 0.30487473100027573,
+    "maximum_temperature_K": 307.48339433389026,
+    "maximum_pressure_history_Pa": 695083306.772059,
+    "mean_compaction_reference_volume": 0.0,
+    "material_history_energy_J": 595.9562707639709,
+    "material_history_work_J": 647.2369569656034,
+    "failed_reference_volume_fraction": 0.0,
+    "all_material_history_valid": true
+  },
+  "execution": {
+    "wrapper_exit_code": 1,
+    "reason": "Resource guard terminated common.run postprocessing at final trajectory compression after the final frame/checkpoint/status were saved; USS 6575616000 > limit 6442450944 bytes. No solver step was interrupted.",
+    "independent_terminal_review": "passed",
+    "original_completed_flags_preserved": true
+  },
+  "qualification": {
+    "full_physical_protocol_calculated": true,
+    "experimental_validation": false,
+    "spatial_temporal_convergence_established": false,
+    "complete_discrete_energy_certificate": false
+  },
+  "render": {
+    "engine": "ParaView 6.2 OSMesa",
+    "resolution": [
+      400,
+      400
+    ],
+    "field": "actual displacement norm",
+    "displacement_amplification": 1,
+    "actual_frames_only": true
+  }
+}

@@ -67,6 +67,7 @@ def run(
     resume=False,
     point_fields=None,
     stop_after_frame=None,
+    write_trajectory_archive=True,
 ):
     if frames < 1 or substeps < 1:
         raise ValueError("frames and substeps must be positive")
@@ -304,17 +305,24 @@ def run(
                 raise FloatingPointError("Planned stop reached an invalid state; no resumable segment accepted")
             return states, segment
     body = np.concatenate([np.full(s.x.shape[0], i) for i, s in enumerate(states)])
-    np.savez_compressed(
-        output / "trajectory.npz",
-        x=positions,
-        speed=speeds,
-        damage=damages,
-        temperature=temperatures,
-        time=times,
-        body=body,
-        contact_impulse=impulses,
-        **({"failed": failures} if failures is not None else {}),
-    )
+    if write_trajectory_archive:
+        np.savez_compressed(
+            output / "trajectory.npz",
+            x=positions,
+            speed=speeds,
+            damage=damages,
+            temperature=temperatures,
+            time=times,
+            body=body,
+            contact_impulse=impulses,
+            **({"failed": failures} if failures is not None else {}),
+        )
+    else:
+        _atomic_json(output / "trajectory-storage.json", {
+            "authoritative_frames": "frames_data/frame_*.npz",
+            "saved_frames": frames + 1,
+            "redundant_combined_archive_written": False,
+        })
     for i, state in enumerate(states):
         data = {k: v for k, v in state._asdict().items() if k != "history"}
         data.update({f"history_{k}": v for k, v in state.history._asdict().items()})

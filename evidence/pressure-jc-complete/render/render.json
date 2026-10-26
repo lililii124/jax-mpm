@@ -1,0 +1,1907 @@
+{
+  "scope": "Actual saved JC pressure-panel coordinates; no interpolation, no deformation scale, private render only.",
+  "model": "jc",
+  "source_case_sha256": "7b1ccbc3acd008f5fc4bd3325065053c7041c961f835bc7b1f4ed6071406efc1",
+  "source_checkpoint_sha256": "135a8bfff59d759f15d2301984d4b4ef55fe6076cad5812f2c75cd1a1b246780",
+  "source_checkpoint_frame": 334,
+  "source_steps": 6680,
+  "source_time_s": [
+    0.0,
+    0.0002
+  ],
+  "source_frame_count": 335,
+  "rendered_real_frame_indices": [
+    0,
+    6,
+    11,
+    17,
+    22,
+    28,
+    33,
+    39,
+    45,
+    50,
+    56,
+    61,
+    67,
+    72,
+    78,
+    84,
+    89,
+    95,
+    100,
+    106,
+    111,
+    117,
+    122,
+    128,
+    134,
+    139,
+    145,
+    150,
+    156,
+    161,
+    167,
+    173,
+    178,
+    184,
+    189,
+    195,
+    200,
+    206,
+    212,
+    217,
+    223,
+    228,
+    234,
+    239,
+    245,
+    250,
+    256,
+    262,
+    267,
+    273,
+    278,
+    284,
+    289,
+    295,
+    301,
+    306,
+    312,
+    317,
+    323,
+    328,
+    334
+  ],
+  "rendered_frame_count": 61,
+  "particle_count_per_frame": 479232,
+  "retained_all_points": true,
+  "clamp_strip_definition": "Original case four x/z strips, each width clamp_width_m, selected from reference coordinates; grey only.",
+  "clamp_point_count": 103532,
+  "free_point_count": 375700,
+  "point_gaussian_radius_m": 0.0005538461538461537,
+  "actual_spacing_m": [
+    0.0009375,
+    0.0009230769230769228,
+    0.0009375
+  ],
+  "whole_course_displacement_peak_m": 0.005841214588597288,
+  "whole_course_peak_time_s": 0.00012574850299401196,
+  "colour_range_m": [
+    0.0,
+    0.005841214588597288
+  ],
+  "scale_factor": 1.0,
+  "camera": {
+    "position": [
+      0.35,
+      0.36,
+      0.39
+    ],
+    "focal_point": [
+      0.12,
+      0.12,
+      0.12
+    ],
+    "view_up": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "parallel_projection": true,
+    "parallel_scale": 0.14,
+    "size_px": [
+      400,
+      400
+    ]
+  },
+  "background": "white",
+  "axes_and_text": false,
+  "frame_records": [
+    {
+      "index": 0,
+      "file": "frame_00000.npz",
+      "input_sha256": "10e80cd0e27bfba5f34c95684cfb6147d859086285e948ca8227f006a0383f63",
+      "time_s": 0.0,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0,
+      "max_speed_m_per_s": 0.0,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 0.0,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00000.png",
+      "png_sha256": "fd8efc6eb973a1a4d1ad009f523d8d4c02ababba8a7af9053186b7381240c454"
+    },
+    {
+      "index": 6,
+      "file": "frame_00006.npz",
+      "input_sha256": "c91400ca8038d1ab062762a2ccf2230e8e68f23a466a7fb058680348b92c4f45",
+      "time_s": 3.5928143712574848e-06,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 6.28633139555223e-08,
+      "max_speed_m_per_s": 0.054281821937118245,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 9.715937266765146e-09,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00006.png",
+      "png_sha256": "c3112374a86ae636bdfd458d65e928d4aeab7e484d853032808e21666a432bb0"
+    },
+    {
+      "index": 11,
+      "file": "frame_00011.npz",
+      "input_sha256": "bc077ac14f9c30f83d27232d636690dc9cc7e6bf5bf820509798291cb01fdcb4",
+      "time_s": 6.586826347305389e-06,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 4.6292995445389216e-07,
+      "max_speed_m_per_s": 0.2504803803591672,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 5.32574320387271e-08,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00011.png",
+      "png_sha256": "0e5367a9033326391a1b3605076a615f7b630838ab1354a83d896fbc2d9df483"
+    },
+    {
+      "index": 17,
+      "file": "frame_00017.npz",
+      "input_sha256": "4b4917f56c1026696bd958c11d300a46aedce0efd7faf3bf6625f0f553a7a038",
+      "time_s": 1.0179640718562873e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 2.296127121860733e-06,
+      "max_speed_m_per_s": 0.8527054747909398,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 1.9003433527691444e-07,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00017.png",
+      "png_sha256": "0700028f4ea0da3d2d776a15d2873a9b26220a9b15ddf5cb99f76241742fdc5c"
+    },
+    {
+      "index": 22,
+      "file": "frame_00022.npz",
+      "input_sha256": "0e2035ee04329cc74cb8bed06871e55703f8eb94cfca2c814f989552738463f2",
+      "time_s": 1.3173652694610779e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 6.146208820700031e-06,
+      "max_speed_m_per_s": 1.795393192588258,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 4.0382622525358954e-07,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00022.png",
+      "png_sha256": "9aae374c3f60dd0400271cba2e7024acea32e05ab379741ea78c6f8cac173b96"
+    },
+    {
+      "index": 28,
+      "file": "frame_00028.npz",
+      "input_sha256": "bae12a4a45f27211fedfed05d7d18aa9b77c18d52c16faf7e47f19ad11b2bd30",
+      "time_s": 1.6766467065868263e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 1.5571172965223606e-05,
+      "max_speed_m_per_s": 3.5999517595506343,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 8.093953041309719e-07,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00028.png",
+      "png_sha256": "75e86648e7c217a13ea2b0b8c35cc3d8ce44ec31c674e1a6f0b50174025e9b80"
+    },
+    {
+      "index": 33,
+      "file": "frame_00033.npz",
+      "input_sha256": "4f37e5fe9c60037f9dc36544775cf100ecbaafd35cfb278b9ac7fee94d56d0d6",
+      "time_s": 1.9760479041916168e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 2.9314804564473754e-05,
+      "max_speed_m_per_s": 5.743581708336165,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 1.2863329873138344e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00033.png",
+      "png_sha256": "1999493860e875a1aabae430109db315cab2fc9e19cbced803be131d3d4d3f84"
+    },
+    {
+      "index": 39,
+      "file": "frame_00039.npz",
+      "input_sha256": "7dc63c72219d9936c5736edda8c7b3bdd664bc6f39d66196ff2859920494f0c8",
+      "time_s": 2.3353293413173652e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 5.5483135063461314e-05,
+      "max_speed_m_per_s": 9.135124858534814,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 2.032636443710371e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00039.png",
+      "png_sha256": "0ec24f8a381ee68115d0363fccb9b861afa69569e5bf020d2403025f5c75c580"
+    },
+    {
+      "index": 45,
+      "file": "frame_00045.npz",
+      "input_sha256": "8f279b75c0e1731d3979ca761405b538544ef13147cb570d19b88e3862d0623d",
+      "time_s": 2.6946107784431136e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 9.513673937045496e-05,
+      "max_speed_m_per_s": 13.409167606775686,
+      "max_damage": 0.0,
+      "temperature_range_K": [
+        298.0,
+        298.0
+      ],
+      "fixed_strip_max_motion_m": 2.963246186253312e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00045.png",
+      "png_sha256": "78cd6134f940ce96b6af94e9dbc5be61717dba032e1369816432c0eb53401a03"
+    },
+    {
+      "index": 50,
+      "file": "frame_00050.npz",
+      "input_sha256": "f9ad6142ef6e77b4edd6f7b3ec9ec329b1c994a3ef38b8676b4a920f37fb667e",
+      "time_s": 2.994011976047904e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00014064373999659525,
+      "max_speed_m_per_s": 17.595790272703248,
+      "max_damage": 0.000526368652599161,
+      "temperature_range_K": [
+        298.0,
+        298.01138868366587
+      ],
+      "fixed_strip_max_motion_m": 3.868584182934402e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00050.png",
+      "png_sha256": "147b3678d9248d64d8b0452935ed79c865c1d70587eee374e76f596e96ca1325"
+    },
+    {
+      "index": 56,
+      "file": "frame_00056.npz",
+      "input_sha256": "344826586cb44743f6403a4766c86da97e09975993b94913de43d56a8a21587e",
+      "time_s": 3.3532934131736525e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00021245953315099004,
+      "max_speed_m_per_s": 23.27391883042166,
+      "max_damage": 0.0063906802594596,
+      "temperature_range_K": [
+        298.0,
+        298.14724610495836
+      ],
+      "fixed_strip_max_motion_m": 5.217973512106351e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00056.png",
+      "png_sha256": "0c3579dc47e8e755bc268a5db72ae7dee05397e1901ea275e11b9b738ea3e12d"
+    },
+    {
+      "index": 61,
+      "file": "frame_00061.npz",
+      "input_sha256": "e18835e2d31a29e86cbb52b887fe4f42995cac21790bfbe4046ba9851863f4d5",
+      "time_s": 3.652694610778443e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00028818036838743966,
+      "max_speed_m_per_s": 28.40933718063496,
+      "max_damage": 0.014625860957708552,
+      "temperature_range_K": [
+        298.0,
+        298.3433607287155
+      ],
+      "fixed_strip_max_motion_m": 6.65097409057117e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00061.png",
+      "png_sha256": "d104dbef13e5094ba805de110d43c9f933ccbd5c8fa7c7ef5179efba44eefbc6"
+    },
+    {
+      "index": 67,
+      "file": "frame_00067.npz",
+      "input_sha256": "6670c7e46e1286cafee64af0640ee4e03e07759a4f4374e6fefb6330675e284a",
+      "time_s": 4.0119760479041915e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.000399212339521364,
+      "max_speed_m_per_s": 34.685763917045264,
+      "max_damage": 0.02829487316304743,
+      "temperature_range_K": [
+        298.0,
+        298.6808756459111
+      ],
+      "fixed_strip_max_motion_m": 8.763193457857548e-06,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00067.png",
+      "png_sha256": "18c828c2d3a5c321c74729226c97a7c58bff8ce90181e4cefc00b2556412e897"
+    },
+    {
+      "index": 72,
+      "file": "frame_00072.npz",
+      "input_sha256": "88d920b898aa032e830669a2d0ab29947d14c75d7aa5bdd81050c4535629d4c9",
+      "time_s": 4.311377245508982e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0005083682147023142,
+      "max_speed_m_per_s": 39.84763820314581,
+      "max_damage": 0.04166797447227356,
+      "temperature_range_K": [
+        298.0,
+        299.0266764799793
+      ],
+      "fixed_strip_max_motion_m": 1.0807461808749993e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00072.png",
+      "png_sha256": "8a102ebecbae3da11b94fd94e866c5455c17b7c69c2322223a097df76e126cfa"
+    },
+    {
+      "index": 78,
+      "file": "frame_00078.npz",
+      "input_sha256": "66623f0edeb6e964f9d0e308c680675518d25219c2067dcb920b5b830ae08e01",
+      "time_s": 4.6706586826347304e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0006581579566244033,
+      "max_speed_m_per_s": 46.41584667461482,
+      "max_damage": 0.058972619094110085,
+      "temperature_range_K": [
+        298.0,
+        299.49548206889625
+      ],
+      "fixed_strip_max_motion_m": 1.3530503623487415e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00078.png",
+      "png_sha256": "56f1697a65e62bab6212f8b9fb0d876c38c3c88199c6d641bea90aef3be85a30"
+    },
+    {
+      "index": 84,
+      "file": "frame_00084.npz",
+      "input_sha256": "e95049afbe4500c5b313a4f2810d2323bf9a26c26e6066d31497b629cd061e74",
+      "time_s": 5.029940119760479e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0008286397204012078,
+      "max_speed_m_per_s": 54.9602536546768,
+      "max_damage": 0.07748168027157261,
+      "temperature_range_K": [
+        298.0,
+        300.0201727324837
+      ],
+      "fixed_strip_max_motion_m": 1.6503453525141945e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00084.png",
+      "png_sha256": "a869bf44320d1b24f5dd6bd7e617309a6e94640f1094626d5a111426c6c52067"
+    },
+    {
+      "index": 89,
+      "file": "frame_00089.npz",
+      "input_sha256": "fad14055693d09918216d095f38093856117b3d5eb542af692a2ddf7766cacbb",
+      "time_s": 5.3293413173652694e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0009890327180252887,
+      "max_speed_m_per_s": 63.262976965881585,
+      "max_damage": 0.09355071312521838,
+      "temperature_range_K": [
+        298.0,
+        300.49510732895453
+      ],
+      "fixed_strip_max_motion_m": 1.910945729298939e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00089.png",
+      "png_sha256": "787b866ad6901354e107a5e0edb4f2f28c33a8d67fec1b8905194a57e3a94bf6"
+    },
+    {
+      "index": 95,
+      "file": "frame_00095.npz",
+      "input_sha256": "8e996f451b16725b75a606ed33b04b461d915588e6238d801c76787fce3c9bbc",
+      "time_s": 5.688622754491018e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0012136418477533266,
+      "max_speed_m_per_s": 73.03754541636059,
+      "max_damage": 0.1134111251421668,
+      "temperature_range_K": [
+        298.0,
+        301.10706839295034
+      ],
+      "fixed_strip_max_motion_m": 2.2355844722357437e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00095.png",
+      "png_sha256": "e73da7f8a8cde0a8542a74a117b3e6a7fe2b22bcd716780e584f2d24a19260ee"
+    },
+    {
+      "index": 100,
+      "file": "frame_00100.npz",
+      "input_sha256": "41b23298b3a749450bd22331cd305f39f9e10a392876e1c3306b8e2b8f3e11d8",
+      "time_s": 5.988023952095808e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0014408318499077404,
+      "max_speed_m_per_s": 80.1705410413401,
+      "max_damage": 0.1305687850691055,
+      "temperature_range_K": [
+        298.0,
+        301.71076122042626
+      ],
+      "fixed_strip_max_motion_m": 2.5231696347813927e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00100.png",
+      "png_sha256": "90af3d022b7388d749b1602abd2371b411e906a559e2e5dfd20fa6103b7c5816"
+    },
+    {
+      "index": 106,
+      "file": "frame_00106.npz",
+      "input_sha256": "b6aae6de921be42f5f277987b309efb59e71d644e07073bae6c39340b088448e",
+      "time_s": 6.347305389221557e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0017411563889798553,
+      "max_speed_m_per_s": 86.51826365989007,
+      "max_damage": 0.1505061738133432,
+      "temperature_range_K": [
+        298.0,
+        302.48245257341017
+      ],
+      "fixed_strip_max_motion_m": 2.8712651164653525e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00106.png",
+      "png_sha256": "bc6c2cf3d4d4702916c6f9ecf000cc583dcf4c06c171bcd5d87fa638d52bac24"
+    },
+    {
+      "index": 111,
+      "file": "frame_00111.npz",
+      "input_sha256": "f23e8732080ce3821b8fefb690b9d75892f83d969dbf31e5a13c175382eaa48a",
+      "time_s": 6.646706586826347e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0020048593463759283,
+      "max_speed_m_per_s": 89.16239530478867,
+      "max_damage": 0.1656099219826297,
+      "temperature_range_K": [
+        298.0,
+        303.10732965132877
+      ],
+      "fixed_strip_max_motion_m": 3.14221574915606e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00111.png",
+      "png_sha256": "ae168fc098a20af8ddd7bff93bbf1319cd378e91d486a68362284cf6e80ce8ca"
+    },
+    {
+      "index": 117,
+      "file": "frame_00117.npz",
+      "input_sha256": "4028416a6e83b05bac198460204badc8571c72b3882cd538b7a2c59db697164c",
+      "time_s": 7.005988023952096e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0023259251925899296,
+      "max_speed_m_per_s": 89.27981886711571,
+      "max_damage": 0.1831466434230784,
+      "temperature_range_K": [
+        298.0,
+        303.7881617067523
+      ],
+      "fixed_strip_max_motion_m": 3.42235174170285e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00117.png",
+      "png_sha256": "2aab4b148f0de9ab3f792c4bfe71f9df781a84f166fe4c5e8a3475456bedd14f"
+    },
+    {
+      "index": 122,
+      "file": "frame_00122.npz",
+      "input_sha256": "e83dc5ab0626c46587aee709a123a360d7673d097b7cc972d3eab220df49255c",
+      "time_s": 7.305389221556886e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0025925140839898773,
+      "max_speed_m_per_s": 88.79708723818388,
+      "max_damage": 0.19531826635463506,
+      "temperature_range_K": [
+        298.0,
+        304.26434743337245
+      ],
+      "fixed_strip_max_motion_m": 3.60466133704935e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00122.png",
+      "png_sha256": "11e6ced888c5254c696d9b39dbb77ee4ef260fdc9d991f58831e6d8ec05a8e69"
+    },
+    {
+      "index": 128,
+      "file": "frame_00128.npz",
+      "input_sha256": "21d227adba9916537e5c69277e16a36ca4e2737fe593ae615729ba7721faaa03",
+      "time_s": 7.664670658682635e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.002910544197710051,
+      "max_speed_m_per_s": 88.2792824279435,
+      "max_damage": 0.20934129333717733,
+      "temperature_range_K": [
+        298.0,
+        304.69796609948025
+      ],
+      "fixed_strip_max_motion_m": 3.7538549252708696e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00128.png",
+      "png_sha256": "e5d947865365e4747f84b14e3faabfd2dae2f81fb2175ee1952bdb4c10da69c9"
+    },
+    {
+      "index": 134,
+      "file": "frame_00134.npz",
+      "input_sha256": "cc2d5f89051e5a168cc74612671db2a9bb80e38f5249d9db7e5fe074f0e0f748",
+      "time_s": 8.023952095808383e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.003226672836656565,
+      "max_speed_m_per_s": 87.67134641082957,
+      "max_damage": 0.21909873749885012,
+      "temperature_range_K": [
+        298.0,
+        304.97372584183626
+      ],
+      "fixed_strip_max_motion_m": 3.827800986717728e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00134.png",
+      "png_sha256": "100f1321165296896721dd4b07e7b76aa6600e726343a06d0421d07623191082"
+    },
+    {
+      "index": 139,
+      "file": "frame_00139.npz",
+      "input_sha256": "5ac854809b4814cbf8c64c456a1514ed4b25096183258d746da94e6efaf11218",
+      "time_s": 8.323353293413173e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0034882414173568405,
+      "max_speed_m_per_s": 87.00372030858085,
+      "max_damage": 0.2240774878459328,
+      "temperature_range_K": [
+        298.0,
+        305.09945912390333
+      ],
+      "fixed_strip_max_motion_m": 3.841020174708128e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00139.png",
+      "png_sha256": "ac8aa8b62e2ee3f34543f718963da8d3bae081097099fd9024df3bbe8fdc6218"
+    },
+    {
+      "index": 145,
+      "file": "frame_00145.npz",
+      "input_sha256": "e13759a8dabee84a109acaa8fd6a9a7e20cbd56afd1b40316783e52a1f2c3555",
+      "time_s": 8.682634730538923e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0037986688136392474,
+      "max_speed_m_per_s": 85.72005870915127,
+      "max_damage": 0.22745293419201462,
+      "temperature_range_K": [
+        298.0,
+        305.16921061001267
+      ],
+      "fixed_strip_max_motion_m": 3.8226822753330935e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00145.png",
+      "png_sha256": "e430fdeb8a9be447dd01e9363a0a5fdba094af0c8a278459d8f03f83c5dce2f2"
+    },
+    {
+      "index": 150,
+      "file": "frame_00150.npz",
+      "input_sha256": "ce6767eb661fb2fba6769699d8ba2171d3ed7a8e34ef61dfc0c875f5f29569c3",
+      "time_s": 8.982035928143712e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004052978960556061,
+      "max_speed_m_per_s": 84.10804886962684,
+      "max_damage": 0.22900879986734654,
+      "temperature_range_K": [
+        298.0,
+        305.1933117913221
+      ],
+      "fixed_strip_max_motion_m": 3.799284030338784e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00150.png",
+      "png_sha256": "4638220cfa7b92c12492fe2a1ef1248c29afdc3f21df20914be2c41b7a1c3b4b"
+    },
+    {
+      "index": 156,
+      "file": "frame_00156.npz",
+      "input_sha256": "487cbbeab948099ef8784249348ad1146726da59ea33068e97bd5de7224d4b13",
+      "time_s": 9.341317365269461e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0043502044309293025,
+      "max_speed_m_per_s": 81.30092112375698,
+      "max_damage": 0.2303663510474568,
+      "temperature_range_K": [
+        298.0,
+        305.21040887346476
+      ],
+      "fixed_strip_max_motion_m": 3.7808875922936174e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00156.png",
+      "png_sha256": "f95787f27acc5e1653786fae04fafdd865e1f97cd5caecf5e39e6c774987490d"
+    },
+    {
+      "index": 161,
+      "file": "frame_00161.npz",
+      "input_sha256": "279ea70452909bc6d55741a715a299d6f0a290da29a08b2eee3a740ed76b0587",
+      "time_s": 9.640718562874251e-05,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004588701213833517,
+      "max_speed_m_per_s": 77.98337697109883,
+      "max_damage": 0.23162941995662412,
+      "temperature_range_K": [
+        298.0,
+        305.22812555216376
+      ],
+      "fixed_strip_max_motion_m": 3.7772479267132827e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00161.png",
+      "png_sha256": "51db072d9b9e017cf3d68e1af206f1dabb72d3ebbb67d3fcbe56cdaf4421700e"
+    },
+    {
+      "index": 167,
+      "file": "frame_00167.npz",
+      "input_sha256": "48d7a96a0a08dd81ca1327178ed2d442d2ab7b179c65b012d2efa2282810322b",
+      "time_s": 0.0001,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0048595220418434565,
+      "max_speed_m_per_s": 72.6521401358729,
+      "max_damage": 0.23359187880934623,
+      "temperature_range_K": [
+        298.0,
+        305.26298876032735
+      ],
+      "fixed_strip_max_motion_m": 3.7813287876932326e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00167.png",
+      "png_sha256": "ddf88b423306841dcf8c40fda027b62948ae527c287c984f9cc310ea772d7309"
+    },
+    {
+      "index": 173,
+      "file": "frame_00173.npz",
+      "input_sha256": "08fcd21670b9f10cc79569313326590ce880feb9c930a5e0f22d8a6bc2e147a9",
+      "time_s": 0.00010359281437125749,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005108107834841574,
+      "max_speed_m_per_s": 65.57741891530361,
+      "max_damage": 0.23639799735043712,
+      "temperature_range_K": [
+        298.0,
+        305.32101266690063
+      ],
+      "fixed_strip_max_motion_m": 3.792966815824732e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00173.png",
+      "png_sha256": "6bd02ef1236834c176a24ecdc5b4b8707c7e2f3d6589c848037d7cae15fdd287"
+    },
+    {
+      "index": 178,
+      "file": "frame_00178.npz",
+      "input_sha256": "d7d1554c542b8f1a9f0708bc40117727ff2afce1f852d93d75842a120201bacd",
+      "time_s": 0.00010658682634730539,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005293660909685561,
+      "max_speed_m_per_s": 58.314252090424404,
+      "max_damage": 0.2482403264180541,
+      "temperature_range_K": [
+        298.0,
+        305.38710142724995
+      ],
+      "fixed_strip_max_motion_m": 3.806778011524261e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00178.png",
+      "png_sha256": "09eedd6d2d58fe6e7c48c177e2a233d705b7f549ab5c1e9e84932be8a655379e"
+    },
+    {
+      "index": 184,
+      "file": "frame_00184.npz",
+      "input_sha256": "f83752c7738f37184165b5a2e4884cd109f9ec81d135557474c519df266512c8",
+      "time_s": 0.00011017964071856287,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0054851090367780166,
+      "max_speed_m_per_s": 48.15203732938518,
+      "max_damage": 0.27126379082407154,
+      "temperature_range_K": [
+        298.0,
+        306.15115960334356
+      ],
+      "fixed_strip_max_motion_m": 3.827081215048763e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00184.png",
+      "png_sha256": "38782a12e651f9f7ce27259fec4393757141bab405e4c47935ae761bf8e8fa14"
+    },
+    {
+      "index": 189,
+      "file": "frame_00189.npz",
+      "input_sha256": "d26ada6633f51b28ea84c0fc0d25ecf2cd70a5934602715169b53df0b219dc44",
+      "time_s": 0.00011317365269461077,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00561508216040236,
+      "max_speed_m_per_s": 38.709919379508506,
+      "max_damage": 0.2864736837057826,
+      "temperature_range_K": [
+        298.0,
+        306.65465120134456
+      ],
+      "fixed_strip_max_motion_m": 3.848110571845968e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00189.png",
+      "png_sha256": "d80aa86e94fc534bbc4712bd61bf3d3d4c1398e34fd2a430fe708ed26444ae6a"
+    },
+    {
+      "index": 195,
+      "file": "frame_00195.npz",
+      "input_sha256": "5d666903532b7a90ec16ad4c956ff67f15b94ae5b083e3b658841b9b0a76c879",
+      "time_s": 0.00011676646706586827,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005732441951888111,
+      "max_speed_m_per_s": 26.63016842416909,
+      "max_damage": 0.29882232719227286,
+      "temperature_range_K": [
+        298.0,
+        307.05827874006474
+      ],
+      "fixed_strip_max_motion_m": 3.880939942575846e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00195.png",
+      "png_sha256": "00ee8812673c24bfb679d5d2a01872979f5cbdc29f89381ed74dd18e2f81d4ac"
+    },
+    {
+      "index": 200,
+      "file": "frame_00200.npz",
+      "input_sha256": "c378c84eea985fd7a4a3bcf35135c2e2f27abc933f98c86c091cd993e360d6bb",
+      "time_s": 0.00011976047904191617,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005796783311294577,
+      "max_speed_m_per_s": 16.527863883178807,
+      "max_damage": 0.30377970205029753,
+      "temperature_range_K": [
+        298.0,
+        307.21748264961684
+      ],
+      "fixed_strip_max_motion_m": 3.91497380609956e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00200.png",
+      "png_sha256": "b5fa2f3d7cdbc854f4d2e6647b59b082549e4bf07a2f28dc9892a4183e9f7635"
+    },
+    {
+      "index": 206,
+      "file": "frame_00206.npz",
+      "input_sha256": "ae9095b2822388ed9d77744edb9cd48ed1b0e41aad80158d14852f5190f5469d",
+      "time_s": 0.00012335329341317365,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005835550912255194,
+      "max_speed_m_per_s": 11.697305985592173,
+      "max_damage": 0.3048672764658426,
+      "temperature_range_K": [
+        298.0,
+        307.2513081201996
+      ],
+      "fixed_strip_max_motion_m": 3.9641835546660386e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00206.png",
+      "png_sha256": "6ac51b724866c3fa739b13c75acbb0eed5f7a4f5d5a50d683d5164d597218298"
+    },
+    {
+      "index": 212,
+      "file": "frame_00212.npz",
+      "input_sha256": "afeb447313ec3142a3b769780b252c4d484fafb5603d225865e785f5ab42cda2",
+      "time_s": 0.00012694610778443113,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005839092585861753,
+      "max_speed_m_per_s": 9.26960835087883,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.020252732040761e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00212.png",
+      "png_sha256": "395aea46ed4e8f75734297c2f46a86c5e98308501e82ed6e5046ec85a5af78ba"
+    },
+    {
+      "index": 217,
+      "file": "frame_00217.npz",
+      "input_sha256": "410522233eabb7b3dcb3151eca42757e7109d6556e9df7ba5d9eba3cd67abd4b",
+      "time_s": 0.00012994011976047903,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005822284199722769,
+      "max_speed_m_per_s": 8.094430782166917,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.0715097288008106e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00217.png",
+      "png_sha256": "013f9e914021b8bfc74c404eb674844f26b01e67e772c556b299374a485770dd"
+    },
+    {
+      "index": 223,
+      "file": "frame_00223.npz",
+      "input_sha256": "7b44ac7aaf7dbce3b3b20108d8be731785c6f82ccb0e09792d10ee77dc033096",
+      "time_s": 0.00013353293413173652,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00578579386275338,
+      "max_speed_m_per_s": 12.070147727999288,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.140074966076059e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00223.png",
+      "png_sha256": "a75007b98243dddbe2036afabc2e01727501f49577edffbd29017ef32c9a1c5e"
+    },
+    {
+      "index": 228,
+      "file": "frame_00228.npz",
+      "input_sha256": "57a17a167543f8ec8720c64fe4a14b3e5bdb5be6e58c23136748c609141cf452",
+      "time_s": 0.00013652694610778442,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005745856289895982,
+      "max_speed_m_per_s": 14.482036559887415,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.204479431016017e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00228.png",
+      "png_sha256": "20573ce16007bc4fdc821f67d32821fcbbc1ad77e3af9e06efd2a6904c1fff11"
+    },
+    {
+      "index": 234,
+      "file": "frame_00234.npz",
+      "input_sha256": "9e2681330a53faac899f80ab0368eb10fb78ab6c6dd7ea5ded9a29780dc06335",
+      "time_s": 0.00014011976047904193,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0056897164666407886,
+      "max_speed_m_per_s": 16.66457890054601,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.287589655511998e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00234.png",
+      "png_sha256": "02f5548c5dfbfc85beba0e459b866f5a2f031f24d4bf9657a44cf5615435d70e"
+    },
+    {
+      "index": 239,
+      "file": "frame_00239.npz",
+      "input_sha256": "38c35b1879e38fef3ffc17f22329a04218a8439a61bae8dda555d0675bb74b9b",
+      "time_s": 0.00014311377245508983,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005637536042324045,
+      "max_speed_m_per_s": 18.1468397441482,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.356656027335932e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00239.png",
+      "png_sha256": "554a084dbe275fc52c33eebcc60c832b29293f7699b9c94c7bca91401b7097de"
+    },
+    {
+      "index": 245,
+      "file": "frame_00245.npz",
+      "input_sha256": "b6cb2667e21bbb2299e88377e47d4f1d825d2ce11ce41ab2e754ad492259a852",
+      "time_s": 0.0001467065868263473,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005569434339720039,
+      "max_speed_m_per_s": 19.729354833318272,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.4304368940777595e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00245.png",
+      "png_sha256": "3e682cabe638abb3dac2b3768ee8517df049007b0d94e8e9abd429223502e6ff"
+    },
+    {
+      "index": 250,
+      "file": "frame_00250.npz",
+      "input_sha256": "a579f6208073b65740c1fd83da7c992e13d5f29646c63ac2454f9c1161537b3d",
+      "time_s": 0.0001497005988023952,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00550844024554654,
+      "max_speed_m_per_s": 21.00400316377129,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.4701621183941244e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00250.png",
+      "png_sha256": "192d47087bf06fe54e307c3934e1f4053f5196b0527f7e81dd4edb34a7b28221"
+    },
+    {
+      "index": 256,
+      "file": "frame_00256.npz",
+      "input_sha256": "fef09e32403edc23a7a8fcf2ae4d9429251e9444d0e00007b168214fe3af17c1",
+      "time_s": 0.0001532934131736527,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005430136199551239,
+      "max_speed_m_per_s": 22.58396410942621,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.4712240654546693e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00256.png",
+      "png_sha256": "66afe8e999d06a3d2bd0bf7232112ef6cc1e4f4309206dec7a9b6e8f9cb92e12"
+    },
+    {
+      "index": 262,
+      "file": "frame_00262.npz",
+      "input_sha256": "3f9881d4db667b996be1137e0deaece52b01ea621e7f51534f7a6671a99f0224",
+      "time_s": 0.00015688622754491018,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005346079674321148,
+      "max_speed_m_per_s": 24.18676515835839,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.419068367207788e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00262.png",
+      "png_sha256": "9fe06d31070738dc7a62c34e744bdf835e4b3ccca0be24df6c737622a77184f3"
+    },
+    {
+      "index": 267,
+      "file": "frame_00267.npz",
+      "input_sha256": "48f81f0abb23e391f4eca9f35471ebb4403fb72cc18f83d6a2574a742f6aad14",
+      "time_s": 0.00015988023952095807,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0052717446360777565,
+      "max_speed_m_per_s": 25.43524039053804,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.347502664514397e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00267.png",
+      "png_sha256": "ec562f9e43271d042a03c88c845c1aed8b12b4c19986cac2f3724f2f722dffed"
+    },
+    {
+      "index": 273,
+      "file": "frame_00273.npz",
+      "input_sha256": "f43c2c4a4dd4d5cd02d97e5e65f0a5dec60ed714b9be29511810727b7792524a",
+      "time_s": 0.00016347305389221556,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.005177954506665273,
+      "max_speed_m_per_s": 26.716687386381917,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.244752311697065e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00273.png",
+      "png_sha256": "3634935fa42528121e6fc9841902b0f7ebe20280c586e1138787f00d301eeb25"
+    },
+    {
+      "index": 278,
+      "file": "frame_00278.npz",
+      "input_sha256": "175aab985711b21ea63260d9fb7203e93f73b530c2e9755248552a2cce2f9631",
+      "time_s": 0.00016646706586826346,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0050966568440592355,
+      "max_speed_m_per_s": 27.542414155172818,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.1554480051668524e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00278.png",
+      "png_sha256": "80c518049319734b38e734c7f58094b7a92993d1944e88ac7f274773b8f1b049"
+    },
+    {
+      "index": 284,
+      "file": "frame_00284.npz",
+      "input_sha256": "b34fc0e82d535ae055ab3531de37b2c646960982090b3febe12dcd63bb1a8256",
+      "time_s": 0.00017005988023952097,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004996393082087275,
+      "max_speed_m_per_s": 28.212416501088637,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 4.051244916668802e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00284.png",
+      "png_sha256": "f5a13176722f3c3c90cb1b31fe0c6b8f38aa4633bc3c8008c986f901b096fa3f"
+    },
+    {
+      "index": 289,
+      "file": "frame_00289.npz",
+      "input_sha256": "6db1aeddcd8bba47a21892fc271aaeb47a0871c3f3d066b96e59d9aacb411068",
+      "time_s": 0.00017305389221556887,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004911422390518316,
+      "max_speed_m_per_s": 28.54031485964977,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.96996284073518e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00289.png",
+      "png_sha256": "fc8205b4db1cb6675db01fcadedceb3cbf44602e9d96b64617d5bee25d74f65a"
+    },
+    {
+      "index": 295,
+      "file": "frame_00295.npz",
+      "input_sha256": "a1deea17bb8092ba4a7fb80a40afa917b9892b7345619adb14635e744f7d4611",
+      "time_s": 0.00017664670658682635,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0048083891961906945,
+      "max_speed_m_per_s": 29.125353461118177,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.881966770692212e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00295.png",
+      "png_sha256": "47b428b95d4bd1ef67b8434d34e56c89cad70bad919ca16b59f4f63f8dd9dfd5"
+    },
+    {
+      "index": 301,
+      "file": "frame_00301.npz",
+      "input_sha256": "7520278723a6d0ef091cdc458ec9d238575a6709a4a6d5fdf21e639da4e1d36b",
+      "time_s": 0.00018023952095808383,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0047032488062386454,
+      "max_speed_m_per_s": 31.10527640493526,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.804986858217969e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00301.png",
+      "png_sha256": "b791dbe86defc8731c4d588a0f4726c588fbf99a4961f234b2d3ef4f387fae75"
+    },
+    {
+      "index": 306,
+      "file": "frame_00306.npz",
+      "input_sha256": "4a1a52b981337cf4649facf47a9380afe6e24baa14d43214b5d96047d608ae26",
+      "time_s": 0.00018323353293413173,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004611499550294053,
+      "max_speed_m_per_s": 32.563021551296,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.747505485604189e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00306.png",
+      "png_sha256": "1642b1d6e9375c89e0a3d693bc721634d355717d680a950c05ff6d9a6b26e75e"
+    },
+    {
+      "index": 312,
+      "file": "frame_00312.npz",
+      "input_sha256": "dcd426c51af937c234866059aaccdd23561afa78d435ea52e51d18d7626fb0d1",
+      "time_s": 0.00018682634730538922,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004492341653559393,
+      "max_speed_m_per_s": 34.89285591018244,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.6821432738786826e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00312.png",
+      "png_sha256": "2f2b6b9d1ccff64aee8d9f203d785267af5d38b73f27540b2febfbdb1691d275"
+    },
+    {
+      "index": 317,
+      "file": "frame_00317.npz",
+      "input_sha256": "88aee421d79f5d921b7fc7d8c322a3ecd78cb09fc0a9704234c6f32e2c60adaa",
+      "time_s": 0.00018982035928143712,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.00438329419252473,
+      "max_speed_m_per_s": 37.98723992553616,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.624568885541043e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00317.png",
+      "png_sha256": "70c58e2866f4586d9db8175ad47e5b30f3df3737b58495d8df8e95403fc9d2f9"
+    },
+    {
+      "index": 323,
+      "file": "frame_00323.npz",
+      "input_sha256": "bf31a9f1ea9b0dca2b767f1a0f868c64ba31fdb3cfb922e42354b7cba4d0584e",
+      "time_s": 0.0001934131736526946,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.0042403049409283486,
+      "max_speed_m_per_s": 41.51019927519384,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.5393399589888e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00323.png",
+      "png_sha256": "50711254541d4d91d948065eec27c4f50c46ce01d3929e4301c3278a03381ca0"
+    },
+    {
+      "index": 328,
+      "file": "frame_00328.npz",
+      "input_sha256": "c2892dd4ff8a6b4926229ac5224d08580edb0697db8b8d2811995ef3308387f6",
+      "time_s": 0.0001964071856287425,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.004112226775278623,
+      "max_speed_m_per_s": 43.922644847186476,
+      "max_damage": 0.3048714853803309,
+      "temperature_range_K": [
+        298.0,
+        307.2514270208203
+      ],
+      "fixed_strip_max_motion_m": 3.4502798160671666e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00328.png",
+      "png_sha256": "e72faca704e9012a61540fb63f845931d84025ff59a8cb32a029156d40129931"
+    },
+    {
+      "index": 334,
+      "file": "frame_00334.npz",
+      "input_sha256": "17e9d17ccd7131882ccb95908a62dd73d846f44111fa602df6def988fb3b7ac8",
+      "time_s": 0.0002,
+      "point_count": 479232,
+      "clamp_point_count": 103532,
+      "free_point_count": 375700,
+      "frame_displacement_peak_m": 0.003950445218955321,
+      "max_speed_m_per_s": 46.010265222450116,
+      "max_damage": 0.30487473100027573,
+      "temperature_range_K": [
+        298.0,
+        307.48339433389026
+      ],
+      "fixed_strip_max_motion_m": 3.3202237605698603e-05,
+      "colour_range_m": [
+        0.0,
+        0.005841214588597288
+      ],
+      "fetched_free_coordinates_exact": true,
+      "fetched_clamp_coordinates_exact": true,
+      "png": "frame_00334.png",
+      "png_sha256": "5a00c42077c800d963edf73289c291def2ca92fd267a15b00c99e6e03836819a"
+    }
+  ],
+  "gif_checks": {
+    "source_png_frames": 61,
+    "consecutive_duplicate_groups": 0,
+    "gif_frames_after_duplicate_merge": 61,
+    "distinct_decoded_gif_frames": 61,
+    "playback_ms_per_median_simulation_interval": 90.0,
+    "source_simulation_span_s": 0.0002,
+    "encoded_playback_span_ms": 5050,
+    "frame_durations_ms_after_merge": [
+      90,
+      80,
+      90,
+      80,
+      90,
+      80,
+      90,
+      90,
+      80,
+      90,
+      80,
+      90,
+      80,
+      90,
+      90,
+      80,
+      90,
+      80,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90
+    ],
+    "merged_source_indices": [
+      [
+        0
+      ],
+      [
+        6
+      ],
+      [
+        11
+      ],
+      [
+        17
+      ],
+      [
+        22
+      ],
+      [
+        28
+      ],
+      [
+        33
+      ],
+      [
+        39
+      ],
+      [
+        45
+      ],
+      [
+        50
+      ],
+      [
+        56
+      ],
+      [
+        61
+      ],
+      [
+        67
+      ],
+      [
+        72
+      ],
+      [
+        78
+      ],
+      [
+        84
+      ],
+      [
+        89
+      ],
+      [
+        95
+      ],
+      [
+        100
+      ],
+      [
+        106
+      ],
+      [
+        111
+      ],
+      [
+        117
+      ],
+      [
+        122
+      ],
+      [
+        128
+      ],
+      [
+        134
+      ],
+      [
+        139
+      ],
+      [
+        145
+      ],
+      [
+        150
+      ],
+      [
+        156
+      ],
+      [
+        161
+      ],
+      [
+        167
+      ],
+      [
+        173
+      ],
+      [
+        178
+      ],
+      [
+        184
+      ],
+      [
+        189
+      ],
+      [
+        195
+      ],
+      [
+        200
+      ],
+      [
+        206
+      ],
+      [
+        212
+      ],
+      [
+        217
+      ],
+      [
+        223
+      ],
+      [
+        228
+      ],
+      [
+        234
+      ],
+      [
+        239
+      ],
+      [
+        245
+      ],
+      [
+        250
+      ],
+      [
+        256
+      ],
+      [
+        262
+      ],
+      [
+        267
+      ],
+      [
+        273
+      ],
+      [
+        278
+      ],
+      [
+        284
+      ],
+      [
+        289
+      ],
+      [
+        295
+      ],
+      [
+        301
+      ],
+      [
+        306
+      ],
+      [
+        312
+      ],
+      [
+        317
+      ],
+      [
+        323
+      ],
+      [
+        328
+      ],
+      [
+        334
+      ]
+    ],
+    "gif_sha256": "38ca5893b02b9693a4eced86e4c399ce45373ddeefffc9fdc12117383732cc23"
+  },
+  "final_png_sha256": "5a00c42077c800d963edf73289c291def2ca92fd267a15b00c99e6e03836819a",
+  "simulation_gif_sha256": "38ca5893b02b9693a4eced86e4c399ce45373ddeefffc9fdc12117383732cc23"
+}

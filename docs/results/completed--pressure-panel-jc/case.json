@@ -1,0 +1,111 @@
+{
+  "case": "pressure-pulse-panel",
+  "model": "jc",
+  "material_note": "Existing tensile_aluminum factory; AA2024-T351 JC parameters and thermal assumptions as documented in MATERIAL_ENGINEERING.md, not a pressure-test calibration",
+  "material_parameters_SI": {
+    "mu": 27481203007.518795,
+    "bulk": 71666666666.66667,
+    "A": 265000000.0,
+    "B": 426000000.0,
+    "n": 0.34,
+    "C": 0.015,
+    "m": 1.0,
+    "reference_rate": 1.0,
+    "reference_temperature": 298.0,
+    "melt_temperature": 775.15,
+    "heat_capacity": 875.0,
+    "heat_fraction": 0.9,
+    "density": 2770.0,
+    "failure": [
+      0.13,
+      0.13,
+      -1.5,
+      0.011,
+      0.0
+    ],
+    "failure_enabled": true
+  },
+  "units": "m,s,kg,Pa,N,J,K",
+  "geometry": {
+    "lower_m": [
+      0.03,
+      0.114,
+      0.03
+    ],
+    "upper_m": [
+      0.21,
+      0.126,
+      0.21
+    ],
+    "plate_size_m": [
+      0.18,
+      0.012,
+      0.18
+    ],
+    "free_span_m": [
+      0.16,
+      0.16
+    ],
+    "clamp_width_m": 0.01,
+    "backing": false
+  },
+  "boundary_condition": "Four grid-node edge strips fixed in all3 velocity components through full thickness; no backing or bottom support; remaining faces traction-free except loaded +Y face",
+  "load": {
+    "law": "p(t)=p0*sin(pi*t/T)^2 for0<t<T, zero otherwise; positive pressure acts inward",
+    "peak_pressure_Pa": 50000000.0,
+    "pulse_duration_s": 8e-05,
+    "pressure_impulse_Pa_s": 2000.0000000000002,
+    "flat_reference_resultant_impulse_Ns": 64.80000000000001,
+    "free_areal_mass_velocity_scale_m_per_s": 60.16847172081832,
+    "velocity_scale_scope": "I/(rho*thickness) for an unconstrained flat sheet; dimensional load scale, not clamped-panel response prediction",
+    "preset_status": "Assumed engineering pressure severity, not a fitted experimental or explosive-source pressure",
+    "discrete_flat_reference_impulse_Ns": 64.8,
+    "reference_face_area_m2": 0.0324,
+    "face_particles": 36864,
+    "surface_quadrature": "Topmost material particle layer; A0=particle reference volume / actual reference layer thickness",
+    "follower_traction": "f_p=-p(t)*A0_p*cross(F_p*e_z,F_p*e_x) in Newtons; cofactor(F)*e_y includes current area and normal",
+    "temporal_sampling": "Existing common.run left-end force sample; work uses trapezoidal particle velocities with that force",
+    "damage_scope": "Reference material face remains loaded as it deforms, including damaged points; no new crack-face topology or fragment pressure model"
+  },
+  "material_eos_scope": "JC uses the existing p=K*(1/J-1) density-linear law, adiabatic plastic heating and clipped thermal softening; HJC/JH2/RHT retain their own original EOS and histories",
+  "duration_s": 0.0002,
+  "planned_steps": 6680,
+  "frames": 334,
+  "substeps": 20,
+  "time_step_s": 2.994011976047904e-08,
+  "initial_acoustic_CFL": 0.0998488776188284,
+  "initial_CFL_limit": 0.1,
+  "estimated_initial_wave_speed_m_per_s": 6253.035960879128,
+  "grid": 128,
+  "particles_per_cell_per_axis": 2,
+  "particle_count": 479232,
+  "particle_spacing_m": [
+    0.0009375,
+    0.0009230769230769228,
+    0.0009375
+  ],
+  "source_sha256": {
+    "examples/pressure_pulse_panels.py": "252faad3b4f8eab531b2919d4eb58d51b07946a4d9fe2045f52e0d293313cc16",
+    "mpm_jax/pressure_pulse.py": "1183e5947a8b9ad8fb787e734911bd5f389c2e322fba8c9b2fe4d09941760540",
+    "examples/common.py": "bb5b3ff00b4d4edb54632a11f54b81d2edca767f440d9c6f4a7d52a8a3e5a46f",
+    "examples/material_engineering.py": "eb93e711e01bd17bc331e57dea2feed79a652a4559190d8e450cba438db30c94",
+    "examples/scenarios.py": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d",
+    "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+    "mpm_jax/initialization.py": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d",
+    "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+    "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+    "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+    "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+    "mpm_jax/materials/hjc.py": "21a0518ae909bddabad8f77493a1ed05151da8bab5690dfd0d84e10fe1c970d7",
+    "mpm_jax/materials/mat111_point.py": "2d52b46a67a3da5843b363756d57117185f916ec672a4979cb3ac01e9c447401",
+    "mpm_jax/materials/jh2.py": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+    "mpm_jax/materials/rht.py": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844"
+  },
+  "scope": "Assumed equivalent mechanical pressure input; no explosive chemistry, JWL or blast-flow coupling; not experimental/IJIE calibration",
+  "energy_scope": "Actual applied impulse/work and material histories recorded; standard APIC ledger is not a complete discrete energy certificate; numerical loss is not assigned to heat",
+  "qualification": {
+    "full_physical_validation_completed": false,
+    "spatial_temporal_convergence_established": false,
+    "pressure_experiment_validated": false
+  }
+}

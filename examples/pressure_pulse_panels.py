@@ -122,7 +122,7 @@ def main():
     if not a.resume:(output/'case.json').write_text(json.dumps(case.description,indent=2)+'\n')
     print(json.dumps(dict(model=a.model,particles=len(case.states[0].x),planned_steps=case.description['planned_steps'],stop_after_steps=a.stop_after_steps,grid=a.grid,ppc=a.ppc)),flush=True)
     run(case.states,case.materials,case.configs,frames=case.description['frames'],substeps=20,output=output,label='Pressure pulse panel / '+a.model,
-        forces=case.forces,observer=case.observer,metadata=case.description,render_output=False,resume=a.resume,stop_after_frame=stop,
+        forces=case.forces,observer=case.observer,metadata=case.description,render_output=False,resume=a.resume,stop_after_frame=stop,write_trajectory_archive=False,
         point_fields={**{'reference_'+axis:np.asarray(case.states[0].x)[:,d] for d,axis in enumerate('xyz')},
                       'loaded_surface':np.asarray(np.isclose(np.asarray(case.states[0].x)[:,1],UPPER[1]-.5*case.description['particle_spacing_m'][1],rtol=0,atol=1e-12),dtype=np.int32)})
 

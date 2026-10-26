@@ -78,5 +78,29 @@ Local softening has the existing mesh dependence and failed mass is retained.
 The targeted `tools.check_pressure_pulse_loading` checks only discrete area,
 time impulse and rotation of the follower direction. Twenty-step large-scale
 runs are resource prefixes, not completed pressure histories or physical/
-convergence validation. Full execution, response review and refinement remain
-separate work. No pressure-panel GIF is published for these prefixes.
+convergence validation.
+
+## Completed JC pressure history
+
+The JC preset has completed 6680 steps through 200 microseconds. Its 335 saved
+states preserve the prescribed four-edge clamps, positive deformation
+determinants and valid material history. Mass is constant at 1.076976 kg;
+peak displacement is recorded in the [result summary](results/completed--pressure-panel-jc/summary.json).
+The maximum damage is 0.304875 and temperature is 307.483 K. This is a bending
+and plasticity example, without material separation or an experimental
+accuracy claim. The [GIF](images/home/completed--pressure-panel-jc.gif) uses
+61 actual saved states at their unscaled positions, coloured by displacement.
+
+The original run wrapper exited after its final checkpoint while compressing
+a duplicate combined trajectory: mapped history pages exceeded the 6 GiB
+private-memory limit. The final full checkpoint and all 335 frame files passed
+an independent read-only review. Original failed-wrapper flags are retained
+in `evidence/pressure-jc-complete`, alongside its source bridge, diagnostics,
+frame hashes and review script. This establishes completion of the numerical
+protocol, without claiming a complete APIC energy certificate or convergence.
+
+Pressure examples now retain individual frame NPZ files and omit the redundant
+combined archive. `examples.common.run` keeps archive writing enabled by
+default for other examples through its `write_trajectory_archive` argument.
+The output change does not alter solver steps, material parameters or loading.
+HJC, JH-2 and RHT full-history results remain separate work.

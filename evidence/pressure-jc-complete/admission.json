@@ -1,0 +1,433 @@
+{
+  "scope": "Private ParaView GIF of the independently reviewed actual JC terminal CP; no physics rerun and no change to original completed flags.",
+  "simulation_task": "pressure-full-jc-6680-from6520",
+  "simulation_container_id": "9c35230b527dc8361f19a15016e9c7b86f2e9710c983ddc4b8104f8b821f011e",
+  "terminal_exit_code": 1,
+  "terminal_reason": "USS guard ended common.run after all 6680 physical steps and final checkpoint/frame were saved, during whole-course trajectory.npz compression.",
+  "independent_terminal_review": "terminal-review.json",
+  "source_commit": "3328c738d1a25da63b1244f63e9291c110776e00",
+  "checkpoint_sha256": "135a8bfff59d759f15d2301984d4b4ef55fe6076cad5812f2c75cd1a1b246780",
+  "renderer_task": "pressure-jc-render-final-v2",
+  "renderer_container_id": "9918fe107783ce3fca8a5f2b64923242dcc73add679824a952965863992e8211",
+  "renderer_sha256": "90ad9c86a16f3be684b124bb49df052c9f3698624ba73068d5a65e412f252b50",
+  "rendered_frame_indices": [
+    0,
+    6,
+    11,
+    17,
+    22,
+    28,
+    33,
+    39,
+    45,
+    50,
+    56,
+    61,
+    67,
+    72,
+    78,
+    84,
+    89,
+    95,
+    100,
+    106,
+    111,
+    117,
+    122,
+    128,
+    134,
+    139,
+    145,
+    150,
+    156,
+    161,
+    167,
+    173,
+    178,
+    184,
+    189,
+    195,
+    200,
+    206,
+    212,
+    217,
+    223,
+    228,
+    234,
+    239,
+    245,
+    250,
+    256,
+    262,
+    267,
+    273,
+    278,
+    284,
+    289,
+    295,
+    301,
+    306,
+    312,
+    317,
+    323,
+    328,
+    334
+  ],
+  "rendered_frames": 61,
+  "gif_checks": {
+    "source_png_frames": 61,
+    "consecutive_duplicate_groups": 0,
+    "gif_frames_after_duplicate_merge": 61,
+    "distinct_decoded_gif_frames": 61,
+    "playback_ms_per_median_simulation_interval": 90.0,
+    "source_simulation_span_s": 0.0002,
+    "encoded_playback_span_ms": 5050,
+    "frame_durations_ms_after_merge": [
+      90,
+      80,
+      90,
+      80,
+      90,
+      80,
+      90,
+      90,
+      80,
+      90,
+      80,
+      90,
+      80,
+      90,
+      90,
+      80,
+      90,
+      80,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90,
+      70,
+      90,
+      70,
+      90,
+      70,
+      90,
+      90
+    ],
+    "merged_source_indices": [
+      [
+        0
+      ],
+      [
+        6
+      ],
+      [
+        11
+      ],
+      [
+        17
+      ],
+      [
+        22
+      ],
+      [
+        28
+      ],
+      [
+        33
+      ],
+      [
+        39
+      ],
+      [
+        45
+      ],
+      [
+        50
+      ],
+      [
+        56
+      ],
+      [
+        61
+      ],
+      [
+        67
+      ],
+      [
+        72
+      ],
+      [
+        78
+      ],
+      [
+        84
+      ],
+      [
+        89
+      ],
+      [
+        95
+      ],
+      [
+        100
+      ],
+      [
+        106
+      ],
+      [
+        111
+      ],
+      [
+        117
+      ],
+      [
+        122
+      ],
+      [
+        128
+      ],
+      [
+        134
+      ],
+      [
+        139
+      ],
+      [
+        145
+      ],
+      [
+        150
+      ],
+      [
+        156
+      ],
+      [
+        161
+      ],
+      [
+        167
+      ],
+      [
+        173
+      ],
+      [
+        178
+      ],
+      [
+        184
+      ],
+      [
+        189
+      ],
+      [
+        195
+      ],
+      [
+        200
+      ],
+      [
+        206
+      ],
+      [
+        212
+      ],
+      [
+        217
+      ],
+      [
+        223
+      ],
+      [
+        228
+      ],
+      [
+        234
+      ],
+      [
+        239
+      ],
+      [
+        245
+      ],
+      [
+        250
+      ],
+      [
+        256
+      ],
+      [
+        262
+      ],
+      [
+        267
+      ],
+      [
+        273
+      ],
+      [
+        278
+      ],
+      [
+        284
+      ],
+      [
+        289
+      ],
+      [
+        295
+      ],
+      [
+        301
+      ],
+      [
+        306
+      ],
+      [
+        312
+      ],
+      [
+        317
+      ],
+      [
+        323
+      ],
+      [
+        328
+      ],
+      [
+        334
+      ]
+    ],
+    "gif_sha256": "38ca5893b02b9693a4eced86e4c399ce45373ddeefffc9fdc12117383732cc23"
+  },
+  "io_only_future_patch": {
+    "scope": "Future capsules only; not applied to this run.",
+    "patch_file": "render/source-notes/pressure_panel_continue.py",
+    "patch_sha256": "6b4a3b6bd4f754bfaf01ec53b5d181af183895333a1d575c647a7fd3076917b3",
+    "review_file": "render/source-notes/pressure-archive-io-patch-review.json",
+    "review_sha256": "4ff65d0e2770096ecfa83d9935095926789a2f51e4830a4a2475bc9060b7717d"
+  },
+  "source_completed_flags_unchanged": true,
+  "no_full_trajectory_archive_rebuilt": true,
+  "files_sha256": {
+    "admission.json": "74fca7d9040186649fb345fe222fbb3a804a26efdaff162fe920f96b041c7f9f",
+    "audit-resource.json": "730e486b2bd703b896d70e8bb8e1c41d429edec751b82c9326194f7b592827d4",
+    "case.json": "7b1ccbc3acd008f5fc4bd3325065053c7041c961f835bc7b1f4ed6071406efc1",
+    "checkpoint.json": "e279516ed52b31362eb78f9fcdd5a51b7c01027796bc1f9feb6e62f40ecd96fe",
+    "contract.json": "8323132e7f92de9da5d9f2af0c35db116ac20633f68c23ac7dc1b3560225d2bd",
+    "derived-cache-removal.json": "127593fa62b9137ecd22fdc73a2365a3ad4922d33d5599899a7da21dfcc40665",
+    "diagnostics.json": "8d04302b5fa358594a405a45549e7f729098c7125fd8e892c1bbfaf3c2b133b7",
+    "final.png": "5a00c42077c800d963edf73289c291def2ca92fd267a15b00c99e6e03836819a",
+    "first-render-attempt-resource.json": "730a8cb63e09f44152e7269ba4da8abfdef991875c63e0ebe3f4a21a62ef2f17",
+    "first-render-attempt.log": "f112a9bfe5cc8d8694fc0e1cbce2baf5949d21feda0535fe34af332fda6209ba",
+    "observations.json": "80b3ff8b50d0ca97afb6565032bc2e280e04f04a45cdb0383934d1f7f36cc036",
+    "render-resource.json": "7fd48fc98215ce1491cd7a255070dfa01077d5acb6d0268105b0eb6f2f432344",
+    "render.log": "0c165c5e0e8d313373a6ac0d111f849167f370613504539198425d7bf3b8f32a",
+    "segment.json": "fa6eb562b93468228898d8c2788d09349de091fb072dc8feb633759d4f21e5a1",
+    "simulation.gif": "38ca5893b02b9693a4eced86e4c399ce45373ddeefffc9fdc12117383732cc23",
+    "source-bridge.json": "d9dfb6be37d29c892dd102cd78d7e2df433050f58169ebc18b137e5ec5b45e22",
+    "source-capsule.json": "723dff55a9dd3ac4911c62e69ebca6a8df52ec3efc7ad045c702f143503fc3ce",
+    "status.json": "ac466b351f7baf09a1474b567d616bb98226f5c88d9c573747f621d42f91ccf8",
+    "summary.json": "fa6eb562b93468228898d8c2788d09349de091fb072dc8feb633759d4f21e5a1",
+    "terminal-review.json": "45599fe6660ecfc0a3d9f678848cc43a4bcb2441ed7f443f27885614d989dbcc",
+    "render/final.png": "5a00c42077c800d963edf73289c291def2ca92fd267a15b00c99e6e03836819a",
+    "render/render.json": "21f4cf52e3aed1ca442edc8bfa24e017fa10079e6e684a1327b2484469582896",
+    "render/simulation.gif": "38ca5893b02b9693a4eced86e4c399ce45373ddeefffc9fdc12117383732cc23",
+    "render/gif-checks/gif-checks.json": "7db040903245dc8cf96374871414d4864da64eac22aeb33bed05338ed5598b4e",
+    "render/png/frame_00000.png": "fd8efc6eb973a1a4d1ad009f523d8d4c02ababba8a7af9053186b7381240c454",
+    "render/png/frame_00006.png": "c3112374a86ae636bdfd458d65e928d4aeab7e484d853032808e21666a432bb0",
+    "render/png/frame_00011.png": "0e5367a9033326391a1b3605076a615f7b630838ab1354a83d896fbc2d9df483",
+    "render/png/frame_00017.png": "0700028f4ea0da3d2d776a15d2873a9b26220a9b15ddf5cb99f76241742fdc5c",
+    "render/png/frame_00022.png": "9aae374c3f60dd0400271cba2e7024acea32e05ab379741ea78c6f8cac173b96",
+    "render/png/frame_00028.png": "75e86648e7c217a13ea2b0b8c35cc3d8ce44ec31c674e1a6f0b50174025e9b80",
+    "render/png/frame_00033.png": "1999493860e875a1aabae430109db315cab2fc9e19cbced803be131d3d4d3f84",
+    "render/png/frame_00039.png": "0ec24f8a381ee68115d0363fccb9b861afa69569e5bf020d2403025f5c75c580",
+    "render/png/frame_00045.png": "78cd6134f940ce96b6af94e9dbc5be61717dba032e1369816432c0eb53401a03",
+    "render/png/frame_00050.png": "147b3678d9248d64d8b0452935ed79c865c1d70587eee374e76f596e96ca1325",
+    "render/png/frame_00056.png": "0c3579dc47e8e755bc268a5db72ae7dee05397e1901ea275e11b9b738ea3e12d",
+    "render/png/frame_00061.png": "d104dbef13e5094ba805de110d43c9f933ccbd5c8fa7c7ef5179efba44eefbc6",
+    "render/png/frame_00067.png": "18c828c2d3a5c321c74729226c97a7c58bff8ce90181e4cefc00b2556412e897",
+    "render/png/frame_00072.png": "8a102ebecbae3da11b94fd94e866c5455c17b7c69c2322223a097df76e126cfa",
+    "render/png/frame_00078.png": "56f1697a65e62bab6212f8b9fb0d876c38c3c88199c6d641bea90aef3be85a30",
+    "render/png/frame_00084.png": "a869bf44320d1b24f5dd6bd7e617309a6e94640f1094626d5a111426c6c52067",
+    "render/png/frame_00089.png": "787b866ad6901354e107a5e0edb4f2f28c33a8d67fec1b8905194a57e3a94bf6",
+    "render/png/frame_00095.png": "e73da7f8a8cde0a8542a74a117b3e6a7fe2b22bcd716780e584f2d24a19260ee",
+    "render/png/frame_00100.png": "90af3d022b7388d749b1602abd2371b411e906a559e2e5dfd20fa6103b7c5816",
+    "render/png/frame_00106.png": "bc6c2cf3d4d4702916c6f9ecf000cc583dcf4c06c171bcd5d87fa638d52bac24",
+    "render/png/frame_00111.png": "ae168fc098a20af8ddd7bff93bbf1319cd378e91d486a68362284cf6e80ce8ca",
+    "render/png/frame_00117.png": "2aab4b148f0de9ab3f792c4bfe71f9df781a84f166fe4c5e8a3475456bedd14f",
+    "render/png/frame_00122.png": "11e6ced888c5254c696d9b39dbb77ee4ef260fdc9d991f58831e6d8ec05a8e69",
+    "render/png/frame_00128.png": "e5d947865365e4747f84b14e3faabfd2dae2f81fb2175ee1952bdb4c10da69c9",
+    "render/png/frame_00134.png": "100f1321165296896721dd4b07e7b76aa6600e726343a06d0421d07623191082",
+    "render/png/frame_00139.png": "ac8aa8b62e2ee3f34543f718963da8d3bae081097099fd9024df3bbe8fdc6218",
+    "render/png/frame_00145.png": "e430fdeb8a9be447dd01e9363a0a5fdba094af0c8a278459d8f03f83c5dce2f2",
+    "render/png/frame_00150.png": "4638220cfa7b92c12492fe2a1ef1248c29afdc3f21df20914be2c41b7a1c3b4b",
+    "render/png/frame_00156.png": "f95787f27acc5e1653786fae04fafdd865e1f97cd5caecf5e39e6c774987490d",
+    "render/png/frame_00161.png": "51db072d9b9e017cf3d68e1af206f1dabb72d3ebbb67d3fcbe56cdaf4421700e",
+    "render/png/frame_00167.png": "ddf88b423306841dcf8c40fda027b62948ae527c287c984f9cc310ea772d7309",
+    "render/png/frame_00173.png": "6bd02ef1236834c176a24ecdc5b4b8707c7e2f3d6589c848037d7cae15fdd287",
+    "render/png/frame_00178.png": "09eedd6d2d58fe6e7c48c177e2a233d705b7f549ab5c1e9e84932be8a655379e",
+    "render/png/frame_00184.png": "38782a12e651f9f7ce27259fec4393757141bab405e4c47935ae761bf8e8fa14",
+    "render/png/frame_00189.png": "d80aa86e94fc534bbc4712bd61bf3d3d4c1398e34fd2a430fe708ed26444ae6a",
+    "render/png/frame_00195.png": "00ee8812673c24bfb679d5d2a01872979f5cbdc29f89381ed74dd18e2f81d4ac",
+    "render/png/frame_00200.png": "b5fa2f3d7cdbc854f4d2e6647b59b082549e4bf07a2f28dc9892a4183e9f7635",
+    "render/png/frame_00206.png": "6ac51b724866c3fa739b13c75acbb0eed5f7a4f5d5a50d683d5164d597218298",
+    "render/png/frame_00212.png": "395aea46ed4e8f75734297c2f46a86c5e98308501e82ed6e5046ec85a5af78ba",
+    "render/png/frame_00217.png": "013f9e914021b8bfc74c404eb674844f26b01e67e772c556b299374a485770dd",
+    "render/png/frame_00223.png": "a75007b98243dddbe2036afabc2e01727501f49577edffbd29017ef32c9a1c5e",
+    "render/png/frame_00228.png": "20573ce16007bc4fdc821f67d32821fcbbc1ad77e3af9e06efd2a6904c1fff11",
+    "render/png/frame_00234.png": "02f5548c5dfbfc85beba0e459b866f5a2f031f24d4bf9657a44cf5615435d70e",
+    "render/png/frame_00239.png": "554a084dbe275fc52c33eebcc60c832b29293f7699b9c94c7bca91401b7097de",
+    "render/png/frame_00245.png": "3e682cabe638abb3dac2b3768ee8517df049007b0d94e8e9abd429223502e6ff",
+    "render/png/frame_00250.png": "192d47087bf06fe54e307c3934e1f4053f5196b0527f7e81dd4edb34a7b28221",
+    "render/png/frame_00256.png": "66afe8e999d06a3d2bd0bf7232112ef6cc1e4f4309206dec7a9b6e8f9cb92e12",
+    "render/png/frame_00262.png": "9fe06d31070738dc7a62c34e744bdf835e4b3ccca0be24df6c737622a77184f3",
+    "render/png/frame_00267.png": "ec562f9e43271d042a03c88c845c1aed8b12b4c19986cac2f3724f2f722dffed",
+    "render/png/frame_00273.png": "3634935fa42528121e6fc9841902b0f7ebe20280c586e1138787f00d301eeb25",
+    "render/png/frame_00278.png": "80c518049319734b38e734c7f58094b7a92993d1944e88ac7f274773b8f1b049",
+    "render/png/frame_00284.png": "f5a13176722f3c3c90cb1b31fe0c6b8f38aa4633bc3c8008c986f901b096fa3f",
+    "render/png/frame_00289.png": "fc8205b4db1cb6675db01fcadedceb3cbf44602e9d96b64617d5bee25d74f65a",
+    "render/png/frame_00295.png": "47b428b95d4bd1ef67b8434d34e56c89cad70bad919ca16b59f4f63f8dd9dfd5",
+    "render/png/frame_00301.png": "b791dbe86defc8731c4d588a0f4726c588fbf99a4961f234b2d3ef4f387fae75",
+    "render/png/frame_00306.png": "1642b1d6e9375c89e0a3d693bc721634d355717d680a950c05ff6d9a6b26e75e",
+    "render/png/frame_00312.png": "2f2b6b9d1ccff64aee8d9f203d785267af5d38b73f27540b2febfbdb1691d275",
+    "render/png/frame_00317.png": "70c58e2866f4586d9db8175ad47e5b30f3df3737b58495d8df8e95403fc9d2f9",
+    "render/png/frame_00323.png": "50711254541d4d91d948065eec27c4f50c46ce01d3929e4301c3278a03381ca0",
+    "render/png/frame_00328.png": "e72faca704e9012a61540fb63f845931d84025ff59a8cb32a029156d40129931",
+    "render/png/frame_00334.png": "5a00c42077c800d963edf73289c291def2ca92fd267a15b00c99e6e03836819a",
+    "render/source-notes/pressure-archive-io-patch-review.json": "4ff65d0e2770096ecfa83d9935095926789a2f51e4830a4a2475bc9060b7717d",
+    "render/source-notes/pressure_panel_continue.py": "6b4a3b6bd4f754bfaf01ec53b5d181af183895333a1d575c647a7fd3076917b3"
+  }
+}
