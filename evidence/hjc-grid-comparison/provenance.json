@@ -1,0 +1,30 @@
+{
+  "coarse_artifact": {
+    "run": 40174842217,
+    "artifact": 12591624065,
+    "commit": "4956ae6cab46118eca2706ed02dc4d0a2bac1181",
+    "bytes": 658734489,
+    "sha256": "2dbd5b7cf454f9bcc7f0c0cf8f4a34e798df93dc15be7ae5ba6b4acd594aed0a",
+    "frame": 60,
+    "official_digest_matched": true,
+    "all_member_crc_checked": true,
+    "zip_members": 99,
+    "uncompressed_bytes": 1035082737
+  },
+  "coarse_metadata": {
+    "bytes": 236511,
+    "sha256": "f49d0b4a631b1f7829d5da16b39a281f34f18359702488566afde6c7f2002bef",
+    "zip_crc_verified": true
+  },
+  "fine_task": "hjc-fixed-grid96-f30-to40-v1",
+  "fine_terminal_returncode": 0,
+  "comparison_window_s": [
+    0,
+    0.001
+  ],
+  "full_prescribed_window_s": [
+    0,
+    0.0015
+  ],
+  "scope": "Combined grid and timestep refinement with identical initial particles and fixed physical fixtures. Neither independent spatial convergence nor time convergence is established."
+}
