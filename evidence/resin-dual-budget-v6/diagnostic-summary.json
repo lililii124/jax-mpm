@@ -1,0 +1,52 @@
+{
+  "base_commit": "b4fb0d5482faf8e1e5de8a445fe75bea54acd41a",
+  "file": "mpm_jax/resin_fill.py",
+  "patch": {
+    "max_iterations_total": 7168,
+    "refinement_iterations": 2048,
+    "effective_primary_iterations": 5120,
+    "reported_iteration_cap": 7168,
+    "reported_refinement_cap": 2048,
+    "physical_acceptance_thresholds_changed": false
+  },
+  "patched_resin_fill_sha256": "63c7ab7f0f5332306480ea635447e68c29930777bc6d3c774be03c8f22fa3f7c",
+  "same_state_step5825": {
+    "parent_step": 5824,
+    "parent_checkpoint_sha256": "842234774d5a386988b1e036f68ed69dcff0b61401606be5f9eca7ae4ffe1f09",
+    "candidate_7168_total_2048_dual_effective_primary5120": {
+      "returncode": 0,
+      "valid": true,
+      "stationarity_relative": 2.158707508044757e-15,
+      "relative_residual": 5.360561383587616e-09,
+      "dual_velocity_selected": 1.0
+    },
+    "more_primary_7168_total_1024_dual_effective_primary6144": {
+      "returncode": 1,
+      "valid": false,
+      "stationarity_relative": 0.004697647307586746,
+      "relative_residual": 3.2431315377071086e-14
+    }
+  },
+  "continuous_candidate_5824_to5888": {
+    "task": "run-5824-to5888-primary5120-dual2048",
+    "returncode": 0,
+    "rows": 64,
+    "all_gates_pass": true,
+    "source_tree_sha256": "1d0f66fc6b429453d18d753d68f3e8b1235be0f18081bfded49ec2d1b0a21b13",
+    "checkpoint_step": 5888,
+    "checkpoint_sha256": "2f31cf984fc94934beed65aab7a6576833615d730f15dd218b919198f39b3a68",
+    "max_stationarity": 9.259332188259301e-11,
+    "max_pressure_residual": 6.833658106407583e-08,
+    "max_mass_identity_kg": 7.047314121155779e-18,
+    "max_global_energy_identity_J": 1.209563048679141e-16,
+    "observables_sha256": "55b1622c914fb867a50de8d0d375229e6095405e2585eef52b1b2044da740436"
+  },
+  "source_identity": {
+    "v6_live_and_segment_resin_fill_sha256": "63c7ab7f0f5332306480ea635447e68c29930777bc6d3c774be03c8f22fa3f7c",
+    "resin_pressure_lsqr_sha256": "6e847092798b2381b30914fdd93b7fb26d812416e903ac8eea2897a41946010c",
+    "byte_identical_to_v6_and_64step_candidate": true
+  },
+  "failed_v5_retained": true,
+  "no_threshold_relaxation": true,
+  "complete_filling_qualified": false
+}

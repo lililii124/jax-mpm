@@ -69,6 +69,16 @@ the dual budget did not resolve the original failure. The extra primary
 iterations also change the previously accepted states at steps 5010–5011;
 this is not a bitwise-preserving continuation of the smaller-budget run.
 
+Step 5825 later met the volume constraint but failed stationarity. On the
+same saved state, 6144 primary iterations with 1024 dual iterations still
+failed; 5120 primary iterations with 2048 dual iterations passed. The
+[current budget evidence](../evidence/resin-dual-budget-v6/diagnostic-summary.json)
+also covers a complete 64-step continuation through step 5888. Its maximum
+pressure and stationarity residuals were 6.84e-8 and 9.26e-11, respectively,
+with no obstacle intrusions or escaped particles. The total iteration cap is
+7168; the primary cap is the total minus the 2048 dual iterations. Physical
+acceptance thresholds are unchanged.
+
 This remains an experimental filling example. Complete filling, spatial/time
 convergence, and the smooth-boundary error have not been established. The
 gallery does not present this partial run as a completed injected cylinder.
