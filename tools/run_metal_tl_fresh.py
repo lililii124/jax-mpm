@@ -129,11 +129,15 @@ def main():
     parser.add_argument('--max-seconds', type=float, default=1800.)
     parser.add_argument('--resume-checkpoint', type=Path)
     parser.add_argument('--resume-bridge', type=Path)
+    parser.add_argument('--audit-only', action='store_true',
+                        help='Write read-only physical/material metrics for a source-bound checkpoint')
     args = parser.parse_args()
     if not 150e-9 <= args.end_time <= 250e-9 or not 1 <= args.max_seconds <= 1800:
         parser.error('The bounded contact/fracture-review window is limited to 150–250 ns and 1800 s')
     if bool(args.resume_checkpoint) != bool(args.resume_bridge):
         parser.error('--resume-checkpoint and --resume-bridge must be supplied together')
+    if args.audit_only and args.resume_checkpoint is None:
+        parser.error('--audit-only requires a source-bound accepted checkpoint')
     if args.output.exists() and any(args.output.iterdir()):
         raise FileExistsError('Fresh-t0 TL output must be empty')
     args.output.mkdir(parents=True, exist_ok=True)
@@ -460,6 +464,21 @@ def main():
 
     if resumed_steps and not (args.output/'damage-history.jsonl').exists():
         append_damage_history(resumed_steps, float(state.time), None)
+
+    if args.audit_only:
+        write_endpoint_audit('accepted-checkpoint-read-only')
+        case.update(status='read-only-checkpoint-audit-complete', steps=steps,
+                    time_s=float(state.time), newly_active_e0_checked=newly_active_checked,
+                    max_linear_relative=max_momentum_error,
+                    max_angular_relative=max_angular_error,
+                    max_energy_error_J=max_energy_error)
+        atomic_json(args.output/'run.json', case)
+        atomic_json(args.output/'audit-only-receipt.json', dict(
+            schema='c2-tl-read-only-checkpoint-audit-v1',
+            checkpoint_sha256=resume_record['checkpoint_sha256'],
+            step=steps, time_s=float(state.time), source_sha256=hashes,
+            interpretation='No midpoint step was run; all endpoint fields are sampled from the accepted checkpoint.'))
+        return
 
     try:
         while float(state.time) < args.end_time:
