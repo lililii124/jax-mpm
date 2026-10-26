@@ -2,6 +2,21 @@
 
 ParaView frames and animations. [Run records](RESULTS.md).
 
+## JAX design
+
+Differentiable 3D MPM material-layout design. These independent 400 × 400
+ParaView animations show the same y-load case and camera for the uniform
+reference and feasible optimized design; deformation is shown at its original
+scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="assets/structural-y-initial.gif" alt="Uniform reference under an 8 N y load" width="100%"><br><strong>Uniform reference · y load</strong></td>
+<td width="33%" align="center"><img src="assets/structural-y-optimized.gif" alt="Optimized material layout under an 8 N y load" width="100%"><br><strong>Optimized layout · y load</strong></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
 ## Fibres
 
 <table width="100%">

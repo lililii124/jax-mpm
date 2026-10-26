@@ -177,6 +177,16 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+### JAX design
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/assets/structural-y-initial.gif" alt="Uniform reference under an 8 N y load" width="100%"><br><a href="docs/STRUCTURAL_DESIGN.md">Uniform reference · y load</a></td>
+<td width="33%" align="center"><img src="docs/assets/structural-y-optimized.gif" alt="Optimized material layout under an 8 N y load" width="100%"><br><a href="docs/STRUCTURAL_DESIGN.md">Optimized layout · y load</a></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
 <!-- END EXAMPLE GIFS -->
 
 ## Installation

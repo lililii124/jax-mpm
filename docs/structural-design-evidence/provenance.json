@@ -1,0 +1,25 @@
+{
+  "optimization_task": "jax-mpm-design-optimization-final-20261027 followed by jax-mpm-design-optimization-21-20261027",
+  "feasible_forward_task": "jax-mpm-design-feasible-forward-20261027",
+  "paraview_task": "jax-mpm-design-feasible-paraview-y-20261027",
+  "source_capsule_sha256": {
+    "optimization_21": "e5ea341bc2f0875b39aac9d33c8ed637739fef2fddd9ccc61d7508303dff6746",
+    "feasible_forward": "8c78cf6bb15454a5c9503a2465a6d5ddc869ac41e028bf5220ecedfeb8230517"
+  },
+  "forward_summary_sha256": "d33b0ab210b8a30fbe5e8203a126cb63d4d632d79057d535a52502163d562705",
+  "optimization_history_sha256": "cbb0921306010564c51ef238331f3127e8c6ce333144d9de9f492e21a545fa60",
+  "render_manifest_sha256": "e8d792194d49953ef76dba3aee9d532dec924bd7fb764be8634ac010b82b5ef2",
+  "updates": 21,
+  "projection_beta": 0.9670227802309797,
+  "fractions": {
+    "coarse_24_design_min": 0.6109618658036844,
+    "coarse_24_design_max": 0.9947957139529193,
+    "coarse_24_design_mean": 0.75,
+    "fine_64_production_min": 0.6141499027213507,
+    "fine_64_production_max": 0.9995000174725577,
+    "fine_64_production_mean": 0.75,
+    "trajectory_export_max_float32": 0.999500036239624,
+    "trajectory_export_mean_float32": 0.7500000596046448
+  },
+  "note": "Forward summary, optimization history, job status records, and render manifest are copied from task outputs. Raw summary JSON is unchanged. No trajectory or NPZ is included."
+}
