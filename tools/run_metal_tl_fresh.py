@@ -130,8 +130,8 @@ def main():
     parser.add_argument('--resume-checkpoint', type=Path)
     parser.add_argument('--resume-bridge', type=Path)
     args = parser.parse_args()
-    if not 150e-9 <= args.end_time <= 200e-9 or not 1 <= args.max_seconds <= 1800:
-        parser.error('The first-contact window is limited to 150–200 ns and 1800 s')
+    if not 150e-9 <= args.end_time <= 250e-9 or not 1 <= args.max_seconds <= 1800:
+        parser.error('The bounded contact/fracture-review window is limited to 150–250 ns and 1800 s')
     if bool(args.resume_checkpoint) != bool(args.resume_bridge):
         parser.error('--resume-checkpoint and --resume-bridge must be supplied together')
     if args.output.exists() and any(args.output.iterdir()):
@@ -208,6 +208,12 @@ def main():
                     'tools/audit_metal_fragments.py', 'tools/verify_material_domain_contact.py',
                     'tools/verify_tl_viscous_power.py',
                     'run_metal_tl_fresh.py']
+    # Importing mpm_jax executes package initializers, so bind the complete
+    # runtime Python trees as well as the focused physics sources above.
+    source_files = sorted(set(source_files + [
+        path.relative_to(source_root).as_posix()
+        for package in ('mpm_jax', 'examples')
+        for path in (source_root/package).rglob('*.py')]))
     hashes = {name: hashlib.sha256((source_root/name).read_bytes()).hexdigest() for name in source_files}
     resume_record = None
     resumed_steps = 0
@@ -306,8 +312,9 @@ def main():
     def write_endpoint_audit(status):
         u = np.asarray(state.displacement)
         v = np.asarray(state.velocity)
-        Fend, tauend, internal_end = map(np.asarray,
-            (state.material[0], state.material[1], state.material[-1]))
+        Fend, tauend, ep_end, cold_end, fracture_end, damage_end, internal_end = map(np.asarray,
+            (state.material[0], state.material[1], state.material[2], state.material[3],
+             state.material[4], state.material[5], state.material[6]))
         p_x = np.asarray(reference.positions) + np.sum(
             np.asarray(reference.weights)[..., None]*u[np.asarray(reference.indices)], axis=1)
         half = particle_spacing*.5
@@ -346,6 +353,49 @@ def main():
             np.linalg.det(Fend)[:, None, None], 1e-30)
         dev = sym_sigma-.5*np.trace(sym_sigma, axis1=-2, axis2=-1)[:, None, None]*np.eye(3)
         vm = np.sqrt(np.maximum(1.5*np.sum(dev*dev, axis=(-2, -1)), 0.))
+        elastic_end = np.sum(tauend*tauend, axis=(-2, -1))/(
+            4*material.shear_modulus*material.density*np.maximum(1-damage_end, 1e-12))
+        thermo_end = eos_state(jnp.asarray(np.linalg.det(Fend)),
+            jnp.asarray(internal_end-cold_end-fracture_end-elastic_end), material)
+        pressure_end = np.asarray(thermo_end.pressure)
+        temperature_end = np.asarray(thermo_end.temperature)
+        particle_velocity = np.sum(np.asarray(reference.weights)[..., None]*
+                                   v[np.asarray(reference.indices)], axis=1)
+        particle_speed = np.linalg.norm(particle_velocity, axis=1)
+        node_speed = np.linalg.norm(v, axis=1)
+        positive_nodes = mass_nodes > 0
+        fastest_node = int(np.argmax(np.where(positive_nodes, node_speed, -np.inf)))
+        fastest_particle = int(np.argmax(particle_speed))
+
+        def weighted_quantile(values, weights, q):
+            order = np.argsort(values)
+            cumulative = np.cumsum(weights[order])
+            index = min(int(np.searchsorted(cumulative, q*cumulative[-1])), len(order)-1)
+            return float(values[order[index]])
+
+        speed_sampling = dict(
+            nodal_max_m_s=float(node_speed[fastest_node]), nodal_max_node=fastest_node,
+            nodal_max_node_mass_kg=float(mass_nodes[fastest_node]),
+            nodal_max_node_body=int(0 if fastest_node < reference_record['bodies'][0]['nodes'] else 1),
+            nodal_mass_weighted_rms_m_s=float(np.sqrt(np.sum(mass_nodes[:, None]*v*v)/np.sum(mass_nodes))),
+            particle_sampled_max_m_s=float(particle_speed[fastest_particle]),
+            particle_sampled_max_id=fastest_particle,
+            particle_sampled_max_mass_kg=float(particle_mass[fastest_particle]),
+            particle_sampled_max_body=int(body_id[fastest_particle]),
+            particle_mass_weighted_rms_m_s=float(np.sqrt(np.sum(particle_mass*particle_speed**2)/np.sum(particle_mass))),
+            particle_mass_weighted_p95_m_s=weighted_quantile(particle_speed, particle_mass, .95),
+            particle_mass_weighted_p99_m_s=weighted_quantile(particle_speed, particle_mass, .99))
+        material_body = {}
+        for b, mask in ((0, sphere_mask), (1, plate_mask)):
+            material_body[str(b)] = dict(
+                pressure_min_Pa=float(np.min(pressure_end[mask])),
+                pressure_max_Pa=float(np.max(pressure_end[mask])),
+                temperature_min_K=float(np.min(temperature_end[mask])),
+                temperature_max_K=float(np.max(temperature_end[mask])),
+                plastic_strain_max=float(np.max(ep_end[mask])),
+                damage_max=float(np.max(damage_end[mask])),
+                damaged_particle_count=int(np.count_nonzero(damage_end[mask] > 0.)),
+                fully_failed_particle_count=int(np.count_nonzero(damage_end[mask] >= 1.)))
         report = dict(status=status, step=steps, time_s=float(state.time),
             sphere_nose_world_m=nose.tolist(), nearby_deformed_plate_surface_y_m=surface_y,
             sphere_nose_to_plate_surface_gap_m=float(nose[1]-surface_y),
@@ -356,10 +406,60 @@ def main():
             plate_min_F_determinant=float(np.min(np.linalg.det(Fend[plate_mask]))),
             sphere_min_F_determinant=float(np.min(np.linalg.det(Fend[sphere_mask]))),
             sphere_internal_energy_J=particle_internal[0], plate_internal_energy_J=particle_internal[1],
+            pressure_sign='positive means compression; EOS pressure',
+            material_by_body=material_body, speed_sampling=speed_sampling,
+            support_topology='Reference supports remain attached; no conservative split/remap or fragment claim.',
             body_nodal_transfer=body_node,
             geometry='deformed quadrature material cuboid corners; local plate surface within 2.5 mm of sphere nose',
             dt_last_s=dt_last, dt_cfl_limit=.1)
         atomic_json(args.output/'endpoint-physical-audit.json', report)
+
+    def damage_monitor_row(record_step, record_time, record_dt):
+        Fm, taum, epm, coldm, fracturem, damagem, internalm = map(np.asarray, state.material)
+        detF = np.linalg.det(Fm)
+        elastic_m = np.sum(taum*taum, axis=(-2, -1))/(
+            4*material.shear_modulus*material.density*np.maximum(1-damagem, 1e-12))
+        thermo_m = eos_state(jnp.asarray(detF),
+            jnp.asarray(internalm-coldm-fracturem-elastic_m), material)
+        pressure_m = np.asarray(thermo_m.pressure)
+        temperature_m = np.asarray(thermo_m.temperature)
+        fully_failed = np.flatnonzero(damagem >= 1.)
+        failed_details = [dict(particle_id=int(i), body=int(body_id[i]),
+            damage=float(damagem[i]), plastic_strain=float(epm[i]),
+            detF=float(detF[i]), pressure_Pa=float(pressure_m[i]),
+            temperature_K=float(temperature_m[i])) for i in fully_failed[:128]]
+        body_summary = {}
+        for b in (0, 1):
+            mask = body_id == b
+            body_summary[str(b)] = dict(
+                pressure_min_Pa=float(np.min(pressure_m[mask])),
+                pressure_max_Pa=float(np.max(pressure_m[mask])),
+                temperature_min_K=float(np.min(temperature_m[mask])),
+                temperature_max_K=float(np.max(temperature_m[mask])),
+                plastic_strain_max=float(np.max(epm[mask])),
+                damage_max=float(np.max(damagem[mask])),
+                damaged_particle_count=int(np.count_nonzero(damagem[mask] > 0.)),
+                fully_failed_particle_count=int(np.count_nonzero(damagem[mask] >= 1.)))
+        return dict(step=int(record_step), time_s=float(record_time),
+            dt_s=None if record_dt is None else float(record_dt),
+            max_damage=float(damagem.max()), max_plastic_strain=float(epm.max()),
+            fully_failed_particle_count=int(len(fully_failed)),
+            fully_failed_particle_ids=fully_failed[:128].tolist(),
+            fully_failed_point_details=failed_details,
+            pressure_min_Pa=float(pressure_m.min()), pressure_max_Pa=float(pressure_m.max()),
+            temperature_min_K=float(temperature_m.min()), temperature_max_K=float(temperature_m.max()),
+            pressure_sign='positive means compression; EOS pressure', material_by_body=body_summary,
+            support_topology='Reference supports remain unchanged; damage is not a conservative split.')
+
+    def append_damage_history(record_step, record_time, record_dt):
+        row = damage_monitor_row(record_step, record_time, record_dt)
+        with (args.output/'damage-history.jsonl').open('a', encoding='utf-8') as stream:
+            stream.write(json.dumps(row, allow_nan=False, separators=(',', ':'))+'\n')
+            stream.flush()
+        return row
+
+    if resumed_steps and not (args.output/'damage-history.jsonl').exists():
+        append_damage_history(resumed_steps, float(state.time), None)
 
     try:
         while float(state.time) < args.end_time:
@@ -487,10 +587,34 @@ def main():
                 time_s=np.asarray(state.time), step=np.asarray(steps), initial_P= p0,
                 initial_L=l0, initial_K=np.asarray(k0), viscous_loss=np.asarray(state.viscous_loss),
                 contact_work=np.asarray(state.contact_work))
+            monitor = append_damage_history(steps, float(state.time), dt)
             case.update(status='running', steps=steps, time_s=float(state.time), dt_last_s=dt_last,
                 elapsed_s=time.monotonic()-started, newly_active_e0_checked=newly_active_checked,
                 max_linear_relative=max_momentum_error, max_angular_relative=max_angular_error,
                 max_energy_error_J=max_energy_error)
+            if monitor['fully_failed_particle_count']:
+                failed_ids = np.flatnonzero(np.asarray(state.material[5]) >= 1.)
+                first = int(failed_ids[0])
+                Fm = np.asarray(state.material[0])
+                epm = np.asarray(state.material[2])
+                receipt = dict(schema='c2-first-fully-failed-point-stop-v1',
+                    status='stopped-for-conservative-support-review', step=steps,
+                    time_s=float(state.time), dt_s=dt,
+                    accepted_checkpoint_sha256=hashlib.sha256((args.output/'accepted.npz').read_bytes()).hexdigest(),
+                    fully_failed_particle_count=int(len(failed_ids)),
+                    fully_failed_particle_ids=failed_ids[:128].tolist(),
+                    fully_failed_point_details=monitor['fully_failed_point_details'],
+                    first_point=dict(particle_id=first, body=int(body_id[first]),
+                        position_m=np.asarray(accepted.geometry['position'])[first].tolist(),
+                        damage=float(np.asarray(state.material[5])[first]),
+                        plastic_strain=float(epm[first]), detF=float(np.linalg.det(Fm[first]))),
+                    interpretation='Stop at the first fully failed material point. Its fixed reference support remains attached; this is not a detached fragment or a penetration qualification until a conservative split is designed and audited.',
+                    source_sha256=hashes)
+                atomic_json(args.output/'first-fully-failed-point.json', receipt)
+                case.update(status='stopped-for-fracture-audit',
+                    first_fully_failed_point=receipt)
+                atomic_json(args.output/'run.json', case)
+                break
             atomic_json(args.output/'run.json', case)
             print(json.dumps(dict(step=steps, time_s=float(state.time), dt_s=dt,
                 force_residual=float(accepted.force_residual), energy_error_J=max_energy_error,
