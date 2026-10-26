@@ -290,9 +290,11 @@ def _force_material_midpoint(state, reference, material, dt, fixed, cell_length,
                                  cell_length, material)
         # Cauchy stress is tensile-positive, while artificial_viscosity returns
         # compression-positive pressure. Its stress is therefore -q I and its
-        # Piola stress is -J q F^{-T}. Use this same endpoint Piola and actual
-        # discrete deformation increment for the separate nonthermal loss.
-        viscous_piola = -(J*q)[:, None, None] * jnp.linalg.inv(F1).swapaxes(-1, -2)
+        # work-conjugate midpoint Piola is -J_mid q F_mid^{-T}. Use this exact
+        # tensor in both the force and its separate nonthermal discrete loss.
+        Fmid = .5 * (F0 + F1)
+        Jmid = jnp.linalg.det(Fmid)
+        viscous_piola = -(Jmid*q)[:, None, None] * jnp.linalg.inv(Fmid).swapaxes(-1, -2)
         piola = piola + viscous_piola
         particle_force = -reference.volume[:, None, None] * jnp.einsum(
             'pij,pkj->pki', piola, reference.gradients)
