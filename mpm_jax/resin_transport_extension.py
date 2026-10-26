@@ -23,6 +23,13 @@ class Extension(NamedTuple):
 
 
 def support_closed_domain(x,active,mass,fixed,baseline,open_cells,layout):
+    """Retain pressure unknowns with six inertial or prescribed face DOFs.
+
+    Smoothed cell mass can exceed the fill threshold outside particle-owned
+    cells while a face has no mass. An empty cell of this kind is a free
+    surface cell, not an equality supplied with artificial inertia.
+    Particle-owned cells remain mandatory: missing face support rejects them.
+    """
     shape=layout.shape;index=jnp.floor((x-jnp.asarray(layout.origin))/layout.dx).astype(jnp.int32);inside=jnp.all((index>=0)&(index<jnp.asarray(shape)),axis=1);linear=jnp.sum(index*jnp.asarray((shape[1]*shape[2],shape[2],1)),axis=1);linear=jnp.where(inside,linear,shape[0]*shape[1]*shape[2]);owned=jnp.zeros(shape[0]*shape[1]*shape[2],dtype=jnp.int32).at[linear].max(active.astype(jnp.int32),mode='drop').reshape(shape)>0
     reachable=jax.lax.reduce_window(owned.astype(jnp.int32),jnp.int32(0),jax.lax.max,(3,3,3),(1,1,1),'SAME')>0
     a,b,c=tuple((m>0)|f for m,f in zip(mass,fixed));complete=a[1:]&a[:-1]&b[:,1:]&b[:,:-1]&c[:,:,1:]&c[:,:,:-1]
@@ -30,7 +37,7 @@ def support_closed_domain(x,active,mass,fixed,baseline,open_cells,layout):
     # Every non-Dirichlet face has real positive particle mass; fixed zero-mass
     # walls retain their existing prescribed velocity and zero inverse mass.
     # Entirely fixed empty cells need no physical pressure unknown.
-    domain=baseline|(reachable&open_cells&complete&movable)
+    domain=(baseline&complete)|(reachable&open_cells&complete&movable)
     valid=jnp.all(~active|inside)&jnp.all(~owned|domain)
     return domain,jnp.sum(domain&~baseline),valid
 
