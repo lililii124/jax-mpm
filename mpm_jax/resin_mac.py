@@ -72,7 +72,7 @@ class PressureResult(NamedTuple):
     compatible_fixed_zero_rows: object
 
 
-def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400,preconditioner=None):
+def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iterations=400,preconditioner=None,refinement_iterations=128):
     inverse=tuple(jnp.where((m>0)&~f,1/jnp.maximum(m,1e-300),0.) for m,f in zip(mass,fixed))
     available=tuple((m>0)|f for m,f in zip(mass,fixed))
     a,b,c=available
@@ -89,7 +89,7 @@ def pressure_projection(velocity,mass,fixed,fluid,h,dt,*,tolerance=1e-8,max_iter
         fixed_zero=fluid&(diagonal==0)&allfixed&(divergence(velocity,h)==0)
         compatible=jnp.all(~fluid|(diagonal>0)|fixed_zero)
         from .resin_pressure_lsqr import project
-        return project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,compatible,tolerance,max_iterations)
+        return project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,compatible,tolerance,max_iterations,refinement_iterations)
     # Nonfluid pressure unknowns are explicitly fixed to0 by identity rows;
     # fluid rows receive no regularization, pseudoinverse or inertia floor.
     diag=jnp.where(fluid,diagonal,1.)

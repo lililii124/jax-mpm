@@ -8,7 +8,9 @@ import jax
 import jax.numpy as j
 from .resin_mac import divergence,transpose_divergence,PressureResult
 
-def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,max_iterations):
+def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,max_iterations,refinement_iterations=128):
+    if not 0 < refinement_iterations < max_iterations:
+        raise ValueError('Pressure refinement budget must lie within the total iteration budget')
     root=tuple(j.sqrt(v) for v in inverse);shapes=tuple(v.shape for v in velocity);sizes=tuple(v.size for v in velocity);ends=(0,sizes[0],sizes[0]+sizes[1],sum(sizes))
     def split(x):return tuple(x[ends[i]:ends[i+1]].reshape(shapes[i]) for i in range(3))
     def pack(v):return j.concatenate(tuple(a.ravel() for a in v))
@@ -20,7 +22,7 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
     def solve(_):
         beta=j.linalg.norm(scale*rhs);u=scale*rhs/beta;v=AT(u);alpha=j.linalg.norm(v);v=v/alpha;t=u/alpha
         initial=(j.asarray(0,j.int32),u,v,t,v,t,j.zeros_like(v),j.zeros_like(u),alpha,beta,alpha,j.asarray(j.inf),j.asarray(j.inf))
-        def cond(z):return (z[0]<max_iterations-128)&((z[-2]>tolerance)|(z[-1]>1e-10))
+        def cond(z):return (z[0]<max_iterations-refinement_iterations)&((z[-2]>tolerance)|(z[-1]>1e-10))
         def body(z):
             k,u,v,t,w,tw,x,q,alpha,phibar,rhobar,primal,stationarity=z
             u=A(v)-alpha*u;beta=j.linalg.norm(u);u=u/j.maximum(beta,1e-300);vn=AT(u)-beta*v;alpha=j.linalg.norm(vn);v=vn/j.maximum(alpha,1e-300);t=u/j.maximum(alpha,1e-300)-(beta/j.maximum(alpha,1e-300))*t;rho=j.hypot(rhobar,beta);c=rhobar/rho;sn=beta/rho;theta=sn*alpha;rhobar=-c*alpha;phi=c*phibar;phibar=sn*phibar;x=x+(phi/rho)*w;q=q+(phi/rho)*tw;w=v-(theta/rho)*w;tw=t-(theta/rho)*tw
@@ -33,7 +35,7 @@ def project(velocity,mass,fixed,fluid,h,dt,inverse,coverage,positive,tolerance,m
     def refine(_):
         error=x-BT(multiplier);beta=j.linalg.norm(error);u=error/beta;v=A(u);alpha=j.linalg.norm(v);v=v/j.maximum(alpha,1e-300)
         initial=(j.asarray(0,j.int32),u,v,v,j.zeros_like(multiplier),alpha,beta,alpha,j.zeros_like(multiplier),j.linalg.norm(error))
-        def condition(z):return (z[0]<128)&(z[-1]>1e-10*j.linalg.norm(x))
+        def condition(z):return (z[0]<refinement_iterations)&(z[-1]>1e-10*j.linalg.norm(x))
         def body(z):
             k,u,v,w,q,alpha,phibar,rhobar,best,best_error=z
             u=AT(v)-alpha*u;beta=j.linalg.norm(u);u=u/j.maximum(beta,1e-300);vn=A(u)-beta*v;alpha=j.linalg.norm(vn);v=vn/j.maximum(alpha,1e-300);rho=j.hypot(rhobar,beta);c=rhobar/rho;sn=beta/rho;theta=sn*alpha;rhobar=-c*alpha;phi=c*phibar;phibar=sn*phibar;q=q+(phi/rho)*w;w=v-(theta/rho)*w

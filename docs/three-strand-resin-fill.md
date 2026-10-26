@@ -118,3 +118,17 @@ or escaped particles, and mass/energy identities admitted. The independent
 4096 checkpoint audit and midpoint volume review are recorded under
 `evidence/resin-rt0-represent-fix/`; this intermediate continuation is not a
 complete-fill claim.
+
+## Pressure dual refinement
+
+The RT0 example retains a 3,072-iteration first-stage LSQR budget and permits
+up to 1,024 dual-refinement iterations. The original primal and stationarity
+limits remain unchanged. On the saved step-4883 input, increasing only the
+first-stage budget did not resolve the stationarity error; extending dual
+refinement did. Face masses and the physical pressure domain are unchanged.
+
+The resulting source passed the actual 4,880–4,912 continuation, including
+the formerly rejected step. The two preceding accepted steps reproduced
+their original diagnostics exactly, apart from the reported iteration budget.
+This is a bounded continuation result, not a completed filling calculation.
+Numerical records are in `evidence/resin-dual-refinement`.

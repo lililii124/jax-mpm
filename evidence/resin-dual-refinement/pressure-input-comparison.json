@@ -1,0 +1,69 @@
+{
+  "input": {
+    "input_sha256": "772a743193626b26f853687f1364623fa86598bd3b93abc43d1cc9689a3bcaf5",
+    "step": 4883,
+    "physical_steps_executed": 0,
+    "mass_min": 3.2834032306132407e-26,
+    "mass_max": 2.52840442122202e-07,
+    "original_tolerance": 1e-08,
+    "original_stationarity_tolerance": 1e-10,
+    "files": {
+      "mpm_jax/resin_mac.py": "3682e552ef1276673891c558a6de5e08b666cfc964eb58d4f85457a5d6571cae",
+      "mpm_jax/resin_pressure_lsqr.py": "0b8e700e3bfd9ee97b20e6107a45493713ef40e8d68ba6e178a19da6a812a315"
+    }
+  },
+  "original": {
+    "relative_residual": 3.798368478973689e-10,
+    "maximum_divergence_per_s": 7.289184672520931e-07,
+    "fixture_work_J": 2.9530866496873555e-08,
+    "projection_loss_J": 6.395632549392253e-10,
+    "work_identity_J": -2.0871007625631718e-19,
+    "coverage_valid": true,
+    "valid": false,
+    "iterations": 3200.0,
+    "stationarity_relative": 1.1456836573295924e-08,
+    "stationarity_absolute": 4.097523641555828e-13,
+    "reconstruction_relative": 0.04885069828270653,
+    "dual_velocity_selected": false,
+    "compatible_fixed_zero_rows": 0.0,
+    "cap": 3200,
+    "compile_seconds": 1.4341249987483025,
+    "solve_seconds": 5.389588579535484
+  },
+  "longer_primal": {
+    "relative_residual": 6.692550549157861e-15,
+    "maximum_divergence_per_s": 3.941291737419305e-12,
+    "fixture_work_J": 2.9530866513276534e-08,
+    "projection_loss_J": 6.395632552250917e-10,
+    "work_identity_J": -4.9458969301408455e-19,
+    "coverage_valid": true,
+    "valid": false,
+    "iterations": 6400.0,
+    "stationarity_relative": 1.145683659236564e-08,
+    "stationarity_absolute": 4.097523649291826e-13,
+    "reconstruction_relative": 0.048850698004001276,
+    "dual_velocity_selected": false,
+    "compatible_fixed_zero_rows": 0.0,
+    "cap": 6400,
+    "compile_seconds": 1.0210795551538467,
+    "solve_seconds": 9.606574274599552
+  },
+  "longer_dual": {
+    "relative_residual": 8.50614618470166e-10,
+    "maximum_divergence_per_s": 2.1333424748970482e-06,
+    "fixture_work_J": 2.9530866497503265e-08,
+    "projection_loss_J": 6.395632549551965e-10,
+    "work_identity_J": 2.6989662616686463e-19,
+    "coverage_valid": true,
+    "valid": true,
+    "iterations": 4096.0,
+    "stationarity_relative": 2.4519422116877168e-15,
+    "stationarity_absolute": 8.769341446016841e-20,
+    "reconstruction_relative": 0.048850698281166074,
+    "dual_velocity_selected": true,
+    "compatible_fixed_zero_rows": 0.0,
+    "cap": 4096,
+    "compile_seconds": 1.5810114741325378,
+    "solve_seconds": 7.272948622703552
+  }
+}
