@@ -1,0 +1,32 @@
+{
+  "tested_main_base": "60706f060269781e72fa662163401702e97259e0",
+  "publication_base": "b4fb0d5482faf8e1e5de8a445fe75bea54acd41a",
+  "intervening_change": "Independent resin pressure iteration budget; no AT2 dependency changed",
+  "post_run_changes": "LF normalization and module documentation/comments only",
+  "files": {
+    "mpm_jax/phase_field.py": {
+      "executed_sha256": "7f6055216018ea2c6fec6a3bb9f2b402e6d95e67977a0c93b9a0041f4f4b2c09",
+      "repository_sha256": "69e7246f8efc00c7efd6191a8a77df99ab68d116e7db9532bb883d2bdc88ace7",
+      "numerical_ast_identical": true
+    },
+    "examples/phase_field_bending_free_anchor.py": {
+      "executed_sha256": "c9545b2b8d156d35ad3370cfef1c7553931cbd69833251cdea54273a4144ec87",
+      "repository_sha256": "c3e974e5c7203d51b20267a4269fa42a9d0f61c86e38c5545933732bba405a55",
+      "numerical_ast_identical": true
+    },
+    "examples/phase_field_bending_geometry.py": {
+      "executed_sha256": "3a97c05aa43bdde4433496ffec8d715eb77cd44d60edc9e34a45474de0745ed6",
+      "repository_sha256": "c7d094292162ab1ebf6a6b261a8bd6d65abb2b406bfb684098c1948642fe99dc",
+      "numerical_ast_identical": true
+    },
+    "mpm_jax/phase_field_bending_diagnostics.py": {
+      "executed_sha256": "250dbbaa49555b5c6b03479a5876e5c9a6340bd65ed5dc75ec2abfcc1f77bb7d",
+      "repository_sha256": "250dbbaa49555b5c6b03479a5876e5c9a6340bd65ed5dc75ec2abfcc1f77bb7d",
+      "numerical_ast_identical": true
+    }
+  },
+  "public_cli_task": "at2-bending-free-anchor-public-sparse-cli-1600-to1625-v1",
+  "original_kkt_limit": 1e-07,
+  "original_strain_component_limit": 0.1,
+  "scope": "Operator and bounded continuation checks; no full-duration fracture or convergence claim"
+}

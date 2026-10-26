@@ -1,0 +1,98 @@
+{
+  "public_source_archive_sha256": "240b223c5ece07414dccf00cab3738d12ec8e7b85faf8bb3b7c73bb1742290a2",
+  "fresh_public_binding_sha256": "d13dd0a5c9306b62b2a62ecaa70b0cb93b549756a42ad3cc945d4eaaa99f5751",
+  "old_physical_binding_match": true,
+  "bridge_preserved_every_nonbinding_array_exactly": true,
+  "bridge_rebound_checkpoint_sha256": "6c3448b493522c5ac508222e121d5cd528ec3fa3cc3a286f0782ae40a2705a21",
+  "production_adapter_checkpoint_sha256": "dec88cb8ef8d91de6b302270525dbd3916cd6299dc7d45f69f212eab3df49364",
+  "field_comparison": {
+    "nodal_displacement": {
+      "max_abs": 8.673617379884035e-19,
+      "rms_abs": 5.053924678345671e-21,
+      "reference_equal": null
+    },
+    "nodal_velocity": {
+      "max_abs": 6.912873051767576e-16,
+      "rms_abs": 1.2383264450035055e-17,
+      "reference_equal": null
+    },
+    "history": {
+      "max_abs": 3.469446951953614e-17,
+      "rms_abs": 3.400309724457254e-19,
+      "reference_equal": null
+    },
+    "nodal_damage": {
+      "max_abs": 2.790052485920902e-10,
+      "rms_abs": 2.77833690689796e-12,
+      "reference_equal": null
+    },
+    "reference": {
+      "max_abs": 0.0,
+      "rms_abs": 0.0,
+      "reference_equal": true
+    },
+    "volume": {
+      "max_abs": 0.0,
+      "rms_abs": 0.0,
+      "reference_equal": true
+    },
+    "grid_coordinates": {
+      "max_abs": 0.0,
+      "rms_abs": 0.0,
+      "reference_equal": true
+    },
+    "nodal_mass": {
+      "max_abs": 0.0,
+      "rms_abs": 0.0,
+      "reference_equal": true
+    },
+    "frame_position": {
+      "max_abs": 2.220446049250313e-16,
+      "rms_abs": 5.560994664543883e-19
+    },
+    "frame_velocity": {
+      "max_abs": 6.938893903907228e-17,
+      "rms_abs": 4.6255321476378394e-18
+    },
+    "frame_strain": {
+      "max_abs": 1.3877787807814457e-17,
+      "rms_abs": 1.1901864419829257e-19
+    },
+    "frame_history": {
+      "max_abs": 3.469446951953614e-17,
+      "rms_abs": 3.400309724457254e-19
+    },
+    "frame_damage": {
+      "max_abs": 1.2442479772195592e-12,
+      "rms_abs": 3.588242133900876e-14
+    },
+    "frame_nodal_damage": {
+      "max_abs": 2.790052485920902e-10,
+      "rms_abs": 2.77833690689796e-12
+    },
+    "energy_public": {
+      "nodal_kinetic": 0.0005312629481280971,
+      "elastic": 0.0002443368439829892,
+      "fracture": 3.51089251602921e-06
+    },
+    "energy_production_adapter": {
+      "nodal_kinetic": 0.0005312629481280971,
+      "elastic": 0.0002443368439829892,
+      "fracture": 3.5108925160292507e-06
+    },
+    "energy_abs_delta": {
+      "nodal_kinetic": 0.0,
+      "elastic": 0.0,
+      "fracture": 4.0657581468206416e-20
+    },
+    "step_1625": {
+      "public_kkt": 9.555603524271076e-08,
+      "production_kkt": 9.555603683522012e-08,
+      "public_strain": 0.02401244332109492,
+      "production_strain": 0.02401244332109492,
+      "public_iterations": 169,
+      "production_iterations": 169
+    }
+  },
+  "conclusion": "Numerical deltas are measured at the same CP1600 state and physical parameters; review metrics before setting publication tolerance."
+}

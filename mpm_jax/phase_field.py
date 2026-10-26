@@ -79,15 +79,55 @@ def scatter(values, basis, count):
     return jnp.zeros((count,)+values.shape[2:], dtype=values.dtype).at[basis.nodes].add(values)
 
 
-def damage_system(history, volume, basis, count, law):
+def assemble_gradient_stiffness(volume, basis, count, law, particle_chunk=512):
+    """Preassemble the fixed AT2 gradient block as a CSR matvec payload.
+
+    The reference basis, quadrature, Gc and length must remain fixed. The
+    history-dependent reaction block stays particle-matrix-free. This optional
+    implementation is not differentiable with respect to those preassembled
+    quantities; the default matrix-free operator remains unchanged.
+    """
+    import scipy.sparse as scipy_sparse
+    volume_np = np.asarray(jax.device_get(volume), dtype=np.float64)
+    nodes = np.asarray(jax.device_get(basis.nodes), dtype=np.int32)
+    gradient = np.asarray(jax.device_get(basis.gradient), dtype=np.float64)
+    stiffness = scipy_sparse.csr_matrix((count, count), dtype=np.float64)
+    coefficient = law.gc * law.length
+    for start in range(0, len(volume_np), particle_chunk):
+        stop = min(len(volume_np), start + particle_chunk)
+        local_nodes = nodes[start:stop]
+        local_gradient = gradient[start:stop]
+        local = volume_np[start:stop, None, None] * coefficient * np.einsum(
+            "pik,pjk->pij", local_gradient, local_gradient, optimize=True)
+        rows = np.repeat(local_nodes, local_nodes.shape[1], axis=1).reshape(-1)
+        columns = np.tile(local_nodes, (1, local_nodes.shape[1])).reshape(-1)
+        block = scipy_sparse.coo_matrix(
+            (local.reshape(-1), (rows, columns)), shape=(count, count)).tocsr()
+        stiffness = stiffness + block
+    stiffness.sum_duplicates()
+    stiffness.sort_indices()
+    row_index = np.repeat(np.arange(count, dtype=np.int32), np.diff(stiffness.indptr))
+    return (jnp.asarray(stiffness.data), jnp.asarray(stiffness.indices, dtype=jnp.int32),
+            jnp.asarray(row_index), count)
+
+
+def damage_system(history, volume, basis, count, law, gradient_stiffness=None):
     """Weak AT2 operator with natural Gc*l*grad(d).n = 0 on free surfaces."""
     reaction = law.gc/law.length+2*(1-law.residual)*history
     rhs = scatter((2*(1-law.residual)*volume*history)[:, None]*basis.weight, basis, count)
     def operator(d):
-        dp, grad = interpolate(d, basis)
-        local = volume[:, None]*(reaction[:, None]*dp[:, None]*basis.weight+
-                 law.gc*law.length*jnp.einsum('pi,pki->pk', grad, basis.gradient))
-        return scatter(local, basis, count)
+        if gradient_stiffness is None:
+            dp, grad = interpolate(d, basis)
+            local = volume[:, None]*(reaction[:, None]*dp[:, None]*basis.weight+
+                     law.gc*law.length*jnp.einsum('pi,pki->pk', grad, basis.gradient))
+            return scatter(local, basis, count)
+        dp, _ = interpolate(d, basis)
+        reaction_local = volume[:, None]*(reaction[:, None]*dp[:, None]*basis.weight)
+        reaction_action = scatter(reaction_local, basis, count)
+        values, columns, rows, node_count = gradient_stiffness
+        gradient_action = jax.ops.segment_sum(
+            values*d[columns], rows, num_segments=node_count)
+        return reaction_action + gradient_action
     # Absolute row-sum upper bound on the spectral radius.
     local_bound = volume[:, None]*(reaction[:, None]*basis.weight+
         law.gc*law.length*jnp.linalg.norm(basis.gradient, axis=-1)*
@@ -104,7 +144,8 @@ class DamageResult(NamedTuple):
 
 
 def solve_damage(history, volume, basis, previous, law, fixed, values,
-                 tolerance=1e-7, max_iterations=4000, newton_steps=0):
+                 tolerance=1e-7, max_iterations=4000, newton_steps=0,
+                 gradient_stiffness=None):
     """Solve d_old <= d <= 1 by projected iteration and optional Newton-CG.
 
     `newton_steps` optionally enables a Jacobi-preconditioned active-set warm
@@ -112,7 +153,7 @@ def solve_damage(history, volume, basis, previous, law, fixed, values,
     `fixed` and `values` have nodal shape. Fixed values must be compatible with
     previous damage; convergence is measured by a projected KKT residual.
     """
-    operator, rhs, bound = damage_system(history, volume, basis, len(previous), law)
+    operator, rhs, bound = damage_system(history, volume, basis, len(previous), law, gradient_stiffness)
     step = 1/jnp.where(bound > 0, bound, 1)
     project = lambda d: jnp.where(fixed, values, jnp.clip(d, previous, 1))
     scale = jnp.maximum(jnp.maximum(jnp.max(jnp.abs(rhs)), jnp.max(jnp.abs(operator(project(previous))))), jnp.finfo(previous.dtype).tiny)

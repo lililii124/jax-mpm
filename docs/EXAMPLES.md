@@ -1,5 +1,8 @@
 # Example guide
 
+The [AT2 notched-beam example](AT2_BENDING.md) supports bounded restarts and an
+optional preassembled gradient operator for fixed reference geometry.
+
 The [resin-filling example](RESIN_FILLING.md) uses JAX pressure projection and
 RT0 transport around a completed three-strand forming checkpoint.
 

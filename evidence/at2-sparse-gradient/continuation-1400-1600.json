@@ -1,0 +1,45 @@
+{
+  "candidate": "preassembled fixed reference-gradient CSR; history reaction mass remains matrix-free",
+  "adapter_sha256": "b9f535d8e1859a8df34dde9545622eca23778dd9c30e0acb907d61aad1e91623",
+  "gradient_csr_sha256": "8ee61a5faba1014e082a0b02462132f1efa4f2ab50547970b6074bf0661669af",
+  "gradient_csr_nnz": 1113294,
+  "gradient_csr_bytes": 13429084,
+  "gradient_assembly_seconds": 1.8034090772271156,
+  "max_random_and_actual_gradient_action_relative_error": 2.3144140053016716e-15,
+  "kkt_tolerance": 1e-07,
+  "newton_steps": 0,
+  "parent_review": {
+    "parent_task": "at2-bending-free-anchor-1200-to1400-v1",
+    "step": 1400,
+    "source_archive_sha256": "dd4403f8f65b04b8e3d755986d322735fd2082457b12aa7cbdd327fdbe3dbdce",
+    "parent_checkpoint_sha256": "d208be21a8dcd6c5c435d00b053d91e23f37621ca7c1ffde32eebead1d637cf0",
+    "parent_summary_sha256": "5d65936fc6f1b31341ce6b7c7ec2d46ad24b629701145e28c28a1dc8d06e0dfa",
+    "source_hashes_verified": true,
+    "checkpoint_frame_identity": true,
+    "energy_recomputed_from_saved_fields": {
+      "nodal_kinetic": 0.0003758432010490812,
+      "elastic": 0.00026457945555683783,
+      "fracture": 2.015868339372895e-06
+    },
+    "maximum_strain": 0.02401244332109492,
+    "maximum_kkt": 9.997665784358832e-08,
+    "damage_and_history_monotone_from_step1375": true,
+    "physical_parameters_unchanged": true,
+    "diagnostic_rows": 1400
+  },
+  "physical_parameters_unchanged": true,
+  "differentiability_scope": "Preassembled basis/Gc/length are fixed; this adapter does not claim derivatives with respect to them.",
+  "result": {
+    "steps": 1600,
+    "maximum_kkt": 9.997763178269571e-08,
+    "maximum_strain": 0.02401244332109492,
+    "maximum_damage": 0.15856776863444427,
+    "final_energy": {
+      "nodal_kinetic": 0.0005139761514871192,
+      "elastic": 0.00024822992053654476,
+      "fracture": 3.2992319139950885e-06
+    },
+    "checkpoint_sha256": "7eed3788fe2619f7bb15ca7ce1173462d135810e0721f904274164b86d6e0c06",
+    "damage_gradient_solver": "sparse fixed-gradient candidate"
+  }
+}

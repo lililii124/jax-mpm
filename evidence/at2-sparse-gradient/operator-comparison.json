@@ -1,0 +1,123 @@
+{
+  "task": "at2-bending-free-anchor-1000-sparse-gradient-candidate-v1",
+  "source_archive_sha256": "dd4403f8f65b04b8e3d755986d322735fd2082457b12aa7cbdd327fdbe3dbdce",
+  "parent_checkpoint_sha256": "4da247153dac071fc31099b5d5c43aeb84ee48f4bb88c61088c50465bf135e0d",
+  "parent_frame_sha256": "a4405896b3f58f0327c20a9d9f9106cdcaf2f1da0e7407e77be35cfdcd1ee435",
+  "parent_step": 1000,
+  "evaluated_step": 1001,
+  "candidate": "preassembled fixed gradient stiffness CSR; reaction/history block remains particle-matrix-free",
+  "assembly": {
+    "format": "SciPy CSR for fixed gradient stiffness only; history reaction term remains matrix-free",
+    "particle_chunk": 512,
+    "particles": 53144,
+    "nodes": 17388,
+    "nnz": 1113294,
+    "seconds": 1.7768260091543198,
+    "csr_bytes": 13429084,
+    "max_abs_symmetry_error": 3.1447231438780506e-20,
+    "K_times_ones_l2": 1.0090660513354423e-19
+  },
+  "operator_equivalence": {
+    "K": [
+      {
+        "vector": "random0",
+        "max_abs_Kd_difference": 2.371692252312041e-20,
+        "relative_l2_Kd_difference": 5.693652456482805e-16,
+        "gradient_energy_J": 0.033748372453288225,
+        "dTKd": 0.033748372453288225,
+        "relative_energy_error": 0.0
+      },
+      {
+        "vector": "random1",
+        "max_abs_Kd_difference": 2.371692252312041e-20,
+        "relative_l2_Kd_difference": 5.819876565734662e-16,
+        "gradient_energy_J": 0.03425359105950241,
+        "dTKd": 0.03425359105950241,
+        "relative_energy_error": 0.0
+      },
+      {
+        "vector": "step1000_damage",
+        "max_abs_Kd_difference": 2.117582368135751e-22,
+        "relative_l2_Kd_difference": 2.5454646171616884e-15,
+        "gradient_energy_J": 2.54605742667601e-07,
+        "dTKd": 2.5460574266760097e-07,
+        "relative_energy_error": 2.0792759286858934e-16
+      }
+    ],
+    "full_A": [
+      {
+        "vector": "random0",
+        "max_abs_full_operator_difference": 2.371692252312041e-20,
+        "relative_l2_full_operator_difference": 5.77091198019516e-16
+      },
+      {
+        "vector": "random1",
+        "max_abs_full_operator_difference": 3.3881317890172014e-20,
+        "relative_l2_full_operator_difference": 5.68904931521629e-16
+      },
+      {
+        "vector": "step1000_damage",
+        "max_abs_full_operator_difference": 2.6469779601696886e-22,
+        "relative_l2_full_operator_difference": 1.018063549292906e-15
+      }
+    ],
+    "K_bilinear_symmetry_abs_error": 2.710505431213761e-20,
+    "full_A_bilinear_symmetry_abs_error": 1.2197274440461925e-19,
+    "full_A_sample_rayleigh_quotients": [
+      2.0160395015565768e-06,
+      2.0869728920844606e-06,
+      1.0273909955400421e-06
+    ],
+    "full_A_min_sample_rayleigh": 1.0273909955400421e-06
+  },
+  "solves": {
+    "matrix_free": {
+      "relative_kkt": 8.117712535289031e-08,
+      "iterations": 197,
+      "converged": true,
+      "max_damage": 0.06409988696500295,
+      "max_abs_damage_difference_vs_matrix_free": 0.0,
+      "damage_l2_difference_vs_matrix_free": 0.0,
+      "cold_compile_plus_solve_s": 12.515539206564426,
+      "one_warmed_solve_s": 7.13238487392664,
+      "energy": {
+        "nodal_kinetic_J": 0.00015058363487443352,
+        "elastic_J": 0.00021139861025799085,
+        "fracture_J": 9.079428990915406e-07,
+        "total_J": 0.00036289018803151597
+      }
+    },
+    "sparse_gradient": {
+      "relative_kkt": 8.117712535289031e-08,
+      "iterations": 197,
+      "converged": true,
+      "max_damage": 0.0640998869650029,
+      "max_abs_damage_difference_vs_matrix_free": 8.788109129298505e-15,
+      "damage_l2_difference_vs_matrix_free": 1.5221586812314348e-14,
+      "cold_compile_plus_solve_s": 9.368189096450806,
+      "one_warmed_solve_s": 2.6110067442059517,
+      "energy": {
+        "nodal_kinetic_J": 0.00015058363487443352,
+        "elastic_J": 0.00021139861025799085,
+        "fracture_J": 9.079428990915406e-07,
+        "total_J": 0.00036289018803151597
+      }
+    }
+  },
+  "job": {
+    "state": "complete",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "limit_seconds": 1800.0,
+    "uss_limit_bytes": 8589934592,
+    "peak_uss_bytes": 2023354368,
+    "wall_seconds": 43.13073315471411,
+    "returncode": 0
+  },
+  "raw_archive": ".local/at2-bending-free-anchor-sparse-gradient-v1.tar",
+  "decision": "Measured 2.73x faster warmed solve on the same frozen history/previous damage, with identical KKT and 1e-14-scale damage delta. Candidate warrants an isolated 1400-to-1600 continuation; no production source or active task modified."
+}
