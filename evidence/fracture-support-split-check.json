@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "original_nodes": 5,
+  "split_nodes": 7,
+  "component_ids": [
+    0,
+    0,
+    1
+  ],
+  "particle_node_map": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      1,
+      2,
+      3
+    ],
+    [
+      4,
+      5,
+      6
+    ]
+  ],
+  "mass_kg": 6.500000000000001,
+  "momentum_Ns": [
+    0.9600000000000002,
+    0.51,
+    0.5
+  ],
+  "angular_momentum_Nms": [
+    0.029999999999999985,
+    -0.32,
+    -0.16000000000000003
+  ],
+  "kinetic_energy_J": 0.46450000000000014,
+  "split_momentum_error_Ns": 1.1102230246251565e-16,
+  "split_angular_error_Nms": 5.551115123125783e-17,
+  "split_kinetic_error_J": -1.1102230246251565e-16,
+  "material_power_error_W": 5.551115123125783e-17,
+  "split_power_error_W": 5.551115123125783e-17,
+  "F_and_all_material_history_including_plastic_heat_unchanged": true,
+  "true_sat_contact": {
+    "overlap_depth_m": 0.07999999999999996,
+    "common_point_m": [
+      0.45999999999999996,
+      0.019999999999999983,
+      0.015000000000000013
+    ],
+    "normal": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "xi_a_m": [
+      0.45999999999999996,
+      0.019999999999999983,
+      0.015000000000000013
+    ],
+    "xi_b_m": [
+      -0.4600000000000001,
+      -0.020000000000000018,
+      -0.014999999999999986
+    ],
+    "closing_pre_m_s": 2.495,
+    "closing_post_m_s": 3.5214886562329184e-16,
+    "impulse_Ns": 3.2776330699774565,
+    "momentum_error_Ns": 3.608224830031759e-16,
+    "angular_momentum_error_Nms": 5.551115123125783e-17,
+    "kinetic_loss_J": 4.088847254796877,
+    "contact_jump_work_J": -4.088847254796877
+  },
+  "scope": "Finite-dimensional algebra only; no C2 material release or fracture topology claim."
+}
