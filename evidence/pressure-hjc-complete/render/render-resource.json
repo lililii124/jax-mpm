@@ -1,0 +1,25 @@
+{
+  "container": "jaxmpm-pressure-hjc-render-final-v1",
+  "container_id": "93f2d58b1c4b17e7044f22509a4a31d5be835cd5bbe51d1fd9c66d6f86a46ce8",
+  "render_task": "/home/YZ/jax-mpm-compute-20261025/tasks/pressure-hjc-render-final-v1",
+  "source_task": "/home/YZ/jax-mpm-compute-20261025/tasks/pressure-full-hjc-7000/output/hjc",
+  "review_status": "passed",
+  "cpu_set": "0-3",
+  "uss_limit_gib": 6,
+  "wall_limit_seconds": 1800,
+  "physics_rerun": false,
+  "renderer_sha256": "86ec385a43bbd7f05e7eb99820a0127a087dd4ce018755d5cd27074a1d724d11",
+  "job_guard": {
+    "state": "complete",
+    "returncode": 0,
+    "guard_reason": null,
+    "wall_seconds": 109.29937146604061,
+    "peak_uss_bytes": 950747136,
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ]
+  }
+}

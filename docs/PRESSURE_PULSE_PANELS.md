@@ -103,4 +103,28 @@ Pressure examples now retain individual frame NPZ files and omit the redundant
 combined archive. `examples.common.run` keeps archive writing enabled by
 default for other examples through its `write_trajectory_archive` argument.
 The output change does not alter solver steps, material parameters or loading.
-HJC, JH-2 and RHT full-history results remain separate work.
+JH-2 and RHT full-history results remain separate work.
+## Completed HJC pressure history
+
+The HJC demonstration preset completed 7000 steps through 200 microseconds.
+Its terminal checkpoint is frame 350 and the saved course contains 351 states.
+The independent read-only audit verified the terminal checkpoint and every
+actual frame, including finite particle fields, positive mass and volume,
+positive deformation determinants, and valid material history. Mass remained
+0.948672 kg; J ranged from 0.981127 to 1.057205; maximum damage was 0.613042,
+maximum plastic strain was 0.026484, and maximum temperature was 293.15 K.
+The observer reports zero motion at fully supported clamps. Particles in the
+broader nominal clamp strips moved by up to 2.51e-5 m. The [result summary](results/completed--pressure-panel-hjc/summary.json)
+and [GIF](images/home/completed--pressure-panel-hjc.gif) retain these scoped
+measurements. The 400x400 GIF contains 61 distinct actual saved frames with
+the original displacement scale and no axes or text.
+
+This run uses the repository's HJC `legacy-v3` demonstration preset; it is not
+MAT111-compatible. It is not a material validation, an experimental comparison,
+a spatial or temporal convergence result, or a complete discrete energy
+certificate. The original completed status and summary are preserved. The
+retained `segment.json` still describes the preceding 6820-step continuation;
+the final checkpoint manifest and terminal review independently establish
+the 7000-step endpoint. Compact review evidence and per-frame hashes are in
+`evidence/pressure-hjc-complete`; binary checkpoints and source NPZ archives
+are not published.

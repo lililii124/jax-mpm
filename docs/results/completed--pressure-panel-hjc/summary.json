@@ -1,0 +1,61 @@
+{
+  "schema": "completed-pressure-panel-result-v1",
+  "case": "HJC pressure pulse panel",
+  "model": "HJC legacy-v3 demonstration preset",
+  "completed": true,
+  "completion_evidence": "../../../evidence/pressure-hjc-complete/terminal-review.json",
+  "physics_source_commit": "3328c738d1a25da63b1244f63e9291c110776e00",
+  "steps": 7000,
+  "simulation_time_s": 0.00020000000000002037,
+  "source_frames": 351,
+  "gif_frames": 61,
+  "particle_count_per_frame": 479232,
+  "checkpoint_sha256": "cdf009d9dd65567bc314e15a7a6a89740b7647fee45487b3b4aae9d11587ace7",
+  "mass_range_kg": [
+    0.948672,
+    0.948672
+  ],
+  "min_J_over_course": 0.9811266530125948,
+  "max_J_over_course": 1.0572049798275103,
+  "max_damage_over_course": 0.6130415683235655,
+  "max_plastic_strain_over_course": 0.026484045063754184,
+  "max_temperature_over_course_K": 293.15,
+  "failed_reference_volume_fraction_max": 0.0,
+  "fully_supported_clamp_max_motion_m": 0.0,
+  "max_motion_in_nominal_clamp_strips_m": 2.50917886168532e-05,
+  "maximum_displacement_m": 0.0036880275539593914,
+  "execution": {
+    "wrapper_state": "complete",
+    "wrapper_returncode": 0,
+    "resource_guard_reason": null,
+    "wrapper_wall_seconds": 750.3940437957644,
+    "peak_uss_bytes": 2991628288,
+    "original_status_completed": true,
+    "original_status_frame": 350,
+    "preserved_previous_segment": {
+      "completed": false,
+      "frame": 341,
+      "steps_completed": 6820
+    }
+  },
+  "qualification": {
+    "legacy_v3": true,
+    "mat111_compatible": false,
+    "experimental_validation": false,
+    "spatial_temporal_convergence_established": false,
+    "complete_discrete_energy_certificate": false
+  },
+  "render": {
+    "engine": "ParaView 6.2 OSMesa",
+    "resolution_px": [
+      400,
+      400
+    ],
+    "field": "actual displacement norm",
+    "displacement_amplification": 1,
+    "actual_frames_only": true,
+    "axes_and_text": false,
+    "gif_sha256": "00fe3804f9ce722f76d51014b8e940329b797042acf82e67bd97bb61eb68d819",
+    "final_png_sha256": "804d0eaa86e206abd863c9c2ac314e3e9196a17a31f58d2964c7494300182594"
+  }
+}

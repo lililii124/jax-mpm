@@ -68,7 +68,7 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <tr>
 <td width="33%" align="center"><img src="images/home/completed--jc-necking-refined.gif" alt="JC round-bar necking" width="100%"><br><a href="results/completed--jc-necking-refined/summary.json">JC round-bar necking</a></td>
 <td width="33%" align="center"><img src="images/home/completed--pressure-panel-jc.gif" alt="JC pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-jc/summary.json">JC pressure pulse panel</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
 </tr>
 </table>
 
