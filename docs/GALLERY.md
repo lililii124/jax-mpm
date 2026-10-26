@@ -68,7 +68,7 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <tr>
 <td width="33%" align="center"><img src="images/home/completed--jc-necking-refined.gif" alt="JC round-bar necking" width="100%"><br><a href="results/completed--jc-necking-refined/summary.json">JC round-bar necking</a></td>
 <td width="33%" align="center"><img src="images/home/completed--pressure-panel-jc.gif" alt="JC pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-jc/summary.json">JC pressure pulse panel</a></td>
-<td width="33%" align="center"><img src="images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
+<td width="33%" align="center"></td>
 </tr>
 </table>
 
@@ -77,7 +77,7 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="images/concrete-bending-symmetric.png" alt="concrete-bending-symmetric" width="100%"><br><strong>concrete-bending-symmetric</strong><br><a href="results/material-engineering--concrete-bending-symmetric--hjc/summary.json">Results</a> · <a href="images/concrete-bending-symmetric.mp4">Video</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
@@ -87,7 +87,7 @@ ParaView frames and animations. [Run records](RESULTS.md).
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="images/ceramic-impact-debris.png" alt="ceramic-impact-debris" width="100%"><br><strong>ceramic-impact-debris</strong><br><a href="results/completed--ceramic-impact-debris/summary.json">Results</a> · <a href="images/home/completed--ceramic-impact-debris.gif">GIF</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="images/home/completed--pressure-panel-jh2.gif" alt="JH-2 pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-jh2/summary.json">JH-2 pressure pulse panel</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>

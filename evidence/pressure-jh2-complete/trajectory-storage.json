@@ -1,0 +1,6 @@
+{
+  "authoritative_frames": "frames_data/frame_*.npz",
+  "saved_frames": 424,
+  "redundant_combined_archive_written": false,
+  "reason": "Stream individual saved frames; retain the full checkpoint without mapping the entire derived history into resident memory."
+}

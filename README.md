@@ -73,7 +73,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--jc-necking-refined.gif" alt="JC round-bar necking" width="100%"><br><a href="docs/results/completed--jc-necking-refined/summary.json">JC round-bar necking</a></td>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc.gif" alt="JC pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-jc/summary.json">JC pressure pulse panel</a></td>
-<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
+<td width="33%" align="center"></td>
 </tr>
 </table>
 
@@ -82,7 +82,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif" alt="HJC bending with symmetry constraints" width="100%"><br><a href="docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json">HJC bending with symmetry constraints</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
@@ -92,7 +92,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--ceramic-impact-debris.gif" alt="JH2 ceramic impact and debris" width="100%"><br><a href="docs/results/completed--ceramic-impact-debris/summary.json">JH2 ceramic impact and debris</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jh2.gif" alt="JH-2 pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-jh2/summary.json">JH-2 pressure pulse panel</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>

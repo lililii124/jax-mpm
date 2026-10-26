@@ -103,7 +103,7 @@ Pressure examples now retain individual frame NPZ files and omit the redundant
 combined archive. `examples.common.run` keeps archive writing enabled by
 default for other examples through its `write_trajectory_archive` argument.
 The output change does not alter solver steps, material parameters or loading.
-JH-2 and RHT full-history results remain separate work.
+The RHT full-history result remains in progress.
 ## Completed HJC pressure history
 
 The HJC demonstration preset completed 7000 steps through 200 microseconds.
@@ -128,3 +128,20 @@ the final checkpoint manifest and terminal review independently establish
 the 7000-step endpoint. Compact review evidence and per-frame hashes are in
 `evidence/pressure-hjc-complete`; binary checkpoints and source NPZ archives
 are not published.
+
+
+## Completed JH-2 pressure history
+
+The JH-2 plate completed 8460 steps through 200 microseconds under an assumed
+80 MPa, 80-microsecond sine-squared pressure pulse. The terminal checkpoint
+and all 424 saved states passed the independent audit. Maximum displacement
+was 20.133 mm and maximum damage reached 1; mass remained 0.972 kg.
+The observer reports zero motion at fully supported clamps. Particles in the
+broader nominal clamp strips moved by up to 0.429 mm.
+
+The [result](results/completed--pressure-panel-jh2/summary.json) and
+[61-frame GIF](images/home/completed--pressure-panel-jh2.gif) use actual saved
+coordinates. This is an idealized pressure-load example, without coupled
+explosive flow or explicit crack surfaces. Experimental accuracy and full
+space/time convergence are not established. Original records and frame hashes
+are retained in `evidence/pressure-jh2-complete`.

@@ -1,0 +1,96 @@
+{
+  "schema": "completed-pressure-panel-result-v1",
+  "case": "JH-2 pressure pulse panel",
+  "model": "JH-2",
+  "completed": true,
+  "completion_evidence": "../../../evidence/pressure-jh2-complete/terminal-review.json",
+  "physics_source_commit": "3328c738d1a25da63b1244f63e9291c110776e00",
+  "steps": 8460,
+  "simulation_time_s": 0.0002,
+  "source_frames": 424,
+  "gif_frames": 61,
+  "particle_count_per_frame": 479232,
+  "checkpoint_sha256": "2b61d0e16a55ba2407cfc3000ca08475fe014d5614fb7fbd5441d86aa47bb95d",
+  "mass_range_kg": [
+    0.972,
+    0.972
+  ],
+  "min_J_over_course": 0.9937470721723343,
+  "max_J_over_course": 1.4143584118757826,
+  "max_damage_over_course": 1.0,
+  "max_temperature_K": 293.15,
+  "fully_supported_clamp_max_motion_m": 0.0,
+  "maximum_displacement_m": 0.020133155938708094,
+  "final_observation": {
+    "time": 0.0002,
+    "external_work_trapezoidal": 3020.526831002509,
+    "boundary_impulse_x": 0.007186653782331137,
+    "boundary_impulse_y": 59.33568040371349,
+    "boundary_impulse_z": 0.023081154195106434,
+    "pressure_Pa": 0.0,
+    "load_sample_time_s": 0.0002,
+    "reference_pressure_impulse_Pa_s": 3200.0000000000005,
+    "flat_reference_resultant_impulse_Ns": 103.68,
+    "current_loaded_area_m2": 0.03379093439017565,
+    "resultant_pressure_force_x_N": 0.0,
+    "resultant_pressure_force_y_N": 0.0,
+    "resultant_pressure_force_z_N": 0.0,
+    "centre_surface_deflection_y_m": -0.020102358311304733,
+    "centre_surface_velocity_y_m_per_s": -126.05174056652595,
+    "maximum_displacement_m": 0.020133155938708094,
+    "fully_supported_clamp_max_motion_m": 0.0,
+    "maximum_equivalent_plastic_strain": 0.5196459415342596,
+    "maximum_damage": 1.0,
+    "maximum_temperature_K": 293.15,
+    "maximum_pressure_history_Pa": 952707423.4672872,
+    "mean_compaction_reference_volume": 0.0,
+    "material_history_energy_J": 88.02751522237827,
+    "material_history_work_J": 503.42593589210367,
+    "failed_reference_volume_fraction": 0.0,
+    "all_material_history_valid": true
+  },
+  "max_motion_in_nominal_clamp_strips_m": 0.00042904938847384205,
+  "execution": {
+    "started_utc": "2026-10-26T17:21:06.001266+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "start.py"
+    ],
+    "cpu_affinity": [
+      44,
+      45,
+      46,
+      47
+    ],
+    "memory_headroom_at_start": 17170935808,
+    "limit_seconds": 3600.0,
+    "uss_limit_bytes": 6442450944,
+    "peak_uss_bytes": 3386880000,
+    "minimum_memory_headroom": 8621629440,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 1528.3248620852828,
+    "returncode": 0
+  },
+  "qualification": {
+    "experimental_validation": false,
+    "spatial_temporal_convergence_established": false,
+    "complete_discrete_energy_certificate": false,
+    "explicit_crack_surface_topology": false
+  },
+  "render": {
+    "engine": "ParaView6.2 OSMesa",
+    "resolution_px": [
+      400,
+      400
+    ],
+    "field": "actual displacement norm",
+    "displacement_amplification": 1,
+    "actual_frames_only": true,
+    "axes_and_text": false,
+    "gif_sha256": "b76901b44dc01914534233142ed96b075b4e3689aacaee897c707682515c4b0c",
+    "final_png_sha256": "5f2739b5d033e544ce1ab60a5ab33504b7f0d27563de6a7d37e55aa576889dd6"
+  }
+}
