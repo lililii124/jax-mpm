@@ -1,0 +1,18 @@
+{
+  "parent_checkpoint_sha256": "9060ef31c7575e9975694db0e0172f8a11dab439466ff31ac652b8b829e3a978",
+  "original_ledger_sha256": "d8ebd58cff319168c825d8549c78d1169b8fc9e468cb00abb3436738a84af81f",
+  "retained_valid_endpoint": 4880,
+  "rejected_endpoint_not_resumed": 4883,
+  "slots": 78412,
+  "first_stage_iterations": 3072,
+  "dual_refinement_budget": [
+    128,
+    1024
+  ],
+  "total_iteration_budget": [
+    3200,
+    4096
+  ],
+  "tolerances_changed": false,
+  "physical_parameters_changed": false
+}

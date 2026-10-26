@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "all_checkpoint_fields_equal": true,
+  "checkpoint_field_count": 17,
+  "maximum_numeric_differences": {
+    "x": 0.0,
+    "v": 0.0,
+    "C": 0.0,
+    "mass": 0.0,
+    "time": 0.0,
+    "last_pressure_multiplier_base": 0.0,
+    "last_pressure_multiplier_correction": 0.0,
+    "last_pressure_dt_s": 0.0,
+    "transport_logJ": 0.0,
+    "step": 0.0,
+    "source_mass_kg": 0.0,
+    "outflow_mass_kg": 0.0,
+    "source_energy_J": 0.0,
+    "outflow_energy_J": 0.0,
+    "inlet_face_flux_volume_m3": 0.0,
+    "inlet_face_remainder_m3": 0.0,
+    "inlet_source_time_s": 0.0
+  },
+  "base_commit": "dc48e363ade09395f9cd36628808add186c247ed",
+  "imported_source_commit": "32f0e67de66acf28a720286a3901710f01f4d423"
+}

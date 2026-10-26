@@ -1,5 +1,8 @@
 # Example guide
 
+The [resin-filling example](RESIN_FILLING.md) uses JAX pressure projection and
+RT0 transport around a completed three-strand forming checkpoint.
+
 All spatial suite cases are 3D and use SI units. Coordinates below are in a
 unit cube. Boundary conditions act on grid nodes; wall/contact location has
 grid-scale error. The free surface has zero applied traction.

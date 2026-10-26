@@ -1,0 +1,37 @@
+{
+  "base_commit": "b4056b9c0238613b425eb018ecaddc341c210775",
+  "original_files": {
+    "mpm_jax/resin_pressure_lsqr.py": "0b8e700e3bfd9ee97b20e6107a45493713ef40e8d68ba6e178a19da6a812a315",
+    "mpm_jax/resin_mac.py": "3682e552ef1276673891c558a6de5e08b666cfc964eb58d4f85457a5d6571cae",
+    "mpm_jax/resin_fill.py": "4101c112a0e22fec7a08918225fab9cfa2aba82a29f3bd9ebbf6861a9db8ae41"
+  },
+  "actual_task": "resin-dual-budget-4880-to4912-v1",
+  "actual_runner_sha256": "74d1e028fc599cd746f7fff1713b7ed0696d473d997ad1367be451d7f4469ec7",
+  "initial_state_step": 4880,
+  "final_state_step": 4912,
+  "full_filling_completed": false,
+  "executed_files": {
+    "mpm_jax/resin_pressure_lsqr.py": "6e847092798b2381b30914fdd93b7fb26d812416e903ac8eea2897a41946010c",
+    "mpm_jax/resin_mac.py": "d436b92d2c257ceaa5b056fcf311e7e0b174280382463a32a0644dcfa7b75390",
+    "mpm_jax/resin_fill.py": "b9f5be196a8220c37ac62eb284483a978237508435e3a020473f4f1a64fb8d74"
+  },
+  "repository_files": {
+    "mpm_jax/resin_pressure_lsqr.py": "6e847092798b2381b30914fdd93b7fb26d812416e903ac8eea2897a41946010c",
+    "mpm_jax/resin_mac.py": "d436b92d2c257ceaa5b056fcf311e7e0b174280382463a32a0644dcfa7b75390",
+    "mpm_jax/resin_fill.py": "ff7fe0020521ce13935228e3cc4bb666c1ac1790596a28854ff1e30f8c352932"
+  },
+  "newline_normalization": {
+    "mpm_jax/resin_pressure_lsqr.py": {
+      "changed": false,
+      "parsed_python_ast_identical": true
+    },
+    "mpm_jax/resin_mac.py": {
+      "changed": false,
+      "parsed_python_ast_identical": true
+    },
+    "mpm_jax/resin_fill.py": {
+      "changed": true,
+      "parsed_python_ast_identical": true
+    }
+  }
+}
