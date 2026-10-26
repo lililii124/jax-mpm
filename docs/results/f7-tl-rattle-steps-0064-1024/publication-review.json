@@ -1,0 +1,14 @@
+{
+  "records": 1024,
+  "terminal_checkpoint_sha256": "deb95c5579b3beb0bd87eab8b52c73ffcf7983cd2e9eafcf0ec49533716b56bc",
+  "archive_sha256": "29cc0dd9e3d63000e4d0328b9f1876bdbc4a16d8cc92ec433082257aa261fca7",
+  "kernels_exactly_match_actual_runtime_archive": [
+    "mpm_jax/fibre_tl_guides.py",
+    "mpm_jax/fibre_tlmpm.py"
+  ],
+  "chain_and_all_rows": "passed",
+  "source_syntax_and_diff": "passed",
+  "recovery_time_roundoff_and_wrong_step_dt_controls": "passed",
+  "metadata_change": "Current entry hashes local source/runtime versions, enforces a forward summation bound and rejects crossing first guide release; actual archived1024 evidence unchanged",
+  "scope": "Pre-release mechanics and centroid guide support only; no complete weaving/contact/release claim; no new physical steps replayed"
+}

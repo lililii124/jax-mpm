@@ -62,7 +62,12 @@ def run(output,*,steps=64,checkpoint_every=64,resume_from=None):
         duration=duration,guide_particles=guides,guide_displacement=guide_position,guide_velocity=guide_speed,particle_fibre_ids=ids)
     if steps<1 or checkpoint_every<1:raise ValueError('steps and checkpoint interval must be positive')
     source_path=Path('/work/source.tar');source_sha=hashlib.sha256(source_path.read_bytes()).hexdigest() if source_path.exists() else 'unbound-local-source'
+    source_root=Path(__file__).resolve().parents[1]
+    source_files=sorted([*(source_root/'mpm_jax').rglob('*.py'),*(source_root/'examples').rglob('*.py')])
+    source_hashes={p.relative_to(source_root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in source_files}
+    local_source_sha=hashlib.sha256(json.dumps(source_hashes,sort_keys=True,separators=(',',':')).encode()).hexdigest()
     binding=dict(schema='f7-tl-rattle-checkpoint-v1',source_archive_sha256=source_sha,
+        local_python_source_sha256=local_source_sha,runtime_versions=dict(jax=jax.__version__,numpy=np.__version__),
         input_identity_sha256=identity,material=actual_material,dt_s=solver_dt,
         guide_particle_ids_sha256=identity['guide_particle_ids'],fixture_times_sha256=identity['fixture_times'],
         fixture_positions_sha256=identity['fixture_positions'],guide_target='centroid y follows fixture through min(t,release); no withdrawal before first release',
@@ -88,12 +93,18 @@ def run(output,*,steps=64,checkpoint_every=64,resume_from=None):
                 jnp.asarray(cp['F']),jnp.asarray(cp['time']),jnp.asarray(cp['valid']),jnp.asarray(cp['work']),
                 jnp.asarray(cp['impulse']),jnp.asarray(cp['angular_impulse']),jnp.asarray(cp['damage_work']))
             start_step=int(cp['step'].item());absolute_machine_work=float(cp['absolute_machine_work_J'].item())
-            if not bool(state.valid) or abs(float(state.time)-start_step*solver_dt)>1e-12*solver_dt:
+            eps=np.finfo(np.asarray(cp['time']).dtype).eps
+            product=start_step*solver_dt;accumulation=start_step*eps
+            if accumulation>=1:raise RuntimeError('Checkpoint step index exceeds the floating-point accumulation bound')
+            time_bound=accumulation/(1-accumulation)*abs(product)+2*eps*max(abs(float(state.time)),abs(product),solver_dt)
+            if not bool(state.valid) or not np.isfinite(float(state.time)) or abs(float(state.time)-product)>time_bound:
                 raise RuntimeError('Checkpoint state/time is invalid or inconsistent with step index')
         parent_cp_sha=actual_sha
         old_obs=parent/'observations.jsonl'
         if old_obs.exists():observations_path.write_bytes(old_obs.read_bytes())
     else:state=initial
+    if (start_step+steps)*solver_dt>=float(np.min(np.asarray(releases))):
+        raise ValueError('This qualification stops before the first guide release; release and fibre contact require a separate solver')
     with observations_path.open('a',encoding='utf-8') as observations:
         t0=time.perf_counter()
         for local_step in range(1,steps+1):

@@ -4,7 +4,6 @@
   "binding_sha256": "9d9b48ee7bd9f18251758bad4cfb6756baa0502fddcc346d418bcf8b04d9c98d",
   "qualification_scope": "Bounded mechanics only; pre-release to step 1024. Contact, interlacing, guide withdrawal-release and full-process acceptance are not claimed.",
   "source_capsule": "../f7-tl-rattle-bound-cp64r2/source-capsule.tar",
-  "initial_checkpoint": "../f7-tl-rattle-bound-cp64r2/checkpoint_0000064.npz",
   "observations_rows": 1024,
   "segments": [
     {
@@ -341,5 +340,9 @@
     "fixture_times": "bde9c5f177a84fc5873509c75f37f468a6cb1ed32131843c6534326211157bae",
     "fixture_positions": "8bbeb1b4ac7a3fcd97da6d620e7f9d015c238ad65608a70655e3404ff8f3a649"
   },
-  "checkpoint_storage": "Raw NPZ files remain in private local/remote task audits; public evidence records checkpoint SHA256, complete scalar segment summaries and parent links."
+  "checkpoint_storage": "Raw NPZ files remain in private local/remote task audits; public evidence records checkpoint SHA256, complete scalar segment summaries and parent links.",
+  "source_capsule_member": "source.tar",
+  "initial_checkpoint_original_path": "../f7-tl-rattle-bound-cp64r2/checkpoint_0000064.npz",
+  "initial_checkpoint_sha256": "03fe58de392126a3547d9a57a57eb6634afdc46ebf360299b3f8cd8f225bdbcf",
+  "initial_checkpoint_artifact_included": false
 }
