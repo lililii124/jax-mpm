@@ -629,12 +629,36 @@ def main():
             atomic_json(args.output/'run.json', case)
         write_endpoint_audit(case['status'])
     except BaseException as exc:
+        rejected_attempt = dict(step=int(steps), time_s=float(state.time),
+            max_linear_relative=float(max_momentum_error),
+            max_angular_relative=float(max_angular_error),
+            max_energy_error_J=float(max_energy_error), error=repr(exc))
+        accepted_path = args.output/'accepted.npz'
+        if accepted_path.is_file():
+            # A candidate can pass the material/contact solver and still fail
+            # the global cumulative guards. Keep endpoint reporting on the last
+            # checkpoint that passed every guard, never on that rejected state.
+            with np.load(accepted_path, allow_pickle=False) as saved:
+                state = state._replace(
+                    displacement=jnp.asarray(saved['displacement']),
+                    velocity=jnp.asarray(saved['velocity']),
+                    material=tuple(jnp.asarray(saved[name]) for name in
+                        ('F', 'tau', 'ep', 'cold', 'fracture', 'damage', 'internal')),
+                    time=jnp.asarray(saved['time_s']),
+                    contact_work=jnp.asarray(saved['contact_work']),
+                    viscous_loss=jnp.asarray(saved['viscous_loss']))
+                steps = int(saved['step'])
+            rejected_attempt['accepted_checkpoint_sha256'] = hashlib.sha256(
+                accepted_path.read_bytes()).hexdigest()
+            rejected_attempt['last_accepted_step'] = steps
+            rejected_attempt['last_accepted_time_s'] = float(state.time)
         try:
             write_endpoint_audit('failed-at-last-accepted-state')
         except BaseException as audit_exc:
             case['endpoint_audit_error'] = repr(audit_exc)
         case.update(status='failed-preserved', steps=steps, time_s=float(state.time),
-                    elapsed_s=time.monotonic()-started, error=repr(exc), traceback=traceback.format_exc())
+                    elapsed_s=time.monotonic()-started, error=repr(exc),
+                    rejected_attempt=rejected_attempt, traceback=traceback.format_exc())
         atomic_json(args.output/'run.json', case)
         raise
 
