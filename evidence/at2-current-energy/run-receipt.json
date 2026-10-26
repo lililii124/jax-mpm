@@ -1,0 +1,43 @@
+{
+  "task": "at2-current-energy-public-integration-v1",
+  "container_id": "d3bc30fb23ea4c7929c49a1e3421784bff3c5c20689cc733ba44cdde40c922ce",
+  "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+  "archive_sha256": "d94d764f3739e8619bb1e53aee0942c163875c8789f0362f97d43c778d1258de",
+  "terminal_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-26T22:36:03.205959042Z",
+    "FinishedAt": "2026-10-26T22:39:38.885117272Z"
+  },
+  "guard": {
+    "started_utc": "2026-10-26T22:36:03.356047+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "run.py"
+    ],
+    "cpu_affinity": [
+      28,
+      29,
+      30,
+      31
+    ],
+    "memory_headroom_at_start": 8580902912,
+    "limit_seconds": 1800.0,
+    "uss_limit_bytes": 6442450944,
+    "peak_uss_bytes": 1914658816,
+    "minimum_memory_headroom": 6665228288,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 215.4886230006814,
+    "returncode": 0
+  }
+}

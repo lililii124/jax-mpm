@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "steps": 600,
+  "initial_fields_exact": {
+    "reference": true,
+    "volume": true,
+    "nodal_displacement": true,
+    "nodal_velocity": true,
+    "nodal_damage": true,
+    "grid_coordinates": true,
+    "nodal_mass": true
+  },
+  "energy_residual": -1.1708360375152762e-14,
+  "energy_residual_over_absolute_work": 1.478266794239887e-05,
+  "maximum_damage_split_potential_increase": 0.0,
+  "checkpoint_sha256": "e091171c26bbb742ef5fcb37c60474f1066379bf663366a67df5c1ded9555ff4",
+  "original_strain_kkt_gates": true,
+  "full_fracture_verified": false
+}
