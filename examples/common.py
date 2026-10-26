@@ -162,8 +162,11 @@ def run(
     if point_fields:
         _atomic_npz(output / "particle_fields.npz", **point_fields)
     dtype = np.result_type(*(np.asarray(s.x).dtype for s in states))
+    keep_history = write_trajectory_archive or render_output
 
     def storage(name, shape, array_dtype=None):
+        if not keep_history:
+            return np.empty((1, *shape[1:]), dtype=dtype if array_dtype is None else array_dtype)
         return np.lib.format.open_memmap(
             output / f"trajectory_{name}.npy", mode="w+",
             dtype=dtype if array_dtype is None else array_dtype, shape=shape
@@ -188,12 +191,13 @@ def run(
         first_frame = saved["frame"] + 1
         for i in range(first_frame):
             with np.load(output / "frames_data" / f"frame_{i:05d}.npz") as data:
-                positions[i] = data["x"]
-                speeds[i] = data["speed"]
-                damages[i] = data["damage"]
-                temperatures[i] = data["temperature"]
-                if failures is not None:
-                    failures[i] = data["failed"]
+                if keep_history:
+                    positions[i] = data["x"]
+                    speeds[i] = data["speed"]
+                    damages[i] = data["damage"]
+                    temperatures[i] = data["temperature"]
+                    if failures is not None:
+                        failures[i] = data["failed"]
                 times.append(float(data["time"]))
                 impulses.append(data["contact_impulse"])
         reaction = np.array([observations[-1][f"boundary_impulse_{a}"] for a in "xyz"[:dim]])
@@ -222,25 +226,28 @@ def run(
         if observer is not None:
             observation.update(observer(states, time))
         observations.append(observation)
-        positions[frame] = np.concatenate([np.asarray(s.x) for s in states])
-        speeds[frame] = np.concatenate([np.linalg.norm(s.v, axis=1) for s in states])
-        damages[frame] = np.concatenate([np.asarray(s.history.damage) for s in states])
-        temperatures[frame] = np.concatenate([np.asarray(s.history.temperature) for s in states])
+        slot = frame if keep_history else 0
+        positions[slot] = np.concatenate([np.asarray(s.x) for s in states])
+        speeds[slot] = np.concatenate([np.linalg.norm(s.v, axis=1) for s in states])
+        damages[slot] = np.concatenate([np.asarray(s.history.damage) for s in states])
+        temperatures[slot] = np.concatenate([np.asarray(s.history.temperature) for s in states])
         extra_fields = {}
         if failures is not None:
-            failures[frame] = np.concatenate([np.asarray(s.history.failed) for s in states])
-            failures.flush()
-            extra_fields["failed"] = failures[frame]
-        for field in (positions, speeds, damages, temperatures):
-            field.flush()
+            failures[slot] = np.concatenate([np.asarray(s.history.failed) for s in states])
+            if keep_history:
+                failures.flush()
+            extra_fields["failed"] = failures[slot]
+        if keep_history:
+            for field in (positions, speeds, damages, temperatures):
+                field.flush()
         times.append(time)
         impulses.append(accumulated_impulse.copy())
         _atomic_npz(
             output / "frames_data" / f"frame_{frame:05d}.npz",
-            x=positions[frame],
-            speed=speeds[frame],
-            damage=damages[frame],
-            temperature=temperatures[frame],
+            x=positions[slot],
+            speed=speeds[slot],
+            damage=damages[slot],
+            temperature=temperatures[slot],
             time=time,
             contact_impulse=impulses[-1],
             **extra_fields,
@@ -299,7 +306,7 @@ def run(
             _atomic_json(output / "segment.json", segment)
             _atomic_json(output / "summary.json", segment)
             for field in (positions, speeds, damages, temperatures, failures):
-                if field is not None:
+                if keep_history and field is not None:
                     field._mmap.close()
             if not valid:
                 raise FloatingPointError("Planned stop reached an invalid state; no resumable segment accepted")
@@ -396,8 +403,8 @@ def run(
             "particles": sum(s.x.shape[0] for s in states),
         },
     )
-    values, field = (damages, "Damage") if damages.max() > 0 else (speeds, "Speed")
     if render_output:
+        values, field = (damages, "Damage") if damages.max() > 0 else (speeds, "Speed")
         render(
             positions,
             values,

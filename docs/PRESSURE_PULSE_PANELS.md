@@ -102,6 +102,10 @@ protocol, without claiming a complete APIC energy certificate or convergence.
 Pressure examples now retain individual frame NPZ files and omit the redundant
 combined archive. `examples.common.run` keeps archive writing enabled by
 default for other examples through its `write_trajectory_archive` argument.
+When both archive writing and rendering are disabled, the runner keeps one
+transient frame buffer instead of loading prior particle histories into a
+full-course cache; resume still validates every saved frame and checkpoint.
+Enabling either archive writing or rendering retains full-course history.
 The output change does not alter solver steps, material parameters or loading.
 The RHT full-history result remains in progress.
 ## Completed HJC pressure history
