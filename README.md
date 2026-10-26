@@ -81,7 +81,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 <table width="100%">
 <tr>
-<td width="33%" align="center"><img src="docs/images/home/material-engineering--concrete-bending-symmetric--hjc.gif" alt="HJC bending with symmetry constraints" width="100%"><br><a href="docs/results/material-engineering--concrete-bending-symmetric--hjc/summary.json">HJC bending with symmetry constraints</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--hjc-mat111-bending.gif" alt="HJC beam bending" width="100%"><br><a href="docs/HJC_FIXTURE_REFINEMENT.md">HJC beam bending</a></td>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
 <td width="33%" align="center"></td>
 </tr>

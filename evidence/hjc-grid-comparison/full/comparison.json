@@ -1,0 +1,58 @@
+{
+  "coarse_source": "4956ae6cab46118eca2706ed02dc4d0a2bac1181",
+  "fine_source": "e6f2f566eecfda06c1e0bdd0043f53093936d11d",
+  "coarse_checkpoint_json_sha256": "f49d0b4a631b1f7829d5da16b39a281f34f18359702488566afde6c7f2002bef",
+  "fine_checkpoint_json_sha256": "2dbd9d5dbad223d6dde37e6f392fd9230acf03c0fc69f3e54ef0b7cebb49a287",
+  "raw_baseline_metadata_sha_verified": true,
+  "frames": 61,
+  "time_s": 0.0014999999999999998,
+  "particles": 121104,
+  "changes": {
+    "grid": [
+      64,
+      96
+    ],
+    "substeps_per_frame": [
+      175,
+      263
+    ],
+    "particle_sampling_unchanged": true,
+    "physical_fixtures_unchanged": true
+  },
+  "endpoint": {
+    "frame": 60,
+    "time_s": 0.0014999999999999998,
+    "mean_damage_reference_volume_grid64": 0.04598861602245609,
+    "mean_damage_reference_volume_grid96": 0.05246468745468508,
+    "mean_damage_reference_volume_delta": 0.006476071432228989,
+    "midspan_bottom_deflection_m_grid64": 0.014579610475894938,
+    "midspan_bottom_deflection_m_grid96": 0.01457496506225021,
+    "midspan_bottom_deflection_m_delta": -4.645413644727148e-06,
+    "loading_reaction_y_N_grid64": 56057.86790961567,
+    "loading_reaction_y_N_grid96": 66458.69537246996,
+    "loading_reaction_y_N_delta": 10400.827462854286,
+    "damage_mirror_x_rms_grid64": 3.879618358883673e-13,
+    "damage_mirror_x_rms_grid96": 2.1517638536414453e-12,
+    "damage_mirror_x_rms_delta": 1.7638020177530779e-12,
+    "damage_mirror_z_rms_grid64": 4.3664973352209693e-13,
+    "damage_mirror_z_rms_grid96": 2.55088190956311e-12,
+    "damage_mirror_z_rms_delta": 2.114232176041013e-12,
+    "fully_damaged_reference_volume_fraction_grid64": 0.004343374289866561,
+    "fully_damaged_reference_volume_fraction_grid96": 0.01623398071079403,
+    "fully_damaged_reference_volume_fraction_delta": 0.011890606420927468
+  },
+  "maximum_absolute_differences": {
+    "mean_damage_reference_volume": 0.008026193471101797,
+    "midspan_bottom_deflection_m": 0.00011531685289950001,
+    "loading_reaction_y_N": 25434.260828036822,
+    "damage_mirror_x_rms": 1.7638020177530779e-12,
+    "damage_mirror_z_rms": 2.114232176041013e-12,
+    "fully_damaged_reference_volume_fraction": 0.01233650416171225
+  },
+  "mean_damage_relative_difference": 0.1408190111454266,
+  "midspan_deflection_relative_difference": -0.0003186239887826632,
+  "max_fine_damage_mirror_rms": 2.55088190956311e-12,
+  "mesh_or_time_convergence_certified": false,
+  "reaction_scope": "Saved reaction is a next-step boundary probe; dt differs between grids. It is not a step-resolved reaction or exact work ledger.",
+  "next": "Full prescribed1.5ms comparison complete; separate spatial/time/transfer effects before quantitative qualification."
+}

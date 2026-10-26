@@ -1,0 +1,25 @@
+{
+  "files": {
+    "audit_hjc_refinement.py": "32b63ed08bb61fff01f39d520400a39e1ca9ca3d97d8fd3cfd5ee1b3b12bb89f",
+    "render_hjc_refinement_pv.py": "8809f0968379c4ffeb04544b2955d42e79e6bd4a95d59e8af7c7ade9f59bf97e",
+    "render_pressure_jc_pv.py": "90ad9c86a16f3be684b124bb49df052c9f3698624ba73068d5a65e412f252b50",
+    "start.py": "467f0872247697cab45884c8b953bf81899145c712faccde647be143f8e3b3b7"
+  },
+  "parent": {
+    "parent": "hjc-fixed-grid96-f50-to60-v1",
+    "frame": 60,
+    "docker": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-26T21:14:04.321807074Z",
+      "FinishedAt": "2026-10-26T21:35:53.793592722Z"
+    }
+  }
+}

@@ -43,3 +43,35 @@ serve as an exact reaction or work balance.
 [Framewise comparison](../evidence/hjc-grid-comparison/observables.csv),
 [summary](../evidence/hjc-grid-comparison/comparison.json), and
 [source provenance](../evidence/hjc-grid-comparison/provenance.json).
+
+
+## Complete loading window
+
+Both runs now cover the prescribed 1.5 ms. The fine run completed 15,780
+steps and saved 61 states; its source and saved-state audit retained positive
+volume, valid material history, mass conservation and monotone damage.
+
+| Observable at 1.5 ms | Grid 64 | Grid 96 |
+| --- | ---: | ---: |
+| Midspan bottom deflection (mm) | 14.5796 | 14.5750 |
+| Reference-volume mean damage | 0.0459886 | 0.0524647 |
+| Fully damaged reference-volume fraction | 0.00434337 | 0.0162340 |
+| Damage mirror RMS, x | 3.88e-13 | 2.15e-12 |
+| Damage mirror RMS, z | 4.37e-13 | 2.55e-12 |
+
+Endpoint deflection differs by 0.032%, with a maximum absolute difference
+of 0.1153 mm over the full saved history. Mean damage differs by 14.1%, and
+the fully damaged fraction remains strongly resolution sensitive. The close
+endpoint deflections therefore do not establish convergence of damage or
+reaction. Grid spacing and timestep changed together, as in the partial
+comparison above.
+
+[Full framewise comparison](../evidence/hjc-grid-comparison/full/observables.csv)
+and [full summary](../evidence/hjc-grid-comparison/full/comparison.json).
+
+
+The [animation](images/home/completed--hjc-mat111-bending.gif) uses all 61
+saved configurations, a fixed camera, true coordinates and damage colours
+from 0 to 1. The [saved-state review](../evidence/hjc-grid-comparison/full/saved-state-review.json)
+and [render record](../evidence/hjc-grid-comparison/full/render-review.json)
+bind the frames to the completed calculation.
