@@ -1,0 +1,19 @@
+{
+  "model": "jh2",
+  "scalar": "damage",
+  "colour_range": [
+    0.0,
+    1.0
+  ],
+  "source_frames": 424,
+  "rendered_frames": 61,
+  "terminal_damage_max": 1.0,
+  "terminal_fully_damaged_reference_volume_fraction": 0.6107751569177351,
+  "source_case_sha256": "1be6a45343848483712a47ae1f7ffe83c28571b67ac84564db3df030f248a790",
+  "source_checkpoint_sha256": "2b61d0e16a55ba2407cfc3000ca08475fe014d5614fb7fbd5441d86aa47bb95d",
+  "render_method": "ParaView structured surface through deformed material-point centres; damage interpolated on faces; 1600-to-400-pixel antialiasing.",
+  "reference_boundary_offset": "Half a particle spacing inward from the nominal plate boundary.",
+  "render_evidence": "render.json",
+  "damage_history": "damage-timeseries.json",
+  "gif_sha256": "690ef1602c81c824f51b7b60def88590d35beafef1f5d685ed6ccf966e2b9fdb"
+}

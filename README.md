@@ -72,7 +72,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--jc-necking-refined.gif" alt="JC round-bar necking" width="100%"><br><a href="docs/results/completed--jc-necking-refined/summary.json">JC round-bar necking</a></td>
-<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc.gif" alt="JC pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-jc/summary.json">JC pressure pulse panel</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc-damage.gif" alt="JC pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-jc-damage/summary.json">JC pressure panel damage</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
@@ -82,7 +82,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--hjc-mat111-bending.gif" alt="HJC beam bending" width="100%"><br><a href="docs/HJC_FIXTURE_REFINEMENT.md">HJC beam bending</a></td>
-<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc-damage.gif" alt="HJC legacy-v3 pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc-damage/summary.json">HJC legacy-v3 pressure panel damage</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
@@ -92,7 +92,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--ceramic-impact-debris.gif" alt="JH2 ceramic impact and debris" width="100%"><br><a href="docs/results/completed--ceramic-impact-debris/summary.json">JH2 ceramic impact and debris</a></td>
-<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jh2.gif" alt="JH-2 pressure pulse panel" width="100%"><br><a href="docs/results/completed--pressure-panel-jh2/summary.json">JH-2 pressure pulse panel</a></td>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jh2-damage.gif" alt="JH-2 pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-jh2-damage/summary.json">JH-2 pressure panel damage</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
