@@ -1,0 +1,1063 @@
+{
+  "density_kg_m3": 1050.0,
+  "estimated_engineering_constants": {
+    "E1_Pa": 1258259.819988239,
+    "E2_Pa": 734390.7278641514,
+    "E3_Pa": 584535.9169025838,
+    "G12_Pa": 473257.0002735642,
+    "G13_Pa": 360224.3568442256,
+    "G23_Pa": 225525.67042023403,
+    "nu12": 0.24986705791007882,
+    "nu13": 0.2230544683730991,
+    "nu23": 0.33020249580743216
+  },
+  "gradient_check": {
+    "autodiff_directional": null,
+    "central_difference_directional": null,
+    "direction": null,
+    "epsilon": 0.0002,
+    "evidence": "The exact r4 SHA-bound source performs the relative-error assertion before entering the optimizer loop; preserved solver.log iteration 1 proves it passed. Numeric FD values were not persisted in r4 and are intentionally not reconstructed.",
+    "gate_relative_error_max": 0.005,
+    "passed_before_optimizer_iteration_1": true,
+    "relative_error": null
+  },
+  "holdout": {
+    "background_cells_across_body_axes": [
+      17.28,
+      13.440000000000001,
+      12.0
+    ],
+    "displacement_rmse_m": 7.498253501851488e-05,
+    "displacement_truth_rms_m": 0.0014245848474728298,
+    "dt_s": 3.2000000000000005e-05,
+    "geometry_lengths_m": [
+      0.36,
+      0.28,
+      0.25
+    ],
+    "grid": 48,
+    "kind": "holdout_mixed",
+    "minimum_sensor_clearance_from_clamp_m": 0.011106756679226823,
+    "normalized_displacement_rmse": 0.05263465714346999,
+    "normalized_force_rmse": 0.051237734329972966,
+    "normalized_moment_rmse": 0.03232619967065211,
+    "particles": 74880,
+    "ppc": 3.0,
+    "reaction_force_rmse_N": 87.99499567856714,
+    "reaction_force_truth_rms_N": 1717.3865478101745,
+    "reaction_moment_rmse_Nm": 13.141068588866576,
+    "reaction_moment_truth_rms_Nm": 406.5144904984584,
+    "sensor_coordinates_disjoint_from_training": true,
+    "sensors": 12,
+    "separate_from_fit": true,
+    "steps": 250,
+    "unclamped_core_volume_fraction": 0.30154265873015873
+  },
+  "identifiability": {
+    "condition_number": 4.398479637766646,
+    "engineering_constant_correlation": [
+      [
+        1.0,
+        0.0676224913537656,
+        -0.018516403903822032,
+        -0.3423018356318816,
+        -0.32291143438632974,
+        0.2636592100054922,
+        -0.030483331493504795,
+        0.019169967469432826,
+        0.010481379737363315
+      ],
+      [
+        0.06762249135376565,
+        1.0000000000000002,
+        0.4887005797433324,
+        -0.318659338769295,
+        0.2955674261076268,
+        -0.6283251839987812,
+        -0.017453948016992012,
+        0.022394882980961747,
+        -0.020736995520595998
+      ],
+      [
+        -0.018516403903822105,
+        0.4887005797433329,
+        0.9999999999999999,
+        0.2293313860778279,
+        -0.15636349255984358,
+        -0.751061692986448,
+        -0.003316960054417849,
+        0.13256910956319348,
+        -0.011871136397160007
+      ],
+      [
+        -0.34230183563188177,
+        -0.3186593387692946,
+        0.22933138607782805,
+        0.9999999999999999,
+        -0.5340617640341877,
+        -0.24166445056101912,
+        0.07383706154498919,
+        0.01027894668975842,
+        -0.0141217539499243
+      ],
+      [
+        -0.32291143438632947,
+        0.2955674261076266,
+        -0.15636349255984391,
+        -0.5340617640341883,
+        1.0000000000000002,
+        -0.18885102086869665,
+        -0.014207539301604552,
+        -0.022971823852428786,
+        -0.005203537556346241
+      ],
+      [
+        0.263659210005492,
+        -0.6283251839987816,
+        -0.7510616929864478,
+        -0.24166445056101862,
+        -0.188851020868697,
+        1.0000000000000002,
+        -0.005566323868247844,
+        -0.04352994427325593,
+        0.04129703676772587
+      ],
+      [
+        -0.03048333149350504,
+        -0.017453948016992595,
+        -0.0033169600544181474,
+        0.07383706154498952,
+        -0.014207539301604549,
+        -0.005566323868247686,
+        0.9999999999999999,
+        -0.0180844539602582,
+        -0.0007844749678636293
+      ],
+      [
+        0.019169967469432773,
+        0.022394882980961657,
+        0.13256910956319343,
+        0.010278946689758423,
+        -0.022971823852428717,
+        -0.04352994427325589,
+        -0.01808445396025827,
+        1.0000000000000002,
+        0.0006541269270831764
+      ],
+      [
+        0.01048137973736183,
+        -0.020736995520592032,
+        -0.011871136397152548,
+        -0.014121753949921292,
+        -0.00520353755634679,
+        0.041297036767718585,
+        -0.0007844749678638702,
+        0.0006541269270827865,
+        1.0000000000000002
+      ]
+    ],
+    "engineering_constant_standard_deviation_local": [
+      50.35833222898633,
+      42.32599123837077,
+      37.17109152652364,
+      8.628968859007522e-05,
+      0.00011137579894807267,
+      8.159693606441643e-05,
+      41.60918204010501,
+      33.427180496853715,
+      13.873162132040056
+    ],
+    "full_rank": true,
+    "interpretation": "Local linearized Fisher covariance; correlations expose coupled combinations and are not a global confidence guarantee.",
+    "parameter_count": 9,
+    "parameter_order": [
+      "E1_Pa",
+      "E2_Pa",
+      "E3_Pa",
+      "nu12",
+      "nu13",
+      "nu23",
+      "G12_Pa",
+      "G13_Pa",
+      "G23_Pa"
+    ],
+    "rank": 9,
+    "rank_tolerance": 0.0036972568463344234,
+    "singular_values": [
+      36972.568463344236,
+      36029.096089646846,
+      30530.79222474392,
+      20895.12045909203,
+      18383.338049302376,
+      14112.911416122242,
+      11994.597077954419,
+      8929.496271578957,
+      8405.760969287396
+    ]
+  },
+  "initial_engineering_constants": {
+    "E1_Pa": 900000.0,
+    "E2_Pa": 1000000.0,
+    "E3_Pa": 800000.0,
+    "G12_Pa": 320000.0,
+    "G13_Pa": 400000.0,
+    "G23_Pa": 330000.0,
+    "nu12": 0.18,
+    "nu13": 0.22,
+    "nu23": 0.18
+  },
+  "loss": {
+    "best": 151.33943447881683,
+    "initial": 2111.9791048821994,
+    "optimization_start": 2111.9791048821994,
+    "true_parameters_on_inverse_mesh": 142.2654274860054
+  },
+  "model": "3D reference-grid TL-MPM velocity-Verlet using released MAT002 orthotropic St.Venant-Kirchhoff energy; no plasticity/damage/return mapping",
+  "observation_scope": "SYNTHETIC MAT002 orthotropic SVK; training truth generated by independent finer MPM discretization and fixed-seed noise, not experiment",
+  "optimizer": {
+    "algorithm": "Adam",
+    "continued_checkpoint": {
+      "iteration": 23,
+      "loss_history_sha256": "d909bb32f8e24a760cc22981c1362eea1600098008d358e11d6751184d9c4f45",
+      "sha256": "65df6351cdb04f5f120a75f6d2924ae5abeee3da6efba36e18218631e3a53a24"
+    },
+    "iteration_start": 23,
+    "iteration_target": 25,
+    "learning_rate": 0.035
+  },
+  "positive_definiteness": {
+    "estimated_normal_stiffness_eigenvalues_Pa": [
+      495161.44202951586,
+      821016.5754277811,
+      1588222.5473278556
+    ],
+    "estimated_shear_moduli_Pa": [
+      473257.00027356413,
+      360224.3568442256,
+      225525.67042023403
+    ],
+    "minimum_estimated_stiffness_eigenvalue_Pa": 225525.67042023403,
+    "parameterization": "normal 3x3 stiffness=L L^T with positive bounded Cholesky diagonal; yz/xz/xy shear moduli independently positive and bounded"
+  },
+  "relative_parameter_error": {
+    "E1_Pa": 0.04854984999019929,
+    "E2_Pa": 0.08201159016981086,
+    "E3_Pa": 0.025773471829027006,
+    "G12_Pa": 0.12680238160372426,
+    "G13_Pa": 0.05948340248301642,
+    "G23_Pa": 0.13259357530679217,
+    "nu12": 0.1357593541367219,
+    "nu13": 0.2391914909616617,
+    "nu23": 0.32080998322972865
+  },
+  "resources": {
+    "elapsed_s": 731.6468682065606,
+    "jax": "0.12.0.1",
+    "numpy": "2.5.4",
+    "peak_rss_kib": 2359100
+  },
+  "source_sha256": {
+    "examples/inverse_orthotropic_svk.py": "12b34673780ee69247660f705a0fbe6ca34ece8f27ead9bacca92241e5253929",
+    "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33"
+  },
+  "status": "completed",
+  "training": {
+    "background_cells_across_body_axes_inverse": [
+      19.200000000000003,
+      14.4,
+      12.0
+    ],
+    "background_cells_across_body_axes_truth": [
+      19.200000000000003,
+      14.4,
+      12.0
+    ],
+    "case_names": [
+      "tension_x",
+      "tension_y",
+      "tension_z",
+      "shear_xy",
+      "shear_xz",
+      "shear_yz",
+      "bend_3point",
+      "torsion_x"
+    ],
+    "dt_s": 4e-05,
+    "fixture_receipts_inverse": [
+      {
+        "amplitude": 0.004,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890596296836274,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "tension_x",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.4452981484181393,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.0032812363318267994,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.445298148418135,
+        "support_nodes": 765,
+        "support_volume_m3": 0.003281236331826795
+      },
+      {
+        "amplitude": 0.003,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 11.812454795194553,
+        "constrained_nodes": 2520,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "tension_y",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.29166666666666663,
+          0.6041666666666666,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 5.906227397597275,
+        "loaded_nodes": 1260,
+        "loaded_volume_m3": 0.005624978473902167,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.3958333333333333,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 5.906227397597277,
+        "support_nodes": 1260,
+        "support_volume_m3": 0.0056249784739021685
+      },
+      {
+        "amplitude": 0.002,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 13.124999999999996,
+        "constrained_nodes": 2856,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "tension_z",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.5833333333333333
+        ],
+        "loaded_mass_kg": 6.5624999999999964,
+        "loaded_nodes": 1428,
+        "loaded_volume_m3": 0.006249999999999997,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.41666666666666663
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 6.562499999999999,
+        "support_nodes": 1428,
+        "support_volume_m3": 0.0062499999999999995
+      },
+      {
+        "amplitude": 0.003,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890596296836274,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "shear_xy",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.4452981484181393,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.0032812363318267994,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.445298148418135,
+        "support_nodes": 765,
+        "support_volume_m3": 0.003281236331826795
+      },
+      {
+        "amplitude": 0.0025,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890596296836274,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "shear_xz",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.4452981484181393,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.0032812363318267994,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.445298148418135,
+        "support_nodes": 765,
+        "support_volume_m3": 0.003281236331826795
+      },
+      {
+        "amplitude": 0.0025,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 11.812454795194553,
+        "constrained_nodes": 2520,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "shear_yz",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.29166666666666663,
+          0.6041666666666666,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 5.906227397597275,
+        "loaded_nodes": 1260,
+        "loaded_volume_m3": 0.005624978473902167,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.3958333333333333,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 5.906227397597277,
+        "support_nodes": 1260,
+        "support_volume_m3": 0.0056249784739021685
+      },
+      {
+        "amplitude": 0.0025,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 3.8281218107595834,
+        "constrained_nodes": 884,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "bend_3point",
+        "loaded_extent_max_m": [
+          0.5416666666666666,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.4583333333333333,
+          0.3333333333333333,
+          0.5833333333333333
+        ],
+        "loaded_mass_kg": 1.7089863682752569,
+        "loaded_nodes": 340,
+        "loaded_volume_m3": 0.001627606065024054,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.41666666666666663
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 2.1191354424843265,
+        "support_nodes": 544,
+        "support_volume_m3": 0.002018224230937454
+      },
+      {
+        "amplitude": 0.018,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890596296836274,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "torsion_x",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.4452981484181393,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.0032812363318267994,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.445298148418135,
+        "support_nodes": 765,
+        "support_volume_m3": 0.003281236331826795
+      }
+    ],
+    "fixture_receipts_truth": [
+      {
+        "amplitude": 0.004,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890607240969289,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "tension_x",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.445303620484644,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.003281241543318709,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.4453036204846454,
+        "support_nodes": 765,
+        "support_volume_m3": 0.0032812415433187097
+      },
+      {
+        "amplitude": 0.003,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 11.81249801904235,
+        "constrained_nodes": 2520,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "tension_y",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.29166666666666663,
+          0.6041666666666666,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 5.906249009521176,
+        "loaded_nodes": 1260,
+        "loaded_volume_m3": 0.005624999056686834,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.3958333333333333,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 5.906249009521174,
+        "support_nodes": 1260,
+        "support_volume_m3": 0.005624999056686833
+      },
+      {
+        "amplitude": 0.002,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 13.124999999999998,
+        "constrained_nodes": 2856,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "tension_z",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.5833333333333333
+        ],
+        "loaded_mass_kg": 6.562499999999998,
+        "loaded_nodes": 1428,
+        "loaded_volume_m3": 0.006249999999999999,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.41666666666666663
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 6.562499999999999,
+        "support_nodes": 1428,
+        "support_volume_m3": 0.0062499999999999995
+      },
+      {
+        "amplitude": 0.003,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890607240969289,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "shear_xy",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.445303620484644,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.003281241543318709,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.4453036204846454,
+        "support_nodes": 765,
+        "support_volume_m3": 0.0032812415433187097
+      },
+      {
+        "amplitude": 0.0025,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890607240969289,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "shear_xz",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.445303620484644,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.003281241543318709,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.4453036204846454,
+        "support_nodes": 765,
+        "support_volume_m3": 0.0032812415433187097
+      },
+      {
+        "amplitude": 0.0025,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 11.81249801904235,
+        "constrained_nodes": 2520,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "shear_yz",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.29166666666666663,
+          0.6041666666666666,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 5.906249009521176,
+        "loaded_nodes": 1260,
+        "loaded_volume_m3": 0.005624999056686834,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.3958333333333333,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 5.906249009521174,
+        "support_nodes": 1260,
+        "support_volume_m3": 0.005624999056686833
+      },
+      {
+        "amplitude": 0.0025,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 3.828125896920743,
+        "constrained_nodes": 884,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "bend_3point",
+        "loaded_extent_max_m": [
+          0.5416666666666666,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.4583333333333333,
+          0.3333333333333333,
+          0.5833333333333333
+        ],
+        "loaded_mass_kg": 1.708989195948993,
+        "loaded_nodes": 340,
+        "loaded_volume_m3": 0.00162760875804666,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.41666666666666663
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 2.11913670097175,
+        "support_nodes": 544,
+        "support_volume_m3": 0.002018225429496905
+      },
+      {
+        "amplitude": 0.018,
+        "clamp_thickness_rule_m": 0.0475,
+        "constrained_mass_kg": 6.890607240969289,
+        "constrained_nodes": 1530,
+        "fixture_region_rule": "mass-bearing nodes selected relative to fixed physical specimen faces",
+        "kind": "torsion_x",
+        "loaded_extent_max_m": [
+          0.7083333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "loaded_extent_min_m": [
+          0.6666666666666666,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "loaded_mass_kg": 3.445303620484644,
+        "loaded_nodes": 765,
+        "loaded_volume_m3": 0.003281241543318709,
+        "physical_body_extent_max_m": [
+          0.7,
+          0.6499999999999999,
+          0.625
+        ],
+        "physical_body_extent_min_m": [
+          0.3,
+          0.35,
+          0.375
+        ],
+        "support_extent_max_m": [
+          0.3333333333333333,
+          0.6666666666666666,
+          0.6458333333333333
+        ],
+        "support_extent_min_m": [
+          0.29166666666666663,
+          0.3333333333333333,
+          0.35416666666666663
+        ],
+        "support_loaded_overlap_nodes": 0,
+        "support_mass_kg": 3.4453036204846454,
+        "support_nodes": 765,
+        "support_volume_m3": 0.0032812415433187097
+      }
+    ],
+    "geometry_lengths_m": [
+      0.4,
+      0.3,
+      0.25
+    ],
+    "grid": 48,
+    "maximum_truth_inverse_sensor_coordinate_offset_m": 0.0,
+    "mesh_difference": "Training observations generated on the disclosed finer 3D grid; fitted on the coarser grid.",
+    "minimum_sensor_clearance_from_clamp_m": 0.01248413055099766,
+    "minimum_sensor_distance_to_training_body_surface_m": 0.05998413055099766,
+    "noise_fraction": 0.003,
+    "noise_std_displacement_m": 1.4601175258186077e-06,
+    "noise_std_force_N": 4.2069691460042264,
+    "noise_std_moment_Nm": 0.36606546767479675,
+    "particles": 26448,
+    "ppc": 2.0,
+    "seed": 1701,
+    "sensor_coordinates_are_common_reference_points": true,
+    "sensors": 12,
+    "steps": 200,
+    "training_sensor_count": 12,
+    "truth_grid": 48,
+    "truth_particles": 89784,
+    "truth_ppc": 3.0,
+    "unclamped_core_volume_fraction": 0.3230458333333334
+  },
+  "training_observation_provenance": {
+    "mode": "reused_frozen_observations",
+    "sha256": "022e915e098b3212439167c0496c3e555a58318a4d337971d2deb802ee2b4269",
+    "source_noise_fraction": 0.003,
+    "source_result_embedded_observation_sha256": "022e915e098b3212439167c0496c3e555a58318a4d337971d2deb802ee2b4269",
+    "source_result_sha256": "afa080a5494ad63c61a35cebd3381db4072bdbc9b331596d86f275fb75a9c041",
+    "source_result_source_sha256": {
+      "examples/inverse_orthotropic_svk.py": "12b34673780ee69247660f705a0fbe6ca34ece8f27ead9bacca92241e5253929",
+      "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+      "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+      "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33"
+    },
+    "source_seed": 1701
+  },
+  "true_engineering_constants": {
+    "E1_Pa": 1200000.0,
+    "E2_Pa": 800000.0,
+    "E3_Pa": 600000.0,
+    "G12_Pa": 420000.0,
+    "G13_Pa": 340000.0,
+    "G23_Pa": 260000.0,
+    "nu12": 0.22,
+    "nu13": 0.18,
+    "nu23": 0.25
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "started_utc": "2026-10-27T05:20:15.838690+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "-u",
+    "-m",
+    "tools.orthotropic_inverse_gradient_check",
+    "--fit-result",
+    "/fit-source/result.json",
+    "--fit-result-sha256",
+    "63278383197e515201c573a7ec79a832fb78c6e408d35b96d1c52a911d9dd212",
+    "--checkpoint",
+    "/fit-source/checkpoint.npz",
+    "--checkpoint-sha256",
+    "4d3ca67cafe372f5cf38b99400984a9d76ded64cee7f90587bd23fca89568867",
+    "--training-observations",
+    "/observation-source/training_synthetic.npz",
+    "--observations-sha256",
+    "022e915e098b3212439167c0496c3e555a58318a4d337971d2deb802ee2b4269",
+    "--output",
+    "/work/job/output/gradient_check.json",
+    "--epsilon",
+    "0.0002"
+  ],
+  "cpu_affinity": [
+    52,
+    53,
+    54,
+    55
+  ],
+  "memory_headroom_at_start": 12875968512,
+  "limit_seconds": 1800.0,
+  "uss_limit_bytes": 9663676416,
+  "peak_uss_bytes": 2282463232,
+  "minimum_memory_headroom": 10593878016,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 243.70124232023954,
+  "returncode": 0
+}
