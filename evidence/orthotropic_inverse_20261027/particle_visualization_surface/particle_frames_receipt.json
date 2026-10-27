@@ -1,0 +1,72 @@
+{
+  "status": "complete",
+  "source_result_sha256": "63278383197e515201c573a7ec79a832fb78c6e408d35b96d1c52a911d9dd212",
+  "source_holdout_sha256": "e7bf3e8d60d8fd27fb0eb0b0ec6e3e70c837ed1b9e969177993e6c64abd7c596",
+  "grid": 48,
+  "ppc": 3.0,
+  "particles": 74880,
+  "dt_s": 3.2000000000000005e-05,
+  "steps": 250,
+  "frame_stride_steps": 10,
+  "frame_step_indices": [
+    0,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100,
+    110,
+    120,
+    130,
+    140,
+    150,
+    160,
+    170,
+    180,
+    190,
+    200,
+    210,
+    220,
+    230,
+    240,
+    250
+  ],
+  "density_kg_m3": 1050.0,
+  "material": "3D reference-grid TL-MPM velocity-Verlet using released MAT002 orthotropic St.Venant-Kirchhoff energy; no plasticity/damage/return mapping",
+  "load_case": "holdout_mixed",
+  "lengths_m": [
+    0.36,
+    0.28,
+    0.25
+  ],
+  "boundary_recipe": "same make_body/make_boundary_case used by saved holdout; 3.5 mm mixed axial/torsion amplitude; period=max(12,steps)",
+  "sensor_validation_max_abs_error_m": {
+    "truth": 8.673617379884035e-19,
+    "inferred": 3.469446951953614e-17
+  },
+  "frame_coordinate_source": "sample_particles from each completed velocity-Verlet MPM state; no temporal interpolation",
+  "source_sha256": {
+    "examples/inverse_orthotropic_svk.py": "c5110b2d7fb5b0b3159f9106e92717ad9e77300ec20557bc8a288cce2e606c13",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+    "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+  },
+  "publication_scope": {
+    "raw_particle_frames_in_public_release": false,
+    "local_only_storage": ".local/jax-mpm-inverse-surface-local-only-20261027/point_cloud",
+    "local_only_particle_npz_sha256": {
+      "truth_particle_positions.npz": "cfdce00da351834910d1100025bef5dac64591cc55d32059e5ffb7f94594277a",
+      "inferred_particle_positions.npz": "e825de1b4e2a0e9043d13c33f9edda25f3be168f67d6ada57dacc7b70c9b843a"
+    },
+    "excluded_intermediate_types": [
+      "float64 per-particle NPZ frames",
+      "VTK point-cloud series",
+      "all point-cloud PNG frames"
+    ]
+  }
+}

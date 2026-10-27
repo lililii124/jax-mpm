@@ -57,8 +57,21 @@ the objective. Normalized RMSE relative to true-response RMS is 5.26% for
 sensor displacement, 5.12% for reaction force, and 3.23% for reaction moment.
 The saved `holdout_synthetic.npz` contains the computed histories; the plots
 show sampled channels directly from those histories without temporal
-interpolation. No particle snapshots/VTK frames were saved for ParaView, so no
-particle-motion animation is claimed.
+interpolation. A repeated full-MPM holdout run produced float64 particle
+coordinates at steps 0, 10, ..., 250 (26 states per material). The exported
+frames reproduce frozen sensor displacements at those times to maximum
+absolute errors of 8.7e-19 m for truth and 3.5e-17 m for fit. Raw particle
+coordinates, VTK surface series, and 1600 × 1600 render PNGs are retained in
+local-only storage and are excluded from the public package. The compact
+package contains their SHA-bound receipts and the final ParaView GIF. The GIF
+uses a continuous exterior surface connected by reference-particle adjacency,
+rendered at 1600 × 1600 with antialiasing and reduced to a text-free 400 × 400
+GIF at 12 fps. Truth is on the left and fit on the right; there is no temporal
+interpolation or deformation scaling. See
+`particle_visualization_surface/README.md` for file exclusions and reproduction
+commands.
+
+![Smooth surface ParaView render on the independent holdout](particle_visualization_surface/orthotropic_holdout_particles_surface_400.gif)
 
 ## Final-parameter directional derivative check
 

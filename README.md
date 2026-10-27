@@ -190,6 +190,12 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="33%" align="center"><img src="docs/images/home/jax-design--combined-bracket-optimized.gif" alt="Perforated bracket optimized design" width="100%"><br><a href="docs/COMBINED_BRACKET_DESIGN.md">Perforated bracket · optimized</a></td>
 <td width="33%" align="center"></td>
 </tr>
+
+<tr>
+<td width="33%" align="center"><img src="evidence/orthotropic_inverse_20261027/particle_visualization_surface/orthotropic_holdout_particles_surface_400.gif" alt="Orthotropic inverse holdout comparison" width="100%"><br><a href="docs/JAX_ORTHOTROPIC_INVERSE.md">Orthotropic inverse · holdout</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 <!-- END EXAMPLE GIFS -->

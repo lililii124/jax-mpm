@@ -103,9 +103,18 @@ The independent grid-48 / ppc-3 mixed axial/torsion holdout uses 74,880
 particles, a different specimen size, 250 steps at 32 μs, and a disjoint sensor
 set. Its normalized RMSE relative to the synthetic truth RMS is 5.26% for
 sensor displacement, 5.12% for reaction force, and 3.23% for reaction moment.
-The evidence bundle includes histories and two figures; the plotted curves use
-computed time samples directly. No particle snapshots were saved, so the
-figures are response plots, not ParaView particle-motion renders.
+The evidence bundle includes the full histories and response figures; the
+plotted curves use computed time samples directly. A separate ParaView render
+uses 26 actual particle states from the saved holdout forward run (initial
+state plus every 10th MPM step), with truth on the left and the fitted material
+on the right. The primary 400 × 400 GIF uses a continuous exterior surface
+connected by reference-particle adjacency, rendered at 1600 × 1600 with
+antialiasing before spatial downsampling. It has no text, legends, or deformation
+scaling. The compact public bundle includes the GIF and SHA-bound source,
+particle-run, and render receipts. Raw float64 particle states, the VTK surface
+series, and all supersampled PNGs remain in local-only storage and are excluded
+from publication. The exact exclusions and commands to regenerate them are in
+[`particle_visualization_surface`](../evidence/orthotropic_inverse_20261027/particle_visualization_surface/README.md).
 
 A separate final-checkpoint directional AD/central-FD audit used the same
 frozen observations and grid-48 / ppc-2 fit objective. Its relative error was
