@@ -40,7 +40,7 @@ def numeric_literal(node: ast.AST) -> float:
 
 def model_constants(source_text: str) -> tuple[dict[str, float], dict[str, float]]:
     tree = ast.parse(source_text)
-    names = {"E0", "NU", "FORCE_N", "LENGTH", "HEIGHT", "THICKNESS", "X0", "Y0", "Z0"}
+    names = {"E0", "NU", "FORCE_N", "RHO_BASE", "LENGTH", "HEIGHT", "THICKNESS", "X0", "Y0", "Z0"}
     constants: dict[str, float] = {}
     pad: dict[str, float] = {}
     for node in tree.body:
@@ -73,7 +73,8 @@ def close_vector(a: list[float], b: list[float], tol: float = 1e-8) -> bool:
     return len(a) == len(b) and all(abs(x - y) <= tol * max(1.0, abs(x), abs(y)) for x, y in zip(a, b))
 
 
-def build_reference(summary: dict, zero_void_audit: dict, source_path: Path = SOURCE) -> dict:
+def build_reference(summary: dict, zero_void_audit: dict, source_path: Path = SOURCE,
+                    full_solid_mpm: dict | None = None) -> dict:
     source_text = source_path.read_text(encoding="utf-8")
     c, pad = model_constants(source_text)
     L, b, t = c["LENGTH"], c["HEIGHT"], c["THICKNESS"]
@@ -116,7 +117,7 @@ def build_reference(summary: dict, zero_void_audit: dict, source_path: Path = SO
             "mass_kg": refined["same_mass_kg"],
             "volume_fraction": refined["initial_and_optimized_volume_fraction"],
         }
-    return {
+    reference = {
         "case": "analytical end-load cantilever reference and comparison to the published variable-density MPM solves",
         "source": {
             "model_file": str(source_path.relative_to(ROOT)).replace("\\", "/"),
@@ -180,19 +181,67 @@ def build_reference(summary: dict, zero_void_audit: dict, source_path: Path = SO
             "reason_for_reporting_Timoshenko": "L/H=3, so transverse shear is material (about 8.0% of the Timoshenko deflection).",
         },
     }
+    if full_solid_mpm is not None:
+        if full_solid_mpm.get("material") != {"E_Pa": E, "nu": nu, "density_kg_m3": c["RHO_BASE"]}:
+            raise ValueError("full-solid MPM material does not match the published model")
+        if len(full_solid_mpm.get("grid_results", [])) < 2:
+            raise ValueError("full-solid MPM comparison requires at least two resolutions")
+        expected_mass = c["RHO_BASE"] * L * b * t
+        for row in full_solid_mpm["grid_results"]:
+            if row.get("density_at_every_material_point") != 1.0:
+                raise ValueError(f"grid {row.get('grid_background')} is not a full-solid solve")
+            if not close_vector(row.get("load_resultant_N", []), [0.0, -F, 0.0]):
+                raise ValueError(f"grid {row.get('grid_background')} applied a different load resultant")
+            expected_moment = cross(load_centroid, [0.0, -F, 0.0])
+            if not close_vector(row.get("load_moment_about_origin_Nm", []), expected_moment):
+                raise ValueError(f"grid {row.get('grid_background')} applied a different load moment")
+            if abs(row.get("full_solid_mass_kg", 0.0) - expected_mass) > 1e-10:
+                raise ValueError(f"grid {row.get('grid_background')} has the wrong full-solid mass")
+        full_solid = []
+        for row in full_solid_mpm["grid_results"]:
+            full_solid.append({
+                "grid_background": row["grid_background"],
+                "beam_cells": row["beam_cells"],
+                "material_quadrature_points": row["material_quadrature_points"],
+                "mass_kg": row["full_solid_mass_kg"],
+                "compliance_Nm": row["compliance_Nm"],
+                "load_weighted_end_pad_mean_deflection_m": row["load_weighted_end_pad_mean_deflection_m"],
+                "relative_residual": row["relative_linear_residual"],
+                "force_balance_relative_error": row["force_balance_relative_error"],
+                "moment_balance_relative_error": row["moment_balance_relative_error"],
+                "difference_from_Euler_Bernoulli_percent":
+                    100.0 * (row["compliance_Nm"] / (F * delta_bend) - 1.0),
+                "difference_from_Timoshenko_percent":
+                    100.0 * (row["compliance_Nm"] / (F * delta_timoshenko) - 1.0),
+                "compliance_change_from_previous_grid_percent":
+                    100.0 * row["compliance_change_from_previous_grid"]
+                    if "compliance_change_from_previous_grid" in row else None,
+            })
+        reference["same_material_full_solid_MPM_validation"] = {
+            "source_result": full_solid_mpm,
+            "grid_comparison": full_solid,
+            "interpretation": "This is a matched full-solid MPM/beam-theory comparison: same E, nu, complete beam, clamp, force resultant and end-pad centroid. The remaining discrepancy combines 3D elasticity and the finite loaded/fixed regions with MPM shape/stencil and mesh discretization. The successive-grid differences quantify mesh sensitivity, not a pure error decomposition. The 38%-mass optimization results remain a separate, nonuniform-material comparison above.",
+        }
+    return reference
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
+    parser.add_argument("--full-solid-mpm", type=Path,
+                        help="optional result from run_full_solid_cantilever_mpm.py")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
     summary = json.loads(args.summary.read_text(encoding="utf-8"))
     audit_path = args.summary.parent / "true-void-audit.json"
     audit = json.loads(audit_path.read_text(encoding="utf-8"))
-    reference = build_reference(summary, audit)
+    full_solid_mpm = json.loads(args.full_solid_mpm.read_text(encoding="utf-8")) if args.full_solid_mpm else None
+    reference = build_reference(summary, audit, full_solid_mpm=full_solid_mpm)
     reference["source"]["summary_file"] = str(args.summary.resolve().relative_to(ROOT)).replace("\\", "/")
     reference["source"]["zero_void_audit_file"] = str(audit_path.resolve().relative_to(ROOT)).replace("\\", "/")
+    if args.full_solid_mpm:
+        reference["source"]["full_solid_MPM_result_file"] = str(args.full_solid_mpm.resolve().relative_to(ROOT)).replace("\\", "/")
+        reference["source"]["full_solid_MPM_result_sha256"] = hashlib.sha256(args.full_solid_mpm.read_bytes()).hexdigest()
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(reference, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"output": str(args.output), "reference": reference["full_solid_linear_elastic_beam_reference"],

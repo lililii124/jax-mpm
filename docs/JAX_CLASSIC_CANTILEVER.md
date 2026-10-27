@@ -16,15 +16,30 @@ The model spans 0.75 m from the fixed left beam face at global x=0.125 m to the 
 
 For a fully solid, uniform, linear-elastic beam with the model's E=70 GPa, nu=0.30, and the same load, Euler-Bernoulli gives a bending deflection of 0.823 micrometres and compliance 8.23e-5 N m. Since L/H=3, transverse shear is not negligible: the rectangular-section Timoshenko estimate adds 0.0713 micrometres of shear deflection (5/6 shear factor), for 0.894 micrometres total and 8.94e-5 N m compliance. These are analytical full-solid references; the Timoshenko result is the more appropriate slenderness check.
 
+We also solved the **same full-solid three-dimensional MPM beam** at three grids, bypassing the density projection and setting every material-point density to one. Geometry, 70 GPa / nu=0.30 material, fixed face, and the original 100 N pad transfer are identical to the published model. The compliance/F measure is the force-weighted mean displacement of the loaded pad:
+
+| Background grid | Beam cells | Material points | Mean pad deflection | Difference from Timoshenko | CG residual |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 32 | 24 x 8 x 6 | 9,216 | 0.9299 micrometres | +4.00% | 9.78e-11 |
+| 48 | 36 x 12 x 9 | 31,104 | 0.9265 micrometres | +3.62% | 8.94e-11 |
+| 64 | 48 x 16 x 12 | 73,728 | 0.9191 micrometres | +2.79% | 9.81e-11 |
+
+The 32-to-64 compliance change is -1.16%; the last 48-to-64 refinement changes it by -0.795%. The grid-64 MPM response is 11.70% above Euler-Bernoulli and 2.79% above Timoshenko. Force and moment balance errors stay below 1.2e-11 on all grids. This is a matched-material comparison. The remaining difference from one-dimensional beam theory combines 3D elasticity and end-region effects from the finite load pad and fixed face with MPM particle/stencil discretization; these contributions are not separated by this study. The observed grid changes measure mesh sensitivity, not a pure error estimate.
+
 The refined MPM initial and optimized cases are not homogeneous beams: both have 0.38 mean material volume fraction, fully solid non-design end pads, and an ersatz SIMP stiffness law. Their load-weighted pad responses are compliance/F = 18.15 micrometres initially and 2.944 micrometres after optimization. Relative to the full-solid Timoshenko compliance, these are 20.29 and 3.29 times larger. Those ratios compare different material layouts and mass; they are not discretization errors or validation against a uniform beam. The optimized field must not be treated as a uniform cantilever.
 
-The standard-library script checks the audited resultant and moment against the model geometry and regenerates the values and comparison JSON:
+The analysis uses two reproducible commands. The first runs the actual JAX MPM equilibrium at the three full-solid grids; the second checks the audited load and merges the beam formulas and mesh study:
 
 ```bash
-python tools/classic_cantilever_beam_reference.py
+JAX_ENABLE_X64=true python tools/run_full_solid_cantilever_mpm.py \
+  --grids 32 48 64 --cg-maxiter 6000 --cg-tol 1e-10 \
+  --output outputs/full-solid-beam-comparison.json
+python tools/classic_cantilever_beam_reference.py \
+  --full-solid-mpm outputs/full-solid-beam-comparison.json \
+  --output outputs/beam-theory-reference.json
 ```
 
-See the [machine-readable beam reference](results/jax-design--classic-cantilever/beam-theory-reference.json) for formulas, source hash, force/moment checks, and MPM-to-reference ratios.
+The [machine-readable beam reference](results/jax-design--classic-cantilever/beam-theory-reference.json) contains formulas, source hash, force/moment checks, full-solid MPM residuals and grid comparisons, and the separate 38%-SIMP response ratios. Raw full-solid MPM output and its task binding are recorded in [the mesh study](results/jax-design--classic-cantilever/full-solid-mpm-mesh-study.json) and [source manifest](results/jax-design--classic-cantilever/source-manifest.json).
 
 ## Visuals
 

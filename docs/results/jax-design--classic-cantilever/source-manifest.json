@@ -36,5 +36,30 @@
     "wall_seconds": 616.3091257885098,
     "peak_uss_bytes": 3600347136,
     "interpretation": "Diagnostic changed-discrete-space variants only. The candidate set is restricted to strong free nodes sharing an active solid material-point stencil with each weak node and within 3.5h. Maximum neighbor distance, affine reproduction, force/moment projection, weak-constraint residual, and original-operator residual are recorded per grid. Original residual is above tolerance for all aggregated cases; no zero-void solution is accepted."
+  },
+  "full_solid_beam_theory_comparison": {
+    "task": "jax-cantilever-full-solid-mpm-theory-v3-20261027",
+    "container": "8ce2f8e20554076731ebf98485cc9ab01a413eb8c052a923c3a89d15919e97a8",
+    "base_commit": "33901a8159d9c59bb5ee704722a858fa539f2780",
+    "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+    "archive_sha256": "6c1de2c1801c710c514ce301e137a3ff563f10bb9e2cf3dc067f4bcb26607bbb",
+    "model_source_sha256": "1e7127771943654b4b9e7cbe0bd9af290e40aa42ccde3a12eaa43736ea2d86cf",
+    "runner_source_sha256": "13885a4fa61aa24ff2c8d651bb1b16f6f915dfa57001869d6eb9a33d2ac031b5",
+    "exit_code": 0,
+    "wall_seconds": 91.43647437542677,
+    "peak_uss_bytes": 1139679232,
+    "cpu_set": "0-3",
+    "cpus": 4,
+    "memory": "12g",
+    "uss_limit_gib": 8,
+    "grids": [
+      32,
+      48,
+      64
+    ],
+    "cg_maxiter": 6000,
+    "cg_tol": 1e-10,
+    "result_sha256": "c1fc7ae73e0f5544a69dd07ce6ffc6cdf1887eecb5a666ca3478b337d18af98b",
+    "interpretation": "Direct full-solid JAX MPM with identical model geometry, material, boundary, and end-pad force transfer; no SIMP density floor or optimizer."
   }
 }

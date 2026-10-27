@@ -3,9 +3,11 @@
   "source": {
     "model_file": "examples/classic_cantilever_topopt.py",
     "model_file_sha256": "1e7127771943654b4b9e7cbe6de7270cbc8d3d0df537b7f2cd28e17fab9002aa",
-    "analysis_script_sha256": "99e7a24e6ed628797abf57c8bcb56c89089681c91691f2f62453c5a6b1a13c2b",
+    "analysis_script_sha256": "095ad7fc62be067797274342208d61218d39af398b874901d018c32fb60da324",
     "summary_file": "docs/results/jax-design--classic-cantilever/summary.json",
-    "zero_void_audit_file": "docs/results/jax-design--classic-cantilever/true-void-audit.json"
+    "zero_void_audit_file": "docs/results/jax-design--classic-cantilever/true-void-audit.json",
+    "full_solid_MPM_result_file": "docs/results/jax-design--classic-cantilever/full-solid-mpm-mesh-study.json",
+    "full_solid_MPM_result_sha256": "c1fc7ae73e0f5544a69dd07ce6ffc6cdf1887eecb5a666ca3478b337d18af98b"
   },
   "model_and_load_audit": {
     "span_from_fixed_beam_face_to_load_face_m": 0.75,
@@ -88,5 +90,193 @@
     "clamp_load_span_aspect_ratio_L_over_height": 3.0,
     "beam_is_slender_under_EB_assumption": false,
     "reason_for_reporting_Timoshenko": "L/H=3, so transverse shear is material (about 8.0% of the Timoshenko deflection)."
+  },
+  "same_material_full_solid_MPM_validation": {
+    "source_result": {
+      "case": "full-solid JAX MPM cantilever versus Euler-Bernoulli and Timoshenko beam theory",
+      "model": "published classic_cantilever_topopt geometry/build_solver/action/equilibrium; rho=1 at every material quadrature point",
+      "material": {
+        "E_Pa": 70000000000.0,
+        "nu": 0.3,
+        "density_kg_m3": 2700.0
+      },
+      "boundary_and_load": "same complete x=X0 clamp, 100N load transferred by the published 2x2 Gauss end-pad quadrature, same centered 0.125 x 0.083333m non-design pad geometry",
+      "beam_theory_full_solid_reference": {
+        "area_m2": 0.046875,
+        "Izz_m4": 0.000244140625,
+        "G_Pa": 26923076923.076923,
+        "euler_bernoulli_deflection_m": 8.228571428571429e-07,
+        "timoshenko_shear_deflection_m": 7.13142857142857e-08,
+        "timoshenko_total_deflection_m": 8.941714285714286e-07,
+        "euler_bernoulli_compliance_Nm": 8.228571428571429e-05,
+        "timoshenko_compliance_Nm": 8.941714285714286e-05
+      },
+      "grid_results": [
+        {
+          "grid_background": 32,
+          "beam_cells": [
+            24,
+            8,
+            6
+          ],
+          "material_quadrature_points": 9216,
+          "full_solid_mass_kg": 94.921875,
+          "density_at_every_material_point": 1.0,
+          "fixed_end": "published full x=X0 beam face fixed; same support nodes as SIMP case",
+          "load_resultant_N": [
+            0.0,
+            -99.99999999999997,
+            0.0
+          ],
+          "load_moment_about_origin_Nm": [
+            49.99999999999999,
+            0.0,
+            -87.49999999999999
+          ],
+          "loaded_grid_nodes": 75,
+          "compliance_Nm": 9.299109618056482e-05,
+          "load_weighted_end_pad_mean_deflection_m": 9.299109618056482e-07,
+          "relative_linear_residual": 9.782804623345002e-11,
+          "force_balance_relative_error": 2.274005640998338e-12,
+          "moment_balance_relative_error": 1.3878035860749476e-12,
+          "max_material_point_displacement_m": 9.259193832733712e-07,
+          "material_point_displacement_rms_m": 4.612082326370144e-07,
+          "wall_seconds": 10.774252146482468,
+          "ratio_to_Euler_Bernoulli_compliance": 1.130100127194364,
+          "ratio_to_Timoshenko_compliance": 1.0399694422034025,
+          "relative_deflection_difference_from_Timoshenko": 0.03996944220340248
+        },
+        {
+          "grid_background": 48,
+          "beam_cells": [
+            36,
+            12,
+            9
+          ],
+          "material_quadrature_points": 31104,
+          "full_solid_mass_kg": 94.921875,
+          "density_at_every_material_point": 1.0,
+          "fixed_end": "published full x=X0 beam face fixed; same support nodes as SIMP case",
+          "load_resultant_N": [
+            0.0,
+            -100.00000000000003,
+            0.0
+          ],
+          "load_moment_about_origin_Nm": [
+            50.0,
+            0.0,
+            -87.49999999999999
+          ],
+          "loaded_grid_nodes": 90,
+          "compliance_Nm": 9.265034893896482e-05,
+          "load_weighted_end_pad_mean_deflection_m": 9.265034893896482e-07,
+          "relative_linear_residual": 8.941253136526168e-11,
+          "force_balance_relative_error": 5.9428439294928796e-12,
+          "moment_balance_relative_error": 3.3468215064684148e-12,
+          "max_material_point_displacement_m": 9.176408476578936e-07,
+          "material_point_displacement_rms_m": 4.5394685507126214e-07,
+          "wall_seconds": 22.08869507163763,
+          "ratio_to_Euler_Bernoulli_compliance": 1.1259591016888084,
+          "ratio_to_Timoshenko_compliance": 1.0361586825357132,
+          "relative_deflection_difference_from_Timoshenko": 0.036158682535713416,
+          "compliance_change_from_previous_grid": -0.0036642996544352657,
+          "deflection_change_from_previous_grid": -0.0036642996544352657
+        },
+        {
+          "grid_background": 64,
+          "beam_cells": [
+            48,
+            16,
+            12
+          ],
+          "material_quadrature_points": 73728,
+          "full_solid_mass_kg": 94.921875,
+          "density_at_every_material_point": 1.0,
+          "fixed_end": "published full x=X0 beam face fixed; same support nodes as SIMP case",
+          "load_resultant_N": [
+            0.0,
+            -100.0,
+            0.0
+          ],
+          "load_moment_about_origin_Nm": [
+            50.0,
+            0.0,
+            -87.49999999999994
+          ],
+          "loaded_grid_nodes": 108,
+          "compliance_Nm": 9.191385582423532e-05,
+          "load_weighted_end_pad_mean_deflection_m": 9.191385582423532e-07,
+          "relative_linear_residual": 9.809907895057743e-11,
+          "force_balance_relative_error": 1.141247771458833e-11,
+          "moment_balance_relative_error": 6.025657089828998e-12,
+          "max_material_point_displacement_m": 9.138110873205229e-07,
+          "material_point_displacement_rms_m": 4.504467602322872e-07,
+          "wall_seconds": 56.77408493310213,
+          "ratio_to_Euler_Bernoulli_compliance": 1.1170086645306374,
+          "ratio_to_Timoshenko_compliance": 1.0279220839238994,
+          "relative_deflection_difference_from_Timoshenko": 0.02792208392389961,
+          "compliance_change_from_previous_grid": -0.00794916719865435,
+          "deflection_change_from_previous_grid": -0.00794916719865435
+        }
+      ],
+      "interpretation": "This is the same full-solid material and load case. Differences combine three-dimensional elasticity, finite pad and support discretization, B-spline material-point quadrature, and mesh error. MPM load-weighted pad response is compliance/F and is not asserted to equal a pointwise tip node displacement."
+    },
+    "grid_comparison": [
+      {
+        "grid_background": 32,
+        "beam_cells": [
+          24,
+          8,
+          6
+        ],
+        "material_quadrature_points": 9216,
+        "mass_kg": 94.921875,
+        "compliance_Nm": 9.299109618056482e-05,
+        "load_weighted_end_pad_mean_deflection_m": 9.299109618056482e-07,
+        "relative_residual": 9.782804623345002e-11,
+        "force_balance_relative_error": 2.274005640998338e-12,
+        "moment_balance_relative_error": 1.3878035860749476e-12,
+        "difference_from_Euler_Bernoulli_percent": 13.010012719436403,
+        "difference_from_Timoshenko_percent": 3.9969442203402483,
+        "compliance_change_from_previous_grid_percent": null
+      },
+      {
+        "grid_background": 48,
+        "beam_cells": [
+          36,
+          12,
+          9
+        ],
+        "material_quadrature_points": 31104,
+        "mass_kg": 94.921875,
+        "compliance_Nm": 9.265034893896482e-05,
+        "load_weighted_end_pad_mean_deflection_m": 9.265034893896482e-07,
+        "relative_residual": 8.941253136526168e-11,
+        "force_balance_relative_error": 5.9428439294928796e-12,
+        "moment_balance_relative_error": 3.3468215064684148e-12,
+        "difference_from_Euler_Bernoulli_percent": 12.595910168880842,
+        "difference_from_Timoshenko_percent": 3.6158682535713194,
+        "compliance_change_from_previous_grid_percent": -0.3664299654435266
+      },
+      {
+        "grid_background": 64,
+        "beam_cells": [
+          48,
+          16,
+          12
+        ],
+        "material_quadrature_points": 73728,
+        "mass_kg": 94.921875,
+        "compliance_Nm": 9.191385582423532e-05,
+        "load_weighted_end_pad_mean_deflection_m": 9.191385582423532e-07,
+        "relative_residual": 9.809907895057743e-11,
+        "force_balance_relative_error": 1.141247771458833e-11,
+        "moment_balance_relative_error": 6.025657089828998e-12,
+        "difference_from_Euler_Bernoulli_percent": 11.70086645306374,
+        "difference_from_Timoshenko_percent": 2.792208392389939,
+        "compliance_change_from_previous_grid_percent": -0.794916719865435
+      }
+    ],
+    "interpretation": "This is a matched full-solid MPM/beam-theory comparison: same E, nu, complete beam, clamp, force resultant and end-pad centroid. The remaining discrepancy combines 3D elasticity and the finite loaded/fixed regions with MPM shape/stencil and mesh discretization. The successive-grid differences quantify mesh sensitivity, not a pure error decomposition. The 38%-mass optimization results remain a separate, nonuniform-material comparison above."
   }
 }
