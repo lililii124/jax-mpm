@@ -10,6 +10,22 @@ The coarse optimization uses a 36 x 12 x 9 cell beam and 3,612 voxel-density con
 
 The coarse continuous-field compliance changed from 1.93515e-3 to 2.96635e-4 N m. At the 64-grid independent forward resolution (48 x 16 x 12 beam cells, 73,728 quadrature points), initial and optimized continuous fields each have 36.0703 kg and volume fraction 0.38; compliance changed from 1.81456e-3 to 2.94366e-4 N m, an 83.78% reduction at the same mass. The fixed load and support are identical. The phi=0.50 thresholded field is 37.67% solid and one six-connected component. Its minimum longitudinal section is 12 cells on this grid; this is only a voxel audit, not a minimum feature-size or manufacturing certification. Removing one-cell openings deletes 14.75% of thresholded solid.
 
+## Classical beam-theory comparison
+
+The model spans 0.75 m from the fixed left beam face at global x=0.125 m to the right load face at x=0.875 m. Its y-z rectangular section is 0.25 x 0.1875 m. The 100 N downward resultant is distributed by a 2 x 2 face quadrature over a centered 0.125 x 0.08333 m non-design pad (equivalent average traction 9.6 kPa). The force/moment audit reports a global-origin moment (50, 0, -87.5) N m; shifting the origin to the clamp section centroid gives (0, 0, -75) N m = r x F. Thus, the far-field loading matches a downward free-end centroid force, while the local stress field near the finite pad remains three-dimensional.
+
+For a fully solid, uniform, linear-elastic beam with the model's E=70 GPa, nu=0.30, and the same load, Euler-Bernoulli gives a bending deflection of 0.823 micrometres and compliance 8.23e-5 N m. Since L/H=3, transverse shear is not negligible: the rectangular-section Timoshenko estimate adds 0.0713 micrometres of shear deflection (5/6 shear factor), for 0.894 micrometres total and 8.94e-5 N m compliance. These are analytical full-solid references; the Timoshenko result is the more appropriate slenderness check.
+
+The refined MPM initial and optimized cases are not homogeneous beams: both have 0.38 mean material volume fraction, fully solid non-design end pads, and an ersatz SIMP stiffness law. Their load-weighted pad responses are compliance/F = 18.15 micrometres initially and 2.944 micrometres after optimization. Relative to the full-solid Timoshenko compliance, these are 20.29 and 3.29 times larger. Those ratios compare different material layouts and mass; they are not discretization errors or validation against a uniform beam. The optimized field must not be treated as a uniform cantilever.
+
+The standard-library script checks the audited resultant and moment against the model geometry and regenerates the values and comparison JSON:
+
+```bash
+python tools/classic_cantilever_beam_reference.py
+```
+
+See the [machine-readable beam reference](results/jax-design--classic-cantilever/beam-theory-reference.json) for formulas, source hash, force/moment checks, and MPM-to-reference ratios.
+
 ## Visuals
 
 The 49-frame phi=0.20 GIF shows the continuous density field during optimization. A separate phi=0.35 history and a phi=0.50 binary-cell surface are included. The initial projected field is below phi=0.35 in the design region, so the first phi=0.35 frame shows only the clamp and load pads; density appears as the same design field is updated. The binary view is made from exposed faces of the 0/1 thresholded cells without cell-to-point smoothing. It retains the same camera and shows a connected voxel topology.

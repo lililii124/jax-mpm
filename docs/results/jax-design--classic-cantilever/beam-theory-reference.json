@@ -1,0 +1,92 @@
+{
+  "case": "analytical end-load cantilever reference and comparison to the published variable-density MPM solves",
+  "source": {
+    "model_file": "examples/classic_cantilever_topopt.py",
+    "model_file_sha256": "1e7127771943654b4b9e7cbe6de7270cbc8d3d0df537b7f2cd28e17fab9002aa",
+    "analysis_script_sha256": "99e7a24e6ed628797abf57c8bcb56c89089681c91691f2f62453c5a6b1a13c2b",
+    "summary_file": "docs/results/jax-design--classic-cantilever/summary.json",
+    "zero_void_audit_file": "docs/results/jax-design--classic-cantilever/true-void-audit.json"
+  },
+  "model_and_load_audit": {
+    "span_from_fixed_beam_face_to_load_face_m": 0.75,
+    "global_clamp_face_x_m": 0.125,
+    "global_load_face_x_m": 0.875,
+    "rectangular_cross_section_y_width_m": 0.25,
+    "rectangular_cross_section_z_thickness_m": 0.1875,
+    "load_pad_y_width_m": 0.125,
+    "load_pad_z_thickness_m": 0.08333333333333333,
+    "load_pad_area_m2": 0.010416666666666666,
+    "uniform_equivalent_pad_traction_Pa": 9600.0,
+    "applied_resultant_N": [
+      0.0,
+      -100.0,
+      0.0
+    ],
+    "applied_moment_about_global_origin_Nm": [
+      50.0,
+      0.0,
+      -87.49999999999994
+    ],
+    "load_moment_about_clamp_section_centroid_Nm": [
+      0.0,
+      0.0,
+      -74.99999999999994
+    ],
+    "load_line_passes_through_cross_section_centroid": true,
+    "audit_force_balance_relative_error": 1.9707872076606775e-12,
+    "audit_moment_balance_relative_error": 1.5018655358971285e-12,
+    "interpretation": "The code applies a 2x2 Gauss quadrature traction over a finite centered end-face pad. Its resultant and root bending moment match a point force at the free-end centroid for the global beam response; local pad stresses are three-dimensional and are not represented by beam theory."
+  },
+  "full_solid_linear_elastic_beam_reference": {
+    "material_E_Pa": 70000000000.0,
+    "poisson_ratio": 0.3,
+    "shear_modulus_Pa": 26923076923.076923,
+    "cross_section_area_m2": 0.046875,
+    "second_moment_about_z_m4": 0.000244140625,
+    "Timoshenko_rectangular_shear_factor": 0.8333333333333334,
+    "Euler_Bernoulli_bending_deflection_m": 8.228571428571429e-07,
+    "Timoshenko_shear_deflection_m": 7.13142857142857e-08,
+    "Timoshenko_total_deflection_m": 8.941714285714286e-07,
+    "Euler_Bernoulli_compliance_Nm": 8.228571428571429e-05,
+    "Timoshenko_total_compliance_Nm": 8.941714285714286e-05,
+    "shear_share_of_Timoshenko_deflection": 0.07975460122699385,
+    "assumptions": [
+      "uniform, fully solid, isotropic linear-elastic rectangular beam",
+      "rigid full-section clamp and small deflection",
+      "point resultant at the centroid of the free-end cross-section for global response",
+      "Timoshenko shear correction 5/6 for a rectangular cross-section"
+    ]
+  },
+  "published_refined_MPM_comparison": {
+    "background_grid": 64,
+    "material_quadrature_points": 73728,
+    "initial_and_optimized_mass_kg": 36.07031250000027,
+    "initial_and_optimized_volume_fraction": 0.38000000000000284,
+    "initial_and_optimized_MPM_equivalent_pad_responses": {
+      "initial_38_percent_SIMP_field": {
+        "compliance_Nm": 0.0018145587805560282,
+        "equivalent_load_weighted_pad_displacement_m": 1.8145587805560282e-05,
+        "ratio_to_full_solid_Timoshenko_compliance": 20.29318677130016,
+        "mass_kg": 36.07031250000027,
+        "volume_fraction": 0.38000000000000284
+      },
+      "optimized_38_percent_SIMP_field": {
+        "compliance_Nm": 0.00029436596170345964,
+        "equivalent_load_weighted_pad_displacement_m": 2.9436596170345964e-06,
+        "ratio_to_full_solid_Timoshenko_compliance": 3.2920528692552042,
+        "mass_kg": 36.07031250000027,
+        "volume_fraction": 0.38000000000000284
+      }
+    },
+    "warning": "These MPM fields contain only about 38% mean material volume fraction with fully solid non-design clamp/load pads and SIMP ersatz stiffness. The analytical values are for a full solid beam. The ratios quantify the difference between these stated models; they are not an MPM discretization error or a same-material validation. The optimized field is nonuniform and must not be interpreted as a uniform beam."
+  },
+  "checks": {
+    "reported_resultant_matches_source_force": true,
+    "reported_origin_moment_matches_centered_end_load": true,
+    "shifted_root_moment_matches_F_times_span": true,
+    "all_loaded_nodes_retained_and_supported": true,
+    "clamp_load_span_aspect_ratio_L_over_height": 3.0,
+    "beam_is_slender_under_EB_assumption": false,
+    "reason_for_reporting_Timoshenko": "L/H=3, so transverse shear is material (about 8.0% of the Timoshenko deflection)."
+  }
+}
