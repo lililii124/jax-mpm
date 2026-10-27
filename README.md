@@ -185,6 +185,11 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="33%" align="center"><img src="docs/assets/structural-y-optimized.gif" alt="Optimized material layout under an 8 N y load" width="100%"><br><a href="docs/STRUCTURAL_DESIGN.md">Optimized layout · y load</a></td>
 <td width="33%" align="center"></td>
 </tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/jax-design--combined-bracket-initial.gif" alt="Perforated bracket initial design" width="100%"><br><a href="docs/COMBINED_BRACKET_DESIGN.md">Perforated bracket · initial</a></td>
+<td width="33%" align="center"><img src="docs/images/home/jax-design--combined-bracket-optimized.gif" alt="Perforated bracket optimized design" width="100%"><br><a href="docs/COMBINED_BRACKET_DESIGN.md">Perforated bracket · optimized</a></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 <!-- END EXAMPLE GIFS -->

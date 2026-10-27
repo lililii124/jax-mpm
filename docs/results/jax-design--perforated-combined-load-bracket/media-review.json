@@ -1,0 +1,81 @@
+{
+  "task": "j4-bracket-paraview-bending-v5",
+  "renderer_sha256": "5739fcc78471249a2ed01d756463247c2f54aa839be411248248e608b132fcfa",
+  "input_task": "j4-bracket-refined48-forward-v1",
+  "render_engine": "ParaView 6.2 OSMesa",
+  "continuous_surface": "vtkContourFilter at volume_ratio=0.5 on a deformed vtkStructuredGrid using actual regular MPM particle-neighbour adjacency; through-hole grid nodes remain zero occupancy",
+  "visualization_only_threshold": 0.5,
+  "deformation_scale": 1.0,
+  "per_design": {
+    "initial": {
+      "gif": "initial-bending.gif",
+      "gif_sha256": "20a12204adb5435b58e7d838ec940b2d1655962bab277b98159d1e7a67a9abe8",
+      "gif_dimensions_px": [
+        400,
+        400
+      ],
+      "decoded_frames": 21,
+      "distinct_decoded_frames": 21,
+      "source_png_frames": 21,
+      "highres_png_each_px": [
+        800,
+        800
+      ],
+      "final_png_each_px": [
+        400,
+        400
+      ],
+      "first_mid_last_rgb_differences": [
+        5516616,
+        6445592
+      ],
+      "all_fetched_surface_coordinates_exact": true,
+      "surface_points_minmax": [
+        15856,
+        15856
+      ],
+      "surface_cells_minmax": [
+        31720,
+        31720
+      ]
+    },
+    "optimized": {
+      "gif": "optimized-bending.gif",
+      "gif_sha256": "34fe9b61ce9c35e351ea16960671784b32b4dc3bdcf2c0380ad4a63a40508733",
+      "gif_dimensions_px": [
+        400,
+        400
+      ],
+      "decoded_frames": 21,
+      "distinct_decoded_frames": 21,
+      "source_png_frames": 21,
+      "highres_png_each_px": [
+        800,
+        800
+      ],
+      "final_png_each_px": [
+        400,
+        400
+      ],
+      "first_mid_last_rgb_differences": [
+        5613331,
+        6598044
+      ],
+      "all_fetched_surface_coordinates_exact": true,
+      "surface_points_minmax": [
+        15644,
+        15644
+      ],
+      "surface_cells_minmax": [
+        31296,
+        31296
+      ]
+    }
+  },
+  "same_camera_same_range": true,
+  "shared_displacement_range_m": [
+    0.0,
+    0.017105300951263804
+  ],
+  "manifest_sha256": "c0090b1b0d4617d1ffc821cad4bfa1feb6f27e5b9d5095f4111a1fe72a92ca8f"
+}

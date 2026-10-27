@@ -15,6 +15,11 @@ scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
 <td width="33%" align="center"><img src="assets/structural-y-optimized.gif" alt="Optimized material layout under an 8 N y load" width="100%"><br><strong>Optimized layout · y load</strong></td>
 <td width="33%" align="center"></td>
 </tr>
+<tr>
+<td width="33%" align="center"><img src="images/home/jax-design--combined-bracket-initial.gif" alt="Perforated bracket initial design" width="100%"><br><a href="COMBINED_BRACKET_DESIGN.md">Perforated bracket · initial</a></td>
+<td width="33%" align="center"><img src="images/home/jax-design--combined-bracket-optimized.gif" alt="Perforated bracket optimized design" width="100%"><br><a href="COMBINED_BRACKET_DESIGN.md">Perforated bracket · optimized</a></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 ## Fibres

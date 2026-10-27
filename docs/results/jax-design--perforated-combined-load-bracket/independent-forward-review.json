@@ -1,0 +1,88 @@
+{
+  "task": "j4-bracket-refined48-forward-v1",
+  "optimization_parent": "j4-bracket-opt-grid24-300steps-21updates-v1",
+  "source_precision": "float64 solver; float32 trajectory export only",
+  "grid": 48,
+  "particle_count": 71553,
+  "frames": 21,
+  "positions_shape": [
+    21,
+    71553,
+    3
+  ],
+  "frames_all_finite": true,
+  "response_initial": 0.3202560633300473,
+  "response_optimized": 0.2975703268852286,
+  "response_reduction_percent": 7.083624337641154,
+  "checks": {
+    "initial": {
+      "volume_fraction": 0.7178412026539781,
+      "mass_kg": 60.643224800208074,
+      "phi_min_float32_archive": 0.019999999552965164,
+      "phi_max_float32_archive": 1.0,
+      "phi_finite": true,
+      "p24_stress_upper_pa": 16271.210269914462,
+      "stress_allow_pa": 20000.0,
+      "peak_solid_stress_pa": 8021.618624833686,
+      "peak_gray_stress_pa": 12861.769225851322,
+      "peak_floor_stress_pa": 25760.102284514003,
+      "continuous_member_width_min_m_100001_x_samples": 0.09,
+      "continuous_member_width_max_m_100001_x_samples": 0.09,
+      "sampled_section_min_m": 0.08062500000000028,
+      "grid_pitch_tolerance_m": 0.010416666666666666,
+      "all_steps_valid": true,
+      "constraints_pass": true
+    },
+    "optimized": {
+      "volume_fraction": 0.7388870740907735,
+      "mass_kg": 62.42118001918857,
+      "phi_min_float32_archive": 0.019999999552965164,
+      "phi_max_float32_archive": 1.0,
+      "phi_finite": true,
+      "p24_stress_upper_pa": 15988.220446491614,
+      "stress_allow_pa": 20000.0,
+      "peak_solid_stress_pa": 8190.816498345497,
+      "peak_gray_stress_pa": 9178.690586083512,
+      "peak_floor_stress_pa": 25450.562505848044,
+      "continuous_member_width_min_m_100001_x_samples": 0.09921475842574587,
+      "continuous_member_width_max_m_100001_x_samples": 0.09939962386939143,
+      "sampled_section_min_m": 0.09104166666666702,
+      "grid_pitch_tolerance_m": 0.010416666666666666,
+      "all_steps_valid": true,
+      "constraints_pass": true
+    }
+  },
+  "loads_fixed_across_designs": [
+    {
+      "name": "axial tension",
+      "resultant_N": [
+        100,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "transverse bending",
+      "resultant_N": [
+        0,
+        100,
+        0
+      ]
+    },
+    {
+      "name": "pure torsion",
+      "moment_x_Nm": 15.0
+    }
+  ],
+  "source_cli_sha256": "see capsule hash and source manifest inside archive",
+  "output_sha256": {
+    "forward-summary.json": "1e05867d1d2047fa6119ab492a467e78fffc53db02f34af9b2cb80807fd2245e",
+    "trajectory.npz": "788395d7dc8fd07b0a10deb902834ccfd3292486c5f2f9a12bbf77dd85d1404a"
+  },
+  "limitations": [
+    "continuous width extrema are sampled densely at 100001 x locations; the sigmoid/RBF map itself analytically remains within [0.06,0.12]m",
+    "float32 particle fractions in trajectory differ by about 4.5e-10 below the solver floor due to export rounding; solver used float64",
+    "engineering stress cap is illustrative E*10% nominal strain, not calibrated material failure strength",
+    "no convergence/global optimality claim; optimization stopped at line-search stall near volume cap"
+  ]
+}

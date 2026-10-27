@@ -1,0 +1,283 @@
+{
+  "phase": "constrained-optimization",
+  "grid": 24,
+  "particles": 9204,
+  "steps": 300,
+  "dt_s": 0.0002,
+  "horizon_s": 0.06,
+  "cfl": 0.07436128024718242,
+  "load_cases": [
+    "axial_tension_100N",
+    "transverse_bending_100N",
+    "pure_torsion_15Nm"
+  ],
+  "geometry": {
+    "outer_envelope_m": [
+      0.8,
+      0.44000000000000006,
+      0.24
+    ],
+    "through_hole_center_m": [
+      0.45,
+      0.44
+    ],
+    "through_hole_radius_m": 0.065,
+    "fixed_boss_outer_radius_m": 0.17,
+    "fixed_clamp_pad_x_m": [
+      0.1,
+      0.18
+    ],
+    "fixed_load_pad_x_m": [
+      0.82,
+      0.9
+    ]
+  },
+  "load_patch_particle_counts": [
+    504,
+    504,
+    96
+  ],
+  "load_patch_mass_kg": [
+    4.557291666666666,
+    4.557291666666666,
+    0.8680555555555552
+  ],
+  "prescribed_resultant_forces_N": [
+    [
+      99.99999999999922,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      99.99999999999922,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.1102230246251565e-15
+    ]
+  ],
+  "prescribed_resultant_moments_Nm_about_origin": [
+    [
+      0.0,
+      50.50000000000009,
+      -43.87500000000004
+    ],
+    [
+      -50.50000000000009,
+      0.0,
+      87.0833333333332
+    ],
+    [
+      14.999999999999998,
+      -2.4424906541753444e-15,
+      0.0
+    ]
+  ],
+  "verified_torsion_moment_x_Nm": 14.999999999999998,
+  "design_variable_definition": "10 latent logits (5 upper, 5 lower). A normalized Gaussian RBF partition with centers at STATIONS and sigma=0.4125 maps the logits through sigmoid to local widths in [60,120]mm at every x; the minimum feature bound is this explicit width map, not the RBF length scale.",
+  "control_stations_x_m": [
+    0.18,
+    0.33999999999999997,
+    0.49999999999999994,
+    0.6599999999999999,
+    0.82
+  ],
+  "rbf_sigma_normalized": 0.4125,
+  "initial_uniform_width_target_m": 0.09,
+  "initial_widths_at_control_centers_m": [
+    [
+      0.09,
+      0.09,
+      0.09,
+      0.09,
+      0.09
+    ],
+    [
+      0.09,
+      0.09,
+      0.09,
+      0.09,
+      0.09
+    ]
+  ],
+  "minimum_width_bound_m": 0.06,
+  "minimum_geometric_width_m": 0.09,
+  "measured_solid_widths_m_by_rail_station": [
+    0.07541666666666702,
+    0.07541666666666702,
+    0.07541666666666702,
+    0.07541666666666702,
+    0.07541666666666702,
+    0.0729166666666666,
+    0.0729166666666666,
+    0.0729166666666666,
+    0.0729166666666666,
+    0.0729166666666666
+  ],
+  "volume_fraction": 0.7223782512304392,
+  "volume_fraction_upper_bound": 0.75,
+  "solid_fraction_sampled_minmax": [
+    0.02000000000001029,
+    1.0
+  ],
+  "gray_particle_count_phi_0p1_to_0p5": 480,
+  "solid_particle_count_phi_ge_0p5": 6600,
+  "ersatz_particle_count_phi_eq_floor": 900,
+  "void_floor_fraction": 0.02,
+  "stress_definition": "Cauchy von Mises from the Neo-Hookean solid law; nested unnormalised p=24 norms over particles, time steps, and load cases of phi*sigma/0.5 form a smooth conservative upper bound on the maximum solid constituent stress for phi>=0.5. The declared 0.02 ersatz floor is included and cannot suppress the constrained stress. Direct discrete solid maximum is reported independently; gray 0.1<phi<0.5 and floor regions are separately quantified.",
+  "stress_pnorm_upper_bound_pa": 16509.681225644727,
+  "stress_constraint_margin_pa": 3490.3187743552735,
+  "stress_allow_pa": 20000.0,
+  "volume_constraint_margin": 0.027621748769560805,
+  "per_case_metrics": [
+    {
+      "response_m2": 3.1824402849897726e-05,
+      "stress_pnorm_upper_bound_pa": 13835.580140166907,
+      "peak_solid_von_mises_pa": 5341.271413289499,
+      "peak_gray_von_mises_pa": 9148.843241286168,
+      "peak_floor_von_mises_pa": 21960.37084625277,
+      "all_steps_valid": true
+    },
+    {
+      "response_m2": 5.909378000710115e-05,
+      "stress_pnorm_upper_bound_pa": 14350.819602741758,
+      "peak_solid_von_mises_pa": 5896.826779847553,
+      "peak_gray_von_mises_pa": 6880.504528071564,
+      "peak_floor_von_mises_pa": 29753.57061011988,
+      "all_steps_valid": true
+    },
+    {
+      "response_m2": 3.238856096275441e-05,
+      "stress_pnorm_upper_bound_pa": 16475.14636411088,
+      "peak_solid_von_mises_pa": 6970.519604232868,
+      "peak_gray_von_mises_pa": 9021.49978818734,
+      "peak_floor_von_mises_pa": 24681.494907739263,
+      "all_steps_valid": true
+    }
+  ],
+  "merit": 0.4110224793991777,
+  "gradient": [
+    -0.0008524273386098884,
+    -0.002636000056891861,
+    -0.005756711086031648,
+    -0.008853386763437398,
+    -0.009564135541091274,
+    -0.0010281675228744984,
+    -0.003173330317964451,
+    -0.0069210788378522735,
+    -0.010636591009623431,
+    -0.011488815006005048
+  ],
+  "directional_ad": 0.022689830797450614,
+  "directional_fd": 0.022689829301897335,
+  "directional_relative_error": 6.591293652068274e-08,
+  "optimization": {
+    "iterations_requested": 21,
+    "updates_accepted": 18,
+    "stop_reason": "projected_line_search_stalled",
+    "initial_response": 0.41102247939917763,
+    "merit": 0.37091501219230205,
+    "response": 0.37091501219230205,
+    "volume_fraction": 0.7499930374442455,
+    "stress_bound_pa": 16643.166073829867,
+    "maximum_solid_stress_pa": 7026.328609996678,
+    "maximum_gray_stress_pa": 0.0,
+    "maximum_floor_stress_pa": 28309.211299340608,
+    "feasible": true,
+    "violation": 0.0,
+    "valid": true,
+    "widths_m": [
+      [
+        0.09939962386939141,
+        0.09939830774030244,
+        0.09939679225029291,
+        0.0993953388067636,
+        0.09939417547180632
+      ],
+      [
+        0.0992190864272727,
+        0.09921810137251938,
+        0.09921692144363166,
+        0.09921574209691639,
+        0.09921475842574587
+      ]
+    ],
+    "control_width_targets_m": [
+      [
+        0.09940277615618173,
+        0.09939945684322002,
+        0.09939647857247647,
+        0.09939392570056135,
+        0.0993918116327374
+      ],
+      [
+        0.09922126859367883,
+        0.09921913688569714,
+        0.09921691467052274,
+        0.09921470971799765,
+        0.09921258134668645
+      ]
+    ],
+    "controls": [
+      0.648679972787692,
+      0.6484345882218729,
+      0.6482144317064028,
+      0.64802573314692,
+      0.6478694777523458,
+      0.6352892307998258,
+      0.6351322929053645,
+      0.6349686998626273,
+      0.6348063857724664,
+      0.6346497167624143
+    ],
+    "case_metrics": [
+      [
+        2.663186540698401e-05,
+        13351.89652698232,
+        6389.2595420432135,
+        0.0,
+        19582.43058184794,
+        1.0
+      ],
+      [
+        5.475306654588449e-05,
+        15219.121262373885,
+        6269.460215870372,
+        0.0,
+        28309.211299340608,
+        1.0
+      ],
+      [
+        2.9889571704822122e-05,
+        16553.249848102703,
+        7026.328609996678,
+        0.0,
+        23722.085704142435,
+        1.0
+      ]
+    ],
+    "history_csv": "design-history.csv",
+    "optimizer_checkpoint": "optimizer-state.npz",
+    "convergence_claim": false
+  },
+  "optimized_widths_m": [
+    [
+      0.09940277615618173,
+      0.09939945684322002,
+      0.09939647857247647,
+      0.09939392570056135,
+      0.0993918116327374
+    ],
+    [
+      0.09922126859367883,
+      0.09921913688569714,
+      0.09921691467052274,
+      0.09921470971799765,
+      0.09921258134668645
+    ]
+  ],
+  "physical_scope": "bounded ligament sizing on fixed particle coordinates; exact through-hole is absent from material points and connected to upper/lower rails by a full-material annular boss; full-material clamp and loading pads; smooth p=1 Voigt mixture at rail boundaries; 20kPa cap equals E=200kPa times 10% nominal uniaxial strain and is an illustrative design limit, not a calibrated material failure property; no free topology claim"
+}

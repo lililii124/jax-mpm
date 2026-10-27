@@ -1,0 +1,255 @@
+{
+  "model": "3D total-Lagrangian MPM, Neo-Hookean elastic solid with p=1 Voigt density/stiffness mixture",
+  "source_design_grid": 24,
+  "verification_grid": 48,
+  "solver_precision": "float64; frame export float32",
+  "geometry_m": {
+    "outer_envelope": [
+      0.8,
+      0.44000000000000006,
+      0.24
+    ],
+    "hole_center": [
+      0.45,
+      0.44
+    ],
+    "hole_radius": 0.065,
+    "boss_radius": 0.17,
+    "minimum_member_width_m": 0.06
+  },
+  "loads_fixed_across_designs": [
+    {
+      "name": "axial tension",
+      "resultant_N": [
+        100,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "transverse bending",
+      "resultant_N": [
+        0,
+        100,
+        0
+      ]
+    },
+    {
+      "name": "pure torsion",
+      "moment_x_Nm": 15.0
+    }
+  ],
+  "materials": {
+    "young_pa": 200000.0,
+    "poisson": 0.25,
+    "base_density_kg_m3": 1000.0,
+    "illustrative_stress_allow_pa": 20000.0,
+    "allowable_basis": "E times 10% nominal uniaxial strain; illustrative, not calibrated strength"
+  },
+  "objective": "mean over three load cases of full-horizon time-averaged squared displacement of the load-end tip region, normalized by 1e-4 m^2",
+  "constraints": {
+    "solid_volume_fraction_max": 0.75,
+    "p24_unormalized_stress_upper_bound_max_pa": 20000.0,
+    "local_width_bounds_m": [
+      0.06,
+      0.12
+    ]
+  },
+  "initial_controls": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "optimized_controls": [
+    0.648679972787692,
+    0.6484345882218729,
+    0.6482144317064028,
+    0.64802573314692,
+    0.6478694777523458,
+    0.6352892307998258,
+    0.6351322929053645,
+    0.6349686998626273,
+    0.6348063857724664,
+    0.6346497167624143
+  ],
+  "initial": {
+    "grid": 48,
+    "particles": 71553,
+    "steps": 300,
+    "dt_s": 0.0002,
+    "horizon_s": 0.06,
+    "cfl": 0.14872256049436483,
+    "response_normalized_squared": 0.3202560633300473,
+    "merit": 0.3202560633300473,
+    "volume_fraction": 0.7178412026539781,
+    "volume_fraction_limit": 0.75,
+    "total_mass_kg": 60.643224800208074,
+    "load_patch_mass_kg": [
+      6.55110677083333,
+      6.55110677083333,
+      1.5597873263888884
+    ],
+    "p24_stress_upper_bound_pa": 16271.210269914462,
+    "stress_limit_pa": 20000.0,
+    "peak_solid_stress_pa": 8021.618624833686,
+    "peak_gray_stress_pa": 12861.769225851322,
+    "peak_floor_stress_pa": 25760.102284514003,
+    "solid_particle_count": 53268,
+    "gray_particle_count": 1794,
+    "floor_particle_count": 16491,
+    "sampled_min_width_m_by_rail_station": [
+      0.08062500000000028,
+      0.08062500000000028,
+      0.08062500000000028,
+      0.08062500000000028,
+      0.08062500000000028,
+      0.0885416666666666,
+      0.0885416666666666,
+      0.0885416666666666,
+      0.0885416666666666,
+      0.0885416666666666
+    ],
+    "sampled_width_pitch_tolerance_m": 0.010416666666666666,
+    "load_cases": [
+      {
+        "name": "axial_tension_100N",
+        "response_m2": 2.4110618695745648e-05,
+        "p24_stress_bound_pa": 14456.610331134423,
+        "peak_solid_stress_pa": 8021.618624833686,
+        "peak_gray_stress_pa": 12819.88929692929,
+        "peak_floor_stress_pa": 20316.309914466543,
+        "all_steps_valid": true
+      },
+      {
+        "name": "transverse_bending_100N",
+        "response_m2": 4.276662654562483e-05,
+        "p24_stress_bound_pa": 15610.891199866304,
+        "peak_solid_stress_pa": 6554.021317793939,
+        "peak_gray_stress_pa": 12527.327126401191,
+        "peak_floor_stress_pa": 24875.030735866192,
+        "all_steps_valid": true
+      },
+      {
+        "name": "pure_torsion_15Nm",
+        "response_m2": 2.9199573757643738e-05,
+        "p24_stress_bound_pa": 15896.237813792084,
+        "peak_solid_stress_pa": 7184.138372595461,
+        "peak_gray_stress_pa": 12861.769225851322,
+        "peak_floor_stress_pa": 25760.102284514003,
+        "all_steps_valid": true
+      }
+    ],
+    "reference_grid_valid": true,
+    "all_steps_valid": true,
+    "constraints_pass": true
+  },
+  "optimized": {
+    "grid": 48,
+    "particles": 71553,
+    "steps": 300,
+    "dt_s": 0.0002,
+    "horizon_s": 0.06,
+    "cfl": 0.14872256049436483,
+    "response_normalized_squared": 0.2975703268852286,
+    "merit": 0.2975703268852286,
+    "volume_fraction": 0.7388870740907735,
+    "volume_fraction_limit": 0.75,
+    "total_mass_kg": 62.42118001918857,
+    "load_patch_mass_kg": [
+      6.55110677083333,
+      6.55110677083333,
+      1.5597873263888884
+    ],
+    "p24_stress_upper_bound_pa": 15988.220446491614,
+    "stress_limit_pa": 20000.0,
+    "peak_solid_stress_pa": 8190.816498345497,
+    "peak_gray_stress_pa": 9178.690586083512,
+    "peak_floor_stress_pa": 25450.562505848044,
+    "solid_particle_count": 55062,
+    "gray_particle_count": 874,
+    "floor_particle_count": 15617,
+    "sampled_min_width_m_by_rail_station": [
+      0.09104166666666702,
+      0.09104166666666702,
+      0.09104166666666702,
+      0.09104166666666702,
+      0.09104166666666702,
+      0.09895833333333323,
+      0.09895833333333323,
+      0.09895833333333323,
+      0.09895833333333323,
+      0.09895833333333323
+    ],
+    "sampled_width_pitch_tolerance_m": 0.010416666666666666,
+    "load_cases": [
+      {
+        "name": "axial_tension_100N",
+        "response_m2": 2.1110554805201746e-05,
+        "p24_stress_bound_pa": 13736.880550777109,
+        "peak_solid_stress_pa": 8190.816498345497,
+        "peak_gray_stress_pa": 8913.212185111968,
+        "peak_floor_stress_pa": 18343.496117486542,
+        "all_steps_valid": true
+      },
+      {
+        "name": "transverse_bending_100N",
+        "response_m2": 4.051268340377962e-05,
+        "p24_stress_bound_pa": 15177.175279793195,
+        "peak_solid_stress_pa": 7072.995755918389,
+        "peak_gray_stress_pa": 7837.286962124637,
+        "peak_floor_stress_pa": 24415.93276538934,
+        "all_steps_valid": true
+      },
+      {
+        "name": "pure_torsion_15Nm",
+        "response_m2": 2.764785985658722e-05,
+        "p24_stress_bound_pa": 15740.206545128638,
+        "peak_solid_stress_pa": 8060.522533387812,
+        "peak_gray_stress_pa": 9178.690586083512,
+        "peak_floor_stress_pa": 25450.562505848044,
+        "all_steps_valid": true
+      }
+    ],
+    "reference_grid_valid": true,
+    "all_steps_valid": true,
+    "constraints_pass": true
+  },
+  "trajectory": {
+    "case": "transverse bending",
+    "frames": 21,
+    "frame_stride_steps": 15,
+    "times_s": [
+      0.0,
+      0.003,
+      0.006,
+      0.009000000000000001,
+      0.012,
+      0.015000000000000001,
+      0.018000000000000002,
+      0.021,
+      0.024,
+      0.027,
+      0.030000000000000002,
+      0.033,
+      0.036000000000000004,
+      0.039,
+      0.042,
+      0.045000000000000005,
+      0.048,
+      0.051000000000000004,
+      0.054,
+      0.057,
+      0.060000000000000005
+    ],
+    "deformation_scale": 1.0,
+    "particle_count": 71553,
+    "coordinates_exported_float32_after_float64_solution": true
+  }
+}

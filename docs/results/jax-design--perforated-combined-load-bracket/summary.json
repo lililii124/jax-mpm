@@ -1,0 +1,169 @@
+{
+  "name": "JAX differentiable sizing of a perforated combined-load bracket",
+  "scope": "bounded fixed-topology sizing with a linear p=1 Voigt material mixture; not free-form topology optimization",
+  "optimization_task": "j4-bracket-opt-grid24-300steps-21updates-v1",
+  "forward_task": "j4-bracket-refined48-forward-v1",
+  "iterations_requested": 21,
+  "updates_accepted": 18,
+  "stop_reason": "projected_line_search_stalled",
+  "convergence_claim": false,
+  "model": {
+    "solver": "3D total-Lagrangian MPM using mpm_jax.total_lagrangian.step",
+    "constitutive_law": "compressible Neo-Hookean hyperelastic solid",
+    "young_modulus_pa": 200000,
+    "poisson_ratio": 0.25,
+    "base_density_kg_m3": 1000,
+    "design_variables": "10 latent logits: five upper-rail width controls and five lower-rail width controls; normalized Gaussian RBF centers at x=[0.18,0.34,0.50,0.66,0.82]m, sigma=.4125",
+    "width_bounds_m": [
+      0.06,
+      0.12
+    ],
+    "initial_width_m": 0.09,
+    "geometry_m": {
+      "envelope": [
+        0.8,
+        0.44,
+        0.24
+      ],
+      "hole_center_xy": [
+        0.45,
+        0.44
+      ],
+      "hole_radius": 0.065,
+      "boss_outer_radius": 0.17,
+      "fixed_clamp_pad_x": [
+        0.1,
+        0.18
+      ],
+      "fixed_load_pad_x": [
+        0.82,
+        0.9
+      ]
+    },
+    "mixture": "same p=1 solid fraction phi scales particle volume, mass, and stiffness; ersatz floor .02; reference particle positions fixed",
+    "loads": [
+      {
+        "name": "axial_tension",
+        "resultant_N": [
+          100,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "transverse_bending",
+        "resultant_N": [
+          0,
+          100,
+          0
+        ]
+      },
+      {
+        "name": "pure_torsion",
+        "moment_x_Nm": 15
+      }
+    ],
+    "horizon_s": 0.06,
+    "dt_s": 0.0002,
+    "objective": "mean across the three load cases of full-horizon time-averaged squared displacement over the free load-end tip region, divided by 1e-4 m^2",
+    "constraints": {
+      "solid_volume_fraction_max": 0.75,
+      "continuous_ligament_width_bounds_m": [
+        0.06,
+        0.12
+      ],
+      "stress_upper_pa": 20000,
+      "stress_upper_basis": "illustrative 10% nominal strain cap: Young modulus 200 kPa times 0.10; not a calibrated strength value",
+      "stress_aggregate": "unnormalized nested p=24 norm of phi*von-Mises/0.5, an upper bound on the sampled solid constituent stress for phi>=.5; solid, gray and floor peaks also reported"
+    }
+  },
+  "gradient_check": {
+    "relative_error": 6.591293652068274e-08,
+    "finite": true
+  },
+  "optimization_mesh": {
+    "grid": 24,
+    "particles": 9204,
+    "steps": 300,
+    "response_initial": 0.41102247939917763,
+    "response_final": 0.37091501219230205,
+    "response_reduction_percent": 9.757974129664069,
+    "volume_fraction_initial": 0.7223782512304392,
+    "volume_fraction_final": 0.7499930374442455,
+    "p24_final_pa": 16643.166073829867,
+    "max_solid_stress_final_pa": 7026.328609996678,
+    "constraints_pass": true
+  },
+  "independent_forward": {
+    "grid": 48,
+    "particles": 71553,
+    "response_initial": 0.3202560633300473,
+    "response_optimized": 0.2975703268852286,
+    "response_reduction_percent": 7.083624337641154,
+    "volume_fraction_initial": 0.7178412026539781,
+    "volume_fraction_optimized": 0.7388870740907735,
+    "mass_kg_initial": 60.643224800208074,
+    "mass_kg_optimized": 62.42118001918857,
+    "mass_change_percent": 2.931828287229201,
+    "stress_upper_pa_initial": 16271.210269914462,
+    "stress_upper_pa_optimized": 15988.220446491614,
+    "peak_solid_stress_pa_initial": 8021.618624833686,
+    "peak_solid_stress_pa_optimized": 8190.816498345497,
+    "field_minmax_float32_export": {
+      "min": 0.019999999552965164,
+      "max": 1.0
+    },
+    "continuous_width_minmax_m_initial": [
+      0.09,
+      0.09
+    ],
+    "continuous_width_minmax_m_optimized": [
+      0.09921475842574587,
+      0.09939962386939143
+    ],
+    "sampled_section_min_m_initial": 0.08062500000000028,
+    "sampled_section_min_m_optimized": 0.09104166666666702,
+    "grid_pitch_tolerance_m": 0.010416666666666666,
+    "all_three_cases_valid": true,
+    "constraints_pass": true
+  },
+  "media": {
+    "renderer": "ParaView 6.2 OSMesa",
+    "frames": 21,
+    "canvas_each_px": [
+      400,
+      400
+    ],
+    "render_each_px": [
+      800,
+      800
+    ],
+    "deformation_scale": 1.0,
+    "isosurface_fraction": 0.5,
+    "isosurface_scope": "visualization of a mixed material field only; does not establish a manufacturable binary topology",
+    "same_camera_and_color_range": true,
+    "initial_gif_sha256": "20a12204adb5435b58e7d838ec940b2d1655962bab277b98159d1e7a67a9abe8",
+    "optimized_gif_sha256": "34fe9b61ce9c35e351ea16960671784b32b4dc3bdcf2c0380ad4a63a40508733"
+  },
+  "source_manifests": {
+    "optimization": "source-manifest-optimization.json",
+    "forward": "source-manifest-forward.json"
+  },
+  "evidence_files": [
+    "design-history.csv",
+    "optimizer-state.npz",
+    "gradient-check.json",
+    "optimization-summary.json",
+    "forward-summary-grid48.json",
+    "bending-trajectory-grid48.npz",
+    "independent-forward-review.json",
+    "render-manifest.json",
+    "media-review.json"
+  ],
+  "limitations": [
+    "18 of 21 Adam updates accepted; line search stalled near the volume cap. This is a finite-budget feasible result, not a convergence/global-optimum claim.",
+    "The fine-grid result uses 2.93% more mass than the initial design because volume fraction rises from .71784 to .73889; response reduction is not equal-mass.",
+    "Material-model stress allowance is illustrative and requires engineering/material calibration for deployment.",
+    "The phi=.5 continuous surface is a visualization of the p=1 mixed field; no binary topology or manufacturing certification is claimed."
+  ]
+}
