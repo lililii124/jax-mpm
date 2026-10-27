@@ -1,0 +1,38 @@
+{
+  "contact": {
+    "case": "contact",
+    "diagnostic_contact_loss_J": 0.08390055507279792,
+    "impulse": [
+      0.08887770664491307,
+      0.017775541328982614,
+      3.3262067665785016e-20
+    ],
+    "impulse_identical": true,
+    "independent_grid_kinetic_loss_J": 0.08390055507279795,
+    "loss_abs_diff_J": 2.7755575615628914e-17,
+    "normal_impulse": 0.08887770664491307,
+    "overlap_grid_nodes": 48,
+    "state_identical": true,
+    "tangent_impulse": 0.01777554132898261,
+    "valid": true
+  },
+  "friction": 0.2,
+  "no_contact": {
+    "case": "no_contact",
+    "diagnostic_contact_loss_J": 0.0,
+    "impulse": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "impulse_identical": true,
+    "independent_grid_kinetic_loss_J": 0.0,
+    "loss_abs_diff_J": 0.0,
+    "normal_impulse": 0.0,
+    "overlap_grid_nodes": 0,
+    "state_identical": true,
+    "tangent_impulse": 0.0,
+    "valid": true
+  },
+  "source": "mpm_jax/contact.py coupled_step"
+}

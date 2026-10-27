@@ -5,6 +5,7 @@ from .initialization import block, validate_state
 from .materials import linear_elastic, neo_hookean, orthotropic, transverse_isotropic
 from .materials import hjc, jh2, johnson_cook, rht
 from .materials import bilinear_plastic, thermal_plastic, blatz_ko
+from .materials import mat173
 from .materials import steinberg_guinan
 from .materials import woven_elastic
 from .contact import coupled_advance, coupled_step
@@ -34,6 +35,7 @@ __all__ = [
     "rht",
     "bilinear_plastic",
     "thermal_plastic",
+    "mat173",
     "blatz_ko",
     "steinberg_guinan",
     "woven_elastic",

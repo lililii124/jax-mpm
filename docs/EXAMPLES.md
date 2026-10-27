@@ -96,6 +96,17 @@ The RHT return map is substantially slower than the simpler models on CPU.
 Use the material-point command for constitutive investigations before launching
 a large spatial run.
 
+## Geotechnical mechanics
+
+The [MAT173-inspired slope response](MAT173_LANDSLIDE.md) uses a recorded
+gravity-settling stage followed by a prescribed strength reduction. Its status
+and limits are stated with the result; it is not a validated landslide model.
+
+```bash
+python -m examples.mat173_landslide_triggered --output outputs/mat173-strength-reduced
+python -m examples.mat173_landslide_continue --parent outputs/mat173-strength-reduced --output outputs/mat173-strength-reduced-continuation
+```
+
 ## Material engineering cases
 
 The [material engineering guide](MATERIAL_ENGINEERING.md) covers smooth

@@ -97,6 +97,16 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+### Geotechnical mechanics
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/mat173-strength-reduced-slope-response.gif" alt="Strength-reduced slope response" width="100%"><br><a href="docs/MAT173_LANDSLIDE.md">Strength-reduced slope response</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
 ### Adhesive surface contact
 
 <table width="100%">

@@ -118,6 +118,19 @@ scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
 </tr>
 </table>
 
+## Geotechnical mechanics
+
+A small-strain response to a recorded strength reduction; it is not a complete
+landslide or a validated site prediction. See the [model scope and result](MAT173_LANDSLIDE.md).
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="images/home/mat173-strength-reduced-slope-response.gif" alt="Strength-reduced slope response" width="100%"><br><strong>Strength-reduced slope response</strong><br><a href="results/material-engineering--mat173-strength-reduced-slope-response/summary.json">Results</a> · <a href="images/home/mat173-strength-reduced-slope-response.gif">GIF</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
 ## Adhesive surface contact
 
 <table width="100%">

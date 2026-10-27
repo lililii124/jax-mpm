@@ -36,6 +36,7 @@ The [MAT002 finite-strain solid](MAT002_SVK.md) adds the separate
 | JH-2 | Intact/fractured strength, damage, delayed bulking, polynomial EOS, tensile cutoff | Supplied MAT110 revision-7 profile; negative FS unsupported |
 | HJC | Pressure/rate strength, compaction, lagged unloading modulus, damage | `legacy-v3`, `strain-floor`, and `mat111-compatible` point profiles; cold-start damage seed is off by default |
 | RHT | Three surfaces, Lode dependence, hardening, damage, p-alpha compaction, energy coupling | Bounded adaptive integration; unsupported/nonconverged returns are marked invalid; no general interior fallback from the supplied core |
+| MAT173-inspired Mohr–Coulomb | Constant-property six-plane principal stress return; nonassociated flow; selected NOVOID=1 hydrostatic tension branch | First-draft Fortran source; JAX adapter is small-strain and selected-branch only; complex Final Check and native history mapping are pending; see [slope response](MAT173_LANDSLIDE.md) |
 
 Incremental kinematics use the right polar stretch of F_new inverse(F_old),
 its logarithmic strain, and rotation of tensor history. This is the spatial

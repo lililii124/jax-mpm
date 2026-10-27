@@ -17,6 +17,7 @@ from .history import History, corotated_increment, initial_history, rotate_histo
 from .johnson_cook import JohnsonCook, johnson_cook, update_johnson_cook
 from .jh2 import JH2, jh2, update_jh2
 from .hjc import HJC, hjc, update_hjc
+from .mat173 import MAT173, mat173, update_mat173
 from .rht import RHT, rht, update_rht
 from .plastic import (
     Bilinear,
@@ -38,6 +39,7 @@ INCREMENTAL_MODELS = (
     "bilinear",
     "thermal-plastic",
     "steinberg-guinan",
+    "mat173",
 )
 
 
@@ -49,6 +51,7 @@ def update_history(history, F, previous_F, dt, material, kind):
         "johnson-cook": update_johnson_cook,
         "jh2": update_jh2,
         "hjc": update_hjc,
+        "mat173": update_mat173,
         "rht": update_rht,
         "bilinear": update_bilinear,
         "thermal-plastic": update_thermal_plastic,

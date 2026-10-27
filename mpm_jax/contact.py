@@ -46,8 +46,9 @@ def _mass_gradient(state, support, size):
     )
 
 
-@partial(jax.jit, static_argnames=("configs",))
-def coupled_step(states, materials, configs, friction=0.0, forces=(None, None)):
+@partial(jax.jit, static_argnames=("configs", "return_diagnostics"))
+def coupled_step(states, materials, configs, friction=0.0, forces=(None, None),
+                 return_diagnostics=False):
     """Two deformable bodies, including inviscid fluid/solid pairs; no tensile adhesion."""
     ca, cb = configs
     if (ca.n_grid, ca.domain_size, ca.dim, ca.dt) != (cb.n_grid, cb.domain_size, cb.dim, cb.dt):
@@ -81,7 +82,23 @@ def coupled_step(states, materials, configs, friction=0.0, forces=(None, None)):
             states, materials, configs, supports, (va, vb), forces
         )
     )
-    return result, jnp.sum(impulse, axis=0)
+    total_impulse = jnp.sum(impulse, axis=0)
+    if return_diagnostics:
+        relative = velocities[0] - velocities[1]
+        inverse_mass_sum = (1.0 / jnp.where(ma > 0, ma, 1.0)
+                            + 1.0 / jnp.where(mb > 0, mb, 1.0))
+        contact_loss = jnp.sum(
+            jnp.sum(impulse * relative, axis=-1)
+            - 0.5 * jnp.sum(impulse * impulse, axis=-1) * inverse_mass_sum
+        )
+        normal = normal / jnp.maximum(jnp.linalg.norm(normal, axis=-1), 1e-30)[:, None]
+        normal_component = jnp.sum(impulse * normal, axis=-1)
+        normal_impulse = jnp.sum(jnp.abs(normal_component))
+        tangent_impulse = jnp.sum(jnp.linalg.norm(
+            impulse - normal_component[:, None] * normal, axis=-1))
+        return (result, total_impulse, jnp.maximum(contact_loss, 0.0),
+                normal_impulse, tangent_impulse)
+    return result, total_impulse
 
 
 @partial(jax.jit, static_argnames=("configs", "steps"))

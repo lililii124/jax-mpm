@@ -1,0 +1,135 @@
+{
+  "schema": "mat173-strength-reduced-slope-response-v1",
+  "title": "Strength-reduced slope response",
+  "status": "SMALL_STRAIN_LIMIT",
+  "interpretation": "A controlled small-strain numerical response to a prescribed strength reduction. This is not a complete landslide, calibrated site prediction, native MAT173 validation, or general solver-equivalence result.",
+  "source": {
+    "delivered_fortran_path": "H:\\test\\rea\\MAT\\deliveries\\MAT001_296_latest_20261017\\MAT173\\MAT173.f",
+    "delivered_fortran_sha256": "6cfae0ae794a5f52163ed6be0e79b1a49b046943dc70d5e471390699c411689a",
+    "delivery_manifest_sha256": "eb27b9902f36f5b6b9369073caf5d0eac6c8c702de589559b6256609935c8f6e",
+    "complex_final_check_status": "NOT_VALIDATED",
+    "strict_complex_final_check_pass": false,
+    "delivery_complete": false,
+    "jax_material_sha256": "e2e9eb5e34cb9a9f9f497efa3e810e301412bd94e33148053a6eab785e6bfb10",
+    "mat173_branch": "constant-property, no-joint Mohr-Coulomb, NOVOID=1 selected; six principal stress planes; nonassociated dilation",
+    "parity_record": "fortran-point-comparison.json",
+    "execution_source_sha256": {
+      "examples/mat173_landslide.py": "374d1ae31b182db7d39ec6b31118fa5f86d7141bf6be31dcb67fe36d82e3929c",
+      "examples/mat173_landslide_triggered.py": "e7250e30b4ec4367ed8f279c79fd9c089127cf3d68d6e193b7178f0509738d43",
+      "examples/mat173_landslide_continue.py": "cf03bcd9f7c08b25b452774aa2041c5e258c19aeb8b1e5e75856005650e42ae3",
+      "mpm_jax/contact.py": "28830500cd3accd2aa7b2e167184ece99b916fd4cc48b188f525a8cf1a41fd4c",
+      "mpm_jax/core.py": "4a3895ffe15ab28dd0981e94bb0be5f2030b12714f02feae5e917c706e6b71ae",
+      "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+      "mpm_jax/materials/mat173.py": "e2e9eb5e34cb9a9f9f497efa3e810e301412bd94e33148053a6eab785e6bfb10",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+    }
+  },
+  "run": {
+    "balance_task": "mat173-slope-ls-3d-triggered-v1",
+    "continuation_task": "mat173-slope-ls-3d-continue-v2",
+    "balance_steps": 1500,
+    "triggered_steps": 800,
+    "continuation_steps": 800,
+    "actual_total_steps": 3101,
+    "time_s": 0.23257499999999207,
+    "time_step_s": 7.5e-05,
+    "soil_particles": 37440,
+    "foundation_particles": 2232,
+    "soil_particle_spacing_m": 0.05,
+    "grid": 40,
+    "gravity_m_s2": [
+      0.0,
+      -9.81,
+      0.0
+    ],
+    "initial_condition": "zero stress; gravity ramped over 0.02 s; numerical damping 0.995 applied to velocity and affine C during balancing only, then removed",
+    "balance": {
+      "time_s": 0.11250000000000299,
+      "windows": [
+        {
+          "step": 1300,
+          "soil_p95_speed_m_s": 0.0021837035239117026,
+          "soil_com_drift_m_window": 7.809620368660179e-06,
+          "contact_vertical_support_fraction_of_soil_weight": 1.0100971772266072,
+          "vertical_boundary_reaction_to_weight": 1.0104697764452346
+        },
+        {
+          "step": 1400,
+          "soil_p95_speed_m_s": 0.002200584150964033,
+          "soil_com_drift_m_window": 2.1228856923064385e-06,
+          "contact_vertical_support_fraction_of_soil_weight": 1.0142001141532728,
+          "vertical_boundary_reaction_to_weight": 1.0080482604962968
+        },
+        {
+          "step": 1500,
+          "soil_p95_speed_m_s": 0.003266892267115709,
+          "soil_com_drift_m_window": 5.860318676680579e-06,
+          "contact_vertical_support_fraction_of_soil_weight": 1.0086103915549653,
+          "vertical_boundary_reaction_to_weight": 1.0020479617824556
+        }
+      ],
+      "contact_mu": 0.1
+    },
+    "strength_reduction": {
+      "at_step": 1500,
+      "from_phi_deg": 38.0,
+      "from_cohesion_pa": 10000.0,
+      "to_phi_deg": 28.0,
+      "to_cohesion_pa": 1000.0,
+      "pretrigger_fraction_outside_new_yield_surface": 0.880982905982906,
+      "first_update_valid": true,
+      "first_update_max_plastic_strain": 0.0009459390932333963
+    }
+  },
+  "terminal_metrics": {
+    "actual_status": "SMALL_STRAIN_LIMIT",
+    "valid": true,
+    "max_accumulated_plastic_strain": 0.050140912499655584,
+    "max_absolute_log_strain": 0.044386136236006526,
+    "minimum_J": 0.9937289272630346,
+    "relative_soil_foundation_com_dx_m": 0.001487893959428103,
+    "relative_soil_foundation_com_dy_m": -0.006859851148813368,
+    "downslope_projection_m": 0.004986054154936627,
+    "downslope_projection_horizontal_component_m": 0.0012475151920147722,
+    "downslope_projection_vertical_component_m": 0.0037385389629218547,
+    "basal_band_particle_count": 2200,
+    "basal_mean_relative_dx_m": 0.0020334117938007683,
+    "basal_mean_relative_downslope_m": 0.001721482864791654,
+    "basal_mean_relative_horizontal_speed_m_s": 0.031249366184065288,
+    "fraction_soil_plastic_increment_above_1_percent": 0.632051282051282,
+    "lower_layer_plastic_increment_p95": 0.021920238386779978,
+    "second_layer_plastic_increment_p95": 0.027641555086427513
+  },
+  "render": {
+    "path": "../../images/home/mat173-strength-reduced-slope-response.gif",
+    "sha256": "8d28dbe5ec6a0856fd2c585c12cb0fbec9c0453d53659fb233343a6e1d177b0e",
+    "bytes": 1674426,
+    "frames": 51,
+    "distinct_frames": 51,
+    "time_s": [
+      0.11257500000000299,
+      0.23257499999999207
+    ],
+    "resolution_px": [
+      400,
+      400
+    ],
+    "scalar": "plastic_strain",
+    "scalar_range": [
+      0.0,
+      0.05
+    ],
+    "surface_method": "Build hexahedral cells only when all 8 corners are original neighboring material points from the initial regular x-y-z lattice. vtkGeometryFilter extracts the connected exterior faces; no new coordinates are added. Partial boundary cells are omitted, so the connected boundary is inset by up to one particle spacing.",
+    "scalar_method": "Equivalent plastic strain is read from original MAT173 particle history and linearly interpolated over connected exterior cells. No scalar smoothing, clipping, or rescaling is applied.",
+    "renderer_sha256": "b57035f7e0837cf67f4fd1f856bf4c7fd94a50f48b92ec72270459b8fb8390d7"
+  },
+  "limitations": [
+    "MAT173 delivery manifest reports complex_final_check_status=NOT_VALIDATED and delivery_complete=false; material-specific native activation and history mapping remain pending.",
+    "The JAX adapter is a selected-branch small-strain return map driven by corotated logarithmic strain increments; finite-deformation host spin and native history semantics are not validated.",
+    "The calculation starts from zero stress, not measured or geostatically initialized stresses; the pre-trigger equilibrium is produced by a recorded damped gravity-settling procedure.",
+    "The finite slope has no pore pressure, water table, joints, erosion, progressive weakening, or site calibration.",
+    "Most downslope COM projection at termination comes from vertical settlement; plasticity is broad rather than a narrow basal shear band. The run stops at the small-strain limit and does not demonstrate full landslide runout.",
+    "The direct Fortran/JAX point comparison covers one fixed-axis, normal-strain two-generator symmetric edge return only; it does not test shear, face, apex, NOVOID tension, general finite strain, native UMAT mapping, or complex Final Check."
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "schema": "mat173-fortran-jax-symmetric-edge-point-comparison-v1",
+  "source": {
+    "path": "H:\\test\\rea\\MAT\\deliveries\\MAT001_296_latest_20261017\\MAT173\\MAT173.f",
+    "sha256": "6cfae0ae794a5f52163ed6be0e79b1a49b046943dc70d5e471390699c411689a",
+    "fortran_source": "H:\\test\\rea\\MAT\\deliveries\\MAT001_296_latest_20261017\\MAT173\\MAT173.f",
+    "source_manifest": "H:\\test\\rea\\MAT\\deliveries\\MAT001_296_latest_20261017\\MAT173\\manifest.json",
+    "manifest_sha256": "eb27b9902f36f5b6b9369073caf5d0eac6c8c702de589559b6256609935c8f6e",
+    "complex_final_check": "NOT_VALIDATED",
+    "delivery_complete": false
+  },
+  "jax_model_sha256": "e2e9eb5e34cb9a9f9f497efa3e810e301412bd94e33148053a6eab785e6bfb10",
+  "parameters": {
+    "density": 1800.0,
+    "G_Pa": 100000000.0,
+    "nu": 0.25,
+    "phi_rad": 0.5235987755982988,
+    "cohesion_Pa": 500000.0,
+    "psi_rad": 0.05,
+    "novoid": 1,
+    "nplanes": 0,
+    "extra": 0,
+    "aniso": 1
+  },
+  "de_engineering_voigt": [
+    -0.01,
+    0.0025,
+    0.0025,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "fortran": {
+    "status": 0,
+    "branch": 2,
+    "active_generators": 2,
+    "max_yield_residual_Pa": 2.3283064365386963e-10,
+    "stress_voigt_Pa": [
+      -2236685.7220408926,
+      -168211.63815733822,
+      -168211.63815733822,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "plastic_tensor_voigt": [
+      -0.001389680388151107,
+      0.0007679491924311224,
+      0.0007679491924311224,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "plastic_strain_eq": 0.0014400702541943425,
+    "driver_sha256": "a55f449a546c2c55bd2b77c0fc6287034be324ea63b1ba05b959742fe6fb59fa",
+    "compiled_executable_sha256": "7ff233119be36f3733653ab21c802be7fa9afa36b14fe969a0e886def10937a4"
+  },
+  "jax": {
+    "valid": true,
+    "stress_voigt_Pa": [
+      -2236685.722040892,
+      -168211.63815733822,
+      -168211.63815733822,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "plastic_tensor_voigt": [
+      -0.0013896803881511073,
+      0.0007679491924311226,
+      0.0007679491924311226,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "plastic_strain_eq": 0.0014400702541943428,
+    "max_mc_residual_Pa": 0.0
+  },
+  "comparison": {
+    "stress_max_abs_Pa": 4.656612873077393e-10,
+    "plastic_tensor_max_abs": 2.168404344971009e-19,
+    "plastic_strain_eq_abs": 2.168404344971009e-19,
+    "jax_valid": true,
+    "branch_scope": "single two-generator symmetric edge return, fixed axes, normal strains, NOVOID=1; successful source core point routine",
+    "maximum_positive_yield_residual_Pa": {
+      "fortran": 2.3283064365386963e-10,
+      "jax": 0.0
+    },
+    "active_return": "two-generator symmetric edge (Fortran branch=2, active_generators=2)",
+    "fortran_method": "Delivered MAT173.f mat173_init/mat173_point direct call, compiled standalone; this is not the LS-DYNA native/UMAT complex Final Check.",
+    "interpretation": "One fixed-axis normal-strain point parity check only; no broader equivalence claim.",
+    "relative_stress_difference": 2.0819254252798674e-16,
+    "relative_plastic_tensor_difference": 1.5603619101626316e-16,
+    "relative_accumulated_plastic_strain_difference": 1.5057628880641923e-16
+  },
+  "not_covered": [
+    "one-face return",
+    "three-generator/apex return",
+    "NOVOID hydrostatic tension special case",
+    "shear increments or rotating/noncoaxial host mapping",
+    "joints/curves/depth dependence",
+    "native history slot mapping",
+    "finite-deformation validation",
+    "complex Final Check"
+  ],
+  "runtime_task": "mat173-fortran-edge-parity-v2",
+  "runtime_container": "3d588da4ee6eecd9c1e9ee0333cc8dbb4c692640ea134def782ad53e2bf642be",
+  "runtime": {
+    "task": "mat173-fortran-edge-parity-v2",
+    "base": "/home/data1/YZ/jax-mpm-active-20261027",
+    "container": "3d588da4ee6eecd9c1e9ee0333cc8dbb4c692640ea134def782ad53e2bf642be",
+    "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+    "cpu_set": "4-7",
+    "cpus": 4,
+    "exit_code": 0,
+    "uss_peak_bytes": 237654016,
+    "input_archive_sha256": "367cbcdf3e56a4956114c42c7f2e917b002b13412e045490601e2830287a98c5"
+  }
+}
