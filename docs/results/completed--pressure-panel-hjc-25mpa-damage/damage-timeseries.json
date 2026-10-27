@@ -1,0 +1,495 @@
+{
+  "schema": "selected-saved-frame-damage-timeseries-v1",
+  "model": "hjc",
+  "scope": "61 rendered saved states, sampled from full run; no time interpolation. Whole-particle max is separate from the minus-Y backside face max.",
+  "frames": [
+    {
+      "index": 0,
+      "time_s": 0.0,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "940d41a27b1466b226a5467923d63eb0128d5b0c9e4f12ce55589f9f3a47f3bc"
+    },
+    {
+      "index": 6,
+      "time_s": 3.4285714285714285e-06,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "4213b2ab3ed63645804dcfe1a03de532bfb51bdfb0334b51e195147e463be6bc"
+    },
+    {
+      "index": 12,
+      "time_s": 6.857142857142857e-06,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "ece82bfd63a29aa2b2a867a77998609ce7d043ef99f05b5383cdff4843d7a250"
+    },
+    {
+      "index": 18,
+      "time_s": 1.0285714285714286e-05,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "7fe8e4df5d786019692edad0dd2d8101f6966f4a5ccb8cc89c5b74d384cc5355"
+    },
+    {
+      "index": 23,
+      "time_s": 1.3142857142857143e-05,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "e85b7bce094ac0f897ab051eccec96f036673cd723b30035c06232315c66f92b"
+    },
+    {
+      "index": 29,
+      "time_s": 1.657142857142857e-05,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "6e7c228c9c7498edd9b382d699ccbaea8dce5e91a5b599e52e5b8db8d87738d1"
+    },
+    {
+      "index": 35,
+      "time_s": 2e-05,
+      "whole_particle_max_damage": 0.0,
+      "backside_max_damage": 0.0,
+      "backside_q99_damage": 0.0,
+      "source_frame_sha256": "c5a23bf51494027411960163f1a88489051fd4c44fc47a06a6468c30c85447b2"
+    },
+    {
+      "index": 41,
+      "time_s": 2.342857142857143e-05,
+      "whole_particle_max_damage": 0.017151253722570835,
+      "backside_max_damage": 0.017151253722570835,
+      "backside_q99_damage": 0.016698696083186422,
+      "source_frame_sha256": "22a033dacb1063bae3466a5114bf7333bad0439d362a690e19d8bdf7184ebe23"
+    },
+    {
+      "index": 47,
+      "time_s": 2.6857142857142857e-05,
+      "whole_particle_max_damage": 0.04973218638373248,
+      "backside_max_damage": 0.04973218638373248,
+      "backside_q99_damage": 0.04864906962371275,
+      "source_frame_sha256": "7b4cad71affd6220b26464df6a994120f02776100f15690fda79516593e3a5f0"
+    },
+    {
+      "index": 52,
+      "time_s": 2.9714285714285713e-05,
+      "whole_particle_max_damage": 0.0897731470782754,
+      "backside_max_damage": 0.0897731470782754,
+      "backside_q99_damage": 0.08621195195059088,
+      "source_frame_sha256": "67f90e17ca1c14369dca68e1b71e2ee87dae77b29dae41c8fd9e626627966a7c"
+    },
+    {
+      "index": 58,
+      "time_s": 3.314285714285714e-05,
+      "whole_particle_max_damage": 0.15434349809936654,
+      "backside_max_damage": 0.15434349809936654,
+      "backside_q99_damage": 0.14888307781784157,
+      "source_frame_sha256": "bcd7ec11aef722702df5670f9233385634314f9b205f665eca4ac4ef1ab938e4"
+    },
+    {
+      "index": 64,
+      "time_s": 3.6571428571428576e-05,
+      "whole_particle_max_damage": 0.21980983642909085,
+      "backside_max_damage": 0.21980983642909085,
+      "backside_q99_damage": 0.21309888390992596,
+      "source_frame_sha256": "7e008342b7a8a184dbd6b985b7023ca72c3ebfa3d33ba80dca498a78e1679c90"
+    },
+    {
+      "index": 70,
+      "time_s": 4e-05,
+      "whole_particle_max_damage": 0.28102254206165395,
+      "backside_max_damage": 0.28102254206165395,
+      "backside_q99_damage": 0.27311009229968686,
+      "source_frame_sha256": "1356041c8abf7c6812d1caceddc73dc5cb067299b95bca16ed7901929d195e67"
+    },
+    {
+      "index": 76,
+      "time_s": 4.342857142857143e-05,
+      "whole_particle_max_damage": 0.33691806250359735,
+      "backside_max_damage": 0.33691806250359735,
+      "backside_q99_damage": 0.32824815688007697,
+      "source_frame_sha256": "91e1d7f6d07904389c7fc822b5a826a95e4b09e43df2310a79ec929c1e1af6a7"
+    },
+    {
+      "index": 82,
+      "time_s": 4.685714285714286e-05,
+      "whole_particle_max_damage": 0.38712754629533314,
+      "backside_max_damage": 0.38712754629533314,
+      "backside_q99_damage": 0.378314964901385,
+      "source_frame_sha256": "f2169da3d170938e84f1b18270acb6829e0b7c65dc3a758bd46093495aef4a31"
+    },
+    {
+      "index": 88,
+      "time_s": 5.0285714285714286e-05,
+      "whole_particle_max_damage": 0.49497062845707557,
+      "backside_max_damage": 0.4319096935667818,
+      "backside_q99_damage": 0.4226052773875143,
+      "source_frame_sha256": "093a7124ba6a201597d1112bb39db61eb6b2866ab3fa71e18fa63d1ab9fe5a1e"
+    },
+    {
+      "index": 93,
+      "time_s": 5.3142857142857146e-05,
+      "whole_particle_max_damage": 0.6020474136239164,
+      "backside_max_damage": 0.46526704112120704,
+      "backside_q99_damage": 0.45525131518279316,
+      "source_frame_sha256": "8f886307720ea155f37116f5d76813d8627fb5a7a3f49df9cc60f76e3097283b"
+    },
+    {
+      "index": 99,
+      "time_s": 5.6571428571428574e-05,
+      "whole_particle_max_damage": 0.7324137885483663,
+      "backside_max_damage": 0.5004520608727796,
+      "backside_q99_damage": 0.4901388299044927,
+      "source_frame_sha256": "007945d3c8c9390161087823c34fda39e5aeb89e01d95114e414dfd551db7359"
+    },
+    {
+      "index": 105,
+      "time_s": 6e-05,
+      "whole_particle_max_damage": 0.8598104159138313,
+      "backside_max_damage": 0.5317976621970553,
+      "backside_q99_damage": 0.5202854838472702,
+      "source_frame_sha256": "ff0991e300ee223f5e3ce1c687c475fb39db038b287b91ebbde3988ea2c88ca5"
+    },
+    {
+      "index": 111,
+      "time_s": 6.342857142857143e-05,
+      "whole_particle_max_damage": 0.9823463095170055,
+      "backside_max_damage": 0.5593346428843678,
+      "backside_q99_damage": 0.5462488415652185,
+      "source_frame_sha256": "728376dacce3dd3b4fad4c5609f4a6e650e509115077d50b374a9a05ce8bdb30"
+    },
+    {
+      "index": 117,
+      "time_s": 6.685714285714286e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.583053066224431,
+      "backside_q99_damage": 0.5681471516344657,
+      "source_frame_sha256": "94af626f47f650bbf24893022e251df897480eedb16d0d287f28a8ff3ec9c81f"
+    },
+    {
+      "index": 122,
+      "time_s": 6.971428571428572e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.6006553900332867,
+      "backside_q99_damage": 0.5840027196805128,
+      "source_frame_sha256": "7e8dd1680047a1a5092f2a95178782c13090efa0d99d50732913c1ffcceb905b"
+    },
+    {
+      "index": 128,
+      "time_s": 7.314285714285715e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.619545653559716,
+      "backside_q99_damage": 0.600650364195055,
+      "source_frame_sha256": "d94c7d1dafc1bddbc4121994788769a443a9b7c6a6d5e871e54b3298166c4c01"
+    },
+    {
+      "index": 134,
+      "time_s": 7.657142857142857e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.6365843747923589,
+      "backside_q99_damage": 0.6223484319546368,
+      "source_frame_sha256": "244884159a98fde84fe18ffdc9b103deddfe9ec5b0375c710e24d3c501de7224"
+    },
+    {
+      "index": 140,
+      "time_s": 8e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.6552680887128481,
+      "backside_q99_damage": 0.6476764842647005,
+      "source_frame_sha256": "0b17af96b333adaba92bc1ac3ee9c35e75488408bec94ec11b3b19b39be214d8"
+    },
+    {
+      "index": 146,
+      "time_s": 8.342857142857143e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.6859285071916279,
+      "backside_q99_damage": 0.6671233646640398,
+      "source_frame_sha256": "7e7a283baa02603fcb91c6a8145ee2cb0b5bc8c98001f757a706093d57ac2e82"
+    },
+    {
+      "index": 152,
+      "time_s": 8.685714285714286e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.7171639368216675,
+      "backside_q99_damage": 0.6825547626110974,
+      "source_frame_sha256": "76a7df54465cd5b34b6dc53fc3866da3768fffdf3bd5e1ad697a42e14f4c58ce"
+    },
+    {
+      "index": 158,
+      "time_s": 9.028571428571428e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.7499583728721212,
+      "backside_q99_damage": 0.6981434107319473,
+      "source_frame_sha256": "d0a52e1964fd3493c480b85f91231aa14bf564c3226968ffea8d9e688971e57c"
+    },
+    {
+      "index": 163,
+      "time_s": 9.314285714285715e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.7792385583578056,
+      "backside_q99_damage": 0.711288114873715,
+      "source_frame_sha256": "641d77909168760b0c7498c08385092658a2a31c1e31bac8c2fa30d4379a7545"
+    },
+    {
+      "index": 169,
+      "time_s": 9.657142857142857e-05,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.8179381528495713,
+      "backside_q99_damage": 0.7272380734408549,
+      "source_frame_sha256": "b77eb7ea9fb9031d1e373de4c13c401b366c565a852a0226e404c110c4389977"
+    },
+    {
+      "index": 175,
+      "time_s": 0.0001,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.860408700869572,
+      "backside_q99_damage": 0.7486267539184639,
+      "source_frame_sha256": "080939a742dd9791fe579801fda811114c1546eba2b9a95a566acb35bae8ecbe"
+    },
+    {
+      "index": 181,
+      "time_s": 0.00010342857142857143,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.9049183167510298,
+      "backside_q99_damage": 0.7745825308888157,
+      "source_frame_sha256": "d4563b7cf229643d5a73c378218688484c69c18d33819b1948a9b1f2d6f54fa6"
+    },
+    {
+      "index": 187,
+      "time_s": 0.00010685714285714286,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.9516436950180539,
+      "backside_q99_damage": 0.8000423746433808,
+      "source_frame_sha256": "57512223bd96c81353ff449d75435b3449e991c3245e1fe9ce44283ffd9679be"
+    },
+    {
+      "index": 192,
+      "time_s": 0.00010971428571428571,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 0.9926399027217778,
+      "backside_q99_damage": 0.8200518107717041,
+      "source_frame_sha256": "3d95ed9b2ffb85044993006fb8555379903de3d4303c0e0416357a517e1ab6a0"
+    },
+    {
+      "index": 198,
+      "time_s": 0.00011314285714285715,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.8418981305248125,
+      "source_frame_sha256": "10bdc26d4e7aec3fd4f02af8e78523cea8e563715518760a3a5bf88ae5a37dd0"
+    },
+    {
+      "index": 204,
+      "time_s": 0.00011657142857142857,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.8613324731195573,
+      "source_frame_sha256": "51e346056c132e3557800e592c6c9d00f35b71945910c966d1ce11dedc7935e0"
+    },
+    {
+      "index": 210,
+      "time_s": 0.00012,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.8866991283226361,
+      "source_frame_sha256": "8d8ffac798d4a42d41389a7bb6ce06c0063910e14f7ff6eefbba37873884c65b"
+    },
+    {
+      "index": 216,
+      "time_s": 0.00012342857142857142,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.9125876254001895,
+      "source_frame_sha256": "0ff8ac448c3f862e0624cd1c95c220ab476d4c42ea2b7cea8e3315798c223b6c"
+    },
+    {
+      "index": 222,
+      "time_s": 0.00012685714285714286,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.9319330487141615,
+      "source_frame_sha256": "dbcabe9e5c552891b1f5b5f6427e68a4240510013267e5abcf76f7a50603d129"
+    },
+    {
+      "index": 228,
+      "time_s": 0.0001302857142857143,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.9487331731473968,
+      "source_frame_sha256": "f2d8d2d6ba5ba979758782d1feb7855daba5e6ab622b600eaa7e21946ee50f7c"
+    },
+    {
+      "index": 233,
+      "time_s": 0.00013314285714285715,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.9616063514785171,
+      "source_frame_sha256": "60dfae28fae69bdaf814eaf828ab58e81a2620d5e946b0a1be33ba5c0933a5ab"
+    },
+    {
+      "index": 239,
+      "time_s": 0.00013657142857142858,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.9753590905684663,
+      "source_frame_sha256": "8d8bc9c53d4f83c333a80174c50b98d3ae8fc56a3db213eb03bc957a7aea0c56"
+    },
+    {
+      "index": 245,
+      "time_s": 0.00014000000000000001,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 0.9892490841998047,
+      "source_frame_sha256": "5ef32ea84af880604c00abc0b7f8a11bfc4f5094a1d7a73cc24c8301477d1442"
+    },
+    {
+      "index": 251,
+      "time_s": 0.00014342857142857142,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "1f692e1fb4a3bbafd32d510a85b0c47f18699c1a726996e9d5dd29d45e0fdfbe"
+    },
+    {
+      "index": 257,
+      "time_s": 0.00014685714285714286,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "379acb52b76dad1168810613d02e4e370eee73f3c773325d9cfca6edb463f6b4"
+    },
+    {
+      "index": 262,
+      "time_s": 0.0001497142857142857,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "27dbc6935fd30f95028949c7175e5b15b33d52fec61ca1254df50a4683694de8"
+    },
+    {
+      "index": 268,
+      "time_s": 0.00015314285714285714,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "ee742560e55d0c57259695eb926727779926017e988df54fe053cf4fdebbe5e5"
+    },
+    {
+      "index": 274,
+      "time_s": 0.00015657142857142858,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "bbd202d117ac78e91b82019e9f628fc189049b07c7cc28304acd9e7d4a4764d8"
+    },
+    {
+      "index": 280,
+      "time_s": 0.00016,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "27dfec977ca455930e8e515cf84f714274cf61fe466df49d6c06d0d0c751cd33"
+    },
+    {
+      "index": 286,
+      "time_s": 0.00016342857142857142,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "a081808625ff1a3ccfede0f4e9710fc4f71abd3dc00fdf81d239d4cfbbe33fe8"
+    },
+    {
+      "index": 292,
+      "time_s": 0.00016685714285714285,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "d91016c46e0d891a8ba6b6488690dc61d53f596fb81c8909a92ca9f2fdb9f32d"
+    },
+    {
+      "index": 298,
+      "time_s": 0.0001702857142857143,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "ed2218d901538620ca0dbe83508f3113d968e648e6bda34170dd94e10a1866a4"
+    },
+    {
+      "index": 303,
+      "time_s": 0.00017314285714285714,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "89b2d2c870aad11f8dd15660bf9e900cb67fcc33400cff960643614c45eafa5d"
+    },
+    {
+      "index": 309,
+      "time_s": 0.00017657142857142858,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "677574ddc2323891bd5a306c4f297ce0463b8687e63a2a25d3cffb3a9d709f0b"
+    },
+    {
+      "index": 315,
+      "time_s": 0.00018,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "18160c8bbcdd7cccc7d6243102fa31c7e362f8db2d7626c10e9615595465775a"
+    },
+    {
+      "index": 321,
+      "time_s": 0.00018342857142857145,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "99ca30bd36f71af2563584f5463cf0acfb9d364377970285f4f6ba9cb36dea49"
+    },
+    {
+      "index": 327,
+      "time_s": 0.00018685714285714285,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "3aff7fa1e09e37b0c7008aee974f33f4aa135fd5d98cf0a92dd32ad8c7c34e0d"
+    },
+    {
+      "index": 332,
+      "time_s": 0.0001897142857142857,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "c7f9057b6fe274e9b710b62b9b09a3929779131f446c8d605fc2da259bc205f5"
+    },
+    {
+      "index": 338,
+      "time_s": 0.00019314285714285714,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "04385e130a868796f2a7c6cb24e49e2a0ab94f4da0bb7f95bc93408755cdbf60"
+    },
+    {
+      "index": 344,
+      "time_s": 0.00019657142857142858,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "a10a1362bd86d8a92214b209bf0ffd17b0ff972fccc27a141a06b5430df3bd66"
+    },
+    {
+      "index": 350,
+      "time_s": 0.0002,
+      "whole_particle_max_damage": 1.0,
+      "backside_max_damage": 1.0,
+      "backside_q99_damage": 1.0,
+      "source_frame_sha256": "dd322f2b691fa296d0d0382b561fbc0cdffa5b708bb365ff79e0eefb8e289d52"
+    }
+  ]
+}

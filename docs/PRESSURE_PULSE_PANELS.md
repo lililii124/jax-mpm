@@ -134,6 +134,38 @@ the 7000-step endpoint. Compact review evidence and per-frame hashes are in
 are not published.
 
 
+## Additional pressure severities: JC and HJC backside damage
+
+These two completed runs use stronger assumed pressure severities than the
+50 MPa JC and 15 MPa HJC examples above. They retain the same 180 × 12 × 180 mm
+panel, 128 grid, two particles per cell per axis, four edge clamps, 80 µs
+sine-squared pulse and 200 µs observation interval. The pressure is applied to
+the +Y reference material face. These values are engineering assumptions, not
+experimental pressure calibration.
+
+| Material | Peak pressure | Steps | Minimum J | Course-wide particle damage maximum | Backside damage maximum across 61 rendered saved frames |
+|---|---:|---:|---:|---:|---:|
+| JC aluminum | 75 MPa | 6,680 | 0.976690 | 0.678250 | 0.514463 |
+| HJC legacy-v3 | 25 MPa | 7,000 | 0.968503 | 1.000000 | 1.000000 |
+
+All saved material histories were valid and every saved deformation
+determinant was positive. Each 400 × 400 GIF shows the minus-Y backside,
+opposite the loaded face, at a fixed damage range of 0–1. It samples 61 actual
+saved states; the connected material-point surface is rendered at 1600 × 1600
+with FXAA, then reduced with Lanczos. The damage values are the saved particle
+values interpolated over connected surface faces; there is no damage smoothing.
+
+The course-wide damage maximum includes all particles and is not a surface
+measurement. Backside maxima above refer only to the 61 rendered samples. The
+[JC summary](results/completed--pressure-panel-jc-75mpa-damage/summary.json),
+[HJC summary](results/completed--pressure-panel-hjc-25mpa-damage/summary.json),
+per-frame source hashes and surface checks are included with each result.
+The binary particle histories and PNG intermediates are not published; the
+compact render records retain hashes for the selected source NPZ frames. These
+runs do not add crack-face topology, erosion, fragment pressure or explosive
+flow coupling. They are not experimental validations, and spatial/temporal
+convergence has not been established.
+
 ## Completed JH-2 pressure history
 
 The JH-2 plate completed 8460 steps through 200 microseconds under an assumed

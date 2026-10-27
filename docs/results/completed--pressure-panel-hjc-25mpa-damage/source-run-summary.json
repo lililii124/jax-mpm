@@ -1,0 +1,417 @@
+{
+  "case": "Pressure pulse panel / hjc",
+  "completed": true,
+  "history_storage": "file-backed arrays",
+  "configs": [
+    {
+      "n_grid": 128,
+      "dt": 2.8571428571428572e-08,
+      "domain_size": 0.24,
+      "gravity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "boundary_cells": 0,
+      "material": "hjc",
+      "dim": 3,
+      "boundaries": [
+        {
+          "lower": [
+            0,
+            0,
+            0
+          ],
+          "upper": [
+            0.04,
+            0.24,
+            0.24
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0.19999999999999998,
+            0,
+            0
+          ],
+          "upper": [
+            0.24,
+            0.24,
+            0.24
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0,
+            0,
+            0
+          ],
+          "upper": [
+            0.24,
+            0.24,
+            0.04
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        },
+        {
+          "lower": [
+            0,
+            0,
+            0.19999999999999998
+          ],
+          "upper": [
+            0.24,
+            0.24,
+            0.24
+          ],
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "components": null,
+          "start": 0.0,
+          "end": null
+        }
+      ],
+      "failure_mode": "retain"
+    }
+  ],
+  "materials": [
+    {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0,
+      "legacy_v3": true,
+      "mat111_compacted_tension": false,
+      "mat111_compatible": false
+    }
+  ],
+  "steps": 7000,
+  "simulation_time": 0.0002,
+  "particles": [
+    479232
+  ],
+  "dtype": "float64",
+  "jax_version": "0.12.0.1",
+  "numpy_version": "2.5.4",
+  "python_version": "3.12.13",
+  "compile_and_warmup_seconds": 1.711263045668602,
+  "devices": [
+    "cpu:0"
+  ],
+  "solver_seconds": 8084.6505522578955,
+  "min_J": 0.9685032377385726,
+  "max_damage": 1.0,
+  "max_plastic_strain": 0.06712413684394532,
+  "max_temperature": 293.15,
+  "contact_impulse_on_body_1": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "boundary_impulse": [
+    -1.1774618072970023e-13,
+    26.115657838863573,
+    2.689197144769751e-14
+  ],
+  "external_impulse": [
+    6.811430331413322e-17,
+    -32.3999772453249,
+    5.335655927272228e-17
+  ],
+  "observables": {
+    "initial": {
+      "time": 0.0,
+      "external_work_trapezoidal": 0.0,
+      "boundary_impulse_x": 0.0,
+      "boundary_impulse_y": 0.0,
+      "boundary_impulse_z": 0.0,
+      "pressure_Pa": 0.0,
+      "load_sample_time_s": 0.0,
+      "reference_pressure_impulse_Pa_s": 0.0,
+      "flat_reference_resultant_impulse_Ns": 0.0,
+      "current_loaded_area_m2": 0.0324,
+      "resultant_pressure_force_x_N": 0.0,
+      "resultant_pressure_force_y_N": 0.0,
+      "resultant_pressure_force_z_N": 0.0,
+      "centre_surface_deflection_y_m": 0.0,
+      "centre_surface_velocity_y_m_per_s": 0.0,
+      "maximum_displacement_m": 0.0,
+      "fully_supported_clamp_max_motion_m": 0.0,
+      "maximum_equivalent_plastic_strain": 0.0,
+      "maximum_damage": 0.0,
+      "maximum_temperature_K": 293.15,
+      "maximum_pressure_history_Pa": 0.0,
+      "mean_compaction_reference_volume": 0.0,
+      "material_history_energy_J": 0.0,
+      "material_history_work_J": 0.0,
+      "failed_reference_volume_fraction": 0.0,
+      "all_material_history_valid": true
+    },
+    "final": {
+      "time": 0.0002,
+      "external_work_trapezoidal": 287.5060765149088,
+      "boundary_impulse_x": -1.1774618072970023e-13,
+      "boundary_impulse_y": 26.115657838863573,
+      "boundary_impulse_z": 2.689197144769751e-14,
+      "pressure_Pa": 0.0,
+      "load_sample_time_s": 0.0002,
+      "reference_pressure_impulse_Pa_s": 1000.0000000000001,
+      "flat_reference_resultant_impulse_Ns": 32.4,
+      "current_loaded_area_m2": 0.03249909443699525,
+      "resultant_pressure_force_x_N": 0.0,
+      "resultant_pressure_force_y_N": 0.0,
+      "resultant_pressure_force_z_N": 0.0,
+      "centre_surface_deflection_y_m": -0.006979900979312132,
+      "centre_surface_velocity_y_m_per_s": -30.771359286593007,
+      "maximum_displacement_m": 0.007122385223196296,
+      "fully_supported_clamp_max_motion_m": 0.0,
+      "maximum_equivalent_plastic_strain": 0.06712413684394532,
+      "maximum_damage": 1.0,
+      "maximum_temperature_K": 293.15,
+      "maximum_pressure_history_Pa": 218459754.13932738,
+      "mean_compaction_reference_volume": 0.016645164932509792,
+      "material_history_energy_J": 0.0,
+      "material_history_work_J": 216.89547876693095,
+      "failed_reference_volume_fraction": 0.0,
+      "all_material_history_valid": true
+    }
+  },
+  "definition": {
+    "case": "pressure-pulse-panel",
+    "model": "hjc",
+    "material_note": "Existing examples.scenarios.material_model repository demonstration preset; HJC legacy-v3, JH2 selected MAT110, RHT three-surface model as documented in MATERIALS.md",
+    "material_parameters_SI": {
+      "shear": 14860000000.0,
+      "A": 0.79,
+      "B": 1.6,
+      "C": 0.007,
+      "N": 0.61,
+      "compressive_strength": 48000000.0,
+      "tensile_strength": 4000000.0,
+      "reference_rate": 1.0,
+      "minimum_fracture_strain": 0.01,
+      "maximum_strength": 7.0,
+      "crush_pressure": 16000000.0,
+      "crush_strain": 0.001,
+      "lock_pressure": 800000000.0,
+      "lock_strain": 0.1,
+      "D1": 0.04,
+      "D2": 1.0,
+      "K1": 85000000000.0,
+      "K2": -171000000000.0,
+      "K3": 208000000000.0,
+      "density": 2440.0,
+      "initial_damage": 0.0,
+      "legacy_v3": true,
+      "mat111_compacted_tension": false,
+      "mat111_compatible": false
+    },
+    "units": "m,s,kg,Pa,N,J,K",
+    "geometry": {
+      "lower_m": [
+        0.03,
+        0.114,
+        0.03
+      ],
+      "upper_m": [
+        0.21,
+        0.126,
+        0.21
+      ],
+      "plate_size_m": [
+        0.18,
+        0.012,
+        0.18
+      ],
+      "free_span_m": [
+        0.16,
+        0.16
+      ],
+      "clamp_width_m": 0.01,
+      "backing": false
+    },
+    "boundary_condition": "Four grid-node edge strips fixed in all3 velocity components through full thickness; no backing or bottom support; remaining faces traction-free except loaded +Y face",
+    "load": {
+      "law": "p(t)=p0*sin(pi*t/T)^2 for0<t<T, zero otherwise; positive pressure acts inward",
+      "peak_pressure_Pa": 25000000.0,
+      "pulse_duration_s": 8e-05,
+      "pressure_impulse_Pa_s": 1000.0000000000001,
+      "flat_reference_resultant_impulse_Ns": 32.400000000000006,
+      "free_areal_mass_velocity_scale_m_per_s": 34.15300546448089,
+      "velocity_scale_scope": "I/(rho*thickness) for an unconstrained flat sheet; dimensional load scale, not clamped-panel response prediction",
+      "preset_status": "Assumed engineering pressure severity, not a fitted experimental or explosive-source pressure",
+      "discrete_flat_reference_impulse_Ns": 32.400000000000006,
+      "reference_face_area_m2": 0.0324,
+      "face_particles": 36864,
+      "surface_quadrature": "Topmost material particle layer; A0=particle reference volume / actual reference layer thickness",
+      "follower_traction": "f_p=-p(t)*A0_p*cross(F_p*e_z,F_p*e_x) in Newtons; cofactor(F)*e_y includes current area and normal",
+      "temporal_sampling": "Existing common.run left-end force sample; work uses trapezoidal particle velocities with that force",
+      "damage_scope": "Reference material face remains loaded as it deforms, including damaged points; no new crack-face topology or fragment pressure model"
+    },
+    "material_eos_scope": "JC uses the existing p=K*(1/J-1) density-linear law, adiabatic plastic heating and clipped thermal softening; HJC/JH2/RHT retain their own original EOS and histories",
+    "duration_s": 0.0002,
+    "planned_steps": 7000,
+    "frames": 350,
+    "substeps": 20,
+    "time_step_s": 2.8571428571428572e-08,
+    "initial_acoustic_CFL": 0.09987206666040241,
+    "initial_CFL_limit": 0.1,
+    "estimated_initial_wave_speed_m_per_s": 6554.104374588908,
+    "grid": 128,
+    "particles_per_cell_per_axis": 2,
+    "particle_count": 479232,
+    "particle_spacing_m": [
+      0.0009375,
+      0.0009230769230769228,
+      0.0009375
+    ],
+    "source_sha256": {
+      "examples/pressure_pulse_panels.py": "252faad3b4f8eab531b2919d4eb58d51b07946a4d9fe2045f52e0d293313cc16",
+      "mpm_jax/pressure_pulse.py": "1183e5947a8b9ad8fb787e734911bd5f389c2e322fba8c9b2fe4d09941760540",
+      "examples/common.py": "bb5b3ff00b4d4edb54632a11f54b81d2edca767f440d9c6f4a7d52a8a3e5a46f",
+      "examples/material_engineering.py": "eb93e711e01bd17bc331e57dea2feed79a652a4559190d8e450cba438db30c94",
+      "examples/scenarios.py": "07be5cb58e80c21abade2e460502d7673a82a54871e2cee53be2b9dc63da183d",
+      "mpm_jax/core.py": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "mpm_jax/initialization.py": "9f59a5ff637010a4e158a197aa068d103e7b062e520076a566ee06ade0ad471d",
+      "mpm_jax/boundaries.py": "946589362a8d45862690aebfb2887b8f112b4438fc039f5c370d3a968f65d5d0",
+      "mpm_jax/materials/history.py": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "mpm_jax/materials/__init__.py": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "mpm_jax/materials/johnson_cook.py": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "mpm_jax/materials/hjc.py": "21a0518ae909bddabad8f77493a1ed05151da8bab5690dfd0d84e10fe1c970d7",
+      "mpm_jax/materials/mat111_point.py": "2d52b46a67a3da5843b363756d57117185f916ec672a4979cb3ac01e9c447401",
+      "mpm_jax/materials/jh2.py": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "mpm_jax/materials/rht.py": "4239c784bd84c94a11fca30e86d1cbc1862c52a0c52b721f599f739b81883844"
+    },
+    "scope": "Assumed equivalent mechanical pressure input; no explosive chemistry, JWL or blast-flow coupling; not experimental/IJIE calibration",
+    "energy_scope": "Actual applied impulse/work and material histories recorded; standard APIC ledger is not a complete discrete energy certificate; numerical loss is not assigned to heat",
+    "qualification": {
+      "full_physical_validation_completed": false,
+      "spatial_temporal_convergence_established": false,
+      "pressure_experiment_validated": false
+    }
+  },
+  "initial": [
+    {
+      "time": 0.0,
+      "body": 0,
+      "mass": 0.948672,
+      "momentum_x": 0.0,
+      "momentum_y": 0.0,
+      "momentum_z": 0.0,
+      "kinetic_energy": 0.0,
+      "com_x": 0.11999999999999995,
+      "com_y": 0.11999999999999997,
+      "com_z": 0.11999999999999997,
+      "min_J": 1.0,
+      "max_J": 1.0,
+      "current_volume": 0.0003887999999999997,
+      "max_speed": 0.0,
+      "max_plastic_strain": 0.0,
+      "max_damage": 0.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 0.0,
+      "strain_energy": null
+    }
+  ],
+  "final": [
+    {
+      "time": 0.0002,
+      "body": 0,
+      "mass": 0.948672,
+      "momentum_x": -1.176780664263861e-13,
+      "momentum_y": -6.284319406461325,
+      "momentum_z": 2.6945328006970233e-14,
+      "kinetic_energy": 58.051711103549394,
+      "com_x": 0.11999999999999991,
+      "com_y": 0.11823308706505142,
+      "com_z": 0.11999999999999994,
+      "min_J": 0.9686983654477317,
+      "max_J": 1.128361752609939,
+      "current_volume": 0.0003911269883654616,
+      "max_speed": 31.69110293139749,
+      "max_plastic_strain": 0.06712413684394532,
+      "max_damage": 1.0,
+      "max_temperature": 293.15,
+      "gravitational_energy": -0.0,
+      "constitutive_work": 216.8954787669308,
+      "strain_energy": null
+    }
+  ],
+  "particle_fields": {
+    "file": "particle_fields.npz",
+    "fields": {
+      "loaded_surface": {
+        "shape": [
+          479232
+        ],
+        "dtype": "int32",
+        "sha256": "47c8aaef616fefd081fef81affc0b1ed644a5150303b195e4f8b10d080eaf18c"
+      },
+      "reference_x": {
+        "shape": [
+          479232
+        ],
+        "dtype": "float64",
+        "sha256": "103c45e9778a4d73f80ef00d17661ef5e6bd6eebd1c3209fc7ec0afc9d0d56a1"
+      },
+      "reference_y": {
+        "shape": [
+          479232
+        ],
+        "dtype": "float64",
+        "sha256": "f4cd3dd9b7a04792fb538fe55b4a95f7fd0e6d2504f08b80520e6558bba687a3"
+      },
+      "reference_z": {
+        "shape": [
+          479232
+        ],
+        "dtype": "float64",
+        "sha256": "69554f219d9668bcee76cff47f38d8ec2ebcdbfc2b6b823ee2939ca113e4e749"
+      }
+    }
+  }
+}

@@ -75,6 +75,11 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc-damage.gif" alt="JC pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-jc-damage/summary.json">JC pressure panel damage</a></td>
 <td width="33%" align="center"></td>
 </tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc-75mpa-damage.gif" alt="JC pressure panel backside damage at 75 MPa" width="100%"><br><a href="docs/results/completed--pressure-panel-jc-75mpa-damage/summary.json">JC pressure panel · 75 MPa · backside damage</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 ### Concrete
@@ -83,6 +88,11 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--hjc-mat111-bending.gif" alt="HJC beam bending" width="100%"><br><a href="docs/HJC_FIXTURE_REFINEMENT.md">HJC beam bending</a></td>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc-damage.gif" alt="HJC legacy-v3 pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc-damage/summary.json">HJC legacy-v3 pressure panel damage</a></td>
+<td width="33%" align="center"></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc-25mpa-damage.gif" alt="HJC pressure panel backside damage at 25 MPa" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc-25mpa-damage/summary.json">HJC pressure panel · 25 MPa · backside damage</a></td>
+<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>

@@ -101,6 +101,11 @@ scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
 <td width="33%" align="center"><img src="images/home/completed--pressure-panel-jc.gif" alt="JC pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-jc/summary.json">JC pressure pulse panel</a></td>
 <td width="33%" align="center"></td>
 </tr>
+<tr>
+<td width="33%" align="center"><img src="images/home/completed--pressure-panel-jc-75mpa-damage.gif" alt="JC pressure panel backside damage at 75 MPa" width="100%"><br><a href="results/completed--pressure-panel-jc-75mpa-damage/summary.json">JC panel · 75 MPa · backside damage</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 ## Concrete
@@ -109,6 +114,11 @@ scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
 <tr>
 <td width="33%" align="center"><img src="images/concrete-bending-symmetric.png" alt="concrete-bending-symmetric" width="100%"><br><strong>concrete-bending-symmetric</strong><br><a href="results/material-engineering--concrete-bending-symmetric--hjc/summary.json">Results</a> · <a href="images/concrete-bending-symmetric.mp4">Video</a></td>
 <td width="33%" align="center"><img src="images/home/completed--pressure-panel-hjc.gif" alt="HJC legacy-v3 pressure pulse panel" width="100%"><br><a href="results/completed--pressure-panel-hjc/summary.json">HJC legacy-v3 pressure pulse panel</a></td>
+<td width="33%" align="center"></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="images/home/completed--pressure-panel-hjc-25mpa-damage.gif" alt="HJC pressure panel backside damage at 25 MPa" width="100%"><br><a href="results/completed--pressure-panel-hjc-25mpa-damage/summary.json">HJC panel · 25 MPa · backside damage</a></td>
+<td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
