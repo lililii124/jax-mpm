@@ -73,12 +73,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--jc-necking-refined.gif" alt="JC round-bar necking" width="100%"><br><a href="docs/results/completed--jc-necking-refined/summary.json">JC round-bar necking</a></td>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc-damage.gif" alt="JC pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-jc-damage/summary.json">JC pressure panel damage</a></td>
-<td width="33%" align="center"></td>
-</tr>
-<tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-jc-75mpa-damage.gif" alt="JC pressure panel backside damage at 75 MPa" width="100%"><br><a href="docs/results/completed--pressure-panel-jc-75mpa-damage/summary.json">JC pressure panel · 75 MPa · backside damage</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
 </tr>
 </table>
 
@@ -88,12 +83,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--hjc-mat111-bending.gif" alt="HJC beam bending" width="100%"><br><a href="docs/HJC_FIXTURE_REFINEMENT.md">HJC beam bending</a></td>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc-damage.gif" alt="HJC legacy-v3 pressure panel damage" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc-damage/summary.json">HJC legacy-v3 pressure panel damage</a></td>
-<td width="33%" align="center"></td>
-</tr>
-<tr>
 <td width="33%" align="center"><img src="docs/images/home/completed--pressure-panel-hjc-25mpa-damage.gif" alt="HJC pressure panel backside damage at 25 MPa" width="100%"><br><a href="docs/results/completed--pressure-panel-hjc-25mpa-damage/summary.json">HJC pressure panel · 25 MPa · backside damage</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
 </tr>
 </table>
 
@@ -200,22 +190,6 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 ### JAX design
 
 <table width="100%">
-<tr>
-<td width="33%" align="center"><img src="docs/assets/structural-y-initial.gif" alt="Uniform reference under an 8 N y load" width="100%"><br><a href="docs/STRUCTURAL_DESIGN.md">Uniform reference · y load</a></td>
-<td width="33%" align="center"><img src="docs/assets/structural-y-optimized.gif" alt="Optimized material layout under an 8 N y load" width="100%"><br><a href="docs/STRUCTURAL_DESIGN.md">Optimized layout · y load</a></td>
-<td width="33%" align="center"></td>
-</tr>
-<tr>
-<td width="33%" align="center"><img src="docs/images/home/jax-design--combined-bracket-initial.gif" alt="Perforated bracket initial design" width="100%"><br><a href="docs/COMBINED_BRACKET_DESIGN.md">Perforated bracket · initial</a></td>
-<td width="33%" align="center"><img src="docs/images/home/jax-design--combined-bracket-optimized.gif" alt="Perforated bracket optimized design" width="100%"><br><a href="docs/COMBINED_BRACKET_DESIGN.md">Perforated bracket · optimized</a></td>
-<td width="33%" align="center"></td>
-</tr>
-
-<tr>
-<td width="33%" align="center"><img src="evidence/orthotropic_inverse_20261027/particle_visualization_surface/orthotropic_holdout_particles_surface_400.gif" alt="Orthotropic inverse holdout comparison" width="100%"><br><a href="docs/JAX_ORTHOTROPIC_INVERSE.md">Orthotropic inverse · holdout</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/jax-design--classic-cantilever.gif" alt="Classic cantilever material layout" width="100%"><br><a href="docs/JAX_CLASSIC_CANTILEVER.md">Classic cantilever material layout</a></td>
 <td width="33%" align="center"></td>
