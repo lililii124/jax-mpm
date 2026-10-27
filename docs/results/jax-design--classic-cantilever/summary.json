@@ -1,0 +1,156 @@
+{
+  "case": "3D classical cantilever SIMP topology-layout optimization with static MPM equilibrium",
+  "scope": "A bounded-iteration continuous material-layout demonstration. It is not a converged optimum or certified manufacturable binary part.",
+  "design": {
+    "beam_dimensions_m": [
+      0.75,
+      0.25,
+      0.1875
+    ],
+    "material_assumption": {
+      "E_Pa": 70000000000.0,
+      "poisson_ratio": 0.3,
+      "density_kg_m3": 2700
+    },
+    "fixed_end": "left face clamped; two x-cell layers are non-design material",
+    "load": "100 N resultant on a finite non-design central pad at the right end; same resultant and moment in every solve",
+    "field": "3,612 design voxel densities on a fixed 3D material-point lattice",
+    "optimizer": "JAX value_and_grad with implicit custom_linear_solve derivative; quadratic B-spline MPM gradients; SIMP p=3 and residual modulus 0.001E; radius-2-cell Gaussian density filter; projection beta 1.5, 3, 6, 12; volume fraction target 0.38"
+  },
+  "gradient_check": {
+    "ad_fd_directional_relative_error": 3.05819580136024e-09,
+    "initial_cg_relative_residual": 9.729596902855067e-09
+  },
+  "optimization": {
+    "background_grid": 48,
+    "beam_cells": [
+      36,
+      12,
+      9
+    ],
+    "material_quadrature_points": 31104,
+    "initial_compliance_Nm": 0.00193515404917647,
+    "optimized_compliance_Nm": 0.00029663478684870825,
+    "compliance_reduction_percent": 84.67125720689033,
+    "initial_and_optimized_mass_kg": 36.0703125,
+    "volume_fraction": 0.38000000000000067,
+    "updates_accepted": 48,
+    "history_frames": 48,
+    "convergence_claim": false
+  },
+  "independent_refined_forward": {
+    "background_grid": 64,
+    "beam_cells": [
+      48,
+      16,
+      12
+    ],
+    "material_quadrature_points": 73728,
+    "same_mass_kg": 36.07031250000027,
+    "same_load_resultant_N": [
+      0.0,
+      -100.0,
+      0.0
+    ],
+    "initial_compliance_Nm": 0.0018145587805560282,
+    "optimized_compliance_Nm": 0.00029436596170345964,
+    "compliance_reduction_percent": 83.7775460978311,
+    "initial_and_optimized_volume_fraction": 0.38000000000000284,
+    "optimized_continuous_CG_relative_residual": 9.116005668538532e-09,
+    "optimized_peak_constituent_von_mises_Pa": 696339.4735653597,
+    "threshold_phi_050_volume_fraction": 0.3767361111111111,
+    "thresholded_topology": {
+      "threshold_0_5": 0.3767361111111111,
+      "threshold_0_3": 0.4869791666666667,
+      "gray_0_1_to_0_9": 0.4743923611111111,
+      "min_x_section_cells": 12,
+      "min_y_section_cells": 124,
+      "min_z_section_cells": 100,
+      "opening_removed_solid_fraction": 0.14746543778801843,
+      "six_connected_component_count": 1,
+      "clamp_to_load_pad_connected": true,
+      "cell_pitch_m": 0.015625
+    },
+    "ersatz_binary_solve_relative_residual": 1.0173152156771617e-07,
+    "ersatz_binary_solve_void_modulus_fraction": 0.001,
+    "minimum_longitudinal_section_cells": 12,
+    "minimum_y_plane_cell_count": 124,
+    "minimum_z_plane_cell_count": 100
+  },
+  "strict_zero_void_audit": {
+    "method": "SciPy sparse LU with exact symmetric diagonal equilibration of thresholded MPM stiffness",
+    "JAX_used_for_this_solve": false,
+    "SciPy_used": true,
+    "void_stiffness": 0.0,
+    "void_inertia": 0.0,
+    "unsupported_grid_nodes_eliminated": 265460,
+    "free_dofs_retained": 25785,
+    "loaded_nodes": 108,
+    "all_loaded_nodes_retained_and_supported": true,
+    "relative_linear_residual": 1.8138270005053385e-12,
+    "relative_force_balance_error": 1.9707872076606775e-12,
+    "relative_moment_balance_error": 1.5018655358971285e-12,
+    "compliance_Nm": 0.00019038456457420058,
+    "threshold_topology": {
+      "threshold_0_5": 0.3767361111111111,
+      "threshold_0_3": 0.3767361111111111,
+      "gray_0_1_to_0_9": 0.0,
+      "min_x_section_cells": 12,
+      "min_y_section_cells": 124,
+      "min_z_section_cells": 100,
+      "opening_removed_solid_fraction": 0.14746543778801843,
+      "six_connected_component_count": 1,
+      "clamp_to_load_pad_connected": true,
+      "cell_pitch_m": 0.015625
+    },
+    "scaled_vs_unscaled_active_particle_displacement": {
+      "active_material_gauss_points": 27776,
+      "active_field_initially_unscaled": {
+        "max_displacement_m": 0.01987235443364054,
+        "rms_displacement_m": 0.00021987301184398823
+      },
+      "equilibrated": {
+        "max_displacement_m": 2.4326372957885645e-05,
+        "rms_displacement_m": 8.450912936551183e-07
+      },
+      "difference_between_solutions": {
+        "max_displacement_m": 0.019872265533989672,
+        "rms_displacement_m": 0.0002198901435251403,
+        "relative_rms_to_equilibrated": 260.1969102936676
+      },
+      "interpretation": "the raw unscaled LU is numerically contaminated by weak cavity degrees of freedom; symmetric diagonal equilibration is an algebraically equivalent solve and gives a lower, physically plausible active-particle displacement. Keep both raw runs; use only the equilibrated solution for physical interpretation."
+    },
+    "weak_node_caveat": "The exact zero-void operator has very weak cavity DOFs. The largest equilibrated nodal value is 0.488 m at a low-support non-material cavity node; the maximum interpolated displacement at active material quadrature points is 24.3 micrometres. Do not visualize the nodal field as physical deformation. An unscaled sparse LU produced a numerically contaminated active-particle field and is preserved as a failed diagnostic.",
+    "physical_solution_accepted": false,
+    "interpretation": "The equilibrated LU has a tiny residual and force/moment errors, but exact-zero-void active-particle displacement changes materially under alternate sparse ordering and disagrees with scaled CG; therefore no zero-void solution is accepted as physically stable. Affine weak-node aggregation is a separate modified-discrete-space diagnostic, not an equivalent solution.",
+    "alternate_ordering_active_particle_rms_difference_m": 2.403e-07,
+    "alternate_ordering_relative_rms_difference": 0.284,
+    "scaled_cg_status": "not_converged; relative residual 3.395e-6 after 12000 iterations, above 1e-8 gate",
+    "affine_local_sweep": "affine-local-grid-sweep/summary.json"
+  },
+  "visuals": {
+    "phi020_history": "images/home/jax-design--classic-cantilever.gif",
+    "phi035_history": "images/home/jax-design--classic-cantilever-phi035.gif",
+    "binary_cell_surface": "images/home/jax-design--classic-cantilever-binary-phi050.gif",
+    "phi035_initial_note": "The initial projected field is below phi=0.35 through the design region, so that view shows only the clamp and load pads; optimization density is gradually drawn through the same continuous field.",
+    "binary_surface_note": "Direct exposed faces of the 0/1 thresholded rho_binary cells, no point interpolation or contour smoothing. The underlying thresholded solve still used 0.001E ersatz void; this view is not a zero-void physical certification."
+  },
+  "limitations": [
+    "48 accepted updates only; no convergence claim.",
+    "The SIMP optimizer and the phi=.50 binary equilibrium solve use residual modulus 0.001E.",
+    "The independent zero-void audit uses SciPy sparse LU with symmetric diagonal equilibration, not JAX; weak non-material cavity nodes remain ill-conditioned.",
+    "The density filter and voxel section counts do not certify a minimum manufacturable feature size.",
+    "The physical material is an illustrative isotropic aluminum parameter assumption, not a validated production alloy model.",
+    "The exact zero-void field is solver-order sensitive despite small direct-solve residuals; affine weak-node aggregation changes the discrete space and is diagnostic only. No zero-void physical stability claim is made."
+  ],
+  "evidence_paths": {
+    "optimization_raw": "optimization-summary.json",
+    "gradient_check": "gradient-and-solver-check.json",
+    "optimization_history": "history.csv",
+    "thresholded_binary_field": "refined-optimized-binary.npz",
+    "zero_void_audit": "true-void-audit.json",
+    "active_point_displacement_compare": "active-particle-displacement-comparison.json",
+    "source_and_job_bindings": "source-manifest.json",
+    "affine_local_aggregation_sweep": "affine-local-grid-sweep/summary.json"
+  }
+}

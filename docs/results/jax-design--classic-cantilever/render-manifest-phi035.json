@@ -1,0 +1,258 @@
+{
+  "renderer": "ParaView/VTK 6.2 OSMesa pvpython",
+  "visualization": "continuous p=3 SIMP density; rendered isosurface threshold is presentation metadata, separate from the phi=0.50 binary topology audit; neither view is a manufacturing certificate.",
+  "simp_penalty": 3,
+  "display_contour_fraction": 0.35,
+  "binary_audit_threshold": 0.5,
+  "view": "full_design_history",
+  "deformation_scale": 1.0,
+  "camera": {
+    "position": [
+      1.2,
+      -0.28,
+      1.55
+    ],
+    "focal_point": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "view_up": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "parallel_scale": 0.43
+  },
+  "color_range": [
+    0.0,
+    1.0
+  ],
+  "source_background_grid": 48,
+  "render_resolution_px": [
+    800,
+    800
+  ],
+  "output_resolution_px": [
+    400,
+    400
+  ],
+  "optimization_frames": 49,
+  "frame_labels": [
+    {
+      "beta": 1.5,
+      "iteration": 0
+    },
+    {
+      "beta": 1.5,
+      "iteration": 1
+    },
+    {
+      "beta": 1.5,
+      "iteration": 2
+    },
+    {
+      "beta": 1.5,
+      "iteration": 3
+    },
+    {
+      "beta": 1.5,
+      "iteration": 4
+    },
+    {
+      "beta": 1.5,
+      "iteration": 5
+    },
+    {
+      "beta": 1.5,
+      "iteration": 6
+    },
+    {
+      "beta": 1.5,
+      "iteration": 7
+    },
+    {
+      "beta": 1.5,
+      "iteration": 8
+    },
+    {
+      "beta": 1.5,
+      "iteration": 9
+    },
+    {
+      "beta": 1.5,
+      "iteration": 10
+    },
+    {
+      "beta": 1.5,
+      "iteration": 11
+    },
+    {
+      "beta": 1.5,
+      "iteration": 12
+    },
+    {
+      "beta": 3.0,
+      "iteration": 1
+    },
+    {
+      "beta": 3.0,
+      "iteration": 2
+    },
+    {
+      "beta": 3.0,
+      "iteration": 3
+    },
+    {
+      "beta": 3.0,
+      "iteration": 4
+    },
+    {
+      "beta": 3.0,
+      "iteration": 5
+    },
+    {
+      "beta": 3.0,
+      "iteration": 6
+    },
+    {
+      "beta": 3.0,
+      "iteration": 7
+    },
+    {
+      "beta": 3.0,
+      "iteration": 8
+    },
+    {
+      "beta": 3.0,
+      "iteration": 9
+    },
+    {
+      "beta": 3.0,
+      "iteration": 10
+    },
+    {
+      "beta": 3.0,
+      "iteration": 11
+    },
+    {
+      "beta": 3.0,
+      "iteration": 12
+    },
+    {
+      "beta": 6.0,
+      "iteration": 1
+    },
+    {
+      "beta": 6.0,
+      "iteration": 2
+    },
+    {
+      "beta": 6.0,
+      "iteration": 3
+    },
+    {
+      "beta": 6.0,
+      "iteration": 4
+    },
+    {
+      "beta": 6.0,
+      "iteration": 5
+    },
+    {
+      "beta": 6.0,
+      "iteration": 6
+    },
+    {
+      "beta": 6.0,
+      "iteration": 7
+    },
+    {
+      "beta": 6.0,
+      "iteration": 8
+    },
+    {
+      "beta": 6.0,
+      "iteration": 9
+    },
+    {
+      "beta": 6.0,
+      "iteration": 10
+    },
+    {
+      "beta": 6.0,
+      "iteration": 11
+    },
+    {
+      "beta": 6.0,
+      "iteration": 12
+    },
+    {
+      "beta": 12.0,
+      "iteration": 1
+    },
+    {
+      "beta": 12.0,
+      "iteration": 2
+    },
+    {
+      "beta": 12.0,
+      "iteration": 3
+    },
+    {
+      "beta": 12.0,
+      "iteration": 4
+    },
+    {
+      "beta": 12.0,
+      "iteration": 5
+    },
+    {
+      "beta": 12.0,
+      "iteration": 6
+    },
+    {
+      "beta": 12.0,
+      "iteration": 7
+    },
+    {
+      "beta": 12.0,
+      "iteration": 8
+    },
+    {
+      "beta": 12.0,
+      "iteration": 9
+    },
+    {
+      "beta": 12.0,
+      "iteration": 10
+    },
+    {
+      "beta": 12.0,
+      "iteration": 11
+    },
+    {
+      "beta": 12.0,
+      "iteration": 12
+    }
+  ],
+  "gifs": {
+    "cantilever-initial.gif": {
+      "sha256": "f8913713e91a95afade123890df04f060487fd7dd686b8434e87990d3bb082ea",
+      "frames": 1,
+      "bytes": 5509
+    },
+    "cantilever-optimized.gif": {
+      "sha256": "1fa972779b98aff82f2e62bffc7bf9ce1155c26548b5f94dd5545b2af8ae7ee4",
+      "frames": 1,
+      "bytes": 20128
+    },
+    "cantilever-design-evolution.gif": {
+      "sha256": "de588812e8279f9eb3fb2bf72ba37c86cff2a7b3f88597a8ae3dc3cec186701b",
+      "frames": 49,
+      "bytes": 867757
+    }
+  },
+  "unique_history_frames": 49,
+  "camera_and_color_range_shared": true
+}

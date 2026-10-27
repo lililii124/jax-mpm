@@ -1,0 +1,45 @@
+{
+  "renderer": "ParaView/VTK 6.2 OSMesa pvpython",
+  "visualization": "Derived correction: the saved density history is optimized with p=3 SIMP. This animation displays the continuous field at phi=0.20; it is not the phi=0.50 thresholded topology. Neither is a manufacturing certificate.",
+  "simp_penalty": 3,
+  "display_contour_fraction": 0.2,
+  "binary_audit_threshold": 0.5,
+  "deformation_scale": 1.0,
+  "camera": {
+    "position": [
+      1.2,
+      -0.28,
+      1.55
+    ],
+    "focal_point": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "view_up": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "parallel_scale": 0.43
+  },
+  "color_range": [
+    0,
+    1
+  ],
+  "source_background_grid": 48,
+  "render_resolution_px": [
+    800,
+    800
+  ],
+  "output_resolution_px": [
+    400,
+    400
+  ],
+  "optimization_frames": 49,
+  "unique_history_frames": 49,
+  "camera_and_color_range_shared": true,
+  "gif_sha256": "d51b39449f3de45329ce665d048de9b04bb8a6828edd646eb3ef15b5863be471",
+  "raw_manifest_sha256": "7a5a8d5f20c890f5c42189fada3d8fe18148d1be25b874d2f0b77f014c92e8ae",
+  "correction_note": "The raw rendered images and frame hashes were not changed; only this derived description corrects the earlier p=1 text to match the actual p=3 optimization."
+}

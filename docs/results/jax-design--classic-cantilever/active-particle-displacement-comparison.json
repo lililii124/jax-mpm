@@ -1,0 +1,17 @@
+{
+  "active_material_gauss_points": 27776,
+  "active_field_initially_unscaled": {
+    "max_displacement_m": 0.01987235443364054,
+    "rms_displacement_m": 0.00021987301184398823
+  },
+  "equilibrated": {
+    "max_displacement_m": 2.4326372957885645e-05,
+    "rms_displacement_m": 8.450912936551183e-07
+  },
+  "difference_between_solutions": {
+    "max_displacement_m": 0.019872265533989672,
+    "rms_displacement_m": 0.0002198901435251403,
+    "relative_rms_to_equilibrated": 260.1969102936676
+  },
+  "interpretation": "the raw unscaled LU is numerically contaminated by weak cavity degrees of freedom; symmetric diagonal equilibration is an algebraically equivalent solve and gives a lower, physically plausible active-particle displacement. Keep both raw runs; use only the equilibrated solution for physical interpretation."
+}

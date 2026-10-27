@@ -1,0 +1,40 @@
+{
+  "optimization": {
+    "task": "jax-classic-cantilever-refine-resume5-20261027",
+    "container": "5296094f325626a9e913c9c031be4400d7d4a8cb36f258842183623efe8ed51a",
+    "source_sha256": "590cc5905272976b96a3aebe0bd9af290e40aa42ccde3a12eaa43736ea2d86cf",
+    "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890"
+  },
+  "strict_zero_void_scaled_sparse_audit": {
+    "task": "jax-classic-cantilever-true-void-equilibrated-v1-20261027",
+    "container": "7e56ca9dc9dc1924043a0b24cc84e8877f908c29ffa7b20553a5bc7ea7c0d241",
+    "source_sha256": "fff264a5d313638cf7287737e4784490aa23291b373e28606a7f99bf14d516c6",
+    "input_refined_optimized_sha256": "f2564911b938530ff5cf365b082f88bdb7e19c0d66620a3724127333a2ceadf6",
+    "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890"
+  },
+  "render_phi020": {
+    "task": "jax-classic-cantilever-paraview-review-v3-20261027",
+    "container": "cbe9580be87938b672fa24f75f4a337a6c7112c5bef71459ce32077d7da7187d",
+    "raw_manifest_sha256": "7a5a8d5f20c890f5c42189fada3d8fe18148d1be25b874d2f0b77f014c92e8ae",
+    "output_gif_sha256": "d51b39449f3de45329ce665d048de9b04bb8a6828edd646eb3ef15b5863be471"
+  },
+  "render_phi035": {
+    "task": "jax-classic-cantilever-paraview-thresholds-v1-20261027",
+    "renderer_sha256": "3edf7e962ccc9ad42dc5c9dc99a00c864fac644f7ded186b3c5028e2231959f2",
+    "output_gif_sha256": "de588812e8279f9eb3fb2bf72ba37c86cff2a7b3f88597a8ae3dc3cec186701b"
+  },
+  "render_binary_faces_phi050": {
+    "task": "jax-classic-cantilever-paraview-binary-faces-v2-20261027",
+    "renderer_sha256": "8e0912addaa3d8976f363750c951e977102a341f308a8b4210ad63f6edb1d86b",
+    "output_gif_sha256": "a1355efda45a256cb8c64f3ae83eed2307f6573e33c46098790e74a67670702d"
+  },
+  "affine_local_aggregation_sensitivity": {
+    "task": "jax-classic-cantilever-true-void-affine-local-grid-sweep-v1-20261027",
+    "container": "af89735c6ee72584c03724d4546724343d7a90b4e6a65e1b75891ac232049124",
+    "source_sha256": "1e7127771943654b4b9e7cbe6de7270cbc8d3d0df537b7f2cd28e17fab9002aa",
+    "exit_code": 0,
+    "wall_seconds": 616.3091257885098,
+    "peak_uss_bytes": 3600347136,
+    "interpretation": "Diagnostic changed-discrete-space variants only. The candidate set is restricted to strong free nodes sharing an active solid material-point stencil with each weak node and within 3.5h. Maximum neighbor distance, affine reproduction, force/moment projection, weak-constraint residual, and original-operator residual are recorded per grid. Original residual is above tolerance for all aggregated cases; no zero-void solution is accepted."
+  }
+}

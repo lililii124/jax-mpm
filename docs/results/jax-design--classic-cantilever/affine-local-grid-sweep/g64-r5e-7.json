@@ -1,0 +1,102 @@
+{
+  "status": "constrained_affine_aggregate_solve_converged",
+  "solver": "SciPy sparse LU with exact symmetric diagonal equilibration of thresholded MPM stiffness",
+  "void_stiffness": 0.0,
+  "void_inertia": 0.0,
+  "threshold": 0.5,
+  "active_voxels": 3472,
+  "active_integration_points": 27776,
+  "unsupported_nodes_eliminated": 265460,
+  "fixed_nodes": 38025,
+  "free_supported_nodes": 8595,
+  "loaded_nodes": 108,
+  "all_loaded_nodes_supported": true,
+  "free_dofs": 25785,
+  "weak_support_diagonal_ratio": 5e-07,
+  "node_diagonal_median_N_per_m": 153899355.53116116,
+  "weak_nodes_aggregated": 164,
+  "free_nodes_before_aggregation": 8595,
+  "free_nodes_after_aggregation": 8431,
+  "free_dofs_before_aggregation": 25785,
+  "free_dofs_after_aggregation": 25293,
+  "load_nodes_aggregated": 0,
+  "affine_row_sum_max_error": 1.5543122344752192e-15,
+  "affine_coordinate_max_error_m": 1.3322676295501878e-15,
+  "max_aggregation_weight_abs": 0.3750000000000009,
+  "max_aggregation_neighbor_distance_m": 0.034938562148434216,
+  "maximum_local_aggregation_radius_m": 0.0546875,
+  "aggregation_candidate_scope": "strong nodes sharing at least one active solid material-point stencil with each weak node; limited to 3.5 grid cells",
+  "projected_applied_resultant_error_N": 0.0,
+  "projected_applied_moment_error_Nm": 0.0,
+  "all_original_loads_retained": true,
+  "constraint_type": "weak free-node displacements are affine-reproducing weighted combinations of nearby strong free nodes; this changes the discrete space",
+  "sparse_matrix_nonzeros": 6931566,
+  "assembled_coo_entries": 182238336,
+  "symmetric_diagonal_equilibration": true,
+  "equilibration_scale_min_max": [
+    4.211923592148114e-05,
+    0.0829639456537714
+  ],
+  "cg_info": null,
+  "cg_iterations": 0,
+  "cg_relative_residual_samples_every_100_iterations": [],
+  "sparse_lu_permutation_ordering": "MMD_AT_PLUS_A",
+  "relative_linear_residual": 3.293500471905053e-05,
+  "projected_relative_linear_residual": 1.5027863392697818e-12,
+  "weak_constraint_residual_norm_N": 0.0005313515266240421,
+  "weak_constraint_residual_resultant_N": [
+    1.4010104518570946e-14,
+    -3.097034053291489e-05,
+    -8.151423261967654e-15
+  ],
+  "weak_constraint_residual_moment_about_origin_Nm": [
+    1.5485170262935354e-05,
+    1.103059666990227e-14,
+    2.3777927692775476e-05
+  ],
+  "compliance_Nm": 0.00019030918994211027,
+  "internal_energy_quadratic_form_J": 0.0001903091899423205,
+  "operator_symmetry_relative_error": 1.2966712060688297e-16,
+  "operator_positive_random_energy": true,
+  "matrix_rank_warnings": [],
+  "force_and_reaction_balance": {
+    "applied_resultant_N": [
+      0.0,
+      -100.0,
+      0.0
+    ],
+    "applied_moment_about_origin_Nm": [
+      50.0,
+      0.0,
+      -87.49999999999994
+    ],
+    "loaded_grid_nodes": 108,
+    "support_reaction_N": [
+      -5.201275174449016e-12,
+      100.00000000020235,
+      2.8434685162004314e-12
+    ],
+    "support_reaction_moment_about_origin_Nm": [
+      -50.00000000009889,
+      -4.127274910725731e-12,
+      87.50000000012498
+    ],
+    "relative_force_balance_error": 2.0243516860614418e-12,
+    "relative_moment_balance_error": 1.5824345351448146e-12
+  },
+  "threshold_topology": {
+    "threshold_0_5": 0.3767361111111111,
+    "threshold_0_3": 0.3767361111111111,
+    "gray_0_1_to_0_9": 0.0,
+    "min_x_section_cells": 12,
+    "min_y_section_cells": 124,
+    "min_z_section_cells": 100,
+    "opening_removed_solid_fraction": 0.14746543778801843,
+    "six_connected_component_count": 1,
+    "clamp_to_load_pad_connected": true,
+    "cell_pitch_m": 0.015625
+  },
+  "active_particle_displacement_max_m": 1.8867373958231717e-06,
+  "active_particle_displacement_rms_m": 8.207028295598495e-07,
+  "assembly_and_solve_wall_seconds": 302.5869159474969
+}

@@ -26,6 +26,11 @@ scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
 <td width="33%" align="center"></td>
 <td width="33%" align="center"></td>
 </tr>
+<tr>
+<td width="33%" align="center"><img src="images/home/jax-design--classic-cantilever.gif" alt="Classic cantilever material layout" width="100%"><br><a href="JAX_CLASSIC_CANTILEVER.md">Classic cantilever material layout</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
 </table>
 
 ## Fibres

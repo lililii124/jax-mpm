@@ -1,0 +1,259 @@
+{
+  "renderer": "ParaView/VTK 6.2 OSMesa pvpython",
+  "visualization": "continuous p=3 SIMP density for the design history; final-only may use the separately thresholded rho_binary. Neither visualization certifies manufacturability.",
+  "simp_penalty": 3,
+  "display_contour_fraction": 0.5,
+  "binary_audit_threshold": 0.5,
+  "field_source": "rho_binary from the independent phi=0.50 thresholded solve; ersatz void retained in the saved field",
+  "view": "optimized_only",
+  "deformation_scale": 1.0,
+  "camera": {
+    "position": [
+      1.2,
+      -0.28,
+      1.55
+    ],
+    "focal_point": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "view_up": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "parallel_scale": 0.43
+  },
+  "color_range": [
+    0.0,
+    1.0
+  ],
+  "source_background_grid": 48,
+  "render_resolution_px": [
+    800,
+    800
+  ],
+  "output_resolution_px": [
+    400,
+    400
+  ],
+  "optimization_frames": 49,
+  "frame_labels": [
+    {
+      "beta": 1.5,
+      "iteration": 0
+    },
+    {
+      "beta": 1.5,
+      "iteration": 1
+    },
+    {
+      "beta": 1.5,
+      "iteration": 2
+    },
+    {
+      "beta": 1.5,
+      "iteration": 3
+    },
+    {
+      "beta": 1.5,
+      "iteration": 4
+    },
+    {
+      "beta": 1.5,
+      "iteration": 5
+    },
+    {
+      "beta": 1.5,
+      "iteration": 6
+    },
+    {
+      "beta": 1.5,
+      "iteration": 7
+    },
+    {
+      "beta": 1.5,
+      "iteration": 8
+    },
+    {
+      "beta": 1.5,
+      "iteration": 9
+    },
+    {
+      "beta": 1.5,
+      "iteration": 10
+    },
+    {
+      "beta": 1.5,
+      "iteration": 11
+    },
+    {
+      "beta": 1.5,
+      "iteration": 12
+    },
+    {
+      "beta": 3.0,
+      "iteration": 1
+    },
+    {
+      "beta": 3.0,
+      "iteration": 2
+    },
+    {
+      "beta": 3.0,
+      "iteration": 3
+    },
+    {
+      "beta": 3.0,
+      "iteration": 4
+    },
+    {
+      "beta": 3.0,
+      "iteration": 5
+    },
+    {
+      "beta": 3.0,
+      "iteration": 6
+    },
+    {
+      "beta": 3.0,
+      "iteration": 7
+    },
+    {
+      "beta": 3.0,
+      "iteration": 8
+    },
+    {
+      "beta": 3.0,
+      "iteration": 9
+    },
+    {
+      "beta": 3.0,
+      "iteration": 10
+    },
+    {
+      "beta": 3.0,
+      "iteration": 11
+    },
+    {
+      "beta": 3.0,
+      "iteration": 12
+    },
+    {
+      "beta": 6.0,
+      "iteration": 1
+    },
+    {
+      "beta": 6.0,
+      "iteration": 2
+    },
+    {
+      "beta": 6.0,
+      "iteration": 3
+    },
+    {
+      "beta": 6.0,
+      "iteration": 4
+    },
+    {
+      "beta": 6.0,
+      "iteration": 5
+    },
+    {
+      "beta": 6.0,
+      "iteration": 6
+    },
+    {
+      "beta": 6.0,
+      "iteration": 7
+    },
+    {
+      "beta": 6.0,
+      "iteration": 8
+    },
+    {
+      "beta": 6.0,
+      "iteration": 9
+    },
+    {
+      "beta": 6.0,
+      "iteration": 10
+    },
+    {
+      "beta": 6.0,
+      "iteration": 11
+    },
+    {
+      "beta": 6.0,
+      "iteration": 12
+    },
+    {
+      "beta": 12.0,
+      "iteration": 1
+    },
+    {
+      "beta": 12.0,
+      "iteration": 2
+    },
+    {
+      "beta": 12.0,
+      "iteration": 3
+    },
+    {
+      "beta": 12.0,
+      "iteration": 4
+    },
+    {
+      "beta": 12.0,
+      "iteration": 5
+    },
+    {
+      "beta": 12.0,
+      "iteration": 6
+    },
+    {
+      "beta": 12.0,
+      "iteration": 7
+    },
+    {
+      "beta": 12.0,
+      "iteration": 8
+    },
+    {
+      "beta": 12.0,
+      "iteration": 9
+    },
+    {
+      "beta": 12.0,
+      "iteration": 10
+    },
+    {
+      "beta": 12.0,
+      "iteration": 11
+    },
+    {
+      "beta": 12.0,
+      "iteration": 12
+    }
+  ],
+  "binary_surface": {
+    "construction": "direct exterior faces of occupied rho_binary cells; no cell-to-point interpolation or contour smoothing",
+    "solid_cells": 3472,
+    "exposed_quad_faces": 3260,
+    "six_connected_components": 1,
+    "cell_dimensions": [
+      48,
+      16,
+      12
+    ]
+  },
+  "gifs": {
+    "cantilever-optimized.gif": {
+      "sha256": "a1355efda45a256cb8c64f3ae83eed2307f6573e33c46098790e74a67670702d",
+      "frames": 1,
+      "bytes": 9275
+    }
+  },
+  "camera_and_color_range_shared": true
+}

@@ -1,0 +1,95 @@
+{
+  "status": "converged",
+  "solver": "SciPy sparse LU with exact symmetric diagonal equilibration of thresholded MPM stiffness",
+  "void_stiffness": 0.0,
+  "void_inertia": 0.0,
+  "threshold": 0.5,
+  "active_voxels": 1460,
+  "active_integration_points": 11680,
+  "unsupported_nodes_eliminated": 113453,
+  "fixed_nodes": 16807,
+  "free_supported_nodes": 3866,
+  "loaded_nodes": 90,
+  "all_loaded_nodes_supported": true,
+  "free_dofs": 11598,
+  "weak_support_diagonal_ratio": 0.0,
+  "weak_nodes_aggregated": 0,
+  "free_nodes_before_aggregation": 3866,
+  "free_dofs_before_aggregation": 11598,
+  "load_nodes_aggregated": 0,
+  "affine_row_sum_max_error": 0.0,
+  "affine_coordinate_max_error_m": 0.0,
+  "max_aggregation_weight_abs": 0.0,
+  "max_aggregation_neighbor_distance_m": 0.0,
+  "projected_applied_resultant_error_N": 0.0,
+  "projected_applied_moment_error_Nm": 0.0,
+  "sparse_matrix_nonzeros": 2855579,
+  "assembled_coo_entries": 76632480,
+  "symmetric_diagonal_equilibration": true,
+  "equilibration_scale_min_max": [
+    3.360258807194485e-05,
+    0.020139670215974154
+  ],
+  "cg_info": null,
+  "cg_iterations": 0,
+  "cg_relative_residual_samples_every_100_iterations": [],
+  "sparse_lu_permutation_ordering": "MMD_AT_PLUS_A",
+  "relative_linear_residual": 9.383656981428286e-13,
+  "projected_relative_linear_residual": 9.383656981428286e-13,
+  "weak_constraint_residual_norm_N": 0.0,
+  "weak_constraint_residual_resultant_N": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "weak_constraint_residual_moment_about_origin_Nm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "compliance_Nm": 0.00019609674901508757,
+  "internal_energy_quadratic_form_J": 0.00019609674901525264,
+  "operator_symmetry_relative_error": 1.234751711160164e-16,
+  "operator_positive_random_energy": true,
+  "matrix_rank_warnings": [],
+  "force_and_reaction_balance": {
+    "applied_resultant_N": [
+      0.0,
+      -100.00000000000003,
+      0.0
+    ],
+    "applied_moment_about_origin_Nm": [
+      50.0,
+      0.0,
+      -87.49999999999999
+    ],
+    "loaded_grid_nodes": 90,
+    "support_reaction_N": [
+      -2.5643376311279553e-12,
+      100.00000000013455,
+      -2.565780921059968e-12
+    ],
+    "support_reaction_moment_about_origin_Nm": [
+      -50.000000000068894,
+      5.180716966535215e-13,
+      87.5000000000893
+    ],
+    "relative_force_balance_error": 1.3456885302597536e-12,
+    "relative_moment_balance_error": 1.1192917018472073e-12
+  },
+  "threshold_topology": {
+    "threshold_0_5": 0.37551440329218105,
+    "threshold_0_3": 0.37551440329218105,
+    "gray_0_1_to_0_9": 0.0,
+    "min_x_section_cells": 14,
+    "min_y_section_cells": 65,
+    "min_z_section_cells": 60,
+    "opening_removed_solid_fraction": 0.2452054794520548,
+    "six_connected_component_count": 1,
+    "clamp_to_load_pad_connected": true,
+    "cell_pitch_m": 0.020833333333333332
+  },
+  "active_particle_displacement_max_m": 1.92896547328776e-06,
+  "active_particle_displacement_rms_m": 8.730199327147967e-07,
+  "assembly_and_solve_wall_seconds": 14.107591487467289
+}

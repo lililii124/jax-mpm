@@ -1,0 +1,363 @@
+{
+  "name": "3D classical cantilever SIMP with static MPM equilibrium",
+  "method": "linear-elastic small-strain energy integrated at material points using quadratic B-spline MPM shape gradients; matrix-free CG and implicit JAX linear solve gradients",
+  "grid_background": 48,
+  "beam_cells": [
+    36,
+    12,
+    9
+  ],
+  "particle_quadrature_points": 31104,
+  "material_voxels": 3888,
+  "design_density_variables": 3612,
+  "non_design_clamp_pad_voxels": 216,
+  "non_design_load_pad_voxels": 60,
+  "beam_dimensions_m": [
+    0.75,
+    0.25,
+    0.1875
+  ],
+  "material": {
+    "alloy": "aluminum benchmark assumption",
+    "E_pa": 70000000000.0,
+    "nu": 0.3,
+    "density_kg_m3": 2700.0,
+    "simp_penalty": 3,
+    "residual_modulus_fraction": 0.001
+  },
+  "loads": {
+    "clamp": "fixed x=0 grid face; first two full-section cell layers are non-design solid",
+    "free_end_pad": "fixed non-design central pad at x=L, y-width 0.125m, z-thickness 0.08333m",
+    "resultant_force_N": [
+      0,
+      -100.0,
+      0
+    ]
+  },
+  "load_and_reaction_audit": {
+    "applied_resultant_N": [
+      0.0,
+      -100.00000000000003,
+      0.0
+    ],
+    "applied_moment_about_origin_Nm": [
+      50.0,
+      0.0,
+      -87.49999999999999
+    ],
+    "loaded_grid_nodes": 90,
+    "support_reaction_N": [
+      1.6177001405104363e-09,
+      99.99999996201008,
+      -3.7104793543241144e-10
+    ],
+    "support_reaction_moment_about_origin_Nm": [
+      -49.99999998118717,
+      1.3268624393658612e-09,
+      87.50000000629707
+    ],
+    "relative_force_balance_error": 3.802618640666543e-10,
+    "relative_moment_balance_error": 1.972952627784457e-10
+  },
+  "initial_load_and_reaction_audit": {
+    "applied_resultant_N": [
+      0.0,
+      -100.00000000000003,
+      0.0
+    ],
+    "applied_moment_about_origin_Nm": [
+      50.0,
+      0.0,
+      -87.49999999999999
+    ],
+    "loaded_grid_nodes": 90,
+    "support_reaction_N": [
+      -5.237436168092913e-08,
+      99.99999986156182,
+      1.4309857743199927e-09
+    ],
+    "support_reaction_moment_about_origin_Nm": [
+      -49.999999930192764,
+      -2.8791944522987833e-08,
+      87.49999999911662
+    ],
+    "relative_force_balance_error": 1.480211455607218e-09,
+    "relative_moment_balance_error": 7.493377773525399e-10
+  },
+  "volume_fraction_target": 0.38,
+  "filter_radius_cell_units": 2.0,
+  "filter_radius_m": 0.041666666666666664,
+  "projection_beta_schedule": [
+    1.5,
+    3.0,
+    6.0,
+    12.0
+  ],
+  "initial_compliance_Nm": 0.00193515404917647,
+  "final_compliance_Nm": 0.00029663478684870825,
+  "final_volume_fraction": 0.38000000000000067,
+  "final_relative_cg_residual": 9.2407879695041e-09,
+  "final_peak_constituent_von_mises_pa": 579163.4175323413,
+  "topology_audit": {
+    "threshold_0_5": 0.37551440329218105,
+    "threshold_0_3": 0.47016460905349794,
+    "gray_0_1_to_0_9": 0.46810699588477367,
+    "min_x_section_cells": 14,
+    "min_y_section_cells": 65,
+    "min_z_section_cells": 60,
+    "opening_removed_solid_fraction": 0.2452054794520548,
+    "six_connected_component_count": 1,
+    "clamp_to_load_pad_connected": true,
+    "cell_pitch_m": 0.020833333333333332
+  },
+  "thresholded_binary_resolve": {
+    "threshold": 0.5,
+    "solid_volume_fraction_including_fixed_pads": 0.37551440329218105,
+    "relative_cg_residual": 9.661382038756693e-09,
+    "compliance_Nm": 0.00019281034196337588,
+    "force_balance": {
+      "applied_resultant_N": [
+        0.0,
+        -100.00000000000003,
+        0.0
+      ],
+      "applied_moment_about_origin_Nm": [
+        50.0,
+        0.0,
+        -87.49999999999999
+      ],
+      "loaded_grid_nodes": 90,
+      "support_reaction_N": [
+        6.117352152612554e-09,
+        100.000000080932,
+        -2.585020947298844e-10
+      ],
+      "support_reaction_moment_about_origin_Nm": [
+        -50.00000004062017,
+        3.288729760742015e-09,
+        87.50000001267107
+      ],
+      "relative_force_balance_error": 8.116324522520047e-10,
+      "relative_moment_balance_error": 4.2347955276139656e-10
+    },
+    "topology": {
+      "threshold_0_5": 0.37551440329218105,
+      "threshold_0_3": 0.47016460905349794,
+      "gray_0_1_to_0_9": 0.46810699588477367,
+      "min_x_section_cells": 14,
+      "min_y_section_cells": 65,
+      "min_z_section_cells": 60,
+      "opening_removed_solid_fraction": 0.2452054794520548,
+      "six_connected_component_count": 1,
+      "clamp_to_load_pad_connected": true,
+      "cell_pitch_m": 0.020833333333333332
+    },
+    "interpretation": "actual second equilibrium solve on thresholded solid/ersatz-void field; the residual modulus remains 0.001 E0"
+  },
+  "updates_requested": 48,
+  "updates_accepted": 48,
+  "convergence_claim": false,
+  "history_rows": 48,
+  "resumed_from_checkpoint": "/parent",
+  "limitations": [
+    "SIMP density is a continuous ersatz material field; thresholded output is an audit, not a certified manufacturable part.",
+    "The linear elastic static solve is a small-strain quasi-static material-point formulation."
+  ],
+  "independent_refined_forward": [
+    {
+      "design": "initial",
+      "grid": 64,
+      "beam_cells": [
+        48,
+        16,
+        12
+      ],
+      "particles": 73728,
+      "compliance_Nm": 0.0018145587805560282,
+      "relative_to_initial": null,
+      "volume_fraction": 0.3799999999999937,
+      "mass_kg": 36.0703124999994,
+      "relative_cg_residual": 9.893396596996622e-09,
+      "max_constituent_von_mises_pa": 906463.7848160577,
+      "force_balance": {
+        "applied_resultant_N": [
+          0.0,
+          -100.0,
+          0.0
+        ],
+        "applied_moment_about_origin_Nm": [
+          50.0,
+          0.0,
+          -87.49999999999994
+        ],
+        "loaded_grid_nodes": 108,
+        "support_reaction_N": [
+          -3.844642264272391e-09,
+          100.00000026885355,
+          -4.0742537815718904e-10
+        ],
+        "support_reaction_moment_about_origin_Nm": [
+          -50.00000013460955,
+          -8.76446130948505e-10,
+          87.50000005773518
+        ],
+        "relative_force_balance_error": 2.688813512558445e-09,
+        "relative_moment_balance_error": 1.4534028077099042e-09
+      },
+      "continuous_topology": {
+        "threshold_0_5": 0.052083333333333336,
+        "threshold_0_3": 1.0,
+        "gray_0_1_to_0_9": 0.9479166666666666,
+        "min_x_section_cells": 0,
+        "min_y_section_cells": 24,
+        "min_z_section_cells": 32,
+        "opening_removed_solid_fraction": 0.0,
+        "six_connected_component_count": 2,
+        "clamp_to_load_pad_connected": false,
+        "cell_pitch_m": 0.015625
+      },
+      "thresholded_binary_resolve": {
+        "threshold": 0.5,
+        "solid_volume_fraction_including_fixed_pads": 0.052083333333333336,
+        "relative_cg_residual": 9.45173033004189e-09,
+        "compliance_Nm": 0.07428349378199131,
+        "force_balance": {
+          "applied_resultant_N": [
+            0.0,
+            -100.0,
+            0.0
+          ],
+          "applied_moment_about_origin_Nm": [
+            50.0,
+            0.0,
+            -87.49999999999994
+          ],
+          "loaded_grid_nodes": 108,
+          "support_reaction_N": [
+            1.9806689829926505e-09,
+            99.99999989191181,
+            -5.40618301861362e-10
+          ],
+          "support_reaction_moment_about_origin_Nm": [
+            -49.999999946217066,
+            1.2726214110303502e-09,
+            87.49999997190808
+          ],
+          "relative_force_balance_error": 1.0810768496869955e-09,
+          "relative_moment_balance_error": 6.022216255542571e-10
+        },
+        "topology": {
+          "threshold_0_5": 0.052083333333333336,
+          "threshold_0_3": 1.0,
+          "gray_0_1_to_0_9": 0.9479166666666666,
+          "min_x_section_cells": 0,
+          "min_y_section_cells": 24,
+          "min_z_section_cells": 32,
+          "opening_removed_solid_fraction": 0.0,
+          "six_connected_component_count": 2,
+          "clamp_to_load_pad_connected": false,
+          "cell_pitch_m": 0.015625
+        },
+        "interpretation": "actual second equilibrium solve on thresholded solid/ersatz-void field; the residual modulus remains 0.001 E0"
+      }
+    },
+    {
+      "design": "optimized",
+      "grid": 64,
+      "beam_cells": [
+        48,
+        16,
+        12
+      ],
+      "particles": 73728,
+      "compliance_Nm": 0.00029436596170345964,
+      "relative_to_initial": 0.1622245390216889,
+      "volume_fraction": 0.38000000000000284,
+      "mass_kg": 36.07031250000027,
+      "relative_cg_residual": 9.116005668538532e-09,
+      "max_constituent_von_mises_pa": 696339.4735653597,
+      "force_balance": {
+        "applied_resultant_N": [
+          0.0,
+          -100.0,
+          0.0
+        ],
+        "applied_moment_about_origin_Nm": [
+          50.0,
+          0.0,
+          -87.49999999999994
+        ],
+        "loaded_grid_nodes": 108,
+        "support_reaction_N": [
+          -2.345378873752635e-10,
+          99.99999973604176,
+          -1.2721896452960735e-11
+        ],
+        "support_reaction_moment_about_origin_Nm": [
+          -49.999999868005126,
+          -1.7144614894437638e-10,
+          87.49999997355005
+        ],
+        "relative_force_balance_error": 2.6395834643548956e-09,
+        "relative_moment_balance_error": 1.3357944789272178e-09
+      },
+      "continuous_topology": {
+        "threshold_0_5": 0.3767361111111111,
+        "threshold_0_3": 0.4869791666666667,
+        "gray_0_1_to_0_9": 0.4743923611111111,
+        "min_x_section_cells": 12,
+        "min_y_section_cells": 124,
+        "min_z_section_cells": 100,
+        "opening_removed_solid_fraction": 0.14746543778801843,
+        "six_connected_component_count": 1,
+        "clamp_to_load_pad_connected": true,
+        "cell_pitch_m": 0.015625
+      },
+      "thresholded_binary_resolve": {
+        "threshold": 0.5,
+        "solid_volume_fraction_including_fixed_pads": 0.3767361111111111,
+        "relative_cg_residual": 1.0173152156771617e-07,
+        "compliance_Nm": 0.00018733712568249936,
+        "force_balance": {
+          "applied_resultant_N": [
+            0.0,
+            -100.0,
+            0.0
+          ],
+          "applied_moment_about_origin_Nm": [
+            50.0,
+            0.0,
+            -87.49999999999994
+          ],
+          "loaded_grid_nodes": 108,
+          "support_reaction_N": [
+            -1.001651166697426e-08,
+            99.9999996031339,
+            9.113101176461136e-10
+          ],
+          "support_reaction_moment_about_origin_Nm": [
+            -49.99999980115773,
+            -6.252476869583745e-09,
+            87.50000003552717
+          ],
+          "relative_force_balance_error": 3.969935284144415e-09,
+          "relative_moment_balance_error": 2.0052736938583874e-09
+        },
+        "topology": {
+          "threshold_0_5": 0.3767361111111111,
+          "threshold_0_3": 0.4869791666666667,
+          "gray_0_1_to_0_9": 0.4743923611111111,
+          "min_x_section_cells": 12,
+          "min_y_section_cells": 124,
+          "min_z_section_cells": 100,
+          "opening_removed_solid_fraction": 0.14746543778801843,
+          "six_connected_component_count": 1,
+          "clamp_to_load_pad_connected": true,
+          "cell_pitch_m": 0.015625
+        },
+        "interpretation": "actual second equilibrium solve on thresholded solid/ersatz-void field; the residual modulus remains 0.001 E0"
+      },
+      "response_reduction_percent": 83.7775460978311
+    }
+  ]
+}
