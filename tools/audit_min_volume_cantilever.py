@@ -14,14 +14,17 @@ from examples.classic_cantilever_topopt import E0, NU, geometry, solve_true_void
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', type=Path, required=True)
 parser.add_argument('--grid', type=int, choices=(48, 64), default=64)
+parser.add_argument('--threshold', type=float, default=0.5)
 parser.add_argument('--output', type=Path, required=True)
 args = parser.parse_args()
+if not 0.0 < args.threshold < 1.0:
+    raise ValueError('threshold must be between 0 and 1')
 out = args.output
 out.mkdir(parents=True, exist_ok=True)
 source = args.input.read_bytes()
 (out / 'source-design.npz').write_bytes(source)
 with np.load(io.BytesIO(source)) as data:
-    rho = data['rho'].copy()
+    rho = (data['rho'] >= args.threshold).astype(np.float64)
 grid = args.grid
 mesh = geometry(grid)
 mesh['load'] *= 50000.0 / FORCE_N
@@ -49,7 +52,7 @@ if (out / 'true-void.npz').exists():
     audit['loaded_pad_mean_deflection_m'] = audit['compliance_Nm'] / 50000.0
     audit['stress_limit_100MPa_pass'] = bool(audit['status'] == 'converged' and audit['max_active_von_mises_Pa'] <= 1e8)
     audit['deflection_limit_2mm_pass'] = bool(audit['status'] == 'converged' and audit['loaded_pad_mean_deflection_m'] <= .002)
-summary = {'source_sha256':hashlib.sha256(source).hexdigest(), 'topology':checks,
+summary = {'source_sha256':hashlib.sha256(source).hexdigest(), 'source_density_threshold':args.threshold, 'topology':checks,
            'support': 'fixed clamp and load pads', 'audit':audit}
 (out / 'summary.json').write_text(json.dumps(summary, indent=2)+'\n')
 print(json.dumps(summary, separators=(',', ':')), flush=True)
