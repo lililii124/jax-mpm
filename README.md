@@ -192,7 +192,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/jax-design--classic-cantilever.gif" alt="Classic cantilever material layout" width="100%"><br><a href="docs/JAX_CLASSIC_CANTILEVER.md">Classic cantilever material layout</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/home/jax-design--strength-cantilever.gif" alt="Strength-constrained cantilever" width="100%"><br><a href="docs/JAX_STRENGTH_CANTILEVER.md">Strength-constrained cantilever</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>

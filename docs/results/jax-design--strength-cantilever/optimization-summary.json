@@ -1,0 +1,279 @@
+{
+  "case": "bounded minimum-volume JAX MPM cantilever topology search",
+  "base_material": {
+    "E_Pa": 70000000000.0,
+    "nu": 0.3,
+    "density_kg_m3": 2700.0,
+    "assumed_yield_Pa": 276000000.0,
+    "allowable_Pa": 100000000.0,
+    "assumed_yield_factor": 2.76
+  },
+  "load_N": 50000.0,
+  "load_geometry": "same centered finite right-end pad and x=X0 face clamp as published cantilever MPM case; load nodal pattern scaled from 100 N",
+  "hard_constraints": {
+    "pad_average_deflection_max_m": 0.002,
+    "compliance_max_Nm": 100.0,
+    "constituent_von_mises_KS_max_Pa": 100000000.0,
+    "stress_evaluated_for_projected_density_at_least": 0.1,
+    "stress_aggregate": "unnormalized KS upper bound, p=64.0",
+    "residual_modulus_fraction": 0.001
+  },
+  "objective_and_algorithm": "fixed-volume candidate at vf=0.650000; 4 local Adam updates, no outer material search performed; local Adam minimizes compliance and augmented penalties for compliance/KS violations; JAX implicit linear solve gradients",
+  "coarse_search_grid": 48,
+  "independent_validation_grid": 64,
+  "search_bounds_after_last_trial": {
+    "lowest_tested_infeasible_volume_fraction": null,
+    "lowest_tested_feasible_volume_fraction": 0.65,
+    "untested_lower_physical_pad_fraction": 0.07098765432098765,
+    "interval_width": null
+  },
+  "minimum_fixed_fraction_from_non_design_pads": 0.07098765432098765,
+  "minimum_fraction_interpretation": "The non-design clamp and load pads alone are not a connected load path; this is the physical lower bound before adding any design material.",
+  "selected_continuous_design": {
+    "target_volume_fraction": 0.65,
+    "actual_volume_fraction": 0.6499999999999935,
+    "material_mass_kg": 61.69921874999938,
+    "compliance_Nm": 41.63601657470495,
+    "pad_mean_deflection_m": 0.0008327203314940991,
+    "compliance_limit_Nm": 100.0,
+    "compliance_feasible": true,
+    "stress_KS_over_allowable_for_rho_ge_0_10": 0.7626750971883662,
+    "stress_KS_feasible": true,
+    "maximum_constituent_von_mises_by_density_cutoff_Pa": {
+      "0.01": 71257951.52764152,
+      "0.05": 71257951.52764152,
+      "0.1": 71257951.52764152,
+      "0.2": 52423026.07985041,
+      "0.5": 45052506.64945818,
+      "0.8": 45052506.64945818
+    },
+    "stress_constraint_density_cutoff": 0.1,
+    "maximum_constituent_von_mises_for_rho_ge_0_10_Pa": 71257951.52764152,
+    "stress_feasible_actual_max": true,
+    "relative_linear_residual": 9.920665151371027e-10,
+    "objective": 1.8625518661997356,
+    "iteration": 4,
+    "feasible": true,
+    "ad_fd_directional_check": {
+      "ad_directional_derivative": -0.0017074190897653305,
+      "fd_directional_derivative": -0.001707419464702653,
+      "relative_error": 2.1959297657064098e-07,
+      "step": 0.0002
+    },
+    "design_grid": 48,
+    "beam_cells": [
+      36,
+      12,
+      9
+    ],
+    "design_controls": 3612,
+    "trial_directory": "output/min-volume-cantilever-vf65/trial-00-vf-0.65000",
+    "wall_seconds": 210.18795438110828
+  },
+  "volume_trials": [
+    {
+      "target_volume_fraction": 0.65,
+      "actual_volume_fraction": 0.6499999999999935,
+      "material_mass_kg": 61.69921874999938,
+      "compliance_Nm": 41.63601657470495,
+      "pad_mean_deflection_m": 0.0008327203314940991,
+      "compliance_limit_Nm": 100.0,
+      "compliance_feasible": true,
+      "stress_KS_over_allowable_for_rho_ge_0_10": 0.7626750971883662,
+      "stress_KS_feasible": true,
+      "maximum_constituent_von_mises_by_density_cutoff_Pa": {
+        "0.01": 71257951.52764152,
+        "0.05": 71257951.52764152,
+        "0.1": 71257951.52764152,
+        "0.2": 52423026.07985041,
+        "0.5": 45052506.64945818,
+        "0.8": 45052506.64945818
+      },
+      "stress_constraint_density_cutoff": 0.1,
+      "maximum_constituent_von_mises_for_rho_ge_0_10_Pa": 71257951.52764152,
+      "stress_feasible_actual_max": true,
+      "relative_linear_residual": 9.920665151371027e-10,
+      "objective": 1.8625518661997356,
+      "iteration": 4,
+      "feasible": true,
+      "ad_fd_directional_check": {
+        "ad_directional_derivative": -0.0017074190897653305,
+        "fd_directional_derivative": -0.001707419464702653,
+        "relative_error": 2.1959297657064098e-07,
+        "step": 0.0002
+      },
+      "design_grid": 48,
+      "beam_cells": [
+        36,
+        12,
+        9
+      ],
+      "design_controls": 3612,
+      "trial_directory": "output/min-volume-cantilever-vf65/trial-00-vf-0.65000",
+      "wall_seconds": 210.18795438110828
+    }
+  ],
+  "refined_continuous_validation": {
+    "target_volume_fraction": 0.65,
+    "actual_volume_fraction": 0.6500000000000042,
+    "material_mass_kg": 61.699218750000405,
+    "compliance_Nm": 40.2594099474495,
+    "pad_mean_deflection_m": 0.00080518819894899,
+    "compliance_limit_Nm": 100.0,
+    "compliance_feasible": true,
+    "stress_KS_over_allowable_for_rho_ge_0_10": 0.8895662350008822,
+    "stress_KS_feasible": true,
+    "maximum_constituent_von_mises_by_density_cutoff_Pa": {
+      "0.01": 83817530.58783728,
+      "0.05": 83817530.58783728,
+      "0.1": 83731012.81898363,
+      "0.2": 70155981.45639232,
+      "0.5": 45341915.882505715,
+      "0.8": 45341915.882505715
+    },
+    "stress_constraint_density_cutoff": 0.1,
+    "maximum_constituent_von_mises_for_rho_ge_0_10_Pa": 83731012.81898363,
+    "stress_feasible_actual_max": true,
+    "relative_linear_residual": 9.538054772748135e-10,
+    "objective": 40.2594099474495,
+    "iteration": 4,
+    "force_balance": {
+      "applied_resultant_N": [
+        0.0,
+        -49999.99999999999,
+        0.0
+      ],
+      "applied_moment_about_origin_Nm": [
+        25000.000000000007,
+        0.0,
+        -43750.00000000001
+      ],
+      "loaded_grid_nodes": 108,
+      "support_reaction_N": [
+        -7.838195777765122e-06,
+        49999.99999232802,
+        -1.2490121100938723e-05
+      ],
+      "support_reaction_moment_about_origin_Nm": [
+        -25000.000002511126,
+        -1.5031799462938977e-06,
+        43750.00000252728
+      ],
+      "relative_force_balance_error": 3.324452523693068e-10,
+      "relative_moment_balance_error": 7.673942200777485e-11
+    },
+    "stress_conservative_KS_feasible": true,
+    "feasible": true
+  },
+  "same_load_full_solid_refined_reference": {
+    "compliance_Nm": 22.978463956058885,
+    "pad_mean_deflection_m": 0.0004595692791211777,
+    "relative_linear_residual": 9.893465614598204e-10,
+    "force_balance": {
+      "applied_resultant_N": [
+        0.0,
+        -49999.99999999999,
+        0.0
+      ],
+      "applied_moment_about_origin_Nm": [
+        25000.000000000007,
+        0.0,
+        -43750.00000000001
+      ],
+      "loaded_grid_nodes": 108,
+      "support_reaction_N": [
+        -9.071668616300599e-08,
+        50000.0000022883,
+        3.990974661860491e-09
+      ],
+      "support_reaction_moment_about_origin_Nm": [
+        -25000.00000114221,
+        -4.8996517065802436e-08,
+        43750.00000011322
+      ],
+      "relative_force_balance_error": 4.580222867131818e-11,
+      "relative_moment_balance_error": 2.2799450808458828e-11
+    },
+    "maximum_constituent_von_mises_by_density_cutoff_Pa": {
+      "0.01": 40940635.7599181,
+      "0.05": 40940635.7599181,
+      "0.1": 40940635.7599181,
+      "0.2": 40940635.7599181,
+      "0.5": 40940635.7599181,
+      "0.8": 40940635.7599181
+    },
+    "peak_displacement_material_point_m": 0.0004569055436592255,
+    "rms_displacement_material_point_m": 0.00022522338011614264,
+    "mass_kg": 94.921875
+  },
+  "threshold_phi_050_ersatz_reanalysis": {
+    "compliance_Nm": 37.43967554821322,
+    "pad_mean_deflection_m": 0.0007487935109642645,
+    "relative_linear_residual": 9.755533747631218e-10,
+    "force_balance": {
+      "applied_resultant_N": [
+        0.0,
+        -49999.99999999999,
+        0.0
+      ],
+      "applied_moment_about_origin_Nm": [
+        25000.000000000007,
+        0.0,
+        -43750.00000000001
+      ],
+      "loaded_grid_nodes": 108,
+      "support_reaction_N": [
+        6.579985549226564e-05,
+        49999.999995006685,
+        2.0796511819298757e-06
+      ],
+      "support_reaction_moment_about_origin_Nm": [
+        -24999.999995746773,
+        3.257977176174265e-05,
+        43749.999966167714
+      ],
+      "relative_force_balance_error": 1.3204361483606342e-09,
+      "relative_moment_balance_error": 9.35935430382892e-10
+    },
+    "maximum_constituent_von_mises_by_density_cutoff_Pa": {
+      "0.01": 61347098.265696,
+      "0.05": 61347098.265696,
+      "0.1": 61347098.265696,
+      "0.2": 61347098.265696,
+      "0.5": 61347098.265696,
+      "0.8": 61347098.265696
+    },
+    "peak_displacement_material_point_m": 0.0007490379016795031,
+    "rms_displacement_material_point_m": 0.0004053637690599023,
+    "volume_fraction": 0.6886935763888888,
+    "mass_kg": 65.37208557128905,
+    "topology": {
+      "threshold_0_5": 0.6886935763888888,
+      "threshold_0_3": 0.6886935763888888,
+      "gray_0_1_to_0_9": 0.0,
+      "min_x_section_cells": 48,
+      "min_y_section_cells": 95,
+      "min_z_section_cells": 447,
+      "opening_removed_solid_fraction": 0.04647865133133764,
+      "six_connected_component_count": 1,
+      "clamp_to_load_pad_connected": true,
+      "cell_pitch_m": 0.015625
+    },
+    "interpretation": "independent equilibrium of phi=.50 voxel cells with 0.001E ersatz void; not true-zero-void or manufacturing certification",
+    "compliance_feasible": true,
+    "stress_feasible_actual_max": true
+  },
+  "binary_design_constraints_passed": true,
+  "limitations": [
+    "A feasible fixed-volume candidate was evaluated; minimum material was not identified and no global-optimum claim is made.",
+    "The optimized design is continuous SIMP with residual 0.001E ersatz stiffness. The phi=.50 voxel solve is a separate ersatz reanalysis, not a true-zero-void or manufacturing validation.",
+    "The stress cap is an assumed 100 MPa limit against an illustrative 276 MPa yield benchmark and is assessed on solid-constituent von Mises stress at rho>=0.10. Reported lower-density cutoff sensitivity does not certify microstructure or gray-region strength.",
+    "The voxel topology audit and minimum cell sections do not establish a manufacturing process or minimum feature certification."
+  ],
+  "files": {
+    "coarse_history": "design-evolution.npz",
+    "selected_checkpoint": "best-feasible-checkpoint.npz",
+    "continuous_forward": "refined-continuous.npz",
+    "binary_ersatz_forward": "refined-binary-phi050.npz"
+  }
+}

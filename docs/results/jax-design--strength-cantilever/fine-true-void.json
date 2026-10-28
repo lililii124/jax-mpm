@@ -1,0 +1,137 @@
+{
+  "source_sha256": "3e1768ad73e19e70a346550ebdfbb96544814c53598ef5b02139bb0a8241c670",
+  "topology": {
+    "threshold_0_5": 0.6886935763888888,
+    "threshold_0_3": 0.8946397569444444,
+    "gray_0_1_to_0_9": 0.7231987847222222,
+    "min_x_section_cells": 48,
+    "min_y_section_cells": 95,
+    "min_z_section_cells": 447,
+    "opening_removed_solid_fraction": 0.04647865133133764,
+    "six_connected_component_count": 1,
+    "clamp_to_load_pad_connected": true,
+    "cell_pitch_m": 0.015625
+  },
+  "support": "fixed clamp and load pads",
+  "audit": {
+    "status": "converged",
+    "solver": "SciPy preconditioned CG on symmetrically diagonally equilibrated exact thresholded MPM stiffness",
+    "void_stiffness": 0.0,
+    "void_inertia": 0.0,
+    "threshold": 0.5,
+    "active_voxels": 6347,
+    "active_integration_points": 50776,
+    "unsupported_nodes_eliminated": 261776,
+    "fixed_nodes": 38025,
+    "free_supported_nodes": 12279,
+    "loaded_nodes": 108,
+    "all_loaded_nodes_supported": true,
+    "free_dofs": 36837,
+    "weak_support_diagonal_ratio": 0.0,
+    "weak_nodes_aggregated": 0,
+    "free_nodes_before_aggregation": 12279,
+    "free_dofs_before_aggregation": 36837,
+    "load_nodes_aggregated": 0,
+    "affine_row_sum_max_error": 0.0,
+    "affine_coordinate_max_error_m": 0.0,
+    "max_aggregation_weight_abs": 0.0,
+    "max_aggregation_neighbor_distance_m": 0.0,
+    "projected_applied_resultant_error_N": 0.0,
+    "projected_applied_moment_error_Nm": 0.0,
+    "sparse_matrix_nonzeros": 10700616,
+    "assembled_coo_entries": 333141336,
+    "symmetric_diagonal_equilibration": true,
+    "equilibration_scale_min_max": [
+      4.211923592148113e-05,
+      0.11732873713154787
+    ],
+    "cg_info": 0,
+    "cg_iterations": 2199,
+    "cg_relative_residual_samples_every_100_iterations": [
+      0.5884773764010871,
+      0.41359739957103014,
+      0.017831399859709156,
+      0.008266561225783543,
+      0.0024354110456247307,
+      0.0002756517171708569,
+      8.62865836568883e-05,
+      5.248498171394093e-05,
+      3.897535246681057e-05,
+      3.920159862364611e-05,
+      2.1876932850105852e-05,
+      2.8625578553867104e-06,
+      9.10484532861911e-07,
+      2.503185617199494e-07,
+      1.2006281258025755e-07,
+      4.1912079612212584e-08,
+      3.057666795548633e-08,
+      2.6928884263564438e-08,
+      7.059712368954386e-09,
+      7.404910669796433e-09,
+      2.341880949001746e-09
+    ],
+    "sparse_lu_permutation_ordering": null,
+    "relative_linear_residual": 1.1434356508683887e-09,
+    "projected_relative_linear_residual": 1.1434356508683887e-09,
+    "weak_constraint_residual_norm_N": 0.0,
+    "weak_constraint_residual_resultant_N": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "weak_constraint_residual_moment_about_origin_Nm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "compliance_Nm": 38.29209825819209,
+    "internal_energy_quadratic_form_J": 38.29209825828049,
+    "operator_symmetry_relative_error": 1.2325277179447663e-16,
+    "operator_positive_random_energy": true,
+    "matrix_rank_warnings": [],
+    "force_and_reaction_balance": {
+      "applied_resultant_N": [
+        0.0,
+        -49999.99999999999,
+        0.0
+      ],
+      "applied_moment_about_origin_Nm": [
+        25000.000000000007,
+        0.0,
+        -43750.00000000001
+      ],
+      "loaded_grid_nodes": 108,
+      "support_reaction_N": [
+        -1.7890076017934575e-05,
+        49999.999998634026,
+        -4.2663027789213714e-05
+      ],
+      "support_reaction_moment_about_origin_Nm": [
+        -25000.00001513298,
+        1.8325432216137472e-06,
+        43750.00000851524
+      ],
+      "relative_force_balance_error": 9.256467197426523e-10,
+      "relative_moment_balance_error": 3.46516347193219e-10
+    },
+    "threshold_topology": {
+      "threshold_0_5": 0.6886935763888888,
+      "threshold_0_3": 0.6886935763888888,
+      "gray_0_1_to_0_9": 0.0,
+      "min_x_section_cells": 48,
+      "min_y_section_cells": 95,
+      "min_z_section_cells": 447,
+      "opening_removed_solid_fraction": 0.04647865133133764,
+      "six_connected_component_count": 1,
+      "clamp_to_load_pad_connected": true,
+      "cell_pitch_m": 0.015625
+    },
+    "active_particle_displacement_max_m": 0.0007575830399935078,
+    "active_particle_displacement_rms_m": 0.00037999805502756425,
+    "assembly_and_solve_wall_seconds": 94.07745534181595,
+    "max_active_von_mises_Pa": 65213364.8382985,
+    "loaded_pad_mean_deflection_m": 0.0007658419651638418,
+    "stress_limit_100MPa_pass": true,
+    "deflection_limit_2mm_pass": true
+  }
+}
