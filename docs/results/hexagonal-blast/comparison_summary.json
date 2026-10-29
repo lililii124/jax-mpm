@@ -1,0 +1,44 @@
+{
+  "base": {
+    "frame": "frame_0002500.npz",
+    "surface_vm_sha256": "768eb0bf0e697e8f81c7e13fd0dafaecd0af48c1cb6e20dc91d36b96a4ab864f",
+    "time_s": 0.0025000000000000074,
+    "ring_radius_m": 0.05,
+    "ring_halfwidth_m": 0.0025,
+    "mean_Pa": 202951.2777185567,
+    "a4_relative": 9.670568907091973e-05,
+    "a6_relative": 0.1607224041522777,
+    "a6_phase_deg": -8.862827502759015e-14,
+    "peak_surface_vm_Pa": 377575.2723005529,
+    "gif_sha256": "7429377e9e7e9fe582585059e49e21468ff1d4a5b6b51fd281e4cf789b80feaf",
+    "frames": 26
+  },
+  "rotation30": {
+    "frame": "frame_0002500.npz",
+    "surface_vm_sha256": "9be69cdc7ced42602b3f96df122e7d412eb0952767874d7d6ca9157419830072",
+    "time_s": 0.0025000000000000074,
+    "ring_radius_m": 0.05,
+    "ring_halfwidth_m": 0.0025,
+    "mean_Pa": 202951.2777185583,
+    "a4_relative": 9.670568907780231e-05,
+    "a6_relative": 0.1607224041522812,
+    "a6_phase_deg": -29.99999999999986,
+    "peak_surface_vm_Pa": 377575.27230056113,
+    "gif_sha256": "4df3118f0ac07f4a729335c1d62451af3ac5b7cacbe22048e1531ee5b451eca4",
+    "frames": 26
+  },
+  "isotropic": {
+    "frame": "frame_0002500.npz",
+    "surface_vm_sha256": "0b4862b58f785c2c2e6e6bfec937ac263a895be69990c9a449911808f2bc4983",
+    "time_s": 0.0025000000000000074,
+    "ring_radius_m": 0.05,
+    "ring_halfwidth_m": 0.0025,
+    "mean_Pa": 120943.96751035667,
+    "a4_relative": 4.5745015198949836e-05,
+    "a6_relative": 3.291876615306165e-15,
+    "a6_phase_deg": 13.638673964492638,
+    "peak_surface_vm_Pa": 124843.5297294893,
+    "gif_sha256": "e39bf2f0328800c4a8aea1585536598fc59d1cfbf04106927e6e96b9c65fef09",
+    "frames": 26
+  }
+}

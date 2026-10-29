@@ -245,6 +245,16 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+### Hyperelastic symmetry
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/hexagonal-blast.gif" alt="Sixfold hyperelastic plate under blast pressure" width="100%"><br><a href="docs/HEXAGONAL_BLAST.md">Sixfold plate · blast pressure</a></td>
+<td width="33%" align="center"></td>
+<td width="33%" align="center"></td>
+</tr>
+</table>
+
 ### Phase-field fracture
 
 <table width="100%">

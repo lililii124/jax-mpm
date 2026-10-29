@@ -1,0 +1,23 @@
+{
+  "stage": "coarse finite-deformation demonstration; refinement and controls pending",
+  "steps": 6000,
+  "horizon_s": 0.006000000000000472,
+  "all_valid": true,
+  "minimum_J": 0.9425749703754258,
+  "peak_displacement_m": 0.024617394925663443,
+  "peak_bulk_vm_Pa": 1136647.0738301394,
+  "max_absolute_energy_residual_J": 5.64812722692043e-06,
+  "final": {
+    "step": 6000,
+    "time_s": 0.006000000000000472,
+    "min_J": 0.9911008476655893,
+    "max_strain": 0.0475042331887745,
+    "peak_vm_Pa": 724928.7961906721,
+    "max_deflection_m": 0.019564893542849345,
+    "elastic_J": 0.5211900384800974,
+    "kinetic_J": 1.107136384645274,
+    "pressure_work_J": 1.6283264097552834,
+    "energy_residual_J": 1.3370087925679286e-08,
+    "valid": true
+  }
+}

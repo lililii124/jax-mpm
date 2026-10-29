@@ -9,12 +9,12 @@ Live process status is recorded separately by the read-only local monitor.
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
-| Triaxial weaving process | Full 24-fibre geometry advanced 64 steps / 4.293 microseconds; exact support compaction and reused constitutive calculations give about 3x faster mechanical steps with matching physical states | Reduce remaining sampling overhead and assess the stable timestep before the complete process |
+| Triaxial weaving process | Corrected guide-work ledger passed release checks; full 24-fibre geometry reached 250 microseconds, then resumed toward 1 ms | Advance through guide release and actual contact, retaining the complete physical protocol |
 | AT2 fracture | Zero-initial-damage path completed; user approved its GIF for publication | Preserve the accepted example; further tip-symmetry investigation cancelled |
-| Anisotropic phase-field fracture | Active; user requested proceeding directly from the accepted AT2 example | Implement directional fracture energy and render freely evolving crack deflection |
-| Phase-field fracture with hard inclusions | Active; new user request | Implement heterogeneous elastic inclusions and render crack interaction with them |
-| Hexagonal hyperelastic plate under blast pressure | New request; constitutive selection underway | Use three equivalent directions 120 degrees apart and nonlinear directional elastic energy; calculate and render sixfold stress patterns under an axisymmetric pressure pulse |
-| Blast-loaded sandwich design | Reduced-model basis enriched through 384 modes; complete independent eccentric-load MPM baseline is running from its undeformed initial state | Qualify reduced-basis design improvements against full MPM, then add nonlinear material verification |
+| Anisotropic phase-field fracture | Directional energy implemented; the first bounded 48-by-49 run retained a prefracture path and awaits exact-source continuation | Complete the load path and render freely evolving crack deflection |
+| Phase-field fracture with hard inclusions | Elastic-modulus-only inclusion was penetrated; a paired 8x-modulus / 10x-fracture-energy case is running | Render the actual resistance, arrest or deflection produced by the second phase |
+| Hyperelastic symmetry under blast pressure | Sixfold 6 ms GIF approved; material-rotation and isotropic controls complete; refined sixfold calculation active | Compare square, rectangular, sixfold, eightfold and isotropic plates under identical geometry, load, camera and display scale |
+| Blast-loaded sandwich design | Fixed-mass 486-mode optimization has retained feasible redistribution steps; full independent eccentric-load MPM baseline remains active | Obtain substantial redistribution, verify its response against full MPM, then add nonlinear material qualification |
 
 The read-only local monitor records process status, accepted steps/time, source
 update times and available animations. A stalled calculation is reported as
