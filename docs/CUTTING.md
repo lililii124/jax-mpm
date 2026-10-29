@@ -64,6 +64,10 @@ checkpoints require an explicit conversion and are rejected by this public
 restart route. `--max-output-windows N` provides a checkpoint-ready bounded run;
 it does not mark the full trajectory complete.
 
+The [ParaView rendering guide](CUTTING_RENDERING.md) exports four animations
+directly from these saved results, including the actual constitutive plastic
+strain rate.
+
 Migration checks include one real-contact v50 checkpoint step: the frozen and
 public kernels produce bitwise identical common state/history arrays, contact
 cache, impulse and work. Four additional public diagnostic arrays remain finite

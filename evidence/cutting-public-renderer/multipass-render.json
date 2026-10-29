@@ -1,0 +1,142 @@
+{
+  "input": "/multi",
+  "case_sha256": "b7eb969dc07364947024f5d219a7daa779156b1c22ef9a421d60649573fcaa22",
+  "checkpoint_sha256": "ba6add551877040c94b4993e9d030a4df4f9f0edf92a0ba265aee92bf0fae1ad",
+  "accepted_checkpoint_frame": 7,
+  "actual_time_window_s": [
+    0.0,
+    9.262301001904164e-11
+  ],
+  "states": [
+    {
+      "frame": 0,
+      "time_s": 0.0,
+      "virtual_tip_m": [
+        3.1e-05,
+        0.000182
+      ],
+      "path": "/multi/fields_00000.npz",
+      "pose_source": "saved time/virtual_tip arrays",
+      "sha256": "1f56968cd8f4f141900d8c80fd1f0774038cbf911354b9a901d48d490724988b",
+      "failed_count": 0
+    },
+    {
+      "frame": 3,
+      "time_s": 3.7374197025227324e-11,
+      "virtual_tip_m": [
+        3.100011212259108e-05,
+        0.000182
+      ],
+      "path": "/multi/fields_00003.npz",
+      "pose_source": "saved time/virtual_tip arrays",
+      "sha256": "d3cdec848348d7756e7447c6fb955f6afd0213d06dde244470d58802705f0967",
+      "failed_count": 0
+    },
+    {
+      "frame": 4,
+      "time_s": 5.3623847905760944e-11,
+      "virtual_tip_m": [
+        3.100011212259108e-05,
+        0.00018200019499581057
+      ],
+      "path": "/multi/fields_00004.npz",
+      "pose_source": "saved time/virtual_tip arrays",
+      "sha256": "9faf21c906f0476461fe1113acb1c7745dd2fe91c23d3c3229ae16a46d42573b",
+      "failed_count": 0
+    },
+    {
+      "frame": 7,
+      "time_s": 9.262301001904164e-11,
+      "virtual_tip_m": [
+        3.100011212259108e-05,
+        0.00018200066298575593
+      ],
+      "path": "/multi/fields_00007.npz",
+      "pose_source": "saved time/virtual_tip arrays",
+      "sha256": "84e8d230efcabb5633a111bb1c7a70bc7325f291b8bd9b06a866291ee7e73061",
+      "failed_count": 0
+    }
+  ],
+  "fixed_ranges": {
+    "plastic_strain": [
+      0.0,
+      0.0
+    ],
+    "temperature_K": [
+      298.15,
+      298.15
+    ],
+    "damage": [
+      0.0,
+      1.0
+    ],
+    "plastic_rate": [
+      0.0,
+      0.0
+    ]
+  },
+  "geometry": "affine",
+  "deformation_scale": 1.0,
+  "tool_length_m": 0.000256,
+  "rate_definition": "actual saved history.plastic_rate (constitutive equivalent plastic strain rate); not adjacent-frame PEEQ increment",
+  "failed_policy": "only saved failed particles hidden in display; input archives unchanged",
+  "completion_claim": "renders only the actual accepted saved interval; does not imply full planned schedule completion",
+  "checks": {
+    "plastic_strain": {
+      "sha256": "9aa1c9e78025f680bd1de1ddcb9d876b06ee0255cb121d30d56813bb3bbb75e3",
+      "encoded_frames": 1,
+      "distinct_frames": 1,
+      "size": [
+        400,
+        400
+      ]
+    },
+    "temperature_K": {
+      "sha256": "9aa1c9e78025f680bd1de1ddcb9d876b06ee0255cb121d30d56813bb3bbb75e3",
+      "encoded_frames": 1,
+      "distinct_frames": 1,
+      "size": [
+        400,
+        400
+      ]
+    },
+    "damage": {
+      "sha256": "9aa1c9e78025f680bd1de1ddcb9d876b06ee0255cb121d30d56813bb3bbb75e3",
+      "encoded_frames": 1,
+      "distinct_frames": 1,
+      "size": [
+        400,
+        400
+      ]
+    },
+    "plastic_rate": {
+      "sha256": "9aa1c9e78025f680bd1de1ddcb9d876b06ee0255cb121d30d56813bb3bbb75e3",
+      "encoded_frames": 1,
+      "distinct_frames": 1,
+      "size": [
+        400,
+        400
+      ]
+    }
+  },
+  "renderer": "ParaView",
+  "renderer_sha256": "8582dc1bd5086be521b848e1fcfb99b8e80590a2617c52de8dd817ae4b759b62",
+  "size": [
+    400,
+    400
+  ],
+  "supersample": 3,
+  "camera": {
+    "follow_saved_tool": false,
+    "offset_m": [
+      1.2e-05,
+      5e-06
+    ],
+    "center_m": [
+      0.0001111875,
+      0.000128
+    ],
+    "parallel_scale_m": 8.820625e-05
+  },
+  "fetched_coordinates_and_scalars_equal_saved": true
+}

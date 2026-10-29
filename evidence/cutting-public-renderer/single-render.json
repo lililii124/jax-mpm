@@ -1,0 +1,130 @@
+{
+  "input": "/single",
+  "case_sha256": "0683a4f94f03b8ccb1ba090fa7e6e3b4871d0c9fe1dbee1985e647a657d7137e",
+  "checkpoint_sha256": "8f487b145b60f40a2e87f5995ec59e3ac263c6c9c05860beb6221e77c650ba43",
+  "accepted_checkpoint_frame": 2,
+  "actual_time_window_s": [
+    0.0,
+    1.624965088053362e-08
+  ],
+  "states": [
+    {
+      "frame": 0,
+      "time_s": 0.0,
+      "virtual_tip_m": [
+        3.1e-05,
+        0.000182
+      ],
+      "path": "/single/fields_00000.npz",
+      "pose_source": "saved public checkpoint observation indexed by frame",
+      "sha256": "b77fa9c22e2bcaeb2957970673e7510fd0c9e8db23711c20d9d17270d407ecf0",
+      "failed_count": 0
+    },
+    {
+      "frame": 1,
+      "time_s": 8.12482544026681e-09,
+      "virtual_tip_m": [
+        3.10243744763208e-05,
+        0.000182
+      ],
+      "path": "/single/fields_00001.npz",
+      "pose_source": "saved public checkpoint observation indexed by frame",
+      "sha256": "5a95721e57958f69615c4d285016a43d32fb0a782291253188df8418dd4e630b",
+      "failed_count": 0
+    },
+    {
+      "frame": 2,
+      "time_s": 1.624965088053362e-08,
+      "virtual_tip_m": [
+        3.10487489526416e-05,
+        0.000182
+      ],
+      "path": "/single/fields_00002.npz",
+      "pose_source": "saved public checkpoint observation indexed by frame",
+      "sha256": "06ee723b2cf7fad45d8ef6b0158c23708097137bb16ac5e85c17004eb26a623e",
+      "failed_count": 0
+    }
+  ],
+  "fixed_ranges": {
+    "plastic_strain": [
+      0.0,
+      0.0
+    ],
+    "temperature_K": [
+      298.15,
+      298.15
+    ],
+    "damage": [
+      0.0,
+      1.0
+    ],
+    "plastic_rate": [
+      0.0,
+      0.0
+    ]
+  },
+  "geometry": "centres",
+  "deformation_scale": 1.0,
+  "tool_length_m": 0.000256,
+  "rate_definition": "actual saved history.plastic_rate (constitutive equivalent plastic strain rate); not adjacent-frame PEEQ increment",
+  "failed_policy": "only saved failed particles hidden in display; input archives unchanged",
+  "completion_claim": "renders only the actual accepted saved interval; does not imply full planned schedule completion",
+  "checks": {
+    "plastic_strain": {
+      "sha256": "ec838b194acd42283b61b5b5bf27e1a8d66f99a2b75cbe94768ca16e61007a73",
+      "encoded_frames": 3,
+      "distinct_frames": 3,
+      "size": [
+        400,
+        400
+      ]
+    },
+    "temperature_K": {
+      "sha256": "ec838b194acd42283b61b5b5bf27e1a8d66f99a2b75cbe94768ca16e61007a73",
+      "encoded_frames": 3,
+      "distinct_frames": 3,
+      "size": [
+        400,
+        400
+      ]
+    },
+    "damage": {
+      "sha256": "ec838b194acd42283b61b5b5bf27e1a8d66f99a2b75cbe94768ca16e61007a73",
+      "encoded_frames": 3,
+      "distinct_frames": 3,
+      "size": [
+        400,
+        400
+      ]
+    },
+    "plastic_rate": {
+      "sha256": "ec838b194acd42283b61b5b5bf27e1a8d66f99a2b75cbe94768ca16e61007a73",
+      "encoded_frames": 3,
+      "distinct_frames": 3,
+      "size": [
+        400,
+        400
+      ]
+    }
+  },
+  "renderer": "ParaView",
+  "renderer_sha256": "8582dc1bd5086be521b848e1fcfb99b8e80590a2617c52de8dd817ae4b759b62",
+  "size": [
+    400,
+    400
+  ],
+  "supersample": 3,
+  "camera": {
+    "follow_saved_tool": false,
+    "offset_m": [
+      1.2e-05,
+      5e-06
+    ],
+    "center_m": [
+      0.0001111875,
+      0.000128
+    ],
+    "parallel_scale_m": 8.820625e-05
+  },
+  "fetched_coordinates_and_scalars_equal_saved": true
+}

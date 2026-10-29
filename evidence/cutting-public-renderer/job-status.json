@@ -1,0 +1,25 @@
+{
+  "started_utc": "2026-10-29T18:35:48.884043+00:00",
+  "state": "complete",
+  "command": [
+    "/opt/paraview/bin/pvpython",
+    "--force-offscreen-rendering",
+    "/work/run.py"
+  ],
+  "cpu_affinity": [
+    32,
+    33,
+    34,
+    35
+  ],
+  "memory_headroom_at_start": 6433538048,
+  "limit_seconds": 300.0,
+  "uss_limit_bytes": 4294967296,
+  "peak_uss_bytes": 705638400,
+  "minimum_memory_headroom": 5804544000,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 50.09829284250736,
+  "returncode": 0
+}
