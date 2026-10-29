@@ -1,0 +1,125 @@
+{
+  "task": "blast-sandwich-public-optimizer-setup-v2-20261030",
+  "container_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-29T23:30:41.310982713Z",
+    "FinishedAt": "2026-10-29T23:30:55.754574169Z"
+  },
+  "job": {
+    "started_utc": "2026-10-29T23:30:41.444263+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "-m",
+      "tools.optimize_sandwich_rational",
+      "configuration.json",
+      "--check-only"
+    ],
+    "cpu_affinity": [
+      60,
+      61,
+      62,
+      63
+    ],
+    "memory_headroom_at_start": 8581050368,
+    "limit_seconds": 600.0,
+    "uss_limit_bytes": 6442450944,
+    "peak_uss_bytes": 2178777088,
+    "minimum_memory_headroom": 6402187264,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 14.242847695946693,
+    "returncode": 0
+  },
+  "files_sha256": {
+    "source-sha256.json": "670e3618ad0321ce48985e6be5b2c6a9a677f3535fc041f736a35a44673d6c78",
+    "configuration.json": "b256c079db74dfa03b52176f0d5e358804b1da89b912011a86e782eca3d0874e",
+    "job/status.json": "a42e4d5fe7ca0b8f76820eaf46b27824b85b497d22827dac8237549da19d0a56",
+    "job/solver.log": "b988f361518cb381c996c910af2740933d0bbb83a06853b49ed330f19e557a0b",
+    "output/setup-check.json": "b988f361518cb381c996c910af2740933d0bbb83a06853b49ed330f19e557a0b"
+  },
+  "report": {
+    "passed": true,
+    "inputs": {
+      "configuration_sha256": "b256c079db74dfa03b52176f0d5e358804b1da89b912011a86e782eca3d0874e",
+      "freeze_receipt_sha256": "6bf5e8a625c5a415fa6f06a11572578e4e9bc0f1343c8c3bd6e6bc0bafb35e8e",
+      "basis_artifact_sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+      "basis_numeric_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+      "initial_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+      "signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+      "entry_point_sha256": "bec32de3a7623efc14f1ef87a1fc513c30cb081eafbe1d3023d1265669dcbe4c",
+      "binding": {
+        "settings": {
+          "length": 0.3,
+          "width": 0.3,
+          "skin": 0.002,
+          "core": 0.02,
+          "edge": 0.015,
+          "xy_step": 0.01,
+          "z_step": 0.001,
+          "controls": [
+            24,
+            24,
+            3
+          ],
+          "filter_radius": 0.015,
+          "phi_min": 0.08,
+          "phi_max": 0.35,
+          "target_phi": 0.18,
+          "peak_pressure": 500000.0,
+          "pulse_duration": 0.0002,
+          "horizon": 0.002,
+          "cfl": 0.15,
+          "displacement_limit": 0.005,
+          "stress_limit": 200000000.0,
+          "block_steps": 32,
+          "stage": "fixed-mass"
+        },
+        "order": 2,
+        "dt": 1.25e-07,
+        "time_chunk": 16,
+        "ks_relative_error": 0.005,
+        "assembly_chunk": 256,
+        "basis": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+        "sources": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+          "examples/blast_sandwich_reduced.py": "b7bcf55847e6724efa20f56f75b5cc034440942d2ae1aa9df159e60f65a601d8",
+          "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11"
+        },
+        "jax": "0.12.0.1",
+        "jaxlib": "0.12.0.1",
+        "numpy": "2.5.4",
+        "sqp_evaluator": {
+          "method": "case-pullback-v1",
+          "implementation_sha256": "15c4d846c328e5108182159527287af27a035f8d430ffeb37b12664a06daa3bb",
+          "fixed_mass": true,
+          "time_chunk": 16,
+          "all_time_space_stress_samples_retained": true,
+          "max_tie_rule": "Equal cotangents for exactly equal maxima, matching jnp.max.",
+          "mass_cotangent": "Zero only for the scalar reported mass; M and K both retain their full material-map derivatives."
+        }
+      }
+    },
+    "operator_relative_l2": {
+      "mass": 5.911484813952898e-16,
+      "stiffness": 1.094801009515043e-15
+    },
+    "mass_kg": 1.8467999999999998,
+    "scope": "Frozen basis, operators and public optimizer setup; no new optimization or MPM qualification."
+  },
+  "scope": "Public frozen-basis optimizer setup and operator replay; SQP evaluator equivalence checked separately.",
+  "full_mpm_qualification": false,
+  "global_optimum_claim": false
+}

@@ -154,3 +154,25 @@ compiled-function cache sizes. The [equivalence receipt](../evidence/blast-sandw
 also records tests of tied maxima and checkpoint isolation. These checks
 establish numerical equivalence, not independent MPM accuracy or a measured
 speedup on identical CPU allocations.
+
+After constructing and freezing the public basis, run the standalone optimizer:
+
+```console
+python -m tools.optimize_sandwich_rational examples/sandwich_rational_optimization.json --check-only
+python -m tools.optimize_sandwich_rational examples/sandwich_rational_optimization.json --iterations 4
+python -m tools.optimize_sandwich_rational examples/sandwich_rational_optimization.json --iterations 4 --resume
+```
+
+The first command checks the frozen mass/stiffness operators, boundary,
+reference-mass normalization, loads and observation matrix. The following
+commands use the same rank130 basis, fixed mass, three loads and complete
+time histories. Each bounded invocation retains the best strictly feasible
+controls; resuming preserves controls/history and resets the SLSQP Hessian.
+Input and implementation hashes prevent an incompatible restart. Outputs are
+under `outputs/rational-optimization/optimizer/`; `selected.npz` and
+`selected-material.npz` contain the retained design. This entry point starts
+from the public round1 fixture. Later candidates require their own explicit
+control artifact/hash and output directory, followed by independent MPM checks.
+The [public setup replay](../evidence/blast-sandwich-reduced/union130-public-optimizer-setup.json)
+reproduced the frozen mass and stiffness matrices to relative L2 below
+`1.10e-15` and matched the separately verified SQP evaluator signature.
