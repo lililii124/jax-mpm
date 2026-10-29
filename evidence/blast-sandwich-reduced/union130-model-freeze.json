@@ -1,0 +1,39 @@
+{
+  "scope": "Physics-only union at initial and selected material vertices; validation allocation unchanged from rational-v18 policy.",
+  "basis": {
+    "path": ".local/blast-sandwich-union-assess-v21-20261030/output/canonical-basis.npz",
+    "sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+    "numeric_basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+    "rank": 130
+  },
+  "selected_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+  "operator_generation_capsule_sha256": "6cffba98967d62b70390237327606b75faab71bb78cd30f38a97fb47e59e6cca",
+  "development_assessment_sha256": "dc292b6b3208b84e66c0a0bc743b12b75122abb91ea5b1bb0cb92cd9d8def0c3",
+  "corrected_energy_audit_sha256": "16db25c0bcd8c6fac68bd1571fa150474cafe354bde1cfe6f48d441a238ea263",
+  "fresh_validation": {
+    "steps": [
+      31000,
+      32000,
+      33000,
+      34000,
+      35000,
+      36000,
+      37000,
+      38000,
+      39000,
+      40000,
+      41000,
+      42000
+    ],
+    "history_interval_steps": [
+      31000,
+      42000
+    ],
+    "response_gate": 0.05,
+    "omitted_energy_gate": 0.05
+  },
+  "no_mpm_displacement_direction_fitting": true,
+  "old_failures_retained": true,
+  "complete2ms_three_case_qualification": false,
+  "assessment_reporting_correction": "v21 energy balance and coordinate probe zero values were placeholders, not measured results. Excluded from qualification; true v20 energy audit will be recorded separately."
+}

@@ -1,0 +1,80 @@
+{
+  "scope": "Saved-state rendering and input checks; no completed-process or contact qualification.",
+  "working_renderer_sha256": "9206546d0a897d19060cc581f5e626f635edc513c6ac675fb2f184c5116cdb19",
+  "public_renderer_lf_sha256": "86f223c183117d12ca764fa9460a5feef28bb70313fe9f14217d8333a7a4091a",
+  "rendered_renderer_sha256": "09bfc59b0ddb8ed952740fdeccdc0208c7dce81cb5be4d94d7d1ff1ff7b480fa",
+  "subsequent_input_hardening": "Duplicate-state, ordering and full stable-plan checks were added after the recorded render; geometry and render functions were unchanged.",
+  "input_checks": {
+    "passed": true,
+    "checks": {
+      "exact_actual_boundary_duplicates": "accepted, two unique actual states and reference-domain checks passed",
+      "conflicting_duplicate_required_arrays": "conflicting duplicate saved state (0.0053, 22088): F",
+      "same_step_different_time": "same saved step has different physical times: 22088",
+      "nonincreasing_steps": "saved physical times and step indices must be strictly increasing",
+      "nonincreasing_times": "saved physical times and step indices must be strictly increasing",
+      "material_mismatch": "input windows have different stable physical/numerical plans: ['young_Pa']",
+      "numerical_dt_mismatch": "input windows have different stable physical/numerical plans: ['integrator_base_dt_s']",
+      "bearing_bc_mismatch": "input windows have different stable physical/numerical plans: ['guide_policy']"
+    },
+    "actual_duplicate_times_s": [
+      0.0053,
+      0.0053748796265566745
+    ]
+  },
+  "render_review": {
+    "schema": "weaving-actual-prefix-media-review-v1",
+    "passed": true,
+    "visual_review_passed": true,
+    "actual_saved_frames": [
+      22088,
+      23200,
+      24400
+    ],
+    "times_s": [
+      0.0053,
+      0.005566878669009686,
+      0.0058548772326892035
+    ],
+    "encoded_frames": 3,
+    "distinct_decoded_frames": 3,
+    "resolution": [
+      400,
+      400
+    ],
+    "supersample": 3,
+    "axes": false,
+    "annotations": false,
+    "fixed_camera": true,
+    "content_bounds_yx": [
+      [
+        28,
+        105,
+        370,
+        295
+      ],
+      [
+        28,
+        105,
+        369,
+        295
+      ],
+      [
+        28,
+        105,
+        368,
+        295
+      ]
+    ],
+    "png_sha256": [
+      "3ea314ad39f12f70730f2062ac9e63557a75a9225f0be9a9d57bdee3f243fb6d",
+      "4dde57f2207901113fc0e13af14145b5415eed1214851bb88d5fb7250490e4fb",
+      "63a5eae17bda7a6840d5429eb3946d1aff7307ee86bf26a6b7f4adc9a7d77250"
+    ],
+    "gif_sha256": "9d6caf78de42edd6ba3284d024720e57073f05bf997730f741859449c2f3be18",
+    "geometry": "Saved particle x and F applied to recovered actual reference annular sectors; no prescribed finished weave.",
+    "family_mapping": "0..7 blue; 8..15 orange;16..23 green",
+    "arc_tessellation_max_relative_volume_deficit": 0.006413148855794248,
+    "visual_findings": "All 24 separate early-feed cords visible, three families correctly colored, no clipping, no text or axes.",
+    "scope": "Incomplete 5.3-5.854877ms prefix; no contact or completed weaving claim. Failed window has no durable final checkpoint."
+  }
+}

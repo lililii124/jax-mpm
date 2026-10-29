@@ -9,15 +9,15 @@ Live process status is recorded separately by the read-only local monitor.
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
-| [Triaxial weaving process](WEAVING_PROCESS.md) | Full 24-fibre geometry completed 5.3 ms on Linux; the next window is advancing on native Windows after a 100-step comparison and physical roundoff review | Complete the 47.0412 ms protocol and render its process |
+| [Triaxial weaving process](WEAVING_PROCESS.md) | Full 24-fibre geometry completed 5.3 ms; a Windows monitor file-write failure interrupted the next window, which is recovering from that checkpoint with guarded status-write retries | Complete the 47.0412 ms protocol and render its process |
 | AT2 fracture | Zero-initial-damage path completed; user approved its GIF for publication | Preserve the accepted example; further tip-symmetry investigation cancelled |
 | Anisotropic phase-field fracture | Complete load path and actual curved-crack GIF approved; fitted path angle 7.41 degrees | Preserve the accepted example |
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Three fixed-mass rounds completed; baseline eccentric full MPM completed its 2 ms history and GIF; baseline uniform/central and selected eccentric histories continue | Validate the load-driven replacement for the failed reduced model before another optimization round |
+| Blast-loaded sandwich design | A frozen two-design, load-driven basis passed independent response and energy checks; reevaluation selects round 2 over round 3; further fixed-mass optimization is running | Retain the best feasible design and verify its complete three-case response with independent full MPM |
 | Hypervelocity sphere impact | Restart and split-state mapping repaired; host contact caching and retained converged time steps are advancing the accepted trajectory | Continue toward the debris-cloud stage, retaining physical guards and recording sustained throughput |
-| Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds replace the previews in eight 400×400 GIFs | Preserve the full histories; improve the two increment-rate display scales |
+| Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale | Preserve the completed animations and compact provenance; retire unused raw files |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
 
 The read-only local monitor records process status, accepted steps/time, source
@@ -63,12 +63,14 @@ The [problem specification](BLAST_SANDWICH_DESIGN.md) defines geometry, loading,
 design controls, constraints, memory strategy and acceptance criteria.
 
 The earlier reduced bases were inadequate against independent full MPM.
-The current 510-mode basis adds residual modes from early full-MPM snapshots;
-later time intervals remain independent checks. Eight optimization iterations
-retained a feasible candidate with a 21.95% lower reduced-model objective,
-0.718707 mm worst back-face peak displacement and 137.984 MPa maximum skin
-stress at unchanged mass. The iteration limit was reached; optimizer
-convergence and full-model design improvement have not been established.
+The replacement uses 130 load-driven directions built from the initial and
+selected designs' physical operators. It was frozen before reading the new
+selected-design validation interval, steps 31000–42000. Maximum response error
+was 1.955% and omitted strain energy 0.691%, below the unchanged 5% criteria.
+The previously failed baseline interval now has a 2.509% maximum response error.
+The [validation record](../evidence/blast-sandwich-reduced/union130-validation.json)
+retains the original failures and distinguishes checked intervals from the
+still-unqualified complete three-case response.
 
 Continue optimization in successive rounds from the best strictly feasible
 controls, retaining each round's design hash and metrics. Three consecutive
@@ -76,9 +78,18 @@ rounds improving the objective by no more than 0.1% trigger a local convergence
 review, not a claim of global optimality. Full-MPM constraints and improvement
 must also pass before accepting the design. Validation already in progress
 remains bound to its original control hash; a newer candidate does not silently
-replace it. Round 2 completed with objective 0.1427671121, improving the
-first-round value of 0.1446114802 by 1.2754%. Round 3 completed with objective
-0.1416732231 at the same mass. These are reduced-model values, not verified
+replace it. All existing candidates were reevaluated on the corrected model:
+
+| Design | Objective | Worst back-face peak (mm) | Peak skin stress (MPa) |
+| --- | ---: | ---: | ---: |
+| Uniform | 0.1911827510 | 0.947513 | 116.208 |
+| Round 1 | 0.1659767800 | 0.824258 | 155.831 |
+| Round 2 | 0.1635330222 | 0.811996 | 158.043 |
+| Round 3 | 0.1741008079 | 0.863537 | 150.074 |
+
+All retain the prescribed mass and satisfy the reduced-model constraints.
+Round 2 is the new warm start; round 3's earlier apparent improvement did not
+survive model correction. These remain reduced-model predictions, not verified
 full-MPM performance improvements.
 
 A 1 microsecond versus 0.5 microsecond reduced-model comparison checks time
@@ -103,19 +114,15 @@ reduced model's 0.718707 mm full-history worst prediction. This requires model
 correction with separate training and validation intervals; repeated frozen-ROM
 iterations alone cannot establish an accurate optimum. Full-history and
 three-case improvement remain unproven.
-The persistent optimizer controller may finish round 3 on the frozen model,
-then requires model correction. Selected-design steps 1000–8000 are allocated
-to early-response training; steps 9000–18000 are development data and steps
-19000 onward are reserved for fresh validation after the model is frozen. Subspace
-projection and finite-deformation force errors must be distinguished before
-claiming that additional modes resolve the discrepancy. Added snapshot modes
-left 9.38% omitted strain energy. Eight inverse-stiffness directions subsequently
-reduced that error to 4.17% on development data, but the frozen rank-526 model
-failed the independent selected-design interval 19000–30000: peak error 6.25%,
-curve error 7.80%, and omitted strain energy 14.84%. The original 5% criteria
-and interval remain unchanged. No fourth optimization round starts with this
-model. The next correction uses full-horizon physical operators and load-driven
-directions; any later model must reserve a new independent validation interval.
+The earlier rank-526 correction failed selected-design steps 19000–30000:
+peak error 6.25%, curve error 7.80%, and omitted strain energy 14.84%.
+That failure is retained; this interval became development data for the next
+model, and steps 31000–42000 were reserved for its independent check.
+The new two-design basis passes both the earlier intervals and that fresh check.
+Its time-step sensitivity and energy balance also pass. Subsequent optimization
+preserves the frozen basis, checks projected operator agreement and derivatives,
+and retains only strictly feasible improvements. A changed candidate still
+requires its own independent full-MPM validation.
 The 5 mm production refinement and face plasticity/core crushing remain separate
 requirements; neither this baseline nor a reduced-model energy ledger proves
 their completion.

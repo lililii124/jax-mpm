@@ -15,7 +15,7 @@
   ],
   "failed_particles_hidden": true,
   "rate_definition": "Difference of cumulative equivalent plastic strain over the actual adjacent saved-frame interval; matched IDs, active in both frames.",
-  "source_integration": "Production drivers are not yet integrated into the public examples.",
+  "source_integration": "Public Johnson/Seo presets, fresh/resumable drivers and rendering commands are documented in docs/CUTTING.md; these images retain the recorded production lineage.",
   "images": {
     "equivalent_plastic_strain": {
       "path": "docs/images/home/cutting--johnson--equivalent-plastic-strain.gif",

@@ -67,3 +67,37 @@ records the completed 5.3 ms trajectory and its source hashes. Its terminal
 state still has 200 active bearings and no active contact patches. The full
 weaving and contact sequence remains in progress; this prefix does not establish
 full-process completion or convergence. The same source files are provided here.
+
+## Render saved particle states
+
+The renderer reads explicit output directories containing `plan.json` and actual
+`frame_*.npz` archives. It does not run the solver or interpolate saved states.
+With ParaView's `pvpython` available:
+
+~~~bash
+pvpython --force-offscreen-rendering tools/render_weaving_paraview.py \
+  --input outputs/weaving-1100us outputs/weaving-2200us \
+  --output outputs/weaving-render --frames 13 --supersample 3
+~~~
+
+Use ordinary Python with the same arguments and `--validate-only` to check inputs
+before rendering. Adjacent windows may repeat a boundary state; repeated
+step/time pairs must have identical required saved arrays. Conflicting copies,
+non-increasing times or steps, and incompatible physical or numerical plans
+are rejected.
+
+Geometry uses each particle's saved position and deformation gradient:
+`x + F * reference_offset`, with unit deformation scale. Reference offsets come
+from actual straight-cord sampling: equal-area annular sectors and the saved
+longitudinal station spacing. Analytic sector volumes are checked against saved
+`reference_volume`. Curved boundaries use eight chord segments by default; for the
+current four/eight-particle rings this understates sector volume by at most
+0.642 percent. Increase `--arc-segments` for a finer display tessellation.
+
+Fibre IDs are grouped into three families: blue, orange and green. Only particles
+marked failed are hidden. The camera remains fixed across the selected actual
+frames, with no axes or text. Default images render at 1200 square pixels and
+downsample to 400 square pixels with threefold supersampling. Outputs include
+a GIF, PNGs, input hashes, camera settings and geometry checks. Rendering a
+bounded prefix does not establish completed weaving, successful contact, or
+convergence.

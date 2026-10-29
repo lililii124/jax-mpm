@@ -1,0 +1,221 @@
+{
+  "scope": "Frozen rank130 physics-only two-design correction passed predeclared selected prefix and old baseline window. Additional optimizer candidates need matched independent full-MPM confirmation.",
+  "basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+  "rank": 130,
+  "source_receipts": {
+    "freeze": {
+      "path": "evidence/blast-sandwich-reduced/union130-model-freeze.json",
+      "sha256": "6e082c90933dee590b0acad77ff4b1e1c60b33894342c7fd63960baa45d4664a"
+    },
+    "known": {
+      "path": ".local/blast-sandwich-union-assess-v21-20261030/output/review.json",
+      "sha256": "dc292b6b3208b84e66c0a0bc743b12b75122abb91ea5b1bb0cb92cd9d8def0c3"
+    },
+    "energy": {
+      "path": ".local/blast-sandwich-union-energy-v22-20261030/output/review.json",
+      "sha256": "16db25c0bcd8c6fac68bd1571fa150474cafe354bde1cfe6f48d441a238ea263"
+    },
+    "fresh": {
+      "path": ".local/blast-sandwich-union-validation-v23-20261030/output/review.json",
+      "sha256": "0a6dd0165483a2dddbfdf84085d34ebd6121371d495b51566d69fea124d1e2ce"
+    }
+  },
+  "selected_development_windows": [
+    {
+      "first_step": 9000,
+      "last_step": 18000,
+      "role": "previously inspected development",
+      "peak_relative_error": 0.011319448953522881,
+      "curve_relative_l2": 0.006857224334542437,
+      "maximum_difference_over_reference_peak": 0.013440159013709294,
+      "maximum_omitted_energy_fraction": 0.005001860011909942
+    },
+    {
+      "first_step": 19000,
+      "last_step": 30000,
+      "role": "previously inspected development",
+      "peak_relative_error": 0.012595604361361201,
+      "curve_relative_l2": 0.014734424716737325,
+      "maximum_difference_over_reference_peak": 0.023675282172991627,
+      "maximum_omitted_energy_fraction": 0.007885384988436273
+    }
+  ],
+  "baseline_failed_window_recheck": {
+    "first_step": 36001,
+    "last_step": 49000,
+    "old_frozen_failure_preserved": true,
+    "peak_relative_error": 0.01961928752121822,
+    "curve_relative_l2": 0.016637150490011767,
+    "maximum_difference_over_reference_peak": 0.025090244603690942
+  },
+  "time_sensitivity": [
+    {
+      "design": "selected",
+      "case": 0,
+      "peak_relative_difference": 1.0866490587346789e-06,
+      "curve_relative_l2": 1.5758314742486635e-05,
+      "maximum_difference_over_finer_peak": 0.0004950987652563722
+    },
+    {
+      "design": "selected",
+      "case": 1,
+      "peak_relative_difference": 1.5416625487318925e-07,
+      "curve_relative_l2": 3.947473236207243e-06,
+      "maximum_difference_over_finer_peak": 0.00011681794896571505
+    },
+    {
+      "design": "selected",
+      "case": 2,
+      "peak_relative_difference": 1.0702973041176733e-06,
+      "curve_relative_l2": 7.981709857160026e-06,
+      "maximum_difference_over_finer_peak": 0.00013733055284916823
+    },
+    {
+      "design": "initial",
+      "case": 0,
+      "peak_relative_difference": 1.2782944893707793e-06,
+      "curve_relative_l2": 1.249601679233804e-05,
+      "maximum_difference_over_finer_peak": 0.00015806825577531706
+    },
+    {
+      "design": "initial",
+      "case": 1,
+      "peak_relative_difference": 4.51455141159407e-07,
+      "curve_relative_l2": 5.0331770707068e-06,
+      "maximum_difference_over_finer_peak": 5.3874059254282626e-05
+    },
+    {
+      "design": "initial",
+      "case": 2,
+      "peak_relative_difference": 4.0464236814585774e-06,
+      "curve_relative_l2": 6.072368898466187e-06,
+      "maximum_difference_over_finer_peak": 0.00017986780355576786
+    }
+  ],
+  "corrected_energy_audit": {
+    "scope": "Corrected energy audit from frozen v20 arrays; replaces invalid v21 zero placeholder energy fields only.",
+    "basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+    "fine_response_audits": {
+      "selected": {
+        "relative_energy_balance_error": 1.0024583013722135e-11,
+        "response_sha256": "fdd25b49011255fb9d387bff08acf5c53daebbc5c55c751773be34b301e22dfc"
+      },
+      "initial": {
+        "relative_energy_balance_error": 5.363559637672361e-12,
+        "response_sha256": "db9dca21237708d8cb55001ae4ce6cc6003bb59cfbf529751aeec717eec64143"
+      }
+    },
+    "fresh_selected_steps_read": false
+  },
+  "fresh_validation": {
+    "scope": "Physics-only union at initial and selected material vertices; validation allocation unchanged from rational-v18 policy.",
+    "frozen_model_sha256": "6e082c90933dee590b0acad77ff4b1e1c60b33894342c7fd63960baa45d4664a",
+    "validation_allocation": {
+      "steps": [
+        31000,
+        32000,
+        33000,
+        34000,
+        35000,
+        36000,
+        37000,
+        38000,
+        39000,
+        40000,
+        41000,
+        42000
+      ],
+      "history_interval_steps": [
+        31000,
+        42000
+      ],
+      "response_gate": 0.05,
+      "omitted_energy_gate": 0.05
+    },
+    "response": {
+      "peak_relative_error": 0.001487144280729158,
+      "curve_relative_l2": 0.009936030453441186,
+      "maximum_difference_over_reference_peak": 0.01954994611555615
+    },
+    "projection": [
+      {
+        "step": 31000,
+        "omitted_linear_strain_energy_fraction": 0.004202900076657912
+      },
+      {
+        "step": 32000,
+        "omitted_linear_strain_energy_fraction": 0.003325175913631462
+      },
+      {
+        "step": 33000,
+        "omitted_linear_strain_energy_fraction": 0.005421231246455882
+      },
+      {
+        "step": 34000,
+        "omitted_linear_strain_energy_fraction": 0.006687491919975419
+      },
+      {
+        "step": 35000,
+        "omitted_linear_strain_energy_fraction": 0.005457846193724025
+      },
+      {
+        "step": 36000,
+        "omitted_linear_strain_energy_fraction": 0.006844020058355382
+      },
+      {
+        "step": 37000,
+        "omitted_linear_strain_energy_fraction": 0.00662032511820132
+      },
+      {
+        "step": 38000,
+        "omitted_linear_strain_energy_fraction": 0.005860650373795018
+      },
+      {
+        "step": 39000,
+        "omitted_linear_strain_energy_fraction": 0.006911087335251809
+      },
+      {
+        "step": 40000,
+        "omitted_linear_strain_energy_fraction": 0.006678361154017209
+      },
+      {
+        "step": 41000,
+        "omitted_linear_strain_energy_fraction": 0.005180633197631401
+      },
+      {
+        "step": 42000,
+        "omitted_linear_strain_energy_fraction": 0.0032828231218866577
+      }
+    ],
+    "maximum_omitted_energy_fraction": 0.006911087335251809,
+    "response_gate_passed": true,
+    "projection_gate_passed": true,
+    "thresholds": {
+      "response": 0.05,
+      "omitted_energy": 0.05
+    },
+    "actual_full_mpm_window": {
+      "first_step": 31000,
+      "last_step": 42000,
+      "first_time_s": 0.0007428708363287803,
+      "last_time_s": 0.00100647016534867,
+      "peak_back_m": 0.0005903904675037194,
+      "peak_skin_Pa": 123563531.65885296
+    },
+    "extraction_receipt_sha256": "e254c1ad1e3391630a1969a1af8b1add463eeae666d8017b21579356677ba127",
+    "reference_history_sha256": "99de8645b550f6b34c887d398a949a2c14dabeb345ec4913355f246d45a52b89",
+    "linear_energy_relative_error": 1.0024583013722135e-11,
+    "complete2ms_all3cases_qualified": false,
+    "global_optimum_claim": false
+  },
+  "invalid_original_v21_fields": {
+    "fields": [
+      "linear_energy_relative_errors",
+      "coordinate_change_probe_difference_m"
+    ],
+    "reason": "Placeholders in original v21 capsule; excluded from qualification. Original receipt retained unchanged; v22 recomputes energy from frozen response arrays."
+  },
+  "old_failures_retained": true,
+  "complete2ms_three_case_mpm_qualification": false,
+  "global_optimum_claim": false
+}
