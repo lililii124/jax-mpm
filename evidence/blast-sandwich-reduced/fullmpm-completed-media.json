@@ -1,0 +1,387 @@
+{
+  "scope": "Completed independent full-MPM trajectories; selected-eccentric is round1, not the latest optimizer candidate.",
+  "media": [
+    {
+      "label": "initial-uniform",
+      "path": "docs/images/sandwich-fullmpm/initial-uniform.gif",
+      "gif_sha256": "26d70608d381d840eab873ec9dd82ae79a387db88db90292524364b83f86dd45",
+      "frames": 83,
+      "render_states": 85,
+      "size": [
+        400,
+        400
+      ],
+      "physical_deformation_scale": 1,
+      "color_range_m": [
+        0,
+        0.001
+      ],
+      "source_summary": {
+        "case": "uniform",
+        "completed": true,
+        "steps": 83460,
+        "time_s": 0.0019999999999972128,
+        "mass_kg": 1.8468,
+        "peak_back_displacement_m": 0.000566445616573924,
+        "peak_skin_stress_Pa": 53736347.4287627,
+        "minimum_J": 0.9988661207717977,
+        "maximum_energy_residual_J": 6.063980828585613e-08,
+        "pressure_impulse_z_Ns": -4.500000000000008,
+        "support_impulse_z_Ns": 6.032093994221115,
+        "peak_back_time_s": 0.0014150011981787683,
+        "source_sha256": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+        },
+        "nonlinear_blast_qualified": false,
+        "plan": {
+          "settings": {
+            "length": 0.3,
+            "width": 0.3,
+            "skin": 0.002,
+            "core": 0.02,
+            "edge": 0.015,
+            "xy_step": 0.01,
+            "z_step": 0.001,
+            "controls": [
+              24,
+              24,
+              3
+            ],
+            "filter_radius": 0.015,
+            "phi_min": 0.08,
+            "phi_max": 0.35,
+            "target_phi": 0.18,
+            "peak_pressure": 500000.0,
+            "pulse_duration": 0.0002,
+            "horizon": 0.002,
+            "cfl": 0.15,
+            "displacement_limit": 0.005,
+            "stress_limit": 200000000.0,
+            "block_steps": 32,
+            "stage": "fixed-mass"
+          },
+          "cells": [
+            30,
+            30,
+            24
+          ],
+          "skin_cells": 2,
+          "spacing_m": [
+            0.01,
+            0.01,
+            0.001
+          ],
+          "particles": 172800,
+          "nodes": 29403,
+          "design_variables": 1728,
+          "steps": 83460,
+          "dt_s": 2.3963575365444526e-08,
+          "fixed_wave_speed_bound_m_s": 6197.824298019838,
+          "nominal_pressure_impulse_Pa_s": 50.0,
+          "discrete_pressure_impulse_Pa_s": 50.000000000000014,
+          "resultant_impulse_Ns": 4.500000000000001,
+          "uniform_mass_kg": 1.8468,
+          "memory_estimate": {
+            "support_bytes": 167961600,
+            "state_bytes": 14558872,
+            "raw_all_step_state_bytes": 1215083457120,
+            "reverse_checkpoint_state_bytes": 38449980952,
+            "scope": "Array lower bounds, excluding compiler, AD residuals and particle gather temporaries."
+          },
+          "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+        }
+      },
+      "source_history_sha256": "220cb0c2c94a1e367784a27959f17167a100fa02aae0bc838af28dcd84f4eaf7"
+    },
+    {
+      "label": "initial-central",
+      "path": "docs/images/sandwich-fullmpm/initial-central.gif",
+      "gif_sha256": "375f23db1725aaaff5cf411ec0f5cba861ceec3b4fb1a260d4e148bd9c4c6cd0",
+      "frames": 84,
+      "render_states": 85,
+      "size": [
+        400,
+        400
+      ],
+      "physical_deformation_scale": 1,
+      "color_range_m": [
+        0,
+        0.001
+      ],
+      "source_summary": {
+        "case": "central",
+        "completed": true,
+        "steps": 83460,
+        "time_s": 0.0019999999999972128,
+        "mass_kg": 1.8468,
+        "peak_back_displacement_m": 0.0009476155365860655,
+        "peak_skin_stress_Pa": 89077268.38710688,
+        "minimum_J": 0.9977472047112854,
+        "maximum_energy_residual_J": 1.3186520719798978e-07,
+        "pressure_impulse_z_Ns": -4.500000000000003,
+        "support_impulse_z_Ns": 8.73233529849427,
+        "peak_back_time_s": 0.0006531272465851905,
+        "source_sha256": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+        },
+        "nonlinear_blast_qualified": false,
+        "plan": {
+          "settings": {
+            "length": 0.3,
+            "width": 0.3,
+            "skin": 0.002,
+            "core": 0.02,
+            "edge": 0.015,
+            "xy_step": 0.01,
+            "z_step": 0.001,
+            "controls": [
+              24,
+              24,
+              3
+            ],
+            "filter_radius": 0.015,
+            "phi_min": 0.08,
+            "phi_max": 0.35,
+            "target_phi": 0.18,
+            "peak_pressure": 500000.0,
+            "pulse_duration": 0.0002,
+            "horizon": 0.002,
+            "cfl": 0.15,
+            "displacement_limit": 0.005,
+            "stress_limit": 200000000.0,
+            "block_steps": 32,
+            "stage": "fixed-mass"
+          },
+          "cells": [
+            30,
+            30,
+            24
+          ],
+          "skin_cells": 2,
+          "spacing_m": [
+            0.01,
+            0.01,
+            0.001
+          ],
+          "particles": 172800,
+          "nodes": 29403,
+          "design_variables": 1728,
+          "steps": 83460,
+          "dt_s": 2.3963575365444526e-08,
+          "fixed_wave_speed_bound_m_s": 6197.824298019838,
+          "nominal_pressure_impulse_Pa_s": 50.0,
+          "discrete_pressure_impulse_Pa_s": 50.000000000000014,
+          "resultant_impulse_Ns": 4.500000000000001,
+          "uniform_mass_kg": 1.8468,
+          "memory_estimate": {
+            "support_bytes": 167961600,
+            "state_bytes": 14558872,
+            "raw_all_step_state_bytes": 1215083457120,
+            "reverse_checkpoint_state_bytes": 38449980952,
+            "scope": "Array lower bounds, excluding compiler, AD residuals and particle gather temporaries."
+          },
+          "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+        }
+      },
+      "source_history_sha256": "d15b81247a03a419d00bacb72714d2fdbf6cb9f73c80c3d86893f712bed3edc7"
+    },
+    {
+      "label": "initial-eccentric",
+      "path": "docs/images/sandwich-fullmpm/initial-eccentric.gif",
+      "gif_sha256": "d8f22278b6e5f43f262ceb251501ee6e1d59ae00cb98ab11c499b969077c84d5",
+      "frames": 84,
+      "render_states": 85,
+      "size": [
+        400,
+        400
+      ],
+      "physical_deformation_scale": 1,
+      "color_range_m": [
+        0,
+        0.001
+      ],
+      "source_summary": {
+        "case": "eccentric",
+        "completed": true,
+        "steps": 83460,
+        "time_s": 0.0019999999999972128,
+        "mass_kg": 1.8468,
+        "peak_back_displacement_m": 0.0008893986157413594,
+        "peak_skin_stress_Pa": 119270609.689717,
+        "minimum_J": 0.9973935027323987,
+        "maximum_energy_residual_J": 1.7914382510753057e-07,
+        "pressure_impulse_z_Ns": -4.500000000000003,
+        "support_impulse_z_Ns": 7.28134941594261,
+        "peak_back_time_s": 0.0013813323747903189,
+        "source_sha256": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+        },
+        "nonlinear_blast_qualified": false,
+        "plan": {
+          "settings": {
+            "length": 0.3,
+            "width": 0.3,
+            "skin": 0.002,
+            "core": 0.02,
+            "edge": 0.015,
+            "xy_step": 0.01,
+            "z_step": 0.001,
+            "controls": [
+              24,
+              24,
+              3
+            ],
+            "filter_radius": 0.015,
+            "phi_min": 0.08,
+            "phi_max": 0.35,
+            "target_phi": 0.18,
+            "peak_pressure": 500000.0,
+            "pulse_duration": 0.0002,
+            "horizon": 0.002,
+            "cfl": 0.15,
+            "displacement_limit": 0.005,
+            "stress_limit": 200000000.0,
+            "block_steps": 32,
+            "stage": "fixed-mass"
+          },
+          "cells": [
+            30,
+            30,
+            24
+          ],
+          "skin_cells": 2,
+          "spacing_m": [
+            0.01,
+            0.01,
+            0.001
+          ],
+          "particles": 172800,
+          "nodes": 29403,
+          "design_variables": 1728,
+          "steps": 83460,
+          "dt_s": 2.3963575365444526e-08,
+          "fixed_wave_speed_bound_m_s": 6197.824298019838,
+          "nominal_pressure_impulse_Pa_s": 50.0,
+          "discrete_pressure_impulse_Pa_s": 50.000000000000014,
+          "resultant_impulse_Ns": 4.500000000000001,
+          "uniform_mass_kg": 1.8468,
+          "memory_estimate": {
+            "support_bytes": 167961600,
+            "state_bytes": 14558872,
+            "raw_all_step_state_bytes": 1215083457120,
+            "reverse_checkpoint_state_bytes": 38449980952,
+            "scope": "Array lower bounds, excluding compiler, AD residuals and particle gather temporaries."
+          },
+          "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+        }
+      },
+      "source_history_sha256": "8bb60ce360cf444d0306007e86d82f0c0168b618d296af631817d4dfabb064c9"
+    },
+    {
+      "label": "selected-eccentric",
+      "path": "docs/images/sandwich-fullmpm/selected-eccentric.gif",
+      "gif_sha256": "66c4ce61b1b4b9537aacd491be4312b7fabe6e39b48e99e220c5d9d17c5929b2",
+      "frames": 84,
+      "render_states": 85,
+      "size": [
+        400,
+        400
+      ],
+      "physical_deformation_scale": 1,
+      "color_range_m": [
+        0,
+        0.001
+      ],
+      "source_summary": {
+        "case": "eccentric",
+        "completed": true,
+        "steps": 83460,
+        "time_s": 0.0019999999999972128,
+        "mass_kg": 1.8468000000000002,
+        "peak_back_displacement_m": 0.0008147712116045583,
+        "peak_skin_stress_Pa": 154967502.02348197,
+        "minimum_J": 0.9910317461903255,
+        "maximum_energy_residual_J": 1.815967074492164e-07,
+        "pressure_impulse_z_Ns": -4.500000000000003,
+        "support_impulse_z_Ns": 7.342727524743971,
+        "peak_back_time_s": 0.00020965732087227415,
+        "source_sha256": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+        },
+        "nonlinear_blast_qualified": false,
+        "plan": {
+          "settings": {
+            "length": 0.3,
+            "width": 0.3,
+            "skin": 0.002,
+            "core": 0.02,
+            "edge": 0.015,
+            "xy_step": 0.01,
+            "z_step": 0.001,
+            "controls": [
+              24,
+              24,
+              3
+            ],
+            "filter_radius": 0.015,
+            "phi_min": 0.08,
+            "phi_max": 0.35,
+            "target_phi": 0.18,
+            "peak_pressure": 500000.0,
+            "pulse_duration": 0.0002,
+            "horizon": 0.002,
+            "cfl": 0.15,
+            "displacement_limit": 0.005,
+            "stress_limit": 200000000.0,
+            "block_steps": 32,
+            "stage": "fixed-mass"
+          },
+          "cells": [
+            30,
+            30,
+            24
+          ],
+          "skin_cells": 2,
+          "spacing_m": [
+            0.01,
+            0.01,
+            0.001
+          ],
+          "particles": 172800,
+          "nodes": 29403,
+          "design_variables": 1728,
+          "steps": 83460,
+          "dt_s": 2.3963575365444526e-08,
+          "fixed_wave_speed_bound_m_s": 6197.824298019838,
+          "nominal_pressure_impulse_Pa_s": 50.0,
+          "discrete_pressure_impulse_Pa_s": 50.000000000000014,
+          "resultant_impulse_Ns": 4.500000000000001,
+          "uniform_mass_kg": 1.8468,
+          "memory_estimate": {
+            "support_bytes": 167961600,
+            "state_bytes": 14558872,
+            "raw_all_step_state_bytes": 1215083457120,
+            "reverse_checkpoint_state_bytes": 38449980952,
+            "scope": "Array lower bounds, excluding compiler, AD residuals and particle gather temporaries."
+          },
+          "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+        }
+      },
+      "source_history_sha256": "048bc6bb911174f8cad50e6a76785419482d457bc11e006a31a79c5f5def75e5"
+    }
+  ],
+  "new_candidate_three_case_qualification": false,
+  "refinement_qualified": false
+}

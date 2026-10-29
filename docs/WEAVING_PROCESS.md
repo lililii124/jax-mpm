@@ -68,10 +68,12 @@ the earlier trajectory and source hashes. A later
 completed cleanly and restored every state and history field bitwise. That
 checkpoint still has 200 active bearings and no active contact patches.
 The following Linux window reached 6.344 ms before exceeding its 6 GiB USS
-guard; it wrote no final checkpoint. Thus 5.85 ms remains the durable accepted
-prefix while the memory growth is addressed. This does not establish completed
-weaving, contact qualification or convergence. The same physical source files
-are provided here.
+guard; it wrote no final checkpoint. The subsequent recovery retained the same
+physical state, sources and time step, and completed a clean
+[6.4 ms checkpoint](../evidence/weaving-tl-process/accepted-prefix-6400us.json)
+under a 16 GiB container / 12 GiB USS budget. Short windows continue with fresh
+memory checks. This does not establish completed weaving, contact qualification
+or convergence. The same physical source files are provided here.
 
 ## Render saved particle states
 

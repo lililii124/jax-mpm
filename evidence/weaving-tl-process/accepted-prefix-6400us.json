@@ -1,0 +1,87 @@
+{
+  "schema": "weaving-tl-accepted-prefix-6400us-v1",
+  "scope": "Accepted bounded prefix only; full weaving duration not completed. Contact patches have not yet activated.",
+  "backend": "linux",
+  "task": "weaving-linux-memory-6400us-v2",
+  "accepted_time_s": 0.0064,
+  "accepted_step": 26672,
+  "full_protocol_duration_s": 0.04704120539381533,
+  "completed": false,
+  "checkpoint": {
+    "sha256": "9be6b789561a0e0caa0250d2b4b40e7145e56d0a26fc134549114b78bb9b4f1a",
+    "parent_time_s": 0.00585,
+    "parent_sha256": "557d021438fb3e495a1c5561fd32ecdc0fac05fd48759a10d82496fecbbdf75b"
+  },
+  "artifact_sha256": {
+    "output/summary.json": "014f2123da64eaafb5e5520e74df5388d019a92b0695f945e0736b93f98db526",
+    "output/binding.json": "09d08f596377c2facc2c555880389fef8ea40e66cd0beb15e00764a424614acf",
+    "job/status.json": "d1c744c3cee5cd1788e29f706362e9824d6835a8cabdf119d425bd5fe571478d"
+  },
+  "source_sha256": {
+    "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+    "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+    "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+    "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+    "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+    "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+    "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+    "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+    "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+  },
+  "physical_plan_sha256": "7b8c8769b8cb589b0b88d2c2b66d758d57c2c35183eb4eaf26ea7e8adac3f0db",
+  "requested_dt_s": 2.4e-07,
+  "base_dt_s": 2.399988030663109e-07,
+  "source_input_layout_material_runtime_dt_binding": "Original frozen binding retained; original platform bridge admits only previously qualified acoustic setup roundoff. No state or history values changed.",
+  "terminal": {
+    "kinetic_J": 1.657808227527412e-05,
+    "elastic_J": 1.882105120433384e-07,
+    "contact_J": 0.0,
+    "work_remainder_J": 5.7527961795314785e-12,
+    "absolute_machine_work_J": 8.880836860036371e-05,
+    "contact_patch_count": 0,
+    "coverage_pairs": 38,
+    "patch_branch_energy_difference_abs_total_J": 0.0,
+    "active_guides": 200,
+    "max_log_strain": 0.007520155451238578,
+    "momentum_relative_error": 4.45577795735266e-17,
+    "angular_momentum_relative_error": 1.0991774077951451e-17,
+    "maximum_active_bearing_y_error_m": 6.424336188158677e-19,
+    "maximum_active_bearing_xz_drift_m": 6.9180800552321455e-18
+  },
+  "resource_guard": {
+    "state": "complete",
+    "returncode": 0,
+    "guard_reason": null,
+    "cpu_affinity": [
+      48,
+      49,
+      50,
+      51
+    ],
+    "container_limit_gib": 16,
+    "uss_limit_gib": 12,
+    "peak_uss_bytes": 8162783232,
+    "wall_seconds": 1725.2105695083737
+  },
+  "continuation": {
+    "observation_utc": "2026-10-29T22:59:34.506027+00:00",
+    "last_accepted_durable_time_s": 0.0064,
+    "next_window_task": "weaving-linux-memory-6497000ns-v3",
+    "next_window_target_s": 0.006497,
+    "queue_full_goal_s": 0.04704120539381533,
+    "memory_admitted_short_windows": true,
+    "physical_source_and_guards_unchanged": true,
+    "remaining_protocol_not_claimed_complete": true
+  },
+  "earlier_receipts_retained": [
+    "accepted-prefix.json",
+    "accepted-prefix-5850us.json"
+  ]
+}

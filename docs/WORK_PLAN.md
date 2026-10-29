@@ -9,13 +9,13 @@ Live process status is recorded separately by the read-only local monitor.
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
-| [Triaxial weaving process](WEAVING_PROCESS.md) | Full 24-fibre geometry has a clean 5.85 ms checkpoint. Linux restored that state bitwise; its next window exceeded the 6 GiB USS guard and stopped, with memory diagnosis in progress | Resolve the memory growth, then complete the 47.0412 ms protocol and render its process |
+| [Triaxial weaving process](WEAVING_PROCESS.md) | Full 24-fibre geometry completed a clean 6.4 ms checkpoint after the earlier memory-guard stop. Short windows continue under a measured memory budget; a separate masked-array implementation is being checked against the original trajectory | Control compilation-cache growth, complete the 47.0412 ms protocol and render its process |
 | AT2 fracture | Zero-initial-damage path completed; user approved its GIF for publication | Preserve the accepted example; further tip-symmetry investigation cancelled |
 | Anisotropic phase-field fracture | Complete load path and actual curved-crack GIF approved; fitted path angle 7.41 degrees | Preserve the accepted example |
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Corrected fixed-mass optimization has reached round 5; round 4 retained a lower feasible objective. The older round-1 eccentric full-MPM comparison completed; the newer candidate has its own independent run | Retain the best feasible design and verify its complete three-case response with independent full MPM |
+| Blast-loaded sandwich design | Optimization has reached round 6. All three initial full-MPM histories and the older round-1 eccentric comparison completed; round-4 three-load verification and paired 5 mm refinement are running | Retain the best feasible design and verify its complete three-case response with independent full MPM |
 | Hypervelocity sphere impact | Restart and split-state mapping repaired; host contact caching and retained converged time steps are advancing the accepted trajectory | Continue toward the debris-cloud stage, retaining physical guards and recording sustained throughput |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -92,13 +92,17 @@ replace it. All existing candidates were reevaluated on the corrected model:
 | Round 2 | 0.1635330222 | 0.811996 | 158.043 |
 | Round 3 | 0.1741008079 | 0.863537 | 150.074 |
 | Round 4, best accepted iterate | 0.1465874642 | 0.725186 | 161.060 |
+| Round 5, best accepted iterate | 0.1458214519 | 0.719909 | 164.867 |
 
 All retain the prescribed mass and satisfy the reduced-model constraints.
 Round 2 supplied the corrected warm start; round 3's earlier apparent improvement
 did not survive model correction. Round 4 reached its wall-time bound after
 five accepted iterations, so it remains partial and does not count as a
-convergence stall. Round 5 continues from its best strictly feasible controls,
+convergence stall. Its best strictly feasible controls were
 `94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4`.
+Round 5 improved the objective another 0.523% before its soft deadline; it
+also remains partial. Round 6 continues from controls
+`10f489fe2ec2dfe20ddca1d94305c5442b1ec1742c13106e5c2e8160a7dd1c88`.
 These remain reduced-model predictions, not verified full-MPM improvements.
 
 A 0.25 microsecond versus 0.125 microsecond reduced-model comparison checks time
@@ -136,8 +140,15 @@ they do not establish the other loads, mesh convergence or a new candidate's acc
 
 This completed comparison uses the older round-1 controls, not round 4.
 The round-4 candidate has a separate virgin-state full-MPM run with its own
-control hash. Initial-design uniform and central full-MPM calculations are
-also running; matched selected-design comparisons remain required.
+control hash. Initial-design uniform and central full-MPM calculations have
+also completed their full 2 ms histories. The
+[three-load response check](../evidence/blast-sandwich-reduced/union130-completed-initial-responses.json)
+passed the original 5% threshold: maximum curve errors are 0.460%, 0.635%
+and 3.730% for uniform, central and eccentric pressure. Their full-MPM peaks
+are 0.566446, 0.947616 and 0.889399 mm. All completed animations are in the
+[full-MPM review](SANDWICH_FULL_MPM.md).
+The round-4 candidate's uniform, central and eccentric full-MPM runs remain
+bound to its original controls and are advancing independently.
 The original reduced model predicted 0.718707 mm for the selected worst
 response and failed qualification. Its discrepancy is retained rather than
 erased by the corrected model. Repeated frozen-ROM iterations alone cannot
@@ -151,9 +162,12 @@ Its time-step sensitivity and energy balance also pass. Subsequent optimization
 preserves the frozen basis, checks projected operator agreement and derivatives,
 and retains only strictly feasible improvements. A changed candidate still
 requires its own independent full-MPM validation.
-The 5 mm production refinement and face plasticity/core crushing remain separate
-requirements; neither this baseline nor a reduced-model energy ledger proves
-their completion.
+The paired initial/round-4 eccentric refinement is now running with 5 mm
+in-plane spacing, 691200 points and 85880 steps over the same 2 ms horizon.
+Each starts from its own virgin state, retains the same physical controls and
+fixed mass, and has a 24-hour resource budget. Grid convergence and face
+plasticity/core crushing remain separate requirements; neither a coarse-grid
+comparison nor a reduced-model energy ledger proves their completion.
 
 Parameter inversion, angular failure envelopes and dedicated material-point
 validation workflows were removed in commit `187e2ef`. They are not queued.
