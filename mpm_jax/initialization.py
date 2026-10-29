@@ -61,8 +61,8 @@ def block(
     ):
         raise ValueError("particle density must equal the constitutive reference density")
     volume = jnp.full(n, float(np.prod(hi - lo)) / n, dtype=dtype)
-    plane_strain_mat173 = dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}
-    f0 = jnp.eye(3 if plane_strain_mat173 else dim, dtype=dtype)
+    plane_strain_material = dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff", "johnson-cook", "johnson-cook-displacement"}
+    f0 = jnp.eye(3 if plane_strain_material else dim, dtype=dtype)
     return State(
         x,
         jnp.broadcast_to(jnp.asarray(vel, dtype=dtype), (n, dim)),

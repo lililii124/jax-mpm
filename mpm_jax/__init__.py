@@ -1,9 +1,9 @@
 """Material point method in JAX."""
 
-from .core import Config, Material, State, advance, elastic, fluid, step
+from .core import Config, Material, State, advance, elastic, fluid, step, step_with_boundary_impulse
 from .initialization import block, validate_state
 from .materials import linear_elastic, neo_hookean, orthotropic, transverse_isotropic
-from .materials import hjc, jh2, johnson_cook, rht
+from .materials import hjc, jh2, johnson_cook, johnson_cook_displacement, rht
 from .materials import bilinear_plastic, thermal_plastic, blatz_ko
 from .materials import mat173
 from .materials import steinberg_guinan
@@ -11,7 +11,7 @@ from .materials import woven_elastic
 from .contact import coupled_advance, coupled_step
 from .boundaries import (
     CyclicVelocityBox, MovingVelocityBox, PlaneWall, RotatingVelocityBox, VelocityBox,
-    fixed_box,
+    fixed_box, MovingWedgeTool,
 )
 from .contact_laws import (
     RigidSphereBoundary,
@@ -32,6 +32,7 @@ __all__ = [
     "hjc",
     "jh2",
     "johnson_cook",
+    "johnson_cook_displacement",
     "rht",
     "bilinear_plastic",
     "thermal_plastic",
@@ -44,6 +45,7 @@ __all__ = [
     "PlaneWall",
     "VelocityBox",
     "MovingVelocityBox",
+    "MovingWedgeTool",
     "CyclicVelocityBox",
     "RotatingVelocityBox",
     "RigidSphereBoundary",
@@ -57,5 +59,6 @@ __all__ = [
     "orthotropic",
     "transverse_isotropic",
     "step",
+    "step_with_boundary_impulse",
     "validate_state",
 ]

@@ -1,0 +1,13 @@
+Looking in links: /work/wheels
+Processing ./wheels/pytest-8.4.2-py3-none-any.whl
+Processing ./wheels/iniconfig-2.3.1-py3-none-any.whl (from pytest==8.4.2)
+Processing ./wheels/packaging-26.3-py3-none-any.whl (from pytest==8.4.2)
+Processing ./wheels/pluggy-1.7.0-py3-none-any.whl (from pytest==8.4.2)
+Processing ./wheels/pygments-2.21.0-py3-none-any.whl (from pytest==8.4.2)
+Installing collected packages: pygments, pluggy, packaging, iniconfig, pytest
+Successfully installed iniconfig-2.3.1 packaging-26.3 pluggy-1.7.0 pygments-2.21.0 pytest-8.4.2
+................                                                         [100%]
+16 passed in 25.68s
+{"particles": 13184, "grid": 256, "nodes": 66049, "dt_s": 1.624965088053362e-11, "planned_steps": 1000, "planned_duration_s": 1.624965088053362e-08, "planned_cut_distance_m": 4.874895264160086e-08, "output": "/work/run-output"}
+2D plane-strain orthogonal cutting / Ti-6Al-4V / JAX MPM: 0/2, t=0, Jmin=1, Dmax=0
+2D plane-strain orthogonal cutting / Ti-6Al-4V / JAX MPM: 2/2, t=1.62497e-08, Jmin=1, Dmax=0

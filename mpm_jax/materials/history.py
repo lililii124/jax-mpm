@@ -31,6 +31,9 @@ class History(NamedTuple):
     return_faces: jax.Array
     tensile_plastic_strain: jax.Array
     partition_ambiguous_steps: jax.Array
+    damage_softening: jax.Array
+    damage_displacement: jax.Array
+    damage_failure_displacement: jax.Array
 
 
 def initial_history(n, dtype, material=None, density=1000.0, temperature=None):
@@ -66,6 +69,9 @@ def initial_history(n, dtype, material=None, density=1000.0, temperature=None):
         jnp.zeros((n, 9), dtype=bool),
         zero,
         jnp.zeros(n,dtype=jnp.int32),
+        zero,
+        zero,
+        zero,
     )
 
 
@@ -125,7 +131,8 @@ def history_from_arrays(arrays, prefix="history_"):
     stress = jnp.asarray(arrays[prefix + "stress"])
     defaults = initial_history(stress.shape[0], stress.dtype)
     diagnostics = {"return_tolerance", "return_faces", "tensile_plastic_strain",
-                   "partition_ambiguous_steps"}
+                   "partition_ambiguous_steps", "damage_softening",
+                   "damage_displacement", "damage_failure_displacement"}
     values = {}
     for name in History._fields:
         if prefix + name in arrays:

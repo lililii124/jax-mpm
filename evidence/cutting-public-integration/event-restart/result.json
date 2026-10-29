@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "all_state_history_cache_bitwise_equal": true,
+  "full_fields": [
+    "x",
+    "v",
+    "F",
+    "C",
+    "mass",
+    "volume",
+    "time",
+    "valid",
+    "history_stress",
+    "history_plastic_tensor",
+    "history_backstress",
+    "history_plastic_strain",
+    "history_plastic_rate",
+    "history_damage",
+    "history_temperature",
+    "history_plastic_volume",
+    "history_max_compression",
+    "history_compaction",
+    "history_alpha",
+    "history_hardening",
+    "history_postpeak",
+    "history_bulking",
+    "history_energy",
+    "history_work",
+    "history_pressure",
+    "history_density",
+    "history_failed",
+    "history_valid",
+    "history_return_tolerance",
+    "history_return_faces",
+    "history_tensile_plastic_strain",
+    "history_partition_ambiguous_steps",
+    "history_damage_softening",
+    "history_damage_displacement",
+    "history_damage_failure_displacement",
+    "contact_cache"
+  ],
+  "events": [
+    {
+      "segment": "short_cut",
+      "planned_end_s": 3.7374197025227324e-11,
+      "actual_end_s": 3.7374197025227324e-11,
+      "endpoint_offset_s": 0.0
+    },
+    {
+      "segment": "short_lift",
+      "planned_end_s": 9.262301001904164e-11,
+      "actual_end_s": 9.262301001904164e-11,
+      "endpoint_offset_s": 0.0
+    }
+  ],
+  "material_presets_checked": true,
+  "scope": "g256/p1 baseline dt, fresh actual short cut-to-lift velocity event and checkpoint restart; real-contact migration checked separately"
+}

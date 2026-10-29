@@ -15,6 +15,10 @@ from .elastic import (
 )
 from .history import History, corotated_increment, initial_history, rotate_history
 from .johnson_cook import JohnsonCook, johnson_cook, update_johnson_cook
+from .johnson_cook_displacement import (
+    JohnsonCookDisplacement, johnson_cook_displacement, update_johnson_cook_displacement,
+)
+from .plane_strain_kinematics import corotated_increment_plane_strain
 from .jh2 import JH2, jh2, update_jh2
 from .hjc import HJC, hjc, update_hjc
 from .mat173 import MAT173, mat173, update_mat173
@@ -41,6 +45,7 @@ from .woven import WovenElastic, woven_elastic, woven_energy, woven_kirchhoff_st
 
 INCREMENTAL_MODELS = (
     "johnson-cook",
+    "johnson-cook-displacement",
     "jh2",
     "hjc",
     "rht",
@@ -54,12 +59,18 @@ INCREMENTAL_MODELS = (
 )
 
 
-def update_history(history, F, previous_F, dt, material, kind):
-    strain, rotation, valid = corotated_increment(F, previous_F)
+def update_history(history, F, previous_F, dt, material, kind, *, plane_strain=False):
+    if plane_strain:
+        if kind not in ("johnson-cook", "johnson-cook-displacement"):
+            raise ValueError("Analytic plane-strain kinematics requires a Johnson-Cook material")
+        strain, rotation, valid = corotated_increment_plane_strain(F, previous_F)
+    else:
+        strain, rotation, valid = corotated_increment(F, previous_F)
     import jax.numpy as jnp
 
     updates = {
         "johnson-cook": update_johnson_cook,
+        "johnson-cook-displacement": update_johnson_cook_displacement,
         "jh2": update_jh2,
         "hjc": update_hjc,
         "mat173": update_mat173,

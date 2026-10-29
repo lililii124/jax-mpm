@@ -1,0 +1,254 @@
+{
+  "schema": "three-pass-positive-clearance-path-v1",
+  "knots": [
+    [
+      0.0,
+      3.1e-05,
+      0.000182
+    ],
+    [
+      5.8666666666666665e-05,
+      0.000207,
+      0.000182
+    ],
+    [
+      7.183333333333334e-05,
+      0.000207,
+      0.00034
+    ],
+    [
+      8.65e-05,
+      3.1e-05,
+      0.00034
+    ],
+    [
+      0.0001005,
+      3.1e-05,
+      0.000172
+    ],
+    [
+      0.00015916666666666667,
+      0.000207,
+      0.000172
+    ],
+    [
+      0.00017316666666666666,
+      0.000207,
+      0.00034
+    ],
+    [
+      0.0001878333333333333,
+      3.1e-05,
+      0.00034
+    ],
+    [
+      0.00020266666666666664,
+      3.1e-05,
+      0.000162
+    ],
+    [
+      0.0002613333333333333,
+      0.000207,
+      0.000162
+    ],
+    [
+      0.00027616666666666664,
+      0.000207,
+      0.00034
+    ]
+  ],
+  "segments": [
+    {
+      "name": "cut_pass1",
+      "start_time_s": 0.0,
+      "end_time_s": 5.8666666666666665e-05,
+      "duration_s": 5.8666666666666665e-05,
+      "start_virtual_tip_m": [
+        3.1e-05,
+        0.000182
+      ],
+      "end_virtual_tip_m": [
+        0.000207,
+        0.000182
+      ],
+      "velocity_m_s": [
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "name": "lift_after_pass1",
+      "start_time_s": 5.8666666666666665e-05,
+      "end_time_s": 7.183333333333334e-05,
+      "duration_s": 1.316666666666667e-05,
+      "start_virtual_tip_m": [
+        0.000207,
+        0.000182
+      ],
+      "end_virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "velocity_m_s": [
+        0.0,
+        11.999999999999998
+      ]
+    },
+    {
+      "name": "return_after_pass1",
+      "start_time_s": 7.183333333333334e-05,
+      "end_time_s": 8.65e-05,
+      "duration_s": 1.4666666666666666e-05,
+      "start_virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "end_virtual_tip_m": [
+        3.1e-05,
+        0.00034
+      ],
+      "velocity_m_s": [
+        -12.0,
+        0.0
+      ]
+    },
+    {
+      "name": "lower_to_pass2",
+      "start_time_s": 8.65e-05,
+      "end_time_s": 0.0001005,
+      "duration_s": 1.4000000000000001e-05,
+      "start_virtual_tip_m": [
+        3.1e-05,
+        0.00034
+      ],
+      "end_virtual_tip_m": [
+        3.1e-05,
+        0.000172
+      ],
+      "velocity_m_s": [
+        0.0,
+        -12.0
+      ]
+    },
+    {
+      "name": "cut_pass2",
+      "start_time_s": 0.0001005,
+      "end_time_s": 0.00015916666666666667,
+      "duration_s": 5.8666666666666665e-05,
+      "start_virtual_tip_m": [
+        3.1e-05,
+        0.000172
+      ],
+      "end_virtual_tip_m": [
+        0.000207,
+        0.000172
+      ],
+      "velocity_m_s": [
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "name": "lift_after_pass2",
+      "start_time_s": 0.00015916666666666667,
+      "end_time_s": 0.00017316666666666666,
+      "duration_s": 1.3999999999999988e-05,
+      "start_virtual_tip_m": [
+        0.000207,
+        0.000172
+      ],
+      "end_virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "velocity_m_s": [
+        0.0,
+        12.000000000000012
+      ]
+    },
+    {
+      "name": "return_after_pass2",
+      "start_time_s": 0.00017316666666666666,
+      "end_time_s": 0.0001878333333333333,
+      "duration_s": 1.4666666666666653e-05,
+      "start_virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "end_virtual_tip_m": [
+        3.1e-05,
+        0.00034
+      ],
+      "velocity_m_s": [
+        -12.00000000000001,
+        0.0
+      ]
+    },
+    {
+      "name": "lower_to_pass3",
+      "start_time_s": 0.0001878333333333333,
+      "end_time_s": 0.00020266666666666664,
+      "duration_s": 1.4833333333333332e-05,
+      "start_virtual_tip_m": [
+        3.1e-05,
+        0.00034
+      ],
+      "end_virtual_tip_m": [
+        3.1e-05,
+        0.000162
+      ],
+      "velocity_m_s": [
+        0.0,
+        -12.000000000000002
+      ]
+    },
+    {
+      "name": "cut_pass3",
+      "start_time_s": 0.00020266666666666664,
+      "end_time_s": 0.0002613333333333333,
+      "duration_s": 5.8666666666666665e-05,
+      "start_virtual_tip_m": [
+        3.1e-05,
+        0.000162
+      ],
+      "end_virtual_tip_m": [
+        0.000207,
+        0.000162
+      ],
+      "velocity_m_s": [
+        3.0,
+        0.0
+      ]
+    },
+    {
+      "name": "final_lift",
+      "start_time_s": 0.0002613333333333333,
+      "end_time_s": 0.00027616666666666664,
+      "duration_s": 1.4833333333333332e-05,
+      "start_virtual_tip_m": [
+        0.000207,
+        0.000162
+      ],
+      "end_virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "velocity_m_s": [
+        0.0,
+        12.000000000000002
+      ]
+    }
+  ],
+  "cut_speed_m_s": 3.0,
+  "rapid_speed_m_s": 12.0,
+  "lift_virtual_y_m": 0.00034,
+  "passes": 3,
+  "nominal_pass_tip_y_m": [
+    0.000182,
+    0.000172,
+    0.000162
+  ],
+  "history_policy": "preserve all particles and full F/constitutive/thermal/damage history; no chip deletion or remeshing",
+  "event_policy": "Use actual accumulated State.time to compute final remaining-time substep. No clock snapping. Record any bounded FP endpoint offset; guard rejects resolved kink straddles.",
+  "staging": "Fresh actual t=0 or explicit public checkpoint resume; checkpoint at each saved window and velocity event."
+}

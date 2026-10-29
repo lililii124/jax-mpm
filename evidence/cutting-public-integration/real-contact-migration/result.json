@@ -1,0 +1,61 @@
+{
+  "passed": true,
+  "all_common_arrays_bitwise_equal": true,
+  "common_arrays": [
+    "x",
+    "v",
+    "F",
+    "C",
+    "mass",
+    "volume",
+    "time",
+    "valid",
+    "history_stress",
+    "history_plastic_tensor",
+    "history_backstress",
+    "history_plastic_strain",
+    "history_plastic_rate",
+    "history_damage",
+    "history_damage_softening",
+    "history_damage_displacement",
+    "history_damage_failure_displacement",
+    "history_temperature",
+    "history_plastic_volume",
+    "history_max_compression",
+    "history_compaction",
+    "history_alpha",
+    "history_hardening",
+    "history_postpeak",
+    "history_bulking",
+    "history_energy",
+    "history_work",
+    "history_pressure",
+    "history_density",
+    "history_failed",
+    "history_valid",
+    "impulse",
+    "work",
+    "metrics",
+    "contact_cache"
+  ],
+  "added_zero_finite_diagnostics": [
+    "history_partition_ambiguous_steps",
+    "history_return_faces",
+    "history_return_tolerance",
+    "history_tensile_plastic_strain"
+  ],
+  "impulse": [
+    6.088548834990017e-08,
+    2.5736859687055716e-08
+  ],
+  "snapshot": {
+    "frame": 5022,
+    "sha256": "f3c4094d8015a2846809e806ed07b37f8f6ed16784b1172db255286b87f8d543"
+  },
+  "sha256": {
+    "old-result.npz": "5aad3db89cac8c21d4659d99501af1e9be9ba293cd4b77e3d16ab6d57bd53831",
+    "public-result.npz": "248f3a1343996c05b5a2390082828f57c3eba85f121e52c7fcc54dbb80653cbd",
+    "snapshot/state.npz": "f3c4094d8015a2846809e806ed07b37f8f6ed16784b1172db255286b87f8d543",
+    "snapshot/case.json": "f5eebf1e4e25b6fb472faf0557531d00cb938a8572f068bfa5d9ece93677c401"
+  }
+}

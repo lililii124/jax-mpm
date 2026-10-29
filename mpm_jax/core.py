@@ -70,9 +70,9 @@ class Config:
             raise ValueError("dim must be 2 or 3")
         if self.failure_mode not in ("retain", "ballistic"):
             raise ValueError("failure_mode must be 'retain' or 'ballistic'")
-        plane_strain_mat173 = self.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}
-        if self.material in INCREMENTAL_MODELS and self.dim != 3 and not (self.dim == 2 and plane_strain_mat173):
-            raise ValueError("incremental plasticity requires dim=3 except the explicit MAT173 plane-strain branch")
+        plane_strain_material = self.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff", "johnson-cook", "johnson-cook-displacement"}
+        if self.material in INCREMENTAL_MODELS and self.dim != 3 and not (self.dim == 2 and plane_strain_material):
+            raise ValueError("incremental plasticity requires dim=3 except explicit plane-strain branches")
         if self.material == "woven-composite" and self.dim != 3:
             raise ValueError("woven composites require dim=3")
         if self.material == "orthotropic-svk" and self.dim != 3:
@@ -159,7 +159,7 @@ def particle_to_grid(state, material, config, support=None, force=None):
     support = particle_stencil(state, config) if support is None else support
     if config.material in INCREMENTAL_MODELS:
         stress = state.history.stress
-        if config.dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}:
+        if config.dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff", "johnson-cook", "johnson-cook-displacement"}:
             stress = stress[:, :2, :2]
         tau = jnp.linalg.det(state.F)[:, None, None] * stress
     else:
@@ -197,10 +197,10 @@ def grid_update(mass, momentum, config, time=0.0):
         velocity + config.dt * jnp.asarray(config.gravity, dtype=velocity.dtype),
         0,
     )
-    return grid_boundaries(velocity, config, time)
+    return grid_boundaries(velocity, config, time, mass)
 
 
-def grid_boundaries(velocity, config, time=0.0):
+def grid_boundaries(velocity, config, time=0.0, mass=None):
     if config.boundary_cells or config.boundaries:
         node = jnp.arange((config.n_grid + 1) ** config.dim)
         strides = (config.n_grid + 1) ** jnp.arange(config.dim - 1, -1, -1)
@@ -211,7 +211,12 @@ def grid_boundaries(velocity, config, time=0.0):
         )
         velocity = jnp.where(outward, 0, velocity)
     for boundary in config.boundaries:
-        velocity = boundary.apply(velocity, coordinates * config.dx, time)
+        if hasattr(boundary, "apply_grid"):
+            if mass is None:
+                raise ValueError("This boundary requires grid mass for contact occupancy")
+            velocity = boundary.apply_grid(mass, velocity, coordinates * config.dx, time)
+        else:
+            velocity = boundary.apply(velocity, coordinates * config.dx, time)
     return velocity
 
 
@@ -233,9 +238,49 @@ def step(state, material, config, force=None):
     return particle_update(state, material, config, support, gv, force)
 
 
+@partial(jax.jit, static_argnames=("config",))
+def step_with_boundary_impulse(state, material, config, force=None):
+    """Advance one body and return actual nodal moving-boundary impulse.
+
+    This is identical to :func:`step`, while accumulating ``mass * dv`` at
+    boundaries that provide ``apply_grid`` and ``impulse_on_body``. The impulse
+    is measured during the same grid projection used for this step, not by
+    replaying contact on a saved particle state.
+    """
+    support = particle_stencil(state, config)
+    mass, momentum = particle_to_grid(state, material, config, support, force)
+    occupied = mass > 0
+    velocity = momentum / jnp.where(occupied, mass, 1)[:, None]
+    velocity = jnp.where(
+        occupied[:, None],
+        velocity + config.dt * jnp.asarray(config.gravity, dtype=velocity.dtype),
+        0,
+    )
+    impulse = jnp.zeros(config.dim, dtype=velocity.dtype)
+    if config.boundary_cells or config.boundaries:
+        node = jnp.arange((config.n_grid + 1) ** config.dim)
+        strides = (config.n_grid + 1) ** jnp.arange(config.dim - 1, -1, -1)
+        coordinates = ((node[:, None] // strides) % (config.n_grid + 1)) * config.dx
+    if config.boundary_cells:
+        outward = ((coordinates / config.dx < config.boundary_cells) & (velocity < 0)) | (
+            (coordinates / config.dx > config.n_grid - config.boundary_cells) & (velocity > 0)
+        )
+        velocity = jnp.where(outward, 0, velocity)
+    for boundary in config.boundaries:
+        before = velocity
+        if hasattr(boundary, "apply_grid"):
+            velocity = boundary.apply_grid(mass, velocity, coordinates, state.time + config.dt)
+            if hasattr(boundary, "impulse_on_body"):
+                impulse = impulse + jnp.sum(mass[:, None] * (velocity - before), axis=0)
+        else:
+            velocity = boundary.apply(velocity, coordinates, state.time + config.dt)
+    updated = particle_update(state, material, config, support, velocity, force)
+    return updated, impulse
+
+
 def particle_update(state, material, config, support, gv, force=None):
     v, C = grid_to_particle(gv, support, config)
-    if config.dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}:
+    if config.dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff", "johnson-cook", "johnson-cook-displacement"}:
         # Explicit plane strain: retain 3x3 constitutive F, update only x-y.
         inc = jnp.broadcast_to(jnp.eye(3, dtype=state.x.dtype), (state.x.shape[0], 3, 3))
         inc = inc.at[:, :2, :2].set(jnp.eye(2, dtype=state.x.dtype) + config.dt * C)
@@ -274,7 +319,10 @@ def particle_update(state, material, config, support, gv, force=None):
     )
     history = state.history
     if config.material in INCREMENTAL_MODELS:
-        history = update_history(history, F, state.F, config.dt, material, config.material)
+        history = update_history(
+            history, F, state.F, config.dt, material, config.material,
+            plane_strain=(config.dim == 2 and config.material in ("johnson-cook", "johnson-cook-displacement")),
+        )
         if config.failure_mode == "ballistic":
             history = jax.tree.map(
                 lambda before, after: jnp.where(

@@ -1,0 +1,444 @@
+{
+  "tests_passed": true,
+  "fresh_production_resolution_entry_completed": true,
+  "summary": {
+    "case": "2D plane-strain orthogonal cutting / Ti-6Al-4V / JAX MPM",
+    "completed": true,
+    "history_storage": "file-backed arrays",
+    "configs": [
+      {
+        "n_grid": 256,
+        "dt": 1.624965088053362e-11,
+        "domain_size": 0.00032,
+        "gravity": [
+          0.0,
+          0.0
+        ],
+        "boundary_cells": 0,
+        "material": "johnson-cook-displacement",
+        "dim": 2,
+        "boundaries": [
+          {
+            "lower": [
+              0.0,
+              0.0
+            ],
+            "upper": [
+              0.00032,
+              6.525e-05
+            ],
+            "velocity": [
+              0.0,
+              0.0
+            ],
+            "components": null,
+            "start": 0.0,
+            "end": null
+          },
+          {
+            "tip": [
+              3.1e-05,
+              0.000182
+            ],
+            "speed": 3.0,
+            "rake_angle_deg": 10.0,
+            "clearance_angle_deg": 6.0,
+            "length": 0.000256,
+            "friction": 0.3,
+            "tip_radius": 3e-06,
+            "tip_arc_segments": 12,
+            "translation_path": null
+          }
+        ],
+        "failure_mode": "ballistic"
+      }
+    ],
+    "materials": [
+      {
+        "mu": 40671641791.04478,
+        "bulk": 113541666666.66669,
+        "A": 862500000.0,
+        "B": 331200000.0,
+        "n": 0.34,
+        "C": 0.012,
+        "m": 0.8,
+        "reference_rate": 1.0,
+        "reference_temperature": 298.15,
+        "melt_temperature": 1878.15,
+        "heat_capacity": 611.0,
+        "heat_fraction": 0.9,
+        "density": 4430.0,
+        "failure": [
+          -0.09,
+          0.25,
+          -0.5,
+          0.014,
+          3.87
+        ],
+        "failure_enabled": true,
+        "damage_length": 1.25e-06,
+        "failure_displacement": 2.5e-06,
+        "fast_return": true
+      }
+    ],
+    "steps": 1000,
+    "simulation_time": 1.624965088053362e-08,
+    "particles": [
+      13184
+    ],
+    "dtype": "float64",
+    "jax_version": "0.12.0.1",
+    "numpy_version": "2.5.4",
+    "python_version": "3.12.13",
+    "compile_and_warmup_seconds": 11.343806236982346,
+    "devices": [
+      "cpu:0"
+    ],
+    "solver_seconds": 13.868261009454727,
+    "min_J": 1.0,
+    "max_damage": 0.0,
+    "max_plastic_strain": 0.0,
+    "max_temperature": 298.15,
+    "contact_impulse_on_body_1": [
+      0.0,
+      0.0
+    ],
+    "boundary_impulse": [
+      0.0,
+      0.0
+    ],
+    "external_impulse": [
+      0.0,
+      0.0
+    ],
+    "observables": {
+      "initial": {
+        "time": 0.0,
+        "external_work_trapezoidal": 0.0,
+        "boundary_impulse_x": 0.0,
+        "boundary_impulse_y": 0.0,
+        "time_s": 0.0,
+        "tool_tip_x_m": 3.1e-05,
+        "tool_tip_y_m": 0.000182,
+        "penetrating_particles": 0,
+        "penetrating_particle_fraction": 0.0,
+        "maximum_particle_tool_penetration_m": 0.0,
+        "maximum_temperature_K": 298.15,
+        "maximum_plastic_strain": 0.0,
+        "failed_points": 0,
+        "minimum_J": 1.0,
+        "particle_wedge_active_substeps": 0,
+        "particle_wedge_max_predicted_penetration_m": 0.0,
+        "particle_wedge_max_actual_penetration_m": 0.0,
+        "particle_wedge_impulse_x_Ns_per_m": 0.0,
+        "particle_wedge_impulse_y_Ns_per_m": 0.0,
+        "particle_wedge_support_reaction_x_Ns_per_m": 0.0,
+        "particle_wedge_support_reaction_y_Ns_per_m": 0.0,
+        "particle_wedge_tool_work_J_per_m": 0.0,
+        "particle_wedge_grid_delta_kinetic_J_per_m": 0.0,
+        "particle_wedge_max_normal_violation_m_per_s": 0.0,
+        "particle_wedge_max_complementarity_error_m_per_s": 0.0,
+        "particle_wedge_max_friction_kkt_residual_m_per_s": 0.0,
+        "particle_wedge_bucket_overflow": false,
+        "particle_wedge_nonconverged_substeps": 0,
+        "particle_wedge_total_pgs_sweeps": 0,
+        "failed_ballistic_tool_collisions": 0,
+        "failed_ballistic_tool_impulse_x_Ns_per_m": 0.0,
+        "failed_ballistic_tool_impulse_y_Ns_per_m": 0.0,
+        "failed_ballistic_tool_work_J_per_m": 0.0,
+        "failed_ballistic_delta_kinetic_J_per_m": 0.0,
+        "failed_ballistic_collision_loss_J_per_m": 0.0,
+        "failed_ballistic_max_end_penetration_m": 0.0,
+        "all_particle_max_end_penetration_m": 0.0,
+        "failed_ballistic_max_post_reconstruction_penetration_m": 0.0,
+        "failed_ballistic_max_post_reconstruction_all_particle_penetration_m": 0.0,
+        "failed_ballistic_persistent_touch_points": 0,
+        "failed_ballistic_persistent_touch_max_correction_m": 0.0,
+        "failed_ballistic_persistent_touch_max_rejected_correction_m": 0.0
+      },
+      "final": {
+        "time": 1.624965088053362e-08,
+        "external_work_trapezoidal": 0.0,
+        "boundary_impulse_x": 0.0,
+        "boundary_impulse_y": 0.0,
+        "time_s": 1.624965088053362e-08,
+        "tool_tip_x_m": 3.10487489526416e-05,
+        "tool_tip_y_m": 0.000182,
+        "penetrating_particles": 0,
+        "penetrating_particle_fraction": 0.0,
+        "maximum_particle_tool_penetration_m": 0.0,
+        "maximum_temperature_K": 298.15,
+        "maximum_plastic_strain": 0.0,
+        "failed_points": 0,
+        "minimum_J": 1.0,
+        "particle_wedge_active_substeps": 0,
+        "particle_wedge_max_predicted_penetration_m": 0.0,
+        "particle_wedge_max_actual_penetration_m": 0.0,
+        "particle_wedge_impulse_x_Ns_per_m": 0.0,
+        "particle_wedge_impulse_y_Ns_per_m": 0.0,
+        "particle_wedge_support_reaction_x_Ns_per_m": 0.0,
+        "particle_wedge_support_reaction_y_Ns_per_m": 0.0,
+        "particle_wedge_tool_work_J_per_m": 0.0,
+        "particle_wedge_grid_delta_kinetic_J_per_m": 0.0,
+        "particle_wedge_max_normal_violation_m_per_s": 0.0,
+        "particle_wedge_max_complementarity_error_m_per_s": 0.0,
+        "particle_wedge_max_friction_kkt_residual_m_per_s": 0.0,
+        "particle_wedge_bucket_overflow": false,
+        "particle_wedge_nonconverged_substeps": 0,
+        "particle_wedge_total_pgs_sweeps": 6000,
+        "failed_ballistic_tool_collisions": 0,
+        "failed_ballistic_tool_impulse_x_Ns_per_m": 0.0,
+        "failed_ballistic_tool_impulse_y_Ns_per_m": 0.0,
+        "failed_ballistic_tool_work_J_per_m": 0.0,
+        "failed_ballistic_delta_kinetic_J_per_m": 0.0,
+        "failed_ballistic_collision_loss_J_per_m": 0.0,
+        "failed_ballistic_max_end_penetration_m": 0.0,
+        "all_particle_max_end_penetration_m": 0.0,
+        "failed_ballistic_max_post_reconstruction_penetration_m": 0.0,
+        "failed_ballistic_max_post_reconstruction_all_particle_penetration_m": 0.0,
+        "failed_ballistic_persistent_touch_points": 0,
+        "failed_ballistic_persistent_touch_max_correction_m": 0.0,
+        "failed_ballistic_persistent_touch_max_rejected_correction_m": 0.0
+      }
+    },
+    "definition": {
+      "case": "orthogonal-cutting-ti64-jc-plane-strain-2d-particle-grid-pgs",
+      "status": "exploratory; no physical validation or grid convergence yet",
+      "units": "SI; force and energy are per unit out-of-plane thickness",
+      "reference": "Numerical Analysis of Serrated Chip Formation Mechanism with Johnson-Cook Parameters in Micro-Cutting of Ti6Al4V, Metals 11 (2021) 102, doi:10.3390/met11010102",
+      "model_scope": "2D x-y grid; full 3x3 JC material history; plane strain enforced by Fzz=1 and zero out-of-plane shear. Prescribed analytical wedge with optional circular fillet. Adiabatic plastic-work heating; no conduction.",
+      "material_parameters_SI": {
+        "E_Pa_at_50C": 109000000000.0,
+        "nu": 0.34,
+        "rho_kg_m3": 4430.0,
+        "A_Pa": 862500000.0,
+        "B_Pa": 331200000.0,
+        "n": 0.34,
+        "C": 0.012,
+        "m": 0.8,
+        "reference_rate_s-1": 1.0,
+        "reference_temperature_K": 298.15,
+        "melt_temperature_K": 1878.15,
+        "heat_capacity_J_kgK_at_20C": 611.0,
+        "Taylor_Quinney": 0.9,
+        "thermal_conductivity_W_mK_at_20C": 6.8,
+        "property_temperature_dependence_in_reference": true,
+        "property_temperature_dependence_implemented": false
+      },
+      "failure_model": {
+        "enabled": true,
+        "JC_D1_D2_D3_D4_D5": [
+          -0.09,
+          0.25,
+          -0.5,
+          0.014,
+          3.87
+        ],
+        "triaxiality_convention": "tension-positive eta=-pressure/q; pressure=K*(1/J-1) is compression-positive",
+        "initiation": "cumulative JC damage index reaches 1",
+        "post_initiation_softening": "linear in equivalent plastic displacement L*delta_PEEQ; exploratory uf, not calibrated Gf",
+        "negative_fracture_strain_validity": "invalid before initiation when dep>0; after damage initiation reaches 1, post-initiation displacement evolution proceeds from dep and does not require epsilon_f>0",
+        "characteristic_length_m": 1.25e-06,
+        "failure_displacement_m": 2.5e-06,
+        "failed_particle_handling": "ballistic: retained in state/archive, excluded from active P2G; no fragment-fragment or fragment-workpiece collision model",
+        "limitations": "not energy-closed fracture; uf is an explicit exploratory input; no remapping of crack-side velocity fields"
+      },
+      "constitutive_solver": {
+        "johnson_cook_return": "safeguarded Newton with reference bisection fallback",
+        "fast_return_enabled": true,
+        "active_point_compaction": {
+          "enabled": true,
+          "capacity": 2048,
+          "overflow_behavior": "fallback to dense return mapping",
+          "physics_equivalence": "bitwise frame-300 100-step comparison against dense return mapping"
+        }
+      },
+      "geometry": {
+        "domain_m": 0.00032,
+        "workpiece_lower_m": [
+          3.2e-05,
+          6.4e-05
+        ],
+        "workpiece_upper_m": [
+          0.000192,
+          0.000192
+        ],
+        "uncut_chip_thickness_m": 1e-05,
+        "tool_tip_initial_m": [
+          3.1e-05,
+          0.000182
+        ],
+        "initial_tool_tip_gap_to_workpiece_side_m": -9.999999999999972e-07,
+        "rake_angle_deg": 10.0,
+        "clearance_angle_deg": 6.0,
+        "clearance_convention": "positive angle: clearance face rises behind virtual tip; direction=(-cos(alpha),+sin(alpha))",
+        "virtual_tip_initial_m": [
+          3.1e-05,
+          0.000182
+        ],
+        "nominal_cut_depth_definition": "stock top minus virtual sharp-face intersection y; legacy tool_tip field is polygon vertex zero (upper rake tangent when rounded)",
+        "actual_polygon_nose_min_y_m": 0.00018240337490777129,
+        "effective_polygon_nose_cut_depth_m": 9.596625092228719e-06,
+        "edge_radius_in_reference_m": 1e-06,
+        "edge_radius_implemented": true,
+        "tool_tip_radius_m": 3e-06,
+        "tool_tip_arc_segments": 12,
+        "tip_definition": "virtual intersection of rake and clearance faces; rounded fillet tangent to both faces",
+        "out_of_plane_thickness": "unit thickness convention"
+      },
+      "tool": {
+        "type": "prescribed rigid analytical wedge with optional circular tip fillet",
+        "speed_m_s": 3.0,
+        "friction_coefficient": 0.3,
+        "contact": "particle-interpolated unilateral velocity constraints solved by accumulated normal/tangent PGS in the nodal mass metric; replaces nodal wedge projection and uses ordinary G2P for x/F/history",
+        "reference_microcut_friction_coefficient": 0.3,
+        "particle_grid_contact": {
+          "active_particle_capacity": 1024,
+          "pgs_sweeps": 12,
+          "pgs_adaptive": true,
+          "pgs_max_sweeps": 1024,
+          "activation_band_cells": 0.5,
+          "post_G2P_gap_tolerance_cells": 0.001,
+          "fixed_dofs": "excluded from inverse mass; support reaction reported separately",
+          "guard": "capacity, normal complementarity, friction projection residual and post-G2P end-gap",
+          "units": "2D plane strain; impulse N s/m and work J/m",
+          "warm_start": {
+            "cache": "previous accepted contact multipliers keyed by particle ID",
+            "reset": "zero at the beginning of every output batch",
+            "acceptance": "unchanged PGS, material and swept-contact guards"
+          }
+        },
+        "failed_ballistic_wedge_contact": {
+          "method": "continuous relative-motion sweep through every convex polygon face over one physical substep; first entry face gets inelastic normal impulse and Coulomb-limited tangential impulse",
+          "scope": "only particles whose history.failed was true at the step start; no failed-failed or failed-intact contact",
+          "state_update": "position and velocity only; F and stress/plastic/thermal history remain frozen",
+          "accounting": "particle impulse, tool work, particle kinetic-energy change, and residual collision loss recorded separately; tool impulse/work included in total contact ledger",
+          "guard": "failed point starting inside wedge or negative collision loss beyond roundoff invalidates the state; failed-point residual penetration is guarded at 1e-9 dx and all-particle rounded-wedge penetration retains the 0.5 dx hard guard",
+          "start_surface_classification_tolerance": "same 1e-9*dx admissibility as failed-point end-gap residual guard; no position repair on migration",
+          "units": "2D plane strain; impulse N s/m and energy J/m",
+          "persistent_touch_roundoff": {
+            "enabled": true,
+            "scope": "step-start failed points only; per-particle CCD hit mask must be false",
+            "eligibility": "within existing 1e-9*dx signed-gap tolerance; step-start failed, per-particle CCD hit mask false, and start/end coordinates remain on the same finite face without a corner crossing",
+            "operation": "reconstruct from actual MovingWedgeTool._polygon(t+dt) in face-local coordinates: g1=g0+vn*dt and s1=s0+vt*dt; preserve the signed normal gap including opening and closing motion",
+            "maximum_position_correction_m": "must not exceed the existing 1e-9*dx; larger correction is rejected and original CCD result is retained",
+            "unchanged": [
+              "v",
+              "mass",
+              "F",
+              "constitutive history",
+              "impulse",
+              "tool work",
+              "kinetic-energy ledger"
+            ],
+            "guard_order": "original CCD collision/impulse and pre-reconstruction gaps are preserved; original failed-gap and all-particle guards are also checked on the reconstructed endpoint",
+            "metrics": "separate original CCD max gaps from post-reconstruction actual endpoint gaps",
+            "qualification": "paired identical-state 2,000-substep comparison; see persistent-touch NPZ audit manifest"
+          },
+          "polygon_gap_min_sqrt_reduce_sha256": "56569f3d3e6525cce1af740db847e1ab289a8339c2d315f146b93b1b5c8576a5"
+        }
+      },
+      "numerics": {
+        "grid_cells_per_axis": 256,
+        "dx_m": 1.25e-06,
+        "particles_per_cell_per_axis": 1,
+        "particle_count": 13184,
+        "dt_s": 1.624965088053362e-11,
+        "initial_wave_speed_m_s": 6153.97836760885,
+        "acoustic_CFL": 0.08,
+        "grid_shift_used": false,
+        "constitutive_state_shape": [
+          13184,
+          3,
+          3
+        ],
+        "grid_velocity_dimension": 2
+      },
+      "qualification": {
+        "uniform_plane_strain_path_checked_against_3d": true,
+        "physical_validation_completed": false,
+        "resolution_convergence_completed": false,
+        "experimental_force_validation_completed": false
+      },
+      "jc_return_source_sha256": "a7571b971d5821cda61d0298a192a51571257d1227a2b97446b6c77c9bd661b1",
+      "duration_s": 1.624965088053362e-08,
+      "planned_steps": 1000,
+      "substeps_per_saved_frame": 500,
+      "saved_frames": 2,
+      "planned_tool_travel_m": 4.874895264160086e-08
+    },
+    "initial": [
+      {
+        "time": 0.0,
+        "body": 0,
+        "mass": 9.07264e-05,
+        "momentum_x": 0.0,
+        "momentum_y": 0.0,
+        "kinetic_energy": 0.0,
+        "com_x": 0.00011200000000000003,
+        "com_y": 0.00012800000000000008,
+        "min_J": 1.0,
+        "max_J": 1.0,
+        "current_volume": 2.0480000000000005e-08,
+        "max_speed": 0.0,
+        "max_plastic_strain": 0.0,
+        "max_damage": 0.0,
+        "max_temperature": 298.15,
+        "gravitational_energy": -0.0,
+        "constitutive_work": 0.0,
+        "active_particles": 13184,
+        "debris_particles": 0,
+        "active_mass": 9.07264e-05,
+        "debris_mass": 0.0,
+        "active_current_volume": 2.0480000000000005e-08,
+        "strain_energy": null
+      }
+    ],
+    "final": [
+      {
+        "time": 1.624965088053362e-08,
+        "body": 0,
+        "mass": 9.07264e-05,
+        "momentum_x": 0.0,
+        "momentum_y": 0.0,
+        "kinetic_energy": 0.0,
+        "com_x": 0.00011200000000000003,
+        "com_y": 0.00012800000000000008,
+        "min_J": 1.0,
+        "max_J": 1.0,
+        "current_volume": 2.0480000000000005e-08,
+        "max_speed": 0.0,
+        "max_plastic_strain": 0.0,
+        "max_damage": 0.0,
+        "max_temperature": 298.15,
+        "gravitational_energy": -0.0,
+        "constitutive_work": 0.0,
+        "active_particles": 13184,
+        "debris_particles": 0,
+        "active_mass": 9.07264e-05,
+        "debris_mass": 0.0,
+        "active_current_volume": 2.0480000000000005e-08,
+        "strain_energy": null
+      }
+    ],
+    "particle_fields": {
+      "file": "particle_fields.npz",
+      "fields": {
+        "reference_x": {
+          "shape": [
+            13184
+          ],
+          "dtype": "float64",
+          "sha256": "9caf92e6d2ecc3de25a2e09caccaa37255c7ecff6c8426882ff0bc8220c444ac"
+        },
+        "reference_y": {
+          "shape": [
+            13184
+          ],
+          "dtype": "float64",
+          "sha256": "8d78d65a827ebd9ae540ede2e8f4d65f1c72da36b18617beaebd2f82f2b3925e"
+        }
+      }
+    }
+  }
+}

@@ -237,3 +237,168 @@ class RotatingVelocityBox:
 
 def fixed_box(lower, upper, *, components=None):
     return VelocityBox(tuple(lower), tuple(upper), (0.0,) * len(lower), components)
+
+
+@dataclass(frozen=True)
+class MovingWedgeTool:
+    """Rigid 2D wedge extruded through z, enforced by grid velocity contact.
+
+    ``tip`` is the initial cutting-edge position in x-y. The cutting direction
+    is +x; rake and clearance faces extend to the left of the tip. Contact is a
+    unilateral nodal velocity projection with Coulomb tangential slip. The tool
+    is prescribed and has infinite mass; this boundary does not deform or wear.
+    """
+
+    tip: tuple[float, float]
+    speed: float
+    rake_angle_deg: float = 10.0
+    clearance_angle_deg: float = 7.0
+    length: float = 1.0
+    friction: float = 0.0
+    tip_radius: float = 0.0
+    tip_arc_segments: int = 8
+    translation_path: tuple[tuple[float, float, float], ...] | None = None
+
+    def validate(self, dim, domain_size):
+        if dim not in (2, 3):
+            raise ValueError("MovingWedgeTool requires a 2D grid or a 3D grid extruded through z")
+        if len(self.tip) != 2 or not np.all(np.isfinite(self.tip)):
+            raise ValueError("tool tip must be a finite (x, y) pair")
+        if not np.isfinite([self.speed, self.rake_angle_deg,
+                            self.clearance_angle_deg, self.length, self.friction,
+                            self.tip_radius]).all():
+            raise ValueError("tool parameters must be finite")
+        if self.speed <= 0 or self.length <= 0 or self.friction < 0 or self.tip_radius < 0:
+            raise ValueError("tool speed/length must be positive and friction/tip radius nonnegative")
+        if self.translation_path is not None:
+            path = np.asarray(self.translation_path, dtype=float)
+            if path.ndim != 2 or path.shape[0] < 2 or path.shape[1] != 3 or not np.isfinite(path).all():
+                raise ValueError("translation_path needs finite (absolute_time,x,y) knots")
+            if path[0, 0] != 0 or np.any(np.diff(path[:, 0]) <= 0) or not np.array_equal(path[0, 1:], np.asarray(self.tip)):
+                raise ValueError("trajectory must start at time zero and virtual tip, with increasing times")
+        if self.tip_radius >= self.length:
+            raise ValueError("tool tip radius must be smaller than the face length")
+        if type(self.tip_arc_segments) is not int or self.tip_arc_segments < 2:
+            raise ValueError("rounded tip requires at least two arc segments")
+        if self.rake_angle_deg + self.clearance_angle_deg >= 90:
+            raise ValueError("rake plus positive clearance must be below 90 degrees")
+        half_angle = .5 * np.deg2rad(90 - self.rake_angle_deg - self.clearance_angle_deg)
+        if self.tip_radius > 0 and self.tip_radius / np.tan(half_angle) >= self.length:
+            raise ValueError("rounded-tip tangent distance must be smaller than face length")
+        if not 0 < self.rake_angle_deg < 80 or not 0 < self.clearance_angle_deg < 45:
+            raise ValueError("rake must be in (0,80) deg and clearance in (0,45) deg")
+
+    def tip_position(self, time, dtype):
+        """Absolute virtual sharp-face intersection; the polygon fillet is unchanged."""
+        if self.translation_path is None:
+            return jnp.asarray(self.tip, dtype=dtype) + jnp.array([self.speed * time, 0.0], dtype=dtype)
+        knots = jnp.asarray(self.translation_path, dtype=dtype)
+        index = jnp.clip(jnp.searchsorted(knots[:, 0], time, side="right") - 1, 0, knots.shape[0] - 2)
+        slope = (knots[index + 1, 1:] - knots[index, 1:]) / (knots[index + 1, 0] - knots[index, 0])
+        position = knots[index, 1:] + slope * (time - knots[index, 0])
+        return jnp.where(time >= knots[-1, 0], knots[-1, 1:], position)
+
+    def velocity(self, time, dtype):
+        """Right-continuous 2D translation velocity; zero after the final knot."""
+        if self.translation_path is None:
+            return jnp.asarray((self.speed, 0.0), dtype=dtype)
+        knots = jnp.asarray(self.translation_path, dtype=dtype)
+        index = jnp.clip(jnp.searchsorted(knots[:, 0], time, side="right") - 1, 0, knots.shape[0] - 2)
+        value = (knots[index + 1, 1:] - knots[index, 1:]) / (knots[index + 1, 0] - knots[index, 0])
+        return jnp.where(time >= knots[-1, 0], jnp.zeros(2, dtype=dtype), value)
+
+    def interval_velocity(self, start_time, end_time, dtype):
+        """A segment's exact velocity. Caller must satisfy interval_is_linear."""
+        return self.velocity(start_time + .5 * (end_time - start_time), dtype)
+
+    def interval_is_linear(self, start_time, end_time):
+        """Reject velocity-kink crossings, allowing only explicitly bounded FP roundoff."""
+        if self.translation_path is None:
+            return jnp.asarray(True)
+        knots = jnp.asarray(self.translation_path)
+        tolerance = 64 * jnp.finfo(knots.dtype).eps * jnp.maximum(jnp.maximum(jnp.abs(start_time), jnp.abs(end_time)), 1e-12)
+        crossings = (knots[1:, 0] > start_time + tolerance) & (knots[1:, 0] < end_time - tolerance)
+        return (end_time >= start_time) & ~jnp.any(crossings)
+
+    def _polygon(self, time, dtype):
+        tip = self.tip_position(time, dtype)
+        rake = jnp.deg2rad(self.rake_angle_deg)
+        clearance = jnp.deg2rad(self.clearance_angle_deg)
+        far = self.length
+        # A convex finite wedge: tip, rake-face endpoint, clearance-face
+        # endpoint.  Closing the two face endpoints forms the tool's back.
+        rake_direction = jnp.array([-jnp.sin(rake), jnp.cos(rake)], dtype=dtype)
+        clearance_direction = jnp.array(
+            [-jnp.cos(clearance), jnp.sin(clearance)], dtype=dtype
+        )
+        rake_endpoint = tip + far * rake_direction
+        clearance_endpoint = tip + far * clearance_direction
+        if self.tip_radius == 0.0:
+            return jnp.stack((tip, rake_endpoint, clearance_endpoint))
+
+        # Positive clearance rises behind the virtual tip, above its swept cut plane.
+        # Replace the virtual sharp intersection with the circular fillet
+        # tangent to both faces. The point sequence remains convex and CCW.
+        half_angle = 0.5 * jnp.arccos(
+            jnp.clip(jnp.dot(rake_direction, clearance_direction), -1.0, 1.0)
+        )
+        tangent_distance = self.tip_radius / jnp.tan(half_angle)
+        bisector = rake_direction + clearance_direction
+        bisector = bisector / jnp.linalg.norm(bisector)
+        center = tip + (self.tip_radius / jnp.sin(half_angle)) * bisector
+        upper_tangent = tip + tangent_distance * rake_direction
+        lower_tangent = tip + tangent_distance * clearance_direction
+        upper_offset = upper_tangent - center
+        lower_offset = lower_tangent - center
+        phi_upper = jnp.arctan2(upper_offset[1], upper_offset[0])
+        phi_lower = jnp.arctan2(lower_offset[1], lower_offset[0])
+        delta = jnp.mod(phi_upper - phi_lower, 2.0 * jnp.pi)
+        fractions = jnp.arange(self.tip_arc_segments, dtype=dtype) / self.tip_arc_segments
+        angles = phi_lower + fractions * delta
+        arc = center[None, :] + self.tip_radius * jnp.stack(
+            (jnp.cos(angles), jnp.sin(angles)), axis=-1
+        )
+        return jnp.concatenate((upper_tangent[None, :], rake_endpoint[None, :],
+                                clearance_endpoint[None, :], arc), axis=0)
+
+    def _project(self, velocity, coordinates, time, mass=None):
+        vertices = self._polygon(time, coordinates.dtype)
+        starts = vertices
+        edges = jnp.roll(vertices, -1, axis=0) - vertices
+        lengths = jnp.linalg.norm(edges, axis=-1)
+        rel = coordinates[:, None, :2] - starts[None, :, :]
+        signed = (edges[None, :, 0] * rel[:, :, 1]
+                  - edges[None, :, 1] * rel[:, :, 0]) / lengths[None, :]
+        inside = jnp.all(signed >= 0.0, axis=1)
+        face = jnp.argmin(signed, axis=1)
+        edge = edges[face]
+        normal2 = jnp.stack((edge[:, 1], -edge[:, 0]), axis=-1)
+        normal2 = normal2 / jnp.linalg.norm(normal2, axis=-1, keepdims=True)
+        if velocity.shape[-1] == 3:
+            normal = jnp.concatenate((normal2, jnp.zeros((len(velocity), 1), dtype=velocity.dtype)), axis=-1)
+        else:
+            normal = normal2
+        tool_velocity = jnp.zeros((velocity.shape[-1],), dtype=velocity.dtype).at[:2].set(self.velocity(time, velocity.dtype))
+        relative_velocity = velocity - tool_velocity
+        normal_speed = jnp.sum(relative_velocity * normal, axis=-1)
+        correction = jnp.maximum(-normal_speed, 0.0)
+        tangent = relative_velocity - normal_speed[:, None] * normal
+        tangent_speed = jnp.linalg.norm(tangent, axis=-1)
+        friction_scale = jnp.minimum(tangent_speed, self.friction * correction) / jnp.maximum(tangent_speed, 1e-30)
+        corrected = velocity + correction[:, None] * normal - friction_scale[:, None] * tangent
+        active = inside if mass is None else inside & (mass > 0)
+        corrected = jnp.where(active[:, None], corrected, velocity)
+        impulse = jnp.zeros((velocity.shape[-1],), dtype=velocity.dtype)
+        if mass is not None:
+            impulse = jnp.sum(mass[:, None] * (corrected - velocity), axis=0)
+        return corrected, impulse, inside
+
+    def apply(self, velocity, coordinates, time):
+        return self._project(velocity, coordinates, time)[0]
+
+    def apply_grid(self, mass, velocity, coordinates, time):
+        return self._project(velocity, coordinates, time, mass)[0]
+
+    def impulse_on_body(self, mass, velocity, coordinates, time):
+        """Impulse applied to the workpiece at the tool boundary during projection."""
+        return self._project(velocity, coordinates, time, mass)[1]

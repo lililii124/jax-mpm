@@ -77,9 +77,9 @@ def coupled_step(states, materials, configs, friction=0.0, forces=(None, None),
     )
     va, vb, impulse = contact_impulse(ma, mb, *velocities, normal, jnp.maximum(friction, 0.0))
     result = tuple(
-        particle_update(s, m, c, support, grid_boundaries(v, c, s.time + c.dt), force)
-        for s, m, c, support, v, force in zip(
-            states, materials, configs, supports, (va, vb), forces
+        particle_update(s, m, c, support, grid_boundaries(v, c, s.time + c.dt, grid_mass), force)
+        for s, m, c, support, v, force, grid_mass in zip(
+            states, materials, configs, supports, (va, vb), forces, (ma, mb)
         )
     )
     total_impulse = jnp.sum(impulse, axis=0)

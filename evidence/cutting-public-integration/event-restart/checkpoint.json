@@ -1,0 +1,77 @@
+{
+  "schema": "public-event-aligned-multipass-v1",
+  "signature": "896499c2aa165802722741822c74816c234bc55a288b604aefcb86946f440c37",
+  "frame": 7,
+  "states": [
+    "checkpoint_1_0.npz"
+  ],
+  "rows": [
+    {
+      "frame": 7,
+      "time": 9.262301001904164e-11,
+      "segment": "short_lift",
+      "window": {
+        "steps": 1,
+        "actual_start_s": 8.612314966682818e-11,
+        "actual_end_s": 9.262301001904164e-11,
+        "chunks": [
+          {
+            "done": false,
+            "steps": 1,
+            "dt_s": 6.499860352213453e-12,
+            "remaining_time_before_window_s": 6.499860352213453e-12,
+            "event_time_s": 9.262301001904164e-11,
+            "final_remaining_time_window": true
+          }
+        ]
+      },
+      "virtual_tip_m": [
+        3.100011212259108e-05,
+        0.00018200066298575593
+      ],
+      "contact_metrics": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        12.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "time": 9.262301001904164e-11,
+      "segment": "short_lift"
+    }
+  ],
+  "path_sha256": "ad8ed77ec1e6fdba2af5e8ec6e6614de19f3fea9745ea4f135c7a4595b0a2a29",
+  "warm_reset_origin_time_s": 0.0,
+  "next_warm_reset_epoch": 1,
+  "next_warm_reset_time_s": 8.12482544026681e-09,
+  "warm_reset_pending": false,
+  "contact_cache_in_state": true
+}
