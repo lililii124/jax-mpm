@@ -1,0 +1,510 @@
+{
+  "scope": "Complete recovery of allocated full-MPM inputs through the public entry point. Dataset reconstruction only; no new ROM qualification.",
+  "public_recipe": "examples/sandwich_enrichment.json",
+  "public_recipe_sha256": "e627a8ae33792e78c6984f6dfb1e61663bd28e2a98ad0cf225a350d8330a3d78",
+  "actual_recipe_relocation": "Only input directory paths changed to cached immutable full-MPM frames; source bindings and partitions match the public recipe.",
+  "source_sha256": {
+    "prepare_sandwich_enrichment.py": "7df1116d5964c249ad4ecfc311c5eb61470cf6f8f779e2ed4df7c00d243b2776",
+    "export_sandwich_fullmpm_face.py": "36a423dca9e9b9c545367eee5a5f5009310d8f7f2e6614cd4d86eef4e394bf5c"
+  },
+  "source_bindings": [
+    {
+      "name": "initial-eccentric",
+      "case": "eccentric",
+      "partitions": {
+        "training": [
+          1000,
+          2000,
+          3000,
+          4000,
+          5000,
+          6000,
+          7000,
+          8000,
+          9000,
+          10000,
+          11000,
+          12000,
+          13000,
+          14000,
+          15000,
+          16000,
+          17000,
+          18000,
+          19000,
+          20000,
+          21000,
+          22000,
+          23000,
+          24000
+        ],
+        "development": [
+          25000,
+          26000,
+          27000,
+          28000,
+          29000,
+          30000,
+          31000,
+          32000,
+          33000,
+          34000,
+          35000,
+          36000
+        ],
+        "validation": []
+      },
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "material_sha256": "4634721209b8e5fde76382d209def99d057760e6d6a39569cc643aa3d6c6ac41",
+      "status_sha256": "c5b829f8101ef8b1ca062011e13ce54516eac2216c30f1503f018d0bdbe451e2",
+      "binding_sha256": "77025e46c0693bc3724b3685d932ec243f4ddeb1398a28d614d700f7dab2f81a",
+      "reserved_validation_from_step": null
+    },
+    {
+      "name": "selected-eccentric",
+      "case": "eccentric",
+      "partitions": {
+        "training": [
+          1000,
+          2000,
+          3000,
+          4000,
+          5000,
+          6000,
+          7000,
+          8000
+        ],
+        "development": [
+          9000,
+          10000,
+          11000,
+          12000,
+          13000,
+          14000,
+          15000,
+          16000,
+          17000,
+          18000
+        ],
+        "validation": []
+      },
+      "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+      "material_sha256": "1f93bdfa8306cc756ca9beef0f1c760e6ac360d7d8e63ec6a95d27a1e6ac4d19",
+      "status_sha256": "de04b5e533a279613eae3304f342a2160bcf428ef541fa28b0ee8f9bb81dd599",
+      "binding_sha256": "9bb576b51bd113b8a52f0a028c621dbc7f5f2ab1df832e2602e148f4f6eb5176",
+      "reserved_validation_from_step": 19000
+    }
+  ],
+  "datasets": [
+    {
+      "label": "510",
+      "training_count": 24,
+      "development_count": 12,
+      "validation_count": 0,
+      "output_sha256": "c4dc8e9f01f037f8150df225315357aff73935d4088fe45280a9248bfeca1950",
+      "training_fields_sha256": "ac5645acb9067370a7c66858c9e969f419a0b97079e966cc0d9d56407e76addc",
+      "nodes_sha256": "7d5ba1f82733d6006da20b42ca79f3eb57af2ca74dead78c54aeb783b25414db",
+      "wall_seconds": 21.81106079998426,
+      "specification_sha256": "70c418cd6b4b2776ce63873291f12397e7c8a005bd8e6baaa06ac44498aa57af",
+      "maximum_particle_reconstruction_error_m": 5.204170427930421e-18
+    },
+    {
+      "label": "518",
+      "training_count": 32,
+      "development_count": 22,
+      "validation_count": 0,
+      "output_sha256": "a16fbc685aed6de1eec37ed41042b07f9cb99da004f1a72299a9e1d96a6d7069",
+      "training_fields_sha256": "5d5140641ee3e837680aaa0ad1d2e37322c9182dd1e6fa2d9cca4e4a437d94d9",
+      "nodes_sha256": "7d5ba1f82733d6006da20b42ca79f3eb57af2ca74dead78c54aeb783b25414db",
+      "wall_seconds": 9.06781000000774,
+      "specification_sha256": "70c418cd6b4b2776ce63873291f12397e7c8a005bd8e6baaa06ac44498aa57af",
+      "maximum_particle_reconstruction_error_m": 5.204170427930421e-18
+    }
+  ],
+  "unique_source_frame_count": 54,
+  "frames": [
+    {
+      "source": "initial-eccentric",
+      "step": 1000,
+      "partition": "training",
+      "time_s": 2.3963575365443922e-05,
+      "sha256": "d28ef48d05661a78e1c7092500f7e622771f043143bade89dc45d754a1838a94"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 2000,
+      "partition": "training",
+      "time_s": 4.792715073088677e-05,
+      "sha256": "6f28e4ea7926362a39191d872e732554bee33e364e8d46622bc5267238193389"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 3000,
+      "partition": "training",
+      "time_s": 7.189072609633268e-05,
+      "sha256": "fff679ab4df2d012f1708f15341be89475b3f36efe09d93dcbc35100f159edb6"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 4000,
+      "partition": "training",
+      "time_s": 9.58543014617823e-05,
+      "sha256": "12393c1dd5d5c0071f6cbf403cde68f0f31e658bb86f08683277e111b0b8ac17"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 5000,
+      "partition": "training",
+      "time_s": 0.00011981787682723192,
+      "sha256": "7ddf916003fb31ef010da06bcaaa4d4bc49bd390e7bf90060eaf7534aa079396"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 6000,
+      "partition": "training",
+      "time_s": 0.00014378145219268154,
+      "sha256": "2bfe3387ec99edaf723fc0c15033ee661eb900af993dfc7ff2c8d41334ab23db"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 7000,
+      "partition": "training",
+      "time_s": 0.00016774502755813117,
+      "sha256": "1e3260b178d154eee6a654698912ec1a12e0c88c1646b42a05b97b16c53e8881"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 8000,
+      "partition": "training",
+      "time_s": 0.0001917086029235808,
+      "sha256": "c1c67203d3fb874a22973586ef23fe114255b5e0491c4db8d059fa31158fe3f8"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 9000,
+      "partition": "training",
+      "time_s": 0.0002156721782890304,
+      "sha256": "71041af3dc06f36cc7dfbfbee302c180a5a52a75809d0da126d1a75343266f92"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 10000,
+      "partition": "training",
+      "time_s": 0.00023963575365448003,
+      "sha256": "452ce9353d720b4c94005cd23e346815d62e7dadfdfadb9960a9b7c6320f73d0"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 11000,
+      "partition": "training",
+      "time_s": 0.0002635993290199076,
+      "sha256": "34132e1eda1a7b1c328ba2e07cb16d849c9093584dc53e0a25d69a475ab9a18d"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 12000,
+      "partition": "training",
+      "time_s": 0.00028756290438533013,
+      "sha256": "29388c667926641d9c5939de81347893369fc8d608c7441f6e58a3054d4a9dee"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 13000,
+      "partition": "training",
+      "time_s": 0.00031152647975075265,
+      "sha256": "e48c4a9c2672159766dcc17af70eda707ecd17d672b7d87ddba1471aae781308"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 14000,
+      "partition": "training",
+      "time_s": 0.00033549005511617516,
+      "sha256": "beb2e84aba08a6601d3aa645f763545ed4b416b35656ac2872a76de4b48dc9e9"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 15000,
+      "partition": "training",
+      "time_s": 0.0003594536304815977,
+      "sha256": "9ce3a47e743408904f3973638b50a5d8174313634e63449ebe60f9d1224233fc"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 16000,
+      "partition": "training",
+      "time_s": 0.0003834172058470202,
+      "sha256": "300b3b64854b3e259a5e0d3d320fd6ac4cb5dafd879214402a7f193d7b496919"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 17000,
+      "partition": "training",
+      "time_s": 0.0004073807812124427,
+      "sha256": "7e348202d650c53e075d47c4eb622a20cf467131f053c385bf192f5c757976de"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 18000,
+      "partition": "training",
+      "time_s": 0.0004313443565778652,
+      "sha256": "a79bfa856d9384929c4250287b51b86b3b3d0863bb929a0f60709864ad18b413"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 19000,
+      "partition": "training",
+      "time_s": 0.00045530793194328774,
+      "sha256": "8e48c5d951ce75ebf8af72a041a762640242655c69df56d6458d0671cfcb48cc"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 20000,
+      "partition": "training",
+      "time_s": 0.00047927150730871026,
+      "sha256": "a17ff8f866e3d3dde5bebf434c8ac083aaf2f807e08ce13230c91ebca0c2f72b"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 21000,
+      "partition": "training",
+      "time_s": 0.0005032350826741667,
+      "sha256": "e1737b58be05a81acb1d886b8086f602bd649b4e11f2b8c1d0de7226a52711f4"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 22000,
+      "partition": "training",
+      "time_s": 0.0005271986580396434,
+      "sha256": "2693bbf4a044498f94581480e08720e8aa83f8bec155897672d31fd5a5f1af1e"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 23000,
+      "partition": "training",
+      "time_s": 0.0005511622334051201,
+      "sha256": "514543236670539bae7eef367757eef257c26a4412d27a6b8a6d043991077387"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 24000,
+      "partition": "training",
+      "time_s": 0.0005751258087705968,
+      "sha256": "4937e323405d3983633143881de3f67fee5dd2b311b807a18cabdcd3f762ec3c"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 25000,
+      "partition": "development",
+      "time_s": 0.0005990893841360736,
+      "sha256": "a34ceaf285c5301147a6063838b62b1b183f49ade2641627dbbe568f851edca5"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 26000,
+      "partition": "development",
+      "time_s": 0.0006230529595015503,
+      "sha256": "27c8d6676cb9d0cf7879eca5685f8f7f01f2110bb0ea3801171ff5d051001f60"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 27000,
+      "partition": "development",
+      "time_s": 0.000647016534867027,
+      "sha256": "be85bb0bca74d55f31212a12a524657ad763dbf06cb989efb28be6855df645fa"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 28000,
+      "partition": "development",
+      "time_s": 0.0006709801102325037,
+      "sha256": "37168b38aa2eb47634209d2398ab04dddb5ab3c05816f0935a017e3ff453a1de"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 29000,
+      "partition": "development",
+      "time_s": 0.0006949436855979805,
+      "sha256": "6f80b98a2094f240a23d0c6cca412ac8f33537dcc7a2bebc0caa73cd44186856"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 30000,
+      "partition": "development",
+      "time_s": 0.0007189072609634572,
+      "sha256": "dd3fa4782d7db6261e6b9db1d0e467dfb21ef4f8c5a1b44a203c7ce510eafe27"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 31000,
+      "partition": "development",
+      "time_s": 0.0007428708363289339,
+      "sha256": "bcfda552d4427341fc712c90fbb4866e673ae475f4506253757bf5853b3d89a1"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 32000,
+      "partition": "development",
+      "time_s": 0.0007668344116944106,
+      "sha256": "80654c5d53bcf685c14d4356053d04fbc24b8e96eb326dfaa0c7203cef3dcde0"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 33000,
+      "partition": "development",
+      "time_s": 0.0007907979870598874,
+      "sha256": "040b94e91542e83cce13febe862dbe59737a66401c3718b0ddace60d09900e03"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 34000,
+      "partition": "development",
+      "time_s": 0.0008147615624253641,
+      "sha256": "bdcb90122b3817a230cc238bdc14b9cfd2d3be52bcf497179e4c14cff5705288"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 35000,
+      "partition": "development",
+      "time_s": 0.0008387251377908408,
+      "sha256": "ef7175843b6119159d1fac3f88ec7d5610a131bf80c663d91f572303e693d5f1"
+    },
+    {
+      "source": "initial-eccentric",
+      "step": 36000,
+      "partition": "development",
+      "time_s": 0.0008626887131563175,
+      "sha256": "bf7f32a0133d7ac4fa03611a9430c2a9efbc645c26098ec3a3f905685169578c"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 1000,
+      "partition": "training",
+      "time_s": 2.3963575365443922e-05,
+      "sha256": "22a2da34f29c9651bc2b6ef9f9fe6683a51f405b2f947d1361c5dfffa8f3529a"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 2000,
+      "partition": "training",
+      "time_s": 4.792715073088677e-05,
+      "sha256": "8c15daf405cbd9a60535eb28c49019fb88005c145772d4d5c91b20ea1488ca57"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 3000,
+      "partition": "training",
+      "time_s": 7.189072609633268e-05,
+      "sha256": "3ae345758052a43b036e62a0abf127c901d38beac5c0fe366dac513c1ff1396c"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 4000,
+      "partition": "training",
+      "time_s": 9.58543014617823e-05,
+      "sha256": "087b072c9885dbcdfc261f7209b27028e9524f6ee3701dfb990607e7fcb4a569"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 5000,
+      "partition": "training",
+      "time_s": 0.00011981787682723192,
+      "sha256": "b89430633ce69df04994daba411a276f6da574820b9f1ddc2a45e404cdd39369"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 6000,
+      "partition": "training",
+      "time_s": 0.00014378145219268154,
+      "sha256": "fe1e6cb8899f392241ea78ecce4535660476eb1a68512fc136def72bbda54af4"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 7000,
+      "partition": "training",
+      "time_s": 0.00016774502755813117,
+      "sha256": "61d5efcd84acdd61320663b98fb3ce037bbb3be634d9dbc6602afa5019838acb"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 8000,
+      "partition": "training",
+      "time_s": 0.0001917086029235808,
+      "sha256": "8ab6947634041cad094decac4c4b92ab2d882592abc29202112edd61840bef50"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 9000,
+      "partition": "development",
+      "time_s": 0.0002156721782890304,
+      "sha256": "36dd843896648d4c49358d92daf5b461a272cb3217af4fca6f62181991cfd86b"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 10000,
+      "partition": "development",
+      "time_s": 0.00023963575365448003,
+      "sha256": "745185fe6357ce91b8863634403949365f0736ea5ccb69646d540477fbfdefd8"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 11000,
+      "partition": "development",
+      "time_s": 0.0002635993290199076,
+      "sha256": "83f1cdec4e8e291fa20696beadefc5bc2b620dae0a72d61fc3972af3e1c86b81"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 12000,
+      "partition": "development",
+      "time_s": 0.00028756290438533013,
+      "sha256": "7cafc12cf48c254b9103d649fc2cd39018f8a220b2a58779417a8388b3852f5f"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 13000,
+      "partition": "development",
+      "time_s": 0.00031152647975075265,
+      "sha256": "91ae9b5e316fd52150886f702d493b5679070c3f4d6cb3d8a127c8c67e55b084"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 14000,
+      "partition": "development",
+      "time_s": 0.00033549005511617516,
+      "sha256": "10ca145aecfb5cc403687eb933cb37123b5fc50b42fc5343ba08dcf3ceef13d6"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 15000,
+      "partition": "development",
+      "time_s": 0.0003594536304815977,
+      "sha256": "92b7ba30c05939425388390d34939a28980c67228d80be9b06746caabce9405e"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 16000,
+      "partition": "development",
+      "time_s": 0.0003834172058470202,
+      "sha256": "43e026d878b946cba5d368fbfdf0daff7830351f2b1294ea9c7a151b7bd6fc96"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 17000,
+      "partition": "development",
+      "time_s": 0.0004073807812124427,
+      "sha256": "ba8e22ae72790cb294680d9f8f966aac4c9b6c766203b1a578e01778ee2346b4"
+    },
+    {
+      "source": "selected-eccentric",
+      "step": 18000,
+      "partition": "development",
+      "time_s": 0.0004313443565778652,
+      "sha256": "49b809a2f04ac888464085da9088e671d67cf155c2ddb7b9c528e16d4b6bdccd"
+    }
+  ],
+  "selected_steps_19000_onward_read": false,
+  "blas_threads": 4,
+  "focused_tests": "5 passed",
+  "complete_rom_forward_pipeline_replayed": false,
+  "independent_complete_mpm_design_qualified": false
+}

@@ -53,13 +53,35 @@ rematerialized in time chunks. Larger grids/bases need a fresh memory plan.
 `(snapshots,nodes,3)`, Boolean `training`, and matching reference `nodes`.
 Only marked training snapshots enter residual POD. For the recorded rank-510
 study, baseline steps 1,000–24,000 trained 24 added vectors; selected steps
-1,000–8,000 supplied eight more for rank 518. These raw nodal arrays and the
-private orchestration that assembled them are not part of this source release.
-The public full-MPM CLI can regenerate Gauss frames, and
-`tools/export_sandwich_fullmpm_face.py` contains the exact nodal inversion, but a
-public command to assemble and qualify the enriched training NPZ is still
-missing. Thus the analytic CLI is reproducible; the recorded enriched curves
-cannot yet be reproduced from the published commands alone.
+1,000–8,000 supplied eight more for rank 518. The public preparation entry point
+uses the exact Gauss-to-node inversion from the face exporter:
+
+```bash
+python -m tools.prepare_sandwich_enrichment examples/sandwich_enrichment.json outputs/sandwich-training-510.npz --source initial-eccentric
+python -m examples.blast_sandwich_reduced forward --order 9 --dt 1e-6 --enrichment-snapshots outputs/sandwich-training-510.npz --output outputs/sandwich-enriched-initial
+python -m tools.prepare_sandwich_enrichment examples/sandwich_enrichment.json outputs/sandwich-training-518.npz
+python -m examples.blast_sandwich_reduced forward --order 9 --dt 1e-6 --enrichment-snapshots outputs/sandwich-training-518.npz --design-checkpoint evidence/blast-sandwich-reduced/enriched-v12-best-strict-feasible-controls.npz --output outputs/sandwich-enriched-selected
+```
+
+First generate the full-MPM frame directories with the commands in the model
+documentation. The JSON recipe names the exact control and physical-source
+hashes, baseline/selected training steps and development intervals. The tool
+rejects overlap, material changes and incorrect controls, and writes masks and
+per-frame/output/training-field hashes. Only `training=True` fields enter POD.
+Fresh validation extraction additionally requires a `frozen_model_receipt`
+path in the recipe and the predeclared future interval. No future selected
+frames are requested by the supplied recipe.
+
+The [preparation check](../evidence/blast-sandwich-reduced/enrichment-preparation-check.json)
+recovered all 54 allocated actual frames: the baseline-only pack has 24 training
+and 12 development frames; the combined pack has 32 training and 22 development
+frames. Maximum Gauss resampling error is 5.21 × 10⁻¹⁸ m; no reserved future
+selected frame was read. Five focused recovery/allocation tests pass. Large raw
+trajectories are regenerated rather than bundled. The complete public pipeline
+has not yet been replayed to re-establish the recorded enriched curve and
+basis hashes; POD rotations and numerical runtime can change basis bytes.
+These commands close the dataset-generation dependency, not the failed model
+accuracy gates or the remaining full pipeline verification.
 
 The canonical selected control field has SHA256
 `3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3`

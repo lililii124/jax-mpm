@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "spacing_m": [0.01, 0.01, 0.001],
+  "sources": [
+    {
+      "name": "initial-eccentric",
+      "directory": "../outputs/sandwich-full/eccentric",
+      "case": "eccentric",
+      "source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "training_steps": {"start": 1000, "stop": 24000, "stride": 1000},
+      "development_steps": {"start": 25000, "stop": 36000, "stride": 1000},
+      "validation_steps": []
+    },
+    {
+      "name": "selected-eccentric",
+      "directory": "../outputs/sandwich-selected-full/eccentric",
+      "case": "eccentric",
+      "source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+      "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+      "training_steps": {"start": 1000, "stop": 8000, "stride": 1000},
+      "development_steps": {"start": 9000, "stop": 18000, "stride": 1000},
+      "validation_steps": [],
+      "reserved_validation_from_step": 19000
+    }
+  ]
+}

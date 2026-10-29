@@ -272,6 +272,17 @@
     ],
     "heldout_projection_gate_passed": false
   },
+  "inverse_tangent_attempt": {
+    "scope": "Training-only K-inverse-M directions; no enriched model accepted.",
+    "preconditioner": "rank518 coarse correction plus nodal diagonal",
+    "required_relative_residual": 1e-8,
+    "iteration_limit_per_direction": 1200,
+    "completed_relative_residuals": [9.664331433820209e-9, 9.8950349660961e-9],
+    "failed_training_step": 3000,
+    "failed_relative_residual": 1.3194440298708091e-8,
+    "solver_converged": false,
+    "new_rom_qualified": false
+  },
   "nonlinear_blast_qualified": false,
   "complete_selected_three_case_mpm_verified": false,
   "enriched_basis_public_reconstruction_complete": false

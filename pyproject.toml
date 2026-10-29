@@ -30,7 +30,7 @@ mpm-jax = "mpm_jax.cli:main"
 include = ["mpm_jax*", "examples*"]
 
 [tool.setuptools.package-data]
-examples = ["mat173_toe_plan.json"]
+examples = ["mat173_toe_plan.json", "sandwich_enrichment.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
