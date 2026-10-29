@@ -1,0 +1,40 @@
+{
+  "task": "at2-geometry-only-odd49-path-v1",
+  "container_handle": "1353a16cac8c6b572eafead22e82a761e19b4a5282a4f6ffa2605bdd31af08f3",
+  "source_capsule_sha256": "aabcb469d2ec589a6d7a2fa4a9e15a9ac8f6f3327c0901fefcc82d4a8adbe682",
+  "initial_damage_mode": "geometry-only",
+  "nx": 48,
+  "ny": 49,
+  "physical_zero_load_damage_max": 0.0,
+  "physical_zero_load_damage_nonzero_count": 0,
+  "accepted_frame0_damage_max": 0.0,
+  "accepted_frame0_displacement_max": 0.0,
+  "damage_fixed_nodes": 0,
+  "geometric_crack_trace_nodes": 37,
+  "candidate_profile_peak_nonphysical_only": 0.9,
+  "raw_original_artifacts": [
+    {
+      "remote": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/at2-geometry-only-odd49-path-v1/output/zero-load-state.npz",
+      "sha256": "6c91c8ac4c6a75b2cae37e8f81983a912490458d2980a505c16c8358d25b55f7",
+      "bytes": 759
+    },
+    {
+      "remote": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/at2-geometry-only-odd49-path-v1/output/frame-0000.npz",
+      "sha256": "fbe10a7a0baab11705028a07a6d373742ac753e984826f1fc134cd968d894524",
+      "bytes": 522
+    },
+    {
+      "remote": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/at2-geometry-only-odd49-path-v1/output/reference-grid.npz",
+      "sha256": "79a4da9ad01084172a6118be76f48b32015f49e9a20a4c68087e0f5c43594a3e",
+      "bytes": 81105
+    },
+    {
+      "remote": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/at2-geometry-only-odd49-path-v1/output/parameters.json",
+      "sha256": "b68735d5559ea8bde6079598438e3ef584b9cd5b6be3131e597a476ef1423736",
+      "bytes": 1505
+    }
+  ],
+  "old_seeded_runs_modified": false,
+  "original_job_continues": true,
+  "publication_eligible": false
+}
