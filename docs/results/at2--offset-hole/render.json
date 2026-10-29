@@ -1,0 +1,305 @@
+{
+  "renderer": "ParaView",
+  "renderer_source_sha256": "da941dafca42f7d393f4d77f6881079870b784f11739e925242cfbb147f3b9a6",
+  "gif_sha256": "f4f7c18b09d495e2ce4aad13066d946e746028e8ed19555cdde9dcfb2e07e5ec",
+  "size": [
+    400,
+    400
+  ],
+  "frames": 25,
+  "distinct_rendered_frames": 25,
+  "deformation_scale": 1.0,
+  "damage_range": [
+    0.0,
+    1.0
+  ],
+  "display_vertices": 4145,
+  "physical_coefficients": 4145,
+  "display_mapping": "Saved geometry constraints; no damage-dependent or mirror averaging",
+  "overlays": false,
+  "artificial_crack_lines": false,
+  "source_summary_sha256": "1e7882de3dffbb6a5d01b9b7f503181456b01df76fb0b31a83fbda14a5dc6fa1",
+  "reference_grid_sha256": "1fd7155a1f2e90c4ca2e94cd31e62fc3381ad7da6b20c21679578ce0a593c2a0",
+  "source_summary": {
+    "completed": true,
+    "failure": null,
+    "physical_initial_damage_max": 0.0,
+    "physical_initial_AT2_energy": 0.0,
+    "damage_fixed_nodes": 0,
+    "accepted_load_steps": 25,
+    "rejected_load_attempts": 0,
+    "energy_gap_over_external_work": 0.0034990308640783932,
+    "irreversible": true,
+    "mechanical_and_damage_converged": true,
+    "small_strain": true,
+    "peak_reaction_N_per_m": 23.962257140158584,
+    "load_drop": true,
+    "crack_advance_d08_m": 0.6223958333333333,
+    "mesh_convergence_established": false,
+    "load_increment_convergence_established": false,
+    "scope": "Actual solid domain with an offset traction-free hole; no integration, ghost support or damage substitution inside the void.",
+    "single_mesh_fracture_observed": true
+  },
+  "publication_qualified": false,
+  "hole_geometry": {
+    "case": "offset-hole-tension",
+    "hole_center_m": [
+      0.65,
+      0.58
+    ],
+    "hole_radius_m": 0.1,
+    "actual_void_boundary": "Conforming polygon with vertices on the stated circle",
+    "hole_boundary_mechanics": "Natural traction-free boundary; no mechanical hole pins",
+    "hole_boundary_damage": "Natural AT2 zero flux; NO prescribed damage",
+    "integration": "Only solid P1 triangles, three-point exact Gaussian quadrature; void cells and unused nodes removed",
+    "initial_damage": 0.0,
+    "damage_fixed_nodes": 0,
+    "imposed_crack_path": false,
+    "young_Pa": 1000000.0,
+    "Gc_J_per_m2": 0.001,
+    "ell_m": 0.04,
+    "notch_length_m": 0.375,
+    "geometry_verification": {
+      "solid_area_m2": 0.9686799982011132,
+      "void_polygon_area_m2": 0.031320001798887415,
+      "solid_plus_void_area_error": 6.661338147750939e-16,
+      "minimum_triangle_area_m2": 4.266872291672971e-06,
+      "affine_gradient_error": 1.1368683772161603e-13,
+      "particles_inside_actual_void": 0,
+      "unused_background_nodes_removed": 104,
+      "minimum_active_nodal_quadrature_mass": 2.8778840085337444e-05,
+      "hole_boundary_nodes": 52,
+      "removed_background_cells": 129,
+      "geometry": "Circular hole approximated by an inscribed conforming polygon; no material, quadrature or orphan DOFs inside the actual void."
+    }
+  },
+  "void_rendering": "No cells, points or damage coefficients are rendered inside the actual hole. Its boundary is the deformed free-boundary mesh, not a damage mask.",
+  "note": "Rendering does not establish mesh or load-step convergence.",
+  "sources": [
+    {
+      "step": 0,
+      "source_sha256": "fd533f7889771ee7f23c21a189a7e6a7e7dc6109e6e4eae428629e43177b4eda",
+      "displacement_m": 0.0,
+      "damage_min": 0.0,
+      "damage_max": 0.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "5df01085bd823c2e192b6ea23ba29877231e32f97ae4b60a06e28e6c0be61e2a"
+    },
+    {
+      "step": 1,
+      "source_sha256": "4438adf1dcaffedb373889c55fbf339494ff536d63f0a5cc92b744e4a287f1aa",
+      "displacement_m": 2.5e-06,
+      "damage_min": 2.592578028168988e-07,
+      "damage_max": 0.0008008513627029816,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "bbb9bf1870f6efd7cbb21a25f024ed6e267e7b7d360788be3bbb9746ea9e2d41"
+    },
+    {
+      "step": 2,
+      "source_sha256": "be99ecc0e971d3f33334e4e2fc2a0119a8be76048490c4499a96b188cc415ff0",
+      "displacement_m": 5e-06,
+      "damage_min": 1.0360232749392044e-06,
+      "damage_max": 0.0032084813900210766,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "ed6852dfd19e26f4feea6d14f2a134f90d770e1c8aad3a7b6011a9b4a3508ded"
+    },
+    {
+      "step": 3,
+      "source_sha256": "5ab18794673eeaa49e4f9ea37e26eb4e94eea1e35c694a168db46447eaee5895",
+      "displacement_m": 7.500000000000001e-06,
+      "damage_min": 2.32697886049859e-06,
+      "damage_max": 0.00723750653100258,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "f13220e8b6854606362924bc1c6f1cf91ca418cd3ebb13743fd5ac71e470f085"
+    },
+    {
+      "step": 4,
+      "source_sha256": "ede86bf340cda92a5210f908e983c275fa863da2d8c5de5d91ca85093fca7f40",
+      "displacement_m": 1e-05,
+      "damage_min": 4.126608320479205e-06,
+      "damage_max": 0.012913253815575843,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "2453a6ca9c90c99eb29818140289baae9add167a68dd65b256c1056f97c62049"
+    },
+    {
+      "step": 5,
+      "source_sha256": "45c2d95ae86388855034ae9454ae9d6df0a2e4be46b78ddae0333b2bfa43efc9",
+      "displacement_m": 1.25e-05,
+      "damage_min": 6.4270037875819115e-06,
+      "damage_max": 0.02027272650336552,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "485bb22455f67bdbffa63897b6ed0642b02c7cc4bcc1f73b4e1841ca6872a695"
+    },
+    {
+      "step": 6,
+      "source_sha256": "524319ea6ab674fcedab30af388a44b2f5b78b79a0d841310d8f8d7c4f30f561",
+      "displacement_m": 1.5000000000000002e-05,
+      "damage_min": 9.217702992836476e-06,
+      "damage_max": 0.029366467118105463,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "8a9c54951db00732b569909e5b44ff00919692409da6c6d07da63f1a5007801b"
+    },
+    {
+      "step": 7,
+      "source_sha256": "f9a69a3c67f63b0d95cdc429dc9f7053b871b694f8abb00f8110c331687afbda",
+      "displacement_m": 1.7500000000000002e-05,
+      "damage_min": 1.2485630770289031e-05,
+      "damage_max": 0.040261282576213406,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "ee30edd22d2c1f714464e6de1bc850e4201acf8679bb860dc0d70c6b135043d3"
+    },
+    {
+      "step": 8,
+      "source_sha256": "a301f91241ffd06db22f3a9896af7c90b0bd2b2a04a5fa3c7e163029b77806b8",
+      "displacement_m": 2e-05,
+      "damage_min": 1.6213978636149063e-05,
+      "damage_max": 0.05304358959451525,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "a05d05d6eb46ca92bc5a2cef1fd00a2467cfc4fa70ca6dc87f197a5fa7e22033"
+    },
+    {
+      "step": 9,
+      "source_sha256": "eae69bdbe77f46ba32be02aa4840f36ffde7adad20644f48ad05f4b9eb855e30",
+      "displacement_m": 2.25e-05,
+      "damage_min": 2.038281286047499e-05,
+      "damage_max": 0.06782535196697777,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "03bae3b54adbc0bb090e2fbe6ab317f5df275c14d76f8761bf416257c1093374"
+    },
+    {
+      "step": 10,
+      "source_sha256": "005ccf59cbf417f75598c136416bc8188b6dcb90bb4ccdb11a456d098b87a6e5",
+      "displacement_m": 2.5e-05,
+      "damage_min": 2.49676648598806e-05,
+      "damage_max": 0.08475141476979353,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "bec976b06de9230544297669ef164705732d3c859b36f6c8cab03328a4bca939"
+    },
+    {
+      "step": 11,
+      "source_sha256": "666354ed3c3ec47e8999a12d42f7a7b5837e1f156994f442e37e4747f4ce9b24",
+      "displacement_m": 2.75e-05,
+      "damage_min": 2.9938679151307106e-05,
+      "damage_max": 0.10401105937687288,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "9051b7958ff0ccfa45b0f152b483c25ca902a71f6889318bae213073235f7c39"
+    },
+    {
+      "step": 12,
+      "source_sha256": "6c1977df99536a568e7b56e1380083593b1fb1b588ea58cd438ba675e54c9237",
+      "displacement_m": 3.0000000000000004e-05,
+      "damage_min": 3.525913876439841e-05,
+      "damage_max": 0.12585552681157128,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "70e7c3eaad84e4eb03e75414b15440f58928bb7ba4c9fbb26f82db29cb68beaa"
+    },
+    {
+      "step": 13,
+      "source_sha256": "c56ff75677448ed8718bf0d18d37132c2630c601f6ef6a32b354d4da468c2a11",
+      "displacement_m": 3.2500000000000004e-05,
+      "damage_min": 4.088323514582435e-05,
+      "damage_max": 0.15062595248778057,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "b254be7b9dffc1beb46d2a6857f67effa20b63870272b855f8f90522365bef96"
+    },
+    {
+      "step": 14,
+      "source_sha256": "2623740ef280f594e93fefb43db5b51c80c3090fa59e6dcdb9df94b05af190ec",
+      "displacement_m": 3.5000000000000004e-05,
+      "damage_min": 4.675250229994098e-05,
+      "damage_max": 0.17880044907449882,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "26bc7cecbae3b5cd45b8e89ca889e81f0ce70d1c36bce6a7e358994a94244ff6"
+    },
+    {
+      "step": 15,
+      "source_sha256": "bab1f4993dc02049bab61c76dbed1627da048b83a6d6e9474055fc2198ab10a7",
+      "displacement_m": 3.7500000000000003e-05,
+      "damage_min": 5.278949555240409e-05,
+      "damage_max": 0.21107915465923016,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "58776d144dab6e538bb0635fbdc2cdb732a9854e8122112896791deead9f670c"
+    },
+    {
+      "step": 16,
+      "source_sha256": "787a1546c3036db7df4f4fc0fb84aeb88752c45869c1ac99d72a65bf7ee723f5",
+      "displacement_m": 4e-05,
+      "damage_min": 5.8887125997829575e-05,
+      "damage_max": 0.24855414699374204,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "b7950a4af0bfefdd077eda2ba3f1ffed43c90db6652dfa57a86e1ea816aa2f5b"
+    },
+    {
+      "step": 17,
+      "source_sha256": "3a9a0f7b3c8fdaf75e57c27587f7ef7584e1ba77a706ca770c24c52a2e887c88",
+      "displacement_m": 4.25e-05,
+      "damage_min": 6.488274987498538e-05,
+      "damage_max": 0.2930982118575819,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "122e0077bad4c6751136af4657bb2b766fbaa18b8a35a08b0851cbb18f6fbfc2"
+    },
+    {
+      "step": 18,
+      "source_sha256": "48785929c8913419ac8121ebbc79a8c91768d1b215216a144d4b76cc5eae1489",
+      "displacement_m": 4.5e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 0.3484741851159813,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "21b288eb652a2989a87850a0309946255d5e4b6bd57a3778144610c65976d42b"
+    },
+    {
+      "step": 19,
+      "source_sha256": "45c9a9c74851e5e619aae3f55d8a00b8fd5785e4b00d21cd872221682479d04e",
+      "displacement_m": 4.75e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 1.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "784890b7a76a5bcbba97fecfed60b9d2673a14409a9a853c4bc731199299561f"
+    },
+    {
+      "step": 20,
+      "source_sha256": "074f02355483b71b1a3c6024a26678e85b1eef5d11ca1a90e1d00cfd8bf57cfd",
+      "displacement_m": 5e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 1.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "6baa264e3c0e3ec5d5186428b1a4c8ea8e6883c52a797df63d0af09fd20d27b8"
+    },
+    {
+      "step": 21,
+      "source_sha256": "1755902164990effb84e6c02691b2269d249acce4ecab99c75bbc8d94865402c",
+      "displacement_m": 5.25e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 1.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "03cd2a8517b6a71d6e84c307a1d0ac5cc8d975af7c64bf8820082fac697b7876"
+    },
+    {
+      "step": 22,
+      "source_sha256": "a56b7c59e9645efe99490ab0b4e33f95014c44d7c94b879178bf6adfdd3360e1",
+      "displacement_m": 5.5e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 1.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "871305059f2b7f6706661472be6ecd6f79ae83e6765c976c45ee8e49f6ea9bbe"
+    },
+    {
+      "step": 23,
+      "source_sha256": "47ab28990a6cb363931c2e10cedab7c9c0a86eb1d9d082fc12468b1b0062b9c6",
+      "displacement_m": 5.75e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 1.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "ce0377273ca21eb4e6f9fbdba4d04fb013610b83dc997fce2a76470d36bde7b4"
+    },
+    {
+      "step": 24,
+      "source_sha256": "672a8a596adc593a544736c02cb34c0d0becbff04a02a554a5b134cbe73d5354",
+      "displacement_m": 6e-05,
+      "damage_min": 7.049314107767533e-05,
+      "damage_max": 1.0,
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "b0f86741024429141ac8008cee990e764549e27d06156d2f5571df3853078b4d"
+    }
+  ]
+}

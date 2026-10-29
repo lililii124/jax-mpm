@@ -1,0 +1,380 @@
+{
+  "schema": "at2-real-hole-solid-damage-v1",
+  "particles_inside_void": 0,
+  "nonboundary_damage_DOFs_inside_void": 0,
+  "hole_boundary_nodes": 52,
+  "definition": "Connected components use actual solid triangle edges and nodal d>0.5. No artificial connection or damage value is inserted across the void.",
+  "frames": [
+    {
+      "step": 0,
+      "load_m": 0.0,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 1,
+      "load_m": 2.5e-06,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 2,
+      "load_m": 5e-06,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 3,
+      "load_m": 7.500000000000001e-06,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 4,
+      "load_m": 1e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 5,
+      "load_m": 1.25e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 6,
+      "load_m": 1.5000000000000002e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 7,
+      "load_m": 1.7500000000000002e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 8,
+      "load_m": 2e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 9,
+      "load_m": 2.25e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 10,
+      "load_m": 2.5e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 11,
+      "load_m": 2.75e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 12,
+      "load_m": 3.0000000000000004e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 13,
+      "load_m": 3.2500000000000004e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 14,
+      "load_m": 3.5000000000000004e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 15,
+      "load_m": 3.7500000000000003e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 16,
+      "load_m": 4e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 17,
+      "load_m": 4.25e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 18,
+      "load_m": 4.5e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 19,
+      "load_m": 4.75e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [
+        {
+          "solid_nodes": 77,
+          "touches_initial_tip": false,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.7151766743287987,
+            1.0
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5485552681031031
+          ]
+        },
+        {
+          "solid_nodes": 62,
+          "touches_initial_tip": true,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.34375,
+            0.5831677672557545
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5494177607611506
+          ]
+        }
+      ],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 20,
+      "load_m": 5e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [
+        {
+          "solid_nodes": 77,
+          "touches_initial_tip": false,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.7151766743287987,
+            1.0
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5485552681031031
+          ]
+        },
+        {
+          "solid_nodes": 62,
+          "touches_initial_tip": true,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.34375,
+            0.5831677672557545
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5494177607611506
+          ]
+        }
+      ],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 21,
+      "load_m": 5.25e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [
+        {
+          "solid_nodes": 77,
+          "touches_initial_tip": false,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.7151766743287987,
+            1.0
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5485552681031031
+          ]
+        },
+        {
+          "solid_nodes": 62,
+          "touches_initial_tip": true,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.34375,
+            0.5831677672557545
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5494177607611506
+          ]
+        }
+      ],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 22,
+      "load_m": 5.5e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [
+        {
+          "solid_nodes": 77,
+          "touches_initial_tip": false,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.7151766743287987,
+            1.0
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5485552681031031
+          ]
+        },
+        {
+          "solid_nodes": 62,
+          "touches_initial_tip": true,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.34375,
+            0.5831677672557545
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5494177607611506
+          ]
+        }
+      ],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 23,
+      "load_m": 5.75e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [
+        {
+          "solid_nodes": 77,
+          "touches_initial_tip": false,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.7151766743287987,
+            1.0
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5485552681031031
+          ]
+        },
+        {
+          "solid_nodes": 62,
+          "touches_initial_tip": true,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.34375,
+            0.5831677672557545
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5494177607611506
+          ]
+        }
+      ],
+      "no_damage_defined_inside_void": true
+    },
+    {
+      "step": 24,
+      "load_m": 6e-05,
+      "damage_threshold": 0.5,
+      "solid_damage_components": [
+        {
+          "solid_nodes": 78,
+          "touches_initial_tip": false,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.7151766743287987,
+            1.0
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5485552681031031
+          ]
+        },
+        {
+          "solid_nodes": 63,
+          "touches_initial_tip": true,
+          "touches_free_hole_boundary": true,
+          "x_range_m": [
+            0.34375,
+            0.5831677672557545
+          ],
+          "y_range_m": [
+            0.484375,
+            0.5494177607611506
+          ]
+        }
+      ],
+      "no_damage_defined_inside_void": true
+    }
+  ],
+  "last": {
+    "step": 24,
+    "load_m": 6e-05,
+    "damage_threshold": 0.5,
+    "solid_damage_components": [
+      {
+        "solid_nodes": 78,
+        "touches_initial_tip": false,
+        "touches_free_hole_boundary": true,
+        "x_range_m": [
+          0.7151766743287987,
+          1.0
+        ],
+        "y_range_m": [
+          0.484375,
+          0.5485552681031031
+        ]
+      },
+      {
+        "solid_nodes": 63,
+        "touches_initial_tip": true,
+        "touches_free_hole_boundary": true,
+        "x_range_m": [
+          0.34375,
+          0.5831677672557545
+        ],
+        "y_range_m": [
+          0.484375,
+          0.5494177607611506
+        ]
+      }
+    ],
+    "no_damage_defined_inside_void": true
+  }
+}

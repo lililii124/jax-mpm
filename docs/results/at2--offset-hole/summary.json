@@ -1,0 +1,20 @@
+{
+  "completed": true,
+  "failure": null,
+  "physical_initial_damage_max": 0.0,
+  "physical_initial_AT2_energy": 0.0,
+  "damage_fixed_nodes": 0,
+  "accepted_load_steps": 25,
+  "rejected_load_attempts": 0,
+  "energy_gap_over_external_work": 0.0034990308640783932,
+  "irreversible": true,
+  "mechanical_and_damage_converged": true,
+  "small_strain": true,
+  "peak_reaction_N_per_m": 23.962257140158584,
+  "load_drop": true,
+  "crack_advance_d08_m": 0.6223958333333333,
+  "mesh_convergence_established": false,
+  "load_increment_convergence_established": false,
+  "scope": "Actual solid domain with an offset traction-free hole; no integration, ghost support or damage substitution inside the void.",
+  "single_mesh_fracture_observed": true
+}

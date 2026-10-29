@@ -1,0 +1,25 @@
+{
+  "scope": "Completed single-mesh numerical demonstration, with actual hole boundary and zero initial damage.",
+  "frames": 25,
+  "final_displacement_m": 6e-05,
+  "final_reaction_N_per_m": 0.5861380282794333,
+  "maximum_principal_strain": 0.004039064065057084,
+  "mesh_convergence_established": false,
+  "load_increment_convergence_established": false,
+  "source_sha256": {
+    "mpm_jax/at2_hole.py": "773bd9427996d2fe795784547a50be1816d1f9c4e7eebbc38ae2b30d93c06e90",
+    "mpm_jax/at2_quasistatic.py": "548cf026de35367ecb325d7994a7514465fff70471296b7cf79fa2e5a11b1c73",
+    "mpm_jax/at2_cut_reference.py": "910cf176a8a89afe13ad944d3faeef196ff769dbb345d633257eb63c0716a80d",
+    "examples/at2_hole_benchmark.py": "d6df5378d072bc773db89078ab64c59c92e3f7c2a05d17b8dd03c751f59a3c38",
+    "examples/at2_sharp_crack_competitors.py": "f244a2d8be1cba7ecb01c89d2ed4c9bc0997a3cc20f96b4ab81aaafb74f0200e"
+  },
+  "files_sha256": {
+    "history.csv": "d33b69b062fa5a49fc19d1635740095d62d0d335fe9dbf9d5be2845e99511442",
+    "kernel-verification.json": "55cca11db4b7848ed3e4debc0d6af32476c3d2b72855caa87d8d43b3c5afb54f",
+    "parameters.json": "6072c193102c7d8d0fc3b1ac8c02069bad28d0878a64b1a1fa3f9be309473705",
+    "render.json": "141d424c205a0b887526509287c86767a1de3fcffa8a66e8ec254c81106cbe7d",
+    "solid-damage-components.json": "cd111af74f3108f3fb43ec5488ffc7ba4aa72a31106b4a3dda740fb9ecde69c1",
+    "summary.json": "1e7882de3dffbb6a5d01b9b7f503181456b01df76fb0b31a83fbda14a5dc6fa1"
+  },
+  "gif_sha256": "f4f7c18b09d495e2ce4aad13066d946e746028e8ed19555cdde9dcfb2e07e5ec"
+}
