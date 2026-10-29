@@ -15,10 +15,10 @@ Live process status is recorded separately by the read-only local monitor.
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Second fixed-mass optimization round running; all three baseline full MPM load cases and the selected eccentric-load calculation are running | Retain the best feasible design across repeated rounds; validate all three pressure cases against full MPM before refinement and nonlinear material qualification |
+| Blast-loaded sandwich design | Round 2 completed and round 3 is running; baseline eccentric full MPM completed its 2 ms history and GIF; baseline uniform/central and selected eccentric histories continue | Correct the reduced model using separate training and development data, retain the best feasible design, and validate all three pressure cases before refinement and nonlinear material qualification |
 | Hypervelocity sphere impact | Restart and split-state mapping repaired; host contact caching and retained converged time steps are advancing the accepted trajectory | Continue toward the debris-cloud stage, retaining physical guards and recording sustained throughput |
-| Complete cutting animations | Johnson and Seo complete 61-frame GIFs replace the single-pass previews; multipass reached 257.184 microseconds in its third cut | Export the initial prefix through final lift after multipass completion and replace its incomplete GIFs |
-| Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets and fresh/resumable three-pass drivers; 16 checks passed, actual contact state and event restart matched bitwise | Add the public ParaView renderer for saved output; retain existing production computation |
+| Complete cutting animations | Johnson and Seo complete 61-frame GIFs replace the single-pass previews; multipass reached 272.789 microseconds in final lift toward 276.167 microseconds | Export the initial prefix through final lift after multipass completion and replace its incomplete GIFs |
+| Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
 
 The read-only local monitor records process status, accepted steps/time, source
 update times and available animations. A stalled calculation is reported as
@@ -76,8 +76,10 @@ rounds improving the objective by no more than 0.1% trigger a local convergence
 review, not a claim of global optimality. Full-MPM constraints and improvement
 must also pass before accepting the design. Validation already in progress
 remains bound to its original control hash; a newer candidate does not silently
-replace it. The second round's first accepted step lowered the objective a
-further 0.56%, with a 0.711530 mm reduced-model peak at unchanged mass.
+replace it. Round 2 completed with objective 0.1427671121, improving the
+first-round value of 0.1446114802 by 1.2754%. Round 3 is running; its accepted
+best is 0.1427383202. These are reduced-model values, not verified full-MPM
+performance improvements.
 
 A 1 microsecond versus 0.5 microsecond reduced-model comparison checks time
 integration error. The original later-time validation interval remains fixed;
@@ -86,7 +88,9 @@ extending the interval must not erase a prior failed error criterion.
 The independent full MPM baseline uses the same 10 mm in-plane / 1 mm
 through-thickness quadrature grid as these reduced-model comparisons, all
 1728 controls at their initial values, and the complete 2 ms eccentric-pressure
-history. The selected design is independently integrated from its virgin
+history. That baseline completed all 83,460 steps, with a 0.889399 mm peak
+back-face displacement and 119.271 MPa peak skin stress. Its actual full-MPM
+surface history has been rendered to an 84-frame GIF. The selected design is independently integrated from its virgin
 state under the same eccentric pressure; only the verified design controls
 are transferred from optimization. Both save full-state checkpoints every
 1000 steps. Initial-design full MPM calculations for uniform and central
@@ -101,11 +105,14 @@ iterations alone cannot establish an accurate optimum. Full-history and
 three-case improvement remain unproven.
 The persistent optimizer controller may finish round 3 on the frozen model,
 then requires model correction. Selected-design steps 1000–8000 are allocated
-to early-response training; steps 9000 onward remain held out. Subspace
+to early-response training; steps 9000–18000 are development data and steps
+19000 onward are reserved for fresh validation after the model is frozen. Subspace
 projection and finite-deformation force errors must be distinguished before
-claiming that additional modes resolve the discrepancy.
-The
-5 mm production refinement and face plasticity/core crushing remain separate
+claiming that additional modes resolve the discrepancy. Added snapshot modes
+reduced displacement error, but the current 9.38% omitted strain energy still
+fails the 5% criterion; operator enrichment has not resolved it. No further
+frozen-model optimization rounds are launched until this correction is assessed.
+The 5 mm production refinement and face plasticity/core crushing remain separate
 requirements; neither this baseline nor a reduced-model energy ledger proves
 their completion.
 
