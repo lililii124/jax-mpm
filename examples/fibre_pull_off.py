@@ -12,7 +12,7 @@ from typing import NamedTuple
 
 import numpy as np
 
-from .triaxial_failure import (
+from .fibre_contact_common import (
     descriptor, json_value, restore_contact_history, restore_contact_model,
     save_json, save_npz,
 )
@@ -20,8 +20,8 @@ from .triaxial_failure import (
 
 MODELS = ('hertz', 'jkr', 'md', 'self-consistent')
 SOURCE_FILES = (
-    'examples/fibre_pull_off.py', 'examples/triaxial_failure.py',
-    'examples/triaxial_fibre_geometry.py', 'mpm_jax/fibre_mpm.py',
+    'examples/fibre_pull_off.py', 'examples/fibre_contact_common.py',
+    'mpm_jax/fibre_mpm.py',
     'mpm_jax/fibre_coupling.py', 'mpm_jax/fibre_contact.py',
     'mpm_jax/local_contact_models.py', 'mpm_jax/maugis_dugdale.py',
     'mpm_jax/cohesive_bem.py', 'mpm_jax/materials/isotropic_brittle.py',

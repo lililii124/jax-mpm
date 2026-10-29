@@ -72,13 +72,10 @@ compression test, not a quasi-static stress–strain identification test.
 ```bash
 python -m examples.suite --case cantilever --model all-elastic
 python -m examples.suite --case compression --model all-plastic
-python -m examples.material_paths --model rht --path all
 ```
 
 `all-plastic` includes mixed and isotropic bilinear hardening separately, fixed-
-temperature plasticity, Steinberg–Guinan, JC, JH-2, HJC, and RHT. Material-point
-paths are homogeneous constitutive checks and have no spatial grid. Their
-stress/strain CSVs complement the larger spatial examples.
+temperature plasticity, Steinberg–Guinan, JC, JH-2, HJC, and RHT.
 
 `summary.json` records all material parameters, grid settings, BCs, physical
 duration, particle count, device, and solver time. `end: null` in a velocity BC
@@ -93,8 +90,7 @@ kinetic energy and a complete contact/boundary work budget are not included.
 Do not interpret these columns as an exact discrete energy balance.
 
 The RHT return map is substantially slower than the simpler models on CPU.
-Use the material-point command for constitutive investigations before launching
-a large spatial run.
+Check a short spatial prefix before launching a large run.
 
 ## Geotechnical mechanics
 

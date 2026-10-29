@@ -4,7 +4,8 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from examples.triaxial_failure import plan_case, restore_contact_history
+from examples.fibre_contact_common import restore_contact_history
+from examples.fibre_pull_off import plan_case
 
 
 class RingHistory(NamedTuple):
@@ -79,18 +80,18 @@ def test_incomplete_or_invalid_adhesive_history_is_not_reset_to_a_fresh_state(de
 
 @pytest.mark.parametrize('law', ['md', 'self-consistent'])
 def test_new_fibre_contact_plan_records_independent_contact_range_and_domain(law):
-    _, plan = plan_case(smoke=True, law=law, probe_steps=3, adhesion_range=2e-6,
-                        cohesive_domain_radius=150e-6, cohesive_rings=32)
-    local = plan['local_contact_parameters']
+    _, plan = plan_case(model=law, dx=.002, spacing=.001, interaction_range=2e-6,
+                        outer_radius=150e-6, rings=32)
+    local = plan['contact']
     assert local['interaction_range_m'] == 2e-6
     assert local['outer_radius_m'] == 150e-6 and local['rings'] == 32
-    assert plan['work_of_adhesion_J_per_m2'] == .1
+    assert local['work_of_adhesion_J_per_m2'] == 1.2
     assert {'mpm_jax/local_contact_models.py', 'mpm_jax/maugis_dugdale.py',
             'mpm_jax/cohesive_bem.py'} <= plan['source']['files'].keys()
 
 
-@pytest.mark.parametrize('kwargs', [{'adhesion_range': 0.}, {'cohesive_domain_radius': np.nan},
-                                   {'cohesive_rings': 3}, {'cohesive_rings': 257}])
+@pytest.mark.parametrize('kwargs', [{'interaction_range': 0.}, {'outer_radius': np.nan},
+                                   {'rings': 3}, {'rings': True}])
 def test_invalid_local_contact_controls_are_refused_before_geometry_allocation(kwargs):
     with pytest.raises(ValueError):
-        plan_case(law='self-consistent', **kwargs)
+        plan_case(model='self-consistent', **kwargs)

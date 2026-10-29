@@ -17,7 +17,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools import run_woven_large as probe
-from tools.run_triaxial_segments import cpu_record, environment, file_record
+from tools.runner_support import cpu_record, environment, file_record
 
 engine = probe.engine
 save, digest = engine.save, engine.digest
@@ -85,7 +85,7 @@ def source_record():
     names = ast.literal_eval(assignments[0].value)
     numerical = {name: digest(ROOT / name) for name in names}
     helpers = ('tools/run_woven_large_segments.py', 'tools/run_woven_large.py', 'tools/run_engineering_preview.py',
-               'tools/run_woven_preview.py', 'tools/run_triaxial_segments.py', 'tools/run_triaxial_study.py',
+               'tools/run_woven_preview.py', 'tools/runner_support.py',
                'tools/review_woven_large.py', 'tools/install_runner_dependencies.py', 'tools/check_vtk.py',
                'tools/encode_video.py', 'mpm_jax/visualization.py', 'mpm_jax/export.py',
                'mpm_jax/paraview_scene.py', 'mpm_jax/saved_tool_motion.py', 'pyproject.toml',

@@ -3,7 +3,7 @@
 The [local-refinement operators](docs/MULTIRESOLUTION.md) have separate spatial
 transfer and virtual-work checks. They are not yet a validated dynamic solver.
 
-The Windows CPU test run passed **124 tests** with Python 3.12.13 and
+An archived Windows CPU test run passed **124 tests** with Python 3.12.13 and
 the PyPI release JAX 0.12.0.1. The suite covers 2D/3D transfers,
 constitutive integration, formal boundary conditions, contact, elastic gradients
 and interrupted-run recovery. GPU execution has not been validated.
@@ -11,7 +11,8 @@ The [test report](docs/results/tests-public.xml) records zero failures, errors
 or skips. This report uses the isolated source snapshot selected for the release.
 An earlier 67-test baseline also passed with the source build
 JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1; its separate
-[report](docs/results/tests-source.xml) is retained.
+[report](docs/results/tests-source.xml) is retained. These reports predate removal
+of the optional inverse, angular-study and material-point validation workflows.
 
 ## Numerical checks
 
@@ -33,27 +34,6 @@ JAX 0.12.1.dev20261022 and jaxlib 0.12.0.1; its separate
   linear momentum, frozen history and the JC threshold transition.
 - Concrete bending fixture components, prescribed displacement and reaction impulse;
   ceramic indenter/backing impulse balance and damage-region interpretation.
-
-## Supplied constitutive traces
-
-Fifteen compact fixtures contain four JH-2 histories (570 increments), five HJC
-histories (640 increments), and six RHT histories (390 increments), generated
-from the supplied compiled references.
-Compression, shear reversal, damage, hydrostatic loading and unloading paths
-exercise stress and selected history variables. The [manifest](tests/data/materials/manifest.json)
-records source and fixture hashes; reference binaries are not needed to run the tests.
-
-Stress comparisons use `rtol=2e-7`, `atol=1 Pa`. History tolerances are listed in
-[test_reference_traces.py](tests/test_reference_traces.py). These checks apply to
-the recorded parameter sets and strain paths. The HJC comparison includes
-compression/unloading, reversed shear, pore collapse, tension/recompression and
-hydrostatic loading. Its largest absolute stress difference over these paths
-is 2.40 × 10⁻⁵ Pa; all five added regression cases pass.
-
-[Source Final Check eligibility](docs/source_audit.json) and verification of the
-JAX implementation are separate records. Selected source branches are described
-in [MATERIALS.md](docs/MATERIALS.md); unsupported branches are not inferred from
-the material number alone.
 
 ## Longitudinal-wave refinement
 

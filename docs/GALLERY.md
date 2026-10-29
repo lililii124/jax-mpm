@@ -22,11 +22,6 @@ scale. See the [design method and numerical evidence](STRUCTURAL_DESIGN.md).
 </tr>
 
 <tr>
-<td width="33%" align="center"><img src="../evidence/orthotropic_inverse_20261027/particle_visualization_surface/orthotropic_holdout_particles_surface_400.gif" alt="Orthotropic inverse holdout comparison" width="100%"><br><a href="JAX_ORTHOTROPIC_INVERSE.md">Orthotropic inverse · holdout</a></td>
-<td width="33%" align="center"></td>
-<td width="33%" align="center"></td>
-</tr>
-<tr>
 <td width="33%" align="center"><img src="images/home/jax-design--classic-cantilever.gif" alt="Classic cantilever material layout" width="100%"><br><a href="JAX_CLASSIC_CANTILEVER.md">Classic cantilever material layout</a></td>
 <td width="33%" align="center"></td>
 <td width="33%" align="center"></td>

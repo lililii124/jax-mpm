@@ -19,10 +19,10 @@ import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from tools import run_triaxial_study as study
+from tools import runner_support as support
+from tools import run_engineering_preview as engine
 
-engine = study.engine
-save, read_json, digest = study.save, study.read_json, study.digest
+save, read_json, digest = support.save, support.read_json, support.digest
 LOGS = ROOT/'.local/jc-refinement-ci'
 OUTPUT = ROOT/'outputs/jc-refinement/grid100-ppc3/jc-necking/johnson-cook'
 CACHE = ROOT/'.local/jc-refinement-cache'
@@ -460,7 +460,7 @@ def carry_names(folder):
 def seal_carry(folder, source, cache):
     folder, cache = Path(folder), Path(cache)
     report = read_json(folder/'prefix-review.json')
-    if not (study.strict_review(report) and study.inputs_match(folder, report['input_sha256'])
+    if not (support.strict_review(report) and support.inputs_match(folder, report['input_sha256'])
             and report.get('producer_source') == source
             and report.get('review_source_sha256') == source['files']['tools/run_jc_refinement.py']
             and read_json(folder/'plan.json')['source'] == source
@@ -478,7 +478,7 @@ def seal_carry(folder, source, cache):
         target = stage/'result'/name
         target.parent.mkdir(parents=True, exist_ok=True)
         with (folder/name).open('rb') as original, target.open('wb') as output:
-            shutil.copyfileobj(original, output, length=study.READ_BYTES)
+            shutil.copyfileobj(original, output, length=support.READ_BYTES)
         if file_record(target) != record:
             raise ValueError('Carry copy changed source bytes')
     receipt = {'schema': 'jc-refinement-carry-v1', 'cache_key': cache_key(source), 'source': source,
@@ -508,7 +508,7 @@ def verify_carry(cache, source, receipt_sha):
     actual = {path.relative_to(cache).as_posix() for path in cache.rglob('*') if path.is_file()}
     if any(path.is_symlink() for path in cache.rglob('*')) or actual != set(receipt['files']) | {'carry-receipt.json'}:
         raise ValueError('Carry contains missing or additional files')
-    if not study.inputs_match(cache, {name: record['sha256'] for name, record in receipt['files'].items()}):
+    if not support.inputs_match(cache, {name: record['sha256'] for name, record in receipt['files'].items()}):
         raise ValueError('Carry raw file hash mismatch')
     if any((cache/name).stat().st_size != record['bytes'] for name, record in receipt['files'].items()):
         raise ValueError('Carry raw file size mismatch')
@@ -517,7 +517,7 @@ def verify_carry(cache, source, receipt_sha):
     plan, review = read_json(cache/'result/plan.json'), read_json(cache/'result/prefix-review.json')
     if not (plan['source'] == review['producer_source'] == source
             and review['review_source_sha256'] == source['files']['tools/run_jc_refinement.py']
-            and receipt['common_signature'] == plan['common_signature'] and study.strict_review(review)):
+            and receipt['common_signature'] == plan['common_signature'] and support.strict_review(review)):
         raise ValueError('Carry plan/review source chain is inconsistent')
     return receipt
 
@@ -527,7 +527,7 @@ def audit_worker():
     if source_record() != source:
         raise ValueError('Source changed after the partial solve')
     report = audit_prefix(OUTPUT, source)
-    if not study.strict_review(report):
+    if not support.strict_review(report):
         raise ValueError('First-segment physical or prefix review failed; do not cache as admitted continuation data')
     receipt = seal_carry(OUTPUT, source, CACHE)
     save(LOGS/'carry-receipt.json', receipt)
@@ -579,7 +579,7 @@ def package():
     confirmed = (source is not None and confirmation.get('verified') is True
         and confirmation.get('cache_key') == cache_key(source) and (CACHE/'carry-receipt.json').is_file()
         and confirmation.get('receipt_sha256') == digest(CACHE/'carry-receipt.json'))
-    budget = 8*1024**2 if confirmed else study.TOTAL_BYTES
+    budget = 8*1024**2 if confirmed else support.TOTAL_BYTES
     stage = Path(tempfile.mkdtemp(prefix='jc-refinement-delivery-', dir=DELIVERY.parent))
     files, omitted, states, used = {}, {}, {}, 0
     checkpoint = read_json(OUTPUT/'checkpoint.json') if (OUTPUT/'checkpoint.json').is_file() else {}
@@ -592,11 +592,11 @@ def package():
     for path in candidates:
         name = path.relative_to(ROOT).as_posix()
         record = file_record(path)
-        if used+record['bytes'] > budget-1024**2 or (path.suffix == '.npz' and not study.valid_npz(path)):
+        if used+record['bytes'] > budget-1024**2 or (path.suffix == '.npz' and not support.valid_npz(path)):
             omitted[name] = {**record, 'reason': 'Whole file exceeds bounded delivery budget or is not a complete CRC-valid NPZ. No partial checkpoint is presented.'}
             continue
         if path.suffix == '.npz':
-            state = study.split_complete_file(path, stage, 'state-parts/'+name)
+            state = support.split_complete_file(path, stage, 'state-parts/'+name)
             states[name] = state
             for part in state['parts']:
                 files[part['path']] = {'bytes': part['bytes'], 'sha256': part['sha256']}

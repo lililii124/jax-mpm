@@ -5,7 +5,8 @@ import jax.numpy as jnp
 import numpy as np
 import pytest
 
-from examples.triaxial_failure import output_directory, plan_case, restore_contact_history, restore_contact_model, run_case
+from examples.fibre_contact_common import restore_contact_history, restore_contact_model
+from examples.fibre_pull_off import output_directory, plan_case, run_case
 from mpm_jax.fibre_coupling import build_contact_data, evaluate_contact, initial_contact_history
 from mpm_jax.local_contact_models import local_contact_model
 
@@ -90,8 +91,8 @@ def test_adhesive_models_act_on_independent_fibres_with_balanced_actual_forces(m
 
 @pytest.mark.parametrize('model', ['md', 'self-consistent'])
 def test_actual_model_selected_driver_can_stop_and_resume_its_full_saved_protocol(tmp_path, model):
-    geometry, plan = plan_case(smoke=True, law=model, grid_storage='tube', load_transits=.03,
-        max_strain=1e-7, frames=4, cohesive_rings=16)
+    geometry, plan = plan_case(model=model, dx=.002, spacing=.001, frames=4,
+        duration=.00003, indentation=2e-7, lift=5e-7, initial_gap=1e-7, rings=16)
     root = tmp_path/model
     first = run_case(geometry, plan, root, stop_after_frame=2)
     assert first['segment_complete'] and not first['completed']
@@ -101,5 +102,5 @@ def test_actual_model_selected_driver_can_stop_and_resume_its_full_saved_protoco
             assert saved['contact_local_gap'].shape[1] == 16
             assert 'contact_bem_compliance' in saved
     final = run_case(geometry, plan, root, resume=True)
-    assert final['completed'] and final['steps'] == plan['steps'] == 13
+    assert final['completed'] and final['steps'] == plan['steps'] == 5
     jax.clear_caches()

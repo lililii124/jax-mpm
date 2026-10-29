@@ -286,7 +286,6 @@ python -m examples.suite --case fsi --gif
 python -m examples.suite --case elastic-gate --grid 48 --ppc 3 --gif
 python -m examples.suite --case perforated-panel --grid 48 --ppc 3 --gif
 python -m examples.suite --case cellular-cushion --grid 48 --ppc 3 --gif
-python -m examples.material_paths --model all
 python -m examples.pressure_pulse_panels --model jc --grid 128 --ppc 2
 python -m examples.adhesive_contact --case sphere-contact --grid 48 --ppc 3 --gif
 python -m examples.material_engineering --case jc-tension --grid 80 --frames 60 --gif
@@ -334,10 +333,6 @@ and [gallery](docs/GALLERY.md).
 <tr>
 <td width="50%" align="center">Accelerated tanks</td>
 <td width="50%" align="center">Harmonic base excitation, with and without perforated flexible baffles</td>
-</tr>
-<tr>
-<td width="50%" align="center">Material points</td>
-<td width="50%" align="center">Compression/unload, hydrostatic compression, shear reversal, confined shear</td>
 </tr>
 <tr>
 <td width="50%" align="center">Material engineering</td>
@@ -479,7 +474,7 @@ python -m pytest -q
 ```
 
 Tests cover transfers, conservation, elasticity, constitutive limits, boundary
-conditions, contact, gradients, and fifteen supplied material-point reference traces.
+conditions, contact, gradients, and checkpoint recovery.
 [VALIDATION.md](VALIDATION.md) records quantitative checks;
 [the run catalogue](docs/RESULTS.md) lists completed cases.
 GPU execution has not been validated.
