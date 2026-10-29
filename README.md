@@ -266,7 +266,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/at2--sharp-crack-zero-damage.gif" alt="AT2 crack propagation" width="100%"><br><a href="docs/AT2_SHARP_CRACK.md">AT2 crack propagation</a></td>
 <td width="33%" align="center"><img src="docs/images/home/at2--anisotropic-crack.gif" alt="Anisotropic AT2 crack deflection" width="100%"><br><a href="docs/AT2_ANISOTROPIC.md">Anisotropic crack deflection</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/home/at2--three-point-bending.gif" alt="AT2 three-point bending fracture" width="100%"><br><a href="docs/AT2_THREE_POINT_BENDING.md">Three-point bending</a></td>
 </tr>
 </table>
 

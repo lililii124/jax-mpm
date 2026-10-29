@@ -7,7 +7,7 @@
     2.667380192039594e-05
   ],
   "material_model": "Johnson-Cook",
-  "geometry_representation": "saved particle centres",
+  "geometry_representation": "Saved particle centres; supersampled ParaView point rendering",
   "renderer": "ParaView",
   "image_size": [
     400,
@@ -19,27 +19,27 @@
   "images": {
     "equivalent_plastic_strain": {
       "path": "docs/images/home/cutting--johnson--equivalent-plastic-strain.gif",
-      "sha256": "bd7c10cae4a8e453b23aead402bc6d368730124cb6612b647d53d5caed98367a",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "3c8fe7cdec9e1bc6a0ef60504a7627ce43875da1ea40086c09fc17a8c76b0294",
+      "frames": 61,
+      "distinct_frames": 61
     },
     "temperature": {
       "path": "docs/images/home/cutting--johnson--temperature.gif",
-      "sha256": "5cc4de86f5b05843223ee44590e1eed978a5ffced53dfd19f837cbea91300408",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "7e07d24f27c8ef106b7915efae9c8c7de29e16034ebbf35c8b9fadfab8e4149f",
+      "frames": 61,
+      "distinct_frames": 61
     },
     "damage": {
       "path": "docs/images/home/cutting--johnson--damage.gif",
-      "sha256": "8aa800ef1a6a3ef17e7b1111d4c5f3acc44e7337c6b2be622b87bfcf1f235d60",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "1f6eb67198b087fd872de4ed00b47e70be023e56679ae11fb7e04b1f31f19fdd",
+      "frames": 61,
+      "distinct_frames": 61
     },
     "plastic_increment_rate": {
       "path": "docs/images/home/cutting--johnson--plastic-increment-rate.gif",
-      "sha256": "133df33249b8aed1dfe765e4584955257030631246c9b618cbbf99bdd8745620",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "1fe9f6c96f8c1b6d09091e7ec8773ab3557bd7eba02f8f045e9300b904226406",
+      "frames": 61,
+      "distinct_frames": 61
     }
   }
 }

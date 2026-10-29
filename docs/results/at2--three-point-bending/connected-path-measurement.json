@@ -1,0 +1,301 @@
+{
+  "schema": "at2-three-point-bending-connected-damage-v1",
+  "physical_initial_tip": [
+    0.5,
+    0.05
+  ],
+  "definition": "Graph-connected exact display nodal damage>0.5 starting within2 physical cell widths of the bottom-notch tip. No field modification, path constraint or symmetry averaging.",
+  "frames": [
+    {
+      "step": 0,
+      "downward_head_travel_m": 0.0,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 1,
+      "downward_head_travel_m": 5e-06,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 2,
+      "downward_head_travel_m": 1e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 3,
+      "downward_head_travel_m": 1.5000000000000002e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 4,
+      "downward_head_travel_m": 2e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 5,
+      "downward_head_travel_m": 2.5e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 6,
+      "downward_head_travel_m": 3.0000000000000004e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 7,
+      "downward_head_travel_m": 3.5000000000000004e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 8,
+      "downward_head_travel_m": 4e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 9,
+      "downward_head_travel_m": 4.5e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 10,
+      "downward_head_travel_m": 5e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 11,
+      "downward_head_travel_m": 5.5e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 12,
+      "downward_head_travel_m": 6.000000000000001e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 13,
+      "downward_head_travel_m": 6.500000000000001e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 14,
+      "downward_head_travel_m": 7.000000000000001e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_y_m": 0.05,
+      "connected_vertical_advance_m": 0.0,
+      "connected_x_range_m": null
+    },
+    {
+      "step": 15,
+      "downward_head_travel_m": 7.500000000000001e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 59,
+      "connected_maximum_y_m": 0.11875000000000001,
+      "connected_vertical_advance_m": 0.06875,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 16,
+      "downward_head_travel_m": 8e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 75,
+      "connected_maximum_y_m": 0.1375,
+      "connected_vertical_advance_m": 0.08750000000000001,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 17,
+      "downward_head_travel_m": 8.5e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 84,
+      "connected_maximum_y_m": 0.15000000000000002,
+      "connected_vertical_advance_m": 0.10000000000000002,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 18,
+      "downward_head_travel_m": 9e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 91,
+      "connected_maximum_y_m": 0.15625,
+      "connected_vertical_advance_m": 0.10625,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 19,
+      "downward_head_travel_m": 9.5e-05,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 97,
+      "connected_maximum_y_m": 0.1625,
+      "connected_vertical_advance_m": 0.1125,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 20,
+      "downward_head_travel_m": 0.0001,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 104,
+      "connected_maximum_y_m": 0.16875,
+      "connected_vertical_advance_m": 0.11875000000000001,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 21,
+      "downward_head_travel_m": 0.000105,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 108,
+      "connected_maximum_y_m": 0.17500000000000002,
+      "connected_vertical_advance_m": 0.125,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 22,
+      "downward_head_travel_m": 0.00011,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 114,
+      "connected_maximum_y_m": 0.18125000000000002,
+      "connected_vertical_advance_m": 0.13125000000000003,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 24,
+      "downward_head_travel_m": 0.0001125,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 118,
+      "connected_maximum_y_m": 0.1875,
+      "connected_vertical_advance_m": 0.1375,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 28,
+      "downward_head_travel_m": 0.0001128125,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 119,
+      "connected_maximum_y_m": 0.1875,
+      "connected_vertical_advance_m": 0.1375,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 30,
+      "downward_head_travel_m": 0.00011296875,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 119,
+      "connected_maximum_y_m": 0.1875,
+      "connected_vertical_advance_m": 0.1375,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    },
+    {
+      "step": 32,
+      "downward_head_travel_m": 0.000113046875,
+      "connected_threshold": 0.5,
+      "connected_display_nodes": 119,
+      "connected_maximum_y_m": 0.1875,
+      "connected_vertical_advance_m": 0.1375,
+      "connected_x_range_m": [
+        0.4883720930232558,
+        0.5116279069767442
+      ]
+    }
+  ],
+  "last": {
+    "step": 32,
+    "downward_head_travel_m": 0.000113046875,
+    "connected_threshold": 0.5,
+    "connected_display_nodes": 119,
+    "connected_maximum_y_m": 0.1875,
+    "connected_vertical_advance_m": 0.1375,
+    "connected_x_range_m": [
+      0.4883720930232558,
+      0.5116279069767442
+    ]
+  }
+}

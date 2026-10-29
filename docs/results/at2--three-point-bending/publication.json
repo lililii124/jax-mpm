@@ -1,0 +1,50 @@
+{
+  "gif_sha256": "d2c9aff4169afc08f062cb0462ae2948d380b11f8b7ac123c68f9eee412f5c5c",
+  "frames": 27,
+  "image_size": [
+    400,
+    400
+  ],
+  "user_approved": true,
+  "scope": "Accepted three-point-bending trajectory through its small-strain validity limit; original requested load schedule unfinished.",
+  "rendered_trajectory": {
+    "completed": false,
+    "full_original_schedule_completed": false,
+    "accepted_prefix_only": true,
+    "requested_final_displacement_m": 0.00012,
+    "actual_last_accepted_displacement_m": 0.000113046875,
+    "accepted_load_steps": 27,
+    "energy_gap_over_external_work": 0.005081330398247303,
+    "maximum_principal_strain_over_accepted_states": 0.01999689131141387,
+    "all_accepted_force_KKT_checks_passed": true,
+    "all_accepted_physical_validity_checks_passed": true,
+    "physical_initial_damage_max": 0.0,
+    "damage_fixed_nodes": 0,
+    "original_job_status": {
+      "started_utc": "2026-10-29T16:32:34.985253+00:00",
+      "state": "failed",
+      "command": [
+        "python",
+        "run.py"
+      ],
+      "cpu_affinity": [
+        52,
+        53,
+        54,
+        55
+      ],
+      "memory_headroom_at_start": 8581111808,
+      "limit_seconds": 3600.0,
+      "uss_limit_bytes": 6442450944,
+      "peak_uss_bytes": 409755648,
+      "minimum_memory_headroom": 8170008576,
+      "guard_reason": null,
+      "pid": 7,
+      "nice": 10,
+      "wall_seconds": 3064.010757908225,
+      "returncode": 2
+    },
+    "scope": "REVIEW OF VALID ACCEPTED PREFIX ONLY. Original requested load schedule is unfinished; no failed or unconverged trial is rendered.",
+    "derived_from": "SHA-verified original history and accepted frame files; no physical fields changed."
+  }
+}

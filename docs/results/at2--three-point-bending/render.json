@@ -1,0 +1,432 @@
+{
+  "renderer": "ParaView",
+  "renderer_source_sha256": "a5bc25ae375b8a757d118f918d50842bb7acb4c47e1dc77bb5c6411089bea3ef",
+  "gif_sha256": "d2c9aff4169afc08f062cb0462ae2948d380b11f8b7ac123c68f9eee412f5c5c",
+  "size": [
+    400,
+    400
+  ],
+  "frames": 27,
+  "distinct_rendered_frames": 27,
+  "deformation_scale": 1.0,
+  "damage_range": [
+    0.0,
+    1.0
+  ],
+  "display_vertices": 5379,
+  "physical_coefficients": 5347,
+  "display_mapping": "Saved geometry constraints; no damage-dependent or mirror averaging",
+  "overlays": false,
+  "artificial_crack_lines": false,
+  "actual_geometry_boundary_edges": "One-sided edges extracted from saved split display-quads at the actual displacement, including only the existing notch. No propagated crack line is drawn.",
+  "source_summary_sha256": "a50b7422998b376278d16d4e99d16c094c57aefda9118668157ba66163fca15c",
+  "reference_grid_sha256": "06a5c5edeebf408888b932a00e5639e02ad55ed7121c294b386eff475b461474",
+  "source_summary": {
+    "completed": false,
+    "full_original_schedule_completed": false,
+    "accepted_prefix_only": true,
+    "requested_final_displacement_m": 0.00012,
+    "actual_last_accepted_displacement_m": 0.000113046875,
+    "accepted_load_steps": 27,
+    "energy_gap_over_external_work": 0.005081330398247303,
+    "maximum_principal_strain_over_accepted_states": 0.01999689131141387,
+    "all_accepted_force_KKT_checks_passed": true,
+    "all_accepted_physical_validity_checks_passed": true,
+    "physical_initial_damage_max": 0.0,
+    "damage_fixed_nodes": 0,
+    "original_job_status": {
+      "started_utc": "2026-10-29T16:32:34.985253+00:00",
+      "state": "failed",
+      "command": [
+        "python",
+        "run.py"
+      ],
+      "cpu_affinity": [
+        52,
+        53,
+        54,
+        55
+      ],
+      "memory_headroom_at_start": 8581111808,
+      "limit_seconds": 3600.0,
+      "uss_limit_bytes": 6442450944,
+      "peak_uss_bytes": 409755648,
+      "minimum_memory_headroom": 8170008576,
+      "guard_reason": null,
+      "pid": 7,
+      "nice": 10,
+      "wall_seconds": 3064.010757908225,
+      "returncode": 2
+    },
+    "scope": "REVIEW OF VALID ACCEPTED PREFIX ONLY. Original requested load schedule is unfinished; no failed or unconverged trial is rendered.",
+    "derived_from": "SHA-verified original history and accepted frame files; no physical fields changed."
+  },
+  "publication_qualified": false,
+  "physical_boundary_conditions": {
+    "case": "three-point-bending",
+    "length_m": 1.0,
+    "height_m": 0.25,
+    "bottom_central_notch_m": 0.05,
+    "ell_m": 0.015,
+    "vertical_cells": 40,
+    "horizontal_cells": 129,
+    "requested_support_span_m": 0.8,
+    "actual_roller_positions": [
+      [
+        0.10077519379844961,
+        0.0
+      ],
+      [
+        0.8992248062015504,
+        0.0
+      ]
+    ],
+    "actual_support_span_m": 0.7984496124031009,
+    "head_nodes": [
+      2582,
+      2623,
+      2664,
+      2705,
+      2746,
+      2787
+    ],
+    "head_reference_x_interval_m": [
+      0.48062015503875966,
+      0.5193798449612403
+    ],
+    "head_width_requested_m": 0.04,
+    "head_prescription": "Same downward uy at all finite-width head nodes; ux is free.",
+    "roller_prescription": "uy=0 at two bottom roller nodes; ONLY left roller ux=0 removes rigid translation.",
+    "all_other_boundaries": "traction-free, including explicit notch faces",
+    "initial_damage": 0.0,
+    "damage_fixed_nodes": 0,
+    "imposed_crack_path": false,
+    "matrix_E_Pa": 1000000.0,
+    "matrix_Gc_J_per_m2": 0.001,
+    "poisson": 0.2,
+    "energy_ledger": "Positive downward head reaction magnitude times positive downward travel; zero work at stationary rollers/pin."
+  },
+  "views": {
+    "upper": "Full-beam overview",
+    "lower": "Central notch/crack camera close-up",
+    "same_saved_fields_and_time_in_both": true,
+    "overview_x_bounds_m": [
+      -0.06000000000000005,
+      1.06
+    ],
+    "overview_y_bounds_m": [
+      -0.15500000000000003,
+      0.405
+    ],
+    "zoom_x_bounds_m": [
+      0.21999999999999997,
+      0.78
+    ],
+    "zoom_y_bounds_m": [
+      -0.015000000000000013,
+      0.265
+    ],
+    "camera_only_zoom": true,
+    "field_rotation_or_artificial_extrusion": false
+  },
+  "note": "Rendering does not establish mesh or load-step convergence.",
+  "sources": [
+    {
+      "step": 0,
+      "source_sha256": "317b48f95f100b6e1be87ea1ee0c8d0f82febb9047e88e3c89a3252c5355f528",
+      "displacement_m": 0.0,
+      "damage_min": 0.0,
+      "damage_max": 0.0,
+      "actual_boundary_edge_points": 348,
+      "boundary_coordinates_sha256": "1e277bc5350387cd3728f357b06be4e4e976bedda7c84b4246b0c988519bae26",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "46d929de386146180ce43faf1a8dfca4921d230fe04e268cc639fd19d39f4538"
+    },
+    {
+      "step": 1,
+      "source_sha256": "743fe816704683e70caa375952b080d437d186a2d345b5a9bdecff43fc38356a",
+      "displacement_m": 5e-06,
+      "damage_min": 6.768034477457899e-09,
+      "damage_max": 0.0013418600736714208,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "70457456f3274728b56562d722bf178c867efd900d270e2d3b3e39b12a86cfa1",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "b9a2247ca3c0f7e7343eba98c8d3065c8f27ce67f7ce59d24a61a4373fa53fef"
+    },
+    {
+      "step": 2,
+      "source_sha256": "c8b1649d668664dd08b93e7029e143f5cbb8e173e4b8d3d325f7d104fd603c1a",
+      "displacement_m": 1e-05,
+      "damage_min": 2.7031026825405437e-08,
+      "damage_max": 0.005386477764714014,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "1efcbce94daa279a81c2223376a1ebe9d461d7b5f9315bdc253293f4dfe49120",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "eb67864bfa72535d3cb006ff000de3e3e77bfb6446b47917a795ff1830cae510"
+    },
+    {
+      "step": 3,
+      "source_sha256": "a2b0fbb40d486fbcff451ffbce5b04ecf84181d7fab284a26ad9a06c0414fbce",
+      "displacement_m": 1.5000000000000002e-05,
+      "damage_min": 6.067389418640154e-08,
+      "damage_max": 0.012193922689916292,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "ec09242b41debdf3e5f970076fec0fe965dc6dee1d5deaf25ac9dd465ae85e5b",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "3a82227da94992c9374798bf0009f6498a70831115a5da1f1fe624e014157854"
+    },
+    {
+      "step": 4,
+      "source_sha256": "472006707aec645e0b3549fa771c815cb0d7e4263bd94c83ae1fce5da222cb74",
+      "displacement_m": 2e-05,
+      "damage_min": 1.0749558071509561e-07,
+      "damage_max": 0.021868154940706673,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "296cbdbc308b1a63fbccb3455f18d2d3547d81312093062b5191ca7864528d5a",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "888aa4d44c4aff771bb4b20e4015e02c0510750208d6f3729cf4dc49aa912782"
+    },
+    {
+      "step": 5,
+      "source_sha256": "ac219c2f076f59512b05bdad480936b12fb9a1d25cdb2d9424f205e1fcba3296",
+      "displacement_m": 2.5e-05,
+      "damage_min": 1.6720403326913925e-07,
+      "damage_max": 0.03456591598073819,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "8c387e07ca575821a388543ebd802478338c0117aca016d7e21b514569d5e3a8",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "5fec16cc1dd5d56a11099ddde4dc784a724384bafcd2970c777271262da828f2"
+    },
+    {
+      "step": 6,
+      "source_sha256": "c06cf6b85b7ff22308a88007765381f458bd20c269adfe1bec3b02f71f360d2f",
+      "displacement_m": 3.0000000000000004e-05,
+      "damage_min": 2.3941287460156973e-07,
+      "damage_max": 0.05050939034603439,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "e474b00ee81d71728c7e627900032ecdd5b71b9e24b403e761fc91fb211b4b00",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "ced0d453bdf578aa0437643749c5b4ad534c6452a667623d5728b4fc44d3a5e9"
+    },
+    {
+      "step": 7,
+      "source_sha256": "6a89551e1b3e2ce269ba3075ee019fef5f699de18eee25cec5e3bf1c5f998f80",
+      "displacement_m": 3.5000000000000004e-05,
+      "damage_min": 3.235837090885113e-07,
+      "damage_max": 0.07000771342041313,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "b9adce8b39b97e67161af076573da9b67bae5fc8db83c411c6cad65561b8089f",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "cc1f6dfb56df94ec1a5953fee918fe26e43c6ff59d8050a8ad15c5c9aa544f1b"
+    },
+    {
+      "step": 8,
+      "source_sha256": "b1bf7d876007bf47d8639c25217190d8df2702185c19b7956ed88a74f24cf608",
+      "displacement_m": 4e-05,
+      "damage_min": 4.190460509164625e-07,
+      "damage_max": 0.09349057386214492,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "dd3a98f9269b79231a47a7e5999ff9f58619c8d6f99245ded75ca5cc5f460ecc",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "bf4a3405d25bbf3d1c9a36219e830612faf19c11087b59cafd16331265e5a1b5"
+    },
+    {
+      "step": 9,
+      "source_sha256": "337b6e2eae05af7daaee04e21ffc00d918833a02c309331c7bb7fb089680291a",
+      "displacement_m": 4.5e-05,
+      "damage_min": 5.249146054327756e-07,
+      "damage_max": 0.12156536830013245,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "0ca2c980c5d02b78602a89c901e5a77e92de613b30737e58408d5cf887cc0c36",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "5b2ada21b4f5613a67062fd99f3afacdd438cef74a2ff904a78bdd6a4da43d11"
+    },
+    {
+      "step": 10,
+      "source_sha256": "6801142c7dd709d603ce7c822b17350cd0f310b640f9910388c28b7c6410ae4a",
+      "displacement_m": 5e-05,
+      "damage_min": 6.40007899871126e-07,
+      "damage_max": 0.1551178775397412,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "8d83f542bc9299aa36571e90bf5a9642d5f82b88ff528ef5a58b24c32c2f94c1",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "f524085a9cb9cd512c638a0260b3301e861de5d1224d643f29949acb67a2d2d4"
+    },
+    {
+      "step": 11,
+      "source_sha256": "7de94bbb4e46740bb3fd2533029fab42952ea4fb1490b3b112539cfc4e842fc6",
+      "displacement_m": 5.5e-05,
+      "damage_min": 7.626887677803476e-07,
+      "damage_max": 0.19550556015297985,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "9f53bf1772e0dc7d83f2771cdc7281d78e076bdcde0d3f7154c10ae2644a963b",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "e094e3a1ca1fb2a6f2d7b75ce2c9bcd2879599398707c7516c5bbb9c0982997c"
+    },
+    {
+      "step": 12,
+      "source_sha256": "9218eab702fda630526d45fceef01e35cecf8ec3001ee3ead3b8f9fb8ce21085",
+      "displacement_m": 6.000000000000001e-05,
+      "damage_min": 8.905335685016935e-07,
+      "damage_max": 0.24497395765148008,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "9167add9ea702ddfc037a0f6cda3380a27beb1899e3a15c0ea7f688e7068d427",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "8d5f98fc3e56525244e3cfd0390ace63be5a7dba07214e245dd7f860441315fd"
+    },
+    {
+      "step": 13,
+      "source_sha256": "c7ee9b55de30b88f1a774dea476de529e58cf9e07ad677a31d3f92b35892113b",
+      "displacement_m": 6.500000000000001e-05,
+      "damage_min": 1.0195265679770788e-06,
+      "damage_max": 0.3077209948309723,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "a3ae1a3aa1f8bb3e423980c6b791f2c4ef9844fdeaf109752ca2a455b1204d2f",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "934792c47d0f55bc0e1e5e2730e8c55077222d15e85522b0b91517d61da4983a"
+    },
+    {
+      "step": 14,
+      "source_sha256": "acf11e4eda2bed8dc0b0627a87dfd83650eb67bb7edb4b9d1b5c004438297931",
+      "displacement_m": 7.000000000000001e-05,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 0.3935678384150576,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "0a32cd61a3f0a256b32775cde0bd0eea74de86e70a4619cd8de5e93c3b6d020b",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "79a72dfb1b0cd2f28cc7164068dddf78b1ddb1f0c53e8212722b1b404297b94b"
+    },
+    {
+      "step": 15,
+      "source_sha256": "eca467f5d5a33ad29d6860e5d82bfe76d9f0138f9f19a6003827b637a75d726e",
+      "displacement_m": 7.500000000000001e-05,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "adfee27020ee1d59e0b4804d6f597d104d02908ac56cd5676bb1da45b6716375",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "19285451b469a2a781e10ae798efb883429a47c6643a1bf982442f6c5faa34e1"
+    },
+    {
+      "step": 16,
+      "source_sha256": "9e3835331e56e6b085c7e0073d4dc5def044dbad02f6495c7cddc78cd486dd90",
+      "displacement_m": 8e-05,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "fdfa0f7132415f174cccf41774121c791984e24e60cea565dc367864b31c889f",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "75bf12854867e1d55c6e19cc062d9d85f21878ec32facedb175499bd2279faf3"
+    },
+    {
+      "step": 17,
+      "source_sha256": "5bcdb75275d30c141049bbc9e9c5c53c70298ab95fd4b63550fe1343d776f4a9",
+      "displacement_m": 8.5e-05,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "cfc96f10baf2052156a7236a23aad3eb25b5e51843072531a2b997b15468a6ab",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "3802532ea275b8026ef3f4074204998d33ab5a9d3ef63f988f133c39acb0458e"
+    },
+    {
+      "step": 18,
+      "source_sha256": "a2a9b2d64e0c55193d637dc25a291673d76940ff8e44cedeb3ce74333ad3f356",
+      "displacement_m": 9e-05,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "6a9cd23b4fe7b12d38c260be1a342ea3e2d9c20e395aa96c09a36e496956a550",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "8194cddf9e8b1a7cb83cabf0e32398974356a1370928a7e0e95abb5f7d58452a"
+    },
+    {
+      "step": 19,
+      "source_sha256": "baab4beb1572736c68d34950dd3534b0f7764771aa74f23b43bad353155f4e1c",
+      "displacement_m": 9.5e-05,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "0fdbf9a8ff2df3cd9f3d1d4a3fcf3e28a951796eac58191969289b7b0e0e2c4c",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "6797267a46cdcdbe8fc420cf656824524515aeca67b584b70117940265cc7c4b"
+    },
+    {
+      "step": 20,
+      "source_sha256": "4b8702db556698068a680ecc7d117bc1022a6ca188ecd2963b4bdc32eabdb006",
+      "displacement_m": 0.0001,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "89aa461ef1f40697d81d123f3f2a6f0edf1afb084f5f58735fb05c26653078a9",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "42e08ddcf7f6ab2429b7cb4f65aad72088d21c25a172e461b5b7bcf994beeb0d"
+    },
+    {
+      "step": 21,
+      "source_sha256": "42ace7a09d2da2d4854718cfa585b584d38f4e8fd05d23f35e0b9a745ca744c8",
+      "displacement_m": 0.000105,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "07c5f38663bc24a89faeafe9c43421b08983a41c9555c03eac86dde7975b5e1c",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "7e5ad8a072363ff7c2559c756577dd0a45aeb8848ab3f4824684766df13daa58"
+    },
+    {
+      "step": 22,
+      "source_sha256": "f64e52a9d78d9d3efc2364477db079d116c0038db0e32804ab6edd15c8911553",
+      "displacement_m": 0.00011,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "b4c3843864c909712bb941239f46123ded5d3905e1385ff83b6a97758ae725ef",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "ac4eb5ecb56f4d8cb04b638683296c6027b83fef5e259a425c7495c5173cf428"
+    },
+    {
+      "step": 24,
+      "source_sha256": "33ac75e5b500043e55e78c595f75930652211d104350d4f6ce9837806bdd0c09",
+      "displacement_m": 0.0001125,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "9d121aa8f752b36608dd88a2e7ae30a11b0685c863f779f5eff51269b308b270",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "13c0659e3308168527777656995091d562c16be396a22d7bb9d4fe4a01c1299e"
+    },
+    {
+      "step": 28,
+      "source_sha256": "338c829b0b3c5652113474a00271fc4d4690580d0771e7cccdbe5d1751f8ef7e",
+      "displacement_m": 0.0001128125,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "7cd14d04e8d95e9596dde2e694366c03e7819176c42b59c4992f978e32726f89",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "dd985ef718f8fa9cf59b8f937e59cf263a87453ecc5f6b9a3292fb950a959761"
+    },
+    {
+      "step": 30,
+      "source_sha256": "10083922868c8ee0018991254309a91cfee7e3fd0f8c8989f46e60d948b4b976",
+      "displacement_m": 0.00011296875,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "8722af09689986d4581c4c3134d7ea8baf8ff6240d9c62e6de13732c032afa7b",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "98babfaa492c06081d97d195f75710e41c4b599e377e13c1c88a51040598ab63"
+    },
+    {
+      "step": 32,
+      "source_sha256": "bff39c3b38f4149919570592be3affe0dd8a1e9e8329794a555eabda7a3bf4fa",
+      "displacement_m": 0.000113046875,
+      "damage_min": 1.1414250902632334e-06,
+      "damage_max": 1.0,
+      "actual_boundary_edge_points": 356,
+      "boundary_coordinates_sha256": "c99f44590465b650f43dbe4fed4e2b62a5bd56f886b21cb05e9c980312eaeb56",
+      "fetched_fields_equal_saved": true,
+      "rendered_pixels_sha256": "db06438305b47d448fe153ba8bd3e9098786f0bc6665376e261ee010b23a664b"
+    }
+  ]
+}

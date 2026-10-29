@@ -1,0 +1,20 @@
+{
+  "completed": false,
+  "failure": "Warm branch did not pass true simultaneous force/KKT/validity checks",
+  "physical_initial_damage_max": 0.0,
+  "physical_initial_AT2_energy": 0.0,
+  "damage_fixed_nodes": 0,
+  "accepted_load_steps": 27,
+  "rejected_load_attempts": 9,
+  "energy_gap_over_external_work": 0.005081330398247303,
+  "irreversible": true,
+  "mechanical_and_damage_converged": true,
+  "small_strain": true,
+  "peak_reaction_N_per_m": 4.569413448610626,
+  "load_drop": true,
+  "crack_advance_d08_m": 0.12632078040878242,
+  "mesh_convergence_established": false,
+  "load_increment_convergence_established": false,
+  "scope": "Actual small-strain three-point bending with a geometric bottom notch; no preseeded damage or prescribed propagation path.",
+  "single_mesh_fracture_observed": false
+}

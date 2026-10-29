@@ -1,13 +1,13 @@
 {
   "case": "Ti-6Al-4V cutting: Seo parameters",
-  "simulation_status": "in_progress",
+  "simulation_status": "complete_for_planned_duration",
   "render_complete": true,
   "rendered_time_range_s": [
     0.0,
-    1.4559687188958124e-05
+    3.2003687409210966e-05
   ],
   "material_model": "Johnson-Cook",
-  "geometry_representation": "saved particle centres",
+  "geometry_representation": "Saved particle centres; supersampled ParaView point rendering",
   "renderer": "ParaView",
   "image_size": [
     400,
@@ -19,27 +19,27 @@
   "images": {
     "equivalent_plastic_strain": {
       "path": "docs/images/home/cutting--seo--equivalent-plastic-strain.gif",
-      "sha256": "482097a56f04598d6db2df836ca9c0e635a002fdc899120ba193ae073f630d88",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "dfc5b3bbe994fcaa83c75d00606020481a244d6d4f97ea3d7d13e2c01bde6144",
+      "frames": 61,
+      "distinct_frames": 61
     },
     "temperature": {
       "path": "docs/images/home/cutting--seo--temperature.gif",
-      "sha256": "60368f616657a1b4852ccd4921b6ee4d607707605b3fc889f2e9075591fb78ce",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "a9bec470f5b045f1d4f21d07b88aaa2d469677cdb236ea2fce083fc96736b520",
+      "frames": 61,
+      "distinct_frames": 61
     },
     "damage": {
       "path": "docs/images/home/cutting--seo--damage.gif",
-      "sha256": "9109e42368aade6ebbc8befd26098272bda41924a9bcf72649204546be247dc8",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "ecef727690f563c004a448356dbc5ce9f45f52b554d67978142e3e4cf2a5337b",
+      "frames": 61,
+      "distinct_frames": 61
     },
     "plastic_increment_rate": {
       "path": "docs/images/home/cutting--seo--plastic-increment-rate.gif",
-      "sha256": "8a97f8c8231a5f99f174c077de2a847eea40c1d2e5de405118cb72fc7bad0c0b",
-      "frames": 41,
-      "distinct_frames": 41
+      "sha256": "a8d1b04e7aa797b6ac160a44691ca2dfdb1d9e1c5b9400e752cc7817f2c4bc60",
+      "frames": 61,
+      "distinct_frames": 61
     }
   }
 }

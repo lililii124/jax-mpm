@@ -1,0 +1,44 @@
+{
+  "case": "three-point-bending",
+  "length_m": 1.0,
+  "height_m": 0.25,
+  "bottom_central_notch_m": 0.05,
+  "ell_m": 0.015,
+  "vertical_cells": 40,
+  "horizontal_cells": 129,
+  "requested_support_span_m": 0.8,
+  "actual_roller_positions": [
+    [
+      0.10077519379844961,
+      0.0
+    ],
+    [
+      0.8992248062015504,
+      0.0
+    ]
+  ],
+  "actual_support_span_m": 0.7984496124031009,
+  "head_nodes": [
+    2582,
+    2623,
+    2664,
+    2705,
+    2746,
+    2787
+  ],
+  "head_reference_x_interval_m": [
+    0.48062015503875966,
+    0.5193798449612403
+  ],
+  "head_width_requested_m": 0.04,
+  "head_prescription": "Same downward uy at all finite-width head nodes; ux is free.",
+  "roller_prescription": "uy=0 at two bottom roller nodes; ONLY left roller ux=0 removes rigid translation.",
+  "all_other_boundaries": "traction-free, including explicit notch faces",
+  "initial_damage": 0.0,
+  "damage_fixed_nodes": 0,
+  "imposed_crack_path": false,
+  "matrix_E_Pa": 1000000.0,
+  "matrix_Gc_J_per_m2": 0.001,
+  "poisson": 0.2,
+  "energy_ledger": "Positive downward head reaction magnitude times positive downward travel; zero work at stationary rollers/pin."
+}

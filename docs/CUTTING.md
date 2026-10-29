@@ -9,7 +9,7 @@ deeper second pass. Fully failed particles are hidden in the rendered views.
 | Multiple passes | 16.607–107.731 | Continuing |
 | Second pass close-up | 100.500–107.731 | Continuing |
 | Johnson parameters | 0–26.674 | Planned run complete |
-| Seo parameters | 0–14.560 | Continuing |
+| Seo parameters | 0–32.004 | Planned run complete |
 
 Johnson and Seo use different end times here; these animations are not a
 matched-time material comparison. The multiple-pass views use saved deformation

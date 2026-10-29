@@ -9,14 +9,15 @@ Live process status is recorded separately by the read-only local monitor.
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
-| Triaxial weaving process | Full 24-fibre geometry reached 1 ms; exact-state continuation is advancing toward guide release and contact | Complete the full physical protocol and render its process |
+| Triaxial weaving process | Full 24-fibre geometry reached 2 ms; automatic exact-state continuation is advancing toward 3.1 ms | Complete the full physical protocol and render its process |
 | AT2 fracture | Zero-initial-damage path completed; user approved its GIF for publication | Preserve the accepted example; further tip-symmetry investigation cancelled |
 | Anisotropic phase-field fracture | Complete load path and actual curved-crack GIF approved; fitted path angle 7.41 degrees | Preserve the accepted example |
-| Notched three-point bending fracture | Added as the third phase-field gallery case | Compute upward crack propagation from an explicit bottom notch under central displacement loading |
-| Phase-field fracture with hard inclusions | The 8x-modulus / 10x-fracture-energy case retained 26 accepted states before its time limit; requested load path remains incomplete | Render the accepted crack-arrest trajectory for review |
+| Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
+| Phase-field fracture with a hole | Replaces the hard-inclusion showcase at the user's request | Remove material inside the hole, retain a free hole boundary and compute crack–hole interaction |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
 | Blast-loaded sandwich design | The enriched 510-mode fixed-mass optimization is running; independent full MPM baseline remains active | Check time-step sensitivity and later-time response, validate the selected distribution against full MPM, then add nonlinear material qualification |
-| Hypervelocity sphere impact | Restart reconstruction repaired; continuation exposed a missing state mapping when support splits after failure | Repair splitting, measure sustained throughput and continue toward the debris-cloud stage |
+| Hypervelocity sphere impact | Restart and split-state mapping repaired; host contact caching and retained converged time steps are advancing the accepted trajectory | Continue toward the debris-cloud stage, retaining physical guards and recording sustained throughput |
+| Complete cutting animations | Johnson and Seo complete 61-frame GIFs replace the single-pass previews; multipass remains in its third cut | Export the initial prefix through final lift after multipass completion and replace its incomplete GIFs |
 
 The read-only local monitor records process status, accepted steps/time, source
 update times and available animations. A stalled calculation is reported as
