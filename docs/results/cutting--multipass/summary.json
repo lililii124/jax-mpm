@@ -1,0 +1,45 @@
+{
+  "case": "Ti-6Al-4V cutting: Multiple passes",
+  "simulation_status": "in_progress",
+  "render_complete": true,
+  "rendered_time_range_s": [
+    1.6607143199856587e-05,
+    0.0001077310946418367
+  ],
+  "material_model": "Johnson-Cook",
+  "geometry_representation": "Fxy-affine particle domains",
+  "renderer": "ParaView",
+  "image_size": [
+    400,
+    400
+  ],
+  "failed_particles_hidden": true,
+  "rate_definition": "Difference of cumulative equivalent plastic strain over the actual adjacent saved-frame interval; matched IDs, active in both frames.",
+  "source_integration": "Production drivers are not yet integrated into the public examples.",
+  "images": {
+    "equivalent_plastic_strain": {
+      "path": "docs/images/home/cutting--multipass--equivalent-plastic-strain.gif",
+      "sha256": "5f466c2e4e5fffdeed70792f5594cee9e69c133c8257bd473ec29db86b2af7fe",
+      "frames": 61,
+      "distinct_frames": 61
+    },
+    "temperature": {
+      "path": "docs/images/home/cutting--multipass--temperature.gif",
+      "sha256": "a687a49ded52e2acae49fc62473688369ea8f11bc12c0ba3304c8322fce03988",
+      "frames": 61,
+      "distinct_frames": 61
+    },
+    "damage": {
+      "path": "docs/images/home/cutting--multipass--damage.gif",
+      "sha256": "d86700948b243363c0eb71123032c83bd3b5bb45a17055f3f031908a700979f9",
+      "frames": 61,
+      "distinct_frames": 61
+    },
+    "plastic_increment_rate": {
+      "path": "docs/images/home/cutting--multipass--plastic-increment-rate.gif",
+      "sha256": "5f9511593695dd2ea53d6e5c6ce6762c762a7481b247e3d8f287247aa448f2a9",
+      "frames": 60,
+      "distinct_frames": 60
+    }
+  }
+}

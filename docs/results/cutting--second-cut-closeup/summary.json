@@ -1,0 +1,45 @@
+{
+  "case": "Ti-6Al-4V cutting: Second pass close-up",
+  "simulation_status": "in_progress",
+  "render_complete": true,
+  "rendered_time_range_s": [
+    0.00010049999999999999,
+    0.0001077310946418367
+  ],
+  "material_model": "Johnson-Cook",
+  "geometry_representation": "Fxy-affine particle domains",
+  "renderer": "ParaView",
+  "image_size": [
+    400,
+    400
+  ],
+  "failed_particles_hidden": true,
+  "rate_definition": "Difference of cumulative equivalent plastic strain over the actual adjacent saved-frame interval; matched IDs, active in both frames.",
+  "source_integration": "Production drivers are not yet integrated into the public examples.",
+  "images": {
+    "equivalent_plastic_strain": {
+      "path": "docs/images/home/cutting--second-cut-closeup--equivalent-plastic-strain.gif",
+      "sha256": "d6ac30976d8b71cf6f98c7f6f91074bd9954ac33789ebac771c36e22aa6bf771",
+      "frames": 31,
+      "distinct_frames": 31
+    },
+    "temperature": {
+      "path": "docs/images/home/cutting--second-cut-closeup--temperature.gif",
+      "sha256": "e0a520164c722a0f6e1438b9b93271517eeaae15801571964a354cc327ae2fd9",
+      "frames": 31,
+      "distinct_frames": 31
+    },
+    "damage": {
+      "path": "docs/images/home/cutting--second-cut-closeup--damage.gif",
+      "sha256": "da3250bc167e00714581261a8794358c70ef7c6cdc5c68d3fea598e2b614bebb",
+      "frames": 31,
+      "distinct_frames": 31
+    },
+    "plastic_increment_rate": {
+      "path": "docs/images/home/cutting--second-cut-closeup--plastic-increment-rate.gif",
+      "sha256": "2022451bc706938b995859f5f9ba328eb3cb24f92e44d04914bc128d0ffcb29a",
+      "frames": 31,
+      "distinct_frames": 31
+    }
+  }
+}

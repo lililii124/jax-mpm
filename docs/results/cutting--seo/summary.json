@@ -1,0 +1,45 @@
+{
+  "case": "Ti-6Al-4V cutting: Seo parameters",
+  "simulation_status": "in_progress",
+  "render_complete": true,
+  "rendered_time_range_s": [
+    0.0,
+    1.4559687188958124e-05
+  ],
+  "material_model": "Johnson-Cook",
+  "geometry_representation": "saved particle centres",
+  "renderer": "ParaView",
+  "image_size": [
+    400,
+    400
+  ],
+  "failed_particles_hidden": true,
+  "rate_definition": "Difference of cumulative equivalent plastic strain over the actual adjacent saved-frame interval; matched IDs, active in both frames.",
+  "source_integration": "Production drivers are not yet integrated into the public examples.",
+  "images": {
+    "equivalent_plastic_strain": {
+      "path": "docs/images/home/cutting--seo--equivalent-plastic-strain.gif",
+      "sha256": "482097a56f04598d6db2df836ca9c0e635a002fdc899120ba193ae073f630d88",
+      "frames": 41,
+      "distinct_frames": 41
+    },
+    "temperature": {
+      "path": "docs/images/home/cutting--seo--temperature.gif",
+      "sha256": "60368f616657a1b4852ccd4921b6ee4d607707605b3fc889f2e9075591fb78ce",
+      "frames": 41,
+      "distinct_frames": 41
+    },
+    "damage": {
+      "path": "docs/images/home/cutting--seo--damage.gif",
+      "sha256": "9109e42368aade6ebbc8befd26098272bda41924a9bcf72649204546be247dc8",
+      "frames": 41,
+      "distinct_frames": 41
+    },
+    "plastic_increment_rate": {
+      "path": "docs/images/home/cutting--seo--plastic-increment-rate.gif",
+      "sha256": "8a97f8c8231a5f99f174c077de2a847eea40c1d2e5de405118cb72fc7bad0c0b",
+      "frames": 41,
+      "distinct_frames": 41
+    }
+  }
+}

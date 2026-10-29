@@ -1,6 +1,6 @@
 # Gallery
 
-ParaView frames and animations. [Run records](RESULTS.md).
+ParaView frames and animations. [Run records](RESULTS.md) · [Cutting](CUTTING.md).
 
 ## JAX design
 

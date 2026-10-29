@@ -77,6 +77,52 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+### Cutting
+
+#### Multiple passes
+
+<table width="100%">
+<tr>
+<td width="25%" align="center"><img src="docs/images/home/cutting--multipass--equivalent-plastic-strain.gif" alt="Multiple passes · Equivalent plastic strain" width="100%"><br><a href="docs/results/cutting--multipass/summary.json">Equivalent plastic strain</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--multipass--temperature.gif" alt="Multiple passes · Temperature" width="100%"><br><a href="docs/results/cutting--multipass/summary.json">Temperature</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--multipass--damage.gif" alt="Multiple passes · Damage" width="100%"><br><a href="docs/results/cutting--multipass/summary.json">Damage</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--multipass--plastic-increment-rate.gif" alt="Multiple passes · Plastic strain rate" width="100%"><br><a href="docs/results/cutting--multipass/summary.json">Plastic strain rate</a></td>
+</tr>
+</table>
+
+#### Second pass close-up
+
+<table width="100%">
+<tr>
+<td width="25%" align="center"><img src="docs/images/home/cutting--second-cut-closeup--equivalent-plastic-strain.gif" alt="Second pass close-up · Equivalent plastic strain" width="100%"><br><a href="docs/results/cutting--second-cut-closeup/summary.json">Equivalent plastic strain</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--second-cut-closeup--temperature.gif" alt="Second pass close-up · Temperature" width="100%"><br><a href="docs/results/cutting--second-cut-closeup/summary.json">Temperature</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--second-cut-closeup--damage.gif" alt="Second pass close-up · Damage" width="100%"><br><a href="docs/results/cutting--second-cut-closeup/summary.json">Damage</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--second-cut-closeup--plastic-increment-rate.gif" alt="Second pass close-up · Plastic strain rate" width="100%"><br><a href="docs/results/cutting--second-cut-closeup/summary.json">Plastic strain rate</a></td>
+</tr>
+</table>
+
+#### Johnson parameters
+
+<table width="100%">
+<tr>
+<td width="25%" align="center"><img src="docs/images/home/cutting--johnson--equivalent-plastic-strain.gif" alt="Johnson parameters · Equivalent plastic strain" width="100%"><br><a href="docs/results/cutting--johnson/summary.json">Equivalent plastic strain</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--johnson--temperature.gif" alt="Johnson parameters · Temperature" width="100%"><br><a href="docs/results/cutting--johnson/summary.json">Temperature</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--johnson--damage.gif" alt="Johnson parameters · Damage" width="100%"><br><a href="docs/results/cutting--johnson/summary.json">Damage</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--johnson--plastic-increment-rate.gif" alt="Johnson parameters · Plastic strain rate" width="100%"><br><a href="docs/results/cutting--johnson/summary.json">Plastic strain rate</a></td>
+</tr>
+</table>
+
+#### Seo parameters
+
+<table width="100%">
+<tr>
+<td width="25%" align="center"><img src="docs/images/home/cutting--seo--equivalent-plastic-strain.gif" alt="Seo parameters · Equivalent plastic strain" width="100%"><br><a href="docs/results/cutting--seo/summary.json">Equivalent plastic strain</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--seo--temperature.gif" alt="Seo parameters · Temperature" width="100%"><br><a href="docs/results/cutting--seo/summary.json">Temperature</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--seo--damage.gif" alt="Seo parameters · Damage" width="100%"><br><a href="docs/results/cutting--seo/summary.json">Damage</a></td>
+<td width="25%" align="center"><img src="docs/images/home/cutting--seo--plastic-increment-rate.gif" alt="Seo parameters · Plastic strain rate" width="100%"><br><a href="docs/results/cutting--seo/summary.json">Plastic strain rate</a></td>
+</tr>
+</table>
+
 ### Concrete
 
 <table width="100%">
