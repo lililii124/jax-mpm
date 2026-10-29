@@ -1,0 +1,50 @@
+{
+  "scope": "Source-port audit and bounded frozen-operator forward replay; the complete cold construction chain was not rerun for this source port.",
+  "exact_numerical_block_checks": [
+    {
+      "function": "build_selected",
+      "exact_original_numerical_blocks": {
+        "frequency_power_case_loop": "d32a7e5b60053f5cba16e43272d39188346f48a4313b821f22cc7cef2fb7a2a0",
+        "newmark_and_face_reconstruction": "3b933e29515918923fb6a3975bf74559783147989964fde6759accc40ac5455d",
+        "svd_order_and_cutoff_input": "175fd9c5717a52734235184b2103b09e89888de2b4d2c8722d3b536a8d2a69b9"
+      }
+    },
+    {
+      "function": "build_union",
+      "exact_original_numerical_blocks": {
+        "frequency_power_case_loop": "5653901f7679cb236878648ad26729c3568dd7bc1821f836413e52f8c52451cf",
+        "newmark_and_face_reconstruction": "3b933e29515918923fb6a3975bf74559783147989964fde6759accc40ac5455d",
+        "svd_order_and_cutoff_input": "175fd9c5717a52734235184b2103b09e89888de2b4d2c8722d3b536a8d2a69b9"
+      }
+    }
+  ],
+  "public_source_sha256": {
+    "tools/build_sandwich_rational.py": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+    "tools/assess_sandwich_rational.py": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+    "examples/sandwich_rational.json": "c9c7928db696d7c4591c6d3190ebebe1480226f3eb0aa527226f41cd19abd0c5",
+    "examples/sandwich_rational_assessment.json": "2bb72c18869e13cf1bc893c0658abca5d3e07e465068dd22716e0975e14885f0",
+    "examples/sandwich_rational_validation.json": "c7700527d8bb7f94755959e77d79097dd2ad104a312db7146cb1ca7b0393e6c4",
+    "examples/sandwich_rational_selected_controls.json": "22735c4c1f340a1683648cc834314cf224028c222abeecdfbed55592f4a7a011",
+    "tests/test_sandwich_rational.py": "e35fd65d5236a15255d1f4f628b6c8d3b7945333d25eb1cdf7e0b31885398bf6",
+    "docs/SANDWICH_RATIONAL_REPRODUCTION.md": "60c61ae0ef5b6f8a2b21f07549ee4bdc0dd69256bf361105f0cb62f13ce63d52"
+  },
+  "physical_source_pins_passed": true,
+  "control_numeric_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+  "cached_forward_replay": {
+    "scope": "Public forward replay of 96 initial steps and 67 full-horizon saved face reconstructions; no new MPM simulation or qualification.",
+    "public_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+    "basis_artifact_sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+    "basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+    "response_artifact_sha256": "fdd25b49011255fb9d387bff08acf5c53daebbc5c55c751773be34b301e22dfc",
+    "replay_steps": 96,
+    "prefix_state_relative_l2": 1.796059051812089e-15,
+    "full_horizon_face_probe_relative_maximum_error": 0.0,
+    "full_horizon_linear_energy_relative_error": 1.0024583013722135e-11,
+    "passed": true,
+    "public_builder_sha256": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+    "metadata_refresh_scope": "Builder trailing whitespace only; assessor and numerical AST blocks unchanged; original bounded replay results retained without rerunning the computation."
+  },
+  "test_result": "10 passed with explicit workspace basetemp; default Windows pytest temp directory denied access.",
+  "complete2ms_three_case_mpm_qualification": false,
+  "global_optimum_claim": false
+}

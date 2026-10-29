@@ -71,6 +71,9 @@ The previously failed baseline interval now has a 2.509% maximum response error.
 The [validation record](../evidence/blast-sandwich-reduced/union130-validation.json)
 retains the original failures and distinguishes checked intervals from the
 still-unqualified complete three-case response.
+The [public reproduction guide](SANDWICH_RATIONAL_REPRODUCTION.md) provides the
+construction recipe and assessment commands; its cached source-port replay is
+separate from independent MPM validation.
 
 Continue optimization in successive rounds from the best strictly feasible
 controls, retaining each round's design hash and metrics. Three consecutive

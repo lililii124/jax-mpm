@@ -1,0 +1,15 @@
+{
+  "role": "fresh-validation",
+  "basis": "../outputs/rational-union/frozen-basis.npz",
+  "freeze_receipt": "../outputs/rational-union/model-freeze.json",
+  "material": "../outputs/rational-inputs/selected-material.npz",
+  "snapshots": "../outputs/rational-validation/selected.npz",
+  "history": "../outputs/rational-validation/history-through-42000.csv",
+  "history_receipt": "../outputs/rational-validation/history-through-42000.json",
+  "case_index": 2,
+  "windows": [[31000, 42000]],
+  "response_gate": 0.05,
+  "omitted_energy_gate": 0.05,
+  "time_gate": 0.01,
+  "linear_energy_gate": 1e-8
+}

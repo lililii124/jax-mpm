@@ -2,8 +2,11 @@
 
 `examples.blast_sandwich_reduced` optimizes a linear transient projection of the
 [elastic sandwich model](BLAST_SANDWICH_IMPLEMENTATION.md). Its gains are
-candidate results. Independent selected-design MPM has exposed model bias;
-error correction and complete qualification remain unfinished.
+candidate results. Independent selected-design MPM exposed model bias in the
+earlier bases. The corrected two-design rational basis passes its frozen
+validation intervals; complete three-case qualification remains unfinished.
+The [current construction and assessment guide](SANDWICH_RATIONAL_REPRODUCTION.md)
+provides the public recipe, controls and input-bound checks.
 
 For fixed mass, minimize the worst back-face space-time displacement over the
 three prescribed pressure footprints. Constraints are skin von Mises stress

@@ -1,0 +1,14 @@
+{
+  "scope": "Public forward replay of 96 initial steps and 67 full-horizon saved face reconstructions; no new MPM simulation or qualification.",
+  "public_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+  "basis_artifact_sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+  "basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+  "response_artifact_sha256": "fdd25b49011255fb9d387bff08acf5c53daebbc5c55c751773be34b301e22dfc",
+  "replay_steps": 96,
+  "prefix_state_relative_l2": 1.796059051812089e-15,
+  "full_horizon_face_probe_relative_maximum_error": 0.0,
+  "full_horizon_linear_energy_relative_error": 1.0024583013722135e-11,
+  "passed": true,
+  "public_builder_sha256": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+  "metadata_refresh_scope": "Builder trailing whitespace only; assessor and numerical AST blocks unchanged; original bounded replay results retained without rerunning the computation."
+}
