@@ -1,0 +1,58 @@
+{
+  "scope": "Completed bounded trajectory using the published source; full process remains incomplete.",
+  "actual_time_s": 0.0053,
+  "steps": 22088,
+  "full_protocol_duration_s": 0.04704120539381533,
+  "full_protocol_completed": false,
+  "parent_series": "Sequential accepted windows; same protocol, source and material bindings.",
+  "checkpoint_sha256": "47592d6756c5dfa37fe5a73431c7f96224b0d3f08ada02458c33cda6dee8f1e5",
+  "binding_sha256": "09d08f596377c2facc2c555880389fef8ea40e66cd0beb15e00764a424614acf",
+  "runtime": {
+    "jax": "0.12.0.1",
+    "numpy": "2.5.4",
+    "float64": true
+  },
+  "material": {
+    "young_Pa": 10000000.0,
+    "poisson": 0.25,
+    "density_kg_m3": 1500.0,
+    "tensile_strength_Pa": 2000000.0,
+    "fracture_energy_J_m2": 1000.0,
+    "characteristic_length_m": 7.5e-05
+  },
+  "particles": 184224,
+  "reference_node_count": 334556,
+  "base_dt_s": 2.399988030663109e-07,
+  "source_sha256": {
+    "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+    "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+    "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+    "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+    "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+    "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+    "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+    "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+    "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+  },
+  "terminal": {
+    "kinetic_J": 7.950485770215118e-06,
+    "elastic_J": 1.8385148752009844e-07,
+    "contact_J": 0.0,
+    "work_remainder_J": 5.751077416538508e-12,
+    "absolute_machine_work_J": 8.017641306906256e-05,
+    "contact_patch_count": 0,
+    "active_guides": 200,
+    "max_log_strain": 0.007357750475536917,
+    "momentum_relative_error": 3.73361109877416e-17,
+    "angular_momentum_relative_error": 1.1306225324504445e-17
+  },
+  "wall_seconds": 2972.503161586821,
+  "peak_uss_bytes": 3391496192
+}

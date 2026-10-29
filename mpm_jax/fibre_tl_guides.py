@@ -74,7 +74,7 @@ def sample(operator, values):
         operator.coefficients*values[operator.nodes],mode='drop')
 
 
-def project(operator, values, target, *, tolerance=1e-11, iterations=96):
+def project(operator, values, target, *, active=None, tolerance=1e-11, iterations=96):
     """Mass metric projection of nodal y values onto Gv=target.
 
     If coalesced guide supports are disjoint, the Gram is exactly diagonal and
@@ -82,27 +82,32 @@ def project(operator, values, target, *, tolerance=1e-11, iterations=96):
     residual for early stopping.  Both paths apply the exact G/G^T adjoint.
     """
     values=jnp.asarray(values);target=jnp.asarray(target,dtype=values.dtype)
+    active=jnp.ones((operator.guide_count,),dtype=bool) if active is None else jnp.asarray(active,dtype=bool)
+    if active.shape!=(operator.guide_count,):
+        raise ValueError('one active flag per guide is required')
     if values.ndim!=2 or values.shape[1]!=3 or target.shape!=(operator.guide_count,):
         raise ValueError('nodal values must be (nodes,3), with one target per guide')
     def G(y):return sample(operator,y)
-    rhs=target-G(values[:,1])
+    rhs=jnp.where(active,target-G(values[:,1]),0.)
+    diagonal=jnp.where(active,operator.gram_diagonal,1.)
     if operator.diagonal:
-        x=rhs/operator.gram_diagonal
+        x=rhs/diagonal
     else:
         def gram(q):
-            z=_apply_transpose(operator,q,len(values))*operator.inverse_mass
-            return G(z)
-        x=jnp.zeros_like(rhs);r=rhs;z=r/operator.gram_diagonal;p=z;rz=jnp.vdot(r,z)
+            z=_apply_transpose(operator,jnp.where(active,q,0.),len(values))*operator.inverse_mass
+            return jnp.where(active,G(z),q)
+        x=jnp.zeros_like(rhs);r=rhs;z=r/diagonal;p=z;rz=jnp.vdot(r,z)
         rhs_norm=jnp.maximum(jnp.linalg.norm(rhs),1e-300)
         def condition(carry):k,_,r,_,_,_=carry;return (k<iterations)&(jnp.linalg.norm(r)>tolerance*rhs_norm)
         def body(carry):
             k,x,r,z,p,rz=carry;Ap=gram(p);den=jnp.vdot(p,Ap)
             alpha=jnp.where(den>0,rz/jnp.where(den>0,den,1.),0.)
-            xn=x+alpha*p;rn=r-alpha*Ap;zn=rn/operator.gram_diagonal;rzn=jnp.vdot(rn,zn)
+            xn=x+alpha*p;rn=r-alpha*Ap;zn=rn/diagonal;rzn=jnp.vdot(rn,zn)
             beta=jnp.where(rz>0,rzn/jnp.where(rz>0,rz,1.),0.)
             return k+1,xn,rn,zn,zn+beta*p,rzn
         _,x,_,_,_,_=jax.lax.while_loop(condition,body,(jnp.asarray(0),x,r,z,p,rz))
+    x=jnp.where(active,x,0.)
     correction=_apply_transpose(operator,x,len(values))*operator.inverse_mass
     projected=values.at[:,1].add(correction)
-    residual=G(projected[:,1])-target
+    residual=jnp.where(active,G(projected[:,1])-target,0.)
     return projected,x,residual

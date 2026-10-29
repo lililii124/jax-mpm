@@ -9,13 +9,13 @@ Live process status is recorded separately by the read-only local monitor.
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
-| Triaxial weaving process | Full 24-fibre geometry reached 3.1 ms; automatic exact-state continuation is advancing toward 4.2 ms | Complete the full physical protocol and render its process |
+| [Triaxial weaving process](WEAVING_PROCESS.md) | Full 24-fibre geometry completed 5.3 ms on Linux; the next window is advancing on native Windows after a 100-step comparison and physical roundoff review | Complete the 47.0412 ms protocol and render its process |
 | AT2 fracture | Zero-initial-damage path completed; user approved its GIF for publication | Preserve the accepted example; further tip-symmetry investigation cancelled |
 | Anisotropic phase-field fracture | Complete load path and actual curved-crack GIF approved; fitted path angle 7.41 degrees | Preserve the accepted example |
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Round 2 completed and round 3 is running; baseline eccentric full MPM completed its 2 ms history and GIF; baseline uniform/central and selected eccentric histories continue | Correct the reduced model using separate training and development data, retain the best feasible design, and validate all three pressure cases before refinement and nonlinear material qualification |
+| Blast-loaded sandwich design | Three fixed-mass rounds completed; baseline eccentric full MPM completed its 2 ms history and GIF; baseline uniform/central and selected eccentric histories continue | Validate the load-driven replacement for the failed reduced model before another optimization round |
 | Hypervelocity sphere impact | Restart and split-state mapping repaired; host contact caching and retained converged time steps are advancing the accepted trajectory | Continue toward the debris-cloud stage, retaining physical guards and recording sustained throughput |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds replace the previews in eight 400×400 GIFs | Preserve the full histories; improve the two increment-rate display scales |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -77,9 +77,9 @@ review, not a claim of global optimality. Full-MPM constraints and improvement
 must also pass before accepting the design. Validation already in progress
 remains bound to its original control hash; a newer candidate does not silently
 replace it. Round 2 completed with objective 0.1427671121, improving the
-first-round value of 0.1446114802 by 1.2754%. Round 3 is running; its accepted
-best is 0.1427383202. These are reduced-model values, not verified full-MPM
-performance improvements.
+first-round value of 0.1446114802 by 1.2754%. Round 3 completed with objective
+0.1416732231 at the same mass. These are reduced-model values, not verified
+full-MPM performance improvements.
 
 A 1 microsecond versus 0.5 microsecond reduced-model comparison checks time
 integration error. The original later-time validation interval remains fixed;

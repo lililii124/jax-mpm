@@ -59,7 +59,8 @@ def run(output,*,steps=64,checkpoint_every=64,resume_from=None):
     protocol=dict(fixture_times=np.asarray(meta['fixture_times']).tolist(),fixture_positions=np.asarray(meta['fixture_positions']).tolist())
     solver_dt=dt;duration=steps*solver_dt
     initial,step,particles,energy,geometry_check=make_solver(x,volume,layout,material,geometry['masks'],solver_dt,protocol,
-        duration=duration,guide_particles=guides,guide_displacement=guide_position,guide_velocity=guide_speed,particle_fibre_ids=ids)
+        duration=duration,guide_particles=guides,guide_displacement=guide_position,guide_velocity=guide_speed,
+        particle_fibre_ids=ids,guide_active=lambda t:t<releases)
     if steps<1 or checkpoint_every<1:raise ValueError('steps and checkpoint interval must be positive')
     source_path=Path('/work/source.tar');source_sha=hashlib.sha256(source_path.read_bytes()).hexdigest() if source_path.exists() else 'unbound-local-source'
     source_root=Path(__file__).resolve().parents[1]
@@ -71,6 +72,8 @@ def run(output,*,steps=64,checkpoint_every=64,resume_from=None):
         input_identity_sha256=identity,material=actual_material,dt_s=solver_dt,
         guide_particle_ids_sha256=identity['guide_particle_ids'],fixture_times_sha256=identity['fixture_times'],
         fixture_positions_sha256=identity['fixture_positions'],guide_target='centroid y follows fixture through min(t,release); no withdrawal before first release',
+        guide_release='remove constraint rows at t >= release',
+        guide_work='actual midpoint velocity dot each RATTLE impulse; v2',
         reference_grid='six-cell packed tube; fixed quadratic reference stencil',strain_cap_log=.12,work_gate_relative_maximum=.10)
     binding_text=json.dumps(binding,sort_keys=True,separators=(',',':'));binding_sha=hashlib.sha256(binding_text.encode()).hexdigest()
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
