@@ -1,0 +1,60 @@
+{
+  "schema": "mat173-separated-mechanism-toe-v1",
+  "material": {
+    "phi_peak_deg": 38,
+    "phi_residual_deg": 20,
+    "cohesion_peak_Pa": 1000,
+    "cohesion_residual_Pa": 0,
+    "dilation_peak_deg": 2,
+    "dilation_residual_deg": 0,
+    "G_Pa": 5860000.0,
+    "nu": 0.28,
+    "rho_kg_m3": 1800,
+    "Dc_m": 0.0005,
+    "L_m": 0.0125,
+    "Rankine_T0_Pa": 0
+  },
+  "grid": 160,
+  "dx_m": 0.025,
+  "dt_s": 3e-05,
+  "virgin_zero_stress": true,
+  "Fbar": false,
+  "history": "Softening is active throughout settling and excavation; all retained history is preserved without reset.",
+  "balance": {
+    "ramp_s": 0.02,
+    "damping_per_step": 0.995,
+    "max_steps": 9000,
+    "window": 100,
+    "consecutive_windows": 3,
+    "p95_velocity_each_body_m_s": 0.005,
+    "soil_COM_drift_m": 0.0001,
+    "global_and_soil_net_force_ratio": 0.02,
+    "kinetic_to_weight_height_ratio": 1e-06,
+    "undamped_verification_steps": 100,
+    "halt_if_balance_or_undamped_verification_fails": true
+  },
+  "cut": {
+    "predicate": "Reference x >= 2.2 m, over all locally occupied heights.",
+    "removed_objects": "Soil particles, mass, volume, and their history records.",
+    "meaning": "Full-height toe removal; the new vertical face is approximately 0.52 m high."
+  },
+  "postcut_steps": 3000,
+  "guards": {
+    "total_Hencky_balance": 0.05,
+    "total_Hencky_postcut": 0.2,
+    "incremental_Hencky": 0.000625,
+    "soil_elastic_principal": 0.0035,
+    "finite_positiveJ_valid_both_bodies": true
+  },
+  "scope": "Exploratory strict 2D plane-strain toe excavation; no site calibration, energy certification, or mesh-objective band width claim.",
+  "constitutive_variant": {
+    "T0_Pa": 0,
+    "shear_driver": "Sum of positive Mohr-Coulomb surface multipliers weighted by sqrt(2/3) times the deviatoric flow-direction norm; selected multi-face corner definition.",
+    "tensile_diagnostic": "Sum of positive Rankine contributions inferred from invariant total plastic trace minus Mohr-Coulomb trace; diagnostic only, with fixed T0.",
+    "normalization": "Single-face normalization agrees with the earlier model; no FLAC normalization claim.",
+    "post_saturation": "Freeze the shear driver once strength is residual; record ambiguous zero-stress partitions without claiming uniqueness.",
+    "fresh_virgin_required": true,
+    "reuse_old_history": false
+  },
+  "comparison_scope": "The multi-face Mohr-Coulomb corner driver is a selected constitutive definition; comparisons to the historical combined driver do not isolate a single factor."
+}

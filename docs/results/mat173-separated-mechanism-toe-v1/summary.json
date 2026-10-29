@@ -1,0 +1,57 @@
+{
+  "status": "REQUESTED_POSTCUT_STAGE_COMPLETE",
+  "excavation_performed": true,
+  "last_accepted_step": 5100,
+  "last_window": {
+    "phase": "postcut",
+    "step": 5100,
+    "time_s": 0.15300000000000857,
+    "p95_velocity_each_body_m_s": [
+      0.16182981213695397,
+      0.007138824383729642
+    ],
+    "soil_COM_drift_m": 4.914913018981363e-05,
+    "global_net_force_weight_ratio": 0.04435761538897955,
+    "soil_net_force_weight_ratio": 0.01038430418847722,
+    "kinetic_J_per_m": 6.982879873712299,
+    "kinetic_to_weight_height_ratio": 8.88493525843523e-05,
+    "contact_support_fraction": 0.9905424363573593,
+    "soil_contact_momentum_closure_residual_Ns": [
+      13.006358003555217,
+      4.263256414560601e-14
+    ],
+    "contact_impulse_on_foundation_Ns": [
+      12.522044373518344,
+      -111.87406517139853
+    ],
+    "gravity_impulse_Ns": [
+      0.0,
+      -181.36697343749978
+    ],
+    "damping_impulse_Ns": [
+      0.0,
+      0.0
+    ],
+    "contact_loss_J": 2.4736969078847335,
+    "damping_loss_J": 0.0,
+    "max_total_Hencky": 0.0725101131307652,
+    "max_incremental_Hencky": 5.532575944517176e-05,
+    "max_soil_elastic_compliance": 0.0016362003921461573,
+    "minimum_J": 0.9983824683616375,
+    "valid": true,
+    "guards_pass": true,
+    "kappa_max": 0.04004152645459232,
+    "damage_max": 1.0,
+    "balance_checks_pass": false,
+    "tensile_diagnostic_max": 0.04249763752688463,
+    "tensile_diagnostic_p95": 0.012836596692651083,
+    "partition_ambiguous_points": 135,
+    "partition_ambiguous_steps_sum": 43245
+  },
+  "scope": "Exploratory strict 2D plane-strain toe excavation; no site calibration, energy certification, or mesh-objective band width claim.",
+  "case": "mat173-separated-mechanism-toe-v1",
+  "postcut_steps": 3000,
+  "postcut_duration_s": 0.09,
+  "cut_step": 2100,
+  "all_saved_window_guards_pass": true
+}

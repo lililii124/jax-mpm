@@ -13,7 +13,7 @@ import numpy as np
 
 from mpm_jax.core import Config, State
 from mpm_jax.boundaries import PlaneWall, fixed_box
-from mpm_jax.materials.history import History
+from mpm_jax.materials.history import history_from_arrays
 from mpm_jax.materials import mat173, neo_hookean
 from examples.mat173_landslide import (
     ROOT, atomic_json, atomic_npz, checkpoint_arrays, deformation_metrics,
@@ -26,8 +26,7 @@ def load_states(path):
     arrays = np.load(path)
     states = []
     for prefix in ("soil_", "foundation_"):
-        history = History(*(jnp.asarray(arrays[prefix + "history_" + name])
-            for name in History._fields))
+        history = history_from_arrays(arrays, prefix + "history_")
         states.append(State(
             jnp.asarray(arrays[prefix + "x"]), jnp.asarray(arrays[prefix + "v"]),
             jnp.asarray(arrays[prefix + "F"]), jnp.asarray(arrays[prefix + "C"]),

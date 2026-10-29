@@ -17,7 +17,7 @@ from mpm_jax import coupled_step, step
 from mpm_jax.cli import render
 from mpm_jax.initialization import diagnostics
 from mpm_jax.core import State
-from mpm_jax.materials import History
+from mpm_jax.materials.history import history_from_arrays
 from mpm_jax.particle_fields import (
     array_descriptor, checked_particle_fields, material_metadata,
 )
@@ -45,7 +45,7 @@ def _state_arrays(state):
 
 def _load_state(path):
     with np.load(path) as data:
-        history = History(*(jnp.asarray(data[f"history_{k}"]) for k in History._fields))
+        history = history_from_arrays(data)
         return State(*(history if k == "history" else jnp.asarray(data[k]) for k in State._fields))
 
 

@@ -70,8 +70,9 @@ class Config:
             raise ValueError("dim must be 2 or 3")
         if self.failure_mode not in ("retain", "ballistic"):
             raise ValueError("failure_mode must be 'retain' or 'ballistic'")
-        if self.material in INCREMENTAL_MODELS and self.dim != 3:
-            raise ValueError("incremental plasticity models require dim=3")
+        plane_strain_mat173 = self.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}
+        if self.material in INCREMENTAL_MODELS and self.dim != 3 and not (self.dim == 2 and plane_strain_mat173):
+            raise ValueError("incremental plasticity requires dim=3 except the explicit MAT173 plane-strain branch")
         if self.material == "woven-composite" and self.dim != 3:
             raise ValueError("woven composites require dim=3")
         if self.material == "orthotropic-svk" and self.dim != 3:
@@ -157,7 +158,10 @@ def stencil(x, config, active=None):
 def particle_to_grid(state, material, config, support=None, force=None):
     support = particle_stencil(state, config) if support is None else support
     if config.material in INCREMENTAL_MODELS:
-        tau = jnp.linalg.det(state.F)[:, None, None] * state.history.stress
+        stress = state.history.stress
+        if config.dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}:
+            stress = stress[:, :2, :2]
+        tau = jnp.linalg.det(state.F)[:, None, None] * stress
     else:
         tau = kirchhoff_stress(state.F, material, config.material)
     affine = (
@@ -231,7 +235,13 @@ def step(state, material, config, force=None):
 
 def particle_update(state, material, config, support, gv, force=None):
     v, C = grid_to_particle(gv, support, config)
-    F = (jnp.eye(config.dim, dtype=state.x.dtype) + config.dt * C) @ state.F
+    if config.dim == 2 and config.material in {"mat173-tensile-cutoff", "mat173-softening-tensile-cutoff"}:
+        # Explicit plane strain: retain 3x3 constitutive F, update only x-y.
+        inc = jnp.broadcast_to(jnp.eye(3, dtype=state.x.dtype), (state.x.shape[0], 3, 3))
+        inc = inc.at[:, :2, :2].set(jnp.eye(2, dtype=state.x.dtype) + config.dt * C)
+        F = inc @ state.F
+    else:
+        F = (jnp.eye(config.dim, dtype=state.x.dtype) + config.dt * C) @ state.F
     if config.failure_mode == "ballistic":
         active = particle_activity(state, config)
         acceleration = jnp.asarray(config.gravity, dtype=state.v.dtype)

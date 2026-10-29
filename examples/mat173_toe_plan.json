@@ -1,0 +1,60 @@
+{
+  "schema": "mat173-separated-mechanism-toe-v1",
+  "material": {
+    "phi_peak_deg": 38,
+    "phi_residual_deg": 20,
+    "cohesion_peak_Pa": 1000,
+    "cohesion_residual_Pa": 0,
+    "dilation_peak_deg": 2,
+    "dilation_residual_deg": 0,
+    "G_Pa": 5860000.0,
+    "nu": 0.28,
+    "rho_kg_m3": 1800,
+    "Dc_m": 0.0005,
+    "L_m": 0.0125,
+    "Rankine_T0_Pa": 0
+  },
+  "grid": 160,
+  "dx_m": 0.025,
+  "dt_s": 3e-05,
+  "virgin_zero_stress": true,
+  "Fbar": false,
+  "history": "Softening remains active during balance and excavation; all retained history is preserved.",
+  "balance": {
+    "ramp_s": 0.02,
+    "damping_per_step": 0.995,
+    "max_steps": 9000,
+    "window": 100,
+    "consecutive_windows": 3,
+    "p95_velocity_each_body_m_s": 0.005,
+    "soil_COM_drift_m": 0.0001,
+    "global_and_soil_net_force_ratio": 0.02,
+    "kinetic_to_weight_height_ratio": 1e-06,
+    "undamped_verification_steps": 100,
+    "halt_if_balance_or_undamped_verification_fails": true
+  },
+  "cut": {
+    "predicate": "reference x >= 2.2 m, across the full occupied height",
+    "removed_objects": "soil particles, mass, volume and history records",
+    "meaning": "full-height toe removal with a new vertical face approximately 0.52 m high"
+  },
+  "postcut_steps": 3000,
+  "guards": {
+    "total_Hencky_balance": 0.05,
+    "total_Hencky_postcut": 0.2,
+    "incremental_Hencky": 0.000625,
+    "soil_elastic_principal": 0.0035,
+    "finite_positiveJ_valid_both_bodies": true
+  },
+  "scope": "Exploratory localization study; no prescribed weak stripe, global strength ramp, energy certification, site calibration or mesh-objective bandwidth claim.",
+  "constitutive_variant": {
+    "T0_Pa": 0,
+    "shear_driver": "Sum of positive MC surface multipliers times sqrt(2/3) ||dev(B_MC)||; includes a new multi-face corner definition.",
+    "tensile_diagnostic": "Sum of positive Rankine multipliers from total trace minus MC trace; diagnostic only, without reducing T0.",
+    "normalization": "Single-face definition matches the baseline; differs from FLAC normalization.",
+    "post_saturation": "Freeze the shear-driving history after strength reaches residual; mark all-zero stress partitions as ambiguous.",
+    "fresh_virgin_required": true,
+    "reuse_old_history": false
+  },
+  "comparison_scope": "Includes a new multi-MC-corner hardening definition; this changes more than one constitutive assumption."
+}

@@ -27,5 +27,8 @@ mpm-jax = "mpm_jax.cli:main"
 [tool.setuptools.packages.find]
 include = ["mpm_jax*", "examples*"]
 
+[tool.setuptools.package-data]
+examples = ["mat173_toe_plan.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]

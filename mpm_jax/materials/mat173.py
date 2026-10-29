@@ -28,17 +28,32 @@ class MAT173(NamedTuple):
 
 def mat173(*, shear_modulus, poisson, friction_angle, cohesion, dilation_angle,
            density, novoid=1):
-    """Construct the selected MAT173 property branch (SI units, angles radians)."""
-    values = (shear_modulus, poisson, friction_angle, cohesion, dilation_angle, density)
-    if not np.all(np.isfinite(values)):
+    """Construct the selected MAT173 branch, optionally with per-point properties.
+
+    All property arrays must be one-dimensional and broadcast to one common
+    point count. This represents explicit material zoning; it adds no softening
+    or evolution law.
+    """
+    raw = tuple(np.asarray(value, dtype=np.float64) for value in
+                (shear_modulus, poisson, friction_angle, cohesion, dilation_angle, density))
+    if any(value.ndim > 1 for value in raw):
+        raise ValueError("MAT173 properties must be scalars or one-dimensional point arrays")
+    try:
+        arrays = np.broadcast_arrays(*raw)
+    except ValueError as error:
+        raise ValueError("MAT173 point-property arrays must share a common length") from error
+    if not all(np.isfinite(value).all() for value in arrays):
         raise ValueError("MAT173 properties must be finite")
-    if shear_modulus <= 0 or density <= 0 or not -1 < poisson < .5:
+    shear, nu, phi, cohesion_array, psi, density_array = arrays
+    if np.any(shear <= 0) or np.any(density_array <= 0) or np.any((nu <= -1) | (nu >= .5)):
         raise ValueError("MAT173 requires G>0, density>0 and -1<nu<0.5")
-    if not 0 <= dilation_angle <= friction_angle < np.pi / 2 or cohesion < 0:
+    if (np.any(psi < 0) or np.any(psi > phi) or np.any(phi >= np.pi / 2)
+            or np.any(cohesion_array < 0)):
         raise ValueError("MAT173 requires 0<=psi<=phi<pi/2 and cohesion>=0")
     if novoid != 1:
         raise ValueError("This adapter implements only the delivered NOVOID=1 branch")
-    return MAT173(*map(float, values), int(novoid))
+    values = tuple(float(value) if value.ndim == 0 else value.copy() for value in arrays)
+    return MAT173(*values, int(novoid))
 
 
 _SURFACE_PAIRS = tuple((i, j) for i in range(3) for j in range(3) if i != j)
@@ -94,39 +109,37 @@ def _active_return(s0, A, B, Ce, hard, tol):
 
 def update_mat173(old, strain, J, dt, p):
     """Incremental co-rotated small-strain Mohr-Coulomb update, batched over points."""
-    G = jnp.asarray(p.shear, dtype=strain.dtype)
-    nu = jnp.asarray(p.poisson, dtype=strain.dtype)
-    phi = jnp.asarray(p.friction, dtype=strain.dtype)
-    psi = jnp.asarray(p.dilation, dtype=strain.dtype)
-    cohesion = jnp.asarray(p.cohesion, dtype=strain.dtype)
+    count = strain.shape[0]
+    def points(value):
+        value = jnp.asarray(value, dtype=strain.dtype)
+        return jnp.broadcast_to(value, (count,)) if value.ndim == 0 else value
+    G, nu, phi, psi, cohesion, density = map(points,
+        (p.shear, p.poisson, p.friction, p.dilation, p.cohesion, p.density))
     lame = 2 * G * nu / (1 - 2 * nu)
     bulk = lame + 2 * G / 3
     eye = jnp.eye(3, dtype=strain.dtype)
-    Ce = lame * jnp.ones((3, 3), dtype=strain.dtype) + 2 * G * eye
+    Ce = lame[:, None, None] * jnp.ones((count, 3, 3), dtype=strain.dtype) + 2 * G[:, None, None] * eye
 
     # The current history stress is already expressed in the old co-rotated chart.
-    trial = old.stress + 2 * G * strain + lame * jnp.trace(strain, axis1=-2, axis2=-1)[:, None, None] * eye
+    trial = (old.stress + 2 * G[:, None, None] * strain
+             + lame[:, None, None] * jnp.trace(strain, axis1=-2, axis2=-1)[:, None, None] * eye)
     values, vectors = jnp.linalg.eigh(trial)
     s0 = values[:, ::-1]
     axes = vectors[:, :, ::-1]
-    A, B = _surface_matrices(phi, psi)
+    A, B = jax.vmap(_surface_matrices)(phi, psi)
     hard = 2 * cohesion * jnp.cos(phi)
-    trial_yield = s0 @ A.T - hard
+    trial_yield = jnp.einsum("pi,pki->pk", s0, A) - hard[:, None]
     peak = jnp.maximum(jnp.max(trial_yield, axis=-1), 0)
     scale = jnp.maximum(jnp.max(jnp.abs(s0), axis=-1), hard)
     tol = 1e-10 * jnp.maximum(scale, jnp.asarray(1e-300, dtype=strain.dtype))
     yielding = jnp.max(trial_yield, axis=-1) > tol
 
-    def return_one(args):
-        principal, local_tol = args
-        return _active_return(principal, A, B, Ce, hard, local_tol)
-
-    returned, flow, has_return, active_count = jax.vmap(return_one)((s0, tol))
+    returned, flow, has_return, active_count = jax.vmap(_active_return)(s0, A, B, Ce, hard, tol)
     mean = jnp.mean(s0, axis=-1)
     cap = jnp.where(phi > 0, cohesion / jnp.tan(phi), jnp.inf)
     hydro = (phi > 0) & (mean > cap)
     hydro_stress = jnp.broadcast_to(mean[:, None], s0.shape)
-    hydro_flow = (s0 - mean[:, None]) / (2 * G)
+    hydro_flow = (s0 - mean[:, None]) / (2 * G[:, None])
     principal = jnp.where(yielding[:, None], returned, s0)
     plastic_principal = jnp.where(yielding[:, None], flow, 0)
     principal = jnp.where(hydro[:, None], hydro_stress, principal)
@@ -144,4 +157,4 @@ def update_mat173(old, strain, J, dt, p):
         pressure=pressure,
         valid=old.valid & (~yielding | has_return | hydro),
     )
-    return finish_update(old, new, strain, p.density / J)
+    return finish_update(old, new, strain, density / J)

@@ -1,0 +1,368 @@
+{
+  "schema": "mat173-toe-public-provenance-v1",
+  "case": "mat173-separated-mechanism-toe-v1",
+  "source_checkpoint_sha256": "f501947285dc5b255588ce3190cb7610682cb3b36fa4ec8956c8c7af45e54c59",
+  "checkpoint_and_terminal_frame_coherent": true,
+  "all_source_arrays_finite": true,
+  "terminal_bodies": {
+    "soil": {
+      "valid": true,
+      "history_valid": true,
+      "failed_count": 0,
+      "min_J": 0.9984100148933176
+    },
+    "base": {
+      "valid": true,
+      "history_valid": true,
+      "failed_count": 0,
+      "min_J": 0.9995724180303315
+    }
+  },
+  "source_frames": [
+    {
+      "file": "frame_02100.npz",
+      "step": 2100,
+      "time_s": 0.06300000000000183,
+      "sha256": "0ec913a24d5c7b908cdc12e463780899cc29c225a50daba3cf955847639c57fc"
+    },
+    {
+      "file": "frame_02200.npz",
+      "step": 2200,
+      "time_s": 0.06600000000000206,
+      "sha256": "01af6b5b92fb9b5c18cc7ca17cf7f6ca69e98f84111042903a41a697cdd45442"
+    },
+    {
+      "file": "frame_02300.npz",
+      "step": 2300,
+      "time_s": 0.06900000000000228,
+      "sha256": "1848a1d903478b2a6341368ecfc17593b2c451320cc185ac43c92032c95170cd"
+    },
+    {
+      "file": "frame_02400.npz",
+      "step": 2400,
+      "time_s": 0.0720000000000025,
+      "sha256": "240ff291aaf7d0272c50bd7c383bd6e44d80991b0e9f1ae96be8c743a168b3be"
+    },
+    {
+      "file": "frame_02500.npz",
+      "step": 2500,
+      "time_s": 0.07500000000000273,
+      "sha256": "b300f546f87c78db738c2a997cdf72ea913de0afd8026fb9042f1250e5c09287"
+    },
+    {
+      "file": "frame_02600.npz",
+      "step": 2600,
+      "time_s": 0.07800000000000296,
+      "sha256": "ee9001334968f37f43ab28cb7c59f58e8dd3f234a64f4986324a60fd23156f54"
+    },
+    {
+      "file": "frame_02700.npz",
+      "step": 2700,
+      "time_s": 0.08100000000000318,
+      "sha256": "3520b6aa5383982eda89922350095b1c781fa115c1bbe1c6116dca71dedc9cbb"
+    },
+    {
+      "file": "frame_02800.npz",
+      "step": 2800,
+      "time_s": 0.0840000000000034,
+      "sha256": "921271e552dcfbce7b28100f36e4e0e501ee59ce79da56292883e3f0014722fb"
+    },
+    {
+      "file": "frame_02900.npz",
+      "step": 2900,
+      "time_s": 0.08700000000000363,
+      "sha256": "d39ad47165c6c41b60b513baac4be529686f9a70a27e854105d97a18ce01ac71"
+    },
+    {
+      "file": "frame_03000.npz",
+      "step": 3000,
+      "time_s": 0.09000000000000385,
+      "sha256": "86af75ca5622ff195c971dea18f38558088e780e8a8dc109180f9c057f96c23e"
+    },
+    {
+      "file": "frame_03100.npz",
+      "step": 3100,
+      "time_s": 0.09300000000000408,
+      "sha256": "4ba87c4f37ecdd04712af22548e98b5eb6eecd5ff6b45570e6929df9f8950f72"
+    },
+    {
+      "file": "frame_03200.npz",
+      "step": 3200,
+      "time_s": 0.0960000000000043,
+      "sha256": "edc3920c05f0f37300ce7dc2c08b97618954260cce91d058e2b5de13d12cea05"
+    },
+    {
+      "file": "frame_03300.npz",
+      "step": 3300,
+      "time_s": 0.09900000000000453,
+      "sha256": "afb18e0db16f1b1cc9596cfa96770b4dcb94b60c3effb9e2ecb7a312f1f4b7bd"
+    },
+    {
+      "file": "frame_03400.npz",
+      "step": 3400,
+      "time_s": 0.10200000000000475,
+      "sha256": "da9aa5f0f7403e0a5ecbfe8e7105ad8792a36f6990571a4c12fbf594bc9818f5"
+    },
+    {
+      "file": "frame_03500.npz",
+      "step": 3500,
+      "time_s": 0.10500000000000498,
+      "sha256": "e57e51973aa4eaa008571c3f176b9f782f8bbbdff64ecfb856a13c9d44f97c3b"
+    },
+    {
+      "file": "frame_03600.npz",
+      "step": 3600,
+      "time_s": 0.1080000000000052,
+      "sha256": "56413b6059f98df710b592bf5b18708f6ed8e3a4048e8756d2d23e297694f285"
+    },
+    {
+      "file": "frame_03700.npz",
+      "step": 3700,
+      "time_s": 0.11100000000000543,
+      "sha256": "2b8b93c078d9a24a4e5f8520769183424181a0c43b29b4d1e084da45366f98c7"
+    },
+    {
+      "file": "frame_03800.npz",
+      "step": 3800,
+      "time_s": 0.11400000000000565,
+      "sha256": "0db181f4bae7c7c588d4d57085229ff2a6bf04801598ee3bc7ece341ef9db0cc"
+    },
+    {
+      "file": "frame_03900.npz",
+      "step": 3900,
+      "time_s": 0.11700000000000588,
+      "sha256": "d3f6c2f682f17cc6029c8c82187c3d681e7614ca6b5bd809f3e807136869888f"
+    },
+    {
+      "file": "frame_04000.npz",
+      "step": 4000,
+      "time_s": 0.1200000000000061,
+      "sha256": "fbf62036382f57c4c1c76eae6ccc6590246680d6a6a72fcf941ad59037219cbe"
+    },
+    {
+      "file": "frame_04100.npz",
+      "step": 4100,
+      "time_s": 0.12300000000000633,
+      "sha256": "fa2f5516f4683d36ae6217eabea7c4af6785cf89a3e4d229b3cc4887bd615835"
+    },
+    {
+      "file": "frame_04200.npz",
+      "step": 4200,
+      "time_s": 0.12600000000000655,
+      "sha256": "cc3900c474b59180a6a927ed6bf41fef666d3cda04672088ed48741eaba1b33d"
+    },
+    {
+      "file": "frame_04300.npz",
+      "step": 4300,
+      "time_s": 0.12900000000000678,
+      "sha256": "869c2bd42fe066bf91a973ae38ccea31559ce7529b5f5f0d4ae1e8eee0e30e29"
+    },
+    {
+      "file": "frame_04400.npz",
+      "step": 4400,
+      "time_s": 0.132000000000007,
+      "sha256": "379ee586e818c92c9923a690e2a47acf5771adb6db27054e29d6351c79d264a3"
+    },
+    {
+      "file": "frame_04500.npz",
+      "step": 4500,
+      "time_s": 0.13500000000000723,
+      "sha256": "f3dab518dee5f0168288d7e62d429b97966580836fcb887383f4f0dfd58bd19b"
+    },
+    {
+      "file": "frame_04600.npz",
+      "step": 4600,
+      "time_s": 0.13800000000000745,
+      "sha256": "437ba3dc7117c5266197a5eced843f8d871ae4927594463865c4c5860186906b"
+    },
+    {
+      "file": "frame_04700.npz",
+      "step": 4700,
+      "time_s": 0.14100000000000767,
+      "sha256": "0b4ae2d53af465e60d52764f5c8a7242c508213c0f0649fbd7e3df9946068a18"
+    },
+    {
+      "file": "frame_04800.npz",
+      "step": 4800,
+      "time_s": 0.1440000000000079,
+      "sha256": "577fc04f2828e95e6fe3d86034a19b8c595b69973926e58fba0d3bfd84cab9b2"
+    },
+    {
+      "file": "frame_04900.npz",
+      "step": 4900,
+      "time_s": 0.14700000000000812,
+      "sha256": "051dfcbfb64cd4b6c40c58ac029d409b940121f1c2f7d59dc85d1c4832903a7c"
+    },
+    {
+      "file": "frame_05000.npz",
+      "step": 5000,
+      "time_s": 0.15000000000000835,
+      "sha256": "f5d1c6192a94f9b17730d50212f3a5bcc5f176fc0460118c308c241d2085fa1c"
+    },
+    {
+      "file": "frame_05100.npz",
+      "step": 5100,
+      "time_s": 0.15300000000000857,
+      "sha256": "e4c90d8dd5e3f8dbd01e6b4669289b697cb0447272dee0cb585a82bc365c6ad6"
+    }
+  ],
+  "assets": {
+    "mat173-toe--plastic-activity.gif": {
+      "field": "soil_plastic_strain_increment",
+      "sha256": "c8b1dac1efd4dd64cabc5beb6486be01962b995035b7589f1046e75c030e6b62",
+      "width": 400,
+      "height": 400,
+      "frames": 31,
+      "distinct_frames": 31
+    },
+    "mat173-toe--shear-softening.gif": {
+      "field": "soil_damage",
+      "sha256": "45560d5ed310277b60c615876ae349e6ffb5d6e55da8d226519ffd698fc2e6b9",
+      "width": 400,
+      "height": 400,
+      "frames": 31,
+      "distinct_frames": 31
+    },
+    "mat173-toe--displacement.gif": {
+      "field": "soil_displacement_m",
+      "sha256": "7510a1c620eb5d3f45db4dd6450db918ccfcd69452fc6afdaf905a977888000a",
+      "width": 400,
+      "height": 400,
+      "frames": 31,
+      "distinct_frames": 31
+    }
+  },
+  "render": {
+    "projection": "parallel",
+    "canvas": [
+      400,
+      400
+    ],
+    "displacement_scaling": 1.0,
+    "geometry_smoothing": false,
+    "geometry": "Each particle owns an independent reference-volume square transformed by its actual Fxy. No neighbor-ID meshing, gap filling, shrinking, or exaggerated deformation. True failed flags are filtered; no soil or foundation particles have that flag in these frames.",
+    "positive_domain_area_checks_pass": true,
+    "fixed_color_ranges": {
+      "soil_plastic_strain_increment": [
+        0,
+        0.0060235601776985614
+      ],
+      "soil_damage": [
+        0,
+        1
+      ],
+      "soil_displacement_m": [
+        0,
+        0.013226548820548363
+      ]
+    },
+    "scalar_window_steps": 100,
+    "scalar_window_s": 0.003,
+    "initial_increment_is_zero": true,
+    "displacement_reference": "post-excavation initial coordinates",
+    "first_step": 2100,
+    "last_step": 5100,
+    "postcut_time_s": [
+      0,
+      0.09
+    ]
+  },
+  "terminal_plastic_activity": {
+    "total_plastic_increment_max": 0.006292765908735204,
+    "active_points": 2064,
+    "active_with_frozen_shear_driver": 1259,
+    "active_at_D1_with_frozen_shear_driver": 204,
+    "D1_points": 240,
+    "partition_ambiguous_points": 135,
+    "partition_ambiguous_steps_sum": 43245
+  },
+  "archive_scope": "Compact numerical summary and visualization provenance. Particle histories, checkpoints, and intermediate images are not included.",
+  "source_files": {
+    "scope": "Original computation and rendering capsule filenames; hash-verified against locally retained source files. Portable repository entry points adapt paths and retain the numerical/rendering conventions.",
+    "files": [
+      {
+        "file": "run_toe.py",
+        "sha256": "29294112eecca3afdc601dad433ca3bbf54cdaea68fbcc466509a63eeda47e0b"
+      },
+      {
+        "file": "plan.json",
+        "sha256": "2fdf786203b6a5452c6709119814da203f4e48137a5960ac703904faf52275fe"
+      },
+      {
+        "file": "balance_helpers.py",
+        "sha256": "db5ad586452846f4da422fffc32328e0ebe025a78f28afc40c3e866723f72055"
+      },
+      {
+        "file": "guard_helpers.py",
+        "sha256": "29ed6df3a03839a225a81f4c1c3e316763a0887478b5d90576023696914bbf2e"
+      },
+      {
+        "file": "mpm_jax/core.py",
+        "sha256": "4af75981dbcddbf4f0903fbdd30bc4f968d936c752ec5f6d7be2b214913d2c2c"
+      },
+      {
+        "file": "mpm_jax/contact.py",
+        "sha256": "28830500cd3accd2aa7b2e167184ece99b916fd4cc48b188f525a8cf1a41fd4c"
+      },
+      {
+        "file": "mpm_jax/materials/history.py",
+        "sha256": "bfc6ac334144484415adfcf12d72d8df482d2a2897cb3103a61d61acaaf96fee"
+      },
+      {
+        "file": "mpm_jax/materials/mat173.py",
+        "sha256": "95cb88bb12f5c58c55b2008a82a2450c62992eb7e3830704ee84a044c5eb8e45"
+      },
+      {
+        "file": "mpm_jax/materials/mat173_softening.py",
+        "sha256": "1bbbf44f2f39541903a48085e93b130fca3544282d0cdb8e0f72b97f8c06dd4e"
+      },
+      {
+        "file": "mpm_jax/materials/mat173_tensile_cutoff.py",
+        "sha256": "ec06d26ef766b8d369ee2c3877572c1f386578c47e20b0f0a4460780c8235b4c"
+      },
+      {
+        "file": "prepare.py",
+        "sha256": "a0bd8b2537db9441718795ef2859f675e122f523f337e2648afff67ec323eeb9"
+      },
+      {
+        "file": "render_strict2d.py",
+        "sha256": "bed13a19a72678b929d274c9db0eddbdd6b4ca8583fd780ea50bb52a8ea89b59"
+      }
+    ]
+  },
+  "reproduction": {
+    "simulation": "python -m examples.mat173_toe_excavation --output outputs/mat173-toe",
+    "render": "pvpython tools/render_mat173_toe.py --input outputs/mat173-toe --output outputs/mat173-toe-render",
+    "renderer": "tools/render_mat173_toe.py",
+    "dependencies": "ParaView pvpython with NumPy and Pillow",
+    "source_hashes_and_domain_geometry_checked": true,
+    "renderer_validation": {
+      "engine": "ParaView 6.2.0 pvpython on Windows",
+      "steps": [
+        2100,
+        5100
+      ],
+      "rendered_fields": 3,
+      "gif_dimensions": [
+        400,
+        400
+      ],
+      "frames_per_gif": 2,
+      "final_png_comparison_to_published": {
+        "soil_damage": {
+          "max_abs_channel_difference": 15,
+          "mean_abs_channel_difference": 0.0545125
+        },
+        "soil_plastic_strain_increment": {
+          "max_abs_channel_difference": 11,
+          "mean_abs_channel_difference": 0.049985416666666664
+        },
+        "soil_displacement_m": {
+          "max_abs_channel_difference": 16,
+          "mean_abs_channel_difference": 0.036
+        }
+      },
+      "scope": "Two endpoint frames rendered without a simulation run. Rendering differences across platforms prevent byte-identical image claims; published 31-frame GIFs were retained."
+    }
+  }
+}

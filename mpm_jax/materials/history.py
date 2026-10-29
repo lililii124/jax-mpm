@@ -27,6 +27,10 @@ class History(NamedTuple):
     density: jax.Array
     failed: jax.Array
     valid: jax.Array
+    return_tolerance: jax.Array
+    return_faces: jax.Array
+    tensile_plastic_strain: jax.Array
+    partition_ambiguous_steps: jax.Array
 
 
 def initial_history(n, dtype, material=None, density=1000.0, temperature=None):
@@ -58,6 +62,10 @@ def initial_history(n, dtype, material=None, density=1000.0, temperature=None):
         zero + density,
         jnp.zeros(n, dtype=bool),
         jnp.ones(n, dtype=bool),
+        zero,
+        jnp.zeros((n, 9), dtype=bool),
+        zero,
+        jnp.zeros(n,dtype=jnp.int32),
     )
 
 
@@ -110,3 +118,20 @@ def rotate_history(history, rotation):
         plastic_tensor=rotation @ history.plastic_tensor @ transpose,
         backstress=rotation @ history.backstress @ transpose,
     )
+
+
+def history_from_arrays(arrays, prefix="history_"):
+    """Restore history, filling diagnostics absent from older checkpoints."""
+    stress = jnp.asarray(arrays[prefix + "stress"])
+    defaults = initial_history(stress.shape[0], stress.dtype)
+    diagnostics = {"return_tolerance", "return_faces", "tensile_plastic_strain",
+                   "partition_ambiguous_steps"}
+    values = {}
+    for name in History._fields:
+        if prefix + name in arrays:
+            values[name] = jnp.asarray(arrays[prefix + name])
+        elif name in diagnostics:
+            values[name] = getattr(defaults, name)
+        else:
+            raise KeyError(prefix + name)
+    return History(**values)

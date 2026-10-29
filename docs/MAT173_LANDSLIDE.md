@@ -1,95 +1,113 @@
-# MAT173-inspired strength-reduced slope response
+# MAT173-inspired toe excavation
 
-![Strength-reduced slope response](images/home/mat173-strength-reduced-slope-response.gif)
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="images/home/mat173-toe--plastic-activity.gif" alt="Plastic activity" width="100%"><br>Plastic activity</td>
+<td width="33%" align="center"><img src="images/home/mat173-toe--shear-softening.gif" alt="Shear softening" width="100%"><br>Shear softening</td>
+<td width="33%" align="center"><img src="images/home/mat173-toe--displacement.gif" alt="Displacement" width="100%"><br>Displacement</td>
+</tr>
+</table>
 
-This 3D calculation shows the computed response of a finite-width slope after
-an explicitly recorded reduction in the selected Mohr–Coulomb strength
-parameters. The figure colors the connected exterior by accumulated equivalent
-plastic strain. It is an illustrative numerical experiment; it is not a
-complete landslide, a real-site prediction, or MAT173 validation.
+A homogeneous slope settles under self-weight, then loses its toe through actual
+particle removal. The animations show the next 0.09 s with actual deformation.
+This completed exploratory calculation shows localization and motion over a short
+interval; it does not establish a through-going slip surface or developed runout.
 
-## Model and loading
+## Setup and trigger
 
-The soil body has 37,440 material points at 0.05 m spacing and a 33° face over
-a 2 m run. A separate 2,232-point elastic foundation is anchored at grid nodes
-below y=0.30 m. The two bodies exchange nonadhesive normal and Coulomb contact
-impulses with interface coefficient 0.10. Lateral walls are frictionless.
-Gravity ramps over 0.02 s. Both bodies start from zero stress; this is not a
-geostatic initialization.
+A strictly 2D grid assumes unit thickness. Soil tensors are embedded in 3D for
+plane strain (Fzz = 1, no off-plane shear). The 4 m domain has 160 cells per
+side, grid spacing 0.025 m, soil spacing 0.0125 m, time step 0.00003 s, and no F-bar.
+Soil occupies x = 0.2–3.0 m above y = 0.5 m, with a crest at y = 1.8 m up to
+x = 1.0 m and a descending face of slope 1.3/2 (about 33 degrees).
+The elastic foundation spans x = 0.2–3.3 m, y = 0.2–0.5 m, with 0.025 m
+particle spacing, E = 50 MPa, nu = 0.28, and density 2500 kg/m³.
+Foundation nodes at y <= 0.3 m are fixed; both bodies have a frictionless left
+wall at x = 0.2 m. Nonadhesive soil–foundation contact has Coulomb coefficient 0.7.
 
-The initial self-weight state was numerically settled for 1,500 steps using a
-0.995 per-step multiplier on particle velocity and affine C. The damping was
-removed before the strength change. Three consecutive 100-step windows met the
-recorded speed, center-of-mass drift, and reaction/support checks; the last
-window had soil p95 speed 0.00327 m/s and inferred vertical boundary reaction
-to soil weight 1.002. This is a settled transient state under the selected
-numerical procedure, not an independently measured in-situ stress field.
+Both bodies start stress-free. Gravity ramps to 9.81 m/s² over 0.02 s;
+settling multiplies particle velocity and affine C by 0.995 per step.
+Three consecutive 100-step windows must pass the recorded speed, drift, net-force,
+kinetic-energy, and support thresholds, followed by 100 undamped verification
+steps. The run passed at step 2100 (0.063 s): soil p95 speed 0.002955 m/s and
+contact support/soil weight 1.00572. This is numerical balance, not an in-situ measurement.
 
-At step 1,500 the material parameters changed uniformly from friction angle
-38° and cohesion 10 kPa to 28° and 1 kPa. No velocity or displacement was
-prescribed as the trigger. Before the first post-trigger update, 88.1% of soil
-points lay outside the new yield surface; the first constitutive/contact step
-remained valid. The calculation continued to step 3,101 (0.232575 s), where it
-stopped at a 5% accumulated-plastic-strain limit. The maximum absolute
-logarithmic strain was 4.44%.
+Every soil particle with reference x >= 2.2 m is then removed over the full
+locally occupied height, leaving a vertical face about 0.52 m high. Removed
+mass is 374.34375 kg/m and reference area 0.20796875 m². Particle mass, volume,
+and histories are removed together; retained histories are preserved without reset.
+The trigger imposes no velocity, weak stripe, or global strength change.
+The calculation continues for 3000 undamped steps.
 
-## What the result shows
+## Material and plastic mechanisms
 
-The final soil center of mass moved 1.49 mm horizontally and 6.86 mm downward
-relative to the foundation. Its 4.99 mm downslope projection contains 1.25 mm
-from horizontal motion and 3.74 mm from vertical settlement. The 2,200-point
-basal band averaged 2.03 mm relative horizontal motion and 1.72 mm relative
-motion projected down the face. These values show a small basal slip response,
-but not a developed slide or runout. Plastic increments above 1% occur over
-63.2% of soil points; the lower two layers also show broad plasticity rather
-than a narrow shear band.
+| Soil parameter | Value |
+| --- | --- |
+| Shear modulus / Poisson ratio / density | 5.86 MPa / 0.28 / 1800 kg/m³ |
+| Peak / residual friction | 38 / 20 degrees |
+| Peak / residual cohesion | 1000 / 0 Pa |
+| Peak / residual dilation | 2 / 0 degrees |
+| Rankine tensile strength T0 | 0 Pa |
+| Characteristic length L / fracture slip Dc | 0.0125 / 0.0005 m |
 
-The 51-frame animation spans steps 1,501–3,101 and 0.112575–0.232575 s. Surface
-cells are formed only from eight adjacent original material points on the
-reference lattice; exterior faces are extracted from those connected
-hexahedra. Partial cells are omitted, leaving the displayed boundary inset by
-up to one particle spacing. Surface coordinates and plastic strain values are
-copied from their original particles; scalar interpolation is performed by
-ParaView over the connected surface without smoothing or altering the field.
-Frames are rendered at 1,600 × 1,600 with FXAA and reduced to 400 × 400 using
-Lanczos filtering. The fixed color range is 0–0.05 accumulated plastic strain.
-The image contains no labels, coordinates, or displacement scaling.
+The selected Mohr–Coulomb active-set return includes a simultaneous Rankine
+cutoff. Softening is active during settling and excavation. The shear driver κs
+sums positive MC surface multipliers weighted by sqrt(2/3) times the deviatoric
+flow-direction norm; this specifies a selected multi-face corner definition.
+D = clip(κs L / Dc, 0, 1) interpolates peak to residual shear strengths.
+Rankine tensile plasticity accumulates independently from total plastic trace
+minus the MC contribution; it is diagnostic and neither drives D nor reduces T0.
+Ambiguous zero-stress partitions are explicitly recorded in the result JSON.
 
-## Constitutive scope and source status
+At residual strength κs freezes, while total equivalent plastic strain can keep
+accumulating through residual shear or tensile flow. D = 1 is saturated shear
+softening, not particle deletion. The primary image therefore uses total plastic
+increment rather than κs increment. These selected extensions and the corotated
+logarithmic-strain MPM host are not a validated native MAT173 implementation.
 
-`mpm_jax/materials/mat173.py` implements the selected constant-property,
-no-joint branch described in the delivered MAT173 Fortran source: six linear
-principal-stress Mohr–Coulomb inequalities, nonassociated flow, and one- to
-three-surface active-set returns, plus the selected NOVOID=1 hydrostatic-tension
-special case. The MPM host supplies a corotated logarithmic strain increment,
-but this adapter performs a small-strain elastic return for each increment.
-Finite-deformation host spin and native history semantics are not established.
+## Images and limits
 
-The delivered source is `MAT173.f`, SHA-256
-`6cfae0ae794a5f52163ed6be0e79b1a49b046943dc70d5e471390699c411689a`. Its
-delivery manifest says `complex_final_check_status=NOT_VALIDATED` and
-`delivery_complete=false`; native material activation and history mapping
-remain pending. A single direct Fortran/JAX point comparison is recorded in
-[`fortran-point-comparison.json`](results/material-engineering--mat173-strength-reduced-slope-response/fortran-point-comparison.json).
-It covers one fixed-axis normal-strain symmetric two-generator edge return;
-stress, plastic tensor, and accumulated plastic strain agree to near floating
-point roundoff for that input. It does not establish general equivalence,
-native solver acceptance, or the pending complex Final Check. Face-only,
-apex, hydrostatic-tension, shear/rotation, joints, curves, native history
-slots, and finite-deformation branches are not covered by this comparison.
+The 31 frames span steps 2100–5100 (absolute time 0.063–0.153 s), every
+100 steps (0.003 s). All images use the same fixed parallel camera and a
+blue-to-red scale. Plastic activity is total equivalent plastic strain increment
+over the preceding window (initial frame zero), range 0–0.00602356018;
+shear softening is D, range 0–1; displacement magnitude is relative to the
+post-excavation initial coordinates, range 0–0.01322654882 m. The terminal plastic
+increment maximum 0.00629276591 slightly exceeds the fixed color ceiling.
+Each particle owns an independent reference-volume square transformed by actual
+Fxy, with scale 1 and no smoothing, gap filling, or neighbor-ID mesh. Positive
+areas and area = reference volume × det(Fxy) are checked; no failed flags occur.
 
-The experiment has no pore pressure, water table, joints, erosion, progressive
-weakening, or site calibration. The infinite-slope factor-of-safety estimate
-in the run metadata is only a screening calculation and omits the finite
-bench, foundation contact, and transient loading. Do not use this result as a
-field prediction or describe it as a complete landslide simulation.
+All saved windows passed finite-state, positive-J, and constitutive-validity guards.
+Limits are maximum absolute total Hencky strain 0.05 during balance / 0.2 after
+excavation, incremental strain 0.000625, and soil elastic principal strain from
+compliance 0.0035. Terminal maxima are 0.0725101, 0.0000553258, and 0.00163620,
+with minimum J = 0.998382. Duration completion is not equilibrium: terminal
+soil p95 speed is still 0.16183 m/s and the balance criteria no longer pass.
+There is no pore pressure, groundwater, joints, erosion, site calibration,
+spatial-convergence study, mesh-objective band width, or certified energy closure.
+The example supports qualitative inspection, not engineering safety assessment.
 
-## Reproduce the numerical example
+## Reproduce
+
+From an installed checkout (the numerical run can be expensive):
 
 ```bash
-python -m examples.mat173_landslide_triggered --output outputs/mat173-strength-reduced
-python -m examples.mat173_landslide_continue --parent outputs/mat173-strength-reduced --output outputs/mat173-strength-reduced-continuation
+python -m examples.mat173_toe_excavation --dry-run
+python -m examples.mat173_toe_excavation --output outputs/mat173-toe
+pvpython tools/render_mat173_toe.py --input outputs/mat173-toe --output outputs/mat173-toe-render
 ```
 
-The checked-in GIF is a compact visualization artifact. The full particle
-history, checkpoints, and intermediate frames are not included.
+The renderer requires ParaView's pvpython with NumPy and Pillow. It reads example
+frames/checkpoints directly, writes three GIFs, and records a render receipt.
+It uses the original camera, LUT, fixed ranges, 800-to-400 Lanczos reduction,
+and 100 ms GIF timing. Library/platform differences can affect exact hashes.
+The [model](results/mat173-separated-mechanism-toe-v1/model.json),
+[summary](results/mat173-separated-mechanism-toe-v1/summary.json),
+[ledger](results/mat173-separated-mechanism-toe-v1/excavation-ledger.json), and
+[provenance](results/mat173-separated-mechanism-toe-v1/provenance.json) retain
+parameters, thresholds, diagnostics, and verified source/frame/GIF hashes.
+Full histories, checkpoints, and intermediate images are not checked in.
+The earlier [3D strength-reduced results](results/material-engineering--mat173-strength-reduced-slope-response/summary.json)
+and [animation](images/home/mat173-strength-reduced-slope-response.gif) remain
+historical references with a different setup and trigger.

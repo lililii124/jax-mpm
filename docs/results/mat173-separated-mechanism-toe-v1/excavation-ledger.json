@@ -1,0 +1,22 @@
+{
+  "cut": {
+    "predicate": "Reference x >= 2.2 m, over all locally occupied heights.",
+    "removed_objects": "Soil particles, mass, volume, and their history records.",
+    "meaning": "Full-height toe removal; the new vertical face is approximately 0.52 m high."
+  },
+  "count": 1331,
+  "mass_kg_per_m": 374.34375000000006,
+  "reference_volume_m2": 0.2079687500000001,
+  "kinetic_J_per_m": 1.9267944189112905e-05,
+  "gravitational_potential_J_per_m": 2472.169336992057,
+  "history_specific_energy_mass_integrals": {
+    "work": 0.18192356387078984,
+    "energy": 0.0
+  },
+  "removed_momentum_Ns_per_m": [
+    -0.1044376062384728,
+    0.012374110354421238
+  ],
+  "history_preservation": "Every retained state and history array is exactly sliced; time and validity are unchanged, with no history reset.",
+  "energy_scope": "Removed terms are separate diagnostics. The history energy slot may not represent recoverable elastic energy; no total-energy closure is claimed."
+}
