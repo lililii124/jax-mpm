@@ -1,13 +1,15 @@
 # Sandwich-panel design under transient pressure
 
-Status: planned; the coupled optimization has not been implemented or run.
+Status: transient differentiable reduced model implemented; fixed-mass design
+exploration and independent full-MPM verification are in progress. No optimized
+blast-resistant design has been qualified.
 
 ## Problem
 
-Minimize core mass subject to limits on back-face displacement and face-sheet
-stress under three prescribed pressure histories. A preliminary fixed-mass
-optimization establishes whether redistribution improves the transient response
-before reducing the mass budget. Compare every design with a uniform core at
+Keep the total panel mass fixed at 1.8468 kg and redistribute core material to
+minimize the worst peak back-face displacement under three prescribed pressure
+histories, subject to face-sheet stress and displacement limits. Minimum-mass
+optimization is not the current objective. Compare every design with a uniform core at
 the same mass, external impulse, boundary conditions and observation time.
 
 Initial assumed geometry is a 300 × 300 mm panel with two 2 mm aluminium face
@@ -71,8 +73,8 @@ deflection and crushing absorption are not outputs of the elastic benchmark.
    to the target field. Use one time step bounded by the stiffest admissible
    material across all design iterations; verify it with a smaller-step replay.
    Sequential JVPs are an alternative for the initial small control set.
-4. Optimize the fixed-mass core distribution, then reduce the mass budget under
-   the response limits. Check refined forward solutions independently and
+4. Optimize the fixed-mass core distribution under the response limits.
+   Check refined forward solutions independently and
    add the nonlinear constitutive qualification above.
 5. Export uniform/optimized density and deformation comparisons through
    ParaView, with identical camera, time, scale and image dimensions. Publish
@@ -86,6 +88,6 @@ also appears in [dynamic multiscale sandwich optimization](https://www.sciencedi
 
 ## Completion criteria
 
-Report the mass/response trade-off, per-load initial and optimized responses,
+Report the fixed mass, per-load initial and optimized responses,
 gradient check, mesh/time-step sensitivity, actual peak memory and wall time.
 A changed density image alone does not establish an improved design.
