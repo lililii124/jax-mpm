@@ -1,8 +1,7 @@
 """Actual one-turn end-driven three-fibre formation, initially straight.
 
 Independent material grids, shared-node frictionless unilateral normal contact.
-Illustrative elastic parameters, no adhesive or Hertz contact claim. A later
-resin filling stage is deliberately absent until the formed checkpoint exists.
+Illustrative elastic parameters, no adhesive or Hertz contact claim.
 """
 import argparse
 import hashlib
@@ -47,7 +46,7 @@ def plan():
         protocol=dict(turns=1,rotation_ramp_s=.001,axial_extension_m=.000105,extension_ramp_s=.002,collar_length_m=.0015),
         contact=dict(model='three-field mass-gradient nodal unilateral normal projection',friction=0.,adhesion=0.,tolerance_m_per_s=1e-8,max_sweeps=64,spatial_accuracy='grid-scale, h=0.2mm; no resolved Hertz pressure claim'),
         bounds=[[-.001,.025],[-.0035,.0035],[-.0035,.0035]],source=hashes,
-        production_eligible=False,resin_stage='not implemented; future actual viscous filling around fixed formed fibres, no curing/full FSI',
+        production_eligible=False,
         resource=dict(state_bytes_estimate=len(g['x'])*400,stencil_bytes_estimate=len(g['x'])*27*36,uss_limit_bytes=5*1024**3),
         colors_rgb=[[.045,.36,.67],[.94,.36,.08],[.32,.66,.48]])
 

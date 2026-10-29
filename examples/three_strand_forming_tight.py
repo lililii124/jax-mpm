@@ -1,7 +1,7 @@
 """Independent actual dry tight forming: close initial gaps and feed arc length.
 
 No prescribed interior helix. This candidate is distinct from the published
-partial baseline forming process and from the independent resin stage.
+baseline forming process.
 """
 import argparse,json,math,time,hashlib
 from pathlib import Path

@@ -2,14 +2,13 @@
 
 Updated 2026-10-29. Only a running process or a newer accepted state counts as
 computational progress; an existing output directory does not.
-The remote readback on this date found no active weaving, resin or AT2 solver.
+The remote readback on this date found no active weaving or AT2 solver.
 
 | Work | Last established state | Next deliverable |
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
 | Triaxial weaving process | Last accepted state 3.606330 ms; incomplete; no GIF | Resolve the continuation guard, then export the actual process |
-| Resin filling | Corrected v7 branch accepted 8000 steps / 320 ms; historical 320–330.24 ms GIF is a different branch; full filling not established | Qualify a continuous filling trajectory and render it |
 | AT2 fracture | Current-energy tension 2400 steps / 36 ms; free-anchor bending accepted 3125 steps / 93.75 ms before a later failure; no accepted fracture result | Sharp precrack tension with irreversible energy minimization and localization/energy checks |
 | Blast-loaded sandwich design | Added; implementation pending | Uniform-panel transient baseline, then constrained core-density optimization |
 
@@ -21,8 +20,6 @@ stalled or stopped; the monitor does not silently restart a solver.
 
 - [Three-strand forming](images/home/fibres--three-strand-forming.gif)
 - [Tight dry forming](images/home/fibres--dry-three-strand-forming.gif)
-
-The resin fragment is a local review file; it is not a completed filling result.
 
 ## AT2 next steps
 
