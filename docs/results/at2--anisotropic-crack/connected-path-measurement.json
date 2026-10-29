@@ -1,0 +1,991 @@
+{
+  "schema": "at2-material-connected-path-measurement-v1",
+  "threshold_definition": "Graph-connected display nodal damage>0.5, starting within2hx of existing crack tip. Display coefficients are exact basis evaluations; no field smoothing or path constraint. Angle fits damage^4 column centers beyond tip+ell and before rightboundary-ell. This is a measurement, not a propagation law.",
+  "frames": [
+    {
+      "step": 0,
+      "load_m": 0.0,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 1,
+      "load_m": 3.1249999999999997e-06,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 2,
+      "load_m": 6.2499999999999995e-06,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 3,
+      "load_m": 9.375e-06,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 4,
+      "load_m": 1.2499999999999999e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 5,
+      "load_m": 1.5625e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 6,
+      "load_m": 1.875e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 7,
+      "load_m": 2.1874999999999996e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 8,
+      "load_m": 2.4999999999999998e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 9,
+      "load_m": 2.8125e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 10,
+      "load_m": 3.125e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 11,
+      "load_m": 3.4374999999999995e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 12,
+      "load_m": 3.75e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 13,
+      "load_m": 4.0625e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 14,
+      "load_m": 4.374999999999999e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 15,
+      "load_m": 4.6874999999999994e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 16,
+      "load_m": 4.9999999999999996e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 17,
+      "load_m": 5.3125e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 18,
+      "load_m": 5.625e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 19,
+      "load_m": 5.937499999999999e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 0,
+      "connected_maximum_x_m": 0.375,
+      "connected_advance_x_m": 0.0,
+      "connected_y_range_m": null,
+      "damage_weighted_column_centers_m": [],
+      "fitted_damage_band_angle_degrees": null,
+      "maximum_off_axis_center_m": 0.0
+    },
+    {
+      "step": 20,
+      "load_m": 6.25e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 171,
+      "connected_maximum_x_m": 1.0,
+      "connected_advance_x_m": 0.625,
+      "connected_y_range_m": [
+        0.44897959183673464,
+        0.6326530612244897
+      ],
+      "damage_weighted_column_centers_m": [
+        [
+          0.416666666667,
+          0.49887122195267486
+        ],
+        [
+          0.4375,
+          0.4984804656976006
+        ],
+        [
+          0.458333333333,
+          0.49881382600051555
+        ],
+        [
+          0.479166666667,
+          0.49998008254237924
+        ],
+        [
+          0.5,
+          0.5001431325838128
+        ],
+        [
+          0.520833333333,
+          0.5013661193806294
+        ],
+        [
+          0.541666666667,
+          0.5017656085448436
+        ],
+        [
+          0.5625,
+          0.5024547199166776
+        ],
+        [
+          0.583333333333,
+          0.5038201494820101
+        ],
+        [
+          0.604166666667,
+          0.5064556653781184
+        ],
+        [
+          0.625,
+          0.5103968832075683
+        ],
+        [
+          0.645833333333,
+          0.5132049085308689
+        ],
+        [
+          0.666666666667,
+          0.5148894899775869
+        ],
+        [
+          0.6875,
+          0.5181614444163922
+        ],
+        [
+          0.708333333333,
+          0.5195375409571544
+        ],
+        [
+          0.729166666667,
+          0.521744193576548
+        ],
+        [
+          0.75,
+          0.5255695260112175
+        ],
+        [
+          0.770833333333,
+          0.5309382926000734
+        ],
+        [
+          0.791666666667,
+          0.5347394717663357
+        ],
+        [
+          0.8125,
+          0.5383000896481845
+        ],
+        [
+          0.833333333333,
+          0.5416770770770178
+        ],
+        [
+          0.854166666667,
+          0.5445369328209206
+        ],
+        [
+          0.875,
+          0.549901177986394
+        ],
+        [
+          0.895833333333,
+          0.5550384160968416
+        ],
+        [
+          0.916666666667,
+          0.5585569324996028
+        ],
+        [
+          0.9375,
+          0.5634239198055907
+        ],
+        [
+          0.958333333333,
+          0.5658273547621769
+        ]
+      ],
+      "fitted_damage_band_angle_degrees": 7.454246807704431,
+      "maximum_off_axis_center_m": 0.06582735476217694
+    },
+    {
+      "step": 21,
+      "load_m": 6.5625e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 172,
+      "connected_maximum_x_m": 1.0,
+      "connected_advance_x_m": 0.625,
+      "connected_y_range_m": [
+        0.44897959183673464,
+        0.6326530612244897
+      ],
+      "damage_weighted_column_centers_m": [
+        [
+          0.416666666667,
+          0.49792772347898306
+        ],
+        [
+          0.4375,
+          0.4984920742426401
+        ],
+        [
+          0.458333333333,
+          0.4988177842929401
+        ],
+        [
+          0.479166666667,
+          0.4999802869183613
+        ],
+        [
+          0.5,
+          0.5001395541343532
+        ],
+        [
+          0.520833333333,
+          0.5013589239044077
+        ],
+        [
+          0.541666666667,
+          0.5017519972711666
+        ],
+        [
+          0.5625,
+          0.5024307209716262
+        ],
+        [
+          0.583333333333,
+          0.503780505372277
+        ],
+        [
+          0.604166666667,
+          0.5063912244291486
+        ],
+        [
+          0.625,
+          0.5103517688362383
+        ],
+        [
+          0.645833333333,
+          0.5131698185418473
+        ],
+        [
+          0.666666666667,
+          0.5148614399970017
+        ],
+        [
+          0.6875,
+          0.5181393952815686
+        ],
+        [
+          0.708333333333,
+          0.5194931918327754
+        ],
+        [
+          0.729166666667,
+          0.5216623966894509
+        ],
+        [
+          0.75,
+          0.5254329358644061
+        ],
+        [
+          0.770833333333,
+          0.5308201104611482
+        ],
+        [
+          0.791666666667,
+          0.534649455413116
+        ],
+        [
+          0.8125,
+          0.5382301992214263
+        ],
+        [
+          0.833333333333,
+          0.5415823825989058
+        ],
+        [
+          0.854166666667,
+          0.5443853860993076
+        ],
+        [
+          0.875,
+          0.5496962742198709
+        ],
+        [
+          0.895833333333,
+          0.5548893348519781
+        ],
+        [
+          0.916666666667,
+          0.5584522989455448
+        ],
+        [
+          0.9375,
+          0.5633505785074167
+        ],
+        [
+          0.958333333333,
+          0.565722854581131
+        ]
+      ],
+      "fitted_damage_band_angle_degrees": 7.458438945012632,
+      "maximum_off_axis_center_m": 0.06572285458113103
+    },
+    {
+      "step": 22,
+      "load_m": 6.874999999999999e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 173,
+      "connected_maximum_x_m": 1.0,
+      "connected_advance_x_m": 0.625,
+      "connected_y_range_m": [
+        0.44897959183673464,
+        0.6326530612244897
+      ],
+      "damage_weighted_column_centers_m": [
+        [
+          0.416666666667,
+          0.49794639632788695
+        ],
+        [
+          0.4375,
+          0.4984997877999804
+        ],
+        [
+          0.458333333333,
+          0.49881996864941486
+        ],
+        [
+          0.479166666667,
+          0.49903044331603275
+        ],
+        [
+          0.5,
+          0.500136533569435
+        ],
+        [
+          0.520833333333,
+          0.5013535347056827
+        ],
+        [
+          0.541666666667,
+          0.501742059533455
+        ],
+        [
+          0.5625,
+          0.5024139367608724
+        ],
+        [
+          0.583333333333,
+          0.5037501115067616
+        ],
+        [
+          0.604166666667,
+          0.5063428902403055
+        ],
+        [
+          0.625,
+          0.5103090449506721
+        ],
+        [
+          0.645833333333,
+          0.5131361421995085
+        ],
+        [
+          0.666666666667,
+          0.5148371914132726
+        ],
+        [
+          0.6875,
+          0.5181249820139785
+        ],
+        [
+          0.708333333333,
+          0.5194649323069382
+        ],
+        [
+          0.729166666667,
+          0.5216107348332584
+        ],
+        [
+          0.75,
+          0.5253422482575335
+        ],
+        [
+          0.770833333333,
+          0.5307277296517531
+        ],
+        [
+          0.791666666667,
+          0.5345782651717805
+        ],
+        [
+          0.8125,
+          0.538180375835946
+        ],
+        [
+          0.833333333333,
+          0.5415240250853228
+        ],
+        [
+          0.854166666667,
+          0.5442917450745123
+        ],
+        [
+          0.875,
+          0.5495769991462098
+        ],
+        [
+          0.895833333333,
+          0.5547910862742683
+        ],
+        [
+          0.916666666667,
+          0.5583808905784136
+        ],
+        [
+          0.9375,
+          0.5633047446559061
+        ],
+        [
+          0.958333333333,
+          0.5656540249780789
+        ]
+      ],
+      "fitted_damage_band_angle_degrees": 7.463511192092183,
+      "maximum_off_axis_center_m": 0.06565402497807893
+    },
+    {
+      "step": 23,
+      "load_m": 7.1875e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 175,
+      "connected_maximum_x_m": 1.0,
+      "connected_advance_x_m": 0.625,
+      "connected_y_range_m": [
+        0.44897959183673464,
+        0.6326530612244897
+      ],
+      "damage_weighted_column_centers_m": [
+        [
+          0.416666666667,
+          0.49796203137805
+        ],
+        [
+          0.4375,
+          0.49850633573096814
+        ],
+        [
+          0.458333333333,
+          0.4988217736002062
+        ],
+        [
+          0.479166666667,
+          0.49902862494608136
+        ],
+        [
+          0.5,
+          0.5001341343366255
+        ],
+        [
+          0.520833333333,
+          0.5013495980692798
+        ],
+        [
+          0.541666666667,
+          0.5017347296885438
+        ],
+        [
+          0.5625,
+          0.5024022484337033
+        ],
+        [
+          0.583333333333,
+          0.5037260901273964
+        ],
+        [
+          0.604166666667,
+          0.5063057733354904
+        ],
+        [
+          0.625,
+          0.5102657329312413
+        ],
+        [
+          0.645833333333,
+          0.5131011040785601
+        ],
+        [
+          0.666666666667,
+          0.5148130904448209
+        ],
+        [
+          0.6875,
+          0.5181123465540313
+        ],
+        [
+          0.708333333333,
+          0.5194417372274955
+        ],
+        [
+          0.729166666667,
+          0.5215574797723829
+        ],
+        [
+          0.75,
+          0.5252612035263837
+        ],
+        [
+          0.770833333333,
+          0.5306336014154611
+        ],
+        [
+          0.791666666667,
+          0.5345075015703419
+        ],
+        [
+          0.8125,
+          0.5369971497086825
+        ],
+        [
+          0.833333333333,
+          0.5414810335528061
+        ],
+        [
+          0.854166666667,
+          0.5442254602512655
+        ],
+        [
+          0.875,
+          0.5483704512061364
+        ],
+        [
+          0.895833333333,
+          0.5547129156022117
+        ],
+        [
+          0.916666666667,
+          0.5583231722353319
+        ],
+        [
+          0.9375,
+          0.563271346454463
+        ],
+        [
+          0.958333333333,
+          0.5656033564613959
+        ]
+      ],
+      "fitted_damage_band_angle_degrees": 7.42721817494612,
+      "maximum_off_axis_center_m": 0.06560335646139592
+    },
+    {
+      "step": 24,
+      "load_m": 7.5e-05,
+      "connected_damage_threshold": 0.5,
+      "connected_display_nodes": 176,
+      "connected_maximum_x_m": 1.0,
+      "connected_advance_x_m": 0.625,
+      "connected_y_range_m": [
+        0.44897959183673464,
+        0.6326530612244897
+      ],
+      "damage_weighted_column_centers_m": [
+        [
+          0.416666666667,
+          0.49797548955625237
+        ],
+        [
+          0.4375,
+          0.49851219357424525
+        ],
+        [
+          0.458333333333,
+          0.4988234726987074
+        ],
+        [
+          0.479166666667,
+          0.4990271940988778
+        ],
+        [
+          0.5,
+          0.5010671484384287
+        ],
+        [
+          0.520833333333,
+          0.501347252477575
+        ],
+        [
+          0.541666666667,
+          0.501730332886361
+        ],
+        [
+          0.5625,
+          0.5023962586906703
+        ],
+        [
+          0.583333333333,
+          0.503713884951526
+        ],
+        [
+          0.604166666667,
+          0.5062849703776096
+        ],
+        [
+          0.625,
+          0.5102272552211115
+        ],
+        [
+          0.645833333333,
+          0.5130683758461938
+        ],
+        [
+          0.666666666667,
+          0.5147916919774053
+        ],
+        [
+          0.6875,
+          0.5181039634703014
+        ],
+        [
+          0.708333333333,
+          0.5194271371123829
+        ],
+        [
+          0.729166666667,
+          0.5215222336291916
+        ],
+        [
+          0.75,
+          0.5252046683920548
+        ],
+        [
+          0.770833333333,
+          0.5305497077053347
+        ],
+        [
+          0.791666666667,
+          0.5344427043331709
+        ],
+        [
+          0.8125,
+          0.5369487229191988
+        ],
+        [
+          0.833333333333,
+          0.541449799925841
+        ],
+        [
+          0.854166666667,
+          0.5441803162977199
+        ],
+        [
+          0.875,
+          0.548310683478656
+        ],
+        [
+          0.895833333333,
+          0.5546462609087938
+        ],
+        [
+          0.916666666667,
+          0.5582731488070128
+        ],
+        [
+          0.9375,
+          0.5632452755002176
+        ],
+        [
+          0.958333333333,
+          0.5655637454388859
+        ]
+      ],
+      "fitted_damage_band_angle_degrees": 7.406445267846458,
+      "maximum_off_axis_center_m": 0.06556374543888588
+    }
+  ],
+  "last": {
+    "step": 24,
+    "load_m": 7.5e-05,
+    "connected_damage_threshold": 0.5,
+    "connected_display_nodes": 176,
+    "connected_maximum_x_m": 1.0,
+    "connected_advance_x_m": 0.625,
+    "connected_y_range_m": [
+      0.44897959183673464,
+      0.6326530612244897
+    ],
+    "damage_weighted_column_centers_m": [
+      [
+        0.416666666667,
+        0.49797548955625237
+      ],
+      [
+        0.4375,
+        0.49851219357424525
+      ],
+      [
+        0.458333333333,
+        0.4988234726987074
+      ],
+      [
+        0.479166666667,
+        0.4990271940988778
+      ],
+      [
+        0.5,
+        0.5010671484384287
+      ],
+      [
+        0.520833333333,
+        0.501347252477575
+      ],
+      [
+        0.541666666667,
+        0.501730332886361
+      ],
+      [
+        0.5625,
+        0.5023962586906703
+      ],
+      [
+        0.583333333333,
+        0.503713884951526
+      ],
+      [
+        0.604166666667,
+        0.5062849703776096
+      ],
+      [
+        0.625,
+        0.5102272552211115
+      ],
+      [
+        0.645833333333,
+        0.5130683758461938
+      ],
+      [
+        0.666666666667,
+        0.5147916919774053
+      ],
+      [
+        0.6875,
+        0.5181039634703014
+      ],
+      [
+        0.708333333333,
+        0.5194271371123829
+      ],
+      [
+        0.729166666667,
+        0.5215222336291916
+      ],
+      [
+        0.75,
+        0.5252046683920548
+      ],
+      [
+        0.770833333333,
+        0.5305497077053347
+      ],
+      [
+        0.791666666667,
+        0.5344427043331709
+      ],
+      [
+        0.8125,
+        0.5369487229191988
+      ],
+      [
+        0.833333333333,
+        0.541449799925841
+      ],
+      [
+        0.854166666667,
+        0.5441803162977199
+      ],
+      [
+        0.875,
+        0.548310683478656
+      ],
+      [
+        0.895833333333,
+        0.5546462609087938
+      ],
+      [
+        0.916666666667,
+        0.5582731488070128
+      ],
+      [
+        0.9375,
+        0.5632452755002176
+      ],
+      [
+        0.958333333333,
+        0.5655637454388859
+      ]
+    ],
+    "fitted_damage_band_angle_degrees": 7.406445267846458,
+    "maximum_off_axis_center_m": 0.06556374543888588
+  },
+  "physical_fields_modified": false
+}

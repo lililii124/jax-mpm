@@ -1,0 +1,33 @@
+{
+  "initial_damage_mode": "geometry-only",
+  "physical_initial_damage_max": 0.0,
+  "physical_initial_AT2_energy": 0.0,
+  "damage_fixed_nodes": 0,
+  "energy_gap_over_external_work": 0.0016929703498669356,
+  "energy_tolerance": 0.05,
+  "completed": true,
+  "checks": {
+    "full_load_schedule": true,
+    "irreversible": true,
+    "small_strain": true,
+    "load_drop": true,
+    "crack_advance": true,
+    "initial_damage_protocol": true,
+    "mechanical_and_damage_converged": true,
+    "external_work_energy_balance": true
+  },
+  "single_mesh_fracture_observed": true,
+  "failure": null,
+  "accepted_load_steps": 25,
+  "nominal_load_steps": 25,
+  "rejected_load_attempts": 0,
+  "minimum_allowed_load_increment": 1.2207031249999999e-08,
+  "peak_reaction_N_per_m": 33.95332103830033,
+  "peak_step": 19,
+  "mesh_convergence_established": false,
+  "load_increment_convergence_established": false,
+  "energy_multistart": true,
+  "adaptive_energy_integration": true,
+  "global_minimum_proven": false,
+  "scope": "Small-strain reference-grid MPM; no equivalence claim to quadratic dynamic MPM, material calibration, load-increment or mesh convergence from one run."
+}

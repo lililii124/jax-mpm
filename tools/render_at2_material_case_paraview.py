@@ -1,0 +1,236 @@
+"""Render actual AT2 fields and the saved elastic-inclusion material boundary."""
+import argparse
+import csv
+import hashlib
+import json
+from pathlib import Path
+
+import numpy as np
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--input', type=Path, required=True)
+    parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--frames', type=int, default=61)
+    parser.add_argument('--size', type=int, default=400)
+    parser.add_argument('--allow-prefix', action='store_true')
+    parser.add_argument('--gif-name',default='at2-hard-inclusion.gif')
+    args = parser.parse_args()
+    if args.frames < 2 or args.size < 128:
+        parser.error('At least two frames and size >= 128 are required')
+    summary = json.loads((args.input / 'summary.json').read_text())
+    if not args.allow_prefix and not summary.get('completed'):
+        raise ValueError('The requested load schedule has not completed')
+    with (args.input / 'history.csv').open(newline='') as stream:
+        rows = list(csv.DictReader(stream))
+    if len(rows) < 2:
+        raise ValueError('No changing accepted trajectory to render')
+    with np.load(args.input / 'reference-grid.npz', allow_pickle=False) as saved:
+        xy = saved['coordinates'][:, :2].copy()
+        if 'display_quads' in saved:
+            quads = saved['display_quads'].astype(np.int64)
+            display_xy = saved['display_coordinates'][:, :2].copy()
+            display_nodes = saved['display_nodes'].astype(np.int64)
+            display_weights = saved['display_weights'].copy()
+        else:
+            quads = np.unique(saved['nodes'].astype(np.int64), axis=0)
+            display_xy = xy
+            display_nodes = np.arange(len(xy))[:, None]
+            display_weights = np.ones_like(display_nodes, dtype=float)
+    if xy.ndim != 2 or xy.shape[1] != 2 or quads.ndim != 2 or quads.shape[1] != 4:
+        raise ValueError('Unexpected reference-grid surface layout')
+    if (display_nodes.ndim != 2 or display_nodes.shape != display_weights.shape
+            or len(display_nodes) != len(display_xy)
+            or display_nodes.min() < 0 or display_nodes.max() >= len(xy)
+            or not np.isfinite(display_weights).all()
+            or np.any(display_weights < -1e-14)
+            or not np.allclose(display_weights.sum(axis=1), 1., rtol=0, atol=1e-12)):
+        raise ValueError('Invalid display constraint map')
+    reference_display = np.einsum('ij,ijk->ik', display_weights, xy[display_nodes])
+    if not np.allclose(reference_display, display_xy, rtol=0, atol=1e-12):
+        raise ValueError('Display constraints do not reproduce physical coordinates')
+    if quads.min() < 0 or quads.max() >= len(display_xy):
+        raise ValueError('Surface connectivity does not match the coefficient grid')
+    material_file=args.input/'material-fields.npz'
+    with np.load(material_file,allow_pickle=False) as material:
+        inclusion=material['particle_inclusion'].astype(float)
+    with np.load(args.input/'reference-grid.npz',allow_pickle=False) as reference:
+        particle_nodes=reference['nodes'];particle_weights=reference['weight'];volume=reference['volume']
+    if inclusion.shape!=(len(particle_nodes),):
+        raise ValueError('Material field does not match the saved particles')
+    has_inclusion=bool(inclusion.any())
+    if Path(args.gif_name).name!=args.gif_name or not args.gif_name.endswith('.gif'):
+        raise ValueError('GIF name must be a plain GIF filename')
+    nodal_volume=np.bincount(particle_nodes.ravel(),weights=(volume[:,None]*particle_weights).ravel(),minlength=len(xy))
+    included_volume=np.bincount(particle_nodes.ravel(),weights=(volume[:,None]*particle_weights*inclusion[:,None]).ravel(),minlength=len(xy))
+    nodal_fraction=np.divide(included_volume,nodal_volume,out=np.zeros_like(nodal_volume),where=nodal_volume>0)
+    display_fraction=np.sum(display_weights*nodal_fraction[display_nodes],axis=1)
+
+    def display_fields(u, d):
+        # Virtual display vertices follow the actual hanging-node constraints.
+        # Their coefficients are independent of the solved damage field.
+        du = np.einsum('ij,ijk->ik', display_weights, u[display_nodes])
+        dd = np.sum(display_weights * d[display_nodes], axis=1)
+        return np.column_stack((display_xy + du, np.zeros(len(display_xy)))), dd
+
+    from paraview import simple as pv, servermanager
+    from paraview import vtk
+    from vtk.util.numpy_support import numpy_to_vtk, numpy_to_vtkIdTypeArray, vtk_to_numpy
+    from PIL import Image
+
+    pv._DisableFirstRenderCameraReset()
+    args.output.mkdir(parents=True, exist_ok=True)
+    vtk_points = vtk.vtkPoints()
+    cells = vtk.vtkCellArray()
+    packed = np.column_stack((np.full(len(quads), 4), quads)).ravel()
+    cells.SetCells(len(quads), numpy_to_vtkIdTypeArray(packed, deep=True))
+    mesh = vtk.vtkPolyData()
+    mesh.SetPoints(vtk_points)
+    mesh.SetPolys(cells)
+    first_step = int(rows[0]['step'])
+    with np.load(args.input / f'frame-{first_step:04d}.npz', allow_pickle=False) as first:
+        xyz, display_damage = display_fields(first['displacement'], first['damage'])
+        vtk_points.SetData(numpy_to_vtk(xyz, deep=True))
+        field = numpy_to_vtk(display_damage, deep=True)
+        field.SetName('damage')
+        mesh.GetPointData().SetScalars(field)
+    source = pv.TrivialProducer()
+    source.GetClientSideObject().SetOutput(mesh)
+    view = pv.CreateView('RenderView')
+    view.ViewSize = [4 * args.size, 4 * args.size]
+    view.Background = [1., 1., 1.]
+    view.UseColorPaletteForBackground = 0
+    view.OrientationAxesVisibility = 0
+    view.CenterAxesVisibility = 0
+    view.CameraParallelProjection = 1
+    view.CameraPosition = [.5, .5, 3.]
+    view.CameraFocalPoint = [.5, .5, 0.]
+    view.CameraViewUp = [0., 1., 0.]
+    view.CameraParallelScale = .56
+    view.UseFXAA = 1
+    display = pv.Show(source, view)
+    display.Representation = 'Surface'
+    display.Ambient = 1.
+    display.Diffuse = 0.
+    pv.ColorBy(display, ('POINTS', 'damage'))
+    lut = pv.GetColorTransferFunction('damage')
+    lut.RGBPoints = [0., .94, .95, .97, .25, .64, .78, .89,
+                     .5, .20, .46, .66, .75, .77, .32, .21, 1., .12, .02, .04]
+    lut.ColorSpace = 'RGB'
+    lut.RescaleTransferFunction(0., 1.)
+    display.SetScalarBarVisibility(view, False)
+    indices = np.unique(np.rint(np.linspace(0, len(rows) - 1,
+                                          min(args.frames, len(rows)))).astype(int))
+    images, proof, distinct = [], [], set()
+    boundary_source=boundary_display=None
+    for index in indices:
+        step = int(rows[index]['step'])
+        path = args.input / f'frame-{step:04d}.npz'
+        with np.load(path, allow_pickle=False) as saved:
+            u, d = saved['displacement'], saved['damage']
+            if u.shape != xy.shape or d.shape != (len(xy),):
+                raise ValueError('Accepted frame does not match the reference grid')
+            if not np.isfinite(u).all() or not np.isfinite(d).all():
+                raise ValueError('Nonfinite saved field')
+            if d.min() < -1e-12 or d.max() > 1 + 1e-12:
+                raise ValueError('Damage is outside its numerical bounds')
+            # Replacing the producer also invalidates ParaView representation
+            # caches, which otherwise can retain the first scalar field.
+            pv.Delete(display)
+            pv.Delete(source)
+            if boundary_source is not None:
+                pv.Delete(boundary_display);pv.Delete(boundary_source)
+            xyz, display_damage = display_fields(u, d)
+            vtk_points = vtk.vtkPoints()
+            vtk_points.SetData(numpy_to_vtk(xyz, deep=True))
+            mesh = vtk.vtkPolyData()
+            mesh.SetPoints(vtk_points)
+            mesh.SetPolys(cells)
+            field = numpy_to_vtk(display_damage, deep=True)
+            field.SetName('damage')
+            mesh.GetPointData().SetScalars(field)
+            material_array=numpy_to_vtk(display_fraction,deep=True)
+            material_array.SetName('inclusion_fraction')
+            mesh.GetPointData().AddArray(material_array)
+            mesh.Modified()
+            source = pv.TrivialProducer()
+            source.GetClientSideObject().SetOutput(mesh)
+            source.UpdatePipeline()
+            fetched = servermanager.Fetch(source)
+            if not np.array_equal(vtk_to_numpy(fetched.GetPointData().GetArray('damage')), display_damage):
+                raise ValueError('ParaView scalar field differs from the saved field and its display constraints')
+            if not np.array_equal(vtk_to_numpy(fetched.GetPoints().GetData()), xyz):
+                raise ValueError('ParaView coordinates differ from the saved frame')
+            display = pv.Show(source, view)
+            display.Representation = 'Surface'
+            display.Ambient = 1.
+            display.Diffuse = 0.
+            pv.ColorBy(display, ('POINTS', 'damage'))
+            display.SetScalarBarVisibility(view, False)
+            lut.RescaleTransferFunction(0., 1.)
+            # This line is a contour of the SAVED material distribution, warped
+            # by the SAME actual displacement as the physical specimen. It is
+            # independent of damage and never creates a crack or a crack path.
+            boundary=vtk.vtkPolyData()
+            if has_inclusion:
+                contour=vtk.vtkContourFilter();contour.SetInputData(mesh)
+                contour.SetInputArrayToProcess(0,0,0,vtk.vtkDataObject.FIELD_ASSOCIATION_POINTS,'inclusion_fraction')
+                contour.SetValue(0,.5);contour.Update();boundary.DeepCopy(contour.GetOutput())
+                if boundary.GetNumberOfPoints()==0:raise ValueError('Empty inclusion boundary')
+                boundary_source=pv.TrivialProducer();boundary_source.GetClientSideObject().SetOutput(boundary)
+                boundary_display=pv.Show(boundary_source,view)
+                boundary_display.Representation='Surface';pv.ColorBy(boundary_display,None)
+                boundary_display.DiffuseColor=[.38,.27,.10];boundary_display.AmbientColor=[.38,.27,.10]
+                boundary_display.Ambient=1.;boundary_display.Diffuse=0.;boundary_display.LineWidth=6.
+                boundary_display.SetScalarBarVisibility(view,False)
+            pv.Render(view)
+            png = args.output / f'frame-{index:04d}.png'
+            pv.SaveScreenshot(str(png), view,
+                              ImageResolution=[4 * args.size, 4 * args.size])
+            with Image.open(png) as original:
+                image = original.convert('RGB').resize((args.size, args.size),
+                                                       Image.Resampling.LANCZOS)
+            pixels = hashlib.sha256(image.tobytes()).hexdigest()
+            distinct.add(pixels)
+            images.append(image)
+            proof.append(dict(step=step, source_sha256=sha(path),
+                              displacement_m=float(rows[index]['displacement_m']),
+                              damage_min=float(d.min()), damage_max=float(d.max()),
+                              inclusion_contour_points=boundary.GetNumberOfPoints(),
+                              inclusion_contour_coordinates_sha256=hashlib.sha256(vtk_to_numpy(boundary.GetPoints().GetData()).tobytes()).hexdigest() if has_inclusion else None,
+                              fetched_fields_equal_saved=True,
+                              rendered_pixels_sha256=pixels))
+    if len(distinct) < 2:
+        raise ValueError('Rendered frames are static; no GIF is delivered')
+    gif = args.output / args.gif_name
+    images[0].save(gif, save_all=True, append_images=images[1:],
+                   duration=100, loop=0, optimize=False, disposal=2)
+    receipt = dict(renderer='ParaView', renderer_source_sha256=sha(__file__),
+                   gif_sha256=sha(gif), size=[args.size, args.size],
+                   frames=len(images), distinct_rendered_frames=len(distinct),
+                   deformation_scale=1., damage_range=[0., 1.],
+                   display_vertices=len(display_xy), physical_coefficients=len(xy),
+                   display_mapping='Saved geometry constraints; no damage-dependent or mirror averaging',
+                   overlays='Only saved material-region boundary; no text or axes' if has_inclusion else False, artificial_crack_lines=False,
+                   material_fields_sha256=sha(material_file),
+                   material_case_sha256=sha(args.input/'material-case.json'),
+                   source_material_case=json.loads((args.input/'material-case.json').read_text()),
+                   full_requested_load_schedule_completed=bool(summary.get('completed')),
+                   inclusion_boundary='Contour0.5 of volume-and-basis projected saved particle_inclusion, evaluated with the saved display constraints and actual deformed coordinates; independent of damage.',
+                   source_summary_sha256=sha(args.input / 'summary.json'),
+                   reference_grid_sha256=sha(args.input / 'reference-grid.npz'),
+                   source_summary=summary, publication_qualified=False,
+                   note='Rendering does not establish mesh or load-step convergence.',
+                   sources=proof)
+    (args.output / 'render.json').write_text(json.dumps(receipt, indent=2) + '\n')
+    print(json.dumps(dict(gif=str(gif), frames=len(images),
+                          distinct_frames=len(distinct))), flush=True)
+
+
+if __name__ == '__main__':
+    main()

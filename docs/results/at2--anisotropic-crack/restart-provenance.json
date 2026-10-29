@@ -1,0 +1,27 @@
+{
+  "source": "/physical-source",
+  "checkpoint_sha256": "ae8ca6ca675313c9447e1b962e075afb5594d5ff0afec5b6857cf4c89e7557c4",
+  "accepted_load": 4.9999999999999996e-05,
+  "physical_lower_bound": "current accepted damage, never an unconverged trial",
+  "previous_source_signatures": {
+    "source_sha256": "5a9515b723fc6eeae6c5c18b7e16c0c0b9f68f31aaf002f0f52606bfee35f72b",
+    "mpm_module_sha256": "548cf026de35367ecb325d7994a7514465fff70471296b7cf79fa2e5a11b1c73",
+    "phase_field_module_sha256": "69e7246f8efc00c7efd6191a8a77df99ab68d116e7db9532bb883d2bdc88ace7",
+    "competitor_module_sha256": "f244a2d8be1cba7ecb01c89d2ed4c9bc0997a3cc20f96b4ab81aaafb74f0200e",
+    "cut_reference_module_sha256": "910cf176a8a89afe13ad944d3faeef196ff769dbb345d633257eb63c0716a80d"
+  },
+  "current_source_signatures": {
+    "source_sha256": "5a9515b723fc6eeae6c5c18b7e16c0c0b9f68f31aaf002f0f52606bfee35f72b",
+    "mpm_module_sha256": "548cf026de35367ecb325d7994a7514465fff70471296b7cf79fa2e5a11b1c73",
+    "phase_field_module_sha256": "69e7246f8efc00c7efd6191a8a77df99ab68d116e7db9532bb883d2bdc88ace7",
+    "competitor_module_sha256": "f244a2d8be1cba7ecb01c89d2ed4c9bc0997a3cc20f96b4ab81aaafb74f0200e",
+    "cut_reference_module_sha256": "910cf176a8a89afe13ad944d3faeef196ff769dbb345d633257eb63c0716a80d"
+  },
+  "changed_sources": [],
+  "explicit_source_migration": false,
+  "source_migration_reason": null,
+  "numerical_equivalence_claim": false,
+  "previous_nominal_increments": 24,
+  "new_nominal_increments": 24,
+  "historical_load_schedule_unchanged": true
+}
