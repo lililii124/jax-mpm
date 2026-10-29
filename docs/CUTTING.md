@@ -1,20 +1,23 @@
 # Ti-6Al-4V cutting
 
 Snapshots of orthogonal cutting with Johnson-Cook plasticity, thermal softening
-and damage. The multiple-pass sequence includes cutting, lift, return and a
-deeper second pass. Fully failed particles are hidden in the rendered views.
+and damage. The three-pass sequence includes cutting, lifts, returns and
+successively deeper cuts. Fully failed particles are hidden in the rendered views.
 
 | View | Rendered interval (µs) | State |
 |---|---:|---|
-| Multiple passes | 16.607–107.731 | Continuing |
-| Second pass close-up | 100.500–107.731 | Continuing |
+| Multiple passes | 0–276.167 | Planned run complete |
+| Second pass close-up | 100.500–159.167 | Planned run complete |
 | Johnson parameters | 0–26.674 | Planned run complete |
 | Seo parameters | 0–32.004 | Planned run complete |
 
 Johnson and Seo use different end times here; these animations are not a
-matched-time material comparison. The multiple-pass views use saved deformation
-gradients; the single-pass views use saved particle centres. Colours remain
-fixed within each sequence. No displacement scaling is applied.
+matched-time material comparison. The second-pass close-up uses saved
+deformation gradients; the whole three-pass and single-pass views use saved
+particle centres. The whole sequence has 79 frames and the close-up 31 frames.
+Colours remain fixed within each sequence. No displacement scaling is applied.
+The displayed increment rate is the change in saved equivalent plastic strain
+divided by the actual interval between adjacent saved states.
 
 Public drivers now support both flow-stress parameter groups and a fresh
 three-pass trajectory. Existing rendered sequences retain their original

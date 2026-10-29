@@ -1,45 +1,56 @@
 {
   "case": "Ti-6Al-4V cutting: Second pass close-up",
-  "simulation_status": "in_progress",
+  "simulation_status": "completed_planned_multipass_schedule",
   "render_complete": true,
   "rendered_time_range_s": [
-    0.00010049999999999999,
-    0.0001077310946418367
+    0.0001005,
+    0.00015916666666666667
   ],
   "material_model": "Johnson-Cook",
-  "geometry_representation": "Fxy-affine particle domains",
+  "geometry_representation": "Actual saved Fxy-affine particle domains, reference volume and saved virtual tip; strictly second cut100.5-159.1667us, no third cut.",
   "renderer": "ParaView",
   "image_size": [
     400,
     400
   ],
   "failed_particles_hidden": true,
-  "rate_definition": "Difference of cumulative equivalent plastic strain over the actual adjacent saved-frame interval; matched IDs, active in both frames.",
-  "source_integration": "Production drivers are not yet integrated into the public examples.",
+  "rate_definition": "Actual adjacent saved PEEQ difference / actual saved time interval, matched IDs, active in both frames. Initial increment defined0. Legacy plastic_rate not used.",
+  "source_integration": "Public fresh/resumable drivers and rendering commands are documented in docs/CUTTING.md; these images retain the recorded production lineage.",
   "images": {
     "equivalent_plastic_strain": {
       "path": "docs/images/home/cutting--second-cut-closeup--equivalent-plastic-strain.gif",
-      "sha256": "d6ac30976d8b71cf6f98c7f6f91074bd9954ac33789ebac771c36e22aa6bf771",
+      "sha256": "a2dc7342afb993d36557d9ebb11458bef9e9942506a5d43a52c62c52bf828f9f",
       "frames": 31,
       "distinct_frames": 31
     },
     "temperature": {
       "path": "docs/images/home/cutting--second-cut-closeup--temperature.gif",
-      "sha256": "e0a520164c722a0f6e1438b9b93271517eeaae15801571964a354cc327ae2fd9",
+      "sha256": "e5d8efa0e4253a64df84bf10288f7a2e8869dceb82bcd095820919634a51b152",
       "frames": 31,
       "distinct_frames": 31
     },
     "damage": {
       "path": "docs/images/home/cutting--second-cut-closeup--damage.gif",
-      "sha256": "da3250bc167e00714581261a8794358c70ef7c6cdc5c68d3fea598e2b614bebb",
+      "sha256": "e4b512f31fcfd07aa5cd6a2eda8f1b7a2bd1e6cb84ee300cbe3cc39004dac545",
       "frames": 31,
       "distinct_frames": 31
     },
     "plastic_increment_rate": {
       "path": "docs/images/home/cutting--second-cut-closeup--plastic-increment-rate.gif",
-      "sha256": "2022451bc706938b995859f5f9ba328eb3cb24f92e44d04914bc128d0ffcb29a",
+      "sha256": "72936764422c4881648586fe0b1dabd6b9c9e8b4c96ec0c60942ceb9f30eea21",
       "frames": 31,
       "distinct_frames": 31
     }
-  }
+  },
+  "source_lineage": [
+    "ti64-positive-clearance-initial-v31b",
+    "ti64-positive-clearance-dt4-exploratory-v33",
+    "ti64-multipass-dt4-pass1-v38",
+    "ti64-multipass-dt4-pass2-v39",
+    "ti64-multipass-pass2-mapcache-recovery-v45",
+    "ti64-multipass-pass2-dynamic-residual-v49",
+    "ti64-multipass-pass3-dynamic-residual-v50"
+  ],
+  "true_time_zero_restored": false,
+  "source_classification": "Exploratory dt4 continuation after the verified v31b prefix; no equal-time or time-step-convergence claim."
 }

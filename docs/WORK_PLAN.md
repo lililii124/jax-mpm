@@ -17,7 +17,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
 | Blast-loaded sandwich design | Round 2 completed and round 3 is running; baseline eccentric full MPM completed its 2 ms history and GIF; baseline uniform/central and selected eccentric histories continue | Correct the reduced model using separate training and development data, retain the best feasible design, and validate all three pressure cases before refinement and nonlinear material qualification |
 | Hypervelocity sphere impact | Restart and split-state mapping repaired; host contact caching and retained converged time steps are advancing the accepted trajectory | Continue toward the debris-cloud stage, retaining physical guards and recording sustained throughput |
-| Complete cutting animations | Johnson and Seo complete 61-frame GIFs replace the single-pass previews; multipass reached 272.789 microseconds in final lift toward 276.167 microseconds | Export the initial prefix through final lift after multipass completion and replace its incomplete GIFs |
+| Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds replace the previews in eight 400×400 GIFs | Preserve the full histories; improve the two increment-rate display scales |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
 
 The read-only local monitor records process status, accepted steps/time, source
@@ -109,9 +109,13 @@ to early-response training; steps 9000–18000 are development data and steps
 19000 onward are reserved for fresh validation after the model is frozen. Subspace
 projection and finite-deformation force errors must be distinguished before
 claiming that additional modes resolve the discrepancy. Added snapshot modes
-reduced displacement error, but the current 9.38% omitted strain energy still
-fails the 5% criterion; operator enrichment has not resolved it. No further
-frozen-model optimization rounds are launched until this correction is assessed.
+left 9.38% omitted strain energy. Eight inverse-stiffness directions subsequently
+reduced that error to 4.17% on development data, but the frozen rank-526 model
+failed the independent selected-design interval 19000–30000: peak error 6.25%,
+curve error 7.80%, and omitted strain energy 14.84%. The original 5% criteria
+and interval remain unchanged. No fourth optimization round starts with this
+model. The next correction uses full-horizon physical operators and load-driven
+directions; any later model must reserve a new independent validation interval.
 The 5 mm production refinement and face plasticity/core crushing remain separate
 requirements; neither this baseline nor a reduced-model energy ledger proves
 their completion.
