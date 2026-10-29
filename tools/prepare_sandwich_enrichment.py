@@ -1,7 +1,8 @@
 """Build an explicitly partitioned ROM snapshot NPZ from full-MPM Gauss frames.
 
 Run as ``python -m tools.prepare_sandwich_enrichment SPEC.json OUTPUT.npz``.
-Paths in the specification are relative to the specification file.
+Paths in the specification are relative to the specification file. Set
+``role: validation-only`` to extract only the allocation in a frozen receipt.
 """
 import argparse
 import hashlib
@@ -41,6 +42,16 @@ def prepare(spec_path, output, source_names=None):
         raise ValueError('Expected three finite positive spacings')
     frozen = spec.get('frozen_model_receipt')
     frozen_sha = digest(spec_path.parent / frozen) if frozen else None
+    role = spec.get('role', 'enrichment')
+    if role not in ('enrichment', 'validation-only'):
+        raise ValueError('Unknown snapshot dataset role')
+    freeze = None
+    if role == 'validation-only':
+        if not frozen_sha:
+            raise ValueError('Validation-only data requires a frozen receipt')
+        freeze = json.loads((spec_path.parent / frozen).read_text(encoding='utf-8'))
+        if freeze.get('schema_version') != 2 or not freeze.get('fresh_validation'):
+            raise ValueError('Validation-only data requires a version2 fresh allocation')
     fields, times, numbers, source_ids, partitions, frames = [], [], [], [], [], []
     sources = []
     common_reference = common_nodes = None
@@ -78,6 +89,15 @@ def prepare(spec_path, output, source_names=None):
             raise ValueError('Each source requires disjoint explicit partitions')
         if groups['validation'] and not frozen_sha:
             raise ValueError('Fresh validation extraction requires a frozen_model_receipt')
+        if role == 'validation-only':
+            if groups['training'] or groups['development']:
+                raise ValueError('Validation-only data cannot contain fitting partitions')
+            if groups['validation'] != step_list(freeze['fresh_validation']['steps']):
+                raise ValueError('Validation steps differ from the frozen allocation')
+            vertex = freeze['operator_vertex']
+            if (controls_sha != freeze['construction_configuration'][vertex+'_controls_sha256']
+                    or binding.get('source_signature') != freeze['full_mpm_source_signature']):
+                raise ValueError('Validation source differs from frozen control/physics binding')
         if groups['training']:
             later = groups['development'] + groups['validation']
             if later and max(groups['training']) >= min(later):
@@ -133,15 +153,17 @@ def prepare(spec_path, output, source_names=None):
                             reserved_validation_from_step=reserved))
     masks = {key: np.asarray([p == key for p in partitions])
              for key in ('training', 'development', 'validation')}
-    if not masks['training'].any():
+    if not masks['training'].any() and role != 'validation-only':
         raise ValueError('At least one training frame is required')
+    if role == 'validation-only' and not masks['validation'].any():
+        raise ValueError('No frozen validation frames were selected')
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix('.tmp.npz')
     np.savez_compressed(temporary, displacement=np.asarray(fields), nodes=common_nodes,
                         time=np.asarray(times), steps=np.asarray(numbers),
                         source_index=np.asarray(source_ids), **masks)
     temporary.replace(output)
-    receipt = dict(schema_version=1, specification=spec, specification_sha256=digest(spec_path),
+    receipt = dict(schema_version=1, role=role, specification=spec, specification_sha256=digest(spec_path),
                    selected_source_names=source_names,
                    frozen_model_receipt_sha256=frozen_sha, sources=sources, frames=frames,
                    output_sha256=digest(output), training_count=int(masks['training'].sum()),

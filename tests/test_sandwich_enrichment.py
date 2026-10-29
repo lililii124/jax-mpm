@@ -67,3 +67,53 @@ def test_rejects_invalid_provenance_or_data_allocation(tmp_path, change):
     else: source['controls_sha256'] = 'invalid'
     path.write_text(json.dumps(spec))
     with pytest.raises(ValueError): prepare(path, tmp_path/'snapshots.npz')
+
+
+def validation_fixture(tmp_path):
+    path, spec, nodes, expected = fixture(tmp_path)
+    source = spec['sources'][0]
+    source.update(training_steps=[], development_steps=[], validation_steps=[1000, 2000],
+                  reserved_validation_from_step=1000, source_signature='physical-source')
+    status_path = tmp_path/'physical/status.json'
+    status = json.loads(status_path.read_text())
+    status['binding']['source_signature'] = 'physical-source'
+    status_path.write_text(json.dumps(status))
+    freeze = dict(schema_version=2, operator_vertex='selected',
+                  construction_configuration=dict(selected_controls_sha256=source['controls_sha256']),
+                  full_mpm_source_signature='physical-source',
+                  fresh_validation=dict(steps=[1000, 2000]))
+    (tmp_path/'freeze.json').write_text(json.dumps(freeze))
+    spec.update(role='validation-only', frozen_model_receipt='freeze.json')
+    path.write_text(json.dumps(spec))
+    return path, spec, expected
+
+
+def test_frozen_validation_needs_no_training_fields(tmp_path):
+    path, _, expected = validation_fixture(tmp_path)
+    output = tmp_path/'snapshots.npz'
+    prepare(path, output)
+    with np.load(output, allow_pickle=False) as saved:
+        assert not saved['training'].any() and not saved['development'].any()
+        assert saved['validation'].all()
+        np.testing.assert_allclose(saved['displacement'][0], expected, rtol=0, atol=2e-14)
+    receipt = json.loads(output.with_suffix('.json').read_text())
+    assert receipt['role'] == 'validation-only'
+    assert receipt['training_count'] == 0 and receipt['validation_count'] == 2
+    assert receipt['frozen_model_receipt_sha256'] == hashlib.sha256((tmp_path/'freeze.json').read_bytes()).hexdigest()
+
+
+@pytest.mark.parametrize('change', ['missing-freeze', 'allocation', 'training', 'physics'])
+def test_validation_only_cannot_change_frozen_allocation(tmp_path, change):
+    path, spec, _ = validation_fixture(tmp_path)
+    source = spec['sources'][0]
+    if change == 'missing-freeze': spec.pop('frozen_model_receipt')
+    elif change == 'allocation': source['validation_steps'] = [1000]
+    elif change == 'training':
+        source['training_steps'] = [1000]; source['validation_steps'] = [2000]
+    else:
+        freeze_path = tmp_path/'freeze.json'
+        freeze = json.loads(freeze_path.read_text())
+        freeze['full_mpm_source_signature'] = 'different-physics'
+        freeze_path.write_text(json.dumps(freeze))
+    path.write_text(json.dumps(spec))
+    with pytest.raises(ValueError): prepare(path, tmp_path/'snapshots.npz')

@@ -233,13 +233,19 @@ def optimize(model,output,*,iterations=1,resume=False,learning_rate=.05,initial_
 
 
 def optimize_sqp(model,output,*,iterations=5,resume=False,initial_controls=None,tolerance=1e-7,
-                 objective_scale=1.):
+                 objective_scale=1.,evaluator='legacy'):
     """Constrained design with sequential VJPs and an independent feasible state."""
     import jax
     import jax.numpy as jnp
     from scipy.optimize import minimize
     if iterations<1 or tolerance<=0 or not np.isfinite(objective_scale) or objective_scale<=0:
         raise ValueError('Positive SQP budget, tolerance and objective scale required')
+    if evaluator not in ('legacy','case-pullback'):raise ValueError('Unknown SQP evaluator')
+    casewise=None
+    if evaluator!='legacy' or model.get('_sqp_evaluator_kind','legacy')!='legacy':
+        from mpm_jax.reduced_case_pullback import configure_sqp_evaluator,FixedMassCasePullback
+        configure_sqp_evaluator(model,evaluator)
+        if evaluator=='case-pullback':casewise=FixedMassCasePullback(model)
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     signature,binding=model['signature']();checkpoint=output/'sqp.npz'
     q=np.asarray(model['q0'] if initial_controls is None else initial_controls).copy()
@@ -278,13 +284,20 @@ def optimize_sqp(model,output,*,iterations=5,resume=False,initial_controls=None,
         if 'q' not in cache or not np.array_equal(x,cache['q']):
             cache.clear();cache['q']=x.copy()
             seed=np.zeros(output_count);seed[0]=1.
-            values,row,record=one_vjp(jnp.asarray(x),jnp.asarray(seed))
+            if casewise is None:values,row,record=one_vjp(jnp.asarray(x),jnp.asarray(seed))
+            else:
+                evaluated=casewise(x);values,row,record=evaluated['values'],evaluated['first_row'],evaluated['record']
             cache['values']=np.asarray(values);cache['first_row']=np.asarray(row)
             cache['record']=numeric(record)
             if not np.isfinite(cache['values']).all():raise RuntimeError('Nonfinite SQP response')
             print(json.dumps(dict(event='sqp-evaluation',objective=float(cache['values'][0]),
                 minimum_constraint=float(np.min(cache['values'][1:])))),flush=True)
         if derivatives and 'jacobian' not in cache:
+            if casewise is not None:
+                cache['jacobian']=casewise(x)['jacobian']
+                if not (output/'initial-jacobian.npz').exists():
+                    atomic_npz(output/'initial-jacobian.npz',q=x,values=cache['values'],jacobian=cache['jacobian'])
+                return cache
             rows=[cache['first_row']]
             for index,seed in enumerate(np.eye(output_count)[1:],1):
                 values,row,_=one_vjp(jnp.asarray(x),jnp.asarray(seed))

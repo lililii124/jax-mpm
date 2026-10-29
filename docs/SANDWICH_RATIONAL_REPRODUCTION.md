@@ -79,9 +79,9 @@ python -m tools.prepare_sandwich_enrichment examples/sandwich_rational_validatio
 
 The specification is
 [sandwich_rational_validation.json](../examples/sandwich_rational_validation.json).
-Its training
-partition is an extraction-schema requirement and is not used to construct or
-change this rational basis. Extract the actual reference history from its
+Its `validation-only` role extracts the frozen allocation without training or
+development frames. The extractor checks the control and physical-source
+bindings before recovering fields. Extract the actual reference history from its
 status-bound trajectory directory, stopping at the declared step42000:
 
 ```console
@@ -142,3 +142,15 @@ The frozen selected prefix passed; complete2ms, all-three-load full-MPM
 qualification is incomplete. New optimization controls need matched
 independent full-MPM confirmation. Neither a successful prefix check nor a
 bounded optimizer stall proves a global optimum.
+
+Fixed-mass SQP also supports `optimize_sqp(..., evaluator="case-pullback")`.
+It differentiates each load response with respect to the projected mass and
+stiffness matrices, then propagates those derivatives through the material
+map. All time samples, skin-stress samples and KS bounds are retained. The
+default remains `legacy`; checkpoints bind the selected evaluator and reject
+incompatible resumes. Four alternating evaluations of two control fields
+matched the original full Jacobian to relative L2 below `2.89e-11`, with stable
+compiled-function cache sizes. The [equivalence receipt](../evidence/blast-sandwich-reduced/union130-case-pullback-equivalence.json)
+also records tests of tied maxima and checkpoint isolation. These checks
+establish numerical equivalence, not independent MPM accuracy or a measured
+speedup on identical CPU allocations.

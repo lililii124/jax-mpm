@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "role": "validation-only",
   "spacing_m": [0.01, 0.01, 0.001],
   "frozen_model_receipt": "../outputs/rational-union/model-freeze.json",
   "sources": [
@@ -9,8 +10,8 @@
       "case": "eccentric",
       "source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
       "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
-      "training_steps": {"start": 1000, "stop": 8000, "stride": 1000},
-      "development_steps": {"start": 9000, "stop": 18000, "stride": 1000},
+      "training_steps": [],
+      "development_steps": [],
       "validation_steps": {"start": 31000, "stop": 42000, "stride": 1000},
       "reserved_validation_from_step": 31000
     }
