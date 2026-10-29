@@ -99,11 +99,23 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 ### Geotechnical mechanics
 
+#### Toe excavation
+
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="docs/images/home/mat173-toe--plastic-activity.gif" alt="Plastic activity" width="100%"><br><a href="docs/MAT173_LANDSLIDE.md">Plastic activity</a></td>
 <td width="33%" align="center"><img src="docs/images/home/mat173-toe--shear-softening.gif" alt="Shear softening" width="100%"><br><a href="docs/MAT173_LANDSLIDE.md">Shear softening</a></td>
 <td width="33%" align="center"><img src="docs/images/home/mat173-toe--displacement.gif" alt="Displacement" width="100%"><br><a href="docs/MAT173_LANDSLIDE.md">Displacement</a></td>
+</tr>
+</table>
+
+#### Slope response
+
+<table width="100%">
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/mat173-gravity--plastic-activity.gif" alt="Plastic activity" width="100%"><br><a href="docs/MAT173_GRAVITY_SLOPE.md">Plastic activity</a></td>
+<td width="33%" align="center"><img src="docs/images/home/mat173-gravity--shear-softening.gif" alt="Shear softening" width="100%"><br><a href="docs/MAT173_GRAVITY_SLOPE.md">Shear softening</a></td>
+<td width="33%" align="center"></td>
 </tr>
 </table>
 

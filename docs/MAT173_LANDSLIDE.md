@@ -111,3 +111,6 @@ Full histories, checkpoints, and intermediate images are not checked in.
 The earlier [3D strength-reduced results](results/material-engineering--mat173-strength-reduced-slope-response/summary.json)
 and [animation](images/home/mat173-strength-reduced-slope-response.gif) remain
 historical references with a different setup and trigger.
+
+The earlier [gravity-driven slope response](MAT173_GRAVITY_SLOPE.md) retains
+the whole toe and uses a uniform strength path instead of excavation.

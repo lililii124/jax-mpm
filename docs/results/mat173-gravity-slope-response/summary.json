@@ -1,0 +1,177 @@
+{
+  "case": "mat173-gravity-slope-response",
+  "source_case": "mat173-rateform-7950-v1",
+  "excavation_performed": false,
+  "trigger": "After gravity balance, a uniform 1250-step strength path changes friction/cohesion from 38 degrees / 10 kPa to 28 degrees / 0 Pa, followed by strain softening toward 20 degrees / 0 Pa. No soil particles are removed and no sliding velocity is prescribed.",
+  "spatial_scope": "Strict 2D plane strain, unit thickness.",
+  "source_summary": {
+    "status": "RATEFORM_RESEARCH_GUARD",
+    "valid": true,
+    "guard_hit": true,
+    "last_valid_global_step": 12450,
+    "time_s": 0.37349999999991085,
+    "target_step_global": 20000,
+    "softening_started_at_step": 2950,
+    "softening_steps_total": 9500,
+    "additional_steps_after_resume": 4500,
+    "max_abs_log_stretch": 0.19897034037177563,
+    "PEEQ_max": 0.22948663794461158,
+    "kappa_max": 0.22945406664744997,
+    "damage_max": 1.0,
+    "prefix_ledger_file": "source_prefix_ledger.json",
+    "incremental_and_total_ledger_file": "ledger.json",
+    "checkpoint": "checkpoint.npz",
+    "scope": "rate-form small-elastic large-plastic exploratory strict2D continuation; no energy certification, calibration or mesh-objectivity claim"
+  },
+  "strength_path": {
+    "from": {
+      "phi_deg": 38.0,
+      "cohesion_Pa": 10000.0
+    },
+    "to": {
+      "phi_deg": 28.0,
+      "cohesion_Pa": 0.0
+    },
+    "steps": 1250,
+    "dt_s": 3e-05,
+    "total_time_s": 0.0375,
+    "profile": "uniform linear parameter change applied per integration step; initial increment starts at 1/1250, no initial jump; endpoint checked every 25 steps"
+  },
+  "softening": {
+    "phi_peak_deg": 28.0,
+    "cohesion_peak_Pa": 0.0,
+    "phi_residual_deg": 20.0,
+    "cohesion_residual_Pa": 0.0,
+    "dilation_peak_deg": 2.0,
+    "dilation_residual_deg": 0.0,
+    "Dc_m": 0.0005,
+    "characteristic_length_m": 0.0125,
+    "kappa_full_softening": 0.04
+  },
+  "render": {
+    "geometry": "quads at actual coordinates; see per-frame corner Jacobian/open-edge audit; particle fallback prevents bridging folded/open cells",
+    "view": {
+      "canvas": [
+        400,
+        400
+      ],
+      "projection": "parallel",
+      "parallel_scale": 1.75,
+      "focal_point": [
+        1.747,
+        1.0,
+        0.0
+      ],
+      "axes_title_text_scalarbar": false,
+      "displacement_scaling": 1.0,
+      "geometry_smoothing": false
+    },
+    "scalars": {
+      "soil_damage": {
+        "range": [
+          0.0,
+          1.0
+        ],
+        "lookup_table_rgb_points": [
+          0.0,
+          0.06,
+          0.2,
+          0.62,
+          0.25,
+          0.12,
+          0.52,
+          0.78,
+          0.5,
+          0.45,
+          0.75,
+          0.58,
+          0.7499999999999999,
+          0.91,
+          0.62,
+          0.32,
+          1.0,
+          0.72,
+          0.12,
+          0.18
+        ]
+      },
+      "soil_plastic_strain_increment": {
+        "range": [
+          0.0,
+          0.00486393618336961
+        ],
+        "lookup_table_rgb_points": [
+          0.0,
+          0.06,
+          0.2,
+          0.62,
+          0.0012159840458424026,
+          0.12,
+          0.52,
+          0.78,
+          0.002431968091684805,
+          0.45,
+          0.75,
+          0.58,
+          0.003647952137527208,
+          0.91,
+          0.62,
+          0.32,
+          0.00486393618336961,
+          0.72,
+          0.12,
+          0.18
+        ]
+      }
+    },
+    "first_step": 4950,
+    "last_step": 12450,
+    "first_time_s": 0.14850000000000824,
+    "last_time_s": 0.37349999999991085,
+    "first_increment_zero": true,
+    "frames": 61
+  },
+  "assets": {
+    "mat173-gravity--plastic-activity.gif": {
+      "field": "soil_plastic_strain_increment",
+      "sha256": "7001a63f3d22f680f840eba076f202df121b147d3282aeecf48e0eb3e874166c",
+      "pixels": [
+        400,
+        400
+      ],
+      "frames": 61,
+      "distinct_frames": 61
+    },
+    "mat173-gravity--shear-softening.gif": {
+      "field": "soil_damage",
+      "sha256": "e29e09a96bcb33b5dbe91bbc06a5fa9fb305dd241055d4374cae4ed3cf36feb9",
+      "pixels": [
+        400,
+        400
+      ],
+      "frames": 61,
+      "distinct_frames": 61
+    }
+  },
+  "terminal_checkpoint_proof": {
+    "sha256": "5070ee7f4ff4c32e26c05fc3ea35d4cc7e1ebb5501d492d216e1cc962c281499",
+    "all_stored_arrays_finite": true,
+    "bodies": {
+      "soil": {
+        "time_s": 0.37349999999991085,
+        "state_valid": true,
+        "all_history_valid": true,
+        "min_J": 0.9981488181285372,
+        "max_principal_Hencky": 0.19897034037177566
+      },
+      "base": {
+        "time_s": 0.37349999999991085,
+        "state_valid": true,
+        "all_history_valid": true,
+        "min_J": 0.9995708412132821,
+        "max_principal_Hencky": 0.00042845961126670735
+      }
+    }
+  },
+  "scope": "Exploratory strength-path and gravity-driven slope response; no excavation, site calibration, full landslide or mesh-objective localization claim. The selected constitutive/history path differs from the toe-excavation example."
+}
