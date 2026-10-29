@@ -1,0 +1,120 @@
+{
+  "control_file": "H:\\test\\jax-mpm\\evidence\\blast-sandwich-reduced\\enriched-v12-best-strict-feasible-controls.npz",
+  "control_file_sha256": "e21a155fb07bb742e18e27a85866c7fb8fd381bb3204d55aeeae115864619deb",
+  "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+  "control_signature": "23076cf7fe1bc4881fd269476f2080ab4489a2747171ca6990fd36b34c0e917a",
+  "shape": [
+    1728
+  ],
+  "dtype": "float64",
+  "best_iteration": 8,
+  "best_objective": 0.14461148017444939,
+  "mass_kg": 1.8467999999999998,
+  "actual_peak_back_m": 0.0007187074184442794,
+  "actual_peak_skin_Pa": 137984237.2631311,
+  "cases": [
+    [
+      0.0007017753696074269,
+      0.08955801420114048,
+      0.3428225260100109,
+      0.00044030001219022693,
+      68466203.05508253,
+      4.1744385725905886e-14,
+      1.363078764070695e-14
+    ],
+    [
+      0.0023486116463753274,
+      0.1436727468236628,
+      0.5812745567818597,
+      0.0007108884382033919,
+      116155995.78602394,
+      1.1191048088221578e-13,
+      1.2925599073474382e-14
+    ],
+    [
+      0.0017705622999927239,
+      0.14461148017444939,
+      0.6903480830478654,
+      0.0007187074184442794,
+      137984237.2631311,
+      9.592326932761353e-14,
+      1.0054335817134738e-14
+    ]
+  ],
+  "baseline_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+  "baseline_source_sha256": {
+    "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+    "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8"
+  },
+  "plan": {
+    "settings": {
+      "length": 0.3,
+      "width": 0.3,
+      "skin": 0.002,
+      "core": 0.02,
+      "edge": 0.015,
+      "xy_step": 0.01,
+      "z_step": 0.001,
+      "controls": [
+        24,
+        24,
+        3
+      ],
+      "filter_radius": 0.015,
+      "phi_min": 0.08,
+      "phi_max": 0.35,
+      "target_phi": 0.18,
+      "peak_pressure": 500000.0,
+      "pulse_duration": 0.0002,
+      "horizon": 0.002,
+      "cfl": 0.15,
+      "displacement_limit": 0.005,
+      "stress_limit": 200000000.0,
+      "block_steps": 32,
+      "stage": "fixed-mass"
+    },
+    "cells": [
+      30,
+      30,
+      24
+    ],
+    "skin_cells": 2,
+    "spacing_m": [
+      0.01,
+      0.01,
+      0.001
+    ],
+    "particles": 172800,
+    "nodes": 29403,
+    "design_variables": 1728,
+    "steps": 83460,
+    "dt_s": 2.3963575365444526e-08,
+    "fixed_wave_speed_bound_m_s": 6197.824298019838,
+    "nominal_pressure_impulse_Pa_s": 50.0,
+    "discrete_pressure_impulse_Pa_s": 50.000000000000014,
+    "resultant_impulse_Ns": 4.500000000000001,
+    "uniform_mass_kg": 1.8468,
+    "memory_estimate": {
+      "support_bytes": 167961600,
+      "state_bytes": 14558872,
+      "raw_all_step_state_bytes": 1215083457120,
+      "reverse_checkpoint_state_bytes": 38449980952,
+      "scope": "Array lower bounds, excluding compiler, AD residuals and particle gather temporaries."
+    },
+    "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+  },
+  "runtime": {
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "numpy": "2.5.4"
+  },
+  "immutable_image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+  "baseline_command": [
+    "python",
+    "/work/run_full_mpm.py"
+  ],
+  "baseline_capsule": "H:\\test\\jax-mpm\\.local\\blast-sandwich-fullmpm-initial-eccentric-h10-v1-20261029.tar.gz",
+  "transfer": "Control vector only; full-MPM State must be virgin. POD/Ritz basis and ROM histories are not dependencies of independent full-MPM verification."
+}

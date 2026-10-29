@@ -1,0 +1,278 @@
+{
+  "scope": "Current experimental model limits, not an optimization success certificate.",
+  "source_receipts_sha256": {
+    "selected-review-v13.json": "94157c7995fb11378169ffac542878f60b0c0cde64d1ac908d120c2aa92b8373",
+    "selected-correction-diagnostic.json": "7e595a458c4d6a4634d89a8ca29e5d602f96f49c4459885d9b701cf8ae2815af",
+    "selected-operator-correction-diagnostic.json": "4c4e71ad62ea5112919a3b04d4e3a063b8ad010ab6efe9bc1a68262bcfdffc8f",
+    "selected-fullmpm-prefix-comparison.json": "b60fd1394f4fcec2d2f34316e48d2dec6e7333c61660086813990de1b993cb45"
+  },
+  "selected_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+  "basis_sha256": "40394c7fabcac65b0eaadbdf5e67c2647f64624fa6a1e104893428770e853e36",
+  "actual_peak_time_relative_errors": {
+    "baseline-uniform": {
+      "peak_back_m": 4.4887327754095097e-05,
+      "peak_skin_Pa": 3.422139897879539e-05
+    },
+    "baseline-central": {
+      "peak_back_m": 2.0496723789120708e-05,
+      "peak_skin_Pa": 6.0991353522665825e-05
+    },
+    "baseline-eccentric": {
+      "peak_back_m": 3.414858056083325e-05,
+      "peak_skin_Pa": 4.759058602910038e-05
+    },
+    "selected-uniform": {
+      "peak_back_m": 3.7339837376082485e-05,
+      "peak_skin_Pa": 9.673971580914653e-06
+    },
+    "selected-central": {
+      "peak_back_m": 1.8363354683526012e-06,
+      "peak_skin_Pa": 3.6175273349758896e-05
+    },
+    "selected-eccentric": {
+      "peak_back_m": 3.605444453713691e-05,
+      "peak_skin_Pa": 2.1531747181446903e-05
+    }
+  },
+  "frozen_future_interval_s": [
+    0.0008627126767313684,
+    0.0011742151929067818
+  ],
+  "frozen_future_error": {
+    "metrics": {
+      "peak_relative_error": 0.04043200724508311,
+      "curve_relative_l2": 0.034308982667963464,
+      "maximum_difference_over_reference_peak": 0.050493485144992654
+    },
+    "passed": false
+  },
+  "selected_full_mpm_prefix": {
+    "scope": "Independent full-MPM eccentric-load comparison over a common accepted prefix only; neither complete-history improvement nor other pressure cases are certified.",
+    "selected_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+    "end_step": 10000,
+    "end_time_s": 0.00023963575365444525,
+    "initial_prefix_peak_back_m": 0.0008460461189897582,
+    "selected_prefix_peak_back_m": 0.0008147712116045583,
+    "prefix_peak_relative_improvement": 0.03696596046388645,
+    "initial_prefix_peak_skin_Pa": 106183887.69519098,
+    "selected_prefix_peak_skin_Pa": 133886608.24458238,
+    "full_history_complete": false,
+    "source_csv_sha256": {
+      "initial": "17c61a461da77c3f70d787f551f5a2ecef3123b13adec935c1a68b4921eb2e57",
+      "selected": "b3a9e7cbe85ed14fb64ce4e77975a2b40394e7efd10f521906930fac64ef1643"
+    }
+  },
+  "correction_518": {
+    "existing_rank": 510,
+    "nested_enriched_rank": 518,
+    "training_snapshot_count": 8,
+    "heldout_snapshot_count": 10,
+    "new_dynamic_error": {
+      "heldout_peak_relative_error": 0.009293157672977781,
+      "heldout_curve_relative_l2": 0.035741857062773816,
+      "heldout_maximum_difference_over_reference_peak": 0.04830009295825678
+    },
+    "projection_diagnostics": [
+      {
+        "step": 9000,
+        "old_strain_energy_outside": 0.0788807137208879,
+        "new_strain_energy_outside": 0.0007464474144435185,
+        "old_displacement_mass_norm_error": 0.011399537897665193,
+        "new_displacement_mass_norm_error": 0.0022505642003237116,
+        "nonlinear_energy_relative_difference": -0.008452406112349209,
+        "projected_nonlinear_force_difference_energy_norm": 0.0751884045558971
+      },
+      {
+        "step": 10000,
+        "old_strain_energy_outside": 0.08035333558760771,
+        "new_strain_energy_outside": 0.005247158111887251,
+        "old_displacement_mass_norm_error": 0.010943179211419525,
+        "new_displacement_mass_norm_error": 0.004831414062343628,
+        "nonlinear_energy_relative_difference": -0.006641525604141885,
+        "projected_nonlinear_force_difference_energy_norm": 0.06707047049566611
+      },
+      {
+        "step": 11000,
+        "old_strain_energy_outside": 0.07904475948576128,
+        "new_strain_energy_outside": 0.016448387066004155,
+        "old_displacement_mass_norm_error": 0.009810076982063992,
+        "new_displacement_mass_norm_error": 0.0063528074293813935,
+        "nonlinear_energy_relative_difference": -0.004168288788623076,
+        "projected_nonlinear_force_difference_energy_norm": 0.05571401741075131
+      },
+      {
+        "step": 12000,
+        "old_strain_energy_outside": 0.07967090534001142,
+        "new_strain_energy_outside": 0.036107537229070674,
+        "old_displacement_mass_norm_error": 0.009099724663876093,
+        "new_displacement_mass_norm_error": 0.007747447171084043,
+        "nonlinear_energy_relative_difference": -0.003075244454456505,
+        "projected_nonlinear_force_difference_energy_norm": 0.048429381467336684
+      },
+      {
+        "step": 13000,
+        "old_strain_energy_outside": 0.08585973546876335,
+        "new_strain_energy_outside": 0.05878083592224792,
+        "old_displacement_mass_norm_error": 0.009396855561552874,
+        "new_displacement_mass_norm_error": 0.009091062720708904,
+        "nonlinear_energy_relative_difference": -0.0029372524223785224,
+        "projected_nonlinear_force_difference_energy_norm": 0.04660686730883639
+      },
+      {
+        "step": 14000,
+        "old_strain_energy_outside": 0.09348707165866166,
+        "new_strain_energy_outside": 0.07615673469558637,
+        "old_displacement_mass_norm_error": 0.010011618160826439,
+        "new_displacement_mass_norm_error": 0.009950955587883748,
+        "nonlinear_energy_relative_difference": -0.0029123950302359924,
+        "projected_nonlinear_force_difference_energy_norm": 0.046367731570194436
+      },
+      {
+        "step": 15000,
+        "old_strain_energy_outside": 0.10212987850337507,
+        "new_strain_energy_outside": 0.08529161552854769,
+        "old_displacement_mass_norm_error": 0.010800664490833634,
+        "new_displacement_mass_norm_error": 0.010546892416334771,
+        "nonlinear_energy_relative_difference": -0.0031171381792099995,
+        "projected_nonlinear_force_difference_energy_norm": 0.04640872687467049
+      },
+      {
+        "step": 16000,
+        "old_strain_energy_outside": 0.10605537275283716,
+        "new_strain_energy_outside": 0.09019404217979943,
+        "old_displacement_mass_norm_error": 0.010952197025720629,
+        "new_displacement_mass_norm_error": 0.010637595644844169,
+        "nonlinear_energy_relative_difference": -0.0031886327099036604,
+        "projected_nonlinear_force_difference_energy_norm": 0.047356650913378484
+      },
+      {
+        "step": 17000,
+        "old_strain_energy_outside": 0.10734959204413907,
+        "new_strain_energy_outside": 0.09229910997667234,
+        "old_displacement_mass_norm_error": 0.011373598248057984,
+        "new_displacement_mass_norm_error": 0.011003630990384783,
+        "nonlinear_energy_relative_difference": -0.0029782237428912506,
+        "projected_nonlinear_force_difference_energy_norm": 0.048119440287871525
+      },
+      {
+        "step": 18000,
+        "old_strain_energy_outside": 0.10981686499975307,
+        "new_strain_energy_outside": 0.09383645490413628,
+        "old_displacement_mass_norm_error": 0.012904418161588691,
+        "new_displacement_mass_norm_error": 0.012017270977496606,
+        "nonlinear_energy_relative_difference": -0.0029796124475592878,
+        "projected_nonlinear_force_difference_energy_norm": 0.047899897285587044
+      }
+    ],
+    "thresholds": {
+      "response": 0.05,
+      "projection_energy": 0.05
+    },
+    "heldout_history_gate_passed": true,
+    "heldout_projection_gate_passed": false
+  },
+  "correction_526": {
+    "nested_enriched_rank": 526,
+    "new_dynamic_error": {
+      "heldout_peak_relative_error": 0.0023087036464874977,
+      "heldout_curve_relative_l2": 0.03550291882933858,
+      "heldout_maximum_difference_over_reference_peak": 0.048647099207046934
+    },
+    "projection_diagnostics": [
+      {
+        "step": 9000,
+        "old_strain_energy_outside": 0.0788807137208879,
+        "new_strain_energy_outside": 0.0007388646614859828,
+        "old_displacement_mass_norm_error": 0.011399537897665193,
+        "new_displacement_mass_norm_error": 0.0022401981868326298,
+        "nonlinear_energy_relative_difference": -0.008452406112349209,
+        "projected_nonlinear_force_difference_energy_norm": 0.09066312740711134
+      },
+      {
+        "step": 10000,
+        "old_strain_energy_outside": 0.08035333558760771,
+        "new_strain_energy_outside": 0.005187344138469774,
+        "old_displacement_mass_norm_error": 0.010943179211419525,
+        "new_displacement_mass_norm_error": 0.00481661193438028,
+        "nonlinear_energy_relative_difference": -0.006641525604141885,
+        "projected_nonlinear_force_difference_energy_norm": 0.08023279379874398
+      },
+      {
+        "step": 11000,
+        "old_strain_energy_outside": 0.07904475948576128,
+        "new_strain_energy_outside": 0.016279522604122798,
+        "old_displacement_mass_norm_error": 0.009810076982063992,
+        "new_displacement_mass_norm_error": 0.00634288133515583,
+        "nonlinear_energy_relative_difference": -0.004168288788623076,
+        "projected_nonlinear_force_difference_energy_norm": 0.06500486761504971
+      },
+      {
+        "step": 12000,
+        "old_strain_energy_outside": 0.07967090534001142,
+        "new_strain_energy_outside": 0.03582808453476738,
+        "old_displacement_mass_norm_error": 0.009099724663876093,
+        "new_displacement_mass_norm_error": 0.007744508965805917,
+        "nonlinear_energy_relative_difference": -0.003075244454456505,
+        "projected_nonlinear_force_difference_energy_norm": 0.0543077828750897
+      },
+      {
+        "step": 13000,
+        "old_strain_energy_outside": 0.08585973546876335,
+        "new_strain_energy_outside": 0.058497312600618745,
+        "old_displacement_mass_norm_error": 0.009396855561552874,
+        "new_displacement_mass_norm_error": 0.009089832056420718,
+        "nonlinear_energy_relative_difference": -0.0029372524223785224,
+        "projected_nonlinear_force_difference_energy_norm": 0.0507747249064019
+      },
+      {
+        "step": 14000,
+        "old_strain_energy_outside": 0.09348707165866166,
+        "new_strain_energy_outside": 0.07586914098647968,
+        "old_displacement_mass_norm_error": 0.010011618160826439,
+        "new_displacement_mass_norm_error": 0.009948447989786455,
+        "nonlinear_energy_relative_difference": -0.0029123950302359924,
+        "projected_nonlinear_force_difference_energy_norm": 0.0494709011357739
+      },
+      {
+        "step": 15000,
+        "old_strain_energy_outside": 0.10212987850337507,
+        "new_strain_energy_outside": 0.08467072517884089,
+        "old_displacement_mass_norm_error": 0.010800664490833634,
+        "new_displacement_mass_norm_error": 0.010541652238163944,
+        "nonlinear_energy_relative_difference": -0.0031171381792099995,
+        "projected_nonlinear_force_difference_energy_norm": 0.04921642754679011
+      },
+      {
+        "step": 16000,
+        "old_strain_energy_outside": 0.10605537275283716,
+        "new_strain_energy_outside": 0.08879607448156179,
+        "old_displacement_mass_norm_error": 0.010952197025720629,
+        "new_displacement_mass_norm_error": 0.010630907662625385,
+        "nonlinear_energy_relative_difference": -0.0031886327099036604,
+        "projected_nonlinear_force_difference_energy_norm": 0.05052314914959526
+      },
+      {
+        "step": 17000,
+        "old_strain_energy_outside": 0.10734959204413907,
+        "new_strain_energy_outside": 0.09005899212956925,
+        "old_displacement_mass_norm_error": 0.011373598248057984,
+        "new_displacement_mass_norm_error": 0.011001126075132171,
+        "nonlinear_energy_relative_difference": -0.0029782237428912506,
+        "projected_nonlinear_force_difference_energy_norm": 0.051034238828786826
+      },
+      {
+        "step": 18000,
+        "old_strain_energy_outside": 0.10981686499975307,
+        "new_strain_energy_outside": 0.0911281083047435,
+        "old_displacement_mass_norm_error": 0.012904418161588691,
+        "new_displacement_mass_norm_error": 0.012013160833128452,
+        "nonlinear_energy_relative_difference": -0.0029796124475592878,
+        "projected_nonlinear_force_difference_energy_norm": 0.04967437157697533
+      }
+    ],
+    "heldout_projection_gate_passed": false
+  },
+  "nonlinear_blast_qualified": false,
+  "complete_selected_three_case_mpm_verified": false,
+  "enriched_basis_public_reconstruction_complete": false
+}

@@ -1,0 +1,13 @@
+{
+  "selected_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+  "training_steps": [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
+  "training_end_s": 0.0001917086029235562,
+  "development_comparison_steps": [9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000],
+  "development_fields_enter_basis_fit": false,
+  "reason": "This interval diagnoses alternative operator enrichments. Repeated method selection on its errors makes it a development comparison, even though its displacement fields are excluded from fitting.",
+  "fresh_selected_validation_start_step": 19000,
+  "fresh_validation_requires_model_frozen_before_inspection": true,
+  "additional_load_cases_require_independent_validation": true,
+  "full_horizon_and_constraints_verified": false,
+  "global_optimum_claim": false
+}
