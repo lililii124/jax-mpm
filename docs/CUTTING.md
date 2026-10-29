@@ -18,6 +18,8 @@ particle centres. The whole sequence has 79 frames and the close-up 31 frames.
 Colours remain fixed within each sequence. No displacement scaling is applied.
 The displayed increment rate is the change in saved equivalent plastic strain
 divided by the actual interval between adjacent saved states.
+The multiple-pass and close-up rate views use a shared logarithmic colour scale
+from 1 to 4,365,710 s⁻¹; zero and lower values use the pale background colour.
 
 Public drivers now support both flow-stress parameter groups and a fresh
 three-pass trajectory. Existing rendered sequences retain their original

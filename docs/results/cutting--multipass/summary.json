@@ -37,7 +37,7 @@
     },
     "plastic_increment_rate": {
       "path": "docs/images/home/cutting--multipass--plastic-increment-rate.gif",
-      "sha256": "8d2511c59d15c64ac5d115c5b11a8d3ac622e6da40cba79f1a8ea4a982cbf0d4",
+      "sha256": "5fe4449a773a166b525e872116a2bfe7568827e96109de97aaa0fb27df833b9a",
       "frames": 79,
       "distinct_frames": 79
     }
@@ -52,5 +52,32 @@
     "ti64-multipass-pass3-dynamic-residual-v50"
   ],
   "true_time_zero_restored": true,
-  "source_classification": "Exploratory dt4 continuation after the verified v31b prefix; no equal-time or time-step-convergence claim."
+  "source_classification": "Exploratory dt4 continuation after the verified v31b prefix; no equal-time or time-step-convergence claim.",
+  "rate_color_display": {
+    "scale": "logarithmic",
+    "fixed_positive_lower_s_inv": 1.0,
+    "fixed_upper_s_inv": 4365710.044632739,
+    "raw_data_range_s_inv": [
+      0.0,
+      4365710.044632739
+    ],
+    "zero_and_below_floor_color": [
+      0.91,
+      0.94,
+      0.97
+    ],
+    "zero_color_verified_with_VTK": [
+      0.9098039215686274,
+      0.9411764705882353,
+      0.9686274509803922
+    ],
+    "expected_8bit_zero_color": [
+      0.9098039215686274,
+      0.9411764705882353,
+      0.9686274509803922
+    ],
+    "scalar_values_modified": false,
+    "same_frames_camera_geometry_as_published": true,
+    "previous_linear_gif_sha256": "8d2511c59d15c64ac5d115c5b11a8d3ac622e6da40cba79f1a8ea4a982cbf0d4"
+  }
 }

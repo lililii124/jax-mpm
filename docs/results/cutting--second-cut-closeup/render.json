@@ -922,7 +922,37 @@
         400,
         400
       ],
-      "gif_sha256": "72936764422c4881648586fe0b1dabd6b9c9e8b4c96ec0c60942ceb9f30eea21"
+      "gif_sha256": "34ef6532063e99b088225137d37e03a34702dd2d55dded85e0ac328690205650"
     }
+  },
+  "rate_color_display": {
+    "scale": "logarithmic",
+    "fixed_positive_lower_s_inv": 1.0,
+    "fixed_upper_s_inv": 4365710.044632739,
+    "raw_data_range_s_inv": [
+      0.0,
+      4365710.044632739
+    ],
+    "zero_and_below_floor_color": [
+      0.91,
+      0.94,
+      0.97
+    ],
+    "zero_color_verified_with_VTK": [
+      0.9098039215686274,
+      0.9411764705882353,
+      0.9686274509803922
+    ],
+    "expected_8bit_zero_color": [
+      0.9098039215686274,
+      0.9411764705882353,
+      0.9686274509803922
+    ],
+    "scalar_values_modified": false,
+    "same_frames_camera_geometry_as_published": true,
+    "previous_linear_gif_sha256": "72936764422c4881648586fe0b1dabd6b9c9e8b4c96ec0c60942ceb9f30eea21"
+  },
+  "field_specific_render_receipts": {
+    "plastic_increment_rate": "rate-render.json"
   }
 }

@@ -1,0 +1,1885 @@
+{
+  "complete_for_planned_duration": true,
+  "group": "multipass",
+  "time_window_s": [
+    0.0,
+    0.00027616666666666664
+  ],
+  "time_window_us": [
+    0.0,
+    276.16666666666663
+  ],
+  "selected_frames": [
+    {
+      "frame": 0,
+      "time_s": 0.0,
+      "virtual_tip": [
+        3.1e-05,
+        0.000182
+      ],
+      "file": "/source0/fields_00000.npz",
+      "task": "ti64-positive-clearance-initial-v31b",
+      "source_index": 0,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "b77fa9c22e2bcaeb2957970673e7510fd0c9e8db23711c20d9d17270d407ecf0",
+      "adjacent_interval_s": null,
+      "active_particles": 13184,
+      "failed_particles": 0
+    },
+    {
+      "frame": 255,
+      "time_s": 2.0718304872680368e-06,
+      "virtual_tip": [
+        3.721549146180411e-05,
+        0.000182
+      ],
+      "file": "/source0/fields_00255.npz",
+      "task": "ti64-positive-clearance-initial-v31b",
+      "source_index": 0,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "e9e610c2605d29ca0ac019ccec333a8b5f41888478c27e74218e14157331c61a",
+      "adjacent_interval_s": 8.124825440267108e-09,
+      "active_particles": 13184,
+      "failed_particles": 0
+    },
+    {
+      "frame": 377,
+      "time_s": 3.0630591909769605e-06,
+      "virtual_tip": [
+        4.0189177572930885e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_00377.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "957408e4095ded685fa6f42bcccb1cea7285ada79e64889c5d2f45004328e7a7",
+      "adjacent_interval_s": 8.124825436640113e-09,
+      "active_particles": 13184,
+      "failed_particles": 0
+    },
+    {
+      "frame": 511,
+      "time_s": 4.151785799973985e-06,
+      "virtual_tip": [
+        4.345535739992196e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_00511.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "79228d4364fa520ae9786c02b883379cce72275c7b2a8a713603e409e4649fac",
+      "adjacent_interval_s": 8.124825440312848e-09,
+      "active_particles": 13177,
+      "failed_particles": 7
+    },
+    {
+      "frame": 567,
+      "time_s": 4.6067760246315045e-06,
+      "virtual_tip": [
+        4.4820328073894516e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_00567.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "ca6e7db488c2aa509a66ed4f63d874de15549517dd5239040a0b32aa4427e873",
+      "adjacent_interval_s": 8.124825440312848e-09,
+      "active_particles": 13171,
+      "failed_particles": 13
+    },
+    {
+      "frame": 766,
+      "time_s": 6.223616287253761e-06,
+      "virtual_tip": [
+        4.967084886176128e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_00766.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "a908f97226b52e859d138433eec6d7b06ed12860d40b1a11b1f6742264bc79e2",
+      "adjacent_interval_s": 8.124825440312848e-09,
+      "active_particles": 13158,
+      "failed_particles": 26
+    },
+    {
+      "frame": 1022,
+      "time_s": 8.303571599965065e-06,
+      "virtual_tip": [
+        5.5910714799895196e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_01022.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "19d87a93f3db1cf1116aea579a8d92418781869369e332c93355d4bbc66c0584",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13146,
+      "failed_particles": 38
+    },
+    {
+      "frame": 1133,
+      "time_s": 9.205427223828038e-06,
+      "virtual_tip": [
+        5.861628167148412e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_01133.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "45be234728275466dc3ca9d3b74c04d716584392954a2c5db05d5a00fba0dc5b",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13141,
+      "failed_particles": 43
+    },
+    {
+      "frame": 1277,
+      "time_s": 1.0375402087217842e-05,
+      "virtual_tip": [
+        6.212620626165353e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_01277.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "43cdcf30e162be59b23a17aba432000a222f7fb1d19b127c7b115b8e6f2acb4c",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13137,
+      "failed_particles": 47
+    },
+    {
+      "frame": 1533,
+      "time_s": 1.2455357399910826e-05,
+      "virtual_tip": [
+        6.836607219973248e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_01533.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "951ce3ca510dda79e28fc7f88119981c4e4cafad9e3d6ad5086b5ff32208279b",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13132,
+      "failed_particles": 52
+    },
+    {
+      "frame": 1700,
+      "time_s": 1.381220324842539e-05,
+      "virtual_tip": [
+        7.243660974527617e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_01700.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "682a3a817e8d429cf3f26a8cfe5955b4688a3a09c057ed0344b6b110b4051101",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13129,
+      "failed_particles": 55
+    },
+    {
+      "frame": 1788,
+      "time_s": 1.4527187887163603e-05,
+      "virtual_tip": [
+        7.458156366149081e-05,
+        0.000182
+      ],
+      "file": "/source1/fields_01788.npz",
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "source_index": 1,
+      "pose_time_source": "saved observation indexed by physical frame",
+      "source_sha256": "07b3c715f2339baa68842a934c1d3a943e4d7ebf6fbb2ee34a9bc509321e75c7",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13128,
+      "failed_particles": 56
+    },
+    {
+      "frame": 2044,
+      "time_s": 1.6607143199856587e-05,
+      "virtual_tip": [
+        8.082142959956975e-05,
+        0.000182
+      ],
+      "file": "/source2/fields_02044.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "871edd0eb30291e7683675a95bc5900eefe02151fd51126e324288657fdea171",
+      "adjacent_interval_s": 8.124825440206969e-09,
+      "active_particles": 13122,
+      "failed_particles": 62
+    },
+    {
+      "frame": 2066,
+      "time_s": 1.839460479670212e-05,
+      "virtual_tip": [
+        8.618381439010636e-05,
+        0.000182
+      ],
+      "file": "/source2/fields_02066.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "cecce14b2629b6e06b93342db2bf0af27332c0c14f0ecaab38e6c6398765db94",
+      "adjacent_interval_s": 8.124825440206969e-08,
+      "active_particles": 13118,
+      "failed_particles": 66
+    },
+    {
+      "frame": 2123,
+      "time_s": 2.3025755297620092e-05,
+      "virtual_tip": [
+        0.00010007726589286026,
+        0.000182
+      ],
+      "file": "/source2/fields_02123.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "657c413ed0abf382db8568b8be2a1c3f79fcd68e2d87b037d3bd6cc00dd1fd5f",
+      "adjacent_interval_s": 8.124825440206969e-08,
+      "active_particles": 13101,
+      "failed_particles": 83
+    },
+    {
+      "frame": 2180,
+      "time_s": 2.7656905798538064e-05,
+      "virtual_tip": [
+        0.00011397071739561418,
+        0.000182
+      ],
+      "file": "/source2/fields_02180.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "7625f031f9fb4be0e374863d6137c028686f20bd1af04ca71612403d2fee27ed",
+      "adjacent_interval_s": 8.124825440206969e-08,
+      "active_particles": 13079,
+      "failed_particles": 105
+    },
+    {
+      "frame": 2236,
+      "time_s": 3.220680804514202e-05,
+      "virtual_tip": [
+        0.00012762042413542603,
+        0.000182
+      ],
+      "file": "/source2/fields_02236.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "1e8208d96fafc32b725d32de72f40b91a482d9372240ea664feb3b98c50cc1c2",
+      "adjacent_interval_s": 8.124825440630485e-08,
+      "active_particles": 13054,
+      "failed_particles": 130
+    },
+    {
+      "frame": 2293,
+      "time_s": 3.6837958546301394e-05,
+      "virtual_tip": [
+        0.00014151387563890417,
+        0.000182
+      ],
+      "file": "/source2/fields_02293.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "417a39b295011707e5076a90788a21f390412895a813e3c289e4ed495bf43618",
+      "adjacent_interval_s": 8.124825440630485e-08,
+      "active_particles": 13039,
+      "failed_particles": 145
+    },
+    {
+      "frame": 2349,
+      "time_s": 4.1387860793054466e-05,
+      "virtual_tip": [
+        0.00015516358237916339,
+        0.000182
+      ],
+      "file": "/source2/fields_02349.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "b2c36d0d1af1b4108c40069e2cb943ea9663cfcaa13910aaae35fa73b58388a6",
+      "adjacent_interval_s": 8.124825440630485e-08,
+      "active_particles": 13024,
+      "failed_particles": 160
+    },
+    {
+      "frame": 2406,
+      "time_s": 4.601901129421384e-05,
+      "virtual_tip": [
+        0.0001690570338826415,
+        0.000182
+      ],
+      "file": "/source2/fields_02406.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "6eee4cdfe000d6e6c349a5c7895c943eed3ab2378c19fa95cb1ead79eecfa91b",
+      "adjacent_interval_s": 8.124825440630485e-08,
+      "active_particles": 13012,
+      "failed_particles": 172
+    },
+    {
+      "frame": 2463,
+      "time_s": 5.065016179537322e-05,
+      "virtual_tip": [
+        0.00018295048538611962,
+        0.000182
+      ],
+      "file": "/source2/fields_02463.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "641ae40ac949ba33766f80ceea11b11a8c58664413c86f0ee86be39a72e771d6",
+      "adjacent_interval_s": 8.124825440630485e-08,
+      "active_particles": 13003,
+      "failed_particles": 181
+    },
+    {
+      "frame": 2519,
+      "time_s": 5.520006404212629e-05,
+      "virtual_tip": [
+        0.00019660019212637883,
+        0.000182
+      ],
+      "file": "/source2/fields_02519.npz",
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "source_index": 2,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "72f2132b731277795690eab62a17d1de70a4ce0526460d7c14bd6dedf733acb1",
+      "adjacent_interval_s": 8.124825440630485e-08,
+      "active_particles": 13003,
+      "failed_particles": 181
+    },
+    {
+      "frame": 2562,
+      "time_s": 5.8666666666666665e-05,
+      "virtual_tip": [
+        0.000207,
+        0.000182
+      ],
+      "file": "/source3/fields_02562.npz",
+      "task": "ti64-multipass-dt4-pass2-v39",
+      "source_index": 3,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "bdacd145fdef9bc366bfe0c265ec6678ff5e83b8811b8c29909551a32f2de8f0",
+      "adjacent_interval_s": 5.4175939475570366e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2576,
+      "time_s": 5.980414222830399e-05,
+      "virtual_tip": [
+        0.000207,
+        0.0001956497067396479
+      ],
+      "file": "/source3/fields_02576.npz",
+      "task": "ti64-multipass-dt4-pass2-v39",
+      "source_index": 3,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "10a5e019c380c4b84b577471e65348efeea5344c8514a4d4c0b9d2dd7ee7ab98",
+      "adjacent_interval_s": 8.1248254402666e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2633,
+      "time_s": 6.443529272925624e-05,
+      "virtual_tip": [
+        0.000207,
+        0.0002512235127510749
+      ],
+      "file": "/source4/fields_02633.npz",
+      "task": "ti64-multipass-pass2-mapcache-recovery-v45",
+      "source_index": 4,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "68947c46f2cc8981c70ba03c0a8e883fc3a1893e951dc45ffac6caddf4194586",
+      "adjacent_interval_s": 8.124825440267278e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2690,
+      "time_s": 6.906644323020859e-05,
+      "virtual_tip": [
+        0.000207,
+        0.0003067973187625031
+      ],
+      "file": "/source4/fields_02690.npz",
+      "task": "ti64-multipass-pass2-mapcache-recovery-v45",
+      "source_index": 4,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "009368d6eae2af82da003f431c1137a20441cd06c4e0b530fd156b90f48c1983",
+      "adjacent_interval_s": 8.124825440267278e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2725,
+      "time_s": 7.183333333333334e-05,
+      "virtual_tip": [
+        0.000207,
+        0.00034
+      ],
+      "file": "/source4/fields_02725.npz",
+      "task": "ti64-multipass-pass2-mapcache-recovery-v45",
+      "source_index": 4,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "cf63e3fec3dc965c11657dc1a6dd383d5a7a1ed1079ddfa303c58273c98ae669",
+      "adjacent_interval_s": 4.4494534338706485e-09,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2747,
+      "time_s": 7.362079493019187e-05,
+      "virtual_tip": [
+        0.00018555046083769763,
+        0.00034
+      ],
+      "file": "/source4/fields_02747.npz",
+      "task": "ti64-multipass-pass2-mapcache-recovery-v45",
+      "source_index": 4,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "414db3ca72a86ef423239110a434bfe09a67dc8933c63321c01ac6b12c84a9c6",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2804,
+      "time_s": 7.825194543114344e-05,
+      "virtual_tip": [
+        0.00012997665482627872,
+        0.00034
+      ],
+      "file": "/source5/fields_02804.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "9d60ea7fd6f4babc72872ce8dc64b46cbc6dadaa2316cb2134c4f2b40571c2a7",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2861,
+      "time_s": 8.288309593209502e-05,
+      "virtual_tip": [
+        7.440284881485984e-05,
+        0.00034
+      ],
+      "file": "/source5/fields_02861.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "2d72b98fb6e762bd1db049cb380f6a72d4dfe5d4ed261ec7c6623ca8bcec8caf",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2906,
+      "time_s": 8.650000000000002e-05,
+      "virtual_tip": [
+        3.1e-05,
+        0.00033999999999999986
+      ],
+      "file": "/source5/fields_02906.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "b7f3561ea1db0af6025e2cd4313b197ea9fe68fe0fa90c0f733b81e26b4f8001",
+      "adjacent_interval_s": 4.1980874187992666e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2918,
+      "time_s": 8.747497905283209e-05,
+      "virtual_tip": [
+        3.1e-05,
+        0.000328300251366015
+      ],
+      "file": "/source5/fields_02918.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "b609bd56282d718ea3b4ff4050c4cbdc3a8c89ab9c5a387c6cae35da98ffff9b",
+      "adjacent_interval_s": 8.124825440267278e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 2974,
+      "time_s": 9.202488129938176e-05,
+      "virtual_tip": [
+        3.1e-05,
+        0.0002737014244074189
+      ],
+      "file": "/source5/fields_02974.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "dd180444a983b099b81daceecabccdd42cec54fb3e5af5980eb3b6ca7908199f",
+      "adjacent_interval_s": 8.124825440267278e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 3031,
+      "time_s": 9.665603180033411e-05,
+      "virtual_tip": [
+        3.1e-05,
+        0.0002181276183959907
+      ],
+      "file": "/source5/fields_03031.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "575800a6499ac67babeb9166a8de5a95df21de1baf2a3ddcfb07da966e56bb7c",
+      "adjacent_interval_s": 8.124825440267278e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 3079,
+      "time_s": 0.0001005,
+      "virtual_tip": [
+        3.1e-05,
+        0.000172
+      ],
+      "file": "/source5/fields_03079.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "ed2436f1da10e181af66bb315dc83ab252c73c17bd793d2265ca12d8c07428d7",
+      "adjacent_interval_s": 2.530024274027061e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 3088,
+      "time_s": 0.00010123123428962396,
+      "virtual_tip": [
+        3.319370286887188e-05,
+        0.000172
+      ],
+      "file": "/source5/fields_03088.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "c87a1ad35df9c92a23e3087f558d57a55332e6a2bf032f947b2259690baa4e66",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 13001,
+      "failed_particles": 183
+    },
+    {
+      "frame": 3145,
+      "time_s": 0.00010586238479057554,
+      "virtual_tip": [
+        4.70871543717266e-05,
+        0.000172
+      ],
+      "file": "/source5/fields_03145.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "040f1c77f72099b3d02863321825a3d6810cbb5f2f2a644d81118572c9e95d55",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12980,
+      "failed_particles": 204
+    },
+    {
+      "frame": 3202,
+      "time_s": 0.00011049353529152711,
+      "virtual_tip": [
+        6.098060587458133e-05,
+        0.000172
+      ],
+      "file": "/source5/fields_03202.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "912a7c7b3f25a9e48663db00deba0796a70ac1f104cc14f0db7c65c11dbf8e4c",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12945,
+      "failed_particles": 239
+    },
+    {
+      "frame": 3258,
+      "time_s": 0.00011504343753807603,
+      "virtual_tip": [
+        7.463031261422808e-05,
+        0.000172
+      ],
+      "file": "/source5/fields_03258.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "d7e98d0e2c713baa1f9688b0aeb83bd44c96b4f7208c06240ea68e34892df710",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12915,
+      "failed_particles": 269
+    },
+    {
+      "frame": 3315,
+      "time_s": 0.00011967458803902761,
+      "virtual_tip": [
+        8.85237641170828e-05,
+        0.000172
+      ],
+      "file": "/source5/fields_03315.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "c1e443d25c312476b67c52bd06fae4fbd421f4cf560bcc604a90f226035c8ac0",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12880,
+      "failed_particles": 304
+    },
+    {
+      "frame": 3372,
+      "time_s": 0.00012430573853997918,
+      "virtual_tip": [
+        0.00010241721561993753,
+        0.000172
+      ],
+      "file": "/source5/fields_03372.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "fc631ac71751d5109b632818d9030a3996130d3a5528a587ed23e23b637a48c7",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12858,
+      "failed_particles": 326
+    },
+    {
+      "frame": 3428,
+      "time_s": 0.0001288556407865281,
+      "virtual_tip": [
+        0.00011606692235958428,
+        0.000172
+      ],
+      "file": "/source5/fields_03428.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "1fe431d99ed8e3de24abff4dea3ca8e2215e09dd9ddde811c775c0668f24a168",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12821,
+      "failed_particles": 363
+    },
+    {
+      "frame": 3485,
+      "time_s": 0.00013348679128747967,
+      "virtual_tip": [
+        0.000129960373862439,
+        0.000172
+      ],
+      "file": "/source5/fields_03485.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "0fd95394c3b92b3fbbf4165674af0bbc884415b605a6212e70c738e02796974b",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12785,
+      "failed_particles": 399
+    },
+    {
+      "frame": 3542,
+      "time_s": 0.00013811794178843125,
+      "virtual_tip": [
+        0.00014385382536529374,
+        0.000172
+      ],
+      "file": "/source5/fields_03542.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "32648e212815c722f7b8ea39e7e15c2cf80194e282407919d9e1b7d23e40b076",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12749,
+      "failed_particles": 435
+    },
+    {
+      "frame": 3598,
+      "time_s": 0.00014266784403498017,
+      "virtual_tip": [
+        0.00015750353210494046,
+        0.000172
+      ],
+      "file": "/source5/fields_03598.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "1fe73c4e0b9a1681037aedaaa4dc52f322f6e1a77cdbf1ab653845ba5ef6abf2",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12725,
+      "failed_particles": 459
+    },
+    {
+      "frame": 3655,
+      "time_s": 0.00014729899453593174,
+      "virtual_tip": [
+        0.00017139698360779519,
+        0.000172
+      ],
+      "file": "/source5/fields_03655.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "e074f82e2f72f7cd5e1936f9b7564c761b839defaf8fe40aaae672517747ae56",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12693,
+      "failed_particles": 491
+    },
+    {
+      "frame": 3712,
+      "time_s": 0.00015193014503688332,
+      "virtual_tip": [
+        0.0001852904351106499,
+        0.000172
+      ],
+      "file": "/source5/fields_03712.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "56efdab11ba77a691b667933d2ff18790d1e5d6389ca1098690a8a061ca26bc4",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12680,
+      "failed_particles": 504
+    },
+    {
+      "frame": 3768,
+      "time_s": 0.00015648004728343223,
+      "virtual_tip": [
+        0.00019894014185029666,
+        0.000172
+      ],
+      "file": "/source5/fields_03768.npz",
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "source_index": 5,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "5be394735c5fd76e923a5629bd97052aa32f41cd938baed703dc360e205f5ae5",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12678,
+      "failed_particles": 506
+    },
+    {
+      "frame": 3802,
+      "time_s": 0.00015916666666666667,
+      "virtual_tip": [
+        0.000207,
+        0.000172
+      ],
+      "file": "/source6/fields_03802.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "fccb91e9ddb6d3fd4457343cdc44b2600285bad8a6979fab90bb8677b0556bf5",
+      "adjacent_interval_s": 5.426987946679325e-09,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 3826,
+      "time_s": 0.00016111662477233046,
+      "virtual_tip": [
+        0.000207,
+        0.00019539949726796556
+      ],
+      "file": "/source6/fields_03826.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "d7ca3efb0988dc310d1b98759af830c6db8d4f8c543faab2afba21a52165f71d",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 3882,
+      "time_s": 0.00016566652701887938,
+      "virtual_tip": [
+        0.000207,
+        0.0002499983242265526
+      ],
+      "file": "/source6/fields_03882.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "80d946228f6f834025bb83ed30c80dbf8154b583403d0874de619c54a5f159be",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 3939,
+      "time_s": 0.00017029767751983095,
+      "virtual_tip": [
+        0.000207,
+        0.0003055721302379716
+      ],
+      "file": "/source6/fields_03939.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "20f4a90cadaf8591a1c89727fa9eecd05ae0199febc78a04fb12a854cdb2fc4a",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 3975,
+      "time_s": 0.00017316666666666666,
+      "virtual_tip": [
+        0.000207,
+        0.00034
+      ],
+      "file": "/source6/fields_03975.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "74cee04645330bab68a7af55d64363a9bbd81111fa51915fe925ab6a590a23da",
+      "adjacent_interval_s": 2.530024274262875e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 3996,
+      "time_s": 0.0001748728800091225,
+      "virtual_tip": [
+        0.00018652543989052984,
+        0.00034
+      ],
+      "file": "/source6/fields_03996.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "a545d2bc507616b8b34fae4a6439e5a07bb34698f9efdff0cef77cc9b353463a",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4053,
+      "time_s": 0.00017950403051007408,
+      "virtual_tip": [
+        0.00013095163387911088,
+        0.00034
+      ],
+      "file": "/source6/fields_04053.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "52000dc4974e61ad9356f27180556b8ce4600e206e03dbb4af79599d7d32fa27",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4110,
+      "time_s": 0.00018413518101102565,
+      "virtual_tip": [
+        7.537782786769191e-05,
+        0.00034
+      ],
+      "file": "/source6/fields_04110.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "e5bd380038c6b1797b8a6a1a6a2dcb5dbb08b66fa507d1feffbd1bff3d0dd8f0",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4156,
+      "time_s": 0.0001878333333333333,
+      "virtual_tip": [
+        3.1e-05,
+        0.00034
+      ],
+      "file": "/source6/fields_04156.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "29ea802ddebcfcbaa03883e7eeb01636b2028cc6d210a613cefe0f7c4dcf9667",
+      "adjacent_interval_s": 4.1980874187992666e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4167,
+      "time_s": 0.00018872706413176256,
+      "virtual_tip": [
+        3.1e-05,
+        0.000329275230418849
+      ],
+      "file": "/source6/fields_04167.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "407cb6a5ad6b66db986fb90eb429360fc8a8d644c75903e153f95b2d5e3bee1d",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4223,
+      "time_s": 0.00019327696637831148,
+      "virtual_tip": [
+        3.1e-05,
+        0.000274676403460262
+      ],
+      "file": "/source6/fields_04223.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "8a9d511eb7aea87231ae0ba3305d57b2fd0c3b449a2c93b53e63faed4ba7c692",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4280,
+      "time_s": 0.00019790811687926305,
+      "virtual_tip": [
+        3.1e-05,
+        0.0002191025974488431
+      ],
+      "file": "/source6/fields_04280.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "307e99a014e778090166ebc069be299e19cbfef88a0367ae6d399ea51d73e035",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4337,
+      "time_s": 0.00020253926738021463,
+      "virtual_tip": [
+        3.1e-05,
+        0.00016352879143742417
+      ],
+      "file": "/source6/fields_04337.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "9800313b3d59d6fd9c63d47217e3726df494a55e25951cff20763aac0237b47f",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4339,
+      "time_s": 0.00020266666666666664,
+      "virtual_tip": [
+        3.1e-05,
+        0.000162
+      ],
+      "file": "/source6/fields_04339.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "7eedbc6ae1c2598f781a317de439fd32b0ad02e11e4b52b3d16d352ba8f991c7",
+      "adjacent_interval_s": 4.6151032049353974e-08,
+      "active_particles": 12675,
+      "failed_particles": 509
+    },
+    {
+      "frame": 4394,
+      "time_s": 0.0002071353206588129,
+      "virtual_tip": [
+        4.440596197643877e-05,
+        0.000162
+      ],
+      "file": "/source6/fields_04394.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "d293167123e03fd48724ce1306c5c64cc0106c91a0fcd45ebd072f118c7cfa30",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12669,
+      "failed_particles": 515
+    },
+    {
+      "frame": 4451,
+      "time_s": 0.00021176647115976447,
+      "virtual_tip": [
+        5.829941347929349e-05,
+        0.000162
+      ],
+      "file": "/source6/fields_04451.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "d2e18eeeac01f39b1e9c865638f62bb9bb902670fd497c27854e4e4fb6f9a270",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12640,
+      "failed_particles": 544
+    },
+    {
+      "frame": 4507,
+      "time_s": 0.0002163163734063134,
+      "virtual_tip": [
+        7.194912021894024e-05,
+        0.000162
+      ],
+      "file": "/source6/fields_04507.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "a1656ce9a76a3625fb7988991e6367645098b3c8f7ed20055c490960a3c8f6a0",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12599,
+      "failed_particles": 585
+    },
+    {
+      "frame": 4564,
+      "time_s": 0.00022094752390726497,
+      "virtual_tip": [
+        8.584257172179497e-05,
+        0.000162
+      ],
+      "file": "/source6/fields_04564.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "f526279dc6c50a1f93f23ba9f4402d8c869bc4a1493a86a2d89b7990f319f1f4",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12586,
+      "failed_particles": 598
+    },
+    {
+      "frame": 4620,
+      "time_s": 0.00022549742615381388,
+      "virtual_tip": [
+        9.949227846144172e-05,
+        0.000162
+      ],
+      "file": "/source6/fields_04620.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "e155e67b43d1bc90947e2417cf147c049b4ee93304e37eb1bf46d619b6f297d5",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12544,
+      "failed_particles": 640
+    },
+    {
+      "frame": 4677,
+      "time_s": 0.00023012857665476546,
+      "virtual_tip": [
+        0.00011338572996429645,
+        0.000162
+      ],
+      "file": "/source6/fields_04677.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "4c45ebc3a5e80e80f8e6b8409caadf6fa8c8cbe2454407a3909f6220d6e51580",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12522,
+      "failed_particles": 662
+    },
+    {
+      "frame": 4734,
+      "time_s": 0.00023475972715571703,
+      "virtual_tip": [
+        0.00012727918146715117,
+        0.000162
+      ],
+      "file": "/source6/fields_04734.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "bd6be47dfd842be5700450405742ae3e1b9e9ce76c966eccff5efd9e8bb43937",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12490,
+      "failed_particles": 694
+    },
+    {
+      "frame": 4790,
+      "time_s": 0.00023930962940226595,
+      "virtual_tip": [
+        0.00014092888820679792,
+        0.000162
+      ],
+      "file": "/source6/fields_04790.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "42626d4f1b9e270ae3dd75ef82030ec5b5b6f7dd73a900bea0435cf6369db164",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12464,
+      "failed_particles": 720
+    },
+    {
+      "frame": 4847,
+      "time_s": 0.00024394077990321753,
+      "virtual_tip": [
+        0.00015482233970965262,
+        0.000162
+      ],
+      "file": "/source6/fields_04847.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "12fb0b6b74eb3b6fd084e009f043edebf582806a052a65c3b38409273959a360",
+      "adjacent_interval_s": 8.124825440265922e-08,
+      "active_particles": 12434,
+      "failed_particles": 750
+    },
+    {
+      "frame": 4904,
+      "time_s": 0.00024857193040417054,
+      "virtual_tip": [
+        0.00016871579121251166,
+        0.000162
+      ],
+      "file": "/source6/fields_04904.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "e61cbc626946ab3302dbdf7683b8d7eaa4d186035fc1b221c314cb24627b0011",
+      "adjacent_interval_s": 8.124825440268633e-08,
+      "active_particles": 12409,
+      "failed_particles": 775
+    },
+    {
+      "frame": 4960,
+      "time_s": 0.000253121832650721,
+      "virtual_tip": [
+        0.00018236549795216296,
+        0.000162
+      ],
+      "file": "/source6/fields_04960.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "3058b3d6ab8459e88fa5ee4bd7a561bb16ed8d1d5f4304c6567b282861894281",
+      "adjacent_interval_s": 8.124825440268633e-08,
+      "active_particles": 12387,
+      "failed_particles": 797
+    },
+    {
+      "frame": 5017,
+      "time_s": 0.0002577529831516741,
+      "virtual_tip": [
+        0.00019625894945502232,
+        0.000162
+      ],
+      "file": "/source6/fields_05017.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "9f5639547ecb387e192778ab7e073d6bb2f5f77c59cd06f1ffabd7084010156d",
+      "adjacent_interval_s": 8.124825440268633e-08,
+      "active_particles": 12379,
+      "failed_particles": 805
+    },
+    {
+      "frame": 5062,
+      "time_s": 0.00026133333333333336,
+      "virtual_tip": [
+        0.000207,
+        0.00016200000000000066
+      ],
+      "file": "/source6/fields_05062.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "b11d9df0dd9f92702064a6e09fd59ea926658d72208a5fc0121fe54f02cc4711",
+      "adjacent_interval_s": 5.426987941068578e-09,
+      "active_particles": 12373,
+      "failed_particles": 811
+    },
+    {
+      "frame": 5075,
+      "time_s": 0.0002623895606405683,
+      "virtual_tip": [
+        0.000207,
+        0.00017467472768681973
+      ],
+      "file": "/source6/fields_05075.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "934585839a26df4249307fedb74ca30111b2a38b9ad16e5335463197e6a426c1",
+      "adjacent_interval_s": 8.124825440268633e-08,
+      "active_particles": 12373,
+      "failed_particles": 811
+    },
+    {
+      "frame": 5131,
+      "time_s": 0.0002669394628871187,
+      "virtual_tip": [
+        0.000207,
+        0.00022927355464542496
+      ],
+      "file": "/source6/fields_05131.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "4f4f794fd9b8ef16b70a86f4dace189b0eebd57595993c79efec514caa33def8",
+      "adjacent_interval_s": 8.124825440268633e-08,
+      "active_particles": 12372,
+      "failed_particles": 812
+    },
+    {
+      "frame": 5188,
+      "time_s": 0.00027157061338807184,
+      "virtual_tip": [
+        0.000207,
+        0.0002848473606568624
+      ],
+      "file": "/source6/fields_05188.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "9da2cc2ef636d1accf1c0f5c82f409dfc18cacdcb51919d38c5d7fe043b513b4",
+      "adjacent_interval_s": 8.124825440268633e-08,
+      "active_particles": 12372,
+      "failed_particles": 812
+    },
+    {
+      "frame": 5245,
+      "time_s": 0.00027616666666666664,
+      "virtual_tip": [
+        0.000207,
+        0.00034
+      ],
+      "file": "/source6/fields_05245.npz",
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "source_index": 6,
+      "pose_time_source": "saved time and virtual_tip arrays",
+      "source_sha256": "3f71e3e7cc341655030f3e5574589701ed6718265776d0943f128f927aed9cd4",
+      "adjacent_interval_s": 4.6151032044366644e-08,
+      "active_particles": 12372,
+      "failed_particles": 812
+    }
+  ],
+  "source_limits": [
+    {
+      "task": "ti64-positive-clearance-initial-v31b",
+      "accepted_frame": 377,
+      "checkpoint_sha256": "eff887d7883aa5650376592b6f2381f94c3d43229d4cdb22013c58cf6461598c"
+    },
+    {
+      "task": "ti64-positive-clearance-dt4-exploratory-v33",
+      "accepted_frame": 2044,
+      "checkpoint_sha256": "f2a3cb246fbe1efa8f2e61e93acdb007b03a9485fcc4fe61c4b3b35f46fb38c9"
+    },
+    {
+      "task": "ti64-multipass-dt4-pass1-v38",
+      "accepted_frame": 2562,
+      "checkpoint_sha256": "1f8c29ba740f89c713b8b4a476f2a7a15db0903adcf75a38bf57e68ed732aec2"
+    },
+    {
+      "task": "ti64-multipass-dt4-pass2-v39",
+      "accepted_frame": 2591,
+      "checkpoint_sha256": "c90d166177769324b02e956e57672b61a977eeb3a5c4b3270d24eb4e6fe4711b"
+    },
+    {
+      "task": "ti64-multipass-pass2-mapcache-recovery-v45",
+      "accepted_frame": 2781,
+      "checkpoint_sha256": "f372a66135cc1f643884fec33492b02fc799ececbe4701e55a54dcf33ff5d5ca"
+    },
+    {
+      "task": "ti64-multipass-pass2-dynamic-residual-v49",
+      "accepted_frame": 3802,
+      "checkpoint_sha256": "0b147480dbf5d6e08bfb7317b509d15f12995b9832827e429043ff77734faf51"
+    },
+    {
+      "task": "ti64-multipass-pass3-dynamic-residual-v50",
+      "accepted_frame": 5245,
+      "checkpoint_sha256": "95a15eeabafa57816ae518870d248824bc71ed8c522eec9ae44c42c4a2973fa3"
+    }
+  ],
+  "lineage_bridges": [
+    {
+      "frame": 377,
+      "left": "ti64-positive-clearance-initial-v31b",
+      "right": "ti64-positive-clearance-dt4-exploratory-v33",
+      "left_sha256": "9eed588bf7774635c05a64b97295a29465ffbc8c1faea2dea56202cac6fa84ef",
+      "right_sha256": "957408e4095ded685fa6f42bcccb1cea7285ada79e64889c5d2f45004328e7a7",
+      "common_arrays_equal_excluding_legacy_tool_tip": {
+        "J": true,
+        "damage": true,
+        "damage_failure_displacement": true,
+        "damage_softening": true,
+        "failed": true,
+        "particle_id": true,
+        "plastic_rate": true,
+        "plastic_shear_strain_xy": true,
+        "plastic_strain": true,
+        "pressure_Pa": true,
+        "temperature_K": true,
+        "x": true
+      }
+    },
+    {
+      "frame": 2044,
+      "left": "ti64-positive-clearance-dt4-exploratory-v33",
+      "right": "ti64-multipass-dt4-pass1-v38",
+      "left_sha256": "91545824906685b86f0f2c10cf26879b0919170b58001f6d1e9e2f57d911b25a",
+      "right_sha256": "871edd0eb30291e7683675a95bc5900eefe02151fd51126e324288657fdea171",
+      "common_arrays_equal_excluding_legacy_tool_tip": {
+        "J": true,
+        "damage": true,
+        "damage_failure_displacement": true,
+        "damage_softening": true,
+        "failed": true,
+        "particle_id": true,
+        "plastic_rate": true,
+        "plastic_shear_strain_xy": true,
+        "plastic_strain": true,
+        "pressure_Pa": true,
+        "temperature_K": true,
+        "x": true
+      }
+    }
+  ],
+  "source_completion_gate": {
+    "job": {
+      "started_utc": "2026-10-29T12:40:42.473752+00:00",
+      "state": "complete",
+      "command": [
+        "python",
+        "/work/stage_from_parent.py",
+        "--parent",
+        "/parent-frozen",
+        "--expected-parent-segment",
+        "cut_pass2",
+        "--stop-segment",
+        "final_lift",
+        "--label",
+        "ti64-multipass-pass2-dynamic-residual-v49"
+      ],
+      "cpu_affinity": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "memory_headroom_at_start": 8581017600,
+      "limit_seconds": 28800.0,
+      "uss_limit_bytes": 6442450944,
+      "peak_uss_bytes": 524738560,
+      "minimum_memory_headroom": 6305869824,
+      "guard_reason": null,
+      "pid": 7,
+      "nice": 10,
+      "wall_seconds": 24839.49416513741,
+      "returncode": 0
+    },
+    "checkpoint_scalar": {
+      "schema": "event-aligned-multipass-v1",
+      "signature": "4f2ca40fe156a057d372326b56ab6b98f5710c50bcf9947bc712b5d7bd5eb7ab",
+      "frame": 5245,
+      "source_frame": 3802,
+      "path_sha256": "dd5360f97ed1f2dfcba1da833e6919b079fc9b0f12bdcd630b81e9d51d4e721f",
+      "warm_reset_origin_time_s": 1.6607143199856587e-05,
+      "next_warm_reset_time_s": 0.0002761709415466762,
+      "next_warm_reset_epoch": 31947,
+      "warm_reset_pending": false,
+      "warm_pending_boundary_time_s": 0.0002761628167212381,
+      "contact_cache_in_state": true
+    },
+    "checkpoint_keys": [
+      "schema",
+      "signature",
+      "frame",
+      "states",
+      "rows",
+      "observations",
+      "source_frame",
+      "path_sha256",
+      "warm_reset_origin_time_s",
+      "next_warm_reset_time_s",
+      "next_warm_reset_epoch",
+      "warm_reset_pending",
+      "warm_pending_boundary_time_s",
+      "contact_cache_in_state"
+    ],
+    "last_row": {
+      "frame": 5245,
+      "time": 0.00027616666666666664,
+      "segment": "final_lift",
+      "virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "trajectory_velocity_m_s": [
+        0.0,
+        0.0
+      ],
+      "cumulative_cut_distance_m": 0.000528,
+      "positive_x_offset_from_left_entry_m": 0.000176,
+      "min_J": 0.6212329573875345,
+      "failed_count": 812
+    },
+    "last_observation": {
+      "time": 0.00027616666666666664,
+      "segment": "final_lift"
+    },
+    "output_status": {
+      "frame": 5245,
+      "time": 0.00027616666666666664,
+      "segment": "final_lift",
+      "virtual_tip_m": [
+        0.000207,
+        0.00034
+      ],
+      "trajectory_velocity_m_s": [
+        0.0,
+        0.0
+      ],
+      "cumulative_cut_distance_m": 0.000528,
+      "positive_x_offset_from_left_entry_m": 0.000176,
+      "min_J": 0.6212329573875345,
+      "failed_count": 812
+    },
+    "container_id": "3d954e6fb8c7235881da3805b2f54022be8e65d99db8af710d8f2c29e0919404",
+    "container_state": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-29T12:40:42.356082943Z",
+      "FinishedAt": "2026-10-29T19:34:42.033466261Z"
+    },
+    "observation_count": 1,
+    "row_count": 1,
+    "task": "ti64-multipass-pass3-dynamic-residual-v50",
+    "target_time_s": 0.00027616666666666664,
+    "actual_accepted_time_s": 0.00027616666666666664,
+    "actual_virtual_tip": [
+      0.000207,
+      0.00034
+    ],
+    "clean_final_lift_completion": true
+  },
+  "fixed_LUTs": {
+    "plastic_strain": [
+      0.0,
+      2.4971698714866437
+    ],
+    "temperature_K": [
+      298.15,
+      842.3580982039146
+    ],
+    "damage": [
+      0.0,
+      1.0
+    ],
+    "plastic_increment_rate_s_inv": [
+      0.0,
+      4365710.044632739
+    ]
+  },
+  "camera_center_m": [
+    0.00015484310921221422,
+    0.00020231051323252568
+  ],
+  "camera_centres_by_selected_frame_m": [
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ],
+    [
+      0.00015484310921221422,
+      0.00020231051323252568
+    ]
+  ],
+  "camera_mode": "Fixed full-trajectory view",
+  "camera_parallel_scale_m": 0.0001514584354442218,
+  "fetched_coordinates_and_scalars_equal_saved_data": true,
+  "failed_filter": "Only true failed particles omitted; damage alone never filters points.",
+  "rate": "Actual adjacent saved PEEQ difference / actual saved time interval, matched IDs, active in both frames. Initial increment defined0. Legacy plastic_rate not used.",
+  "geometry": "Actual particle centres throughout entire0-final_lift view; uniform12px square point sprites at1200px downsampled400px. No F fabricated for legacy prefix.",
+  "pose": "Actual saved observation virtual tip for legacy prefix; saved virtual_tip array for modern fields. Legacy tool_tip never used.",
+  "deformation_scale": 1.0,
+  "renderer": "ParaView",
+  "oversample_size": [
+    1200,
+    1200
+  ],
+  "size": [
+    400,
+    400
+  ],
+  "playback": "Accepted sampled states,100ms each; not wall-clock playback.",
+  "checks": {
+    "multipass/plastic_increment_rate": {
+      "accepted_states_rendered": 79,
+      "encoded_frames": 79,
+      "distinct_frames": 79,
+      "size": [
+        400,
+        400
+      ],
+      "gif_sha256": "5fe4449a773a166b525e872116a2bfe7568827e96109de97aaa0fb27df833b9a"
+    }
+  },
+  "rate_color_display": {
+    "scale": "logarithmic",
+    "fixed_positive_lower_s_inv": 1.0,
+    "fixed_upper_s_inv": 4365710.044632739,
+    "raw_data_range_s_inv": [
+      0.0,
+      4365710.044632739
+    ],
+    "zero_and_below_floor_color": [
+      0.91,
+      0.94,
+      0.97
+    ],
+    "zero_color_verified_with_VTK": [
+      0.9098039215686274,
+      0.9411764705882353,
+      0.9686274509803922
+    ],
+    "expected_8bit_zero_color": [
+      0.9098039215686274,
+      0.9411764705882353,
+      0.9686274509803922
+    ],
+    "scalar_values_modified": false,
+    "same_frames_camera_geometry_as_published": true,
+    "previous_linear_gif_sha256": "8d2511c59d15c64ac5d115c5b11a8d3ac622e6da40cba79f1a8ea4a982cbf0d4"
+  }
+}
