@@ -1,0 +1,181 @@
+{
+  "schema": "weaving-clean-prefix-5850us-and-linux-handoff-v1",
+  "completed": false,
+  "full_protocol_qualified": false,
+  "scope": "Clean5.85ms original-physics prefix and verified Linux state restoration; later Linux continuation stopped on the real USS guard.",
+  "historical_5300us_receipt": "evidence/weaving-tl-process/accepted-prefix.json",
+  "accepted_prefix": {
+    "actual_time_s": 0.00585,
+    "steps": 24380,
+    "state": "accepted_bounded_prefix",
+    "checkpoint_sha256": "557d021438fb3e495a1c5561fd32ecdc0fac05fd48759a10d82496fecbbdf75b",
+    "summary_sha256": "b19fb3f6f73daf8201e4a78540e233f0b735e49809ec21437188a641d579e0f9",
+    "terminal": {
+      "step": 24380,
+      "time_s": 0.00585,
+      "kinetic_J": 1.246044513083772e-05,
+      "elastic_J": 2.081722772308961e-07,
+      "contact_J": 0.0,
+      "work_remainder_J": 5.748161080459985e-12,
+      "absolute_machine_work_J": 8.471069321647961e-05,
+      "contact_patch_count": 0,
+      "coverage_pairs": 0,
+      "patch_branch_energy_difference_J": 0.0,
+      "patch_branch_energy_difference_abs_total_J": 0.0,
+      "active_guides": 200,
+      "max_log_strain": 0.008449379840064412,
+      "guide_mean_force_max_N": 9.428781533139826e-16,
+      "actual_step_dt_s": 1.6274217518822548e-07,
+      "interaction_nodal_force_l2_N": 0.0,
+      "interaction_nodal_force_max_N": 0.0,
+      "maximum_active_bearing_y_error_m": 6.424336188158677e-19,
+      "maximum_active_bearing_xz_drift_m": 6.9180800552321455e-18,
+      "mechanics_advance_wall_seconds": 0.4009275999851525,
+      "iteration_wall_seconds": 0.4829617999785114,
+      "momentum_relative_error": 3.84274166365994e-17,
+      "angular_momentum_relative_error": 1.1037290824802038e-17
+    },
+    "full_protocol_duration_s": 0.04704120539381533,
+    "original_physical_solver_guards_passed": true,
+    "native_guard_state": "complete",
+    "native_guard_returncode": 0,
+    "native_os_hard_job_limit_bytes": 6442450944,
+    "native_os_peak_job_committed_bytes": 2842484736
+  },
+  "physical_binding": {
+    "source_sha256": {
+      "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+      "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+      "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+      "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+      "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+      "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+      "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+      "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+      "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+      "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+      "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+      "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+      "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+      "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+    },
+    "physical_plan_sha256": "7b8c8769b8cb589b0b88d2c2b66d758d57c2c35183eb4eaf26ea7e8adac3f0db",
+    "input_sha256": {
+      "x": "cb4f1e40c02c60b2e67758007de4c4f908596ea3e7d20880b2986749ac2eda65",
+      "volume": "0f100b1b11bde952e30812ef9f96bd33137f59fd2e38e3837bb73108a4947951",
+      "mass": "aa96df8de292e7c3b80667ff1930b38303d887cb04a04c9438e69eb02db13467",
+      "fibre_id": "1fa382c20e0304872c4a2a52f12ee9db033fb2f5b48e9f8fbdc2f2c52f959b15",
+      "grip_masks": "96d30a1745ce7d6ced871642f2b223d6f07571ad182af8f47b789e5180ee1027",
+      "guide_particles": "11839e814d646365c618a2128f1cd0b8f90e69040dcde025cba3eb2e66851456"
+    },
+    "runtime": {
+      "jax": "0.12.0.1",
+      "numpy": "2.5.4",
+      "float64": true
+    },
+    "requested_dt_s": 2.4e-07,
+    "base_dt_s": 2.399988030663109e-07
+  },
+  "linux_handoff": {
+    "task": "weaving-linux-return-6950us-4cpu-v1",
+    "handoff_archive_sha256": "1c9a0c50e2f97fe83cdc4cb299fc27ccfd28b303b9b682fb77c81eb0d8f0bfc6",
+    "parent_checkpoint_sha256": "557d021438fb3e495a1c5561fd32ecdc0fac05fd48759a10d82496fecbbdf75b",
+    "all_state_history_restored_bitwise": true,
+    "restored_field_sha256": {
+      "displacement": "1c15f47461a5dd8f5d0235e0e8df53139242d232baa16e06211f45cbbd383bb3",
+      "velocity": "7f76ff8eb7f1dd96268f698cfb68dd594cd72fb58ba1d75d64e50a6c9abd82d9",
+      "force": "64c892f5abf993406a0271070b1b2427b26efe9184f5fefe55095e56a2ced5b6",
+      "F": "edbd8f2469934115ac519c1815cbd286347cee82b1b6a57e5045da57c30b92e4",
+      "time": "1750f57c17b0a7cb2c25292aba690b3f94523c4e7f27968227c78e1f0d783e4a",
+      "valid": "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a",
+      "work": "b763995eaf823ed3ec0aade11d5494f71478c7e003a31ef289e99f0778b3ed11",
+      "impulse": "2ae65e0337aca3e36aa676e0c6e02f1d16e3e73e4cba700aaa3d89bd108002b0",
+      "angular_impulse": "e2e8a675d79b5a30f8b930882a7545fb2af017b0c9645379bd9de12238f7db09",
+      "damage_work": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+      "history_kappa": "06bacdf31a2af2ccbee0218717201fc13bc6fe55a26b3d653bd4bf9794295ec1",
+      "history_damage": "a552419447f15d2d1f7eabd4c309fb0d1f9362ebc55cab6137eeb8a846dddb6c",
+      "history_failed": "1bed65932bc6727fde3b6928483acea21b5d0e9d9793152accfe17be391f8156",
+      "history_valid": "473ed10f4978dad0231e85f18fa5f5d3e836c2b72d0606e7286e05a504699c20"
+    },
+    "explicit_integrator_fork": false,
+    "parent_dt_s": 2.399988030663109e-07,
+    "new_dt_s": 2.399988030663109e-07,
+    "bridge": {
+      "schema": "explicit-frozen-platform-bridge-v1",
+      "all_other_binding_fields_exact": true,
+      "acoustic_setup_comparisons": {
+        "initial_elastic_critical_dt_s": {
+          "parent": 9.789134802135269e-07,
+          "current": 9.789134802135269e-07,
+          "absolute_error": 0.0,
+          "rtol": 2e-12,
+          "atol": 0.0
+        },
+        "initial_elastic_largest_eigenvalue": {
+          "parent": 4174181925793.5146,
+          "current": 4174181925793.5146,
+          "absolute_error": 0.0,
+          "rtol": 2e-12,
+          "atol": 0.0
+        },
+        "acoustic_power_iteration_relative_change": {
+          "parent": 0.0007115519784270941,
+          "current": 0.0007115519784273161,
+          "absolute_error": 2.220446049250313e-16,
+          "rtol": 2e-12,
+          "atol": 2e-12
+        }
+      },
+      "no_state_or_history_values_changed": true,
+      "entry_sha256": "03f25b149692745735a16e76070a40d2fb5fe1d592015552fd22d931813dd80c",
+      "bridge_sha256": "4d528c34742b23dd70e89cb1f6eb8f3b20dc435dc5dde049af7b3ed9db2c6e80",
+      "physical_plan_sha256": "7b8c8769b8cb589b0b88d2c2b66d758d57c2c35183eb4eaf26ea7e8adac3f0db",
+      "original_source_sha256": {
+        "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+        "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+        "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+        "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+        "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+        "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+        "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+        "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+        "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+        "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+        "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+        "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+        "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+        "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+        "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+        "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+      }
+    },
+    "first_accepted_step": 24381,
+    "first_accepted_time_s": 0.005850239998803066,
+    "resource_limits": {
+      "cpu_affinity": [
+        48,
+        49,
+        50,
+        51
+      ],
+      "container_memory_bytes": 8589934592,
+      "uss_limit_bytes": 6442450944
+    }
+  },
+  "later_linux_window": {
+    "state": "failed",
+    "guard_reason": "USS",
+    "returncode": -15,
+    "peak_uss_bytes": 6503403520,
+    "last_observed_step": 26439,
+    "last_observed_time_s": 0.006344157535513439,
+    "last_coverage_pairs": 18,
+    "last_contact_patch_count": 0,
+    "final_summary_written": false,
+    "final_checkpoint_written": false,
+    "no_automatic_restart_after_failure": true
+  },
+  "current_state": "Stopped after Linux USS guard;5.85ms remains the durable accepted checkpoint. No claim of completed weaving, contact qualification or convergence."
+}

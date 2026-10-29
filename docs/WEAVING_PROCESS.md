@@ -62,11 +62,16 @@ particle frames, `checkpoint.npz` and `summary.json`. The observations include
 actual time steps, guide reactions, kinetic and elastic energy, contact energy,
 work remainder, momentum errors and contact coverage.
 
-The [accepted-prefix record](../evidence/weaving-tl-process/accepted-prefix.json)
-records the completed 5.3 ms trajectory and its source hashes. Its terminal
-state still has 200 active bearings and no active contact patches. The full
-weaving and contact sequence remains in progress; this prefix does not establish
-full-process completion or convergence. The same source files are provided here.
+The [5.3 ms record](../evidence/weaving-tl-process/accepted-prefix.json) preserves
+the earlier trajectory and source hashes. A later
+[5.85 ms checkpoint and Linux handoff](../evidence/weaving-tl-process/accepted-prefix-5850us.json)
+completed cleanly and restored every state and history field bitwise. That
+checkpoint still has 200 active bearings and no active contact patches.
+The following Linux window reached 6.344 ms before exceeding its 6 GiB USS
+guard; it wrote no final checkpoint. Thus 5.85 ms remains the durable accepted
+prefix while the memory growth is addressed. This does not establish completed
+weaving, contact qualification or convergence. The same physical source files
+are provided here.
 
 ## Render saved particle states
 

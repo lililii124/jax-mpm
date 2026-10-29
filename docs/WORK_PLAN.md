@@ -121,6 +121,19 @@ and duration; their ParaView animations use the same physical scale and
 [matched comparison](../evidence/blast-sandwich-reduced/fullmpm-eccentric-comparison.json)
 records the source and downloaded output hashes.
 
+The frozen corrected model also passed the
+[completed eccentric response check](../evidence/blast-sandwich-reduced/union130-completed-eccentric-response.json):
+peak error 1.164%, curve relative L2 error 1.192%, and maximum curve error
+2.414% over the complete 2 ms, below the original 5% response threshold.
+The later interval after step 42000 has a 2.548% maximum curve error. This
+extends the response check without fitting new directions or changing the
+original validation receipt. The separate
+[later strain-energy check](../evidence/blast-sandwich-reduced/union130-completed-eccentric-energy.json)
+also passed: the maximum omitted linear strain energy was 1.665% over all
+42 saved states from step 43000 through 83460, below the unchanged 5% limit.
+These results qualify this eccentric comparison at the current resolution;
+they do not establish the other loads, mesh convergence or a new candidate's accuracy.
+
 This completed comparison uses the older round-1 controls, not round 4.
 The round-4 candidate has a separate virgin-state full-MPM run with its own
 control hash. Initial-design uniform and central full-MPM calculations are

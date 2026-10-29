@@ -1,0 +1,58 @@
+{
+  "scope": "Completed eccentric response comparison only; frozen trajectory reused without refitting.",
+  "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+  "full_mpm_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+  "status_sha256": "bf2de165590b84333309d24f170331d4edb558052d3714e2ac600209c0910a55",
+  "history_sha256": "048bc6bb911174f8cad50e6a76785419482d457bc11e006a31a79c5f5def75e5",
+  "response_sha256": "fdd25b49011255fb9d387bff08acf5c53daebbc5c55c751773be34b301e22dfc",
+  "original_freeze_sha256": "6e082c90933dee590b0acad77ff4b1e1c60b33894342c7fd63960baa45d4664a",
+  "windows": [
+    {
+      "first_step": 0,
+      "last_step": 83460,
+      "role": "complete response including previously inspected data",
+      "reference_peak_m": 0.0008147712116045583,
+      "predicted_peak_m": 0.0008242581939716282,
+      "response_errors": {
+        "peak_relative_error": 0.011643737814922117,
+        "curve_relative_l2": 0.011924782319087862,
+        "maximum_difference_over_reference_peak": 0.02414178789555813
+      },
+      "response_gate": 0.05,
+      "response_gate_passed": true
+    },
+    {
+      "first_step": 31000,
+      "last_step": 42000,
+      "role": "previously frozen validation interval replay",
+      "reference_peak_m": 0.0005903904675037194,
+      "predicted_peak_m": 0.0005912684633108645,
+      "response_errors": {
+        "peak_relative_error": 0.001487144280729158,
+        "curve_relative_l2": 0.00993603045344119,
+        "maximum_difference_over_reference_peak": 0.01954994611555615
+      },
+      "response_gate": 0.05,
+      "response_gate_passed": true
+    },
+    {
+      "first_step": 42001,
+      "last_step": 83460,
+      "role": "post-completion extension; response only",
+      "reference_peak_m": 0.00077203919255202,
+      "predicted_peak_m": 0.0007779289506329119,
+      "response_errors": {
+        "peak_relative_error": 0.007628833014840852,
+        "curve_relative_l2": 0.012969468563476574,
+        "maximum_difference_over_reference_peak": 0.02547802490304116
+      },
+      "response_gate": 0.05,
+      "response_gate_passed": true
+    }
+  ],
+  "full_history_response_passed": true,
+  "later_interval_strain_energy_assessed": false,
+  "complete_three_case_qualification": false,
+  "refinement_qualified": false,
+  "global_optimum_claim": false
+}

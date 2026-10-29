@@ -1,0 +1,690 @@
+{
+  "task": "blast-sandwich-union-completed-energy-v27-20261030",
+  "job": {
+    "started_utc": "2026-10-29T22:20:43.093635+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "/work/run_energy.py"
+    ],
+    "cpu_affinity": [
+      52,
+      53,
+      54,
+      55
+    ],
+    "memory_headroom_at_start": 8580972544,
+    "limit_seconds": 900.0,
+    "uss_limit_bytes": 6442450944,
+    "peak_uss_bytes": 769249280,
+    "minimum_memory_headroom": 7803596800,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 55.46094408631325,
+    "returncode": 0
+  },
+  "downloaded_sha256": {
+    "job/status.json": "be2384bb45bec6e32a82b2200798390b23b828a46428bb3272f531fe52d2fb7d",
+    "output/review.json": "7f33402fc33195f8ee7e6c5ce11e05ecdd04ba2b9c6b4cd7533255c593b0e135",
+    "definition.json": "41d68d456cbcabd610eea2344b582c899ae7c69fdf83ee393344fe293a746a25",
+    "source-sha256.json": "7b65cae6ce4438afc9138ad470e14cde63668cab557654a4123ec71a520d7306"
+  },
+  "review": {
+    "scope": "Post-completion extension of linear strain-energy projection at all saved steps after42000; no refitting or replacement of the original validation allocation.",
+    "definition": {
+      "scope": "Post-completion extension of linear strain-energy projection at all saved steps after42000; no refitting or replacement of the original validation allocation.",
+      "steps": [
+        43000,
+        44000,
+        45000,
+        46000,
+        47000,
+        48000,
+        49000,
+        50000,
+        51000,
+        52000,
+        53000,
+        54000,
+        55000,
+        56000,
+        57000,
+        58000,
+        59000,
+        60000,
+        61000,
+        62000,
+        63000,
+        64000,
+        65000,
+        66000,
+        67000,
+        68000,
+        69000,
+        70000,
+        71000,
+        72000,
+        73000,
+        74000,
+        75000,
+        76000,
+        77000,
+        78000,
+        79000,
+        80000,
+        81000,
+        82000,
+        83000,
+        83460
+      ],
+      "basis_artifact_sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+      "numeric_basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+      "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+      "physical_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+      "omitted_energy_gate": 0.05,
+      "public_source_commit": "5207438b7f65e989af4d6e6ec9cc02b1bbdddcbe"
+    },
+    "projection": [
+      {
+        "step": 43000,
+        "omitted_linear_strain_energy_fraction": 0.004145835999297742,
+        "frame_sha256": "db878e81df33f03d89738fdd15f158d99aef020221e357b193ccca9ceb4effdd",
+        "time_s": 0.001030433740714411,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.3852447794681098e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 44000,
+        "omitted_linear_strain_energy_fraction": 0.0056147515579277885,
+        "frame_sha256": "b655a0df76e6afa056cbdeb4a6216046811f99cee1f095a852ecdda5c6ce61a7",
+        "time_s": 0.0010543973160797792,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.710505431213761e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 45000,
+        "omitted_linear_strain_energy_fraction": 0.0053413070691553655,
+        "frame_sha256": "e6407756cea85242247a41eeeaba808501cbc68e90cfba9c38cfc44a2916f0a6",
+        "time_s": 0.0010783608914451475,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.0357660829594124e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 46000,
+        "omitted_linear_strain_energy_fraction": 0.005007026744127452,
+        "frame_sha256": "39128f3ebe557cee4dc196d1f2a24b17ccf21f8777b563d0a0107a510250452b",
+        "time_s": 0.0011023244668105158,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.144186300207963e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 47000,
+        "omitted_linear_strain_energy_fraction": 0.004793601485502785,
+        "frame_sha256": "04faae149c109c9df10a8b276f212c61598af68a8ef2dd08ea481619c229d8b5",
+        "time_s": 0.0011262880421758841,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.927345865710862e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 48000,
+        "omitted_linear_strain_energy_fraction": 0.004874494210147073,
+        "frame_sha256": "ef74429d3d938c4011b269a3909ce3b15fc0c908f939bd58cfef4f060e3df080",
+        "time_s": 0.0011502516175412524,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.927345865710862e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 49000,
+        "omitted_linear_strain_energy_fraction": 0.004557906083467955,
+        "frame_sha256": "3c6bef6e0b39182d77be6f6e93f0e4278c8d4de9bf2159dba00c26842fc41fc5",
+        "time_s": 0.0011742151929066207,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.6020852139652106e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 50000,
+        "omitted_linear_strain_energy_fraction": 0.005169139516237875,
+        "frame_sha256": "92c76e84c3ee3a17999431e4712a641569323f89b8003c04dd2861de38524a89",
+        "time_s": 0.001198178768271989,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.168404344971009e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 51000,
+        "omitted_linear_strain_energy_fraction": 0.009800535351748407,
+        "frame_sha256": "afd5a4fc3e6df5ca4972d28541b21592e63d61dffb88ac4861cf3d4f2f2d63bb",
+        "time_s": 0.0012221423436373573,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.734723475976807e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 52000,
+        "omitted_linear_strain_energy_fraction": 0.01236086300001138,
+        "frame_sha256": "5c6f10ccf7251f642f828b9502cc4d925e1127826c0306e628c14eae7917a085",
+        "time_s": 0.0012461059190027257,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.4094628242311558e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 53000,
+        "omitted_linear_strain_energy_fraction": 0.015512580564228884,
+        "frame_sha256": "67c0f3de04e2d244dac9ca1d1ebea18219a744b78a85e21196d52477322ef0e0",
+        "time_s": 0.001270069494368094,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.2468324983583301e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 54000,
+        "omitted_linear_strain_energy_fraction": 0.013188160447398012,
+        "frame_sha256": "c499c67d15f5fc461023fb46474109898c1314e4c9541ee11064bd4b7847c15a",
+        "time_s": 0.0012940330697334623,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.1926223897340549e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 55000,
+        "omitted_linear_strain_energy_fraction": 0.006646021904424093,
+        "frame_sha256": "34413c1e0894c3d3fb2b2393cab6d522afff85dec3189dc9cb45cecbdace8ced",
+        "time_s": 0.0013179966450988306,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.0842021724855044e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 56000,
+        "omitted_linear_strain_energy_fraction": 0.006611961341822514,
+        "frame_sha256": "65b85b279bfa6d1ecfe63f8c26e7aa386cfc649a23f7ea104bf77ac6388da42f",
+        "time_s": 0.0013419602204641989,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.734723475976807e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 57000,
+        "omitted_linear_strain_energy_fraction": 0.006961790920647637,
+        "frame_sha256": "f3ad894f7aff05618deee312a8d91d31873eb2ef69f7a95a22604d44236330c6",
+        "time_s": 0.0013659237958295672,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.1141942363467336e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 58000,
+        "omitted_linear_strain_energy_fraction": 0.00858483379835051,
+        "frame_sha256": "9b37c9d177b50ec2001014ca32f9776593b0762f738eba998c92eee9bc4157ad",
+        "time_s": 0.0013898873711949355,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.3852447794681098e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 59000,
+        "omitted_linear_strain_energy_fraction": 0.007238810349627256,
+        "frame_sha256": "741ec5e4a5eec78f51f84a21054be3a23f4a968e1bf9df2fdb48f1a94f220965",
+        "time_s": 0.0014138509465603038,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.4936649967166602e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 60000,
+        "omitted_linear_strain_energy_fraction": 0.004444414108271344,
+        "frame_sha256": "0d290eda262ef56c95813097c1105cb2866a4c2e39be84812cba81890aa2b1c2",
+        "time_s": 0.001437814521925672,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.3852447794681098e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 61000,
+        "omitted_linear_strain_energy_fraction": 0.005019826957435747,
+        "frame_sha256": "7c89761b863e1491e51b8e70c0ec9ad2d9649f2fd50616a1b68f80eb800a7c46",
+        "time_s": 0.0014617780972910404,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.4936649967166602e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 62000,
+        "omitted_linear_strain_energy_fraction": 0.00577396373772554,
+        "frame_sha256": "4aba391f89ada929360c83f72c0a78689cae3248b2cc95dc88f4f4f6e120bc68",
+        "time_s": 0.0014857416726564087,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.710505431213761e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 63000,
+        "omitted_linear_strain_energy_fraction": 0.006582272162464653,
+        "frame_sha256": "ea5d49d1d66d67ed01b816cb78dbf81dd43f52ec953f4cd92d0fd88a77ef3fee",
+        "time_s": 0.001509705248021777,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.2526065174565133e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 64000,
+        "omitted_linear_strain_energy_fraction": 0.005580603126816297,
+        "frame_sha256": "50262aa70c058ca35fdc16c79e48dc253e84dbac6f419c3869695dbf9f92c54e",
+        "time_s": 0.0015336688233871453,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.3610267347050637e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 65000,
+        "omitted_linear_strain_energy_fraction": 0.004162661993358685,
+        "frame_sha256": "f61a1fb7918053e6668ca92a192d0d5843c8c36730b233878bf95c9c15c2aa9c",
+        "time_s": 0.0015576323987525136,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.2526065174565133e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 66000,
+        "omitted_linear_strain_energy_fraction": 0.004647995945020078,
+        "frame_sha256": "5c308eae8089154f64136c8f181fc4fdaa38fbdc6e378043652c03e34889c2cb",
+        "time_s": 0.001581595974117882,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.0357660829594124e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 67000,
+        "omitted_linear_strain_energy_fraction": 0.004431591585021266,
+        "frame_sha256": "4771489a536d29705647cf6845734678786375ce9a21c6377924d9735dffc6e2",
+        "time_s": 0.0016055595494832502,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.8189256484623115e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 68000,
+        "omitted_linear_strain_energy_fraction": 0.005389670498548993,
+        "frame_sha256": "c70b6f7ef93e072e8c3a3922dc0492faacd0798ab4c762db384feb0d99983fb8",
+        "time_s": 0.0016295231248486185,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.2768245622195593e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 69000,
+        "omitted_linear_strain_energy_fraction": 0.006170573730085227,
+        "frame_sha256": "0f03e5f0754edf232841ada124d2f56358b258a0765709a49752dc2593cccce3",
+        "time_s": 0.0016534867002139869,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.6263032587282567e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 70000,
+        "omitted_linear_strain_energy_fraction": 0.005972645965334422,
+        "frame_sha256": "42710acffd3871187bd45758a51a6be7c1ac3c032d5c40ee979c56d0c2c91797",
+        "time_s": 0.0016774502755793552,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.0028870095490916e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 71000,
+        "omitted_linear_strain_energy_fraction": 0.016654362046903404,
+        "frame_sha256": "7fe2b791babbdd261c4d88c1004a0a3e881b61c678f3e432569f5c077cdd828e",
+        "time_s": 0.0017014138509447235,
+        "recovery": {
+          "particle_reconstruction_error_m": 6.2341624917916505e-19,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 72000,
+        "omitted_linear_strain_energy_fraction": 0.011493960449508123,
+        "frame_sha256": "98421fe9f29e16b2153b2da0c2eeb6301667807605c3e5872dd9169d07f27a39",
+        "time_s": 0.0017253774263100918,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.2468324983583301e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 73000,
+        "omitted_linear_strain_energy_fraction": 0.007403260221016783,
+        "frame_sha256": "7270b588d5699f71d660e3c50da80aa312afaf356272f8cc387ea2c9c9761d37",
+        "time_s": 0.00174934100167546,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.951563910473908e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 74000,
+        "omitted_linear_strain_energy_fraction": 0.004616316917787411,
+        "frame_sha256": "31e2b8dead33249364cbf8a3a0d065371e7a7bfa42880058ceefe0db83b16dd3",
+        "time_s": 0.0017733045770408284,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.710505431213761e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 75000,
+        "omitted_linear_strain_energy_fraction": 0.004488567310337421,
+        "frame_sha256": "31497e4cff38e372a913fd2ef40090f5673417f8ef751313ff16cf0f5ed95867",
+        "time_s": 0.0017972681524061967,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.0357660829594124e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 76000,
+        "omitted_linear_strain_energy_fraction": 0.005562197724323759,
+        "frame_sha256": "98df4fc841d7e3df8475624a84b422e327c7289c08299b8ada17df67855aec1f",
+        "time_s": 0.001821231727771565,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.2526065174565133e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 77000,
+        "omitted_linear_strain_energy_fraction": 0.004975280948666727,
+        "frame_sha256": "951b5e3661cd8e00f125170aeb25ba50615ad05d0899569f1db030a01847973e",
+        "time_s": 0.0018451953031369333,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.469446951953614e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 78000,
+        "omitted_linear_strain_energy_fraction": 0.006109459985105148,
+        "frame_sha256": "f2a4c920b96bc0313e28cd54ac52559494d543c5b307665486ae9ec7d097a489",
+        "time_s": 0.0018691588785023016,
+        "recovery": {
+          "particle_reconstruction_error_m": 3.0357660829594124e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 79000,
+        "omitted_linear_strain_energy_fraction": 0.005760287223642968,
+        "frame_sha256": "55360deb426c62e3aaa0ae8a58195192a7a0cb26d04dde8b207a11db943263f6",
+        "time_s": 0.00189312245386767,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.927345865710862e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 80000,
+        "omitted_linear_strain_energy_fraction": 0.003914867388826959,
+        "frame_sha256": "48dd6ceb1db4854c7efb71f9d9519a8fd031f7302dbe2f6f066d9fcdb036da3c",
+        "time_s": 0.0019170860292330382,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.6020852139652106e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 81000,
+        "omitted_linear_strain_energy_fraction": 0.004417858849488532,
+        "frame_sha256": "f4a0f639d993c18b7cb91b25ef9a58ba16b927127b3de6bf98c90e55423acd29",
+        "time_s": 0.0019410496045984065,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.3310346708438345e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 82000,
+        "omitted_linear_strain_energy_fraction": 0.0047577024498896,
+        "frame_sha256": "a40a6b4b2bbb65d57287973f310e9119744e2437ee90400f73792fd940380138",
+        "time_s": 0.001965013179963775,
+        "recovery": {
+          "particle_reconstruction_error_m": 2.0057740190981832e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 83000,
+        "omitted_linear_strain_energy_fraction": 0.005427219018538709,
+        "frame_sha256": "a850720732408680bed638a1e8f497b8f4b71241d5cc35fbbeef76107287843d",
+        "time_s": 0.0019889767553291434,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.8973538018496328e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      },
+      {
+        "step": 83460,
+        "omitted_linear_strain_energy_fraction": 0.005060699094288079,
+        "frame_sha256": "2795d1b5604ab20ce4d1ba4b3f23899bc61cee96570fd18c4114f699decd4174",
+        "time_s": 0.0019999999999972128,
+        "recovery": {
+          "particle_reconstruction_error_m": 1.8973538018496328e-18,
+          "axis_condition_numbers": [
+            157.15175417469968,
+            157.15175417469968,
+            157.04118698705787
+          ]
+        }
+      }
+    ],
+    "maximum_omitted_energy_fraction": 0.016654362046903404,
+    "omitted_energy_gate": 0.05,
+    "projection_gate_passed": true,
+    "wall_seconds": 54.851066924631596,
+    "source_status_sha256": "bf2de165590b84333309d24f170331d4edb558052d3714e2ac600209c0910a55",
+    "source_summary_sha256": "4b8215dea18d2c5946815e5c18e6252ca83c5453279aaa75d50f9b81b13626f7",
+    "cold_freeze_sha256": "6bf5e8a625c5a415fa6f06a11572578e4e9bc0f1343c8c3bd6e6bc0bafb35e8e",
+    "public_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+    "complete_three_case_qualification": false,
+    "refinement_qualified": false,
+    "global_optimum_claim": false
+  }
+}
