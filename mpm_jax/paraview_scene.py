@@ -182,6 +182,7 @@ def main():
     parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
     parser.add_argument("--matrix-opacity", type=float, help="matrix opacity with family_id colors (default: 0.008)")
     parser.add_argument("--focus-bounds", type=float, nargs=6, help="explicit close-up bounds; geometry outside the view may be cropped")
+    parser.add_argument("--debris-style", choices=("hidden", "subtle", "highlight"), default="hidden")
     args = parser.parse_args()
     if args.scene_bounds is not None and args.focus_bounds is not None:
         parser.error("--scene-bounds and --focus-bounds are mutually exclusive")
@@ -521,15 +522,32 @@ def main():
     displays = []
     active_sources = []
     debris_sources = []
+    particle_reader = reader
+    failed_source = None
+    if has_failed:
+        particle_reader = Threshold(registrationName="Particles with failed == 0", Input=reader)
+        particle_reader.Scalars = ["POINTS", "failed"]
+        particle_reader.LowerThreshold = 0
+        particle_reader.UpperThreshold = 0
+        particle_reader.UpdatePipeline()
+        failed_source = Threshold(registrationName="Saved failed particles", Input=reader)
+        failed_source.Scalars = ["POINTS", "failed"]
+        failed_source.LowerThreshold = 1
+        failed_source.UpperThreshold = 255
+        failed_source.UpdatePipeline()
+        if args.debris_style != "hidden":
+            debris_sources.append(failed_source)
     woven_sources = []
+    woven_has_matrix = False
     if woven_display:
         family_count = int(metadata["field_ranges"]["family_id"][1]) + 1
         if family_count < 1 or family_count > len(colors):
             raise ValueError("woven family_id must use contiguous labels from zero to at most two")
-        selections = [("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)]
+        woven_has_matrix = metadata["field_ranges"]["phase"][0] == 0
+        selections = [("phase", 0, [0.72, 0.78, 0.83], matrix_opacity)] if woven_has_matrix else []
         selections += [("family_id", family, colors[family], 1.0) for family in range(family_count)]
         for name, value, color, opacity in selections:
-            selected = Threshold(registrationName=f"{name} {value}", Input=reader)
+            selected = Threshold(registrationName=f"{name} {value}", Input=particle_reader)
             selected.Scalars = ["POINTS", name]
             selected.LowerThreshold = value
             selected.UpperThreshold = value
@@ -550,28 +568,11 @@ def main():
             displays.append(display)
             woven_sources.append(selected)
     for body in range(0 if woven_display else count):
-        selected = Threshold(Input=reader)
+        selected = Threshold(Input=particle_reader)
         selected.Scalars = ["POINTS", "body"]
         selected.LowerThreshold = body
         selected.UpperThreshold = body
         selected.UpdatePipeline()
-        if has_failed and failure_modes[body] == "ballistic":
-            failed = Threshold(
-                registrationName=f"Ballistic debris in body {body}", Input=selected
-            )
-            failed.Scalars = ["POINTS", "failed"]
-            failed.LowerThreshold = 1
-            failed.UpperThreshold = 255
-            failed.UpdatePipeline()
-            debris_sources.append(failed)
-            active = Threshold(
-                registrationName=f"Active particles in body {body}", Input=selected
-            )
-            active.Scalars = ["POINTS", "failed"]
-            active.LowerThreshold = 0
-            active.UpperThreshold = 0
-            active.UpdatePipeline()
-            selected = active
         active_sources.append(selected)
         display = Show(selected, view)
         display.Representation = "Point Gaussian"
@@ -607,19 +608,23 @@ def main():
         if args.field != "body":
             display.SetScalarBarVisibility(view, False)
         displays.append(display)
+    debris_radius, debris_opacity, debris_rgb = (
+        (0.68, 0.90, [0.97, 0.42, 0.12]) if args.debris_style == "highlight"
+        else (0.38, 0.28, [0.46, 0.49, 0.53])
+    )
     for failed_selection in debris_sources:
         debris = Show(failed_selection, view)
         debris.Representation = "Point Gaussian"
-        debris.GaussianRadius = 0.38 * spacing
+        debris.GaussianRadius = debris_radius * spacing
         debris.ShaderPreset = "Sphere"
         debris.Emissive = 0
         debris.Ambient = 0.4
         debris.Diffuse = 0.6
         debris.Specular = 0.15
-        debris.Opacity = 0.28
+        debris.Opacity = debris_opacity
         debris.ColorArrayName = ["POINTS", ""]
-        debris.DiffuseColor = [0.46, 0.49, 0.53]
-        debris.AmbientColor = [0.46, 0.49, 0.53]
+        debris.DiffuseColor = debris_rgb
+        debris.AmbientColor = debris_rgb
         displays.append(debris)
     indices = [len(times) - 1] if args.final_only else range(len(times))
     displayed_counts = []
@@ -629,6 +634,9 @@ def main():
         scene.AnimationTime = times[i]
         view.ViewTime = times[i]
         reader.UpdatePipeline(times[i])
+        particle_reader.UpdatePipeline(times[i])
+        if failed_source is not None:
+            failed_source.UpdatePipeline(times[i])
         for grip, center0, definition in grip_sources:
             grip.Center = center0 + grip_displacement(definition, times[i])
         for sphere, definition, saved_centers in waypoint_sphere_sources:
@@ -636,29 +644,32 @@ def main():
         for posed, center0, definition in hemisphere_sources:
             posed.Transform.Translate = center0 + grip_displacement(definition, times[i])
         Render(view)
+        source_count = reader.GetDataInformation().GetNumberOfPoints()
+        active_count = particle_reader.GetDataInformation().GetNumberOfPoints()
+        failed_count = failed_source.GetDataInformation().GetNumberOfPoints() if failed_source is not None else 0
+        if active_count + failed_count != source_count:
+            raise RuntimeError("saved failed flags did not partition the source particles")
         if woven_display:
             counts = [source.GetDataInformation().GetNumberOfPoints() for source in woven_sources]
-            if sum(counts) != metadata["particles"] or any(count == 0 for count in counts):
-                raise RuntimeError("woven phase/family display must partition every particle")
-            woven_counts.append({"time": times[i], "matrix": counts[0], "yarn_families": counts[1:]})
-        if has_failed and not woven_display:
-            active_count = sum(
+            if sum(counts) != active_count or (not has_failed and any(count == 0 for count in counts)):
+                raise RuntimeError("woven phase/family display must partition every visible active particle")
+            woven_counts.append({"time": times[i], "matrix": counts[0] if woven_has_matrix else 0,
+                                 "yarn_families": counts[1:] if woven_has_matrix else counts})
+        else:
+            displayed_active_count = sum(
                 source.GetDataInformation().GetNumberOfPoints()
                 for source in active_sources
             )
-            debris_count = sum(
-                source.GetDataInformation().GetNumberOfPoints()
-                for source in debris_sources
-            )
-            if active_count + debris_count != metadata["particles"]:
-                raise RuntimeError("failure display did not retain every particle")
-            displayed_counts.append(
-                {
-                    "time": times[i],
-                    "active_particles": active_count,
-                    "debris_particles": debris_count,
-                }
-            )
+            if displayed_active_count != active_count:
+                raise RuntimeError("body display did not partition every visible active particle")
+        debris_count = failed_count if args.debris_style != "hidden" else 0
+        displayed_counts.append({
+            "time": times[i], "source_particles": source_count,
+            "active_particles": active_count, "failed_particles": failed_count,
+            "debris_particles": debris_count,
+            "visible_particles": active_count + debris_count,
+            "hidden_failed_particles": failed_count - debris_count,
+        })
         SaveScreenshot(
             str(output / "frames" / f"frame_{i:05d}.png"),
             view,
@@ -725,6 +736,11 @@ def main():
         "camera_focal_point": list(view.CameraFocalPoint),
         "camera_parallel_scale": view.CameraParallelScale,
         "particles": metadata["particles"],
+        "particle_visibility": {
+            "debris_style": args.debris_style, "saved_failed_field_available": has_failed,
+            "selection": "saved failed == 0; failed particles visible only with explicit subtle/highlight" if has_failed else "all source particles; legacy data has no saved failed field",
+            "source_data_preserved": True, "counts": displayed_counts,
+        },
         "auxiliary_geometry": auxiliary_geometry,
     }
     if args.field == "displacement":
@@ -735,24 +751,26 @@ def main():
             "matrix_opacity": matrix_opacity,
             "matrix_rgb": [0.72, 0.78, 0.83],
             "family_rgb": list(colors[:family_count]),
-            "all_particles_retained": True,
+            "all_particles_retained": all(row["visible_particles"] == row["source_particles"] for row in displayed_counts),
             "displayed_counts": woven_counts,
             "interpretation": "Translucent matrix and opaque yarn particles; actual positions without displacement scaling",
         }
-    if has_failed and not woven_display:
+    if has_failed:
         provenance["failure_display"] = {
             "field": "failed",
             "body_failure_modes": failure_modes,
             "missing_config_failure_mode": "retain",
-            "active_selection": "all retain-body particles and ballistic-body particles with failed == 0",
-            "failed_selection": "failed != 0 in ballistic bodies only",
-            "failed_representation": "Point Gaussian",
-            "failed_marker_radius": 0.38 * spacing,
-            "failed_marker_opacity": 0.28,
-            "failed_marker_rgb": [0.46, 0.49, 0.53],
-            "all_particles_retained": True,
+            "active_selection": "saved failed == 0 in every body and fiber family",
+            "failed_selection": "saved failed == True in every body and fiber family",
+            "failed_representation": "hidden" if args.debris_style == "hidden" else "Point Gaussian",
+            "style": args.debris_style,
+            "failed_marker_radius": None if args.debris_style == "hidden" else debris_radius * spacing,
+            "failed_marker_opacity": 0.0 if args.debris_style == "hidden" else debris_opacity,
+            "failed_marker_rgb": debris_rgb,
+            "all_particles_retained": all(row["visible_particles"] == row["source_particles"] for row in displayed_counts),
+            "all_source_particles_preserved": True,
             "displayed_counts": displayed_counts,
-            "interpretation": "Non-load-bearing particle markers, not resolved fragment surfaces",
+            "interpretation": "Saved failed-particle diagnostic markers, not resolved fragment surfaces",
         }
     (output / "render.json").write_text(
         json.dumps(provenance, indent=2) + "\n", encoding="utf-8"

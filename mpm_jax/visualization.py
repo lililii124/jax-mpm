@@ -49,7 +49,7 @@ def find_pvpython():
 def render_directory(
     output, *, gif=False, field="body", resolution=1200, final_only=False,
     color_range=None, scene_bounds=None, sphere_opacity=None, focus_bounds=None,
-    matrix_opacity=None,
+    matrix_opacity=None, debris_style="hidden",
 ):
     if gif and final_only:
         raise ValueError("--gif and --final-only are mutually exclusive")
@@ -81,6 +81,8 @@ def render_directory(
         command.extend(["--sphere-opacity", str(sphere_opacity)])
     if matrix_opacity is not None:
         command.extend(["--matrix-opacity", str(matrix_opacity)])
+    if debris_style != "hidden":
+        command.extend(["--debris-style", debris_style])
     if final_only or not gif:
         command.append("--final-only")
     environment = os.environ.copy()
@@ -181,7 +183,7 @@ def trajectory_arrays(output):
 def render_trajectory(
     output, *, gif=False, field="body", resolution=1200, final_only=False,
     color_range=None, scene_bounds=None, sphere_opacity=None, focus_bounds=None,
-    matrix_opacity=None,
+    matrix_opacity=None, debris_style="hidden",
 ):
     if gif and final_only:
         raise ValueError("--gif and --final-only are mutually exclusive")
@@ -227,7 +229,7 @@ def render_trajectory(
         output, gif=gif, field=field, resolution=resolution, final_only=final_only,
         color_range=color_range, scene_bounds=scene_bounds, sphere_opacity=sphere_opacity,
         focus_bounds=focus_bounds,
-        matrix_opacity=matrix_opacity,
+        matrix_opacity=matrix_opacity, debris_style=debris_style,
     )
 
 
@@ -247,6 +249,7 @@ def main():
     )
     parser.add_argument("--sphere-opacity", type=float, help="rigid-sphere CAD opacity (default: 1)")
     parser.add_argument("--matrix-opacity", type=float, help="matrix opacity when coloring woven yarn families (default: 0.008)")
+    parser.add_argument("--debris-style", choices=("hidden", "subtle", "highlight"), default="hidden")
     parser.add_argument("--focus-bounds", type=float, nargs=6, help="explicit close-up bounds; may crop geometry outside the view")
     args = parser.parse_args()
     if args.scene_bounds is not None and args.focus_bounds is not None:
@@ -268,7 +271,7 @@ def main():
         scene_bounds=args.scene_bounds,
         sphere_opacity=args.sphere_opacity,
         focus_bounds=args.focus_bounds,
-        matrix_opacity=args.matrix_opacity,
+        matrix_opacity=args.matrix_opacity, debris_style=args.debris_style,
     )
 
 
