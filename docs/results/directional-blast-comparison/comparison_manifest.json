@@ -1,0 +1,112 @@
+{
+  "square": {
+    "settings": {
+      "out": "job",
+      "symmetry": "square",
+      "exponent": 4,
+      "export": false,
+      "spacing": 0.006,
+      "horizon": 0.006,
+      "pressure": 300000.0,
+      "angle": 0.0,
+      "kf": 5000000.0,
+      "dt": 1e-06,
+      "wall_seconds": 780.0,
+      "radius_m": 0.15,
+      "thickness_m": 0.006,
+      "particle_count": 62880,
+      "node_count": 19663,
+      "rho": 1100.0
+    },
+    "reference_sha256": "7001dca4a862291277558c48d00c988a73d0ef9efb345222a415f9d789c88c39",
+    "frames": 61,
+    "horizon_s": 0.006000000000000472
+  },
+  "rectangular": {
+    "settings": {
+      "out": "job",
+      "symmetry": "rectangular",
+      "exponent": 4,
+      "export": false,
+      "spacing": 0.006,
+      "horizon": 0.006,
+      "pressure": 300000.0,
+      "angle": 0.0,
+      "kf": 5000000.0,
+      "dt": 1e-06,
+      "wall_seconds": 780.0,
+      "radius_m": 0.15,
+      "thickness_m": 0.006,
+      "particle_count": 62880,
+      "node_count": 19663,
+      "rho": 1100.0
+    },
+    "reference_sha256": "7001dca4a862291277558c48d00c988a73d0ef9efb345222a415f9d789c88c39",
+    "frames": 61,
+    "horizon_s": 0.006000000000000472
+  },
+  "hexagonal": {
+    "settings": {
+      "out": "job",
+      "spacing": 0.006,
+      "horizon": 0.006,
+      "pressure": 300000.0,
+      "angle": 0.0,
+      "kf": 5000000.0,
+      "dt": 1e-06,
+      "wall_seconds": 780.0,
+      "radius_m": 0.15,
+      "thickness_m": 0.006,
+      "particle_count": 62880,
+      "node_count": 19663,
+      "rho": 1100.0
+    },
+    "reference_sha256": "7001dca4a862291277558c48d00c988a73d0ef9efb345222a415f9d789c88c39",
+    "frames": 61,
+    "horizon_s": 0.006000000000000472
+  },
+  "octagonal": {
+    "settings": {
+      "out": "job",
+      "symmetry": "octagonal",
+      "exponent": 4,
+      "export": false,
+      "spacing": 0.006,
+      "horizon": 0.006,
+      "pressure": 300000.0,
+      "angle": 0.0,
+      "kf": 5000000.0,
+      "dt": 1e-06,
+      "wall_seconds": 780.0,
+      "radius_m": 0.15,
+      "thickness_m": 0.006,
+      "particle_count": 62880,
+      "node_count": 19663,
+      "rho": 1100.0
+    },
+    "reference_sha256": "7001dca4a862291277558c48d00c988a73d0ef9efb345222a415f9d789c88c39",
+    "frames": 61,
+    "horizon_s": 0.006000000000000472
+  },
+  "isotropic": {
+    "settings": {
+      "out": "job",
+      "export": false,
+      "spacing": 0.006,
+      "horizon": 0.006,
+      "pressure": 300000.0,
+      "angle": 0.0,
+      "kf": 0.0,
+      "dt": 1e-06,
+      "wall_seconds": 780.0,
+      "radius_m": 0.15,
+      "thickness_m": 0.006,
+      "particle_count": 62880,
+      "node_count": 19663,
+      "rho": 1100.0
+    },
+    "reference_sha256": "7001dca4a862291277558c48d00c988a73d0ef9efb345222a415f9d789c88c39",
+    "frames": 61,
+    "horizon_s": 0.006000000000000472
+  }
+}

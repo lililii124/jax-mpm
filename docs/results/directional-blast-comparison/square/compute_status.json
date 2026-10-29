@@ -1,0 +1,32 @@
+{
+  "started_utc": "2026-10-29T16:23:24.483525+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "verify_then_case.py",
+    "--symmetry",
+    "square",
+    "--exponent",
+    "4",
+    "--out",
+    "job",
+    "--horizon",
+    ".006"
+  ],
+  "cpu_affinity": [
+    20,
+    21,
+    22,
+    23
+  ],
+  "memory_headroom_at_start": 8580931584,
+  "limit_seconds": 900.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 971149312,
+  "minimum_memory_headroom": 7311683584,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 609.303033284843,
+  "returncode": 0
+}

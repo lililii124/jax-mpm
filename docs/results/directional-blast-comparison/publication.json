@@ -1,0 +1,51 @@
+{
+  "cases": [
+    {
+      "case": "square",
+      "gif": "docs/images/home/symmetry--square.gif",
+      "sha256": "c4b1dce8aa3cadfcf49b5f572f7c0782c9f06eb6a5fc26d1aeb0240d046fb9fa",
+      "frames": 61,
+      "duration_ms": 4880
+    },
+    {
+      "case": "rectangular",
+      "gif": "docs/images/home/symmetry--rectangular.gif",
+      "sha256": "ea3448f011e91f0517051d146474ebc20803cd4caf3ef3b63f8b16bc2f1e42aa",
+      "frames": 61,
+      "duration_ms": 4880
+    },
+    {
+      "case": "hexagonal",
+      "gif": "docs/images/home/symmetry--hexagonal.gif",
+      "sha256": "4cbf29ba93b8616f5b8054011fc7681a1dd4fac71310e72ed5c9343a610e211e",
+      "frames": 61,
+      "duration_ms": 4880
+    },
+    {
+      "case": "octagonal",
+      "gif": "docs/images/home/symmetry--octagonal.gif",
+      "sha256": "12a346d7f6babdc40e377477ccecfc13a00532946a43ddfd4f17c56bcb9bca3b",
+      "frames": 61,
+      "duration_ms": 4880
+    },
+    {
+      "case": "isotropic",
+      "gif": "docs/images/home/symmetry--isotropic.gif",
+      "sha256": "34ed1aca8ab1c42e0f207beb98b7c5ca60831834ea83e65b58a0e59bbf31f038",
+      "frames": 61,
+      "duration_ms": 4880
+    }
+  ],
+  "dimensions": [
+    400,
+    400
+  ],
+  "color_range_Pa": [
+    0,
+    483285.86412711476
+  ],
+  "common_reference_sha256": "7001dca4a862291277558c48d00c988a73d0ef9efb345222a415f9d789c88c39",
+  "horizon_s": 0.006,
+  "layout": "three columns, then two aligned columns",
+  "shared_palette": true
+}

@@ -1,0 +1,56 @@
+{
+  "task": "directional-blast-rectangular-p4-v1-20261030",
+  "frames": 61,
+  "history_rows": 61,
+  "all_valid": true,
+  "minimum_J": 0.9425749703757146,
+  "peak_deflection_m": 0.024784608282450653,
+  "peak_bulk_vm_Pa": 2084480.1940693418,
+  "peak_plotted_layer_vm_Pa": 2084480.1940693418,
+  "maximum_saturated_fraction": 0.11501272264631043,
+  "max_absolute_energy_residual_J": 5.648127227031452e-06,
+  "final": {
+    "step": 6000,
+    "time_s": 0.006000000000000472,
+    "min_J": 0.9510705918816201,
+    "max_strain": 0.06243771291522621,
+    "peak_vm_Pa": 2084480.1940693418,
+    "max_deflection_m": 0.02074559730309017,
+    "elastic_J": 0.5836869796096738,
+    "kinetic_J": 1.044639362505393,
+    "pressure_work_J": 1.6283264098200392,
+    "energy_residual_J": -6.770497251729068e-08,
+    "valid": true
+  },
+  "angular_probe_2p5ms": {
+    "frame": "frame_0002500.npz",
+    "surface_vm_sha256": "7d479a4e52414a2581b2be36c8706e4afc7e5d2904fefa24bab3a9f2d8ef7e26",
+    "time_s": 0.0025000000000000074,
+    "ring_radius_m": 0.05,
+    "ring_halfwidth_m": 0.0025,
+    "mean_Pa": 188451.60718304507,
+    "harmonics": {
+      "2": {
+        "relative": 0.16078024273863895,
+        "phase_deg": -1.0198455011006443e-10
+      },
+      "4": {
+        "relative": 0.35455593572698846,
+        "phase_deg": -7.383492263420865e-14
+      },
+      "6": {
+        "relative": 0.019065990796005756,
+        "phase_deg": 1.1163900562102334e-13
+      },
+      "8": {
+        "relative": 0.011587034596434198,
+        "phase_deg": -4.0816601382984175e-11
+      },
+      "12": {
+        "relative": 0.0030037151557786215,
+        "phase_deg": 14.999999999949958
+      }
+    },
+    "peak_surface_vm_Pa": 563668.1941984864
+  }
+}

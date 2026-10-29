@@ -1,0 +1,33 @@
+{
+  "started_utc": "2026-10-29T16:23:24.482979+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "-m",
+    "examples.directional_blast_plate",
+    "--symmetry",
+    "rectangular",
+    "--exponent",
+    "4",
+    "--out",
+    "job",
+    "--horizon",
+    ".006"
+  ],
+  "cpu_affinity": [
+    32,
+    33,
+    34,
+    35
+  ],
+  "memory_headroom_at_start": 8581185536,
+  "limit_seconds": 900.0,
+  "uss_limit_bytes": 6442450944,
+  "peak_uss_bytes": 975790080,
+  "minimum_memory_headroom": 7305895936,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 552.6089102327824,
+  "returncode": 0
+}

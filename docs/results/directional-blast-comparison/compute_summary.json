@@ -1,0 +1,282 @@
+{
+  "square": {
+    "task": "directional-blast-square-p4-v1-20261030",
+    "frames": 61,
+    "history_rows": 61,
+    "all_valid": true,
+    "minimum_J": 0.9425749703757144,
+    "peak_deflection_m": 0.02488466341997119,
+    "peak_bulk_vm_Pa": 1061832.675927453,
+    "peak_plotted_layer_vm_Pa": 979067.9788796022,
+    "maximum_saturated_fraction": 0.1475826972010178,
+    "max_absolute_energy_residual_J": 5.648127226837163e-06,
+    "final": {
+      "step": 6000,
+      "time_s": 0.006000000000000472,
+      "min_J": 0.9678507431854732,
+      "max_strain": 0.04482791695575178,
+      "peak_vm_Pa": 905621.1105079976,
+      "max_deflection_m": 0.020031610374822702,
+      "elastic_J": 0.5661606043468793,
+      "kinetic_J": 1.0621657779810756,
+      "pressure_work_J": 1.6283264098066261,
+      "energy_residual_J": -2.747867111629887e-08,
+      "valid": true
+    },
+    "angular_probe_2p5ms": {
+      "frame": "frame_0002500.npz",
+      "surface_vm_sha256": "56cc02980f115f7f877e549fa6e9c72da2d3e7cafbf2c3becc939558039a6f1d",
+      "time_s": 0.0025000000000000074,
+      "ring_radius_m": 0.05,
+      "ring_halfwidth_m": 0.0025,
+      "mean_Pa": 190432.54549438492,
+      "harmonics": {
+        "2": {
+          "relative": 9.103422746579623e-13,
+          "phase_deg": null
+        },
+        "4": {
+          "relative": 0.3604967301535137,
+          "phase_deg": 2.641949203115327e-13
+        },
+        "6": {
+          "relative": 5.143704000959278e-15,
+          "phase_deg": null
+        },
+        "8": {
+          "relative": 0.011136851483394562,
+          "phase_deg": -4.287890841451786e-11
+        },
+        "12": {
+          "relative": 0.004588581765782072,
+          "phase_deg": 14.999999999971479
+        }
+      },
+      "peak_surface_vm_Pa": 470368.0061763462
+    }
+  },
+  "rectangular": {
+    "task": "directional-blast-rectangular-p4-v1-20261030",
+    "frames": 61,
+    "history_rows": 61,
+    "all_valid": true,
+    "minimum_J": 0.9425749703757146,
+    "peak_deflection_m": 0.024784608282450653,
+    "peak_bulk_vm_Pa": 2084480.1940693418,
+    "peak_plotted_layer_vm_Pa": 2084480.1940693418,
+    "maximum_saturated_fraction": 0.11501272264631043,
+    "max_absolute_energy_residual_J": 5.648127227031452e-06,
+    "final": {
+      "step": 6000,
+      "time_s": 0.006000000000000472,
+      "min_J": 0.9510705918816201,
+      "max_strain": 0.06243771291522621,
+      "peak_vm_Pa": 2084480.1940693418,
+      "max_deflection_m": 0.02074559730309017,
+      "elastic_J": 0.5836869796096738,
+      "kinetic_J": 1.044639362505393,
+      "pressure_work_J": 1.6283264098200392,
+      "energy_residual_J": -6.770497251729068e-08,
+      "valid": true
+    },
+    "angular_probe_2p5ms": {
+      "frame": "frame_0002500.npz",
+      "surface_vm_sha256": "7d479a4e52414a2581b2be36c8706e4afc7e5d2904fefa24bab3a9f2d8ef7e26",
+      "time_s": 0.0025000000000000074,
+      "ring_radius_m": 0.05,
+      "ring_halfwidth_m": 0.0025,
+      "mean_Pa": 188451.60718304507,
+      "harmonics": {
+        "2": {
+          "relative": 0.16078024273863895,
+          "phase_deg": -1.0198455011006443e-10
+        },
+        "4": {
+          "relative": 0.35455593572698846,
+          "phase_deg": -7.383492263420865e-14
+        },
+        "6": {
+          "relative": 0.019065990796005756,
+          "phase_deg": 1.1163900562102334e-13
+        },
+        "8": {
+          "relative": 0.011587034596434198,
+          "phase_deg": -4.0816601382984175e-11
+        },
+        "12": {
+          "relative": 0.0030037151557786215,
+          "phase_deg": 14.999999999949958
+        }
+      },
+      "peak_surface_vm_Pa": 563668.1941984864
+    }
+  },
+  "hexagonal": {
+    "task": "hexagonal-blast-probe-v1-20261029",
+    "frames": 61,
+    "history_rows": 61,
+    "all_valid": true,
+    "minimum_J": 0.9425749703754258,
+    "peak_deflection_m": 0.024617394925663443,
+    "peak_bulk_vm_Pa": 1136647.0738301394,
+    "peak_plotted_layer_vm_Pa": 724928.7961906721,
+    "maximum_saturated_fraction": 0.13078880407124682,
+    "max_absolute_energy_residual_J": 5.64812722692043e-06,
+    "final": {
+      "step": 6000,
+      "time_s": 0.006000000000000472,
+      "min_J": 0.9911008476655893,
+      "max_strain": 0.0475042331887745,
+      "peak_vm_Pa": 724928.7961906721,
+      "max_deflection_m": 0.019564893542849345,
+      "elastic_J": 0.5211900384800974,
+      "kinetic_J": 1.107136384645274,
+      "pressure_work_J": 1.6283264097552834,
+      "energy_residual_J": 1.3370087925679286e-08,
+      "valid": true
+    },
+    "angular_probe_2p5ms": {
+      "frame": "frame_0002500.npz",
+      "surface_vm_sha256": "768eb0bf0e697e8f81c7e13fd0dafaecd0af48c1cb6e20dc91d36b96a4ab864f",
+      "time_s": 0.0025000000000000074,
+      "ring_radius_m": 0.05,
+      "ring_halfwidth_m": 0.0025,
+      "mean_Pa": 202951.2777185567,
+      "harmonics": {
+        "2": {
+          "relative": 0.0015397679700460982,
+          "phase_deg": -89.9999999997176
+        },
+        "4": {
+          "relative": 9.670568907091973e-05,
+          "phase_deg": 3.976671185594173e-10
+        },
+        "6": {
+          "relative": 0.1607224041522777,
+          "phase_deg": -8.862827502759015e-14
+        },
+        "8": {
+          "relative": 0.00012029136525081094,
+          "phase_deg": -9.722600450790756e-11
+        },
+        "12": {
+          "relative": 0.009762108070281102,
+          "phase_deg": -14.999999999999275
+        }
+      },
+      "peak_surface_vm_Pa": 377575.2723005529
+    }
+  },
+  "octagonal": {
+    "task": "directional-blast-octagonal-p4-v1-20261030",
+    "frames": 61,
+    "history_rows": 61,
+    "all_valid": true,
+    "minimum_J": 0.9425749703754257,
+    "peak_deflection_m": 0.024475514598732016,
+    "peak_bulk_vm_Pa": 1166185.6148818175,
+    "peak_plotted_layer_vm_Pa": 618254.0623127735,
+    "maximum_saturated_fraction": 0.13893129770992366,
+    "max_absolute_energy_residual_J": 5.648127226698385e-06,
+    "final": {
+      "step": 6000,
+      "time_s": 0.006000000000000472,
+      "min_J": 0.9918430707902983,
+      "max_strain": 0.045318041075693816,
+      "peak_vm_Pa": 597932.615752734,
+      "max_deflection_m": 0.0194452326335907,
+      "elastic_J": 0.5155050832167962,
+      "kinetic_J": 1.1128213100906394,
+      "pressure_work_J": 1.6283264097550294,
+      "energy_residual_J": -1.64475937314279e-08,
+      "valid": true
+    },
+    "angular_probe_2p5ms": {
+      "frame": "frame_0002500.npz",
+      "surface_vm_sha256": "f02a5d1fa45f6b4ffc761b0005debace45f43bcb4d6311d44d2f055e400b2794",
+      "time_s": 0.0025000000000000074,
+      "ring_radius_m": 0.05,
+      "ring_halfwidth_m": 0.0025,
+      "mean_Pa": 208611.19622752463,
+      "harmonics": {
+        "2": {
+          "relative": 5.198954116194317e-14,
+          "phase_deg": null
+        },
+        "4": {
+          "relative": 0.0007567702279418098,
+          "phase_deg": 44.99999999989988
+        },
+        "6": {
+          "relative": 3.929017296220117e-15,
+          "phase_deg": null
+        },
+        "8": {
+          "relative": 0.06438194856022997,
+          "phase_deg": -3.0754444601689196e-13
+        },
+        "12": {
+          "relative": 9.115450046510451e-05,
+          "phase_deg": 1.8491985897934754e-10
+        }
+      },
+      "peak_surface_vm_Pa": 340984.5273399107
+    }
+  },
+  "isotropic": {
+    "task": "hexagonal-blast-isotropic-full6-resume-v1-20261030",
+    "frames": 61,
+    "history_rows": 62,
+    "all_valid": true,
+    "minimum_J": 0.9425749704738325,
+    "peak_deflection_m": 0.03053057080460857,
+    "peak_bulk_vm_Pa": 291900.44358207105,
+    "peak_plotted_layer_vm_Pa": 185075.9986765947,
+    "maximum_saturated_fraction": 0.0,
+    "max_absolute_energy_residual_J": 5.648127250790225e-06,
+    "final": {
+      "step": 6000,
+      "time_s": 0.006000000000000472,
+      "min_J": 1.0,
+      "max_strain": 0.05798700819302616,
+      "peak_vm_Pa": 210171.4192391812,
+      "max_deflection_m": 0.02956989387140753,
+      "elastic_J": 0.7254351713267158,
+      "kinetic_J": 0.9028916582050759,
+      "pressure_work_J": 1.6283265842541597,
+      "energy_residual_J": 2.452776319827876e-07,
+      "valid": true
+    },
+    "angular_probe_2p5ms": {
+      "frame": "frame_0002500.npz",
+      "surface_vm_sha256": "0b4862b58f785c2c2e6e6bfec937ac263a895be69990c9a449911808f2bc4983",
+      "time_s": 0.0025000000000000074,
+      "ring_radius_m": 0.05,
+      "ring_halfwidth_m": 0.0025,
+      "mean_Pa": 120943.96751035667,
+      "harmonics": {
+        "2": {
+          "relative": 1.8905844147693266e-13,
+          "phase_deg": null
+        },
+        "4": {
+          "relative": 4.5745015198949836e-05,
+          "phase_deg": 4.934590443793162e-10
+        },
+        "6": {
+          "relative": 3.291876615306165e-15,
+          "phase_deg": null
+        },
+        "8": {
+          "relative": 0.00014158865606975508,
+          "phase_deg": -4.4374003321175805e-10
+        },
+        "12": {
+          "relative": 9.182146049774462e-05,
+          "phase_deg": 1.7377610268542745e-10
+        }
+      },
+      "peak_surface_vm_Pa": 124843.5297294893
+    }
+  }
+}

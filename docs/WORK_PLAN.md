@@ -1,6 +1,6 @@
 # Active work
 
-Updated 2026-10-29. Only a running process or a newer accepted state counts as
+Updated 2026-10-30. Only a running process or a newer accepted state counts as
 computational progress; an existing output directory does not.
 The states below distinguish completed calculations from qualified results.
 Live process status is recorded separately by the read-only local monitor.
@@ -9,13 +9,14 @@ Live process status is recorded separately by the read-only local monitor.
 | --- | --- | --- |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
-| Triaxial weaving process | Corrected guide-work ledger passed release checks; full 24-fibre geometry reached 250 microseconds, then resumed toward 1 ms | Advance through guide release and actual contact, retaining the complete physical protocol |
+| Triaxial weaving process | Full 24-fibre geometry reached 1 ms; exact-state continuation is advancing toward guide release and contact | Complete the full physical protocol and render its process |
 | AT2 fracture | Zero-initial-damage path completed; user approved its GIF for publication | Preserve the accepted example; further tip-symmetry investigation cancelled |
 | Anisotropic phase-field fracture | Complete load path and actual curved-crack GIF approved; fitted path angle 7.41 degrees | Preserve the accepted example |
 | Notched three-point bending fracture | Added as the third phase-field gallery case | Compute upward crack propagation from an explicit bottom notch under central displacement loading |
-| Phase-field fracture with hard inclusions | Elastic-modulus-only inclusion was penetrated; a paired 8x-modulus / 10x-fracture-energy case is running | Render the actual resistance, arrest or deflection produced by the second phase |
-| Hyperelastic symmetry under blast pressure | Sixfold 6 ms GIF approved; material-rotation and isotropic controls complete; refined sixfold calculation active | Compare square, rectangular, sixfold, eightfold and isotropic plates under identical geometry, load, camera and display scale |
-| Blast-loaded sandwich design | Fixed-mass 486-mode optimization has retained feasible redistribution steps; full independent eccentric-load MPM baseline remains active | Obtain substantial redistribution, verify its response against full MPM, then add nonlinear material qualification |
+| Phase-field fracture with hard inclusions | The 8x-modulus / 10x-fracture-energy case retained 26 accepted states before its time limit; requested load path remains incomplete | Render the accepted crack-arrest trajectory for review |
+| Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
+| Blast-loaded sandwich design | The enriched 510-mode fixed-mass optimization is running; independent full MPM baseline remains active | Check time-step sensitivity and later-time response, validate the selected distribution against full MPM, then add nonlinear material qualification |
+| Hypervelocity sphere impact | Restart reconstruction repaired; continuation exposed a missing state mapping when support splits after failure | Repair splitting, measure sustained throughput and continue toward the debris-cloud stage |
 
 The read-only local monitor records process status, accepted steps/time, source
 update times and available animations. A stalled calculation is reported as

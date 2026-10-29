@@ -249,8 +249,13 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 
 <table width="100%">
 <tr>
-<td width="33%" align="center"><img src="docs/images/home/hexagonal-blast.gif" alt="Sixfold hyperelastic plate under blast pressure" width="100%"><br><a href="docs/HEXAGONAL_BLAST.md">Sixfold plate · blast pressure</a></td>
-<td width="33%" align="center"></td>
+<td width="33%" align="center"><img src="docs/images/home/symmetry--square.gif" alt="Square symmetry under blast pressure" width="100%"><br><a href="docs/DIRECTIONAL_BLAST_COMPARISON.md">Square symmetry</a></td>
+<td width="33%" align="center"><img src="docs/images/home/symmetry--rectangular.gif" alt="Rectangular symmetry under blast pressure" width="100%"><br><a href="docs/DIRECTIONAL_BLAST_COMPARISON.md">Rectangular symmetry</a></td>
+<td width="33%" align="center"><img src="docs/images/home/symmetry--hexagonal.gif" alt="Sixfold symmetry under blast pressure" width="100%"><br><a href="docs/DIRECTIONAL_BLAST_COMPARISON.md">Sixfold symmetry</a></td>
+</tr>
+<tr>
+<td width="33%" align="center"><img src="docs/images/home/symmetry--octagonal.gif" alt="Eightfold symmetry under blast pressure" width="100%"><br><a href="docs/DIRECTIONAL_BLAST_COMPARISON.md">Eightfold symmetry</a></td>
+<td width="33%" align="center"><img src="docs/images/home/symmetry--isotropic.gif" alt="Isotropic under blast pressure" width="100%"><br><a href="docs/DIRECTIONAL_BLAST_COMPARISON.md">Isotropic</a></td>
 <td width="33%" align="center"></td>
 </tr>
 </table>
