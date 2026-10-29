@@ -1,0 +1,255 @@
+{
+  "task": "blast-sandwich-public-cold-v25-20261030",
+  "job": {
+    "started_utc": "2026-10-29T21:27:43.200731+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "/work/run_cold.py"
+    ],
+    "cpu_affinity": [
+      36,
+      37,
+      38,
+      39
+    ],
+    "memory_headroom_at_start": 8580997120,
+    "limit_seconds": 5400.0,
+    "uss_limit_bytes": 6442450944,
+    "peak_uss_bytes": 1612279808,
+    "minimum_memory_headroom": 6480011264,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 1626.375748693943,
+    "returncode": 0
+  },
+  "downloaded_sha256": {
+    "job/status.json": "b1ba92bb6fa6d18b8ea6461395e1d7c3d60d78e40cd213a30d11e32a3fe46542",
+    "job/solver.log": "4ac108389f6402fa4f23bb6ff21e4c77df6aad3a0035d541f0297805493473d6",
+    "output/progress.json": "fd849fadce6da6ba3edd84c029cb598099772eaf8f5fd3b76dff23ed8461b3ab",
+    "output/stages.json": "c1d5a349595f2b44bd7f7306cd2e0baac54dd9c780645be17a5a9fc15c8e5f74",
+    "output/public-replay.json": "c12288efc3b2932f10fd9725132d6d1df2b5e201400ca21e328cb30aefb2f02f",
+    "output/review.json": "fb2aae71ab0153af66205f4d09f7350339883a2e1c092e733e80e7b1940bc658",
+    "public-commit.json": "eb6940295371b07f9c2ab568d0737d453ec872cb67dfb28171fd7c4fb953ac3e",
+    "capsule-source-sha256.json": "0d2b43d52a05a61c82303a73b56a756601d79d29c2ae2e3107a05fe0dd2594a4",
+    "outputs/rational-selected/solves.json": "c86daa8f3085a00484b897f0529fbe45164e60d53e7272a763309dd4fbe1c8b6",
+    "outputs/rational-selected/review.json": "d775e43cf881cfbe2d2dd3384db75903d1f60c37b4eb3f5c005350a34254b9ad",
+    "outputs/rational-selected/construction-inputs.json": "69b31f2ed9ac64b73420deb12c643beaeaf6322e4226c2cc7dd456b604bf5544",
+    "outputs/rational-selected/canonical-basis.json": "2e71432d93ea95d8db370cd765ce64916dbbffd9c1d2503d3a5fc4a05676d5e4",
+    "outputs/rational-union/solves.json": "702d8bb44b4a969e6169f426f3a553063a8beb717a047bd4c2c675bc02177537",
+    "outputs/rational-union/review.json": "f3f546a03459783a71eee53026604bd83b659cc8bd3e9b0b39523c510d5ddb1d",
+    "outputs/rational-union/construction-inputs.json": "8ae587bbcfca75ef922658280fffcea9f7242add39f1f4244b324897682a6139",
+    "outputs/rational-union/model-freeze.json": "6bf5e8a625c5a415fa6f06a11572578e4e9bc0f1343c8c3bd6e6bc0bafb35e8e",
+    "outputs/rational-inputs/initial-material.json": "b44217a5234c1d8552d5a9dc53909d0561f120e7810e3a3a7f59910e6ebe9869",
+    "outputs/rational-inputs/selected-material.json": "d093ae251ccfd92b84057cf307f89c30b9f13e1f4a73e277cdf21602dbe85f2e",
+    "outputs/rational-inputs/selected-tangent.json": "19dcc2ef13e14e521365ce72063509901d48bbc29163c7cedfb1bda4f17ada6c"
+  },
+  "scope": "Cold public source/config/control-fixture construction and cached-ROM replay only; no private numeric cache inputs and no new full-MPM simulation.",
+  "full_mpm_qualified": false,
+  "global_optimum_claim": false,
+  "progress": {
+    "event": "complete",
+    "wall_seconds": 1625.5457146763802,
+    "numeric_basis_matches_recorded_union": true
+  },
+  "stages": [
+    {
+      "stage": "material",
+      "wall_seconds": 4.360307529568672
+    },
+    {
+      "stage": "tangent",
+      "wall_seconds": 137.82264462858438
+    },
+    {
+      "stage": "selected",
+      "wall_seconds": 545.261548474431
+    },
+    {
+      "stage": "canonicalize",
+      "wall_seconds": 5.854979023337364
+    },
+    {
+      "stage": "union",
+      "wall_seconds": 921.9345159456134
+    },
+    {
+      "stage": "freeze",
+      "wall_seconds": 7.630639955401421
+    }
+  ],
+  "review": {
+    "scope": "Cold construction and source-port I/O verification using committed public source/config/control fixture only; no preexisting material/tangent/basis/response cache and no new full-MPM simulation.",
+    "lineage": {
+      "commit": "5207438b7f65e989af4d6e6ec9cc02b1bbdddcbe",
+      "source": "git object bytes",
+      "private_numeric_cache_inputs": false
+    },
+    "stages": [
+      {
+        "stage": "material",
+        "wall_seconds": 4.360307529568672
+      },
+      {
+        "stage": "tangent",
+        "wall_seconds": 137.82264462858438
+      },
+      {
+        "stage": "selected",
+        "wall_seconds": 545.261548474431
+      },
+      {
+        "stage": "canonicalize",
+        "wall_seconds": 5.854979023337364
+      },
+      {
+        "stage": "union",
+        "wall_seconds": 921.9345159456134
+      },
+      {
+        "stage": "freeze",
+        "wall_seconds": 7.630639955401421
+      }
+    ],
+    "freeze": {
+      "schema_version": 2,
+      "scope": "Frozen physics-only union before independent selected-prefix extraction.",
+      "operator_vertex": "selected",
+      "basis": {
+        "path": "../outputs/rational-union/frozen-basis.npz",
+        "sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+        "numeric_basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+        "rank": 130
+      },
+      "selected_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+      "no_mpm_displacement_direction_fitting": true,
+      "fresh_validation": {
+        "steps": [
+          31000,
+          32000,
+          33000,
+          34000,
+          35000,
+          36000,
+          37000,
+          38000,
+          39000,
+          40000,
+          41000,
+          42000
+        ],
+        "history_interval_steps": [
+          31000,
+          42000
+        ],
+        "response_gate": 0.05,
+        "omitted_energy_gate": 0.05
+      },
+      "inputs": {
+        "initial_material": {
+          "path": "../outputs/rational-inputs/initial-material.npz",
+          "sha256": "2b206d2c187f9d3bd573b80328976a496690ed8de992fcb3c9ccd5b1bf6e9e15"
+        },
+        "selected_material": {
+          "path": "../outputs/rational-inputs/selected-material.npz",
+          "sha256": "1493bce0bdb43cd7e82b07e6c0872aa08519b7d288bd83371e53b00675bf3794"
+        },
+        "selected_tangent": {
+          "path": "../outputs/rational-inputs/selected-tangent.npz",
+          "sha256": "3f03b253408a1bbb4cb0ba48c1cdfdeac053fb07223420b662ba4df66107c040"
+        },
+        "selected_controls": {
+          "path": "sandwich_rational_selected_controls.json",
+          "sha256": "22735c4c1f340a1683648cc834314cf224028c222abeecdfbed55592f4a7a011"
+        },
+        "canonical_selected_basis": {
+          "path": "../outputs/rational-selected/canonical-basis.npz",
+          "sha256": "fb82c7a5acca723126c3d2b5df471f409e6fac369b747e499daeadd104c4668b"
+        }
+      },
+      "material_fields_sha256": {
+        "initial": "4634721209b8e5fde76382d209def99d057760e6d6a39569cc643aa3d6c6ac41",
+        "selected": "1f93bdfa8306cc756ca9beef0f1c760e6ac360d7d8e63ec6a95d27a1e6ac4d19"
+      },
+      "full_mpm_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+      "source_sha256": {
+        "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+        "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+        "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11",
+        "tools/build_sandwich_rational.py": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9"
+      },
+      "construction_configuration": {
+        "version": 1,
+        "frequencies_hz": [
+          0.0,
+          2000.0,
+          8000.0,
+          32000.0,
+          128000.0,
+          512000.0
+        ],
+        "powers_per_shift": 3,
+        "gmres_relative_tolerance": 1e-08,
+        "gmres_restart": 50,
+        "gmres_maxiter": 40,
+        "ilu_drop_tolerance": 0.001,
+        "ilu_fill_factor": 4,
+        "ilu_permutation": "MMD_AT_PLUS_A",
+        "residual_projection_passes": 2,
+        "svd_relative_cutoff": 1e-08,
+        "horizon_s": 0.002,
+        "analytic_order": 2,
+        "target_mass_kg": 1.8468,
+        "load_cases": [
+          "uniform",
+          "central",
+          "eccentric"
+        ],
+        "full_mpm_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+        "initial_controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+        "selected_controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+        "selected_controls": "sandwich_rational_selected_controls.json",
+        "initial_material": "../outputs/rational-inputs/initial-material.npz",
+        "selected_material": "../outputs/rational-inputs/selected-material.npz",
+        "selected_tangent": "../outputs/rational-inputs/selected-tangent.npz",
+        "selected_output": "../outputs/rational-selected",
+        "selected_basis": "../outputs/rational-selected/rational-basis.npz",
+        "canonical_selected_basis": "../outputs/rational-selected/canonical-basis.npz",
+        "union_output": "../outputs/rational-union",
+        "frozen_basis": "../outputs/rational-union/frozen-basis.npz",
+        "freeze_receipt": "../outputs/rational-union/model-freeze.json",
+        "expected_source_sha256": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11"
+        },
+        "output": "."
+      },
+      "complete2ms_three_case_mpm_qualification": false,
+      "global_optimum_claim": false
+    },
+    "replay": {
+      "scope": "Public forward replay of 96 initial steps and 67 full-horizon saved face reconstructions; no new MPM simulation or qualification.",
+      "public_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+      "basis_artifact_sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+      "basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+      "response_artifact_sha256": "fdd25b49011255fb9d387bff08acf5c53daebbc5c55c751773be34b301e22dfc",
+      "replay_steps": 96,
+      "prefix_state_relative_l2": 0.0,
+      "full_horizon_face_probe_relative_maximum_error": 0.0,
+      "full_horizon_linear_energy_relative_error": 1.0024583013722135e-11,
+      "passed": true
+    },
+    "numeric_basis_matches_recorded_union": true,
+    "recorded_numeric_basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+    "wall_seconds": 1625.5449298620224,
+    "independent_full_mpm_qualification": false,
+    "global_optimum_claim": false
+  },
+  "public_commit": {
+    "commit": "5207438b7f65e989af4d6e6ec9cc02b1bbdddcbe",
+    "source": "git object bytes",
+    "private_numeric_cache_inputs": false
+  }
+}

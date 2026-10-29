@@ -50,8 +50,13 @@ SVD/iterative-solver floating-point behavior can depend on the numerical
 runtime. Check the emitted numeric hash; a differing basis must receive its
 own frozen receipt and independent validation rather than borrowing an older
 receipt. The source port was checked against original numerical AST blocks
-and cached forward responses; the entire cold construction was not rerun for
-the source port.
+and cached forward responses. A subsequent cold run from commit `5207438`
+used only the public source, configuration and control fixture. It completed
+all construction stages in 1626 seconds with four CPU threads and 1.61 GB
+peak USS. The basis, frozen operator artifact and selected response hashes
+matched the recorded originals exactly; no private numeric cache was supplied.
+The [cold-run receipt](../evidence/blast-sandwich-reduced/union130-public-cold-chain.json)
+records this reproduction separately from independent MPM validation.
 
 Before reading a new validation interval, run:
 
