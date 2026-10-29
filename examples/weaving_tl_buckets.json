@@ -1,0 +1,32 @@
+{
+  "schema": "weaving-tl-bucket-prefix-v1",
+  "run": {
+    "output": "outputs/weaving-tl-buckets-1100us",
+    "per_family": 8,
+    "dt": 2.4e-7,
+    "stop_time": 0.0011,
+    "max_steps": 5000,
+    "frame_every": 200,
+    "reference_layout": "active-stencil"
+  },
+  "environment_before_python": {
+    "JAX_ENABLE_X64": "true",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "WEAVING_BUCKET_FIRST_TIGHT": "0"
+  },
+  "reference_resource_budget": {
+    "reserved_cpu_count": 4,
+    "container_limit_gib": 16,
+    "process_tree_uss_limit_gib": 12,
+    "enforcement": "External resource guard; the physical driver does not impose container or USS limits."
+  },
+  "qualification_runtime": {
+    "jax": "0.12.0.1",
+    "numpy": "2.5.4",
+    "float64": true
+  },
+  "full_protocol_duration_s": 0.04704120539381533,
+  "scope": "Bounded 1.1 ms cold-run recipe; not a completed full trajectory or a legacy-source checkpoint migration."
+}

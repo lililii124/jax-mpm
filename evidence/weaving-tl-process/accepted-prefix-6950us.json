@@ -1,0 +1,123 @@
+{
+  "schema": "weaving-tl-accepted-prefix-6950us-v1",
+  "scope": "Accepted bounded prefix only; full47.041205ms protocol remains incomplete, with no active contact patches at this boundary.",
+  "task": "weaving-linux-bucket-6950000ns-v1",
+  "accepted_time_s": 0.00695,
+  "accepted_step": 28967,
+  "completed": false,
+  "full_protocol_duration_s": 0.04704120539381533,
+  "checkpoint_sha256": "0c4b88286af8521deaba7e39ecfa84a533143a4c9c24907f3fdee76e04c5729b",
+  "parent_checkpoint": {
+    "backend": "linux_remote",
+    "task": "weaving-linux-memory-6776000ns-v3",
+    "time_s": 0.006776,
+    "checkpoint_sha256": "bb6b782e1a653bc69b600b0158925fa0bbcc48f40461560995cf2ad5bfee67b1"
+  },
+  "artifact_sha256": {
+    "output/summary.json": "98f0feb1ddcb44fa5b26f274e89483d7c388e648922603bd12cdbd01c10b0f97",
+    "output/binding.json": "9ebd55524ceb87847be9a570d38de7c976341a2af9e14df8c0be4fb36a19915e",
+    "job/status.json": "46b88c589387f5f97aa9f6c4344bed6f4fc63518000a398452823b96d2ba1a79",
+    "output/parent.json": "691cd01f2d96e67933916bfa39da0249701a9fe6b6d259268ce16ee77ddd529f",
+    "output/execution-bridge.json": "977e38eacf054ff02b5fe85cebde443c9538119e9da978e3ebc09e2959917af0",
+    "output/platform-bridge.json": "f4b4ae41ed9024632caad12e217e4311f06965de76e61c59185bcce12a3e0eb5"
+  },
+  "source_sha256": {
+    "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+    "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+    "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+    "mpm_jax/fibre_patch_contact.py": "8dc368fd3bb724c75abea5589dc8c04fabb344124b8a6c17f50e83be27a95544",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+    "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+    "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+    "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+    "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+    "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+  },
+  "actual_frozen_platform_entry_sha256": "29c000213d66a04c039ebcd37dcc65660fa700190460178b2c0a909d15452d83",
+  "actual_frozen_helper_sha256": "528f385b2f9532020b6aee0286462c7da7adc18d577a3a347e6d18927c7cab07",
+  "actual_frozen_source_manifest_sha256": "da8e28ad6b682218e907a8b920138c76d2e8df44b2005511040749c99acff7e3",
+  "physical_plan_sha256": "7b8c8769b8cb589b0b88d2c2b66d758d57c2c35183eb4eaf26ea7e8adac3f0db",
+  "requested_dt_s": 2.4e-07,
+  "base_dt_s": 2.399988030663109e-07,
+  "all_state_history_restored_bitwise": true,
+  "explicit_source_execution_migration": {
+    "qualification_passed": true,
+    "equivalence_receipt": "bucket-execution-equivalence.json",
+    "private_equivalence_receipt_sha256": "76e1987db2f78608637ceaf488d60da92fa04ec17f9bfd07f8ec868e1747170f",
+    "original_CP_and_source_retained": true,
+    "frozen_bridge_metadata_note": "The immutable prototype bridge retains qualification_pending=true; the subsequently completed external equivalence/adoption receipts are the admission record."
+  },
+  "terminal": {
+    "step": 28967,
+    "time_s": 0.00695,
+    "kinetic_J": 2.2100073808650843e-05,
+    "elastic_J": 1.99056767369225e-07,
+    "contact_J": 0.0,
+    "work_remainder_J": 5.792449685338213e-12,
+    "absolute_machine_work_J": 9.434120642871987e-05,
+    "contact_patch_count": 0,
+    "coverage_pairs": 349,
+    "coverage_bucket": 512,
+    "patch_branch_energy_difference_J": 0.0,
+    "patch_branch_energy_difference_abs_total_J": 0.0,
+    "active_guides": 200,
+    "max_log_strain": 0.007822284347961686,
+    "guide_mean_force_max_N": 1.2139250596452405e-15,
+    "actual_step_dt_s": 8.677769579301664e-10,
+    "interaction_nodal_force_l2_N": 0.0,
+    "interaction_nodal_force_max_N": 0.0,
+    "maximum_active_bearing_y_error_m": 5.906840036751217e-19,
+    "maximum_active_bearing_xz_drift_m": 6.9180800552321455e-18,
+    "momentum_relative_error": 5.2739918686467057e-17,
+    "angular_momentum_relative_error": 1.1489967100460106e-17
+  },
+  "resource_guard": {
+    "state": "complete",
+    "returncode": 0,
+    "guard_reason": null,
+    "wall_seconds": 538.6294845491648,
+    "peak_uss_bytes": 3362148352,
+    "uss_limit_bytes": 12884901888,
+    "cpu_affinity": [
+      48,
+      49,
+      50,
+      51
+    ]
+  },
+  "container_limit_gib": 16,
+  "coverage_widths": [
+    260,
+    278,
+    290,
+    302,
+    309,
+    321,
+    329,
+    342,
+    349
+  ],
+  "bucket_capacities": [
+    512
+  ],
+  "first_observed_worker_uss_bytes": 3138674688,
+  "continuation": {
+    "observation_utc": "2026-10-29T23:33:32.548454+00:00",
+    "active_task": "weaving-linux-bucket-8050000ns-v1",
+    "target_time_s": 0.00805,
+    "full_goal_s": 0.04704120539381533,
+    "automatic_next_window_enabled": true,
+    "physical_guards_and_budget_retained": true
+  },
+  "earlier_receipts_retained": [
+    "accepted-prefix.json",
+    "accepted-prefix-5850us.json",
+    "accepted-prefix-6400us.json"
+  ]
+}

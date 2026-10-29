@@ -94,7 +94,7 @@ def _overlap_count(points, owners, radius, active, patch_count, block=32):
 
 
 def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16384,
-                           max_patches=4096, max_iterations=128, max_a_over_radius=.2):
+                           max_patches=4096, max_iterations=128, max_a_over_radius=.2, coverage_valid=None):
     """Return force/history/metrics; a false validity flag rejects the whole step.
 
     The static graph must be produced by ``patch_neighbours`` for this coverage
@@ -114,6 +114,7 @@ def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16
         raise ValueError("contact history shape differs from the declared patch capacity")
     centres, section_mass = section_centres(state.x, state.mass, data)
     near = data.coverage_pairs
+    coverage_valid = jnp.ones(len(near), dtype=bool) if coverage_valid is None else coverage_valid
     owners = data.segment_fibre[near]
     radii = data.fibre_radius[owners]
     endpoint_sections = data.segments[near]
@@ -121,10 +122,12 @@ def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16
     r, s = centres[endpoint_sections[:, 1, 0]], centres[endpoint_sections[:, 1, 1]]
     first, second, wa, wb, distance = closest_segments(p, q, r, s)
     gap = distance-jnp.sum(radii, axis=1)
-    close = gap <= data.proximity_margin
-    selected = contact_patches(gap, gap < 0, neighbours, capacity=capacity,
+    gap = jnp.where(coverage_valid, gap, jnp.asarray(1., dtype=gap.dtype))
+    close = coverage_valid & (gap <= data.proximity_margin)
+    selected = contact_patches(gap, coverage_valid & (gap < 0), neighbours, capacity=capacity,
                               max_patches=max_patches, max_iterations=max_iterations)
     count = len(near)
+    selected = selected._replace(iterations=jnp.where(jnp.any(coverage_valid), selected.iterations, 0))
     representatives = selected.representatives
     live = representatives < count
     gather = lambda value: jnp.concatenate((value, jnp.zeros_like(value[:1]) if count else
@@ -185,7 +188,7 @@ def evaluate_hertz_patches(state, history, data, law, neighbours, *, capacity=16
     iteration_exhausted = ~selected.valid&~active_overflow&~patch_overflow&(selected.iterations >= max_iterations)
     stored_segments = jnp.where(live[:, None], pair_segments, -1)
     updated = FibreCouplingHistory(FibreContactHistory(live, jnp.full(max_patches, valid)), a, stored_segments, valid)
-    minimum_gap = jnp.min(gap) if count else jnp.asarray(0., dtype=state.x.dtype)
+    minimum_gap = jnp.where(jnp.any(coverage_valid), jnp.min(jnp.where(coverage_valid, gap, jnp.inf)), 0.) if count else jnp.asarray(0., dtype=state.x.dtype)
     metrics = FibrePatchMetrics(valid, jnp.zeros(max_patches, dtype=bool), jnp.sum(unseeded), jnp.sum(same_family),
         motion_exceeded, displacement, jnp.concatenate((degenerate_all, degenerate_patch)), end_contact, failed_contact,
         jnp.where(live, gather(gap), jnp.inf), normal, jnp.stack((first_patch, second_patch), axis=1),

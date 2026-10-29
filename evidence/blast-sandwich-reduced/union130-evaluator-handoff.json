@@ -1,0 +1,211 @@
+{
+  "scope": "Actual natural-boundary handoff to an equivalent opt-in derivative implementation; source signatures are distinct and explicit.",
+  "old_task": "blast-sandwich-union-round6-v27-20261030",
+  "old_container_id": "c29a2e85bc34f941379a459e2f1248960cb9cbcbe7889eded78800487d19b2f7",
+  "old_terminal": {
+    "task": "blast-sandwich-union-round6-v27-20261030",
+    "kind": "clean",
+    "job": {
+      "started_utc": "2026-10-29T22:44:17.021186+00:00",
+      "state": "complete",
+      "command": [
+        "python",
+        "/work/run_continue.py"
+      ],
+      "cpu_affinity": [
+        56,
+        57,
+        58,
+        59
+      ],
+      "memory_headroom_at_start": 8581013504,
+      "limit_seconds": 3600.0,
+      "uss_limit_bytes": 6442450944,
+      "peak_uss_bytes": 4630577152,
+      "minimum_memory_headroom": 3949101056,
+      "guard_reason": null,
+      "pid": 7,
+      "nice": 10,
+      "wall_seconds": 2743.5478976666927,
+      "returncode": 0
+    }
+  },
+  "old_source_capsule_sha256": "2ba0e1260a18660aa9cb638c3bbfaf099bee19d0a86d4581b4361a9172e10a3e",
+  "old_source_manifest_sha256": "8a411cae6302f3af29f8732b213c7a5b256e6261634d4142f1a7801b8f37989f",
+  "old_model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+  "retained_best": {
+    "path": ".local\\union-continuation\\seeds\\c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6.npz",
+    "artifact_sha256": "e902247c241bc3da01cce3f5db45bad8d3d56bfe4831d80c2b5ff39e66232b4a",
+    "controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6",
+    "objective": 0.1452244811471442,
+    "metrics": {
+      "actual_peak_back_m": 0.0007167067145180767,
+      "actual_peak_skin_Pa": 163119192.01331586,
+      "cases": [
+        [
+          0.0008531521547889781,
+          0.09206905078074402,
+          0.37893326250089204,
+          0.00045135693231869076,
+          75603851.70574567,
+          7.1960659653314e-11,
+          2.20274687488325e-11
+        ],
+        [
+          0.0026432914228746683,
+          0.1452244811471442,
+          0.6380219983170683,
+          0.0007167067145180767,
+          127404690.17140089,
+          1.262456805761758e-10,
+          1.4595380291374887e-11
+        ],
+        [
+          0.001930421066541761,
+          0.14331856937665852,
+          0.8164616123715053,
+          0.0007091477627795172,
+          163119192.01331586,
+          1.3730350190144236e-10,
+          1.480577730615513e-11
+        ]
+      ],
+      "constraints": [
+        -0.8547755188528559,
+        -0.18353838762849473,
+        1.1295207543570643e-17
+      ],
+      "displacement_bound": 0.1452244811471442,
+      "mass_kg": 1.8468,
+      "response": 0.1452244811471442,
+      "stress_bound": 0.8164616123715053
+    },
+    "source_task": "blast-sandwich-union-round6-v27-20261030",
+    "source_round": 6,
+    "checkpoint_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741",
+    "source_candidate_artifact": "sqp.npz"
+  },
+  "old_terminal_round": {
+    "task": "blast-sandwich-union-round6-v27-20261030",
+    "round_number": 6,
+    "state": "partial-soft-deadline",
+    "best_feasible_before": 0.14582145193195378,
+    "best_feasible_after": 0.1452244811471442,
+    "relative_improvement": 0.004093847488832791,
+    "counted_for_stall": false,
+    "consecutive_completed_stalls": 0,
+    "checkpoint_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741",
+    "candidate_artifact": "sqp.npz",
+    "candidate_artifact_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741",
+    "checkpoint_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+    "retained_controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6"
+  },
+  "migration_receipt_sha256": "fe23d24368fa01666a9a71fcdf9ebd75a338da78839454ab6f2148201b3ca0da",
+  "equivalence_receipt_sha256": "aa3bf58104c36c0952301c27aefff82e4a11fa547fce554d7290d08caace1a73",
+  "new_task": "blast-sandwich-union-round7-v28-20261030",
+  "new_container_id": "6eecea375f8c5ba98d1f426703afa5bb73f4da6dc81f80d73c5905b7b7f2cea1",
+  "new_source_capsule_sha256": "4e5c21d396171b5efa1747932cef211a20bc9b3d0c3998b3a916702fd7e07c4f",
+  "new_source_manifest_sha256": "aa738a4d10e273aec9d3f4a063cd82f625b88185bd7237baf65b94a3f6aa8de9",
+  "new_model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+  "new_model_binding_sha256": "03899d1b64265d5e54bbdd135356f7277ad5c447f0e4c8e5bd8350b0595aa846",
+  "seed_lineage": {
+    "round_number": 7,
+    "sequence": 3,
+    "iterations": 4,
+    "soft_seconds": 2700,
+    "model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+    "seed_controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6",
+    "seed_metrics": {
+      "actual_peak_back_m": 0.0007167067145180767,
+      "actual_peak_skin_Pa": 163119192.01331586,
+      "cases": [
+        [
+          0.0008531521547889781,
+          0.09206905078074402,
+          0.37893326250089204,
+          0.00045135693231869076,
+          75603851.70574567,
+          7.1960659653314e-11,
+          2.20274687488325e-11
+        ],
+        [
+          0.0026432914228746683,
+          0.1452244811471442,
+          0.6380219983170683,
+          0.0007167067145180767,
+          127404690.17140089,
+          1.262456805761758e-10,
+          1.4595380291374887e-11
+        ],
+        [
+          0.001930421066541761,
+          0.14331856937665852,
+          0.8164616123715053,
+          0.0007091477627795172,
+          163119192.01331586,
+          1.3730350190144236e-10,
+          1.480577730615513e-11
+        ]
+      ],
+      "constraints": [
+        -0.8547755188528559,
+        -0.18353838762849473,
+        1.1295207543570643e-17
+      ],
+      "displacement_bound": 0.1452244811471442,
+      "mass_kg": 1.8468,
+      "response": 0.1452244811471442,
+      "stress_bound": 0.8164616123715053
+    },
+    "seed_artifact_sha256": "e902247c241bc3da01cce3f5db45bad8d3d56bfe4831d80c2b5ff39e66232b4a",
+    "seed_source_task": "blast-sandwich-union-round6-v27-20261030",
+    "seed_source_checkpoint_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741",
+    "gradient_proof_binding": {
+      "model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+      "proof_sha256": "fcd1a2fb6aa3e8e207db215645fc22f19cc92b77119850b12c57d9f1b89b7b39",
+      "proof_controls_sha256": "24ff30ee0606ed263eb3a58ebeedc9e2434fac93efdd9adb9413acf790c20a92",
+      "source_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c",
+      "transferred_from_model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "equivalence_migration_sha256": "fe23d24368fa01666a9a71fcdf9ebd75a338da78839454ab6f2148201b3ca0da"
+    },
+    "original_source_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c",
+    "continuation": "Lowest strict-feasible controls warm start; SciPy Hessian resets; no initial four-candidate or repeated finite-difference checks.",
+    "full_mpm_validation_controls_remain": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+    "original_gradient_proof_binding": {
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "proof_sha256": "fcd1a2fb6aa3e8e207db215645fc22f19cc92b77119850b12c57d9f1b89b7b39",
+      "proof_controls_sha256": "24ff30ee0606ed263eb3a58ebeedc9e2434fac93efdd9adb9413acf790c20a92",
+      "source_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c"
+    },
+    "evaluator_migration_sha256": "fe23d24368fa01666a9a71fcdf9ebd75a338da78839454ab6f2148201b3ca0da"
+  },
+  "actual_seed_verification": {
+    "event": "seed-verified",
+    "wall_seconds": 165.23199520260096,
+    "objective": 0.1452244811471495,
+    "controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6",
+    "signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9"
+  },
+  "source_model_numerics_unchanged": true,
+  "running_legacy_round_restarted": false,
+  "old_controller_pid": 12184,
+  "old_controller_next_launch_held": true,
+  "new_controller_pid": 35296,
+  "actual_runtime": {
+    "image": "sha256:8390e590627e7859db7933d92c4c39546e0f5b8c7a2e9c194145ec6858e84890",
+    "cpu_set": "56-59",
+    "memory_limit_bytes": 8589934592
+  },
+  "policy": {
+    "iterations_per_round": 4,
+    "soft_seconds": 2700,
+    "hard_seconds": 3600,
+    "completed_round_stall_relative_tolerance": 0.001,
+    "completed_stalls_for_review": 3,
+    "partial_round_counted_for_stall": false,
+    "non_time_guard_automatic_retry": false
+  },
+  "new_candidate_full_mpm_validation_still_required": true,
+  "complete2ms_three_case_mpm_qualification": false,
+  "global_optimum_claim": false
+}

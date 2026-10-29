@@ -1,0 +1,28 @@
+{
+  "schema": "weaving-bucket-public-function-port-v1",
+  "actual_executed_task": "weaving-coverage-bucket-natural-contact-v2",
+  "actual_production_task": "weaving-linux-bucket-6950000ns-v1",
+  "function_AST_equal_to_qualified_actual_functions": {
+    "ContactContext": true,
+    "evaluate": true,
+    "interaction": true,
+    "contact_metrics": true,
+    "rebuild": true,
+    "branch_energy": true,
+    "_pad": true,
+    "bucket_context": true,
+    "rebucket_context": true
+  },
+  "contact_module_bytes_equal_to_qualified_module": true,
+  "public_file_sha256": {
+    "mpm_jax/fibre_patch_contact.py": "8dc368fd3bb724c75abea5589dc8c04fabb344124b8a6c17f50e83be27a95544",
+    "mpm_jax/fibre_contact_buckets.py": "a33c3ac572aaa55c1e346ba5d05c34cd0ce3a669a39b0b6a753ba0b74ee37b38",
+    "examples/triaxial_weaving_tl_process.py": "52f38bc8b7014fdd8664c17068789d622889ebe3f1109a1b2b2e552b58468918"
+  },
+  "original_public_driver_sha256": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+  "public_entry_scope": "Same qualified contact functions; public geometry generation/config/strict restart wrapper differs from the frozen production bridge. No claim of a new cold/full-process replay.",
+  "strict_restart_policy": "The public wrapper retains source-binding rejection; no automatic import of older/frozen-source checkpoints.",
+  "qualified_equivalence_receipt_sha256": "76e1987db2f78608637ceaf488d60da92fa04ec17f9bfd07f8ec868e1747170f",
+  "first_clean_bucket_production_checkpoint_sha256": "0c4b88286af8521deaba7e39ecfa84a533143a4c9c24907f3fdee76e04c5729b",
+  "first_clean_bucket_production_time_s": 0.00695
+}

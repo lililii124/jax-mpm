@@ -1,0 +1,279 @@
+{
+  "schema": "weaving-bucket-execution-equivalence-v2",
+  "passed": true,
+  "scope": "Execution-layout equivalence: actual200step CP replay and separately translated actual-fibre kernel/driver guard fixture. Not completed weaving, contact-trajectory qualification or convergence.",
+  "actual_replay": {
+    "parent_time_s": 0.006592,
+    "parent_checkpoint_sha256": "1d1826aa1378bd8d3fab2147f464ff0096a6b8e29227e1d7c1121c5e60ee88cf",
+    "steps": 200,
+    "end_time_s": 0.006639999760613253,
+    "all_per_step_state_history_metrics_bitwise_equal": true,
+    "all_per_step_energy_work_linear_angular_momentum_observations_exact": true,
+    "all_saved_full_arrays_and_final_checkpoint_arrays_bitwise_equal_except_binding_json": true,
+    "full_array_comparisons": {
+      "full-state-27488.npz": {
+        "sha256_left": "0f9ea0ab97d067c4b6a204dec4c54b5df85f45fab81aeeddf7343e3744fb5886",
+        "sha256_right": "0f9ea0ab97d067c4b6a204dec4c54b5df85f45fab81aeeddf7343e3744fb5886",
+        "all_arrays_bitwise": true
+      },
+      "full-state-27520.npz": {
+        "sha256_left": "006fe489daf42cb3dd1df8d1adcd6dfb4b91d51fe5e9a348e7dfef69b720f683",
+        "sha256_right": "006fe489daf42cb3dd1df8d1adcd6dfb4b91d51fe5e9a348e7dfef69b720f683",
+        "all_arrays_bitwise": true
+      },
+      "full-state-27552.npz": {
+        "sha256_left": "5469d1b816f5aedd7f5091e921627688dae3748013b3365b456e19d975c68cfe",
+        "sha256_right": "5469d1b816f5aedd7f5091e921627688dae3748013b3365b456e19d975c68cfe",
+        "all_arrays_bitwise": true
+      },
+      "full-state-27584.npz": {
+        "sha256_left": "2b50a52883b1ddb7be5c5aa92dd4f354b39df9f344244ff33804efd3994520c8",
+        "sha256_right": "2b50a52883b1ddb7be5c5aa92dd4f354b39df9f344244ff33804efd3994520c8",
+        "all_arrays_bitwise": true
+      },
+      "full-state-27616.npz": {
+        "sha256_left": "2d36ce6ca60ed799ce8d1f6204774a38fcef4fc3a11e1d730cd158dd119b780e",
+        "sha256_right": "2d36ce6ca60ed799ce8d1f6204774a38fcef4fc3a11e1d730cd158dd119b780e",
+        "all_arrays_bitwise": true
+      },
+      "full-state-27648.npz": {
+        "sha256_left": "30ad04f0afa9fec094ed5b89f7a62b67183a6b2d1aac0a12e95dee8d915c88e2",
+        "sha256_right": "30ad04f0afa9fec094ed5b89f7a62b67183a6b2d1aac0a12e95dee8d915c88e2",
+        "all_arrays_bitwise": true
+      },
+      "checkpoint.npz": {
+        "sha256_left": "4882392e1f5407a7be2eeab625e7dde8371470ab367e3c4caaa9e021446be162",
+        "sha256_right": "9b279cb40d5ca888115b26db4eb86f3c8829e40b74cfee74ff6cc3dc047916b7",
+        "all_arrays_bitwise": true
+      }
+    },
+    "real_coverage_widths": [
+      154,
+      167,
+      186
+    ],
+    "bucket_capacities": [
+      154,
+      256
+    ],
+    "bucket_policy_scope": "Diagnostic first bucket is tight to actual initial N; subsequent real host rebuilds select power-of-two buckets. Production uses power-of-two buckets throughout.",
+    "original": {
+      "wall_s": 267.38768926262856,
+      "peak_uss_bytes": 5539717120
+    },
+    "bucket": {
+      "wall_s": 248.33657060563564,
+      "peak_uss_bytes": 4265414656
+    },
+    "performance_scope": "Includes full-state hashing/compressed writes and a diagnostic first tight bucket; not isolated kernel or whole-process speed."
+  },
+  "positive_contact_fixture": {
+    "scope": "Explicit rigid translation of one actual fibre from the real saved CP; kernel/driver guard fixture only, not a production trajectory.",
+    "fibre_ids": [
+      0,
+      15
+    ],
+    "selected_actual_segment_pair": [
+      45,
+      10214
+    ],
+    "positive_translation_m": [
+      -6.101951535160016e-07,
+      -0.00022390685945257755,
+      4.471311444631522e-07
+    ],
+    "indentation_m": 2.25e-07,
+    "end_translation_m": [
+      0.002763500237388453,
+      -0.0006747897256322174,
+      1.792471791887268e-05
+    ],
+    "probes": {
+      "positive": {
+        "energy_J": 8.849508299892018e-09,
+        "force_l2_N": 0.000896725810782164,
+        "gradient_l2_N": 0.000896725810782164,
+        "active_patches": 2,
+        "unseeded": 0,
+        "failed": 0,
+        "end": 2,
+        "same_family": 0,
+        "valid": false,
+        "true_coverage_count": 399
+      },
+      "unseeded": {
+        "energy_J": 8.849508299892018e-09,
+        "force_l2_N": 0.000896725810782164,
+        "gradient_l2_N": 0.000896725810782164,
+        "active_patches": 2,
+        "unseeded": 7,
+        "failed": 0,
+        "end": 2,
+        "same_family": 0,
+        "valid": false,
+        "true_coverage_count": 399
+      },
+      "failed": {
+        "energy_J": 8.849508299892018e-09,
+        "force_l2_N": 0.000896725810782164,
+        "gradient_l2_N": 0.000896725810782164,
+        "active_patches": 2,
+        "unseeded": 0,
+        "failed": 7,
+        "end": 2,
+        "same_family": 0,
+        "valid": false,
+        "true_coverage_count": 399
+      },
+      "same-family": {
+        "energy_J": 8.849508299892018e-09,
+        "force_l2_N": 0.000896725810782164,
+        "gradient_l2_N": 0.000896725810782164,
+        "active_patches": 2,
+        "unseeded": 0,
+        "failed": 0,
+        "end": 2,
+        "same_family": 3,
+        "valid": false,
+        "true_coverage_count": 399
+      },
+      "end": {
+        "energy_J": 7.73496000949223e-13,
+        "force_l2_N": 3.0467353753927057e-06,
+        "gradient_l2_N": 3.0467353753927057e-06,
+        "active_patches": 1,
+        "unseeded": 0,
+        "failed": 0,
+        "end": 1,
+        "same_family": 0,
+        "valid": false,
+        "true_coverage_count": 265
+      },
+      "positive-bucket-512": {
+        "energy_J": 8.849508299892018e-09,
+        "force_l2_N": 0.000896725810782164,
+        "gradient_l2_N": 0.000896725810782164,
+        "active_patches": 2,
+        "unseeded": 0,
+        "failed": 0,
+        "end": 2,
+        "same_family": 0,
+        "valid": false,
+        "true_coverage_count": 399
+      },
+      "positive-bucket-1024": {
+        "energy_J": 8.849508299892018e-09,
+        "force_l2_N": 0.000896725810782164,
+        "gradient_l2_N": 0.000896725810782164,
+        "active_patches": 2,
+        "unseeded": 0,
+        "failed": 0,
+        "end": 2,
+        "same_family": 0,
+        "valid": false,
+        "true_coverage_count": 399
+      }
+    },
+    "dummy_zero": [
+      {
+        "capacity": 512,
+        "inactive_rows": 113,
+        "energy_exact_zero": true,
+        "all_coordinate_gradients_exact_zero": true
+      },
+      {
+        "capacity": 1024,
+        "inactive_rows": 625,
+        "energy_exact_zero": true,
+        "all_coordinate_gradients_exact_zero": true
+      }
+    ]
+  },
+  "full_fixture_force_gradient_history_metrics_bitwise_comparisons": {
+    "positive": {
+      "sha256_left": "d6184e39081e7cdef4611e592e7ea75f02913c611c687d930ab085e350b22b7a",
+      "sha256_right": "d6184e39081e7cdef4611e592e7ea75f02913c611c687d930ab085e350b22b7a",
+      "all_arrays_bitwise": true
+    },
+    "unseeded": {
+      "sha256_left": "a0303bea8d29a7ae4fc9ed3610ae0bda06e1f2a04cfd059381c1cad2d4ccf091",
+      "sha256_right": "a0303bea8d29a7ae4fc9ed3610ae0bda06e1f2a04cfd059381c1cad2d4ccf091",
+      "all_arrays_bitwise": true
+    },
+    "failed": {
+      "sha256_left": "7b26dc754ff287ebd8b1b56d38ec0452c777d20781baad095b7d8d0b40ee7969",
+      "sha256_right": "7b26dc754ff287ebd8b1b56d38ec0452c777d20781baad095b7d8d0b40ee7969",
+      "all_arrays_bitwise": true
+    },
+    "same-family": {
+      "sha256_left": "ff3dba1275a5c9d3bb02cd7db9d83167d8f7718abbb0173f60288ae81c42bef6",
+      "sha256_right": "ff3dba1275a5c9d3bb02cd7db9d83167d8f7718abbb0173f60288ae81c42bef6",
+      "all_arrays_bitwise": true
+    },
+    "end": {
+      "sha256_left": "b51775fc7611f35745c19d968ec6ad7f1bae0405ce09c1b0dd712eab4133bc21",
+      "sha256_right": "b51775fc7611f35745c19d968ec6ad7f1bae0405ce09c1b0dd712eab4133bc21",
+      "all_arrays_bitwise": true
+    },
+    "contact-positive-bucket-512": {
+      "sha256_left": "d6184e39081e7cdef4611e592e7ea75f02913c611c687d930ab085e350b22b7a",
+      "sha256_right": "d6184e39081e7cdef4611e592e7ea75f02913c611c687d930ab085e350b22b7a",
+      "all_arrays_bitwise": true
+    },
+    "contact-positive-bucket-1024": {
+      "sha256_left": "d6184e39081e7cdef4611e592e7ea75f02913c611c687d930ab085e350b22b7a",
+      "sha256_right": "d6184e39081e7cdef4611e592e7ea75f02913c611c687d930ab085e350b22b7a",
+      "all_arrays_bitwise": true
+    }
+  },
+  "force_vs_full_JAX_potential_gradient_tolerance": {
+    "rtol": 2e-12,
+    "atol_N": 1e-18
+  },
+  "original_binding_signature_sha256": "badb3980091675c3db6573c8fbba7ea7140a94d526acc597c239ba36f928d61c",
+  "new_binding_signature_sha256": "58d0972424cb00c0f55fccb817642a78b95d2768acc3cbfb78e45b4d9f156cbd",
+  "original_source_sha256": {
+    "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+    "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+    "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+    "mpm_jax/fibre_patch_contact.py": "efecb8463bfc4ce1b19ba85302ea95c8820768711fdfc0a62b0d0fff3ddc1358",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+    "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+    "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+    "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+    "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+    "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+  },
+  "new_source_sha256": {
+    "mpm_jax/fibre_tlmpm.py": "e67d63855c59588b15681f1470f074628f2ff7e735fba38eab4316502122614a",
+    "mpm_jax/fibre_tl_guides.py": "6c5bf1348e420b9adead8742960187281cc2c542272611bd3c46d9d03e0c7bd6",
+    "mpm_jax/fibre_hertz_variational.py": "e0663d6b62928a1466d7bddcd18d0c0862c567c312370324503944b737d79719",
+    "mpm_jax/fibre_patch_contact.py": "8dc368fd3bb724c75abea5589dc8c04fabb344124b8a6c17f50e83be27a95544",
+    "mpm_jax/fibre_coupling.py": "af7e47f761cfd4ba0517469b58736d53b4f29735e024a550856335d5d69ebe70",
+    "mpm_jax/contact_patches.py": "d693587b9746bdc9c057cd3c50bbaba15183260fcaddf04c1aa914ba10f366e7",
+    "mpm_jax/fibre_contact.py": "03cefd7322ae4f73d23572a8e15b4f7fc31719020d504c295f39c4ccffe2f0ab",
+    "mpm_jax/fibre_mpm.py": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+    "mpm_jax/fibre_tl_reference.py": "5ac77f42095f500ca5bb58b4b25048acf28e1066d48e15870461fd719c9fe1f5",
+    "mpm_jax/materials/isotropic_brittle.py": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+    "examples/triaxial_weaving_tl_process.py": "a957e054b7a56579ef3fe20e44fb210ceb0dc2e800d5fa729e4c1841546e1077",
+    "examples/triaxial_weaving_guided_geometry.py": "8fd5f17f2c10fc9aec110003a2c911322fa6798f962c78e47dce9dbcf1222b1b",
+    "examples/triaxial_weaving_batch_plan.py": "764637e8a5931a7ae0e6fb4c1bbd564e09a1f958fc420094a6564790493eb7b3",
+    "examples/triaxial_weaving_batch_geometry.py": "1fdd8509184d984ec311e4f18138df1e339a9f7bfa9547a08c0e1944eb1948dc",
+    "examples/triaxial_weaving_geometry.py": "e7d00dc61c126e7f12f974fe23e9c96c9f6c2ba91f1f0e361560acd86ad59ec5",
+    "examples/triaxial_weaving_process.py": "5e6822d7596f84d7ac206966fc43ef19fc7f87efe21318d90bab1ec8eef3052a"
+  },
+  "qualified_platform_entry_sha256": "29c000213d66a04c039ebcd37dcc65660fa700190460178b2c0a909d15452d83",
+  "qualified_helper_sha256": "528f385b2f9532020b6aee0286462c7da7adc18d577a3a347e6d18927c7cab07",
+  "qualified_source_manifest_sha256": "da8e28ad6b682218e907a8b920138c76d2e8df44b2005511040749c99acff7e3",
+  "protocol_sha256": "63a7dbaa9a80cb3b33014a1b6457c08b7c0a182c002810c73ed3bcec999282f5",
+  "full_private_equivalence_receipt_sha256": "76e1987db2f78608637ceaf488d60da92fa04ec17f9bfd07f8ec868e1747170f",
+  "public_function_port_receipt": "bucket-public-function-port.json",
+  "physical_plan_material_input_dt_and_original_guards_retained": true,
+  "fixture_acceptance_scope": "The positive fixture has two end-contact rejection flags and is rejected; the independent end fixture is also rejected. Equality preserves these guards and does not admit translated states into production."
+}

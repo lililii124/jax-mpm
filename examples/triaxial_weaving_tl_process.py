@@ -17,6 +17,7 @@ class ContactContext(NamedTuple):
     history: object
     failed: object
     time: object
+    coverage_valid: object
 
 
 def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, reference_layout='active-stencil',
@@ -32,6 +33,7 @@ def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, 
     from mpm_jax.fibre_patch_contact import initial_patch_history
     from mpm_jax.fibre_hertz_variational import evaluate_variational_hertz_patches,patch_potential
     from mpm_jax.contact_patches import patch_neighbours,contact_patches
+    from mpm_jax.fibre_contact_buckets import bucket_context
     from mpm_jax.materials.isotropic_brittle import isotropic_brittle,BrittleHistory
     from .triaxial_weaving_guided_geometry import plan_guided
     from .triaxial_weaving_process import json_value
@@ -77,13 +79,14 @@ def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, 
     release_by_fibre=jnp.asarray([min(g['release_time_s'] for g in meta['placement_guides'] if g['fibre_id']==f['id']) for f in meta['fibres']])
     def evaluate(points,context):
         contact_state=SimpleNamespace(x=points,mass=mass,history=SimpleNamespace(failed=context.failed),valid=jnp.asarray(True))
-        force,updated,metrics=evaluate_variational_hertz_patches(contact_state,context.history,context.data,law,context.graph,**limits)
+        force,updated,metrics=evaluate_variational_hertz_patches(contact_state,context.history,context.data,law,context.graph,coverage_valid=context.coverage_valid,**limits)
         centres,_=section_centres(points,mass,context.data);near=context.data.coverage_pairs
         ends=context.data.segments[near];owners=context.data.segment_fibre[near]
         first,second,_,_,distance=closest_segments(centres[ends[:,0,0]],centres[ends[:,0,1]],centres[ends[:,1,0]],centres[ends[:,1,1]])
         gap=distance-jnp.sum(context.data.fibre_radius[owners],axis=1)
-        carrier_conflict=jnp.any((gap<=.1*meta['diameter_m'])&jnp.any(context.time<release_by_fibre[owners],axis=1))
-        selection=contact_patches(gap,gap<0,context.graph,**dict(capacity=limits['capacity'],max_patches=patch_capacity,max_iterations=128))
+        gap=jnp.where(context.coverage_valid,gap,jnp.asarray(1.,dtype=gap.dtype))
+        carrier_conflict=jnp.any(context.coverage_valid&(gap<=.1*meta['diameter_m'])&jnp.any(context.time<release_by_fibre[owners],axis=1))
+        selection=contact_patches(gap,context.coverage_valid&(gap<0),context.graph,**dict(capacity=limits['capacity'],max_patches=patch_capacity,max_iterations=128))
         cells=selection.cells;live=cells<len(near)
         patch_points=jnp.concatenate(((first+second)/2,jnp.zeros((1,3))))[cells]
         low=jnp.full((limits['capacity']+1,3),jnp.inf).at[selection.labels].min(jnp.where(live[:,None],patch_points,jnp.inf))
@@ -106,7 +109,7 @@ def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, 
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     source_root=Path(__file__).resolve().parents[1]
     relevant=['mpm_jax/fibre_tlmpm.py','mpm_jax/fibre_tl_guides.py','mpm_jax/fibre_hertz_variational.py',
-        'mpm_jax/fibre_patch_contact.py','mpm_jax/fibre_coupling.py','mpm_jax/contact_patches.py','mpm_jax/fibre_contact.py',
+        'mpm_jax/fibre_patch_contact.py','mpm_jax/fibre_contact_buckets.py','mpm_jax/fibre_coupling.py','mpm_jax/contact_patches.py','mpm_jax/fibre_contact.py',
         'mpm_jax/fibre_mpm.py','mpm_jax/fibre_tl_reference.py','mpm_jax/materials/isotropic_brittle.py',
         'examples/triaxial_weaving_tl_process.py','examples/triaxial_weaving_guided_geometry.py',
         'examples/triaxial_weaving_batch_plan.py','examples/triaxial_weaving_batch_geometry.py','examples/triaxial_weaving_geometry.py','examples/triaxial_weaving_process.py']
@@ -177,7 +180,7 @@ def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, 
     def rebuild(points,history):
         data=build_contact_data(geometry,coverage_positions=np.asarray(points),coverage_skin=4*plan['dx'])
         graph=jnp.asarray(patch_neighbours(data.coverage_pairs,data.segment_fibre),jnp.int32)
-        return ContactContext(data,graph,initial_patch_history(data,max_patches=patch_capacity),history.failed,state.time)
+        return bucket_context(ContactContext,data,graph,initial_patch_history(data,max_patches=patch_capacity),history.failed,state.time)
     def frame(index):
         points,velocity=particles(state)
         extra={} if last_reaction is None else last_reaction
@@ -253,7 +256,7 @@ def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, 
             guide_peak_segment=np.maximum(guide_peak_segment,abs(last_reaction['guide_mean_force_on_material_N']))
             last_row=dict(step=index,time_s=float(state.time),kinetic_J=float(row['kinetic_J']),elastic_J=float(row['elastic_J']),
                 contact_J=float(row['interaction_J']),work_remainder_J=residual,absolute_machine_work_J=absolute_work,
-                contact_patch_count=int(metrics.patch_count),coverage_pairs=len(context.data.coverage_pairs),
+                contact_patch_count=int(metrics.patch_count),coverage_pairs=int(jnp.sum(context.coverage_valid)),coverage_bucket=len(context.coverage_valid),
                 patch_branch_energy_difference_J=jump,patch_branch_energy_difference_abs_total_J=topology_jump_abs,
                 active_guides=int(active_guide_count),max_log_strain=float(row['max_log_strain']),
                 guide_mean_force_max_N=float(row['guide_mean_force_max_N']),actual_step_dt_s=h,
@@ -279,9 +282,18 @@ def run(output, *, max_steps=64, per_family=8, frame_every=0, resume_from=None, 
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True);p.add_argument('--max-steps',type=int,default=64)
+    bootstrap=argparse.ArgumentParser(add_help=False);bootstrap.add_argument('--config',type=Path)
+    config_arg,_=bootstrap.parse_known_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',type=Path)
+    p.add_argument('--output',required=config_arg.config is None);p.add_argument('--max-steps',type=int,default=64)
     p.add_argument('--per-family',type=int,default=8);p.add_argument('--frame-every',type=int,default=0);p.add_argument('--resume-from')
     p.add_argument('--reference-layout',choices=['active-stencil','tube'],default='active-stencil')
     p.add_argument('--dt',type=float);p.add_argument('--stop-time',type=float);p.add_argument('--integrator-fork',action='store_true')
+    if config_arg.config is not None:
+        parameters=json.loads(config_arg.config.read_text())['run']
+        allowed={'output','max_steps','per_family','frame_every','resume_from','reference_layout','dt','stop_time'}
+        if not isinstance(parameters,dict) or set(parameters)-allowed:p.error('config run contains unsupported parameters')
+        if 'output' not in parameters:p.error('config run requires output')
+        p.set_defaults(**parameters)
     args=p.parse_args();run(args.output,max_steps=args.max_steps,per_family=args.per_family,frame_every=args.frame_every,resume_from=args.resume_from,
         reference_layout=args.reference_layout,requested_dt_s=args.dt,stop_time_s=args.stop_time,integrator_fork=args.integrator_fork)
