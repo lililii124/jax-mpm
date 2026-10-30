@@ -79,6 +79,17 @@ python -m tools.render_sandwich_design_metrics evidence/blast-sandwich-reduced/m
 
 The metric renderer uses Matplotlib, included in `pip install -e ".[design]"`.
 
+## Pressure centres
+
+<img src="images/sandwich-fullmpm/load-centres.svg" alt="Pressure-centre projections and central section locations" width="400">
+
+On the 300 × 300 mm plate, the central and eccentric Gaussian pressure centres
+are (150, 150) and (210, 105) mm. Both have a 60 mm standard deviation in each
+in-plane direction. The uniform case loads the entire face. These are prescribed
+surface-pressure footprints; no explosive charge or stand-off distance is modelled.
+The top-view orientation matches the material distribution GIF. Grey dashed
+lines locate the two central sections below.
+
 ## Through-thickness material sections
 
 <table width="100%">
