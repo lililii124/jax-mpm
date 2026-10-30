@@ -1,0 +1,108 @@
+{
+  "scope": "Public control snapshots of two strictly feasible round7 candidates; independent MPM validation remains pending.",
+  "round_receipt_sha256": "091b1e11a2633940fe6f283ce307888d3990e1eb6b11e7b064ef5af871dbe7cc",
+  "peak_receipt_sha256": "65a19bf59ad3c92c92b40e0a2e5d917815f5685fba8111f1020b3deb756f8199",
+  "candidates": [
+    {
+      "selection": "ks",
+      "controls_path": "examples/sandwich_rational_round7_ks_controls.json",
+      "controls_file_sha256": "1d8ae2836493ba293859a5e3c7a0f66407c7d9f0622de941e97cb077fa55a875",
+      "controls_sha256": "03856f39a53ec8cece899320a63d070734e9de375c830288e54be4e0a0a26d40",
+      "configuration": "examples/sandwich_rational_round7_ks.json",
+      "configuration_sha256": "eff18899774108c594e49f41e6b3978fc593357f1a392d0ecad9baab46ed736e",
+      "metrics": {
+        "cases": [
+          [
+            0.0008512492729276785,
+            0.09182753579045129,
+            0.3771463107840626,
+            0.00045003793310478005,
+            75246486.07310627,
+            7.543343727434149e-11,
+            2.3089937932288537e-11
+          ],
+          [
+            0.0026361112783093612,
+            0.14487365407179953,
+            0.6385572042512501,
+            0.0007142275217215874,
+            127510664.35436939,
+            1.2924061820740462e-10,
+            1.4944761563517717e-11
+          ],
+          [
+            0.0019377909571492197,
+            0.14465708099074567,
+            0.8212258677254068,
+            0.0007174567766889337,
+            164074735.7853146,
+            1.5548451415270392e-10,
+            1.671343293482401e-11
+          ]
+        ],
+        "mass_kg": 1.8468,
+        "response": 0.14487365407179953,
+        "actual_peak_back_m": 0.0007174567766889337,
+        "actual_peak_skin_Pa": 164074735.7853146,
+        "displacement_bound": 0.14487365407179953,
+        "stress_bound": 0.8212258677254068,
+        "constraints": [
+          -0.8551263459282005,
+          -0.17877413227459316,
+          0.0
+        ]
+      }
+    },
+    {
+      "selection": "peak",
+      "controls_path": "examples/sandwich_rational_round7_peak_controls.json",
+      "controls_file_sha256": "f4748dd204267d87e54785fce10fb91fd0fe8889d6ea41598d2a6eda63325760",
+      "controls_sha256": "6dae74a82c2fab87ca00f5adff8cb1e47e9323901e49ee98488cd929a25a6505",
+      "configuration": "examples/sandwich_rational_round7_peak.json",
+      "configuration_sha256": "593d45d88467709f6d5cb12d81958a7d1c1faad913cb5f345d316b04c15f09ba",
+      "metrics": {
+        "cases": [
+          [
+            0.0008523563735939809,
+            0.09202288312140798,
+            0.37838182571464923,
+            0.00045110643039099064,
+            75493538.7910096,
+            6.392797402554606e-11,
+            1.9568746902116736e-11
+          ],
+          [
+            0.0026407914133670337,
+            0.14510898348393608,
+            0.638084009396311,
+            0.0007159800189782459,
+            127416828.8543198,
+            1.5166712330483278e-10,
+            1.753385391758237e-11
+          ],
+          [
+            0.0019318341089034294,
+            0.14342700892261862,
+            0.8182050037216091,
+            0.0007108057234181285,
+            163468235.04804584,
+            1.1897505203251058e-10,
+            1.2818606116973122e-11
+          ]
+        ],
+        "mass_kg": 1.8468,
+        "response": 0.14510898348393608,
+        "actual_peak_back_m": 0.0007159800189782459,
+        "actual_peak_skin_Pa": 163468235.04804584,
+        "displacement_bound": 0.14510898348393608,
+        "stress_bound": 0.8182050037216091,
+        "constraints": [
+          -0.8548910165160639,
+          -0.1817949962783909,
+          0.0
+        ]
+      }
+    }
+  ],
+  "global_optimum_claim": false
+}

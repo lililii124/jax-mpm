@@ -1,0 +1,115 @@
+{
+  "scope": "Completed bounded search of the frozen corrected ROM; actual terminal source and strict retained feasible state verified. Independent new-candidate MPM confirmation remains required.",
+  "round": {
+    "task": "blast-sandwich-union-round7-v28-20261030",
+    "round_number": 7,
+    "state": "completed",
+    "best_feasible_before": 0.1452244811471442,
+    "best_feasible_after": 0.14487365407179953,
+    "relative_improvement": 0.00241575712699027,
+    "counted_for_stall": true,
+    "consecutive_completed_stalls": 0,
+    "checkpoint_sha256": "1612bfc87fc2792c279ff9d12deacfe0e9f9df857d23c8389c57fa49ca94ddb3",
+    "candidate_artifact": "sqp.npz",
+    "candidate_artifact_sha256": "1612bfc87fc2792c279ff9d12deacfe0e9f9df857d23c8389c57fa49ca94ddb3",
+    "checkpoint_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+    "retained_controls_sha256": "03856f39a53ec8cece899320a63d070734e9de375c830288e54be4e0a0a26d40"
+  },
+  "model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+  "source_task": "blast-sandwich-union-round7-v28-20261030",
+  "source_container_id": "6eecea375f8c5ba98d1f426703afa5bb73f4da6dc81f80d73c5905b7b7f2cea1",
+  "actual_terminal": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-29T23:31:35.564138585Z",
+    "FinishedAt": "2026-10-29T23:51:27.042538806Z"
+  },
+  "job": {
+    "started_utc": "2026-10-29T23:31:35.701740+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "/work/run_continue.py"
+    ],
+    "cpu_affinity": [
+      56,
+      57,
+      58,
+      59
+    ],
+    "memory_headroom_at_start": 8580943872,
+    "limit_seconds": 3600.0,
+    "uss_limit_bytes": 6442450944,
+    "peak_uss_bytes": 5170593792,
+    "minimum_memory_headroom": 3406458880,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 1191.274284593761,
+    "returncode": 0
+  },
+  "source_capsule_sha256": "4e5c21d396171b5efa1747932cef211a20bc9b3d0c3998b3a916702fd7e07c4f",
+  "source_manifest_sha256": "aa738a4d10e273aec9d3f4a063cd82f625b88185bd7237baf65b94a3f6aa8de9",
+  "controls_sha256": "03856f39a53ec8cece899320a63d070734e9de375c830288e54be4e0a0a26d40",
+  "summary_sha256": "f4bf2ade838b8fd1a39812346b5635031a4d9ea8e814f7ba6171fb17b5aa1c03",
+  "checkpoint_sha256": "1612bfc87fc2792c279ff9d12deacfe0e9f9df857d23c8389c57fa49ca94ddb3",
+  "initial_objective": 0.1452244811471495,
+  "best_feasible_objective": 0.14487365407179953,
+  "metrics": {
+    "cases": [
+      [
+        0.0008512492729276785,
+        0.09182753579045129,
+        0.3771463107840626,
+        0.00045003793310478005,
+        75246486.07310627,
+        7.543343727434149e-11,
+        2.3089937932288537e-11
+      ],
+      [
+        0.0026361112783093612,
+        0.14487365407179953,
+        0.6385572042512501,
+        0.0007142275217215874,
+        127510664.35436939,
+        1.2924061820740462e-10,
+        1.4944761563517717e-11
+      ],
+      [
+        0.0019377909571492197,
+        0.14465708099074567,
+        0.8212258677254068,
+        0.0007174567766889337,
+        164074735.7853146,
+        1.5548451415270392e-10,
+        1.671343293482401e-11
+      ]
+    ],
+    "mass_kg": 1.8468,
+    "response": 0.14487365407179953,
+    "actual_peak_back_m": 0.0007174567766889337,
+    "actual_peak_skin_Pa": 164074735.7853146,
+    "displacement_bound": 0.14487365407179953,
+    "stress_bound": 0.8212258677254068,
+    "constraints": [
+      -0.8551263459282005,
+      -0.17877413227459316,
+      0.0
+    ]
+  },
+  "optimizer_status": 9,
+  "optimizer_message": "Iteration limit reached",
+  "optimizer_success": false,
+  "convergence_claim": false,
+  "global_optimum_claim": false,
+  "full_mpm_verified": false,
+  "nonlinear_blast_qualified": false,
+  "new_candidate_validation_still_required": true
+}

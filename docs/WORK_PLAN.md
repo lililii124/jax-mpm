@@ -15,8 +15,8 @@ Live process status is recorded separately by the read-only local monitor.
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Round 7 uses the verified per-case operator pullback after a clean handoff from round 6. All initial full-MPM histories and the older round-1 eccentric comparison completed; round-4 three-load verification and paired 5 mm refinement continue | Retain the best feasible design and verify its complete three-case response with independent full MPM |
-| Hypervelocity sphere impact | A vertex-count contact-point discontinuity was identified. A conditioned volume/area centroid replacement is undergoing moving-state time-step qualification; the old trajectory stopped at a clean window boundary | Start the corrected virgin trajectory with the qualified time step and continue toward the debris cloud |
+| Blast-loaded sandwich design | Round 7 completed four bounded iterations; round 8 continues with the verified per-case operator pullback. The best KS and actual-peak candidates are both retained. Round-4 three-load full-MPM verification and paired 5 mm refinement continue | Retain the best feasible design and verify its complete three-case response with independent full MPM |
+| Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
 
@@ -93,6 +93,9 @@ replace it. All existing candidates were reevaluated on the corrected model:
 | Round 3 | 0.1741008079 | 0.863537 | 150.074 |
 | Round 4, best accepted iterate | 0.1465874642 | 0.725186 | 161.060 |
 | Round 5, best accepted iterate | 0.1458214519 | 0.719909 | 164.867 |
+| Round 6, best accepted iterate | 0.1452244811 | 0.716707 | 163.119 |
+| Round 7, lowest KS objective | 0.1448736541 | 0.717457 | 164.075 |
+| Round 7, lowest actual sampled peak | 0.1451089835 | 0.715980 | 163.468 |
 
 All retain the prescribed mass and satisfy the reduced-model constraints.
 Round 2 supplied the corrected warm start; round 3's earlier apparent improvement
@@ -101,8 +104,15 @@ five accepted iterations, so it remains partial and does not count as a
 convergence stall. Its best strictly feasible controls were
 `94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4`.
 Round 5 improved the objective another 0.523% before its soft deadline; it
-also remains partial. Round 6 continues from controls
-`10f489fe2ec2dfe20ddca1d94305c5442b1ec1742c13106e5c2e8160a7dd1c88`.
+also remains partial. Round 6 retained three improvements before its soft
+deadline. Round 7 completed its four-iteration budget in 1191 seconds and
+improved the retained KS objective by 0.242%; its iteration limit is not
+optimizer convergence. Round 8 continues from that retained design.
+The best actual sampled peak occurred earlier within round 7: the smoothed
+objective and the actual maximum need not improve together. Both controls
+are preserved in the [public candidate snapshots](../evidence/blast-sandwich-reduced/union130-round7-public-controls.json)
+for separate independent verification. A [material-distribution animation](SANDWICH_FULL_MPM.md#material-redistribution)
+shows ten retained designs through round 6.
 These remain reduced-model predictions, not verified full-MPM improvements.
 
 A 0.25 microsecond versus 0.125 microsecond reduced-model comparison checks time

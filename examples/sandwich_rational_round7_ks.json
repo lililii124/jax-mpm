@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "freeze_receipt": "../outputs/rational-union/model-freeze.json",
+  "basis": "../outputs/rational-union/frozen-basis.npz",
+  "initial_controls": "sandwich_rational_round7_ks_controls.json",
+  "initial_controls_sha256": "03856f39a53ec8cece899320a63d070734e9de375c830288e54be4e0a0a26d40",
+  "output": "../outputs/rational-round7-ks-continuation"
+}

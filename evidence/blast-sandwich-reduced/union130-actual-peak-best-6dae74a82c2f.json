@@ -1,0 +1,66 @@
+{
+  "scope": "Minimum actual sampled full-ROM back-face space/time peak among terminal verified strict-feasible saved optimizer candidates. This is a ROM quantity, not independent MPM truth.",
+  "selection": "Actual full-sample peak primary; KS objective only breaks exact peak ties; equivalent repeated-q observations use earliest terminal record.",
+  "candidate": {
+    "source_task": "blast-sandwich-union-round7-v28-20261030",
+    "source_round": 7,
+    "iteration": 1,
+    "model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+    "controls_sha256": "6dae74a82c2fab87ca00f5adff8cb1e47e9323901e49ee98488cd929a25a6505",
+    "metrics": {
+      "cases": [
+        [
+          0.0008523563735939809,
+          0.09202288312140798,
+          0.37838182571464923,
+          0.00045110643039099064,
+          75493538.7910096,
+          6.392797402554606e-11,
+          1.9568746902116736e-11
+        ],
+        [
+          0.0026407914133670337,
+          0.14510898348393608,
+          0.638084009396311,
+          0.0007159800189782459,
+          127416828.8543198,
+          1.5166712330483278e-10,
+          1.753385391758237e-11
+        ],
+        [
+          0.0019318341089034294,
+          0.14342700892261862,
+          0.8182050037216091,
+          0.0007108057234181285,
+          163468235.04804584,
+          1.1897505203251058e-10,
+          1.2818606116973122e-11
+        ]
+      ],
+      "mass_kg": 1.8468,
+      "response": 0.14510898348393608,
+      "actual_peak_back_m": 0.0007159800189782459,
+      "actual_peak_skin_Pa": 163468235.04804584,
+      "displacement_bound": 0.14510898348393608,
+      "stress_bound": 0.8182050037216091,
+      "constraints": [
+        -0.8548910165160639,
+        -0.1817949962783909,
+        0.0
+      ]
+    },
+    "actual_peak_back_m": 0.0007159800189782459,
+    "ks_objective": 0.14510898348393608,
+    "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round7-v28-20261030\\output\\optimizer\\feasible-000001.npz",
+    "control_artifact_sha256": "73ded4d05efec97b46ceee52cf522aaba25c99f0b9fcc88b0b6a3621a68298ed",
+    "metrics_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round7-v28-20261030\\output\\optimizer\\feasible-000001.json",
+    "metrics_artifact_sha256": "5c05a996c3c46f481adc4ceb2d0104db510646aca34adc45336d3be4a59fe8ec",
+    "terminal_checkpoint_sha256": "1612bfc87fc2792c279ff9d12deacfe0e9f9df857d23c8389c57fa49ca94ddb3",
+    "retained_control_artifact": ".local\\union-continuation\\actual-peak-seeds\\6dae74a82c2fab87ca00f5adff8cb1e47e9323901e49ee98488cd929a25a6505.npz",
+    "retained_control_artifact_sha256": "73ded4d05efec97b46ceee52cf522aaba25c99f0b9fcc88b0b6a3621a68298ed"
+  },
+  "equivalence_receipt_sha256": "aa3bf58104c36c0952301c27aefff82e4a11fa547fce554d7290d08caace1a73",
+  "optimization_objective_and_stall_policy_changed": false,
+  "new_candidate_mpm_validation_required": true,
+  "global_optimum_claim": false
+}

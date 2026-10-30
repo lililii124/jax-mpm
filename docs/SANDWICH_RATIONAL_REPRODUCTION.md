@@ -176,3 +176,21 @@ control artifact/hash and output directory, followed by independent MPM checks.
 The [public setup replay](../evidence/blast-sandwich-reduced/union130-public-optimizer-setup.json)
 reproduced the frozen mass and stiffness matrices to relative L2 below
 `1.10e-15` and matched the separately verified SQP evaluator signature.
+
+Two strictly feasible round7 controls are also included: the lowest KS
+objective and the lowest actual sampled back-face peak. They are distinct
+designs; neither has completed independent full-MPM qualification. After the
+original frozen-basis setup check, either can seed a separate continuation:
+
+```console
+python -m tools.optimize_sandwich_rational examples/sandwich_rational_round7_ks.json --iterations 4
+python -m tools.optimize_sandwich_rational examples/sandwich_rational_round7_peak.json --iterations 4
+```
+
+Run these independently, within the machine's memory budget. The configurations
+use separate output directories and bind their exact float64 control hashes.
+`--check-only` replays the original frozen material vertex; use the original
+round1 configuration for that check. The [candidate record](../evidence/blast-sandwich-reduced/union130-round7-public-controls.json)
+links both controls, source receipts and recorded metrics. The lowest observed
+peak is 0.715980 mm at 1.8468 kg. Four completed SQP iterations are a bounded
+search, not a convergence or global-optimum claim.
