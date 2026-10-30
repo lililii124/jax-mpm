@@ -288,6 +288,10 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/material-redistribution.gif" alt="Fixed-mass sandwich material redistribution" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#material-redistribution">Sandwich material distribution</a></td>
 <td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/design-metrics.gif" alt="Reduced-model peak deflection and skin stress" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#material-redistribution">Reduced-model design metrics</a></td>
 </tr>
+<tr>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/material-section-xz.gif" alt="Sandwich material distribution in the X–Z section" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#through-thickness-material-sections">Sandwich material · X–Z section</a></td>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/material-section-yz.gif" alt="Sandwich material distribution in the Y–Z section" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#through-thickness-material-sections">Sandwich material · Y–Z section</a></td>
+</tr>
 </table>
 
 <!-- END EXAMPLE GIFS -->
