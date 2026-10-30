@@ -97,7 +97,8 @@ def main() -> None:
             if resume:
                 raise ValueError('the first run directory is a resumed window; include its source parent first')
         else:
-            if not isinstance(resume, dict) or resume.get('checkpoint_sha256') != previous_run['accepted_sha256']:
+            if (not previous_run['accepted_sha256'] or not isinstance(resume, dict)
+                    or resume.get('checkpoint_sha256') != previous_run['accepted_sha256']):
                 raise ValueError(f'{run_dir} is not hash-linked to the preceding accepted checkpoint')
             if resume.get('prior_source_sha256') != previous_run['source_sha256']:
                 raise ValueError(f'{run_dir} resume receipt names a different parent source')

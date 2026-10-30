@@ -18,6 +18,10 @@ The collector checks each run's source map, accepted checkpoint, resume
 checkpoint SHA, parent source map, endpoint, and frame order. Equal-time window
 boundary frames are removed only when every particle field is identical. By
 default it requires the final window to finish at the requested horizon.
+With `--allow-prefix`, a running final window is accepted only when its
+`run.json` and `accepted.npz` identify the same latest accepted endpoint.
+Keep source files on the compute host when possible so the rapidly changing
+checkpoint can be copied and checked locally without transferring it first.
 
 ## Render with ParaView
 
@@ -27,10 +31,14 @@ Run with ParaView's `pvpython` executable:
 pvpython tools/domain_impact/render_paraview.py outputs/domain-impact-history outputs/domain-impact-render
 ```
 
-The renderer writes a 400 by 400 GIF, its actual VTP frame series, source-time
-PVD index, PNG frames, and a hash-bound render audit. It keeps every particle
-and colors the cloud by damage. The camera and scale remain fixed across all
-frames. It does not interpolate or invent states.
+The renderer writes a 400 by 400 GIF, its visualization-only VTP point series,
+source-time PVD index, PNG frames, and a hash-bound render audit. It adds no
+burned-in prefix label; incomplete output is named `*-prefix.gif` and the
+receipt marks it incomplete. It hides
+particles whose damage is 1 or greater from the image, while keeping every
+particle and its mass in the collected NPZ source history. It colors displayed
+particles by damage. The camera and scale remain fixed across all frames. It
+does not interpolate or invent states.
 
 For an intentionally incomplete but real prefix, pass `--allow-prefix` to
 both scripts. The collector records the incomplete endpoint; the renderer

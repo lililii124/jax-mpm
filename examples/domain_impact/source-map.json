@@ -9,17 +9,20 @@
       "source": "run_metal_tl_fresh.py",
       "fields": [
         "case.dt_cfl",
-        "case.dt_rule",
-        "endpoint_physical_audit.dt_cfl_limit"
+        "case.original_cfl_scale",
+        "endpoint_physical_audit.dt_cfl_limit",
+        "endpoint_physical_audit.original_cfl_scale"
       ],
-      "from": [
-        0.1,
-        "0.1*0.00025/max(...)"
-      ],
-      "to": [
-        0.25,
-        "0.025*0.00025/max(...)"
-      ],
+      "from": {
+        "dt_cfl": 0.1,
+        "dt_cfl_limit": 0.1
+      },
+      "to": {
+        "dt_cfl": 0.025,
+        "dt_cfl_limit": 0.025,
+        "original_cfl_scale": 0.25
+      },
+      "semantic_note": "dt_cfl fields are coefficients; original_cfl_scale is the ratio to the original 0.1 coefficient.",
       "executing_formula_unchanged": "dt_cfl = .025*.00025/max(signal)"
     }
   ],
@@ -28,10 +31,10 @@
       "vendored_path": "examples/domain_impact/vendor/run_metal_tl_fresh.py",
       "source_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770",
       "source_lf_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770",
-      "vendored_sha256": "f6dad3ea474565f58189e795e93673149a317c37b951305cfd6dab54bf439990",
-      "vendored_lf_sha256": "f6dad3ea474565f58189e795e93673149a317c37b951305cfd6dab54bf439990",
+      "vendored_sha256": "9825b0bf87dae33a26855b6378303e13cb877c59d499445077005650d8d772a0",
+      "vendored_lf_sha256": "9825b0bf87dae33a26855b6378303e13cb877c59d499445077005650d8d772a0",
       "ast_identical": false,
-      "reason": "Only stale descriptive CFL metadata literals corrected; executing CFL formula and numerical solver code unchanged."
+      "reason": "Only descriptive CFL metadata fields were corrected; dt_cfl and dt_cfl_limit now hold the executing coefficient 0.025, original_cfl_scale records 0.25, and the executing numerical formula is unchanged."
     },
     "examples/metal_sphere_impact_fracture.py": {
       "vendored_path": "examples/domain_impact/vendor/examples/metal_sphere_impact_fracture.py",

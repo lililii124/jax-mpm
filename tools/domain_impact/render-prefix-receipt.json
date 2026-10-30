@@ -1,0 +1,98 @@
+{
+  "schema": "domain-impact-corrected-branch-prefix-render-receipt-v1",
+  "complete": false,
+  "interpretation": "Actual accepted-state prefix for visual inspection only; not a developed-cloud result.",
+  "solver_chain": {
+    "bridge_verified": true,
+    "windows": [
+      {
+        "name": "virgin",
+        "status": "timeout-preserved",
+        "steps": 1331,
+        "time_s": 2.467539794242125e-07,
+        "accepted_sha256": "fe05e48ecf25360520f28bce57fda2a734b0b027231bcfe685fadb54e2c18790",
+        "run_json_sha256": "3be4c420bc95fd8db955c5b899970a1f1a3fcdb679e3ca3fcec1be03b3ca10b4",
+        "contact_source_sha256": "624a43f18101ce89a1ae28677c527a1280367824e234bbea03f2a24112507316",
+        "formal_runner_source_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770"
+      },
+      {
+        "name": "w01",
+        "status": "timeout-preserved",
+        "steps": 1855,
+        "time_s": 2.6950280827368756e-07,
+        "accepted_sha256": "76fdefd4f422060f737624934d5d6bf1bcdbddc7ba89f660ac259cde56ff4986",
+        "run_json_sha256": "46fc8ae46244b1ff24e4c43217705f747cc0f13572c8577ab76e486e3fb53b54",
+        "contact_source_sha256": "624a43f18101ce89a1ae28677c527a1280367824e234bbea03f2a24112507316",
+        "formal_runner_source_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770"
+      }
+    ],
+    "source_history_manifest_sha256": "7e40bf89b207977d99c156d118a14cfa769de7a904e505e068168b319c429e08",
+    "accepted_source_frames": 28,
+    "first_frame": {
+      "source_sha256": "7b14aa65adcaaa5bc19108750e28c69243773804f95cad313b90bdead69ea699",
+      "step": 0,
+      "time_s": 0.0
+    },
+    "last_frame": {
+      "source_sha256": "bc5f548a8e485007a1b79912084679926018bbd74e97de00fdd6fd9653309c43",
+      "step": 1618,
+      "time_s": 2.6000409107427835e-07
+    },
+    "frozen_final_endpoint_time_s": 2.6950280827368756e-07
+  },
+  "render": {
+    "engine": "ParaView 6.2.0",
+    "size": [
+      400,
+      400
+    ],
+    "actual_frame_count": 28,
+    "first_time_s": 0.0,
+    "last_time_s": 2.6000409107427835e-07,
+    "distinct_rendered_frames": 28,
+    "synthetic_frames": 0,
+    "interpolation": false,
+    "burned_in_text": false,
+    "camera_parallel_scale_m": 0.015,
+    "source_audit_sha256": "0acc127aa74846aa144c6f8c92c39698ac8cff7d1cbe735b8f10bb6147ef8047",
+    "gif_sha256": "ef3c0a122155da854dafcd9d9c892d8b2a187c483b5cdfc4002db4b89aa19b1c",
+    "gif_bytes": 1062277,
+    "first_middle_last_png_sha256": [
+      "7da06aa9fce980185c65516ef0a05d2af22db8d5db7f0f71e96c272ddc25bf3a",
+      "c25e421414bed2de3531632d6f3e4035f1d1274212534eacb98e9a47e5f70978",
+      "0d56ddb31ee2b7663b4e3938f392ecb029e9cb82b7455afa5a2aa72337c86f86"
+    ]
+  },
+  "visual_only_fully_failed_filter": {
+    "condition_hidden": "damage >= 1",
+    "source_particle_mass_or_state_modified": false,
+    "last_frame_physical_particles": 26336,
+    "last_frame_hidden_fully_failed": 232,
+    "last_frame_displayed_particles": 26104,
+    "last_frame_physical_mass_kg": 0.0005513167968750001,
+    "last_frame_displayed_mass_kg": 0.00054777041015625
+  },
+  "renderer_source_sha256": "39ab26927be0078ea4b1ac50194f9b6a39076cf4fc3dd7530a721b80781ab4b4",
+  "collector_source_sha256": "f5349440e750636e96255d413336a51d994f990186980aba3e24eb6fd85807e4",
+  "render_attempts": [
+    {
+      "task": "metal-c2-corrected-prefix-paraview-20261030-v1",
+      "accepted": false,
+      "gif_sha256": "2fbe90861cefec306fb74775ce6300b2413b4692f82e051b80333884b62e2d0a",
+      "sample_png_sha256": [
+        "7da06aa9fce980185c65516ef0a05d2af22db8d5db7f0f71e96c272ddc25bf3a",
+        "7da06aa9fce980185c65516ef0a05d2af22db8d5db7f0f71e96c272ddc25bf3a",
+        "7da06aa9fce980185c65516ef0a05d2af22db8d5db7f0f71e96c272ddc25bf3a"
+      ],
+      "distinct_sample_pngs": 1,
+      "reason": "ViewTime was not set before screenshots; all rendered pixels were identical."
+    },
+    {
+      "task": "metal-c2-corrected-prefix-paraview-20261030-v2",
+      "accepted": true,
+      "gif_sha256": "ef3c0a122155da854dafcd9d9c892d8b2a187c483b5cdfc4002db4b89aa19b1c",
+      "distinct_rendered_frames": 28,
+      "reason": "ViewTime is set per actual physical sample and rendered frame hashes differ."
+    }
+  ]
+}

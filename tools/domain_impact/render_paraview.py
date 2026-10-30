@@ -18,19 +18,28 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def write_vtp(path: Path, state: dict) -> None:
-    from vtkmodules.util.numpy_support import numpy_to_vtk
+def write_vtp(path: Path, state: dict) -> dict:
+    from vtkmodules.util.numpy_support import numpy_to_vtk, numpy_to_vtkIdTypeArray
     from vtkmodules.vtkCommonCore import vtkPoints
+    from vtkmodules.vtkCommonDataModel import vtkCellArray
     from vtkmodules.vtkCommonDataModel import vtkPolyData
     from vtkmodules.vtkIOXML import vtkXMLPolyDataWriter
 
+    visible = np.asarray(state['damage']) < 1.0
     points = vtkPoints()
-    points.SetData(numpy_to_vtk(np.ascontiguousarray(state['x'], dtype=np.float64), deep=True))
+    points.SetData(numpy_to_vtk(np.ascontiguousarray(state['x'][visible], dtype=np.float64), deep=True))
     poly = vtkPolyData()
     poly.SetPoints(points)
+    point_count = int(np.count_nonzero(visible))
+    vertex_cells = np.empty((point_count, 2), dtype=np.int64)
+    vertex_cells[:, 0] = 1
+    vertex_cells[:, 1] = np.arange(point_count, dtype=np.int64)
+    verts = vtkCellArray()
+    verts.SetCells(point_count, numpy_to_vtkIdTypeArray(vertex_cells.ravel(), deep=True))
+    poly.SetVerts(verts)
     for name, array in (('damage', state['damage']), ('body_id', state['body_id']),
                         ('particle_mass', state['particle_mass'])):
-        vtk_array = numpy_to_vtk(np.ascontiguousarray(array), deep=True)
+        vtk_array = numpy_to_vtk(np.ascontiguousarray(array[visible]), deep=True)
         vtk_array.SetName(name)
         poly.GetPointData().AddArray(vtk_array)
     poly.GetPointData().SetActiveScalars('damage')
@@ -41,6 +50,11 @@ def write_vtp(path: Path, state: dict) -> None:
     writer.EncodeAppendedDataOn()
     if writer.Write() != 1:
         raise RuntimeError(f'ParaView could not write {path}')
+    return dict(physical_particle_count=int(len(visible)),
+                hidden_fully_failed_count=int(np.count_nonzero(~visible)),
+                displayed_particle_count=int(np.count_nonzero(visible)),
+                physical_mass_kg=float(np.asarray(state['particle_mass']).sum()),
+                displayed_mass_kg=float(np.asarray(state['particle_mass'])[visible].sum()))
 
 
 def main() -> None:
@@ -69,6 +83,7 @@ def main() -> None:
     pvd = ET.Element('VTKFile', type='Collection', version='0.1', byte_order='LittleEndian')
     collection = ET.SubElement(pvd, 'Collection')
     times = []
+    visibility_rows = []
     for index, record in enumerate(manifest['frames']):
         src = args.collected_history / record['file']
         if not src.resolve().is_relative_to(args.collected_history.resolve()):
@@ -83,7 +98,13 @@ def main() -> None:
         if time_s != float(record['time_s']) or step != int(record['step']):
             raise ValueError(f'{src} does not match the collected manifest')
         vtp = data_dir / f'frame-{index:06d}.vtp'
-        write_vtp(vtp, state)
+        visibility = write_vtp(vtp, state)
+        if visibility['physical_particle_count'] != int(record['particle_count']):
+            raise ValueError(f'{src} particle count differs from the collected manifest')
+        if not np.isclose(visibility['physical_mass_kg'], float(record['physical_mass_kg']),
+                          rtol=1e-13, atol=0):
+            raise ValueError(f'{src} particle mass differs from the collected manifest')
+        visibility_rows.append(dict(step=step, time_s=time_s, **visibility))
         ET.SubElement(collection, 'DataSet', timestep=format(time_s, '.17g'),
                       group='', part='0', file=f'data/{vtp.name}')
         times.append(time_s)
@@ -116,30 +137,24 @@ def main() -> None:
     lut.AutomaticRescaleRangeMode = 'Never'
     display.LookupTable = lut
     display.SetScalarBarVisibility(view, False)
-    label = p.Text(registrationName='PhysicalTime')
-    label.Text = 'Accepted physical state'
-    label_display = p.Show(label, view)
-    label_display.WindowLocation = 'UpperLeftCorner'
-    label_display.FontSize = 13
-    if not manifest.get('complete'):
-        prefix = p.Text(registrationName='PrefixLabel')
-        prefix.Text = 'PREFIX — INCOMPLETE'
-        prefix_display = p.Show(prefix, view)
-        prefix_display.WindowLocation = 'UpperRightCorner'
-        prefix_display.FontSize = 13
-
     images = []
+    image_hashes = []
     for index, time_s in enumerate(times):
+        view.ViewTime = time_s
         reader.UpdatePipeline(time_s)
-        label.Text = f't = {time_s * 1e9:.3f} ns'
         p.Render(view)
         screenshot = args.output / f'frame-{index:06d}.png'
         p.SaveScreenshot(str(screenshot), view, ImageResolution=[args.size, args.size])
+        image_hashes.append(sha256(screenshot))
         images.append(Image.open(screenshot).convert('RGB'))
+    distinct_images = len(set(image_hashes))
+    if len(times) > 1 and distinct_images < 2:
+        raise RuntimeError('ParaView produced identical pixels for every distinct physical frame time')
     span = max(times[-1] - times[0], 1e-30)
     durations = [max(10, round((b - a) / span * 10000)) for a, b in zip(times, times[1:])]
     durations.append(durations[-1] if durations else 100)
-    gif = args.output / 'metal-fragment-cloud.gif'
+    gif_name = 'metal-fragment-cloud.gif' if manifest.get('complete') else 'metal-fragment-cloud-prefix.gif'
+    gif = args.output / gif_name
     images[0].save(gif, save_all=True, append_images=images[1:], duration=durations,
                    loop=0, disposal=2, optimize=False)
     receipt = dict(schema='domain-impact-paraview-render-v1', engine='ParaView',
@@ -147,7 +162,10 @@ def main() -> None:
                    complete=bool(manifest.get('complete')), actual_frame_count=len(times),
                    first_time_s=times[0], last_time_s=times[-1],
                    interpolation=False, synthetic_frames=0,
-                   visibility='Every physical particle retained; colored by damage.',
+                   visibility=('Rendering only: particles with damage >= 1 are hidden; '
+                               'complete physical particles, mass, and source frames remain in history NPZs.'),
+                   frame_visibility=visibility_rows,
+                   frame_png_sha256=image_hashes, distinct_rendered_frames=distinct_images,
                    camera_parallel_scale_m=.015, gif_sha256=sha256(gif), duration_ms=durations)
     (args.output / 'render-audit.json').write_text(json.dumps(receipt, indent=2) + '\n',
                                                   encoding='utf-8')

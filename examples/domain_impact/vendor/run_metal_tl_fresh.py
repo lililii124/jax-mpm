@@ -509,7 +509,8 @@ def main():
 
     case = dict(status='running', protocol='C2 fresh-t0 metal TL common-midpoint; endpoint e0; no fracture remap',
         geometry_particles=len(geometry['x']), plan_particles=plan['particles'],
-        source_sha256=hashes, reference=reference_record, dt_cfl=.25,
+        source_sha256=hashes, reference=reference_record, dt_cfl=.025,
+        original_cfl_scale=.25,
         contact_geometry='advected initial material cuboids; 15-axis SAT, clipped shared-world contact points; no background-support candidate search',
         geometry_interpretation='The initial coarse particle quadrature defines a staircase material boundary; this is not an analytic sphere surface.',
         particle_spacing_m=particle_spacing.tolist(),
@@ -640,7 +641,7 @@ def main():
                 f'Cell face-connectivity support split active across {np.unique(support_component_id).size} components; no macroscopic fragment claim.'),
             body_nodal_transfer=body_node,
             geometry='deformed quadrature material cuboid corners; local plate surface within 2.5 mm of sphere nose',
-            dt_last_s=dt_last, dt_cfl_limit=.25)
+            dt_last_s=dt_last, dt_cfl_limit=.025, original_cfl_scale=.25)
         atomic_json(args.output/'endpoint-physical-audit.json', report)
 
     def damage_monitor_row(record_step, record_time, record_dt):

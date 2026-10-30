@@ -1,0 +1,21 @@
+{
+  "schema": "domain-impact-metadata-only-cfl-erratum-v1",
+  "scope": "Descriptive metadata only; executing formula and physical one-step replay are unchanged.",
+  "origin_runner_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770",
+  "corrected_vendored_runner_sha256": "9825b0bf87dae33a26855b6378303e13cb877c59d499445077005650d8d772a0",
+  "corrected_fields": {
+    "run.json.dt_cfl": 0.025,
+    "endpoint_physical_audit.dt_cfl_limit": 0.025,
+    "original_cfl_scale": 0.25
+  },
+  "executing_formula": "dt_cfl = 0.025*0.00025/max(signal)",
+  "executing_formula_changed": false,
+  "prior_one_step_replay_receipt_sha256": "cf95c30fda54c23ce5875a8b924d3dddf84d66dc6422e8c15bce49ed3912c882",
+  "prior_one_step_replay_receipt_modified": false,
+  "prior_source_integrity_sha256": "304f82a19d3401ec4864e773728d3f8b6c443bc090b8ee51ad18bd0d60fc6948",
+  "replacement_integrity_file": "source-integrity.json",
+  "updated_source_map_file": "source-map.json",
+  "replay_scope": "Actual w01 CP1331 to CP1332 accepted step only; no full-trajectory claim.",
+  "updated_source_map_sha256": "1197700c7b06abbe4fac59b57a489ea9393c3617af68a170506a00c34c2c7df2",
+  "updated_source_integrity_sha256": "304f82a19d3401ec4864e773728d3f8b6c443bc090b8ee51ad18bd0d60fc6948"
+}
