@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "role": "exploratory-central-only-fixedmass-optimization",
+  "load_case": "central",
+  "freeze_receipt": "inputs/model-freeze.json",
+  "freeze_receipt_sha256": "8ee035970bafd42e8681f29716b435fb4d7e455ac0c688534d885937d1f77a18",
+  "basis": "inputs/frozen-basis.npz",
+  "basis_sha256": "e567bedfef68520a980a6a8c73ecabf6358a369137cdfb3637ac07714b908e8d",
+  "selected_controls": "inputs/controls.npz",
+  "selected_material": "inputs/material.npz",
+  "selected_tangent": "inputs/tangent.npz",
+  "initial_material": "uniform-build-model-q0",
+  "symmetry": "D2-x-y-reflections",
+  "iterations": 2,
+  "output": "output"
+}

@@ -15,7 +15,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Round 9 ended partial at its soft deadline after four callback iterations; no improved callback candidate was retained and no round 10 was launched. The rank-184 physics-only extension is frozen; its development window fails the unchanged 5% energy gate for uniform and central, while eccentric passes its per-case checks. A separate static/nonlinear second-order direction candidate is being prepared; full-MPM and paired 5 mm runs continue | Build and source-pin the second-order candidate, then check only already-seen 30000–42000 development data. Use the independent 71000–83000 allocation only if it remains unread and the candidate was frozen before that window |
+| Blast-loaded sandwich design | Multi-load optimization gallery withdrawn. The rank-191 development check stopped at uniform pressure: omitted linear strain energy is 7.460%, above the unchanged 5% gate. A separate central-pressure-only search is submitted with uniform initial material and mirror-symmetric controls; existing full-MPM runs continue | Review the bounded fixed-mass search and independently verify any retained design before publication |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -113,9 +113,17 @@ qualification. Its final receipt is
 `8ee035970bafd42e8681f29716b435fb4d7e455ac0c688534d885937d1f77a18`;
 source heads at freeze were 66000/66000/69000 for uniform/central/eccentric,
 before the reserved 71000–83000 window. Public replay passed. A serial queue
-is assessing the three development cases; only if all pass will it assess
-the reserved window. Any failure stops the queue for review. No optimization
-resumes until the frozen candidate passes its development and fresh checks.
+stopped at the uniform development case: maximum omitted linear strain energy
+was 7.460%, exceeding 5%, while its response checks passed. The remaining
+development and reserved-window assessments did not run. This candidate is
+not qualified for the previous multi-load optimization.
+
+The gallery task is replaced by a separate [central-pressure-only
+material-distribution search](CENTRAL_BLAST_DESIGN.md). It starts from uniform material and retains
+fixed mass, with mirror symmetry in both in-plane directions. This is a new
+candidate exploration, not a continuation or qualification of the earlier
+multi-load results. Its retained designs require independent response checks
+before they can be presented as verified improvements.
 
 Round 9 ended partial at its 2700-second soft deadline after four callback
 iterations, with no guard and no improvement over the retained round-8 KS
