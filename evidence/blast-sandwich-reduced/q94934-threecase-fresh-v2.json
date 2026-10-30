@@ -1,0 +1,517 @@
+{
+  "schema": "q94934-threecase-fresh-v2/v1",
+  "created_from": "serial fresh-validation watcher terminal records",
+  "overall_status": "review-failed-two-of-three-per-case-qualification",
+  "scope": "Frozen 13-frame validation-only window, steps 30000..42000; original 5% response and omitted linear-strain-energy gates; no fitting.",
+  "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+  "supplemental_construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+  "original_freeze_receipt_mutated": false,
+  "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+  "training_count": 0,
+  "development_count": 0,
+  "validation_count": 13,
+  "cpu_set": "52-55",
+  "response_gate": 0.05,
+  "omitted_energy_gate": 0.05,
+  "model_changed": false,
+  "global_optimum_claim": false,
+  "cases": [
+    {
+      "case": "uniform",
+      "task": "blast-sandwich-q94934-uniform-fresh-v2-20261030",
+      "stage": "failed-accuracy-gate",
+      "terminal": true,
+      "container_id": "0d6ce2b7da0bd7b66b8f0c4c9063e5689f7538f0a9f2ab10a931aef69a38b659",
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 1,
+        "Error": "",
+        "StartedAt": "2026-10-30T00:53:07.475295113Z",
+        "FinishedAt": "2026-10-30T00:55:36.099259024Z"
+      },
+      "worker_status": {
+        "started_utc": "2026-10-30T00:53:07.599625+00:00",
+        "state": "failed",
+        "command": [
+          "python",
+          "/work/worker.py"
+        ],
+        "cpu_affinity": [
+          52,
+          53,
+          54,
+          55
+        ],
+        "memory_headroom_at_start": 8580943872,
+        "limit_seconds": 3600.0,
+        "uss_limit_bytes": 6442450944,
+        "peak_uss_bytes": 823693312,
+        "minimum_memory_headroom": 7720759296,
+        "guard_reason": null,
+        "pid": 7,
+        "nice": 10,
+        "wall_seconds": 148.3749127537012,
+        "returncode": 1
+      },
+      "remote_assessment_path": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/blast-sandwich-q94934-uniform-fresh-v2-20261030/output/assessment.json",
+      "preserved_report_path": "evidence/blast-sandwich-reduced/q94934-fresh-v2-reports/uniform/assessment.json",
+      "original_local_report_path": "H:/test/jax-mpm/.local/blast-sandwich-q94934-uniform-fresh-v2-20261030/output/assessment.json",
+      "report_sha256": "fb2b4c3510ecf54214c080c7f3eb21f379791c289b6a810b910c9eff999bdce5",
+      "watcher_download_sha256": "fb2b4c3510ecf54214c080c7f3eb21f379791c289b6a810b910c9eff999bdce5",
+      "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+      "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+      "construction_binding_passed": true,
+      "construction_binding": {
+        "passed": true,
+        "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+        "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+        "freeze_task_input_archive_sha256": "e28eadc41506be0f7e8496579e6c27dac39df8bf87793e85159fe734af492b38",
+        "freeze_task_source_manifest_sha256": "28a068b1ce11958e9a3d322f7a70eff79f5b38ce4c1dd63059e01c8f76e14de9",
+        "freeze_worker_sha256": "e28c0991e455e7b2cfb2154d7e4ac7726b7b3ec7885e2572e847c01face2b3b3",
+        "public_task": "blast-sandwich-public-cold-v25-20261030",
+        "public_task_commit": "5207438b7f65e989af4d6e6ec9cc02b1bbdddcbe",
+        "public_task_input_archive_sha256": "cbc6015dcef3403918049ef542b79c10420837bac70984ae2aee913830b1dcef",
+        "public_capsule_source_manifest_sha256": "0d2b43d52a05a61c82303a73b56a756601d79d29c2ae2e3107a05fe0dd2594a4",
+        "original_constructor_sha256": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+        "original_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+        "physical_source_hashes": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+          "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11"
+        },
+        "original_freeze_receipt_mutated": false
+      },
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "response": {
+        "peak_relative_error": 0.0008961849341757588,
+        "curve_relative_l2": 0.04219804503425811,
+        "maximum_difference_over_reference_peak": 0.08026941804496336
+      },
+      "maximum_omitted_linear_strain_energy_fraction": 0.1612872258574115,
+      "projection_by_step": [
+        {
+          "step": 30000,
+          "omitted_linear_strain_energy_fraction": 0.010071060994183867
+        },
+        {
+          "step": 31000,
+          "omitted_linear_strain_energy_fraction": 0.00776746564157782
+        },
+        {
+          "step": 32000,
+          "omitted_linear_strain_energy_fraction": 0.007802824271734399
+        },
+        {
+          "step": 33000,
+          "omitted_linear_strain_energy_fraction": 0.008883248278025002
+        },
+        {
+          "step": 34000,
+          "omitted_linear_strain_energy_fraction": 0.017306939433506696
+        },
+        {
+          "step": 35000,
+          "omitted_linear_strain_energy_fraction": 0.026980399365453267
+        },
+        {
+          "step": 36000,
+          "omitted_linear_strain_energy_fraction": 0.025797967277601086
+        },
+        {
+          "step": 37000,
+          "omitted_linear_strain_energy_fraction": 0.03460422617851766
+        },
+        {
+          "step": 38000,
+          "omitted_linear_strain_energy_fraction": 0.09149629286264571
+        },
+        {
+          "step": 39000,
+          "omitted_linear_strain_energy_fraction": 0.1612872258574115
+        },
+        {
+          "step": 40000,
+          "omitted_linear_strain_energy_fraction": 0.06275952547658692
+        },
+        {
+          "step": 41000,
+          "omitted_linear_strain_energy_fraction": 0.023220603216606572
+        },
+        {
+          "step": 42000,
+          "omitted_linear_strain_energy_fraction": 0.017558330587263526
+        }
+      ],
+      "time_gate_passed": true,
+      "linear_energy_relative_error": 1.035937109131055e-11,
+      "response_gate_passed": false,
+      "projection_gate_passed": false,
+      "case_passed": false,
+      "failure_causes": [
+        "response gate failed: max response metric is not < 0.05",
+        "projection gate failed: maximum omitted linear strain energy is not < 0.05"
+      ],
+      "training_count": 0,
+      "development_count": 0,
+      "validation_count": 13,
+      "complete2ms_three_case_mpm_qualification": false,
+      "global_optimum_claim": false,
+      "source_sha256": {
+        "basis": "c6b410be800b8c1a4c1f4eb2470fcbeef16a0183d59fbaffeb5bef80de048815",
+        "material": "744e9d7b0143f3f02ec54eff8aa86e9e213c5c6d4384c0c340237f1cecb28a82",
+        "snapshots": "5e7167a69e080a36dce1409fc9706619a2f00270737d6e1e1f9c900a462993e1",
+        "history": "7b1e2aca6bed2b73cd924819b890a09ad889a4138a851cd40891c996dd90528a",
+        "history_receipt": "542a52813519fe37da8a1ab90346b377beec84b1571fdc2702b6a74e8b1e9137",
+        "freeze_receipt": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f"
+      },
+      "downloaded_artifact_sha256": {
+        "job/status.json": "ce852bdd880ef28a8a91ba8bbd0b1fe87bf48f0becf4303625d410ae1bfc4a6d",
+        "job/solver.log": "d031baecff277fbaeabaf92a2ef2acab0ca69f04d336b48fa8f4fa8bf4c341a0",
+        "source-sha256.json": "72998c34bcdf5b79a11d4ca8e56905733c193f8c4157bb74662789e686a0c211",
+        "output/assessment.json": "fb2b4c3510ecf54214c080c7f3eb21f379791c289b6a810b910c9eff999bdce5",
+        "output/snapshots.json": "973b3af93601385aa83a78016545a65c285d637443d74d6202b38015c791fa63",
+        "output/history.json": "542a52813519fe37da8a1ab90346b377beec84b1571fdc2702b6a74e8b1e9137",
+        "output/frozen-replay.json": "39d544ea24ac755166a1de52f7f1c315447bad672697ee4d59f818bddc832b88",
+        "output/construction-source-binding-verification.json": "827c953f8ad27df50b5d24ec271f3a3bd9aeba1288c7795d9c57d23b078bcf1f",
+        "output/artifact-hashes.json": "f0db7a0ce4cba6a3d3d1493620c88e06296970b8a5cb4b20b1efb7b6ea0fc660"
+      }
+    },
+    {
+      "case": "central",
+      "task": "blast-sandwich-q94934-central-fresh-v2-20261030",
+      "stage": "failed-accuracy-gate",
+      "terminal": true,
+      "container_id": "e2745551ad6cf8eeeb398e6573df4e7482369458994748a1a21498f5ffd082bb",
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 0,
+        "ExitCode": 1,
+        "Error": "",
+        "StartedAt": "2026-10-30T00:56:28.773749792Z",
+        "FinishedAt": "2026-10-30T00:58:57.362223235Z"
+      },
+      "worker_status": {
+        "started_utc": "2026-10-30T00:56:28.921204+00:00",
+        "state": "failed",
+        "command": [
+          "python",
+          "/work/worker.py"
+        ],
+        "cpu_affinity": [
+          52,
+          53,
+          54,
+          55
+        ],
+        "memory_headroom_at_start": 8581066752,
+        "limit_seconds": 3600.0,
+        "uss_limit_bytes": 6442450944,
+        "peak_uss_bytes": 648450048,
+        "minimum_memory_headroom": 7903420416,
+        "guard_reason": null,
+        "pid": 7,
+        "nice": 10,
+        "wall_seconds": 148.35260033607483,
+        "returncode": 1
+      },
+      "remote_assessment_path": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/blast-sandwich-q94934-central-fresh-v2-20261030/output/assessment.json",
+      "preserved_report_path": "evidence/blast-sandwich-reduced/q94934-fresh-v2-reports/central/assessment.json",
+      "original_local_report_path": "H:/test/jax-mpm/.local/blast-sandwich-q94934-central-fresh-v2-20261030/output/assessment.json",
+      "report_sha256": "bd9e8fe364d623721857837799d66e99cdfe4c38ae045de1e7a46cff043f0d3d",
+      "watcher_download_sha256": "bd9e8fe364d623721857837799d66e99cdfe4c38ae045de1e7a46cff043f0d3d",
+      "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+      "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+      "construction_binding_passed": true,
+      "construction_binding": {
+        "passed": true,
+        "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+        "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+        "freeze_task_input_archive_sha256": "e28eadc41506be0f7e8496579e6c27dac39df8bf87793e85159fe734af492b38",
+        "freeze_task_source_manifest_sha256": "28a068b1ce11958e9a3d322f7a70eff79f5b38ce4c1dd63059e01c8f76e14de9",
+        "freeze_worker_sha256": "e28c0991e455e7b2cfb2154d7e4ac7726b7b3ec7885e2572e847c01face2b3b3",
+        "public_task": "blast-sandwich-public-cold-v25-20261030",
+        "public_task_commit": "5207438b7f65e989af4d6e6ec9cc02b1bbdddcbe",
+        "public_task_input_archive_sha256": "cbc6015dcef3403918049ef542b79c10420837bac70984ae2aee913830b1dcef",
+        "public_capsule_source_manifest_sha256": "0d2b43d52a05a61c82303a73b56a756601d79d29c2ae2e3107a05fe0dd2594a4",
+        "original_constructor_sha256": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+        "original_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+        "physical_source_hashes": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+          "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11"
+        },
+        "original_freeze_receipt_mutated": false
+      },
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "response": {
+        "peak_relative_error": 0.0027926767509335315,
+        "curve_relative_l2": 0.014400703557466107,
+        "maximum_difference_over_reference_peak": 0.019269966104943956
+      },
+      "maximum_omitted_linear_strain_energy_fraction": 0.09750887346146275,
+      "projection_by_step": [
+        {
+          "step": 30000,
+          "omitted_linear_strain_energy_fraction": 0.006688792422161138
+        },
+        {
+          "step": 31000,
+          "omitted_linear_strain_energy_fraction": 0.006509560632954603
+        },
+        {
+          "step": 32000,
+          "omitted_linear_strain_energy_fraction": 0.0066644746989612536
+        },
+        {
+          "step": 33000,
+          "omitted_linear_strain_energy_fraction": 0.006389881636580053
+        },
+        {
+          "step": 34000,
+          "omitted_linear_strain_energy_fraction": 0.0058185507676250525
+        },
+        {
+          "step": 35000,
+          "omitted_linear_strain_energy_fraction": 0.005738161223470484
+        },
+        {
+          "step": 36000,
+          "omitted_linear_strain_energy_fraction": 0.009594204106268434
+        },
+        {
+          "step": 37000,
+          "omitted_linear_strain_energy_fraction": 0.028957729715848757
+        },
+        {
+          "step": 38000,
+          "omitted_linear_strain_energy_fraction": 0.09750887346146275
+        },
+        {
+          "step": 39000,
+          "omitted_linear_strain_energy_fraction": 0.016425206047960383
+        },
+        {
+          "step": 40000,
+          "omitted_linear_strain_energy_fraction": 0.00694080360447602
+        },
+        {
+          "step": 41000,
+          "omitted_linear_strain_energy_fraction": 0.006313804647021581
+        },
+        {
+          "step": 42000,
+          "omitted_linear_strain_energy_fraction": 0.006926508544222942
+        }
+      ],
+      "time_gate_passed": true,
+      "linear_energy_relative_error": 1.035937109131055e-11,
+      "response_gate_passed": true,
+      "projection_gate_passed": false,
+      "case_passed": false,
+      "failure_causes": [
+        "projection gate failed: maximum omitted linear strain energy is not < 0.05"
+      ],
+      "training_count": 0,
+      "development_count": 0,
+      "validation_count": 13,
+      "complete2ms_three_case_mpm_qualification": false,
+      "global_optimum_claim": false,
+      "source_sha256": {
+        "basis": "c6b410be800b8c1a4c1f4eb2470fcbeef16a0183d59fbaffeb5bef80de048815",
+        "material": "744e9d7b0143f3f02ec54eff8aa86e9e213c5c6d4384c0c340237f1cecb28a82",
+        "snapshots": "1435b08f50d0d3986f99f12b4b9f5469957765761dfa5c6012058866033a9054",
+        "history": "7b0fcd6ea28d6217b85f4cee00a9a5d4f8009ea1d4bc79b1c7093b3b184e0629",
+        "history_receipt": "78d3eb51bee423da16ba35ae1b4359200598013fc572a540776f30ee4cdaf7dc",
+        "freeze_receipt": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f"
+      },
+      "downloaded_artifact_sha256": {
+        "job/status.json": "ee4bc09f37b6170816655fec05ce203b2985e0eed331077d740a4fb2a8e40fc3",
+        "job/solver.log": "556538bd5f731ff33c0d3685d1dfd9ffc8794f2ce8edb220a7c083462c8d874c",
+        "source-sha256.json": "8ef76761c2dd850ac516e16f621797e09c0ef8cf57bdbe9e1d5e11addf650aa4",
+        "output/assessment.json": "bd9e8fe364d623721857837799d66e99cdfe4c38ae045de1e7a46cff043f0d3d",
+        "output/snapshots.json": "0b657e7545f8764e98ffe79b12e3750f6dc5254d86b51b1c7e20f1a621eafea3",
+        "output/history.json": "78d3eb51bee423da16ba35ae1b4359200598013fc572a540776f30ee4cdaf7dc",
+        "output/frozen-replay.json": "39d544ea24ac755166a1de52f7f1c315447bad672697ee4d59f818bddc832b88",
+        "output/construction-source-binding-verification.json": "827c953f8ad27df50b5d24ec271f3a3bd9aeba1288c7795d9c57d23b078bcf1f",
+        "output/artifact-hashes.json": "bde139056e5d959a2ce0230979b66f3a152511d48e76d7dedb0641c092022fb3"
+      }
+    },
+    {
+      "case": "eccentric",
+      "task": "blast-sandwich-q94934-eccentric-fresh-v2-20261030",
+      "stage": "passed",
+      "terminal": true,
+      "container_id": "f13b797ad6ce4e7e027f6d2be875a4ed068a59c15352f6670f25f9720cf71309",
+      "container_state": {
+        "Status": "exited",
+        "Running": false,
+        "ExitCode": 0,
+        "OOMKilled": false,
+        "source": "remote_task.py status, observed after terminal exit"
+      },
+      "worker_status": {
+        "started_utc": "2026-10-30T00:59:49.487538+00:00",
+        "state": "complete",
+        "command": [
+          "python",
+          "/work/worker.py"
+        ],
+        "cpu_affinity": [
+          52,
+          53,
+          54,
+          55
+        ],
+        "memory_headroom_at_start": 8581046272,
+        "limit_seconds": 3600.0,
+        "uss_limit_bytes": 6442450944,
+        "peak_uss_bytes": 715915264,
+        "minimum_memory_headroom": 7831707648,
+        "guard_reason": null,
+        "pid": 7,
+        "nice": 10,
+        "wall_seconds": 148.5188819617033,
+        "returncode": 0
+      },
+      "remote_assessment_path": "/home/data1/YZ/jax-mpm-compute-20261025/tasks/blast-sandwich-q94934-eccentric-fresh-v2-20261030/output/assessment.json",
+      "preserved_report_path": "evidence/blast-sandwich-reduced/q94934-fresh-v2-reports/eccentric/assessment.json",
+      "original_local_report_path": "H:/test/jax-mpm/.local/blast-sandwich-q94934-eccentric-fresh-v2-20261030/output/assessment.json",
+      "report_sha256": "00924cc2a80efea4c373ea5d96fb1830f9cdc44287cbf21d7189906febd7d126",
+      "watcher_download_sha256": "00924cc2a80efea4c373ea5d96fb1830f9cdc44287cbf21d7189906febd7d126",
+      "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+      "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+      "construction_binding_passed": true,
+      "construction_binding": {
+        "passed": true,
+        "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+        "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+        "freeze_task_input_archive_sha256": "e28eadc41506be0f7e8496579e6c27dac39df8bf87793e85159fe734af492b38",
+        "freeze_task_source_manifest_sha256": "28a068b1ce11958e9a3d322f7a70eff79f5b38ce4c1dd63059e01c8f76e14de9",
+        "freeze_worker_sha256": "e28c0991e455e7b2cfb2154d7e4ac7726b7b3ec7885e2572e847c01face2b3b3",
+        "public_task": "blast-sandwich-public-cold-v25-20261030",
+        "public_task_commit": "5207438b7f65e989af4d6e6ec9cc02b1bbdddcbe",
+        "public_task_input_archive_sha256": "cbc6015dcef3403918049ef542b79c10420837bac70984ae2aee913830b1dcef",
+        "public_capsule_source_manifest_sha256": "0d2b43d52a05a61c82303a73b56a756601d79d29c2ae2e3107a05fe0dd2594a4",
+        "original_constructor_sha256": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+        "original_assessor_sha256": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf",
+        "physical_source_hashes": {
+          "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+          "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+          "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+          "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+          "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11"
+        },
+        "original_freeze_receipt_mutated": false
+      },
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "response": {
+        "peak_relative_error": 0.007555929070618084,
+        "curve_relative_l2": 0.017487614459492564,
+        "maximum_difference_over_reference_peak": 0.03632976552701719
+      },
+      "maximum_omitted_linear_strain_energy_fraction": 0.01633796346288041,
+      "projection_by_step": [
+        {
+          "step": 30000,
+          "omitted_linear_strain_energy_fraction": 0.01042167394356619
+        },
+        {
+          "step": 31000,
+          "omitted_linear_strain_energy_fraction": 0.008540001603130176
+        },
+        {
+          "step": 32000,
+          "omitted_linear_strain_energy_fraction": 0.008690877876921577
+        },
+        {
+          "step": 33000,
+          "omitted_linear_strain_energy_fraction": 0.010010725404897891
+        },
+        {
+          "step": 34000,
+          "omitted_linear_strain_energy_fraction": 0.01271099251227703
+        },
+        {
+          "step": 35000,
+          "omitted_linear_strain_energy_fraction": 0.01633796346288041
+        },
+        {
+          "step": 36000,
+          "omitted_linear_strain_energy_fraction": 0.014345395316485376
+        },
+        {
+          "step": 37000,
+          "omitted_linear_strain_energy_fraction": 0.009866477782856764
+        },
+        {
+          "step": 38000,
+          "omitted_linear_strain_energy_fraction": 0.006687932748660752
+        },
+        {
+          "step": 39000,
+          "omitted_linear_strain_energy_fraction": 0.008583638392050785
+        },
+        {
+          "step": 40000,
+          "omitted_linear_strain_energy_fraction": 0.011251645902018548
+        },
+        {
+          "step": 41000,
+          "omitted_linear_strain_energy_fraction": 0.01095382939505718
+        },
+        {
+          "step": 42000,
+          "omitted_linear_strain_energy_fraction": 0.011379619800347629
+        }
+      ],
+      "time_gate_passed": true,
+      "linear_energy_relative_error": 1.035937109131055e-11,
+      "response_gate_passed": true,
+      "projection_gate_passed": true,
+      "case_passed": true,
+      "failure_causes": [
+        "all per-case response and projection criteria passed"
+      ],
+      "training_count": 0,
+      "development_count": 0,
+      "validation_count": 13,
+      "complete2ms_three_case_mpm_qualification": false,
+      "global_optimum_claim": false,
+      "source_sha256": {
+        "basis": "c6b410be800b8c1a4c1f4eb2470fcbeef16a0183d59fbaffeb5bef80de048815",
+        "material": "744e9d7b0143f3f02ec54eff8aa86e9e213c5c6d4384c0c340237f1cecb28a82",
+        "snapshots": "c412256c6b6e18a12e257ab99348f6e24c79dfd096f6b586702aa45398abe287",
+        "history": "d99c0f7dc2fa23d5d17a29e63a612acaa9edc37c7c3d4cc84488218f7b4ac140",
+        "history_receipt": "c80ded21f7c2ddeeffa2628386d444ad4916e89b4886a31ccc989f05f2166edf",
+        "freeze_receipt": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f"
+      },
+      "downloaded_artifact_sha256": {
+        "job/status.json": "a7b476d2bfc6ba727dcc5f4e1b5374ece464f8d7fff395b777f3b60db889abac",
+        "job/solver.log": "897884c97e9e79f8a489e3c78bbd20e6059bb6d5a51a1b89b4f21a31f5a1edde",
+        "source-sha256.json": "aabea6acb4206764f571c79513e5d0b7f5b425e3d3468335e98f9ea0e8a23587",
+        "output/assessment.json": "00924cc2a80efea4c373ea5d96fb1830f9cdc44287cbf21d7189906febd7d126",
+        "output/snapshots.json": "a6fac7720be446dfdf3afe933cc1371be81a5297b43eea35a7eee7aab750e457",
+        "output/history.json": "c80ded21f7c2ddeeffa2628386d444ad4916e89b4886a31ccc989f05f2166edf",
+        "output/frozen-replay.json": "39d544ea24ac755166a1de52f7f1c315447bad672697ee4d59f818bddc832b88",
+        "output/construction-source-binding-verification.json": "827c953f8ad27df50b5d24ec271f3a3bd9aeba1288c7795d9c57d23b078bcf1f",
+        "output/artifact-hashes.json": "262b317ac718ef471b00fc4109bd23a0abc66a0117b77e3eb291f7dac707e2f6"
+      }
+    }
+  ],
+  "interpretation": "Uniform and central have projection residuals above 5%; uniform also fails maximum point response error. Eccentric passes its per-case frozen-window checks. The three-load complete 2 ms qualification remains false."
+}

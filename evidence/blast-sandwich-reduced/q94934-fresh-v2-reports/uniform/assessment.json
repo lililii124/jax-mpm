@@ -1,0 +1,119 @@
+{
+  "scope": "Frozen rational-basis response and linear-strain-energy assessment; no fitting.",
+  "role": "fresh-validation",
+  "windows": [
+    {
+      "first_step": 30000,
+      "last_step": 42000,
+      "energy_interval_steps": [
+        30000,
+        42000
+      ],
+      "response": {
+        "peak_relative_error": 0.0008961849341757588,
+        "curve_relative_l2": 0.04219804503425811,
+        "maximum_difference_over_reference_peak": 0.08026941804496336
+      },
+      "maximum_omitted_energy_fraction": 0.1612872258574115,
+      "response_gate_passed": false,
+      "projection_gate_passed": false
+    }
+  ],
+  "projection": [
+    {
+      "step": 30000,
+      "omitted_linear_strain_energy_fraction": 0.010071060994183867
+    },
+    {
+      "step": 31000,
+      "omitted_linear_strain_energy_fraction": 0.00776746564157782
+    },
+    {
+      "step": 32000,
+      "omitted_linear_strain_energy_fraction": 0.007802824271734399
+    },
+    {
+      "step": 33000,
+      "omitted_linear_strain_energy_fraction": 0.008883248278025002
+    },
+    {
+      "step": 34000,
+      "omitted_linear_strain_energy_fraction": 0.017306939433506696
+    },
+    {
+      "step": 35000,
+      "omitted_linear_strain_energy_fraction": 0.026980399365453267
+    },
+    {
+      "step": 36000,
+      "omitted_linear_strain_energy_fraction": 0.025797967277601086
+    },
+    {
+      "step": 37000,
+      "omitted_linear_strain_energy_fraction": 0.03460422617851766
+    },
+    {
+      "step": 38000,
+      "omitted_linear_strain_energy_fraction": 0.09149629286264571
+    },
+    {
+      "step": 39000,
+      "omitted_linear_strain_energy_fraction": 0.1612872258574115
+    },
+    {
+      "step": 40000,
+      "omitted_linear_strain_energy_fraction": 0.06275952547658692
+    },
+    {
+      "step": 41000,
+      "omitted_linear_strain_energy_fraction": 0.023220603216606572
+    },
+    {
+      "step": 42000,
+      "omitted_linear_strain_energy_fraction": 0.017558330587263526
+    }
+  ],
+  "time_sensitivity": [
+    {
+      "case": 0,
+      "peak_relative_difference": 3.479639312020666e-06,
+      "curve_relative_l2": 9.594991140516905e-06,
+      "maximum_difference_over_finer_peak": 0.00016843088734219843
+    },
+    {
+      "case": 1,
+      "peak_relative_difference": 1.372397262500158e-07,
+      "curve_relative_l2": 3.6571670831305096e-06,
+      "maximum_difference_over_finer_peak": 9.448114364667713e-05
+    },
+    {
+      "case": 2,
+      "peak_relative_difference": 9.454615021997625e-07,
+      "curve_relative_l2": 6.817491518728828e-06,
+      "maximum_difference_over_finer_peak": 0.0002342561994493585
+    }
+  ],
+  "time_gate_passed": true,
+  "linear_energy_relative_error": 1.035937109131055e-11,
+  "passed": false,
+  "source_sha256": {
+    "basis": "c6b410be800b8c1a4c1f4eb2470fcbeef16a0183d59fbaffeb5bef80de048815",
+    "material": "744e9d7b0143f3f02ec54eff8aa86e9e213c5c6d4384c0c340237f1cecb28a82",
+    "snapshots": "5e7167a69e080a36dce1409fc9706619a2f00270737d6e1e1f9c900a462993e1",
+    "history": "7b1e2aca6bed2b73cd924819b890a09ad889a4138a851cd40891c996dd90528a",
+    "history_receipt": "542a52813519fe37da8a1ab90346b377beec84b1571fdc2702b6a74e8b1e9137",
+    "freeze_receipt": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f"
+  },
+  "complete2ms_three_case_mpm_qualification": false,
+  "global_optimum_claim": false,
+  "case": "uniform",
+  "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+  "freeze_receipt_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+  "construction_source_link_sha256": "b3a786b745feed6482bced386d424f42889496996f8b08bb00432fd349a4d6dd",
+  "original_constructor_source_sha256": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+  "extraction_role": "validation-only",
+  "training_count": 0,
+  "development_count": 0,
+  "validation_count": 13,
+  "model_or_threshold_changed": false
+}

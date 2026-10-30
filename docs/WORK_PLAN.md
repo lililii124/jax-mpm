@@ -15,7 +15,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Round 7 completed four bounded iterations; round 8 continues with the verified per-case operator pullback. The best KS and actual-peak candidates are both retained. Round-4 three-load full-MPM verification and paired 5 mm refinement continue | Retain the best feasible design and verify its complete three-case response with independent full MPM |
+| Blast-loaded sandwich design | Round 9 ended partial at its soft deadline after four callback iterations; no improved callback candidate was retained and no round 10 was launched. q94934 fresh v2: uniform and central fail the 5% qualification, eccentric passes its per-case check. Physics-only basis extension is running; existing full-MPM and paired 5 mm runs continue | Seal and pin the extended basis, review steps 30000–42000 as development data, then assess the independent 71000–83000 window |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -71,19 +71,35 @@ The previously failed baseline interval now has a 2.509% maximum response error.
 The [validation record](../evidence/blast-sandwich-reduced/union130-validation.json)
 retains the original failures and distinguishes checked intervals from the
 still-unqualified complete three-case response.
+The frozen q94934 validation-only window (steps 30000–42000) was assessed on
+all three prescribed loads without fitting or changing the 5% gates. Uniform
+fails both maximum response error (8.027%) and omitted linear strain energy
+(16.129%); central passes its response checks but fails omitted energy
+(9.751%); eccentric passes both per-case checks (maximum response error
+3.633%, omitted energy 1.634%). Reports, terminal states, source bindings and
+original report hashes are preserved in the
+[three-case evidence summary](../evidence/blast-sandwich-reduced/q94934-threecase-fresh-v2.json)
+and its byte-identical raw reports. This frozen q94934 assessment does not
+qualify the full 2 ms, three-load model or establish a candidate optimum.
 The [public reproduction guide](SANDWICH_RATIONAL_REPRODUCTION.md) provides the
 construction recipe and assessment commands. A cold construction from public
 commit `5207438` reproduced the basis and operator/response artifact hashes
 exactly, without private numeric inputs. This source reproduction is separate
 from independent MPM validation.
 
-Continue optimization in successive rounds from the best strictly feasible
-controls, retaining each round's design hash and metrics. Three consecutive
-completed rounds improving the objective by no more than 0.1% trigger a local convergence
+Round 9 ended partial at its 2700-second soft deadline after four callback
+iterations, with no guard and no improvement over the retained round-8 KS
+objective. Its console logged a strictly feasible line-search evaluation at
+0.1448407186, below the retained 0.1448417783, but no matching control vector
+or evaluation record was persisted; it is therefore not a retained candidate.
+The round-9 archive preserves its four callback records and terminal state.
+The old-basis optimization queue remains closed. The best KS and actual-peak
+controls remain separately retained, and callback versus fully evaluated
+candidate provenance remains distinct. Three consecutive completed rounds
+improving the objective by no more than 0.1% trigger only a local convergence
 review, not a claim of global optimality. Full-MPM constraints and improvement
-must also pass before accepting the design. Validation already in progress
-remains bound to its original control hash; a newer candidate does not silently
-replace it. All existing candidates were reevaluated on the corrected model:
+must pass before accepting a design. All existing candidates were reevaluated
+on the corrected model:
 
 | Design | Objective | Worst back-face peak (mm) | Peak skin stress (MPa) |
 | --- | ---: | ---: | ---: |
@@ -96,6 +112,7 @@ replace it. All existing candidates were reevaluated on the corrected model:
 | Round 6, best accepted iterate | 0.1452244811 | 0.716707 | 163.119 |
 | Round 7, lowest KS objective | 0.1448736541 | 0.717457 | 164.075 |
 | Round 7, lowest actual sampled peak | 0.1451089835 | 0.715980 | 163.468 |
+| Round 8, retained KS objective | 0.1448417783 | 0.718346 | 164.074 |
 
 All retain the prescribed mass and satisfy the reduced-model constraints.
 Round 2 supplied the corrected warm start; round 3's earlier apparent improvement

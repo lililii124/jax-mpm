@@ -52,6 +52,16 @@ Ten retained designs through round six, at a constant 1.8468 kg mass.
 Blue to red represents core solid fraction from 0.08 to 0.35; the skins are
 hidden to expose the core. These are discrete design states, not a deformation
 animation. Full-MPM verification of the newer candidates is ongoing.
+The independently reserved 13-frame window for candidate `94934d1d` failed
+qualification under uniform and central pressure. Maximum point-response
+error was 8.03% under uniform pressure; maximum omitted linear strain energy
+was 16.13% and 9.75%, respectively, above the unchanged 5% limits.
+Eccentric pressure passed this window. These results concern the newer
+candidate, not the completed round-one comparison above. Further optimization
+on this reduced basis is on hold while the basis is extended using the
+candidate's physical operators. The plotted reduced-model improvements are
+predictions, not independently verified benefits.
+[Original three-load reports](../evidence/blast-sandwich-reduced/q94934-threecase-fresh-v2.json).
 The adjacent plots use the same design order and frame durations. They show
 the largest sampled back-face deflection and skin stress across all three
 loads in the frozen reduced model. The dashed line is the 200 MPa skin-stress
