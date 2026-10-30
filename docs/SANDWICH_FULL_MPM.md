@@ -93,3 +93,20 @@ it does not replace the independent response checks.
 ```sh
 pvpython --force-offscreen-rendering tools/render_sandwich_design_sections.py outputs/sandwich-design-fields outputs/sandwich-design-sections
 ```
+
+## Internal-force execution
+
+`mpm_jax.blocked_elastic.make_internal_force(reference, material)` provides
+the same Neo-Hookean internal-force calculation in 4096-point blocks.
+It retains the original supports and contribution order while bounding the
+temporary force array. The caller remains responsible for external loads,
+time integration and physical checks.
+
+On an actual 691200-point state, the force kernel was 1.255 times faster and
+matched the original force bitwise. A separate 20-step trajectory comparison,
+timed in both execution orders after warm-up, measured 1.164 times the speed.
+Displacement differences were at most 5.42e-20 m; accumulated work, impulses
+and peak statistics matched bitwise. This is a short execution-equivalence
+check, not a completed refinement result. Existing production runs have not
+been switched. The [performance record](../evidence/blast-sandwich-reduced/h5-blocked-force-performance.json)
+also retains the slower reverse-gather alternative that was rejected.

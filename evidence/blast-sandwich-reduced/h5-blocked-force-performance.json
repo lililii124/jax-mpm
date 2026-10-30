@@ -1,0 +1,249 @@
+{
+  "scope": "Public internal-force kernel port and actual h5 short-trajectory performance evidence; production has not migrated.",
+  "public_module_sha256": "4e3c291b2799c50793e88e87897f356420ff09921a8b5d80a92f538f5b8ec3d0",
+  "numerical_body_ast_identical": true,
+  "padding_arrays_ast_identical": true,
+  "padding_count": "Reference point count equals the tested state F count; both pad to the next block boundary.",
+  "block_size": 4096,
+  "results": {
+    "reverse_gather": {
+      "scope": "Actual h5 checkpoint force kernel only; no changed production or full trajectory qualification.",
+      "checkpoint_step": 6000,
+      "checkpoint_sha256": "50f7bba11aa9cf55551155ec9305d541f3320640524b52908f27d3ea5bfc6d0e",
+      "source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "benchmark_source_sha256": "0c271cecdf69edc103f5162c872b37b1f8fb47b53390e8564e39f3672a6effbf",
+      "points": 691200,
+      "nodes": 107163,
+      "max_reverse_neighbors": 216,
+      "compile_and_first_call_seconds": {
+        "scatter": 7.58422028273344,
+        "gather": 6.915818378329277
+      },
+      "warm_kernel_seconds": {
+        "scatter": [
+          0.46848148852586746,
+          0.5526815056800842,
+          0.49518731981515884,
+          0.6193654090166092,
+          0.6377770975232124,
+          0.576391912996769
+        ],
+        "gather": [
+          0.830247163772583,
+          0.9050292819738388,
+          0.7789254561066628,
+          0.8017525598406792,
+          0.8565314561128616,
+          0.7459810599684715
+        ]
+      },
+      "median_speedup": 0.6918343197859583,
+      "force_relative_l2": 3.616303597905402e-16,
+      "force_max_abs": 2.5579538487363607e-13,
+      "net_force_difference": 2.540858563126594e-12,
+      "net_torque_difference": 4.920301329742448e-13,
+      "force_equivalence_passed": true,
+      "worth_full_state_probe": false,
+      "production_changed": false,
+      "wall_seconds": 37.17766289412975
+    },
+    "blocked_kernel": {
+      "scope": "Actual h5 checkpoint force kernel only; no changed production or full trajectory qualification.",
+      "checkpoint_step": 6000,
+      "checkpoint_sha256": "50f7bba11aa9cf55551155ec9305d541f3320640524b52908f27d3ea5bfc6d0e",
+      "source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "benchmark_source_sha256": "da654db20c477734df707a311671b23541e76ca49461bab62152078bede6df0f",
+      "points": 691200,
+      "nodes": 107163,
+      "point_block_size": 4096,
+      "compile_and_first_call_seconds": {
+        "scatter": 7.6169129610061646,
+        "blocked": 3.624524362385273
+      },
+      "warm_kernel_seconds": {
+        "scatter": [
+          0.427677646279335,
+          0.44152991473674774,
+          0.5092425271868706,
+          0.487950436770916,
+          0.624638170003891,
+          0.483915776014328
+        ],
+        "blocked": [
+          0.43310728669166565,
+          0.3601687103509903,
+          0.4188004657626152,
+          0.36793265491724014,
+          0.385750949382782,
+          0.3886667862534523
+        ]
+      },
+      "median_speedup": 1.2549637851292146,
+      "force_relative_l2": 0.0,
+      "force_max_abs": 0.0,
+      "net_force_difference": 0.0,
+      "net_torque_difference": 0.0,
+      "force_equivalence_passed": true,
+      "worth_full_state_probe": true,
+      "production_changed": false,
+      "wall_seconds": 28.333018109202385
+    },
+    "blocked_trajectory": {
+      "scope": "Actual h5 full-step short trajectory with unchanged material, loads, dt, field observations and energy/momentum ledgers.",
+      "checkpoint_step": 6000,
+      "checkpoint_sha256": "50f7bba11aa9cf55551155ec9305d541f3320640524b52908f27d3ea5bfc6d0e",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+      "benchmark_source_sha256": "229404da75f8e572e0498c86d37b27c79827751c90ca20362446f2d683155483",
+      "segment_steps": 20,
+      "compile_seconds": {
+        "original": 9.699083916842937,
+        "blocked": 9.3350575491786
+      },
+      "warm_segment_seconds": {
+        "original": [
+          15.819748401641846,
+          14.909768864512444
+        ],
+        "blocked": [
+          13.096357613801956,
+          13.295551411807537
+        ]
+      },
+      "median_speedup": 1.1643537129631578,
+      "comparisons": [
+        {
+          "displacement": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 5.421010862427522e-20,
+            "relative_l2": 1.44338870829668e-18
+          },
+          "velocity": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 1.6964207816272392e-13,
+            "relative_l2": 3.038430258095452e-16
+          },
+          "force": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 2.5466517783456766e-11,
+            "relative_l2": 7.575704197690573e-15
+          },
+          "F": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 2.220446049250313e-16,
+            "relative_l2": 1.724221052729629e-19
+          },
+          "time": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "valid": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "impulse": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "angular_impulse": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "body_work": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "boundary_work": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "aggregate": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "rows": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 1.865174681370263e-14,
+            "relative_l2": 9.651407586064551e-23
+          }
+        },
+        {
+          "displacement": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 5.421010862427522e-20,
+            "relative_l2": 1.44338870829668e-18
+          },
+          "velocity": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 1.6964207816272392e-13,
+            "relative_l2": 3.038430258095452e-16
+          },
+          "force": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 2.5466517783456766e-11,
+            "relative_l2": 7.575704197690573e-15
+          },
+          "F": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 2.220446049250313e-16,
+            "relative_l2": 1.724221052729629e-19
+          },
+          "time": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "valid": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "impulse": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "angular_impulse": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "body_work": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "boundary_work": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "aggregate": {
+            "bitwise_equal": true,
+            "maximum_absolute_error": 0.0,
+            "relative_l2": 0.0
+          },
+          "rows": {
+            "bitwise_equal": false,
+            "maximum_absolute_error": 1.865174681370263e-14,
+            "relative_l2": 9.651407586064551e-23
+          }
+        }
+      ],
+      "production_changed": false,
+      "short_trajectory_passed": true,
+      "worth_adoption_review": true,
+      "wall_seconds": 88.87883315235376
+    }
+  },
+  "production_migrated": false
+}
