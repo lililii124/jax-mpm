@@ -1,0 +1,144 @@
+{
+  "schema": "sandwich-central-side-sections-v1",
+  "renderer": "ParaView",
+  "scope": "Central material sections, not deformation; grey skins have their actual 2mm thickness.",
+  "source_task": "sandwich-central-material-export-v1-20261030",
+  "render_task": "sandwich-central-material-render-v1-20261030",
+  "render_container": "jaxmpm-sandwich-central-material-render-v1-20261030-xz-yz-r2",
+  "paraview_image": "sha256:f46b5a36b27c5f99884060f8ff4e3c5a4cdbc775c25ee77f60c021a4e1292efe",
+  "source_export_sha256": "84975cd1db993a86a614cfc4de9f6db9ee510d689c57dc90b6c33a89317b4cc5",
+  "renderer_script": "tools/render_sandwich_design_sections.py",
+  "renderer_script_sha256": "d99f3683fc2af2685fd7374ff7c3c295eca661e0bf8e6a6e9d7160948470e4da",
+  "geometry": {
+    "center_m": [
+      0.15,
+      0.15,
+      0.012
+    ],
+    "section_planes": {
+      "xz": {
+        "normal": [
+          0,
+          1,
+          0
+        ]
+      },
+      "yz": {
+        "normal": [
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    "overview_width_m": 0.324,
+    "detail_width_m": 0.092
+  },
+  "frame_semantics": [
+    "uniform-baseline",
+    "best-so-far"
+  ],
+  "frame_count": 2,
+  "image_size_px": [
+    400,
+    400
+  ],
+  "gif_sha256": {
+    "central-section-xz.gif": "7dc5a7ecb2b928115752fc0b305f4a32e46406a51a8d9e9f172902a99fa88183",
+    "central-section-yz.gif": "7bffbd172e0d783a360b219089c7c423fd84c5d7f0c6b46449333bb2a8c9adb0"
+  },
+  "render_records": [
+    {
+      "plane": "xz",
+      "file": "material-section-xz.gif",
+      "sha256": "7dc5a7ecb2b928115752fc0b305f4a32e46406a51a8d9e9f172902a99fa88183",
+      "center_m": [
+        0.15,
+        0.15,
+        0.012
+      ],
+      "normal": [
+        0,
+        1,
+        0
+      ],
+      "frames": 2
+    },
+    {
+      "plane": "yz",
+      "file": "material-section-yz.gif",
+      "sha256": "7bffbd172e0d783a360b219089c7c423fd84c5d7f0c6b46449333bb2a8c9adb0",
+      "center_m": [
+        0.15,
+        0.15,
+        0.012
+      ],
+      "normal": [
+        1,
+        0,
+        0
+      ],
+      "frames": 2
+    }
+  ],
+  "material_reflection_differences": [
+    {
+      "index": 0,
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "mirror_x_relative_l2": 0.0,
+      "mirror_y_relative_l2": 0.0,
+      "layer_mean_fraction": [
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18,
+        0.18
+      ],
+      "maximum_thickness_fraction_range": 0.0
+    },
+    {
+      "index": 1,
+      "controls_sha256": "f9169a43972d756d72b22aed127dd6bf8edfd063edb4271ec0665a676e297d2b",
+      "mirror_x_relative_l2": 1.6069809077912461e-16,
+      "mirror_y_relative_l2": 1.570282710521878e-16,
+      "layer_mean_fraction": [
+        0.18000550703259952,
+        0.18000614858042688,
+        0.18000679015879364,
+        0.1800074317667828,
+        0.18000807340347888,
+        0.18000871506796745,
+        0.18000935675933566,
+        0.18000999847667168,
+        0.180010640219065,
+        0.18001128198560648,
+        0.18000960445258654,
+        0.18000560702721,
+        0.18000160873623836,
+        0.17999760957984615,
+        0.17999360955820823,
+        0.17998960867150016,
+        0.17998560691989782,
+        0.17998160430357754,
+        0.17997760082271624,
+        0.17997359647749128
+      ],
+      "maximum_thickness_fraction_range": 0.0005431995214685015
+    }
+  ]
+}

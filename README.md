@@ -290,6 +290,13 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+<table width="100%">
+<tr>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/central-section-xz.gif" alt="Central-load design X–Z material section" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#central-load-material-optimization">X–Z material section</a></td>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/central-section-yz.gif" alt="Central-load design Y–Z material section" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#central-load-material-optimization">Y–Z material section</a></td>
+</tr>
+</table>
+
 <!-- END EXAMPLE GIFS -->
 
 ## Installation

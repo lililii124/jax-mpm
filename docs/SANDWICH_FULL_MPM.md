@@ -43,12 +43,19 @@ crushing. See the [problem definition](BLAST_SANDWICH_DESIGN.md) and
 
 <img src="images/sandwich-fullmpm/central-material-optimization.gif" alt="Uniform baseline and saved best-so-far central-load material designs" width="400">
 
+<table width="100%"><tr>
+<td width="50%"><img src="images/sandwich-fullmpm/central-section-xz.gif" alt="Central X–Z material section" width="100%"></td>
+<td width="50%"><img src="images/sandwich-fullmpm/central-section-yz.gif" alt="Central Y–Z material section" width="100%"></td>
+</tr></table>
+
 This discrete two-state sequence shows the actual saved uniform baseline and
 best-so-far controls from a short, central-load-only fixed-mass reduced-model
 search. Both designs have 1.8468 kg total mass. The candidate is exploratory:
 it has not passed full-MPM verification, three-load qualification, or
 independent optimum verification. The images show material fields, not motion.
 [GIF and source provenance](images/sandwich-fullmpm/central-material-optimization.json).
+The side views show the full span above and an enlarged central section below;
+grey layers are the 2 mm skins. [Section provenance](images/sandwich-fullmpm/central-sections.json).
 
 Reproduce the fields and ParaView render from the saved control snapshot:
 
