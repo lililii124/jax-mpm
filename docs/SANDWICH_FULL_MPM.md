@@ -39,6 +39,24 @@ elastic skins and an effective elastic core, without face plasticity or core
 crushing. See the [problem definition](BLAST_SANDWICH_DESIGN.md) and
 [media provenance](../evidence/blast-sandwich-reduced/fullmpm-completed-media.json).
 
+## Central-load material optimization
+
+<img src="images/sandwich-fullmpm/central-material-optimization.gif" alt="Uniform baseline and saved best-so-far central-load material designs" width="400">
+
+This discrete two-state sequence shows the actual saved uniform baseline and
+best-so-far controls from a short, central-load-only fixed-mass reduced-model
+search. Both designs have 1.8468 kg total mass. The candidate is exploratory:
+it has not passed full-MPM verification, three-load qualification, or
+independent optimum verification. The images show material fields, not motion.
+[GIF and source provenance](images/sandwich-fullmpm/central-material-optimization.json).
+
+Reproduce the fields and ParaView render from the saved control snapshot:
+
+```sh
+python -m tools.export_sandwich_design_history evidence/blast-sandwich-reduced/central-material-controls.npz outputs/central-material-fields
+pvpython --force-offscreen-rendering tools/render_sandwich_design_history.py outputs/central-material-fields outputs/central-material-render
+```
+
 ## Material redistribution
 
 <table width="100%">
@@ -180,3 +198,4 @@ The [actual-state round-trip check](../evidence/blast-sandwich-reduced/h5-blocke
 imported a real h5 step8000 checkpoint, advanced one step, resumed one further
 step, and compared both with the original integrator. Earlier history rows
 were preserved bitwise, and incompatible execution settings were rejected.
+

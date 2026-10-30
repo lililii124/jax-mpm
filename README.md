@@ -283,6 +283,13 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+<table width="100%">
+<tr>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/central-material-optimization.gif" alt="Initial and candidate material distributions under central pressure" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#central-load-material-optimization">Central pressure · material distribution</a></td>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/central-deflection.svg" alt="Reduced-model peak deflection for initial and candidate designs" width="100%"><br><a href="docs/SANDWICH_FULL_MPM.md#central-load-material-optimization">Peak deflection · reduced model</a></td>
+</tr>
+</table>
+
 <!-- END EXAMPLE GIFS -->
 
 ## Installation

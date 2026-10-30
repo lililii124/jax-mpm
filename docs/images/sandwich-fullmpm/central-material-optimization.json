@@ -1,0 +1,91 @@
+{
+  "scope": "Discrete retained material designs; not a dynamic trajectory or independently verified optimum.",
+  "source_optimization_task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+  "states": [
+    {
+      "index": 0,
+      "source": {
+        "label": "uniform-baseline",
+        "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+        "source": {
+          "task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+          "remote_artifact": "uniform-baseline-controls.json",
+          "remote_sha256": "6a9c26a603fe3b3b81251760522306d2bf43ea50b54d5dd2211c63e43d53a103",
+          "optimizer_receipt_sha256": "4d08ee01bb87fc0a2a2b9856655b98da97257872f4732f78498a795879574a1e"
+        },
+        "objective": 0.1911909976782933,
+        "iteration": 0,
+        "feasible": true,
+        "mass_kg": 1.8468,
+        "role": "exploratory-central-only-reduced-model-candidate",
+        "load_case": "central",
+        "symmetry_group": "D2 x/y reflections",
+        "nonlinear_blast_qualified": false,
+        "full_mpm_verified": false
+      },
+      "file": "design-000.vtr",
+      "mass_kg": 1.8467999999999867,
+      "fraction_range": [
+        0.17999999999999997,
+        0.18000000000000002
+      ],
+      "field_sha256": "cb4813105845af19ed94c3b11a6efd21a09daa2698fc8db271c7a92d70ce2850",
+      "sha256": "2f8c6ae8c5f03fadd6ec722799a938608d263e089033f4cee0d1a5d7b04447ba"
+    },
+    {
+      "index": 1,
+      "source": {
+        "label": "best-so-far",
+        "controls_sha256": "f9169a43972d756d72b22aed127dd6bf8edfd063edb4271ec0665a676e297d2b",
+        "source": {
+          "task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+          "remote_artifact": "best-so-far-controls.json",
+          "remote_sha256": "3ff239aced303c1fa2dd3ba102e46a64882c75271596e94b0d824b853723271d",
+          "optimizer_receipt_sha256": "72f2da1350a686040d0bebe0837b61f40cb467111966504e12ed66e98777e735"
+        },
+        "objective": 0.16038308373130544,
+        "iteration": 2,
+        "feasible": true,
+        "mass_kg": 1.8468000000000002,
+        "role": "exploratory-central-only-reduced-model-candidate",
+        "load_case": "central",
+        "symmetry_group": "D2 x/y reflections",
+        "nonlinear_blast_qualified": false,
+        "full_mpm_verified": false
+      },
+      "file": "design-001.vtr",
+      "mass_kg": 1.8468000000000035,
+      "fraction_range": [
+        0.13384441418257306,
+        0.29090496116383435
+      ],
+      "field_sha256": "04ac0442b363a9a9f89e1a5ece9cb5ff70239f128fb81e61ce443e0e71b68de1",
+      "sha256": "74feb2bba876be733c1cd2ee286f0749079cdf97df9c32a453aaef9f5d5a99ec"
+    }
+  ],
+  "controls_bundle_sha256": "a26d31416beefaabb37e5007471a28d8a9a4796689857a58932f64620721b1ab",
+  "exporter_sha256": "0a5cb5189494411e70fb563644073471a9d918a80866d881e9282ecbeb29c12a",
+  "renderer_sha256": "505618419b25dc88d4e11a6e8e764a5f24e57a26bcf13341144c72c640978654",
+  "export_receipt_sha256": "84975cd1db993a86a614cfc4de9f6db9ee510d689c57dc90b6c33a89317b4cc5",
+  "gif_sha256": "fb0efe01c9b9c93be8552b7f7ba983d359c1404151192a13eb8baac06e2256a4",
+  "gif_size_px": [
+    400,
+    400
+  ],
+  "render_states": 2,
+  "gif_frames": 2,
+  "cell_field_bitwise_verified": true,
+  "qualification": {
+    "central_only_reduced_model": true,
+    "fixed_mass_kg": 1.8468,
+    "full_mpm_verified": false,
+    "nonlinear_blast_qualified": false,
+    "complete_three_load_qualification": false,
+    "independently_verified_optimum": false
+  },
+  "reproduction": [
+    "Use the saved controls bundle and provenance in evidence/blast-sandwich-reduced/central-material-controls.npz and central-material-controls.json.",
+    "python -m tools.export_sandwich_design_history evidence/blast-sandwich-reduced/central-material-controls.npz outputs/central-material-fields",
+    "pvpython --force-offscreen-rendering tools/render_sandwich_design_history.py outputs/central-material-fields outputs/central-material-render"
+  ]
+}

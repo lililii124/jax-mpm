@@ -1,0 +1,45 @@
+{
+  "states": [
+    {
+      "label": "uniform-baseline",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+        "remote_artifact": "uniform-baseline-controls.json",
+        "remote_sha256": "6a9c26a603fe3b3b81251760522306d2bf43ea50b54d5dd2211c63e43d53a103",
+        "optimizer_receipt_sha256": "4d08ee01bb87fc0a2a2b9856655b98da97257872f4732f78498a795879574a1e"
+      },
+      "objective": 0.1911909976782933,
+      "iteration": 0,
+      "feasible": true,
+      "mass_kg": 1.8468,
+      "role": "exploratory-central-only-reduced-model-candidate",
+      "load_case": "central",
+      "symmetry_group": "D2 x/y reflections",
+      "nonlinear_blast_qualified": false,
+      "full_mpm_verified": false
+    },
+    {
+      "label": "best-so-far",
+      "controls_sha256": "f9169a43972d756d72b22aed127dd6bf8edfd063edb4271ec0665a676e297d2b",
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+        "remote_artifact": "best-so-far-controls.json",
+        "remote_sha256": "3ff239aced303c1fa2dd3ba102e46a64882c75271596e94b0d824b853723271d",
+        "optimizer_receipt_sha256": "72f2da1350a686040d0bebe0837b61f40cb467111966504e12ed66e98777e735"
+      },
+      "objective": 0.16038308373130544,
+      "iteration": 2,
+      "feasible": true,
+      "mass_kg": 1.8468000000000002,
+      "role": "exploratory-central-only-reduced-model-candidate",
+      "load_case": "central",
+      "symmetry_group": "D2 x/y reflections",
+      "nonlinear_blast_qualified": false,
+      "full_mpm_verified": false
+    }
+  ],
+  "controls_artifact_sha256": "a26d31416beefaabb37e5007471a28d8a9a4796689857a58932f64620721b1ab",
+  "scope": "Discrete central-load exploratory reduced-model designs only: the saved uniform baseline and the saved best-so-far candidate. This is not a physical-time trajectory, complete three-load qualification, full-MPM verification, or independently verified optimum.",
+  "full_mpm_qualification": false
+}

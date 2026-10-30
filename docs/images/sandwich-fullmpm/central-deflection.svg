@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-labelledby="title desc">
+  <title id="title">Central pressure: peak deflection</title>
+  <desc id="desc">Reduced-model peak back-face deflection: uniform initial design 0.9476 mm, optimized candidate 0.7921 mm. Results await independent MPM verification.</desc>
+  <rect width="400" height="400" fill="white"/>
+  <g font-family="Arial, sans-serif" fill="#263746" font-size="15">
+    <text x="200" y="42" text-anchor="middle" font-size="17">Peak deflection · mm</text>
+    <path d="M75 85V315H340 M75 200H340 M75 85H340" stroke="#d4dbe3" stroke-width="1" fill="none"/>
+    <text x="63" y="320" text-anchor="end">0</text><text x="63" y="205" text-anchor="end">0.5</text><text x="63" y="90" text-anchor="end">1.0</text>
+    <rect x="105" y="97.1" width="75" height="217.9" fill="#4b83a6"/>
+    <rect x="230" y="132.8" width="75" height="182.2" fill="#e3a44a"/>
+    <text x="142.5" y="85" text-anchor="middle">0.948</text><text x="267.5" y="121" text-anchor="middle">0.792</text>
+    <text x="142.5" y="340" text-anchor="middle">Initial</text><text x="267.5" y="340" text-anchor="middle">Candidate</text>
+    <text x="200" y="377" text-anchor="middle" font-size="13" fill="#526171">Reduced-model prediction</text>
+  </g>
+</svg>
