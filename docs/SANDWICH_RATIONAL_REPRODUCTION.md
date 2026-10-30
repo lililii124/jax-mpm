@@ -1,5 +1,13 @@
 # Reproducing the frozen rational sandwich correction
 
+The newer q94934 candidate failed the reserved three-load check on the
+rank130 model: uniform and central loading exceeded the unchanged 5%
+omitted-energy limit, and uniform loading also exceeded the response limit.
+[Original reports](../evidence/blast-sandwich-reduced/q94934-threecase-fresh-v2.json)
+remain part of the record. The construction and optimizer commands below
+reproduce that model; their successful execution does not qualify newer
+designs.
+
 The public tools reproduce the physics-only construction used by the rank130
 correction. They do not fit full-MPM displacement snapshots. The selected
 material vertex is the round1 control field with SHA256
@@ -194,3 +202,25 @@ round1 configuration for that check. The [candidate record](../evidence/blast-sa
 links both controls, source receipts and recorded metrics. The lowest observed
 peak is 0.715980 mm at 1.8468 kg. Four completed SQP iterations are a bounded
 search, not a convergence or global-optimum claim.
+
+## Additional physical material vertex
+
+`tools/extend_sandwich_rational.py` retains the entire rank130 span and adds
+load-driven rational directions at q94934, using the same shifts, inverse
+powers, residual tolerances and SVD cutoff. The resulting rank184 basis is
+normalized in the original uniform reference-mass metric. No full-MPM
+displacement directions are used in its construction.
+
+The [construction receipt](../evidence/blast-sandwich-reduced/vertex184/model-freeze.json)
+and [policy](../evidence/blast-sandwich-reduced/vertex184/construction-policy.json)
+bind the parent basis, material, source and new independent allocation,
+steps 71000–83000. All three MPM trajectories were below step71000 when
+construction began and when the new model was frozen. Steps30000–42000,
+already inspected for the old model, now serve only as development data.
+
+The public optimizer's setup check reconstructs the new mass and stiffness
+operators with relative L2 differences of 5.52e-16 and 1.06e-15, respectively,
+and preserves the 1.8468 kg mass. This verifies implementation consistency;
+independent MPM qualification remains incomplete, and optimization has not
+resumed on this basis.
+[Optimizer setup record](../evidence/blast-sandwich-reduced/vertex184/optimizer-setup-check.json).

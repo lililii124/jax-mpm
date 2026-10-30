@@ -1,0 +1,66 @@
+{
+  "passed": true,
+  "parent_task": "blast-sandwich-fullmpm-initial-eccentric-h5-v1-20261030",
+  "parent_container": "325797002e35c8fcdaeaedf000c40531ad8c7e3c8c0c35cdad5212e569d3f84d",
+  "parent_checkpoint_sha256": "048d0d413566d2fca9ef8249b3f57dc7791bea0b7f6f4e9ece23169817d5da37",
+  "parent_step": 10000,
+  "accepted_step": 10001,
+  "source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+  "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+  "physical_time_s": 0.00023290638099675182,
+  "prefix_rows_bitwise_preserved": true,
+  "state_comparison": {
+    "displacement": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "velocity": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "force": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "F": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "time": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "valid": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "impulse": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "angular_impulse": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "body_work": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    },
+    "boundary_work": {
+      "bitwise_equal": true,
+      "maximum_absolute_error": 0.0,
+      "relative_l2": 0.0
+    }
+  },
+  "parent_frames_required_through_step": 10000,
+  "execution_receipt_sha256": "381b36e4d1ebcacc388f27421d869aed34a369fd54942207cafe8c70a5e8e12c"
+}

@@ -1,0 +1,54 @@
+{
+  "created_utc": "2026-10-30T01:12:17.501615+00:00",
+  "method": "Old frozen span plus an independently constructed load-driven rational space at the new material vertex; no MPM displacement directions.",
+  "configuration_sha256": "7a411f16fb9494b6b420a34f428df4b8a52f0c78fade3446780d71f2d691453c",
+  "source_sha256": {
+    "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+    "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11",
+    "tools/build_sandwich_rational.py": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+    "tools/extend_sandwich_rational.py": "40a7337431e628e3947844ee2fbbe04c98b568c7be5fbeaae145269e6ec93ded",
+    "tools/assess_sandwich_rational.py": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf"
+  },
+  "parent_freeze_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+  "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+  "fresh_steps": [
+    71000,
+    72000,
+    73000,
+    74000,
+    75000,
+    76000,
+    77000,
+    78000,
+    79000,
+    80000,
+    81000,
+    82000,
+    83000
+  ],
+  "response_gate": 0.05,
+  "omitted_energy_gate": 0.05,
+  "before_construction_heads": [
+    {
+      "case": "uniform",
+      "step": 47000,
+      "time_s": 0.0011262880421758841,
+      "status_sha256": "fdd7d855d0d1b1a81d6afddec2a3f7248083d643f5fcb1bae1dacb2e7670182b"
+    },
+    {
+      "case": "central",
+      "step": 48000,
+      "time_s": 0.0011502516175412524,
+      "status_sha256": "05bee66542ca0c3a0483151d962059d7451f42dbe1294f76b90ffe045ce8ff24"
+    },
+    {
+      "case": "eccentric",
+      "step": 51000,
+      "time_s": 0.0012221423436373573,
+      "status_sha256": "ffb14652f4936d276087bc8ef1473d976cfc14461c0ec8da74d6268ef2735090"
+    }
+  ]
+}

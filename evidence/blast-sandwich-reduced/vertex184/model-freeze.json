@@ -1,0 +1,128 @@
+{
+  "schema_version": 2,
+  "scope": "Old frozen span plus an independently constructed load-driven rational space at the new material vertex; no MPM displacement directions.",
+  "created_utc": "2026-10-30T01:25:51.940859+00:00",
+  "operator_vertex": "selected",
+  "basis": {
+    "path": "frozen-basis.npz",
+    "sha256": "0814d33db4a9a388f252f5976e0cc531394e4c7f8e66e0d2f956843c373c1167",
+    "numeric_basis_sha256": "83fb6c884356e5bc0afa8bf859d3cb45121a5d2c728301a3c734b841f5ac75ad",
+    "rank": 184
+  },
+  "parent_basis": {
+    "path": "frozen-basis.npz",
+    "sha256": "c6b410be800b8c1a4c1f4eb2470fcbeef16a0183d59fbaffeb5bef80de048815",
+    "numeric_basis_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+    "rank": 130
+  },
+  "parent_freeze_sha256": "04c1ed166b50234be1aca5b898a77d4a1fb48e8c13b52ae19c2293dea4e2181f",
+  "response": {
+    "path": "response.npz",
+    "sha256": "51e0d4d8622ef855d1538052a6b9b05c311e8002ec065379b225d7e7993266ff"
+  },
+  "selected_controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+  "inputs": {
+    "selected_material": {
+      "path": "material.npz",
+      "sha256": "744e9d7b0143f3f02ec54eff8aa86e9e213c5c6d4384c0c340237f1cecb28a82"
+    },
+    "selected_controls": {
+      "path": "controls.npz",
+      "sha256": "3e82dfa166eeb11989882cd6094e5194852a35d943ec58920e391cbcd7d9998e"
+    },
+    "selected_tangent": {
+      "path": "tangent.npz",
+      "sha256": "ac68d8ee2b5c90bb52c9ac5ed5733c6c1596f38695d9b376d799b375c823c002"
+    }
+  },
+  "material_fields_sha256": {
+    "selected": "22b839e66840b5452a9cd8a2604dc12a505aed0e814f366b960ef78adb0fc451"
+  },
+  "source_sha256": {
+    "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+    "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11",
+    "tools/build_sandwich_rational.py": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+    "tools/extend_sandwich_rational.py": "40a7337431e628e3947844ee2fbbe04c98b568c7be5fbeaae145269e6ec93ded",
+    "tools/assess_sandwich_rational.py": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf"
+  },
+  "full_mpm_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+  "construction_configuration": {
+    "selected_controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+    "mass_kg": 1.8467999999999998,
+    "nominal_dt_s": 1.25e-07,
+    "horizon_s": 0.002,
+    "base_recipe_sha256": "c9c7928db696d7c4591c6d3190ebebe1480226f3eb0aa527226f41cd19abd0c5",
+    "retained_parent_span": true,
+    "mpm_snapshot_directions": false
+  },
+  "fresh_validation": {
+    "steps": [
+      71000,
+      72000,
+      73000,
+      74000,
+      75000,
+      76000,
+      77000,
+      78000,
+      79000,
+      80000,
+      81000,
+      82000,
+      83000
+    ],
+    "history_interval_steps": [
+      71000,
+      83000
+    ],
+    "response_gate": 0.05,
+    "omitted_energy_gate": 0.05
+  },
+  "actual_mpm_heads_before_fresh_window": [
+    {
+      "case": "uniform",
+      "step": 51000,
+      "time_s": 0.0012221423436373573,
+      "status_sha256": "69fcc427d9066529b15f77c2b83bdbf94852d8b8a942fb50530feac75eeaca6a"
+    },
+    {
+      "case": "central",
+      "step": 51000,
+      "time_s": 0.0012221423436373573,
+      "status_sha256": "4eabb3ff00efc68c286f5d32182949a5c7f604b4b9680c72c398ee946d7addeb"
+    },
+    {
+      "case": "eccentric",
+      "step": 54000,
+      "time_s": 0.0012940330697334623,
+      "status_sha256": "bb2beaedc0796cc960c84c1b5bb7aba94432b879391cc38800493b5ddd43207e"
+    }
+  ],
+  "time_sensitivity": [
+    {
+      "case": 0,
+      "peak_relative_difference": 4.6186112467871965e-07,
+      "curve_relative_l2": 1.1419030182019327e-05,
+      "maximum_difference_over_finer_peak": 0.00015754661617972627
+    },
+    {
+      "case": 1,
+      "peak_relative_difference": 7.3963276550070844e-06,
+      "curve_relative_l2": 5.2761062520552465e-06,
+      "maximum_difference_over_finer_peak": 0.00024301471054609419
+    },
+    {
+      "case": 2,
+      "peak_relative_difference": 2.7203583020662947e-06,
+      "curve_relative_l2": 6.254870224245797e-06,
+      "maximum_difference_over_finer_peak": 7.3161715939607e-05
+    }
+  ],
+  "linear_energy_relative_error": 1.3758133329248322e-11,
+  "construction_policy_sha256": "59a86ef52b5bc7170ee030b97e350856880ea1c37dbdbe251deb9999d1675189",
+  "complete2ms_three_case_mpm_qualification": false,
+  "global_optimum_claim": false
+}

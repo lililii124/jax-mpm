@@ -117,9 +117,15 @@ matched the original force bitwise. A separate 20-step trajectory comparison,
 timed in both execution orders after warm-up, measured 1.164 times the speed.
 Displacement differences were at most 5.42e-20 m; accumulated work, impulses
 and peak statistics matched bitwise. This is a short execution-equivalence
-check, not a completed refinement result. Existing production runs have not
-been switched. The [performance record](../evidence/blast-sandwich-reduced/h5-blocked-force-performance.json)
+check, not a completed refinement result. The [performance record](../evidence/blast-sandwich-reduced/h5-blocked-force-performance.json)
 also retains the slower reverse-gather alternative that was rejected.
+
+The two 5 mm production trajectories have since continued from step 10000
+with the blocked driver. Their first resumed step matched the original
+integrator bitwise in every state field, with all earlier history rows
+preserved. Earlier visualization frames remain unchanged in the continued
+trajectory. Both computations retain the full 2 ms schedule and are still
+in progress. [Paired execution handoff](../evidence/blast-sandwich-reduced/h5-blocked-handoff/summary.json).
 
 The standalone driver keeps the original time integrator and every history,
 energy and validity check. It adds a separate execution binding, so a changed

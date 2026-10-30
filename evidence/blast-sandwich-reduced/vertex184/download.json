@@ -1,0 +1,43 @@
+{
+  "hashes": {
+    "model-freeze.json": "f3a30fffa434aa386e2e351fa0ed107a6291cd7e79f0bb7a8672f88aed2173b6",
+    "construction-policy.json": "59a86ef52b5bc7170ee030b97e350856880ea1c37dbdbe251deb9999d1675189",
+    "construction-job.json": "ad69abf3535deed449cf3c3e18a1e8dbb30de40aca8cc303f1ed11b8d89598f6",
+    "optimizer-setup-check.json": "36044902f464fae2f2d06049fd0d9dce6dc402ddc111a2125bb65ad9ee35baec",
+    "optimizer-job.json": "5a3d92edd26766d35bd58a639eb6896cd2fc35c205f6b9dd4f60913f03c96bcd"
+  },
+  "states": {
+    "construction": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-30T01:12:16.733556399Z",
+      "FinishedAt": "2026-10-30T01:25:52.718985945Z"
+    },
+    "optimizer": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-10-30T01:30:12.531439302Z",
+      "FinishedAt": "2026-10-30T01:30:31.125337791Z"
+    }
+  },
+  "tasks": {
+    "construction": "blast-sandwich-q949-vertex-extension-v1-20261030",
+    "optimizer": "sandwich-vertex184-public-optimizer-check-v1-20261030"
+  },
+  "independent_validation_complete": false,
+  "optimization_resumed": false
+}

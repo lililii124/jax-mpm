@@ -1,0 +1,84 @@
+{
+  "scope": "Actual paired h5 production handoff to the published blocked driver; first resumed step compared with unchanged legacy integration.",
+  "complete_2ms_refinement": false,
+  "physical_parameters_or_timestep_changed": false,
+  "frames_preserved_by_hard_links": true,
+  "cases": [
+    {
+      "design": "initial",
+      "task": "sandwich-h5-blocked-initial-v1-20261030",
+      "physical_source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "parent_step": 10000,
+      "accepted_step": 10001,
+      "entire_first_step_state_bitwise_equal": true,
+      "all_previous_history_rows_bitwise_preserved": true,
+      "observed_container": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 61821,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-30T01:24:58.187426853Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "observed_trajectory_status": {
+        "step": 10001,
+        "planned_steps": 85880,
+        "completed": false,
+        "valid": true,
+        "time_s": 0.00023290638099675182,
+        "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+      },
+      "receipt_sha256": {
+        "handoff-ready.json": "dcf28fcbff285e323c635556fb326193c6f044f1b385abf193aab6e090004af6",
+        "handoff-commit.json": "e3efa937a2d73fc382d7fee010504638b47b99051e3cc8cfad8452436c28f995",
+        "parent-frame-chain.json": "726b0bb8b903db2b7f45dc093c2fc55c818e263b78d9a6b661707b4b8a7871e3",
+        "execution.json": "381b36e4d1ebcacc388f27421d869aed34a369fd54942207cafe8c70a5e8e12c",
+        "handoff-source-sha256.json": "940c3d4cc91358850803aa5a30a27abd11fad070d2929f0139e76f5b96fe4ec7"
+      }
+    },
+    {
+      "design": "q94934",
+      "task": "sandwich-h5-blocked-q94934-v1-20261030",
+      "physical_source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "parent_step": 10000,
+      "accepted_step": 10001,
+      "entire_first_step_state_bitwise_equal": true,
+      "all_previous_history_rows_bitwise_preserved": true,
+      "observed_container": {
+        "Status": "running",
+        "Running": true,
+        "Paused": false,
+        "Restarting": false,
+        "OOMKilled": false,
+        "Dead": false,
+        "Pid": 65247,
+        "ExitCode": 0,
+        "Error": "",
+        "StartedAt": "2026-10-30T01:26:27.376718576Z",
+        "FinishedAt": "0001-01-01T00:00:00Z"
+      },
+      "observed_trajectory_status": {
+        "step": 10001,
+        "planned_steps": 85880,
+        "completed": false,
+        "valid": true,
+        "time_s": 0.00023290638099675182,
+        "qualification": "elastic_effective_core_only; nonlinear blast qualification incomplete"
+      },
+      "receipt_sha256": {
+        "handoff-ready.json": "b8302a9800325b1aaa782bfcf73a9d0146819d6d86c00a7f759f87792ba2c464",
+        "handoff-commit.json": "c6b76f4c1b129aeb52babe7d95f198bef5e5556966f89cd316931f07c7b5a788",
+        "parent-frame-chain.json": "76faefb94626e3ad0d7ccf272b8ff5d87a50f227f287a2d3caf62b4a4ce11632",
+        "execution.json": "b21e561cdb0649772e8dbb89c50cb325c864f6ecb896bb12c743a7b92ef077f6",
+        "handoff-source-sha256.json": "3283b87f3cae013aa12a610e58b4504ec1350343c59de9999ddd657635ea6b46"
+      }
+    }
+  ]
+}
