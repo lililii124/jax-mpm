@@ -15,7 +15,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Notched three-point bending fracture | User approved the 27-state GIF through 0.113047 mm displacement; original schedule remains incomplete at the 2% small-strain limit | Preserve the accepted postpeak trajectory in the three-case gallery |
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
-| Blast-loaded sandwich design | Round 9 ended partial at its soft deadline after four callback iterations; no improved callback candidate was retained and no round 10 was launched. q94934 fresh v2: uniform and central fail the 5% qualification, eccentric passes its per-case check. Physics-only basis extension is running; existing full-MPM and paired 5 mm runs continue | Seal and pin the extended basis, review steps 30000–42000 as development data, then assess the independent 71000–83000 window |
+| Blast-loaded sandwich design | Round 9 ended partial at its soft deadline after four callback iterations; no improved callback candidate was retained and no round 10 was launched. The rank-184 physics-only extension is frozen; its development window fails the unchanged 5% energy gate for uniform and central, while eccentric passes its per-case checks. A separate static/nonlinear second-order direction candidate is being prepared; full-MPM and paired 5 mm runs continue | Build and source-pin the second-order candidate, then check only already-seen 30000–42000 development data. Use the independent 71000–83000 allocation only if it remains unread and the candidate was frozen before that window |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -86,6 +86,36 @@ construction recipe and assessment commands. A cold construction from public
 commit `5207438` reproduced the basis and operator/response artifact hashes
 exactly, without private numeric inputs. This source reproduction is separate
 from independent MPM validation.
+
+The independent physics-only q94934 extension added 54 rational directions
+while retaining the original span, giving rank 184. Its freeze is
+`f3a30fffa434aa386e2e351fa0ed107a6291cd7e79f0bb7a8672f88aed2173b6`. In the
+already-seen 30000–42000 development window, uniform and central response
+checks pass but their maximum omitted linear strain energies are 7.480% and
+5.203%, respectively; eccentric passes its per-case checks with a 0.623%
+maximum omitted energy. The original 5% threshold is unchanged, so this basis
+is not qualified for optimization. A read-only decomposition of the uniform
+39000 and central 38000 frames finds that the K-residual contains both
+thickness-even membrane and thickness-odd bending content. The exact
+membrane/bending K-energy split is 0.004802/0.006760 J for uniform and
+0.001186/0.002904 J for central, with negligible cross energy; bending is the
+larger contribution in both cases. The component analysis therefore does not
+support attributing the whole missing space to a membrane-only effect.
+Diagnostic inputs, equations, frame hashes and source bindings are recorded in
+the [vertex184 evidence directory](../evidence/blast-sandwich-reduced/vertex184/).
+
+A rank-191 candidate was constructed from the q94934 three unit-load static
+solutions and the six self/cross second derivatives of the public
+Neo-Hookean internal-force operator at zero displacement. It retains the full
+rank-184 span and adds only physics-derived directions; no MPM displacement
+snapshots are used to construct it. Its candidate status does not establish
+qualification. Its final receipt is
+`8ee035970bafd42e8681f29716b435fb4d7e455ac0c688534d885937d1f77a18`;
+source heads at freeze were 66000/66000/69000 for uniform/central/eccentric,
+before the reserved 71000–83000 window. Public replay passed. A serial queue
+is assessing the three development cases; only if all pass will it assess
+the reserved window. Any failure stops the queue for review. No optimization
+resumes until the frozen candidate passes its development and fresh checks.
 
 Round 9 ended partial at its 2700-second soft deadline after four callback
 iterations, with no guard and no improvement over the retained round-8 KS

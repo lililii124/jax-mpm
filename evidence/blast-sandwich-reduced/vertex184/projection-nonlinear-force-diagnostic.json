@@ -1,0 +1,366 @@
+{
+  "scope": "Read-only postprocessing of previously viewed development frames; no MPM stepping, fitting, or model changes.",
+  "q949_controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+  "freeze_receipt_sha256": "f3a30fffa434aa386e2e351fa0ed107a6291cd7e79f0bb7a8672f88aed2173b6",
+  "diagnostic_script_sha256": "660cbe9ec3cd2c6b89aa288ba52bad396ffc3f28d534834c01f279524a5cd079",
+  "model_source_sha256": {
+    "examples/blast_sandwich_design.py": "6b0abefc031bcabe972137fbd7473c21a949ac56fc7a589a58a4841d6c4bfdca",
+    "mpm_jax/compact_tl.py": "9d8607f749a2157963b047e1260e91f9f0b7d7aeacc4cc56c9bfe5f8df212e49",
+    "mpm_jax/total_lagrangian.py": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/reduced_tl.py": "5930c1c4120da9714c50916733ca65a8dc3ad12cce44a9c899e12ec178008b11",
+    "tools/build_sandwich_rational.py": "60c29b042e35d2d5f3b53870e5d96ff3356a57e2e108ca8a50f70a6be890abd9",
+    "tools/extend_sandwich_rational.py": "40a7337431e628e3947844ee2fbbe04c98b568c7be5fbeaae145269e6ec93ded",
+    "tools/assess_sandwich_rational.py": "03bb62acc8d797f3bc1d51e3afa8fdd5980bcffc2f7e22e56898531f231a31cf"
+  },
+  "M0_definition": "Uniform initial fixed-mass q0=0: target core phi=0.18, skin density=2700 kg/m^3; nodal mass total checked against 1.8468 kg.",
+  "original_5_percent_gate_unchanged": true,
+  "frames": [
+    {
+      "case": "uniform",
+      "step": 39000,
+      "time_s": 0.0009345794392527477,
+      "frame_sha256": "b15d66eff82770ca0e7d8db6861cd4a58d0847b00ede8c6d87c4275152c11244",
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "freeze_receipt_sha256": "f3a30fffa434aa386e2e351fa0ed107a6291cd7e79f0bb7a8672f88aed2173b6",
+      "basis_rank": 184,
+      "mpm_recovery": {
+        "particle_reconstruction_error_m": 4.472333961502706e-19,
+        "axis_condition_numbers": [
+          157.15175417469965,
+          157.15175417469965,
+          157.04118698705787
+        ]
+      },
+      "total_linear_strain_energy_J": 0.154568757928218,
+      "tangent_quadratic_energy_J": 0.15456875792923008,
+      "tangent_vs_particle_energy_relative_difference": 6.547761157001107e-12,
+      "M0_projection": {
+        "residual_energy_J": 0.24289997145464137,
+        "residual_energy_fraction": 1.5714687412177697,
+        "residual_relative_m0_norm": 0.05865877694977848
+      },
+      "K_projection": {
+        "absolute_omitted_energy_J": 0.011561918160142725,
+        "omitted_energy_fraction": 0.07480113261592226,
+        "assessor_style_omitted_fraction": 0.07480113261865817
+      },
+      "residual_components": {
+        "M0": {
+          "axis_residual_energy_J": {
+            "ux": 0.0999441210230897,
+            "uy": 0.08138920061884211,
+            "uz": 0.3867663365989049
+          },
+          "cross_energy_J": {
+            "ux_uy": 0.0008455546193775331,
+            "ux_uz": -0.1797163023770637,
+            "uy_uz": -0.14632893902850927
+          },
+          "residual_M0_norm_relative": 0.05865877694977848
+        },
+        "K": {
+          "axis_residual_energy_J": {
+            "ux": 0.11312320057355016,
+            "uy": 0.1009558897100169,
+            "uz": 0.22324574705001915
+          },
+          "cross_energy_J": {
+            "ux_uy": 0.0005823954980295181,
+            "ux_uz": -0.2254494774575624,
+            "uy_uz": -0.20089583721390988
+          },
+          "residual_M0_norm_relative": 0.07337093625726306
+        }
+      },
+      "thickness_parity": {
+        "displacement": {
+          "x_in_plane": {
+            "even_m0_norm": 5.73640735192192e-07,
+            "odd_m0_norm": 1.2642290827537146e-06
+          },
+          "y_in_plane": {
+            "even_m0_norm": 4.610542775945452e-07,
+            "odd_m0_norm": 1.3138056037881332e-06
+          },
+          "z_thickness": {
+            "even_m0_norm": 5.156635566256161e-05,
+            "odd_m0_norm": 1.7933048821470025e-06
+          }
+        },
+        "M0_residual": {
+          "x_in_plane": {
+            "even_m0_norm": 6.216564765940407e-07,
+            "odd_m0_norm": 4.946625157793652e-07
+          },
+          "y_in_plane": {
+            "even_m0_norm": 5.360032298372408e-07,
+            "odd_m0_norm": 5.373264295507597e-07
+          },
+          "z_thickness": {
+            "even_m0_norm": 2.2391027013473985e-06,
+            "odd_m0_norm": 1.718473796302139e-06
+          }
+        },
+        "K_residual": {
+          "x_in_plane": {
+            "even_m0_norm": 5.90959893985128e-07,
+            "odd_m0_norm": 2.083622039293736e-07
+          },
+          "y_in_plane": {
+            "even_m0_norm": 4.830543727003367e-07,
+            "odd_m0_norm": 2.8688532228350163e-07
+          },
+          "z_thickness": {
+            "even_m0_norm": 3.209721880691202e-06,
+            "odd_m0_norm": 1.828161727330507e-06
+          }
+        },
+        "K_residual_energy": {
+          "midplane_even": {
+            "axis_K_energy_J": {
+              "ux": 0.049972504405520535,
+              "uy": 0.03252870206994066,
+              "uz": 0.13675455056182462
+            },
+            "in_plane_ux_uy_energy_J": 0.08288094594389521,
+            "cross_energy_J": {
+              "ux_uy": 0.00037973946843401616,
+              "ux_uz": -3.7895149336547715e-07,
+              "uy_uz": -3.9151339184415e-07
+            }
+          },
+          "midplane_odd": {
+            "axis_K_energy_J": {
+              "ux": 0.06315066386062962,
+              "uy": 0.06842712263808925,
+              "uz": 0.08649031486033038
+            },
+            "in_plane_ux_uy_energy_J": 0.13178042989097247,
+            "cross_energy_J": {
+              "ux_uy": 0.0002026433922534291,
+              "ux_uz": -7.785041871246658e-09,
+              "uy_uz": -1.974565589774578e-08
+            }
+          }
+        },
+        "membrane_bending_K_energy": {
+          "definition": "membrane=(ux even, uy even, uz odd); bending=(ux odd, uy odd, uz even)",
+          "membrane_energy_J": 0.0048021269713825225,
+          "bending_energy_J": 0.006759597609750203,
+          "membrane_bending_cross_energy_J": 1.9357900986815765e-07,
+          "reconstructed_energy_J": 0.011561918160142593,
+          "total_K_residual_energy_J": 0.011561918160142725,
+          "energy_closure_abs_error_J": 1.3183898417423734e-16,
+          "energy_closure_relative_error": 1.1402864329962517e-14,
+          "vector_closure_l2": 1.7040930446699898e-20,
+          "membrane_independent_K_projection_residual": {
+            "absolute_omitted_energy_J": 0.0043506019193822725,
+            "omitted_energy_fraction": 0.028146709449358535,
+            "projected_coefficient_K_norm": 0.03005079206943615
+          },
+          "bending_independent_K_projection_residual": {
+            "absolute_omitted_energy_J": 0.006308072557751513,
+            "omitted_energy_fraction": 0.04081078635981334,
+            "projected_coefficient_K_norm": 0.03005079206938754
+          }
+        }
+      },
+      "nonlinear": {
+        "actual_elastic_energy_J": 0.15453579737972634,
+        "nonlinear_minus_linear_energy_J": -3.2960548491667296e-05,
+        "max_abs_F_minus_I": 0.0027440989094729704,
+        "max_abs_F_minus_recovered_gradient": 1.9984014443252818e-15,
+        "relative_F_recovery_l2": 1.1569483590414398e-13,
+        "max_abs_J_minus_1": 0.0009172307212479414,
+        "internal_force_norm_N": 147.38495613016406,
+        "linear_Ku_force_norm_N": 495.91311367857514,
+        "internal_force_minus_linear_force_norm_N": 473.4506590408458,
+        "relative_force_residual": 3.212340468607356,
+        "relative_to_linear_force": 0.954704858536392,
+        "direct_small_strain_force_norm_N": 495.9131136784742,
+        "nonlinear_vs_direct_small_strain_force_relative": 0.9547048585365905,
+        "tangent_vs_direct_small_strain_force_relative": 4.304869229568609e-12,
+        "particle_local_nonlinear_vs_small_strain_force_relative": 0.08831057640528246,
+        "per_axis_force_residual_N": [
+          27.526804615442234,
+          22.705158822827112,
+          472.1040958694428
+        ]
+      }
+    },
+    {
+      "case": "central",
+      "step": 38000,
+      "time_s": 0.000910615863887271,
+      "frame_sha256": "069f48b08b5cf38b762bf7fded1c3abc239ef443ad75678924c6a886aaa32dda",
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "freeze_receipt_sha256": "f3a30fffa434aa386e2e351fa0ed107a6291cd7e79f0bb7a8672f88aed2173b6",
+      "basis_rank": 184,
+      "mpm_recovery": {
+        "particle_reconstruction_error_m": 2.236166980751353e-19,
+        "axis_condition_numbers": [
+          157.15175417469965,
+          157.15175417469965,
+          157.04118698705787
+        ]
+      },
+      "total_linear_strain_energy_J": 0.07861546322471903,
+      "tangent_quadratic_energy_J": 0.07861546322469663,
+      "tangent_vs_particle_energy_relative_difference": 2.849153156776122e-13,
+      "M0_projection": {
+        "residual_energy_J": 0.08228830129190226,
+        "residual_energy_fraction": 1.0467190285034385,
+        "residual_relative_m0_norm": 0.08669801830605225
+      },
+      "K_projection": {
+        "absolute_omitted_energy_J": 0.0040900796274816985,
+        "omitted_energy_fraction": 0.052026401164762474,
+        "assessor_style_omitted_fraction": 0.052026401166403224
+      },
+      "residual_components": {
+        "M0": {
+          "axis_residual_energy_J": {
+            "ux": 0.02530868221440706,
+            "uy": 0.038185147899249955,
+            "uz": 0.13355984239401497
+          },
+          "cross_energy_J": {
+            "ux_uy": 0.00026479967789159965,
+            "ux_uz": -0.04617349856581593,
+            "uy_uz": -0.06885667232784523
+          },
+          "residual_M0_norm_relative": 0.08669801830605225
+        },
+        "K": {
+          "axis_residual_energy_J": {
+            "ux": 0.02997940887752448,
+            "uy": 0.046615452823384265,
+            "uz": 0.07939602455210343
+          },
+          "cross_energy_J": {
+            "ux_uy": 0.00011045192863308879,
+            "ux_uz": -0.059657955446481656,
+            "uy_uz": -0.09235330310768189
+          },
+          "residual_M0_norm_relative": 0.10957116047802361
+        }
+      },
+      "thickness_parity": {
+        "displacement": {
+          "x_in_plane": {
+            "even_m0_norm": 2.1990145437920266e-07,
+            "odd_m0_norm": 1.0243875605761076e-06
+          },
+          "y_in_plane": {
+            "even_m0_norm": 2.9662775006864574e-07,
+            "odd_m0_norm": 1.1053505677694786e-06
+          },
+          "z_thickness": {
+            "even_m0_norm": 2.1334614945348745e-05,
+            "odd_m0_norm": 8.095893518558935e-07
+          }
+        },
+        "M0_residual": {
+          "x_in_plane": {
+            "even_m0_norm": 2.913666955319988e-07,
+            "odd_m0_norm": 2.471404437188706e-07
+          },
+          "y_in_plane": {
+            "even_m0_norm": 3.404097393986363e-07,
+            "odd_m0_norm": 4.256636171966055e-07
+          },
+          "z_thickness": {
+            "even_m0_norm": 1.5077572749679685e-06,
+            "odd_m0_norm": 8.53184828497827e-07
+          }
+        },
+        "K_residual": {
+          "x_in_plane": {
+            "even_m0_norm": 2.3350099968677444e-07,
+            "odd_m0_norm": 1.3820535845438772e-07
+          },
+          "y_in_plane": {
+            "even_m0_norm": 3.02044993032748e-07,
+            "odd_m0_norm": 2.4625162325211436e-07
+          },
+          "z_thickness": {
+            "even_m0_norm": 2.1376893448358485e-06,
+            "odd_m0_norm": 8.4036326129032e-07
+          }
+        },
+        "K_residual_energy": {
+          "midplane_even": {
+            "axis_K_energy_J": {
+              "ux": 0.006969460419174012,
+              "uy": 0.012123602545403223,
+              "uz": 0.05944577402044617
+            },
+            "in_plane_ux_uy_energy_J": 0.0191769586731224,
+            "cross_energy_J": {
+              "ux_uy": 8.389570854518466e-05,
+              "ux_uz": 1.207458717549084e-07,
+              "uy_uz": -1.598384706454634e-08
+            }
+          },
+          "midplane_odd": {
+            "axis_K_energy_J": {
+              "ux": 0.023009970997531916,
+              "uy": 0.034491812871962665,
+              "uz": 0.01995052681323201
+            },
+            "in_plane_ux_uy_energy_J": 0.05752834382940721,
+            "cross_energy_J": {
+              "ux_uy": 2.6559959912557862e-05,
+              "ux_uz": -9.973198276366823e-09,
+              "uy_uz": -8.225369112603922e-09
+            }
+          }
+        },
+        "membrane_bending_K_energy": {
+          "definition": "membrane=(ux even, uy even, uz odd); bending=(ux odd, uy odd, uz even)",
+          "membrane_energy_J": 0.0011864176837982996,
+          "bending_energy_J": 0.0029038405347885593,
+          "membrane_bending_cross_energy_J": -1.7859110518623936e-07,
+          "reconstructed_energy_J": 0.0040900796274816725,
+          "total_K_residual_energy_J": 0.0040900796274816985,
+          "energy_closure_abs_error_J": 2.6020852139652106e-17,
+          "energy_closure_relative_error": 6.361942678283111e-15,
+          "vector_closure_l2": 1.1562441531474228e-20,
+          "membrane_independent_K_projection_residual": {
+            "absolute_omitted_energy_J": 0.001115638589862523,
+            "omitted_energy_fraction": 0.014191083332725958,
+            "projected_coefficient_K_norm": 0.011897822820647828
+          },
+          "bending_independent_K_projection_residual": {
+            "absolute_omitted_energy_J": 0.0028330614408540533,
+            "omitted_energy_fraction": 0.036036949025621996,
+            "projected_coefficient_K_norm": 0.011897822820538459
+          }
+        }
+      },
+      "nonlinear": {
+        "actual_elastic_energy_J": 0.07861003461134039,
+        "nonlinear_minus_linear_energy_J": -5.4286133786413115e-06,
+        "max_abs_F_minus_I": 0.0019835658168828206,
+        "max_abs_F_minus_recovered_gradient": 9.992007221626409e-16,
+        "relative_F_recovery_l2": 8.8530630241359e-14,
+        "max_abs_J_minus_1": 0.0004223087229596745,
+        "internal_force_norm_N": 104.1043347674881,
+        "linear_Ku_force_norm_N": 243.0898660222173,
+        "internal_force_minus_linear_force_norm_N": 219.86157192890963,
+        "relative_force_residual": 2.111934843250856,
+        "relative_to_linear_force": 0.9044456501893636,
+        "direct_small_strain_force_norm_N": 243.08986602221668,
+        "nonlinear_vs_direct_small_strain_force_relative": 0.9044456501894218,
+        "tangent_vs_direct_small_strain_force_relative": 2.7456968534664442e-12,
+        "particle_local_nonlinear_vs_small_strain_force_relative": 0.059906828190799746,
+        "per_axis_force_residual_N": [
+          9.032887551779842,
+          13.137365842102392,
+          219.28275666877803
+        ]
+      }
+    }
+  ]
+}
