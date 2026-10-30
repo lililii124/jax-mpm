@@ -1,7 +1,7 @@
 # Sandwich plate under pressure pulses
 
-These ParaView animations show complete 2 ms independent MPM trajectories.
-Each uses actual deformation and a common 0–1 mm back-face displacement scale.
+The response animations show complete 2 ms independent MPM trajectories,
+with actual deformation and a common 0–1 mm back-face displacement scale.
 
 ## Uniform material distribution
 
@@ -38,3 +38,21 @@ three-load verification runs; 5 mm refinement is also running. The model uses
 elastic skins and an effective elastic core, without face plasticity or core
 crushing. See the [problem definition](BLAST_SANDWICH_DESIGN.md) and
 [media provenance](../evidence/blast-sandwich-reduced/fullmpm-completed-media.json).
+
+## Material redistribution
+
+<img src="images/sandwich-fullmpm/material-redistribution.gif" alt="Ten retained fixed-mass material distributions" width="400">
+
+Ten retained designs through round six, at a constant 1.8468 kg mass.
+Blue to red represents core solid fraction from 0.08 to 0.35; the skins are
+hidden to expose the core. These are discrete design states, not a deformation
+animation. Full-MPM verification of the newer candidates is ongoing.
+
+The [control snapshots](../evidence/blast-sandwich-reduced/material-design-history/controls.npz)
+and their [provenance](../evidence/blast-sandwich-reduced/material-design-history/controls.json)
+reproduce the fields without rerunning optimization:
+
+```sh
+python -m tools.export_sandwich_design_history evidence/blast-sandwich-reduced/material-design-history/controls.npz outputs/sandwich-design-fields
+pvpython --force-offscreen-rendering tools/render_sandwich_design_history.py outputs/sandwich-design-fields outputs/sandwich-design-render
+```

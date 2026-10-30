@@ -1,0 +1,168 @@
+{
+  "renderer": "ParaView",
+  "render_states": 10,
+  "gif_frames": 10,
+  "size": [
+    400,
+    400
+  ],
+  "color_range": [
+    0.08,
+    0.35
+  ],
+  "reader": "VTK rectilinear grid converted to an unstructured grid without resampling; full cell array hash checked after ParaView transfer.",
+  "physical_scale": 1,
+  "scope": "Discrete retained design sequence; no interpolation, deformation or physical-time animation.",
+  "export_receipt_sha256": "c0b4ce3d82b7b4ff5aa6e578be520c52dc901f1d89617be69338e9851ad79370",
+  "gif_sha256": "04b22ce3d20a0593046e6f478b06ea46883d1703e5d4b6e3f8561f7a60398d1e",
+  "records": [
+    {
+      "index": 0,
+      "file": "frame-000.png",
+      "source": {
+        "label": "uniform",
+        "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+        "source": "Fixed-mass uniform design",
+        "objective": null
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "d98b71e333c8ea0b2105d69e25f29ca59fb401bf06fdfe99b7929af37c806681"
+    },
+    {
+      "index": 1,
+      "file": "frame-001.png",
+      "source": {
+        "label": "round1",
+        "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+        "source": {
+          "path": "examples\\sandwich_rational_selected_controls.json",
+          "sha256": "22735c4c1f340a1683648cc834314cf224028c222abeecdfbed55592f4a7a011"
+        },
+        "objective": null
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "199901bce450df7e67597da2b8d926ae744907c4a8995ac9a353a20bb8496727"
+    },
+    {
+      "index": 2,
+      "file": "frame-002.png",
+      "source": {
+        "label": "round2",
+        "controls_sha256": "24ff30ee0606ed263eb3a58ebeedc9e2434fac93efdd9adb9413acf790c20a92",
+        "source": {
+          "path": ".local\\blast-sandwich-case-pullback-v2-20261030\\output\\chunk-16\\result.npz",
+          "sha256": "a939792cdec8629e86fae400f3c0ca85f6550ed6b8ee3140fe1ba635238a8236"
+        },
+        "objective": null
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "141026c3252ddfbfd7a1fe20cf69a18c6daefe6986dcbb76a3f7d8d8566523db"
+    },
+    {
+      "index": 3,
+      "file": "frame-003.png",
+      "source": {
+        "label": "round4",
+        "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+        "source": {
+          "task": "blast-sandwich-union-optimize-v24-20261030",
+          "checkpoint_sha256": "4237d20c69e0bee71803f9b78df71ffaddb9f48eb427edae95ab8fe87be96297"
+        },
+        "objective": 0.14658746417923435
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "ba57e43f11c7a5f77722340425b487e388a1583db92631970a440001f2bfc8b4"
+    },
+    {
+      "index": 4,
+      "file": "frame-004.png",
+      "source": {
+        "label": "round5-iteration1",
+        "controls_sha256": "28c94e2d8fa4e8b32034e9e736cf9b228d94d7e9987a9789bdacce4de9842af5",
+        "source": {
+          "task": "blast-sandwich-union-round5-v26-20261030",
+          "artifact_sha256": "4ab47acc248cb60a3c67620c85b0e56e25b32ad3cf20ea23aee588684b153413"
+        },
+        "objective": 0.14621739288459007
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "5e5fe752a6dde0e7d15c65041b41ed72c1346f110eaa8117c04ae5085607db0c"
+    },
+    {
+      "index": 5,
+      "file": "frame-005.png",
+      "source": {
+        "label": "round5-iteration2",
+        "controls_sha256": "a2a528935fa5ee906a481d9afd363204e85c27bf0173688dd5271fc71c1c06a5",
+        "source": {
+          "task": "blast-sandwich-union-round5-v26-20261030",
+          "artifact_sha256": "bf8d3db70d74f3f30e1039d7892d015a4ba796d67d9845a896a7eb09d062b37a"
+        },
+        "objective": 0.14613673145055528
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "a14a9037ec7c41672bc8e6d32faec11b1c524b4cf91bc5076fc2043245b13e4e"
+    },
+    {
+      "index": 6,
+      "file": "frame-006.png",
+      "source": {
+        "label": "round5-iteration3",
+        "controls_sha256": "10f489fe2ec2dfe20ddca1d94305c5442b1ec1742c13106e5c2e8160a7dd1c88",
+        "source": {
+          "task": "blast-sandwich-union-round5-v26-20261030",
+          "artifact_sha256": "d524fd1bd6424c4df687d31f6956856bc90be810fbdec6d17aeeb830112bae04"
+        },
+        "objective": 0.14582145193195378
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "1728d177cc37522cfb66399aeabb8afa9b902effe16a283816ea7d42965d0e3e"
+    },
+    {
+      "index": 7,
+      "file": "frame-007.png",
+      "source": {
+        "label": "round6-iteration1",
+        "controls_sha256": "1581fa014436e6a5c1bf90d13dc88711dbc4c91db19c7f82f5388d54c710914b",
+        "source": {
+          "task": "blast-sandwich-union-round6-v27-20261030",
+          "artifact_sha256": "4ac179bb21fd044151b2b2a9a5f114d24ff580169be1afefd7d48da5bcd18443"
+        },
+        "objective": 0.14559122640061511
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "5a67196d100aa0a26518c7544dc41b6b541f90016f861c9d5a36bf3ca5b68388"
+    },
+    {
+      "index": 8,
+      "file": "frame-008.png",
+      "source": {
+        "label": "round6-iteration2",
+        "controls_sha256": "53e07c429544b7116f20aca9f194b6db162fc137a252a0687baa96f1aa3d6645",
+        "source": {
+          "task": "blast-sandwich-union-round6-v27-20261030",
+          "artifact_sha256": "8a0da149628dc59067c2d37d6dce3787350cdaab0d59aab51864eb2885de9784"
+        },
+        "objective": 0.14540992636418318
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "2bf5e79198032b9fc8e892d8c05a1f0256242e8da59d1b35752e7922509929bd"
+    },
+    {
+      "index": 9,
+      "file": "frame-009.png",
+      "source": {
+        "label": "round6-iteration3",
+        "controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6",
+        "source": {
+          "task": "blast-sandwich-union-round6-v27-20261030",
+          "artifact_sha256": "446bbcef9f15051e92e5ef635af69cf45c04c84297d5b65636eeba15dc787790"
+        },
+        "objective": 0.1452244811471442
+      },
+      "material_field_bitwise_verified": true,
+      "sha256": "adacc09a8e20ba1ee666634e62287a9dd2e852f819c97cb7cdab8e85f56e3d90"
+    }
+  ],
+  "renderer_sha256": "505618419b25dc88d4e11a6e8e764a5f24e57a26bcf13341144c72c640978654"
+}

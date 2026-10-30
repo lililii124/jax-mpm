@@ -1,0 +1,215 @@
+{
+  "scope": "Discrete retained material designs; not a dynamic trajectory or independently verified optimum.",
+  "source_bundle_sha256": "b132b2fd18b7631be928f7411c0c6214879ff92b5182509a910224709b0d6642",
+  "frames": [
+    {
+      "index": 0,
+      "source": {
+        "label": "uniform",
+        "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+        "source": "Fixed-mass uniform design",
+        "objective": null
+      },
+      "file": "design-000.vtr",
+      "mass_kg": 1.8467999999999867,
+      "fraction_range": [
+        0.17999999999999997,
+        0.18000000000000002
+      ],
+      "field_sha256": "cb4813105845af19ed94c3b11a6efd21a09daa2698fc8db271c7a92d70ce2850",
+      "sha256": "2f8c6ae8c5f03fadd6ec722799a938608d263e089033f4cee0d1a5d7b04447ba"
+    },
+    {
+      "index": 1,
+      "source": {
+        "label": "round1",
+        "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+        "source": {
+          "path": "examples\\sandwich_rational_selected_controls.json",
+          "sha256": "22735c4c1f340a1683648cc834314cf224028c222abeecdfbed55592f4a7a011"
+        },
+        "objective": null
+      },
+      "file": "design-001.vtr",
+      "mass_kg": 1.8468000000000033,
+      "fraction_range": [
+        0.0804012969742505,
+        0.3421841562803115
+      ],
+      "field_sha256": "8546ddcee73f9634215c8dabdc17ce214b6c0b09f6fa2f6920a24044fde8a53d",
+      "sha256": "acb07a407ef02ec3be4c46aaf094d8b81bbbe680155cc3d34fe285aa55b3b9db"
+    },
+    {
+      "index": 2,
+      "source": {
+        "label": "round2",
+        "controls_sha256": "24ff30ee0606ed263eb3a58ebeedc9e2434fac93efdd9adb9413acf790c20a92",
+        "source": {
+          "path": ".local\\blast-sandwich-case-pullback-v2-20261030\\output\\chunk-16\\result.npz",
+          "sha256": "a939792cdec8629e86fae400f3c0ca85f6550ed6b8ee3140fe1ba635238a8236"
+        },
+        "objective": null
+      },
+      "file": "design-002.vtr",
+      "mass_kg": 1.8468000000000035,
+      "fraction_range": [
+        0.08039017569179562,
+        0.34292191737204286
+      ],
+      "field_sha256": "2560026081678d13f86021203c4e2f4a5cdd34dc1109fc9a080ddcd67bd1ad41",
+      "sha256": "7923ca584ad82e60cec39fdd21fb7a5becd2fe939e74e299332295be56a30d52"
+    },
+    {
+      "index": 3,
+      "source": {
+        "label": "round4",
+        "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+        "source": {
+          "task": "blast-sandwich-union-optimize-v24-20261030",
+          "checkpoint_sha256": "4237d20c69e0bee71803f9b78df71ffaddb9f48eb427edae95ab8fe87be96297"
+        },
+        "objective": 0.14658746417923435
+      },
+      "file": "design-003.vtr",
+      "mass_kg": 1.8468000000000035,
+      "fraction_range": [
+        0.0803915289547812,
+        0.34322065404456226
+      ],
+      "field_sha256": "9c69d8029f8f2d2e20a943894e68745f672888caa795e54ec32040ce2513c50d",
+      "sha256": "bf5158d780af5d80c06b490caa91c47eef8a483da2f1b4fb6f00f1dccb488251"
+    },
+    {
+      "index": 4,
+      "source": {
+        "label": "round5-iteration1",
+        "controls_sha256": "28c94e2d8fa4e8b32034e9e736cf9b228d94d7e9987a9789bdacce4de9842af5",
+        "source": {
+          "task": "blast-sandwich-union-round5-v26-20261030",
+          "artifact_sha256": "4ab47acc248cb60a3c67620c85b0e56e25b32ad3cf20ea23aee588684b153413"
+        },
+        "objective": 0.14621739288459007
+      },
+      "file": "design-004.vtr",
+      "mass_kg": 1.8468000000000035,
+      "fraction_range": [
+        0.08039147704725244,
+        0.3431129830259595
+      ],
+      "field_sha256": "23ad829d15c853480f6e26d389099ab95551501209f25609589468ed31ee14e8",
+      "sha256": "9f50b8d61062dcac4fd1c770ae6e93d82119dc90110249b1f17b17d6008e6865"
+    },
+    {
+      "index": 5,
+      "source": {
+        "label": "round5-iteration2",
+        "controls_sha256": "a2a528935fa5ee906a481d9afd363204e85c27bf0173688dd5271fc71c1c06a5",
+        "source": {
+          "task": "blast-sandwich-union-round5-v26-20261030",
+          "artifact_sha256": "bf8d3db70d74f3f30e1039d7892d015a4ba796d67d9845a896a7eb09d062b37a"
+        },
+        "objective": 0.14613673145055528
+      },
+      "file": "design-005.vtr",
+      "mass_kg": 1.8468000000000033,
+      "fraction_range": [
+        0.08039124750890114,
+        0.34318112220367064
+      ],
+      "field_sha256": "da7d9cd436263e97a9fedef5ca438da198ce639dfd9bbc30197ba8111a635127",
+      "sha256": "46bc967c8430988b7803eb2f90cbc4365f8f1a4f1f2e9ef92eeeb452dc9db3b0"
+    },
+    {
+      "index": 6,
+      "source": {
+        "label": "round5-iteration3",
+        "controls_sha256": "10f489fe2ec2dfe20ddca1d94305c5442b1ec1742c13106e5c2e8160a7dd1c88",
+        "source": {
+          "task": "blast-sandwich-union-round5-v26-20261030",
+          "artifact_sha256": "d524fd1bd6424c4df687d31f6956856bc90be810fbdec6d17aeeb830112bae04"
+        },
+        "objective": 0.14582145193195378
+      },
+      "file": "design-006.vtr",
+      "mass_kg": 1.8468000000000033,
+      "fraction_range": [
+        0.0803897374311982,
+        0.34314602939795785
+      ],
+      "field_sha256": "ec5fe51ceb7d237f8f8f210c52c5c178fd06b38876eb353e4b898a6b4d9fffff",
+      "sha256": "35cc48061d625d33434c6e7cc5072fe9ad326bb0c4117bfa41eb5dd235321bbb"
+    },
+    {
+      "index": 7,
+      "source": {
+        "label": "round6-iteration1",
+        "controls_sha256": "1581fa014436e6a5c1bf90d13dc88711dbc4c91db19c7f82f5388d54c710914b",
+        "source": {
+          "task": "blast-sandwich-union-round6-v27-20261030",
+          "artifact_sha256": "4ac179bb21fd044151b2b2a9a5f114d24ff580169be1afefd7d48da5bcd18443"
+        },
+        "objective": 0.14559122640061511
+      },
+      "file": "design-007.vtr",
+      "mass_kg": 1.846800000000003,
+      "fraction_range": [
+        0.08038889818389976,
+        0.34317563138017987
+      ],
+      "field_sha256": "5fd552adc4391b285055b737255a30ebec09e62f39faa393c83e3e124dd026b3",
+      "sha256": "c0783390f1d23c4f8b3cea5e28b977879f2da18e2750ce3bcfda3955c2227b99"
+    },
+    {
+      "index": 8,
+      "source": {
+        "label": "round6-iteration2",
+        "controls_sha256": "53e07c429544b7116f20aca9f194b6db162fc137a252a0687baa96f1aa3d6645",
+        "source": {
+          "task": "blast-sandwich-union-round6-v27-20261030",
+          "artifact_sha256": "8a0da149628dc59067c2d37d6dce3787350cdaab0d59aab51864eb2885de9784"
+        },
+        "objective": 0.14540992636418318
+      },
+      "file": "design-008.vtr",
+      "mass_kg": 1.8468000000000035,
+      "fraction_range": [
+        0.08038736044991232,
+        0.3432206403002791
+      ],
+      "field_sha256": "7663a0e31cb760dae043b62b159ce8f6bbd572a46691ff9c5454f6563fb1c1c6",
+      "sha256": "63ac9fd8f5ad0ba60259f9d2d22c133dc4f3f8ede6eb1eff15d034d4ee2d80c8"
+    },
+    {
+      "index": 9,
+      "source": {
+        "label": "round6-iteration3",
+        "controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6",
+        "source": {
+          "task": "blast-sandwich-union-round6-v27-20261030",
+          "artifact_sha256": "446bbcef9f15051e92e5ef635af69cf45c04c84297d5b65636eeba15dc787790"
+        },
+        "objective": 0.1452244811471442
+      },
+      "file": "design-009.vtr",
+      "mass_kg": 1.846800000000003,
+      "fraction_range": [
+        0.0803856016633876,
+        0.34325609650099975
+      ],
+      "field_sha256": "eea648140cdaa9b8da7876fbae33ce4d6653a208d305a96eae39982f6eb17b40",
+      "sha256": "218062c192bd5b603379be8b8451e510694cb380675012ebed167787b3181d3d"
+    }
+  ],
+  "spacing_m": [
+    0.01,
+    0.01,
+    0.001
+  ],
+  "field": "Reference-volume average of the eight original integration points per core cell",
+  "color_range": [
+    0.08,
+    0.35
+  ],
+  "physical_scale": 1,
+  "exporter_sha256": "0a5cb5189494411e70fb563644073471a9d918a80866d881e9282ecbeb29c12a"
+}
