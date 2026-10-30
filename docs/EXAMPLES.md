@@ -102,6 +102,14 @@ python -m examples.mat173_landslide_continue --parent outputs/mat173-strength-re
 
 ## Material engineering cases
 
+The [5 km/s metal sphere impact driver](../examples/domain_impact/README.md)
+provides the source-bound contact and material-domain implementation used by
+the current calculation. Its real-state one-step replay matches the original
+solver bitwise; the current trajectory is still running, and a completed
+debris-cloud refinement comparison remains outstanding.
+[History collection and ParaView rendering](../tools/domain_impact/README.md)
+use actual saved states and distinguish incomplete prefixes from completed runs.
+
 The [material engineering guide](MATERIAL_ENGINEERING.md) covers smooth
 AA2024-T351 JC round-bar tension, HJC three-point bending and JH-2 spherical
 indentation, including parameter sources, fixture definitions and reaction/
