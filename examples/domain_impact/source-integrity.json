@@ -1,0 +1,14 @@
+{
+  "schema": "domain-impact-source-integrity-v1",
+  "files_checked": 35,
+  "all_numerical_sources_ast_identical": true,
+  "runner_metadata_correction_is_only_ast_difference": true,
+  "formal_runner_explicit_source_hash_files": 21,
+  "missing_explicit_runner_sources": [],
+  "initializer_intentionally_minimal": {
+    "hash_matches_source": false,
+    "ast_matches_source": false,
+    "reason": "Minimal initializer replaces eager generic re-exports; no numerical functions changed."
+  },
+  "failures": {}
+}

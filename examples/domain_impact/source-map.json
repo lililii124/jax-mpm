@@ -1,0 +1,310 @@
+{
+  "schema": "domain-impact-source-map-v1",
+  "origin_task": "metal-c2-centroid-cloud-auto-20261030-w01",
+  "source_root": "w01/source",
+  "namespace": "examples/domain_impact/vendor",
+  "import_strategy": "No numerical-module import rewrites. The command wrapper prepends vendor root so original absolute mpm_jax/examples/tools imports resolve only to the isolated snapshot.",
+  "metadata_only_corrections": [
+    {
+      "source": "run_metal_tl_fresh.py",
+      "fields": [
+        "case.dt_cfl",
+        "case.dt_rule",
+        "endpoint_physical_audit.dt_cfl_limit"
+      ],
+      "from": [
+        0.1,
+        "0.1*0.00025/max(...)"
+      ],
+      "to": [
+        0.25,
+        "0.025*0.00025/max(...)"
+      ],
+      "executing_formula_unchanged": "dt_cfl = .025*.00025/max(signal)"
+    }
+  ],
+  "files": {
+    "run_metal_tl_fresh.py": {
+      "vendored_path": "examples/domain_impact/vendor/run_metal_tl_fresh.py",
+      "source_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770",
+      "source_lf_sha256": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770",
+      "vendored_sha256": "f6dad3ea474565f58189e795e93673149a317c37b951305cfd6dab54bf439990",
+      "vendored_lf_sha256": "f6dad3ea474565f58189e795e93673149a317c37b951305cfd6dab54bf439990",
+      "ast_identical": false,
+      "reason": "Only stale descriptive CFL metadata literals corrected; executing CFL formula and numerical solver code unchanged."
+    },
+    "examples/metal_sphere_impact_fracture.py": {
+      "vendored_path": "examples/domain_impact/vendor/examples/metal_sphere_impact_fracture.py",
+      "source_sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
+      "source_lf_sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
+      "vendored_sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
+      "vendored_lf_sha256": "663baeb78017af6e01a6328105fd90fd70dbbe602a717d04746a966ae7a1cdcc",
+      "ast_identical": true
+    },
+    "examples/__init__.py": {
+      "vendored_path": "examples/domain_impact/vendor/examples/__init__.py",
+      "source_sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+      "source_lf_sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+      "vendored_sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+      "vendored_lf_sha256": "a476bbecaffe89d990dc8278ef1ea59a80ed96b83b12521fa22b14b85db3d4b3",
+      "ast_identical": true
+    },
+    "mpm_jax/core.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/core.py",
+      "source_sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "source_lf_sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "vendored_sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "vendored_lf_sha256": "3d131e4aee7f32feede9625b52338c0b0f791f973d840e3ce4e8d4ac7a471f08",
+      "ast_identical": true
+    },
+    "mpm_jax/fragment_multifield_v6_mpm.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/fragment_multifield_v6_mpm.py",
+      "source_sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
+      "source_lf_sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
+      "vendored_sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
+      "vendored_lf_sha256": "1a25a406d080da076737127a7c2c6030981658fd13ea676231f99bd121ecf792",
+      "ast_identical": true
+    },
+    "mpm_jax/fragment_v6_discrete_work.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/fragment_v6_discrete_work.py",
+      "source_sha256": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4",
+      "source_lf_sha256": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4",
+      "vendored_sha256": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4",
+      "vendored_lf_sha256": "dc58fc35e9805477649e975dcae4f1dd405ffb48422fea93873a43cd57fa9ff4",
+      "ast_identical": true
+    },
+    "mpm_jax/material_domain_contact.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/material_domain_contact.py",
+      "source_sha256": "624a43f18101ce89a1ae28677c527a1280367824e234bbea03f2a24112507316",
+      "source_lf_sha256": "e7619fd27eb57e271d7295be53b679a7e2ca1d92c1e70bfb8bfbdfdd12099a23",
+      "vendored_sha256": "624a43f18101ce89a1ae28677c527a1280367824e234bbea03f2a24112507316",
+      "vendored_lf_sha256": "e7619fd27eb57e271d7295be53b679a7e2ca1d92c1e70bfb8bfbdfdd12099a23",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/linear_metal.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/linear_metal.py",
+      "source_sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
+      "source_lf_sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
+      "vendored_sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
+      "vendored_lf_sha256": "c6bc47e8ed1ecd78f4e7ecb505ef109e53a34b391579cd3ab4b27f7b83a405fc",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/__init__.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/__init__.py",
+      "source_sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "source_lf_sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "vendored_sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "vendored_lf_sha256": "9b9c946919e7abd36e0fd2f44e61f6fc141c9792d8896d877706dde09ea9bd3b",
+      "ast_identical": true
+    },
+    "mpm_jax/metal_tl_midpoint.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/metal_tl_midpoint.py",
+      "source_sha256": "129f98068783e506915e24bda3f9487e0ea0e9943c2747468af2d48e27169eb0",
+      "source_lf_sha256": "e77a8fecff907efd07774b056cf40faa6e0f5ffc36973ca5168670951781adb9",
+      "vendored_sha256": "129f98068783e506915e24bda3f9487e0ea0e9943c2747468af2d48e27169eb0",
+      "vendored_lf_sha256": "e77a8fecff907efd07774b056cf40faa6e0f5ffc36973ca5168670951781adb9",
+      "ast_identical": true
+    },
+    "mpm_jax/tl_fracture_support.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/tl_fracture_support.py",
+      "source_sha256": "2ee8305a89613d8c8e141a33f67e517d12f96e79972ae8241342fd7c675f0cb8",
+      "source_lf_sha256": "10c0f3da92edbbd0401816de23f318c578a179acb569bfa8fbaacc9c99a8545d",
+      "vendored_sha256": "2ee8305a89613d8c8e141a33f67e517d12f96e79972ae8241342fd7c675f0cb8",
+      "vendored_lf_sha256": "10c0f3da92edbbd0401816de23f318c578a179acb569bfa8fbaacc9c99a8545d",
+      "ast_identical": true
+    },
+    "mpm_jax/total_lagrangian.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/total_lagrangian.py",
+      "source_sha256": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+      "source_lf_sha256": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+      "vendored_sha256": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+      "vendored_lf_sha256": "262f497d68537df7cdfd34b30d1b83fa40c1b19017c8837a470b817fec799c33",
+      "ast_identical": true
+    },
+    "examples/metal_sphere_geometry.py": {
+      "vendored_path": "examples/domain_impact/vendor/examples/metal_sphere_geometry.py",
+      "source_sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+      "source_lf_sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+      "vendored_sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+      "vendored_lf_sha256": "e37a550631728842d6193383cec87f3e8a38057af3c7631f6768a37cdfe895cd",
+      "ast_identical": true
+    },
+    "mpm_jax/fracture_impact_mpm.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/fracture_impact_mpm.py",
+      "source_sha256": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd",
+      "source_lf_sha256": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd",
+      "vendored_sha256": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd",
+      "vendored_lf_sha256": "cf559af1d647d6671fd9525179f3615629255aa02b231e19efafeab89ce68bbd",
+      "ast_identical": true
+    },
+    "mpm_jax/contact.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/contact.py",
+      "source_sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "source_lf_sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "vendored_sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "vendored_lf_sha256": "2c3c37759c90c52b296f69f7e247b06bc7786d27746ffd6cbbb544707357ab00",
+      "ast_identical": true
+    },
+    "mpm_jax/fibre_mpm.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/fibre_mpm.py",
+      "source_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "source_lf_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "vendored_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "vendored_lf_sha256": "ef49dade8e1c3ca406f1445e2b6ff728a99c4ac6419652debcbb893490574f9e",
+      "ast_identical": true
+    },
+    "mpm_jax/fragment_v6_midpoint_strength.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/fragment_v6_midpoint_strength.py",
+      "source_sha256": "19495075a22af7cc68df66e40457dc44b463f243506dd513ff590360105a4b86",
+      "source_lf_sha256": "19495075a22af7cc68df66e40457dc44b463f243506dd513ff590360105a4b86",
+      "vendored_sha256": "19495075a22af7cc68df66e40457dc44b463f243506dd513ff590360105a4b86",
+      "vendored_lf_sha256": "19495075a22af7cc68df66e40457dc44b463f243506dd513ff590360105a4b86",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/shock_metal.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/shock_metal.py",
+      "source_sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+      "source_lf_sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+      "vendored_sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+      "vendored_lf_sha256": "c8050d4814efc975598efc64fff80a4d8d9b6eeca7e002109e47b7b1b10055d3",
+      "ast_identical": true
+    },
+    "mpm_jax/fragment_v6_matrixfree_projection.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/fragment_v6_matrixfree_projection.py",
+      "source_sha256": "cc51f3d84e060253ccaeca5d8cd8afbe734085c68f6ea7e0efc71e777513b623",
+      "source_lf_sha256": "cc51f3d84e060253ccaeca5d8cd8afbe734085c68f6ea7e0efc71e777513b623",
+      "vendored_sha256": "cc51f3d84e060253ccaeca5d8cd8afbe734085c68f6ea7e0efc71e777513b623",
+      "vendored_lf_sha256": "cc51f3d84e060253ccaeca5d8cd8afbe734085c68f6ea7e0efc71e777513b623",
+      "ast_identical": true
+    },
+    "examples/metal_plate_geometry.py": {
+      "vendored_path": "examples/domain_impact/vendor/examples/metal_plate_geometry.py",
+      "source_sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+      "source_lf_sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+      "vendored_sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+      "vendored_lf_sha256": "7a9e27f50590667d0944ad584ec62c29b1a6f75bab86611306b853384bbfd5bf",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/elastic.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/elastic.py",
+      "source_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "source_lf_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "vendored_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "vendored_lf_sha256": "ead3c474c32f00a18e29e0cf31b107ac5224f66c01e7f613e4c86089a567f655",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/history.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/history.py",
+      "source_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "source_lf_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "vendored_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "vendored_lf_sha256": "527f77fe5f4a93873fc32ba2625e72dccf70e672fb6ef38da08b5b63952d4c5b",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/hjc.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/hjc.py",
+      "source_sha256": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35",
+      "source_lf_sha256": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35",
+      "vendored_sha256": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35",
+      "vendored_lf_sha256": "fedc347cfd8034d2b96e04908df23df8c54fc03a47dda88c2669cac7647c5c35",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/jh2.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/jh2.py",
+      "source_sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "source_lf_sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "vendored_sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "vendored_lf_sha256": "f4f6fb6af5162ec24440f09ab5035768e53cb2194bff726880b94968ea54063a",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/johnson_cook.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/johnson_cook.py",
+      "source_sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "source_lf_sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "vendored_sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "vendored_lf_sha256": "3601b980b6c92a947ebc1bbd9bdb524f404bdfe4f4c144172ecad90c6384d205",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/plastic.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/plastic.py",
+      "source_sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "source_lf_sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "vendored_sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "vendored_lf_sha256": "83010efa3a7ea8c39e8a9c104b679a55239e79f574c1cfcb651eca22e8fc2dea",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/rht.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/rht.py",
+      "source_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+      "source_lf_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+      "vendored_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+      "vendored_lf_sha256": "d7127bad1b3562b9802cc60f17256550fdf0d8505247d5e98ec98c33da5f6ec1",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/steinberg.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/steinberg.py",
+      "source_sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "source_lf_sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "vendored_sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "vendored_lf_sha256": "c1e7b8dc8dc737e8b9c11aba70f18ed248300c7e9d4a003037b93c5b1d418342",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/woven.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/woven.py",
+      "source_sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "source_lf_sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "vendored_sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "vendored_lf_sha256": "2795be8b1762125fe6c8afd6ad0ebbf5ec4ba1ad727b7b742fb9deb833769207",
+      "ast_identical": true
+    },
+    "mpm_jax/materials/isotropic_brittle.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/materials/isotropic_brittle.py",
+      "source_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "source_lf_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "vendored_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "vendored_lf_sha256": "cc15677cbda83a05ad3ea09909f0c8526659b98989b0ce97b9b01b6c0b459084",
+      "ast_identical": true
+    },
+    "examples/woven_geometry.py": {
+      "vendored_path": "examples/domain_impact/vendor/examples/woven_geometry.py",
+      "source_sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "source_lf_sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "vendored_sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "vendored_lf_sha256": "8891736a3af65d729f99b4d0f44a711605e31a48fb36c6028bea97c42b02f80a",
+      "ast_identical": true
+    },
+    "tools/audit_metal_fragments.py": {
+      "vendored_path": "examples/domain_impact/vendor/tools/audit_metal_fragments.py",
+      "source_sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
+      "source_lf_sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
+      "vendored_sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
+      "vendored_lf_sha256": "b83571d500f19ecbdbbf51b69ee7b581708907b65971cdd8c97ee9ddd0070242",
+      "ast_identical": true
+    },
+    "tools/verify_material_domain_contact.py": {
+      "vendored_path": "examples/domain_impact/vendor/tools/verify_material_domain_contact.py",
+      "source_sha256": "c4a2d3dee887d04f34282da119dc5b83d775dd17b63b14f098a389cacf0fac80",
+      "source_lf_sha256": "c4a2d3dee887d04f34282da119dc5b83d775dd17b63b14f098a389cacf0fac80",
+      "vendored_sha256": "c4a2d3dee887d04f34282da119dc5b83d775dd17b63b14f098a389cacf0fac80",
+      "vendored_lf_sha256": "c4a2d3dee887d04f34282da119dc5b83d775dd17b63b14f098a389cacf0fac80",
+      "ast_identical": true
+    },
+    "tools/verify_tl_viscous_power.py": {
+      "vendored_path": "examples/domain_impact/vendor/tools/verify_tl_viscous_power.py",
+      "source_sha256": "055a04b45012051212212963ada277d5f2807ac7e7e1efc89113d22f4df39d08",
+      "source_lf_sha256": "055a04b45012051212212963ada277d5f2807ac7e7e1efc89113d22f4df39d08",
+      "vendored_sha256": "055a04b45012051212212963ada277d5f2807ac7e7e1efc89113d22f4df39d08",
+      "vendored_lf_sha256": "055a04b45012051212212963ada277d5f2807ac7e7e1efc89113d22f4df39d08",
+      "ast_identical": true
+    },
+    "mpm_jax/__init__.py": {
+      "vendored_path": "examples/domain_impact/vendor/mpm_jax/__init__.py",
+      "source_sha256": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494",
+      "source_lf_sha256": "df0b740f77621c1afdf5994ae6095076504d2f48467315e08690a12788528494",
+      "vendored_sha256": "713c051e4d5be42948e0910a51899472a27b5df2eade6304dc3c68b86daa016e",
+      "vendored_lf_sha256": "fc8eabb63f8048e3fec12288346331992ccd043d720355331dcb906f2588e032",
+      "ast_identical": false,
+      "reason": "Minimal initializer replaces eager generic re-exports; no numerical functions changed."
+    }
+  }
+}

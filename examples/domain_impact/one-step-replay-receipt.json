@@ -1,0 +1,207 @@
+{
+  "schema": "domain-impact-cp1331-one-step-source-replay-v1",
+  "source_comparison": {
+    "same_checkpoint_sha256": true,
+    "same_dt": true,
+    "same_output_time": true,
+    "all_output_arrays_bitwise_equal": true,
+    "fields": {
+      "displacement": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "velocity": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "F": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "tau": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "ep": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "cold": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "fracture": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "damage": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "internal": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "position": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "deformation": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "midpoint_velocity": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "momentum": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "angular_momentum": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "kinetic": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "contact_pairs": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "contact_points": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      },
+      "contact_normals": {
+        "bitwise_equal": true,
+        "max_abs_difference": 0.0
+      }
+    }
+  },
+  "both_step_admissions_valid": true,
+  "original_source_matches_recorded_production_step": true,
+  "ported_source_matches_recorded_production_step": true,
+  "production_contact_pairs_match": true,
+  "production_contact_pairs": 1682,
+  "production_metrics": {
+    "dt_s": {
+      "replay_original": 5.5213968935316615e-11,
+      "replay_port": 5.5213968935316615e-11,
+      "production": 5.5213968935316615e-11,
+      "replay_including_bridge_history": 5.5213968935316615e-11,
+      "port_including_bridge_history": 5.5213968935316615e-11,
+      "original_abs_error": 0.0,
+      "port_abs_error": 0.0,
+      "tolerance": 0.0,
+      "original_matches_production": true,
+      "port_matches_production": true
+    },
+    "force_residual": {
+      "replay_original": 6.576221252320786e-18,
+      "replay_port": 6.576221252320786e-18,
+      "production": 6.576221252320786e-18,
+      "replay_including_bridge_history": 6.576221252320786e-18,
+      "port_including_bridge_history": 6.576221252320786e-18,
+      "original_abs_error": 0.0,
+      "port_abs_error": 0.0,
+      "tolerance": 1e-25,
+      "original_matches_production": true,
+      "port_matches_production": true
+    },
+    "momentum_relative": {
+      "replay_original": 1.060109940356487e-17,
+      "replay_port": 1.060109940356487e-17,
+      "production": 3.681708771275125e-16,
+      "replay_including_bridge_history": 3.681708771275125e-16,
+      "port_including_bridge_history": 3.681708771275125e-16,
+      "original_abs_error": 0.0,
+      "port_abs_error": 0.0,
+      "tolerance": 1e-18,
+      "original_matches_production": true,
+      "port_matches_production": true
+    },
+    "angular_relative": {
+      "replay_original": 1.2438967633783e-18,
+      "replay_port": 1.2438967633783e-18,
+      "production": 8.090355506587834e-18,
+      "replay_including_bridge_history": 8.090355506587834e-18,
+      "port_including_bridge_history": 8.090355506587834e-18,
+      "original_abs_error": 0.0,
+      "port_abs_error": 0.0,
+      "tolerance": 1e-20,
+      "original_matches_production": true,
+      "port_matches_production": true
+    },
+    "energy_error_J": {
+      "replay_original": 9.322320693172514e-12,
+      "replay_port": 9.322320693172514e-12,
+      "production": 9.322320693172514e-12,
+      "replay_including_bridge_history": 9.322320693172514e-12,
+      "port_including_bridge_history": 9.322320693172514e-12,
+      "original_abs_error": 0.0,
+      "port_abs_error": 0.0,
+      "tolerance": 9.322320693172514e-20,
+      "original_matches_production": true,
+      "port_matches_production": true
+    }
+  },
+  "original_summary": {
+    "source_root": "/production/source",
+    "checkpoint_step": 1331,
+    "checkpoint_time_s": 2.467539794242125e-07,
+    "checkpoint_sha256": "fe05e48ecf25360520f28bce57fda2a734b0b027231bcfe685fadb54e2c18790",
+    "dt_s": 5.5213968935316615e-11,
+    "output_step": 1332,
+    "output_time_s": 2.468091933931478e-07,
+    "accepted_step_valid": true,
+    "contact_valid": true,
+    "step_material_valid": true,
+    "step_contact_valid": true,
+    "step_finite": true,
+    "step_midpoint_work_valid": true,
+    "force_residual": 6.576221252320786e-18,
+    "momentum_relative": 1.060109940356487e-17,
+    "angular_relative": 1.2438967633783e-18,
+    "energy_error_J": 9.322320693172514e-12,
+    "candidate_pairs": 1682,
+    "contact_closure_m_s": 4.7818207726813e-12,
+    "contact_kkt_m_s": 4.7818207726813e-12,
+    "maximum_penetration_m": 8.549861694297266e-05,
+    "fields_file": "original.npz",
+    "wall_s": 11.566417470574379
+  },
+  "ported_summary": {
+    "source_root": "/replay/vendor",
+    "checkpoint_step": 1331,
+    "checkpoint_time_s": 2.467539794242125e-07,
+    "checkpoint_sha256": "fe05e48ecf25360520f28bce57fda2a734b0b027231bcfe685fadb54e2c18790",
+    "dt_s": 5.5213968935316615e-11,
+    "output_step": 1332,
+    "output_time_s": 2.468091933931478e-07,
+    "accepted_step_valid": true,
+    "contact_valid": true,
+    "step_material_valid": true,
+    "step_contact_valid": true,
+    "step_finite": true,
+    "step_midpoint_work_valid": true,
+    "force_residual": 6.576221252320786e-18,
+    "momentum_relative": 1.060109940356487e-17,
+    "angular_relative": 1.2438967633783e-18,
+    "energy_error_J": 9.322320693172514e-12,
+    "candidate_pairs": 1682,
+    "contact_closure_m_s": 4.7818207726813e-12,
+    "contact_kkt_m_s": 4.7818207726813e-12,
+    "maximum_penetration_m": 8.549861694297266e-05,
+    "fields_file": "port.npz",
+    "wall_s": 11.314609430730343
+  },
+  "port_source_map_sha256": "acef5925e30e13abaecbde65ec5c60f1d6593ae7899b65dadef788c4a290162f",
+  "port_source_integrity_sha256": "304f82a19d3401ec4864e773728d3f8b6c443bc090b8ee51ad18bd0d60fc6948",
+  "formal_w01_source_sha256": {
+    "material_domain_contact.py": "624a43f18101ce89a1ae28677c527a1280367824e234bbea03f2a24112507316",
+    "metal_tl_midpoint.py": "129f98068783e506915e24bda3f9487e0ea0e9943c2747468af2d48e27169eb0",
+    "run_metal_tl_fresh.py": "dee67b840282d770ac5ea19ae24642ac4e279e39eb7482784c591e05600d9770"
+  }
+}
