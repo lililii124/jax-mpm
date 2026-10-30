@@ -41,12 +41,21 @@ crushing. See the [problem definition](BLAST_SANDWICH_DESIGN.md) and
 
 ## Material redistribution
 
-<img src="images/sandwich-fullmpm/material-redistribution.gif" alt="Ten retained fixed-mass material distributions" width="400">
+<table width="100%">
+<tr>
+<td width="50%" align="center"><img src="images/sandwich-fullmpm/material-redistribution.gif" alt="Ten retained fixed-mass material distributions" width="100%"></td>
+<td width="50%" align="center"><img src="images/sandwich-fullmpm/design-metrics.gif" alt="Peak deflection and skin stress for the same ten designs" width="100%"></td>
+</tr>
+</table>
 
 Ten retained designs through round six, at a constant 1.8468 kg mass.
 Blue to red represents core solid fraction from 0.08 to 0.35; the skins are
 hidden to expose the core. These are discrete design states, not a deformation
 animation. Full-MPM verification of the newer candidates is ongoing.
+The adjacent plots use the same design order and frame durations. They show
+the largest sampled back-face deflection and skin stress across all three
+loads in the frozen reduced model. The dashed line is the 200 MPa skin-stress
+limit. [Metric data and provenance](../evidence/blast-sandwich-reduced/material-design-history/rom-metrics.json).
 
 The [control snapshots](../evidence/blast-sandwich-reduced/material-design-history/controls.npz)
 and their [provenance](../evidence/blast-sandwich-reduced/material-design-history/controls.json)
@@ -55,4 +64,7 @@ reproduce the fields without rerunning optimization:
 ```sh
 python -m tools.export_sandwich_design_history evidence/blast-sandwich-reduced/material-design-history/controls.npz outputs/sandwich-design-fields
 pvpython --force-offscreen-rendering tools/render_sandwich_design_history.py outputs/sandwich-design-fields outputs/sandwich-design-render
+python -m tools.render_sandwich_design_metrics evidence/blast-sandwich-reduced/material-design-history/rom-metrics.json outputs/sandwich-design-metrics
 ```
+
+The metric renderer uses Matplotlib, included in `pip install -e ".[design]"`.

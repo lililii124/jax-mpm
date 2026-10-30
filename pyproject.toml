@@ -16,7 +16,7 @@ dependencies = ["jax>=0.12.0,<0.13", "numpy>=2.2", "pillow>=11"]
 test = ["pytest>=8"]
 forming = ["scipy>=1.14", "psutil>=6"]
 fracture = ["scipy>=1.14"]
-design = ["scipy>=1.14"]
+design = ["scipy>=1.14", "matplotlib>=3.9"]
 
 [project.urls]
 Repository = "https://github.com/lililii124/jax-mpm"

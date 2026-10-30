@@ -1,0 +1,759 @@
+{
+  "scope": "Saved full-horizon corrected rank130 ROM metrics, strictly joined to the ten existing discrete material-design control frames. No new model evaluation.",
+  "controls_json_sha256": "de21b52fb7a46b1c0bd8995e29db5beeaa52b6825798d5e9196624a131ff9acb",
+  "controls_artifact_sha256": "b132b2fd18b7631be928f7411c0c6214879ff92b5182509a910224709b0d6642",
+  "corrected_basis_numeric_sha256": "d46b264d211e455ed34724800bd6db9f44e773f2cfd8ba71f3dfd03617eab81b",
+  "source_model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+  "source_model_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c",
+  "source_basis_artifact_sha256": "ee48c52709786951b9849b6c41c6d5170fe632a8687a5a58a7cf2af3f739d32a",
+  "source_model_freeze_sha256": "6e082c90933dee590b0acad77ff4b1e1c60b33894342c7fd63960baa45d4664a",
+  "case_order": [
+    "uniform",
+    "central",
+    "eccentric"
+  ],
+  "case_columns": [
+    "normalized_time_space_rms_score",
+    "KS_displacement_bound",
+    "KS_skin_stress_bound",
+    "actual_sampled_peak_back_m",
+    "actual_sampled_peak_skin_Pa",
+    "linear_energy_residual_J",
+    "linear_energy_relative_error"
+  ],
+  "frames": [
+    {
+      "frame_index": 0,
+      "label": "uniform",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0009475129985558279,
+        "actual_peak_skin_Pa": 116208369.0450845,
+        "cases": [
+          [
+            0.0007352317095366174,
+            0.11470615200141256,
+            0.2669159748275026,
+            0.0005654853188988622,
+            53109949.16360902,
+            3.240563373196892e-11,
+            1.0527981782087659e-11
+          ],
+          [
+            0.0027992593820035,
+            0.19118275096168838,
+            0.4381930468750107,
+            0.0009475129985558279,
+            87371413.770869,
+            7.639755494892597e-11,
+            7.483430319531391e-12
+          ],
+          [
+            0.002064335768190081,
+            0.1766651225791376,
+            0.5819376755567452,
+            0.00087594791736636,
+            116208369.0450845,
+            6.299494259565108e-11,
+            6.129017059716736e-12
+          ]
+        ],
+        "constraints": [
+          -0.8088172490383116,
+          -0.41806232444325475,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.19118275096168838,
+        "mass_kg": 1.8468,
+        "response": 0.19118275096168838,
+        "stress_bound": 0.5819376755567452
+      },
+      "actual_peak_back_mm": 0.9475129985558279,
+      "actual_peak_skin_MPa": 116.20836904508451,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.19118275096168838,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-optimize-v24-20261030\\output\\same-model-comparison.json",
+        "sha256": "35262ad3e231ec8aba50be687dd19d3d8761ce47b8f5f5be13cd0cd854cad0f4",
+        "record_index": 0,
+        "record_candidate": "initial-uniform",
+        "source_task": "blast-sandwich-union-optimize-v24-20261030",
+        "source_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c",
+        "execution_source_sha256": "2af9506331f387647349f187f670d3b9989996f7d3a16e2be702ca7e5f5244f3"
+      }
+    },
+    {
+      "frame_index": 1,
+      "label": "round1",
+      "controls_sha256": "3bec00a53c79b9e25bddb43be5696e4f428c70d62d28d5e12979d55832d566f3",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0008242582189364464,
+        "actual_peak_skin_Pa": 155831466.72145653,
+        "cases": [
+          [
+            0.000825994661387125,
+            0.08728019706479208,
+            0.3567287889548409,
+            0.0004263284449170718,
+            71133344.19201136,
+            8.184075639405819e-11,
+            2.5062569800019347e-11
+          ],
+          [
+            0.0025864820182386543,
+            0.14653677507473348,
+            0.6559481335454275,
+            0.0007234551909274634,
+            130977754.9567329,
+            1.1712764091953431e-10,
+            1.3478191463824989e-11
+          ],
+          [
+            0.0019953160579847602,
+            0.16597677998669894,
+            0.7799882357458517,
+            0.0008242582189364464,
+            155831466.72145653,
+            1.2681589112162328e-10,
+            1.311582527145403e-11
+          ]
+        ],
+        "constraints": [
+          -0.8340232200133011,
+          -0.22001176425414826,
+          -1.0893687222956739e-16
+        ],
+        "displacement_bound": 0.16597677998669894,
+        "mass_kg": 1.8467999999999998,
+        "response": 0.16597677998669894,
+        "stress_bound": 0.7799882357458517
+      },
+      "actual_peak_back_mm": 0.8242582189364464,
+      "actual_peak_skin_MPa": 155.83146672145654,
+      "mass_kg": 1.8467999999999998,
+      "ks_objective": 0.16597677998669894,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-optimize-v24-20261030\\output\\same-model-comparison.json",
+        "sha256": "35262ad3e231ec8aba50be687dd19d3d8761ce47b8f5f5be13cd0cd854cad0f4",
+        "record_index": 1,
+        "record_candidate": "round1",
+        "source_task": "blast-sandwich-union-optimize-v24-20261030",
+        "source_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c",
+        "execution_source_sha256": "2af9506331f387647349f187f670d3b9989996f7d3a16e2be702ca7e5f5244f3"
+      }
+    },
+    {
+      "frame_index": 2,
+      "label": "round2",
+      "controls_sha256": "24ff30ee0606ed263eb3a58ebeedc9e2434fac93efdd9adb9413acf790c20a92",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0008119959191740084,
+        "actual_peak_skin_Pa": 158043468.92533982,
+        "cases": [
+          [
+            0.0008397320279647713,
+            0.0883016107771734,
+            0.3649712543051907,
+            0.00043210627350698445,
+            72799536.01663554,
+            7.892175801771373e-11,
+            2.4139957949709757e-11
+          ],
+          [
+            0.0026129419189838327,
+            0.1457295804794366,
+            0.6556058257519528,
+            0.0007193983311936824,
+            130915967.15619677,
+            1.1387157883291366e-10,
+            1.3172712594359157e-11
+          ],
+          [
+            0.001997693700078056,
+            0.163533022246474,
+            0.7910603483144182,
+            0.0008119959191740084,
+            158043468.92533982,
+            1.488569267849016e-10,
+            1.5520159459086826e-11
+          ]
+        ],
+        "constraints": [
+          -0.836466977753526,
+          -0.20893965168558182,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.163533022246474,
+        "mass_kg": 1.8468,
+        "response": 0.163533022246474,
+        "stress_bound": 0.7910603483144182
+      },
+      "actual_peak_back_mm": 0.8119959191740084,
+      "actual_peak_skin_MPa": 158.04346892533982,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.163533022246474,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-optimize-v24-20261030\\output\\same-model-comparison.json",
+        "sha256": "35262ad3e231ec8aba50be687dd19d3d8761ce47b8f5f5be13cd0cd854cad0f4",
+        "record_index": 2,
+        "record_candidate": "round2",
+        "source_task": "blast-sandwich-union-optimize-v24-20261030",
+        "source_capsule_sha256": "53568518dd6fae23e074139cf0e2c084c209184444f17ae10894ea8e9cf3c03c",
+        "execution_source_sha256": "2af9506331f387647349f187f670d3b9989996f7d3a16e2be702ca7e5f5244f3"
+      }
+    },
+    {
+      "frame_index": 3,
+      "label": "round4",
+      "controls_sha256": "94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007251857545542037,
+        "actual_peak_skin_Pa": 161059866.70256895,
+        "cases": [
+          [
+            0.0008518002863822808,
+            0.09282250845814513,
+            0.38039120329571335,
+            0.00045522596746110794,
+            75895395.72935937,
+            6.239853078682245e-11,
+            1.9109283377469548e-11
+          ],
+          [
+            0.0026513737995087685,
+            0.14632961083909926,
+            0.6376273665880082,
+            0.0007225356016991655,
+            127326379.11706343,
+            1.2370193758215464e-10,
+            1.425752655768774e-11
+          ],
+          [
+            0.0018975747764695713,
+            0.14658746417923435,
+            0.8062335692421606,
+            0.0007251857545542037,
+            161059866.70256895,
+            1.162678842092646e-10,
+            1.2658251802256961e-11
+          ]
+        ],
+        "constraints": [
+          -0.8534125358207656,
+          -0.1937664307578394,
+          1.3152728731670867e-16
+        ],
+        "displacement_bound": 0.14658746417923435,
+        "mass_kg": 1.8468000000000002,
+        "response": 0.14658746417923435,
+        "stress_bound": 0.8062335692421606
+      },
+      "actual_peak_back_mm": 0.7251857545542036,
+      "actual_peak_skin_MPa": 161.05986670256894,
+      "mass_kg": 1.8468000000000002,
+      "ks_objective": 0.14658746417923435,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-optimize-v24-20261030\\output\\round4\\history.json",
+        "sha256": "8cf97cacb9b60d3eb3591a858477290952c39eb4450f9c32c8fc180126fceb9d",
+        "source_task": "blast-sandwich-union-optimize-v24-20261030",
+        "source_round": 4,
+        "iteration": 5,
+        "control_artifact": ".local\\union-continuation\\seeds\\94934d1d5792131b22756f3e2634d25708de07ade1a0ff37610881f8bb1b6ec4.npz",
+        "control_artifact_sha256": "3e82dfa166eeb11989882cd6094e5194852a35d943ec58920e391cbcd7d9998e",
+        "terminal_checkpoint_sha256": "4237d20c69e0bee71803f9b78df71ffaddb9f48eb427edae95ab8fe87be96297"
+      }
+    },
+    {
+      "frame_index": 4,
+      "label": "round5-iteration1",
+      "controls_sha256": "28c94e2d8fa4e8b32034e9e736cf9b228d94d7e9987a9789bdacce4de9842af5",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007220368902867648,
+        "actual_peak_skin_Pa": 166401697.6098176,
+        "cases": [
+          [
+            0.0008489276647980179,
+            0.09289339581486226,
+            0.3873866803485465,
+            0.00045560532897804667,
+            77294512.65623274,
+            6.636780014446231e-11,
+            2.032939384464671e-11
+          ],
+          [
+            0.0026416774792489836,
+            0.14621739288459007,
+            0.633337566679749,
+            0.0007220368902867648,
+            126472989.63050027,
+            1.20534693337504e-10,
+            1.388382557908589e-11
+          ],
+          [
+            0.0018747204029377648,
+            0.14405427605667212,
+            0.8330265747319388,
+            0.0007130570662630297,
+            166401697.6098176,
+            1.1901946095349558e-10,
+            1.2977792052380169e-11
+          ]
+        ],
+        "constraints": [
+          -0.85378260711541,
+          -0.16697342526806125,
+          1.3152728731670867e-16
+        ],
+        "displacement_bound": 0.14621739288459007,
+        "mass_kg": 1.8468000000000002,
+        "response": 0.14621739288459007,
+        "stress_bound": 0.8330265747319388
+      },
+      "actual_peak_back_mm": 0.7220368902867648,
+      "actual_peak_skin_MPa": 166.4016976098176,
+      "mass_kg": 1.8468000000000002,
+      "ks_objective": 0.14621739288459007,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-round5-v26-20261030\\output\\optimizer\\feasible-000001.json",
+        "sha256": "7940d7bdfc24ae291c1a1c95a66df6a373efcba8ac7b97076b9d59c4dd5ccf4b",
+        "source_task": "blast-sandwich-union-round5-v26-20261030",
+        "source_round": 5,
+        "iteration": 1,
+        "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round5-v26-20261030\\output\\optimizer\\feasible-000001.npz",
+        "control_artifact_sha256": "4ab47acc248cb60a3c67620c85b0e56e25b32ad3cf20ea23aee588684b153413",
+        "terminal_checkpoint_sha256": "98603e3eac4697b2ed6ec495a2b7bb09c1b931a895850475e519ea7168aa7cef"
+      }
+    },
+    {
+      "frame_index": 5,
+      "label": "round5-iteration2",
+      "controls_sha256": "a2a528935fa5ee906a481d9afd363204e85c27bf0173688dd5271fc71c1c06a5",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007215097982826908,
+        "actual_peak_skin_Pa": 163094266.09638798,
+        "cases": [
+          [
+            0.000850027183615912,
+            0.09282783508571711,
+            0.3818052088832938,
+            0.0004552932546435507,
+            76178071.78838973,
+            6.900702231860123e-11,
+            2.1134189605344728e-11
+          ],
+          [
+            0.0026455530567726596,
+            0.14613673145055528,
+            0.6343357238573695,
+            0.0007215097982826908,
+            126665878.88641052,
+            1.2438938767900254e-10,
+            1.4334139551524375e-11
+          ],
+          [
+            0.0018927876522988841,
+            0.14419565278453725,
+            0.8164200036161235,
+            0.0007128458879652461,
+            163094266.09638798,
+            1.4151702032449975e-10,
+            1.5398284953540627e-11
+          ]
+        ],
+        "constraints": [
+          -0.8538632685494447,
+          -0.18357999638387645,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.14613673145055528,
+        "mass_kg": 1.8468,
+        "response": 0.14613673145055528,
+        "stress_bound": 0.8164200036161235
+      },
+      "actual_peak_back_mm": 0.7215097982826908,
+      "actual_peak_skin_MPa": 163.09426609638797,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.14613673145055528,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-round5-v26-20261030\\output\\optimizer\\feasible-000002.json",
+        "sha256": "179190f1027e73f5eb3c2d6863dfe327e15fa312a1a4702a0230688b9c127e4f",
+        "source_task": "blast-sandwich-union-round5-v26-20261030",
+        "source_round": 5,
+        "iteration": 2,
+        "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round5-v26-20261030\\output\\optimizer\\feasible-000002.npz",
+        "control_artifact_sha256": "bf8d3db70d74f3f30e1039d7892d015a4ba796d67d9845a896a7eb09d062b37a",
+        "terminal_checkpoint_sha256": "98603e3eac4697b2ed6ec495a2b7bb09c1b931a895850475e519ea7168aa7cef"
+      }
+    },
+    {
+      "frame_index": 6,
+      "label": "round5-iteration3",
+      "controls_sha256": "10f489fe2ec2dfe20ddca1d94305c5442b1ec1742c13106e5c2e8160a7dd1c88",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007199093890701346,
+        "actual_peak_skin_Pa": 164867206.54094177,
+        "cases": [
+          [
+            0.0008458469920486074,
+            0.09259850097913998,
+            0.3788438981609428,
+            0.00045418180239844853,
+            75585294.8826612,
+            6.430811438917772e-11,
+            1.9694409718745006e-11
+          ],
+          [
+            0.0026314785821150086,
+            0.14582145193195378,
+            0.6339078623387033,
+            0.0007199093890701346,
+            126583362.58396056,
+            2.0455992455481464e-10,
+            2.3575557965584704e-11
+          ],
+          [
+            0.0019025463746732507,
+            0.14334085308394764,
+            0.8252403441995372,
+            0.000709891793570249,
+            164867206.54094177,
+            1.283684269992591e-10,
+            1.3899143061351393e-11
+          ]
+        ],
+        "constraints": [
+          -0.8541785480680462,
+          -0.17475965580046282,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.14582145193195378,
+        "mass_kg": 1.8468,
+        "response": 0.14582145193195378,
+        "stress_bound": 0.8252403441995372
+      },
+      "actual_peak_back_mm": 0.7199093890701347,
+      "actual_peak_skin_MPa": 164.86720654094177,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.14582145193195378,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-round5-v26-20261030\\output\\optimizer\\feasible-000003.json",
+        "sha256": "99029249e7900363738ac0ffa2b5d21879eca67b58e77f330380254f4099e557",
+        "source_task": "blast-sandwich-union-round5-v26-20261030",
+        "source_round": 5,
+        "iteration": 3,
+        "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round5-v26-20261030\\output\\optimizer\\feasible-000003.npz",
+        "control_artifact_sha256": "d524fd1bd6424c4df687d31f6956856bc90be810fbdec6d17aeeb830112bae04",
+        "terminal_checkpoint_sha256": "98603e3eac4697b2ed6ec495a2b7bb09c1b931a895850475e519ea7168aa7cef"
+      }
+    },
+    {
+      "frame_index": 7,
+      "label": "round6-iteration1",
+      "controls_sha256": "1581fa014436e6a5c1bf90d13dc88711dbc4c91db19c7f82f5388d54c710914b",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007180301998314463,
+        "actual_peak_skin_Pa": 164255831.26798192,
+        "cases": [
+          [
+            0.0008481954314635437,
+            0.09252456933436574,
+            0.3792590057132273,
+            0.0004537856242310553,
+            75668530.08835147,
+            6.891642811979182e-11,
+            2.1103211369281827e-11
+          ],
+          [
+            0.0026362368978026397,
+            0.14559122640061511,
+            0.634822807593644,
+            0.0007180301998314463,
+            126766176.24084562,
+            1.240945124436621e-10,
+            1.4312869800378326e-11
+          ],
+          [
+            0.0019083177325913692,
+            0.14335499174155655,
+            0.8222338147615449,
+            0.0007092067754498801,
+            164255831.26798192,
+            1.2472511912164919e-10,
+            1.3498860257952262e-11
+          ]
+        ],
+        "constraints": [
+          -0.8544087735993848,
+          -0.1777661852384551,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.14559122640061511,
+        "mass_kg": 1.8468,
+        "response": 0.14559122640061511,
+        "stress_bound": 0.8222338147615449
+      },
+      "actual_peak_back_mm": 0.7180301998314463,
+      "actual_peak_skin_MPa": 164.2558312679819,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.14559122640061511,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-round6-v27-20261030\\output\\optimizer\\feasible-000001.json",
+        "sha256": "19591c9c721ff4fad16c813904ccbdbd384df7ad851b2d24dca75fcf22f41a5c",
+        "source_task": "blast-sandwich-union-round6-v27-20261030",
+        "source_round": 6,
+        "iteration": 1,
+        "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round6-v27-20261030\\output\\optimizer\\feasible-000001.npz",
+        "control_artifact_sha256": "4ac179bb21fd044151b2b2a9a5f114d24ff580169be1afefd7d48da5bcd18443",
+        "terminal_checkpoint_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741"
+      }
+    },
+    {
+      "frame_index": 8,
+      "label": "round6-iteration2",
+      "controls_sha256": "53e07c429544b7116f20aca9f194b6db162fc137a252a0687baa96f1aa3d6645",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007175419671873358,
+        "actual_peak_skin_Pa": 163517589.15412048,
+        "cases": [
+          [
+            0.0008511799896901794,
+            0.09232808370465313,
+            0.3793989735323979,
+            0.00045274192770818056,
+            75696775.42662884,
+            6.833822396856704e-11,
+            2.092224548168644e-11
+          ],
+          [
+            0.0026412595449538563,
+            0.14540992636418318,
+            0.6364206902788715,
+            0.0007175419671873358,
+            127085234.86514068,
+            1.3290346601024794e-10,
+            1.5347603525561128e-11
+          ],
+          [
+            0.0019189092483233785,
+            0.1433819627841016,
+            0.8185313464371997,
+            0.0007095417477743394,
+            163517589.15412048,
+            1.6078338660463487e-10,
+            1.7376341325684123e-11
+          ]
+        ],
+        "constraints": [
+          -0.8545900736358168,
+          -0.1814686535628003,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.14540992636418318,
+        "mass_kg": 1.8468,
+        "response": 0.14540992636418318,
+        "stress_bound": 0.8185313464371997
+      },
+      "actual_peak_back_mm": 0.7175419671873358,
+      "actual_peak_skin_MPa": 163.5175891541205,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.14540992636418318,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-round6-v27-20261030\\output\\optimizer\\feasible-000002.json",
+        "sha256": "cd7b62946a8f07fbddec83a7ec7c6866a37e5b1bdf01407f7f1bb3be745d06fe",
+        "source_task": "blast-sandwich-union-round6-v27-20261030",
+        "source_round": 6,
+        "iteration": 2,
+        "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round6-v27-20261030\\output\\optimizer\\feasible-000002.npz",
+        "control_artifact_sha256": "8a0da149628dc59067c2d37d6dce3787350cdaab0d59aab51864eb2885de9784",
+        "terminal_checkpoint_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741"
+      }
+    },
+    {
+      "frame_index": 9,
+      "label": "round6-iteration3",
+      "controls_sha256": "c68d31ce4916603058f160b1d5269604bcd9479d391ab9c52a3dba8589fe19e6",
+      "model_signature": "0e0879d7fb3cd48164409bc1dc8512b1b290123cdbc24361ab15ea5fe71ee70b",
+      "metrics": {
+        "actual_peak_back_m": 0.0007167067145180767,
+        "actual_peak_skin_Pa": 163119192.01331586,
+        "cases": [
+          [
+            0.0008531521547889781,
+            0.09206905078074402,
+            0.37893326250089204,
+            0.00045135693231869076,
+            75603851.70574567,
+            7.1960659653314e-11,
+            2.20274687488325e-11
+          ],
+          [
+            0.0026432914228746683,
+            0.1452244811471442,
+            0.6380219983170683,
+            0.0007167067145180767,
+            127404690.17140089,
+            1.262456805761758e-10,
+            1.4595380291374887e-11
+          ],
+          [
+            0.001930421066541761,
+            0.14331856937665852,
+            0.8164616123715053,
+            0.0007091477627795172,
+            163119192.01331586,
+            1.3730350190144236e-10,
+            1.480577730615513e-11
+          ]
+        ],
+        "constraints": [
+          -0.8547755188528559,
+          -0.18353838762849473,
+          1.1295207543570643e-17
+        ],
+        "displacement_bound": 0.1452244811471442,
+        "mass_kg": 1.8468,
+        "response": 0.1452244811471442,
+        "stress_bound": 0.8164616123715053
+      },
+      "actual_peak_back_mm": 0.7167067145180767,
+      "actual_peak_skin_MPa": 163.11919201331585,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.1452244811471442,
+      "source": {
+        "path": ".local\\union-continuation\\observations\\blast-sandwich-union-round6-v27-20261030\\output\\optimizer\\feasible-000003.json",
+        "sha256": "90adef79dffd1fe66bdbdcd4cdeb55e058927df2241d0a68607edc0720f29336",
+        "source_task": "blast-sandwich-union-round6-v27-20261030",
+        "source_round": 6,
+        "iteration": 3,
+        "control_artifact": ".local\\union-continuation\\observations\\blast-sandwich-union-round6-v27-20261030\\output\\optimizer\\feasible-000003.npz",
+        "control_artifact_sha256": "446bbcef9f15051e92e5ef635af69cf45c04c84297d5b65636eeba15dc787790",
+        "terminal_checkpoint_sha256": "6fc7156bc1d355e74307ff2157a1907c2669424750818e9f75e4c79e968dd741"
+      }
+    }
+  ],
+  "round7_static_comparison_only": [
+    {
+      "label": "round7-actual-peak-best",
+      "controls_sha256": "6dae74a82c2fab87ca00f5adff8cb1e47e9323901e49ee98488cd929a25a6505",
+      "model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+      "metrics": {
+        "cases": [
+          [
+            0.0008523563735939809,
+            0.09202288312140798,
+            0.37838182571464923,
+            0.00045110643039099064,
+            75493538.7910096,
+            6.392797402554606e-11,
+            1.9568746902116736e-11
+          ],
+          [
+            0.0026407914133670337,
+            0.14510898348393608,
+            0.638084009396311,
+            0.0007159800189782459,
+            127416828.8543198,
+            1.5166712330483278e-10,
+            1.753385391758237e-11
+          ],
+          [
+            0.0019318341089034294,
+            0.14342700892261862,
+            0.8182050037216091,
+            0.0007108057234181285,
+            163468235.04804584,
+            1.1897505203251058e-10,
+            1.2818606116973122e-11
+          ]
+        ],
+        "mass_kg": 1.8468,
+        "response": 0.14510898348393608,
+        "actual_peak_back_m": 0.0007159800189782459,
+        "actual_peak_skin_Pa": 163468235.04804584,
+        "displacement_bound": 0.14510898348393608,
+        "stress_bound": 0.8182050037216091,
+        "constraints": [
+          -0.8548910165160639,
+          -0.1817949962783909,
+          0.0
+        ]
+      },
+      "actual_peak_back_mm": 0.7159800189782459,
+      "actual_peak_skin_MPa": 163.46823504804584,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.14510898348393608,
+      "source": {
+        "path": "evidence\\blast-sandwich-reduced\\union130-actual-peak-best-6dae74a82c2f.json",
+        "sha256": "65a19bf59ad3c92c92b40e0a2e5d917815f5685fba8111f1020b3deb756f8199"
+      }
+    },
+    {
+      "label": "round7-KS-best",
+      "controls_sha256": "03856f39a53ec8cece899320a63d070734e9de375c830288e54be4e0a0a26d40",
+      "model_signature": "0c97a27bae61cd6773dbfe903ffee7f39519c9201751e74479110d33d16bc5c9",
+      "metrics": {
+        "cases": [
+          [
+            0.0008512492729276785,
+            0.09182753579045129,
+            0.3771463107840626,
+            0.00045003793310478005,
+            75246486.07310627,
+            7.543343727434149e-11,
+            2.3089937932288537e-11
+          ],
+          [
+            0.0026361112783093612,
+            0.14487365407179953,
+            0.6385572042512501,
+            0.0007142275217215874,
+            127510664.35436939,
+            1.2924061820740462e-10,
+            1.4944761563517717e-11
+          ],
+          [
+            0.0019377909571492197,
+            0.14465708099074567,
+            0.8212258677254068,
+            0.0007174567766889337,
+            164074735.7853146,
+            1.5548451415270392e-10,
+            1.671343293482401e-11
+          ]
+        ],
+        "mass_kg": 1.8468,
+        "response": 0.14487365407179953,
+        "actual_peak_back_m": 0.0007174567766889337,
+        "actual_peak_skin_Pa": 164074735.7853146,
+        "displacement_bound": 0.14487365407179953,
+        "stress_bound": 0.8212258677254068,
+        "constraints": [
+          -0.8551263459282005,
+          -0.17877413227459316,
+          0.0
+        ]
+      },
+      "actual_peak_back_mm": 0.7174567766889337,
+      "actual_peak_skin_MPa": 164.0747357853146,
+      "mass_kg": 1.8468,
+      "ks_objective": 0.14487365407179953,
+      "source": {
+        "path": "evidence\\blast-sandwich-reduced\\union130-completed-round7.json",
+        "sha256": "091b1e11a2633940fe6f283ce307888d3990e1eb6b11e7b064ef5af871dbe7cc"
+      }
+    }
+  ],
+  "round7_equivalence_receipt_sha256": "aa3bf58104c36c0952301c27aefff82e4a11fa547fce554d7290d08caace1a73",
+  "actual_peak_and_KS_are_distinct": true,
+  "full_mpm_qualification": false,
+  "global_optimum_claim": false
+}
