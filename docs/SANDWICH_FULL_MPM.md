@@ -68,3 +68,28 @@ python -m tools.render_sandwich_design_metrics evidence/blast-sandwich-reduced/m
 ```
 
 The metric renderer uses Matplotlib, included in `pip install -e ".[design]"`.
+
+## Through-thickness material sections
+
+<table width="100%">
+<tr>
+<td width="50%" align="center"><img src="images/sandwich-fullmpm/material-section-xz.gif" alt="X–Z core section at y equals 150 mm" width="100%"><br>X–Z section</td>
+<td width="50%" align="center"><img src="images/sandwich-fullmpm/material-section-yz.gif" alt="Y–Z core section at x equals 150 mm" width="100%"><br>Y–Z section</td>
+</tr>
+</table>
+
+Each image shows the full 300 mm span above and a 92 mm central crop below,
+with the same magnification in the horizontal and thickness directions.
+Grey layers are the actual 2 mm skins. Colours show core solid fraction,
+using the same 0.08–0.35 scale as the plan view.
+[Section provenance](../evidence/blast-sandwich-reduced/material-design-history/sections-render.json).
+
+The three-load objective includes a pressure footprint centred at
+(210, 105) mm, offset from the plate centre (150, 150) mm. Consequently,
+the loading set is not reflection-symmetric and the material controls are
+not constrained to be symmetric. This explains why symmetry is not required;
+it does not replace the independent response checks.
+
+```sh
+pvpython --force-offscreen-rendering tools/render_sandwich_design_sections.py outputs/sandwich-design-fields outputs/sandwich-design-sections
+```
