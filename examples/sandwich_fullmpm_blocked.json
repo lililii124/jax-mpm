@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "backend": "blocked",
+  "block_size": 4096,
+  "settings": {
+    "xy_step": 0.005,
+    "z_step": 0.001,
+    "controls": [24, 24, 3],
+    "stage": "fixed-mass"
+  },
+  "physical_source_signature": "a24922004bc45910351fc2c06b10067c4442d9fe7b28a92e5efa21dc4c6b5b30",
+  "controls": "sandwich_rational_round7_peak_controls.json",
+  "controls_sha256": "6dae74a82c2fab87ca00f5adff8cb1e47e9323901e49ee98488cd929a25a6505",
+  "case": "eccentric",
+  "output": "../outputs/sandwich-fullmpm-round7-peak-blocked",
+  "save_every": 1000
+}

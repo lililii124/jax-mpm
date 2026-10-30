@@ -1,0 +1,118 @@
+{
+  "task": "sandwich-h5-public-blocked-forward-v1-20261030",
+  "actual_terminal": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-30T00:50:37.130779062Z",
+    "FinishedAt": "2026-10-30T00:51:57.18342503Z"
+  },
+  "job": {
+    "started_utc": "2026-10-30T00:50:37.279720+00:00",
+    "state": "complete",
+    "command": [
+      "python",
+      "/work/check.py"
+    ],
+    "cpu_affinity": [
+      36,
+      37,
+      38,
+      39
+    ],
+    "memory_headroom_at_start": 17170931712,
+    "limit_seconds": 600.0,
+    "uss_limit_bytes": 12884901888,
+    "peak_uss_bytes": 6821072896,
+    "minimum_memory_headroom": 11541680128,
+    "guard_reason": null,
+    "pid": 7,
+    "nice": 10,
+    "wall_seconds": 79.79740323871374,
+    "returncode": 0
+  },
+  "result": {
+    "passed": true,
+    "scope": "Actual h5 checkpoint import plus native public-driver resume compared with original full-MPM steps.",
+    "parent_step": 8000,
+    "last_step": 8002,
+    "parent_sha256": "597666e0ca1900219dbd0be24cf65582f8952e706b381b794fdbcf926488726f",
+    "original_history_rows_bitwise_preserved": true,
+    "one_absolute_step_per_call": true,
+    "execution_binding_preserved": true,
+    "incompatible_execution_rejected": true,
+    "state_comparison": {
+      "displacement": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "velocity": {
+        "bitwise_equal": false,
+        "maximum_absolute_error": 8.881784197001252e-16,
+        "relative_l2": 1.917742353220766e-18
+      },
+      "force": {
+        "bitwise_equal": false,
+        "maximum_absolute_error": 5.684341886080802e-14,
+        "relative_l2": 4.575335517094138e-17
+      },
+      "F": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "time": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "valid": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "impulse": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "angular_impulse": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "body_work": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      },
+      "boundary_work": {
+        "bitwise_equal": true,
+        "maximum_absolute_error": 0.0,
+        "relative_l2": 0.0
+      }
+    },
+    "public_source_sha256": {
+      "tools/run_sandwich_fullmpm.py": "807078f385dc5a2b9a1aa527e1d05f4f1bafba5be3642f4705b9e682753d1423",
+      "mpm_jax/blocked_elastic.py": "4e3c291b2799c50793e88e87897f356420ff09921a8b5d80a92f538f5b8ec3d0"
+    },
+    "execution_receipt_sha256": "a5d2383a6a6cf01d31c4085a63c5891ae0c5ab886ebc9a322491e12de15120c2",
+    "physical_time_s": 0.00018635305076852374,
+    "production_changed": false
+  },
+  "files_sha256": {
+    "result.json": "3b30f027f4b94649a926a71904e43d9de25705cacb8bf352b5bf06811698d2d2",
+    "check.py": "d95aae6ced372d63f1c3c590b8830dd8b70d045d98885ef5eff43e51e31fd7b0",
+    "job/status.json": "fc94568c948071bda9d11d9f7e6839834997057e7add95173c7555f3da5a5889",
+    "job/solver.log": "0182d1df6451b3b010959f068963013258bac60e8be3fc0a1ce67413584d2416",
+    "roundtrip/execution.json": "a5d2383a6a6cf01d31c4085a63c5891ae0c5ab886ebc9a322491e12de15120c2"
+  },
+  "check_source_sha256": "d95aae6ced372d63f1c3c590b8830dd8b70d045d98885ef5eff43e51e31fd7b0"
+}

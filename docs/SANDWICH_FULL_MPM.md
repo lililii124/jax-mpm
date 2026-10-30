@@ -110,3 +110,30 @@ and peak statistics matched bitwise. This is a short execution-equivalence
 check, not a completed refinement result. Existing production runs have not
 been switched. The [performance record](../evidence/blast-sandwich-reduced/h5-blocked-force-performance.json)
 also retains the slower reverse-gather alternative that was rejected.
+
+The standalone driver keeps the original time integrator and every history,
+energy and validity check. It adds a separate execution binding, so a changed
+backend or kernel cannot silently resume an existing checkpoint:
+
+```sh
+python -m tools.run_sandwich_fullmpm examples/sandwich_fullmpm_blocked.json
+python -m tools.run_sandwich_fullmpm examples/sandwich_fullmpm_blocked.json --resume
+```
+
+The recipe starts the round7 minimum-peak candidate from rest on the 5 mm
+in-plane grid for the complete 2 ms eccentric-pressure history. It is a
+production recipe, not a claim that this candidate's run has completed.
+Use four CPU threads and budget at least 16 GB for the process. To stop at
+an absolute checkpoint boundary, pass `--stop-step N`, then continue with
+`--resume`; this does not shorten or rescale the physical loading schedule.
+
+An unchanged legacy trajectory can be imported explicitly with
+`--import-checkpoint path/to/checkpoint.npz` and a matching control, geometry,
+runtime and load configuration. The driver preserves all saved state and
+history and records the original checkpoint hash. Preserve the parent
+trajectory's earlier frames for complete rendering. A changed control field
+requires a virgin run, not checkpoint import.
+The [actual-state round-trip check](../evidence/blast-sandwich-reduced/h5-blocked-public-driver.json)
+imported a real h5 step8000 checkpoint, advanced one step, resumed one further
+step, and compared both with the original integrator. Earlier history rows
+were preserved bitwise, and incompatible execution settings were rejected.
