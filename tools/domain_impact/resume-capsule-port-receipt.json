@@ -1,0 +1,34 @@
+{
+  "accepted_state": {
+    "checkpoint_sha256": "76fdefd4f422060f737624934d5d6bf1bcdbddc7ba89f660ac259cde56ff4986",
+    "continuation_source_file_count": 106,
+    "continuation_source_map_sha256": "8f2a68eda3ca19fc4f0c885e200438c3c3db1fe839bd1c59a71c3970432c5868",
+    "run_json_sha256": "46fc8ae46244b1ff24e4c43217705f747cc0f13572c8577ab76e486e3fb53b54",
+    "step": 1855,
+    "support_audit_sha256": "d395bf5fc70d91a637bc24592e945e1bca1ed532e4b4d9b1aace81214c776f22",
+    "support_parent_checkpoint_sha256": "30e3b60335a7c7f553decd3100eb3a815a45e0e8e95c5eee23cbda650b5f85e5",
+    "support_split": true,
+    "time_s": 2.6950280827368756e-07
+  },
+  "comparison": {
+    "against": "The actual next-window production capsule generated from this accepted state.",
+    "bridge_file_bytewise_identical": true,
+    "bridge_semantically_identical": true,
+    "capsule_payload_files_bytewise_identical": true,
+    "payload_file_sha256": {
+      "resume-bridge.json": "d15dbb3b43fa39b7743ad9a1dec14f582f6540864d098eb06f7a0a6c245e2555",
+      "resume-checkpoint.npz": "76fdefd4f422060f737624934d5d6bf1bcdbddc7ba89f660ac259cde56ff4986",
+      "resume-contact-history.jsonl": "51c7e82a21677423613c38f7db9bb907a685f6e6c80a6a1b98267c6972a2147d",
+      "resume-damage-history.jsonl": "eed23b1b432cfe21183d2a4d5c2984915585ade34dd2ce5392ce1189eb8785e9",
+      "resume-e0-activation.json": "423c6d6cf7bd03202b512dd77aba01d4b68091a368dd9758ca72efbbec8f263d",
+      "resume-first-domain-intersection.json": "5150afa547bc4b162b9df919974f6cf4a2227206d55113ce883472ae23057ef8",
+      "resume-first-fully-failed-point.json": "cf07acad79fb7ccc29ebfec2e4dfda06ddf59d84fe1f281bcf8d4275ea90c83e",
+      "resume-parent-checkpoint.npz": "30e3b60335a7c7f553decd3100eb3a815a45e0e8e95c5eee23cbda650b5f85e5",
+      "resume-support-audit.json": "d395bf5fc70d91a637bc24592e945e1bca1ed532e4b4d9b1aace81214c776f22"
+    }
+  },
+  "generator_source_sha256": "c69b05014fd6aa1c59ed823abfd349e3852b2ac301686f2303a5959739ddf1ac",
+  "limitation": "This verifies source/hash-bound continuation capsule construction and byte identity to the production handoff. It does not claim that a full public-source continuation was executed or that the 1 us trajectory is complete.",
+  "schema": "c2-domain-impact-resume-capsule-port-v1",
+  "verification_scope": "Offline capsule construction from an immutable accepted production window; no solver was run and no production file was modified."
+}

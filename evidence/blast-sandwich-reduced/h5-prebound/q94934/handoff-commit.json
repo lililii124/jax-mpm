@@ -1,0 +1,23 @@
+{
+  "parent_container": "faf0b6f52e3e2b9208534d05761ff4a41282de52e7f25f038809f98c0e99a0b6",
+  "parent_checkpoint_sha256": "646151f7eee9c27c03ad17ed0c54bed7f8f2aa7869b5970ebc8839358948d8a8",
+  "old_container_stopped": true,
+  "old_container_state": {
+    "Status": "exited",
+    "Running": false,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 0,
+    "ExitCode": 137,
+    "Error": "",
+    "StartedAt": "2026-10-30T01:26:27.376718576Z",
+    "FinishedAt": "2026-10-30T02:15:32.540570581Z"
+  },
+  "new_container": "57fe03bfc63d485f8b45c52d6ad9f4296ead6f937170f5aa3f0840f7aee16046",
+  "committed_unix": 1793326533.2180243,
+  "purpose": "Intentional verified execution handoff; original guarded job was terminated, not a physical or memory failure.",
+  "parent_frame_count": 16,
+  "parent_step": 13000
+}

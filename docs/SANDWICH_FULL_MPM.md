@@ -127,13 +127,24 @@ preserved. Earlier visualization frames remain unchanged in the continued
 trajectory. Both computations retain the full 2 ms schedule and are still
 in progress. [Paired execution handoff](../evidence/blast-sandwich-reduced/h5-blocked-handoff/summary.json).
 
+The `prebound` backend prepares fixed support arrays once, before JIT tracing.
+The first public `blocked` wrapper prepared them inside the traced step and
+did not reproduce the earlier benchmark's speed benefit. A matched 24-step,
+reversed-order comparison measured `prebound` at 1.204 times that wrapper's
+speed and 1.182 times the original integrator's speed. Compiled temporary
+storage fell from 1.047 GB to 0.587 GB, with equivalent state and ledgers.
+Both production trajectories have now explicitly continued with this setup,
+from steps12000 and13000; their first resumed states matched the original
+integrator bitwise. Full-duration timing remains in progress.
+[Setup comparison and handoff records](../evidence/blast-sandwich-reduced/h5-prebound/).
+
 The standalone driver keeps the original time integrator and every history,
 energy and validity check. It adds a separate execution binding, so a changed
 backend or kernel cannot silently resume an existing checkpoint:
 
 ```sh
-python -m tools.run_sandwich_fullmpm examples/sandwich_fullmpm_blocked.json
-python -m tools.run_sandwich_fullmpm examples/sandwich_fullmpm_blocked.json --resume
+python -m tools.run_sandwich_fullmpm examples/sandwich_fullmpm_prebound.json
+python -m tools.run_sandwich_fullmpm examples/sandwich_fullmpm_prebound.json --resume
 ```
 
 The recipe starts the round7 minimum-peak candidate from rest on the 5 mm
@@ -149,6 +160,11 @@ runtime and load configuration. The driver preserves all saved state and
 history and records the original checkpoint hash. Preserve the parent
 trajectory's earlier frames for complete rendering. A changed control field
 requires a virgin run, not checkpoint import.
+For a checkpoint that already has an execution binding, also supply
+`--import-execution-receipt path/to/execution.json`. The driver checks its
+physical sources, runtime, controls, load case and old execution binding,
+then records both parent hashes. Ordinary `--resume` still rejects changed
+execution inputs.
 The [actual-state round-trip check](../evidence/blast-sandwich-reduced/h5-blocked-public-driver.json)
 imported a real h5 step8000 checkpoint, advanced one step, resumed one further
 step, and compared both with the original integrator. Earlier history rows

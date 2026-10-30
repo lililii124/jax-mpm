@@ -21,15 +21,18 @@ def _digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def _with_blocks(model, block_size):
+def _with_blocks(model, block_size, reference=None, material=None):
     # Clone only the function bindings: boundary and time-integration code stay exact.
     import mpm_jax.compact_tl as compact
     from mpm_jax.blocked_elastic import make_internal_force
 
+    prepared = None if reference is None else make_internal_force(reference, material, block_size)
+
     def internal(F, history, reference, material, config, body):
         if history is not None or config.material != 'elastic':
             raise ValueError('This execution mode requires reference-grid elastic material')
-        return make_internal_force(reference, material, block_size)(F)
+        operator = prepared if prepared is not None else make_internal_force(reference, material, block_size)
+        return operator(F)
 
     step = compact.step
     replacement = FunctionType(step.__code__, dict(step.__globals__, forces=internal),
@@ -61,6 +64,8 @@ def _forward(model, q, case, output, execution, *, resume=False, stop_step=None,
         raise ValueError('Invalid control shape or values')
     phi, density, young, material = model['properties'](jnp.asarray(q))
     reference = model['reference_grid'](model['support'], density)
+    if execution['backend'] == 'prebound':
+        model = _with_blocks(model, execution['block_size'], reference, material)
     state = model['initial_state'](reference, material, model['pressure'](0)*model['load_shape'][case])
     aggregate = model['aggregate_initial']()
     start = 0
@@ -130,16 +135,19 @@ def _forward(model, q, case, output, execution, *, resume=False, stop_step=None,
     atomic_json(output/'summary.json', result)
     return result
 
-def run(configuration, *, resume=False, stop_step=None, import_checkpoint=None):
+def run(configuration, *, resume=False, stop_step=None, import_checkpoint=None,
+        import_execution_receipt=None):
     import jax
     import jaxlib
     jax.config.update('jax_enable_x64', True)
     import mpm_jax.blocked_elastic as blocked
     if resume and import_checkpoint is not None:
         raise ValueError('Resume and checkpoint import are separate operations')
+    if import_execution_receipt is not None and import_checkpoint is None:
+        raise ValueError('An execution receipt can only accompany a checkpoint import')
     configuration = Path(configuration).resolve()
     config = json.loads(configuration.read_text(encoding='utf-8'))
-    if config.get('version') != 1 or config.get('backend') not in ('legacy', 'blocked'):
+    if config.get('version') != 1 or config.get('backend') not in ('legacy', 'blocked', 'prebound'):
         raise ValueError('Expected version1 and a declared execution backend')
     options = dict(config['settings'])
     options['controls'] = tuple(options['controls'])
@@ -188,11 +196,29 @@ def run(configuration, *, resume=False, stop_step=None, import_checkpoint=None):
         original_binding = json.loads(str(imported['binding']))
         expected = dict(source_signature=physical_signature, controls=q.tolist(), case=config['case'],
                         jax=jax.__version__,jaxlib=jaxlib.__version__,numpy=np.__version__)
-        if original_binding != expected:
-            raise ValueError('Import requires an unchanged legacy physical/runtime/control binding')
+        original_physics = {key:value for key,value in original_binding.items() if key != 'execution'}
+        if original_physics != expected:
+            raise ValueError('Import requires an unchanged physical/runtime/control binding')
+        receipt_import = None
+        if 'execution' in original_binding:
+            if import_execution_receipt is None:
+                raise ValueError('A bound checkpoint requires its original execution receipt')
+            receipt_file = Path(import_execution_receipt).resolve()
+            receipt_raw = receipt_file.read_bytes()
+            previous = json.loads(receipt_raw)['inputs']
+            matched = dict(controls_sha256=q_sha, physical_source_signature=physical_signature,
+                           physical_sources=physical_sources, case=config['case'],
+                           runtime=inputs['runtime'], execution=original_binding['execution'])
+            if any(previous.get(key) != value for key,value in matched.items()):
+                raise ValueError('Parent execution receipt differs from the imported checkpoint')
+            receipt_import = dict(path=str(receipt_file), sha256=hashlib.sha256(receipt_raw).hexdigest(),
+                                  execution=original_binding['execution'])
+        elif import_execution_receipt is not None:
+            raise ValueError('A legacy checkpoint has no execution receipt binding')
         parent = dict(checkpoint=str(path), checkpoint_sha256=hashlib.sha256(raw).hexdigest(),
                       step=int(imported['step']), time_s=float(imported['state_time']),
                       original_binding=original_binding,
+                      original_execution_receipt=receipt_import,
                       note='Preserve earlier frames at the parent trajectory for complete-history rendering.')
         imported['binding'] = np.asarray(json.dumps(dict(expected, execution=execution), sort_keys=True))
     model = build_model(settings)
@@ -217,6 +243,8 @@ if __name__ == '__main__':
     parser.add_argument('--resume', action='store_true')
     parser.add_argument('--stop-step', type=int)
     parser.add_argument('--import-checkpoint', type=Path)
+    parser.add_argument('--import-execution-receipt', type=Path)
     args = parser.parse_args()
     print(json.dumps(run(args.configuration, resume=args.resume, stop_step=args.stop_step,
-                         import_checkpoint=args.import_checkpoint), indent=2))
+                         import_checkpoint=args.import_checkpoint,
+                         import_execution_receipt=args.import_execution_receipt), indent=2))

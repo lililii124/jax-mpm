@@ -1,0 +1,24 @@
+{
+  "started_utc": "2026-10-30T02:00:03.982371+00:00",
+  "state": "complete",
+  "command": [
+    "python",
+    "/work/probe.py"
+  ],
+  "cpu_affinity": [
+    36,
+    37,
+    38,
+    39
+  ],
+  "memory_headroom_at_start": 17171169280,
+  "limit_seconds": 600.0,
+  "uss_limit_bytes": 12884901888,
+  "peak_uss_bytes": 6802886656,
+  "minimum_memory_headroom": 10436190208,
+  "guard_reason": null,
+  "pid": 7,
+  "nice": 10,
+  "wall_seconds": 140.66296456754208,
+  "returncode": 0
+}
