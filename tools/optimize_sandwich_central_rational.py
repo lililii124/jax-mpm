@@ -54,8 +54,8 @@ def run(config_path):
     config = json.loads(config_path.read_text(encoding='utf-8'))
     if config.get('version') != 1 or config.get('load_case') != 'central':
         raise ValueError('This entry point requires version 1 and the central case')
-    if int(config['iterations']) < 1 or int(config['iterations']) > 2:
-        raise ValueError('This exploratory task is limited to one or two SQP iterations')
+    if int(config['iterations']) < 1 or int(config['iterations']) > 12:
+        raise ValueError('This exploratory task is limited to twelve SQP iterations')
 
     def path(key):
         return (config_path.parent / config[key]).resolve()
@@ -156,6 +156,36 @@ def run(config_path):
         raise ValueError('Uniform q0 does not satisfy the central symmetry map')
     q0_sha = hashlib.sha256(q0_full.tobytes()).hexdigest()
 
+    # A continuation is explicit and pinned in the new task configuration.
+    continuation = config.get('continuation')
+    if continuation is None:
+        start_full, start_label = q0_full.copy(), 'uniform model q0'
+        start_artifact_sha = None
+    else:
+        if continuation.get('role') != 'saved-best-so-far-controls':
+            raise ValueError('Unrecognized continuation role')
+        candidate_path = path('continuation_controls')
+        if digest(candidate_path) != continuation['artifact_sha256']:
+            raise ValueError('Continuation controls artifact hash mismatch')
+        with np.load(candidate_path, allow_pickle=False) as saved:
+            if 'q' not in saved:
+                raise ValueError('Continuation artifact has no q array')
+            start_full = np.asarray(saved['q'], dtype=np.float64)
+        start_sha = hashlib.sha256(np.ascontiguousarray(start_full).tobytes()).hexdigest()
+        if start_sha != continuation['controls_sha256']:
+            raise ValueError('Continuation controls numeric hash mismatch')
+        if start_full.shape != q0_full.shape or not np.isfinite(start_full).all():
+            raise ValueError('Continuation controls shape or values are invalid')
+        _, _, start_mass = jax.jit(model['projected']['operators'])(jnp.asarray(start_full))
+        if abs(float(start_mass) / BASELINE_MASS_KG - 1.) > 1e-10:
+            raise ValueError('Continuation controls violate the fixed-mass invariant')
+        start_label = 'saved best-so-far from ' + str(continuation['source_task'])
+        start_artifact_sha = continuation['artifact_sha256']
+    start_reduced = start_full.reshape(-1)[np.unique(mapping, return_index=True)[1]]
+    if not np.array_equal(start_reduced[mapping], start_full.reshape(-1)):
+        raise ValueError('Continuation controls do not map exactly to reduced variables')
+    start_sha = hashlib.sha256(start_full.tobytes()).hexdigest()
+
     projected, dt, chunk = model['projected'], model['dt'], model['time_chunk']
     load = jnp.asarray(selected_load[0])
 
@@ -218,7 +248,7 @@ def run(config_path):
             load_case=np.asarray('central'), source_signature=np.asarray(source_signature))
         atomic_json(output / (label + '-controls.json'), dict(
             q=row['full_controls'].tolist(), controls_sha256=row['controls_sha256'],
-            load_case='central', initial_material='uniform model q0',
+            load_case='central', initial_material=start_label,
             symmetry_group='D2 x/y reflections', source_signature=source_signature,
             nonlinear_blast_qualified=False, full_mpm_verified=False))
         atomic_json(output / (label + '.json'), dict(
@@ -235,24 +265,26 @@ def run(config_path):
         original_source_signature=freeze['full_mpm_source_signature'], optimization_signature=source_signature,
         selected_case='central', selected_frozen_load_index=CASE_INDEX, selected_load_sha256=load_sha,
         full_frozen_load_count=3, other_load_cases_evaluated=False,
-        initial_controls='uniform build_model q0', initial_controls_sha256=q0_sha,
+        initial_controls=start_label, initial_controls_sha256=start_sha,
+        continuation_artifact_sha256=start_artifact_sha,
         symmetry_mapping_sha256=mapping_sha, reduced_control_count=reduced_count,
         entry_point_sha256=digest(__file__), operator_replay_relative_l2=replay_errors,
         frozen_mass_kg=float(mass0), central_pressure_symmetry_error=footprint_symmetry_error)
     atomic_json(output / 'optimization-inputs.json', inputs)
 
-    initial = evaluate_reduced(q0_reduced)
+    initial = evaluate_reduced(start_reduced)
     init_constraints = np.asarray([1. - initial['values'][0], 1. - initial['values'][1]])
     initial_feasible = bool(np.min(init_constraints) >= 0 and
         initial['metrics'][3] <= settings.displacement_limit and
         initial['metrics'][4] <= settings.stress_limit and
         abs(initial['mass_relative']) <= 1e-10 and initial['energy_balance_relative'] < 1e-8)
-    save_candidate('uniform-baseline', initial, iteration=0, feasible=initial_feasible)
+    save_candidate('uniform-baseline' if continuation is None else 'continuation-start',
+                   initial, iteration=0, feasible=initial_feasible)
     atomic_json(output / 'baseline.json', dict(
-        role='uniform-q0 central-load baseline', constraints=init_constraints.tolist(),
+        role='central-load continuation start' if continuation is not None else 'uniform-q0 central-load baseline', constraints=init_constraints.tolist(),
         objective=float(initial['values'][0]), stress_bound=float(initial['values'][1]),
         mass_kg=initial['mass_kg'], metrics=initial['metrics'].tolist(),
-        controls_sha256=q0_sha, feasible=initial_feasible,
+        controls_sha256=start_sha, feasible=initial_feasible,
         full_mpm_verified=False, nonlinear_blast_qualified=False))
 
     direction = np.random.default_rng(20261030).normal(size=reduced_count)
@@ -275,7 +307,7 @@ def run(config_path):
         raise ValueError('Central-only directional gradient/mass check failed')
 
     history = []
-    best = dict(x=q0_reduced.copy(), row=initial, feasible=initial_feasible)
+    best = dict(x=start_reduced.copy(), row=initial, feasible=initial_feasible)
 
     def constraints(x):
         r = evaluate_reduced(x)
@@ -305,7 +337,7 @@ def run(config_path):
             current=record, stopped=False))
 
     started = time.time()
-    result = minimize(lambda x: 1000. * float(evaluate_reduced(x)['values'][0]), q0_reduced,
+    result = minimize(lambda x: 1000. * float(evaluate_reduced(x)['values'][0]), start_reduced,
         jac=lambda x: 1000. * evaluate_reduced(x)['gradient'][0], method='SLSQP',
         bounds=[(-12., 12.)] * reduced_count,
         constraints=[dict(type='ineq', fun=constraints, jac=constraint_jac)], callback=callback,

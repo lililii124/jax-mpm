@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "role": "exploratory-central-only-fixedmass-optimization",
+  "load_case": "central",
+  "freeze_receipt": "inputs/model-freeze.json",
+  "freeze_receipt_sha256": "8ee035970bafd42e8681f29716b435fb4d7e455ac0c688534d885937d1f77a18",
+  "basis": "inputs/frozen-basis.npz",
+  "basis_sha256": "e567bedfef68520a980a6a8c73ecabf6358a369137cdfb3637ac07714b908e8d",
+  "selected_controls": "inputs/controls.npz",
+  "selected_material": "inputs/material.npz",
+  "selected_tangent": "inputs/tangent.npz",
+  "initial_material": "uniform-build-model-q0",
+  "symmetry": "D2-x-y-reflections",
+  "iterations": 6,
+  "output": "output",
+  "continuation_controls": "inputs/continuation-controls.npz",
+  "continuation": {
+    "role": "saved-best-so-far-controls",
+    "source_task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+    "source_controls_sha256": "f9169a43972d756d72b22aed127dd6bf8edfd063edb4271ec0665a676e297d2b",
+    "artifact_sha256": "00803680effa97e96e990e15f11e65e1dde3cb08c069ae97d1edbdfbecaf4dc8",
+    "controls_sha256": "f9169a43972d756d72b22aed127dd6bf8edfd063edb4271ec0665a676e297d2b",
+    "source_optimizer_receipt_sha256": "72f2da1350a686040d0bebe0837b61f40cb467111966504e12ed66e98777e735",
+    "source_summary_sha256": "6d392e5305460455e53c414621955514e275ac042617be86d39d71a7f5b5b77e"
+  }
+}

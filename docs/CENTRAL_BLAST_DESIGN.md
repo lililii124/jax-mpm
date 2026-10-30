@@ -30,6 +30,16 @@ the frozen operators; the optimization itself starts from uniform material.
 The entry point checks a central-load directional derivative and fixed mass
 before starting the two-iteration SQP budget. The output directory must be new.
 
+A further bounded search starts from the saved best candidate using
+`examples/sandwich_central_continue.json`. Copy the published
+`evidence/blast-sandwich-reduced/central-continuation-seed.npz` to the
+configuration's `inputs/continuation-controls.npz` alongside the other
+pinned inputs. This starts a fresh SQP solve from that material field; it is
+not a restoration of the previous solver's internal state. The configuration's
+legacy `initial_material` label and the final summary's `initial_material`
+field say uniform; for this continuation the actual start is identified by
+the hash in `optimization-inputs.json` and `continuation-start` outputs.
+
 This is an effective elastic-core design problem. It does not include an
 explicit explosive, skin plasticity or core crushing. The frozen basis is
 reused for candidate exploration; its earlier multi-load validation did not
