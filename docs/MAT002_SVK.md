@@ -1,6 +1,7 @@
 # Orthotropic finite-strain solid
 
-`orthotropic-svk` implements the supplied MAT002 solid kernel's St. Venant–Kirchhoff law:
+`orthotropic-svk` implements orthotropic St. Venant–Kirchhoff elasticity,
+checked against the MAT002 reference solid kernel:
 
 ```
 E = (FᵀF − I)/2

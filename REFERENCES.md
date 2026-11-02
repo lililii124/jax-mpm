@@ -11,28 +11,30 @@
 - [RHT contribution to OpenCourant](https://github.com/OpenCourant/OpenCourant/commit/1a0d691b82bd4f94a3bc2399682551e84e1d5fa4):
   public three-surface implementation and verification work by Yu Zheng.
 
-## Supplied constitutive references
+## Constitutive model references
 
-The JAX implementations were developed against the user's material deliveries.
-Original host SDK files and reference binaries are not distributed here.
+The JAX implementations are compared with reference constitutive
+implementations. Original host SDK files and reference binaries are not
+distributed here.
 
-| Model | Selected source |
+| Model | Reference implementation and scope |
 |---|---|
-| JC | `johnson_cook_solid.hpp`, supplied SPHinXsys work, 2026-10-22; the JAX return uses an implicit rate solve |
-| JH-2 | `MAT110.f` revision 7 and `jh2_core.h`, supplied 2026-10-21 snapshot |
-| HJC | `umat_hjc_user_tested_after_tension_fix.f`, supplied v3 tension-fix profile |
-| RHT | `rht_material_mod.F90`, 2026-09-24, AGPL-3.0-or-later; not the older simplified `umat_rht_palpha_verified.f` |
-| Selected MAT branches | `MAT001_296_latest_20261017`, audited against current-source Final Check evidence |
+| Johnson–Cook | [SPHinXsys Johnson–Cook implementation](https://github.com/Xiangyu-Hu/SPHinXsys/pull/1127); the JAX return uses an implicit rate solve |
+| Johnson–Holmquist II (JH-2) | Ceramic strength, damage and equation-of-state reference implementation; see the [implemented scope](docs/MATERIALS.md) |
+| Holmquist–Johnson–Cook (HJC) | Concrete strength, compaction and damage reference implementation; the supported numerical conventions are documented under [HJC profiles](docs/MATERIALS.md#hjc-profiles) |
+| Riedel–Hiermaier–Thoma (RHT) | Yu Zheng's [public three-surface implementation](https://github.com/OpenCourant/OpenCourant/commit/1a0d691b82bd4f94a3bc2399682551e84e1d5fa4), AGPL-3.0-or-later |
+| Elastic and elastoplastic models | Selected reference branches with source-hash and verification-record checks; see the [source verification audit](docs/MATERIALS.md#source-verification-audit) |
 
 The RHT core follows the public three-surface formulation described by
 Borrvall and Riedel (2011). Its selected numerical profile includes separate
 pre/post-peak return branches, adaptive substeps, and energy iteration.
-See [material scopes](docs/MATERIALS.md), [source hashes](docs/source_audit.json),
-and the [reference fixture manifest](tests/data/materials/manifest.json).
+See [material scopes](docs/MATERIALS.md), the archived
+[source-hash audit](docs/source_audit.json), and [verification](VALIDATION.md).
 
-Reference trace arrays are numerical outputs of the supplied implementations.
-The fixtures record source and output SHA-256 hashes. They verify the selected
-paths and conventions, not universal equivalence to a commercial material card.
+Reference trace arrays are numerical outputs of the reference implementations.
+Archived records retain source and output SHA-256 hashes and their original
+identifiers for traceability. They verify the selected paths and conventions,
+not universal equivalence to a commercial material card.
 
 ## Example settings and visualization
 
