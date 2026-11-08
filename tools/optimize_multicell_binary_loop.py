@@ -59,6 +59,9 @@ def main():
     baseline_meta, _, _ = read_run(args.baseline_replay, .02)
     if baseline_meta['settings'] != bin_settings or baseline_meta['geometry_sha256'] != sha256(args.baseline_geometry):
         raise ValueError('Baseline replay differs from the supplied binary inputs or geometry')
+    support_mode = baseline_meta.get('support_mode', 'single')
+    if support_mode not in ('single', 'split-disconnected'):
+        raise ValueError('Unsupported material-to-grid support mode')
     root = Path(__file__).resolve().parents[1]
     if any(sha256(root / name) != value for name, value in baseline_meta['source_sha256'].items()):
         raise ValueError('Baseline replay uses a different binary solver source snapshot')
@@ -129,12 +132,17 @@ def main():
             if not replay.exists():
                 write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'replaying',
                                                    'candidate': index + 1, 'candidates': len(proposed)})
-                run('examples.multicell_binary_blast_3d', geometry, args.binary_inputs, '--output', replay,
-                    '--frame-interval', baseline_meta['frame_interval'], '--empty-column-load',
-                    baseline_meta.get('empty_column_load', 'omit'))
+                replay_args = ['examples.multicell_binary_blast_3d', geometry, args.binary_inputs, '--output', replay,
+                               '--frame-interval', baseline_meta['frame_interval'], '--empty-column-load',
+                               baseline_meta.get('empty_column_load', 'omit')]
+                if support_mode == 'split-disconnected':
+                    replay_args.append('--split-disconnected-support')
+                run(*replay_args)
             replay_meta, _, _ = read_run(replay, .02)
             if replay_meta['geometry_sha256'] != sha256(geometry):
                 raise ValueError('Stored replay does not match its geometry')
+            if replay_meta.get('support_mode', 'single') != support_mode:
+                raise ValueError('Stored replay uses a different material-to-grid support mode')
             replays.append(replay)
         selection_dir = stage / 'selection'
         if not selection_dir.exists():
