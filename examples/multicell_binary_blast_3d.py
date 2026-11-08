@@ -189,7 +189,9 @@ def main():
                             displacement=np.asarray(displacement), von_mises=np.asarray(stress),
                             nodal_displacement=np.asarray(state.displacement))
         rows.append(row)
-        (args.output/'history.json').write_text(json.dumps(rows, indent=2, allow_nan=False)+'\n', encoding='utf-8')
+        history_temp = args.output/'history.json.tmp'
+        history_temp.write_text(json.dumps(rows, indent=2, allow_nan=False)+'\n', encoding='utf-8')
+        history_temp.replace(args.output/'history.json')
         print(json.dumps(row, allow_nan=False), flush=True)
         if completed == nsteps:
             break
