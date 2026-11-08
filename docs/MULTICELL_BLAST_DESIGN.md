@@ -41,3 +41,16 @@ pass must be run with an explicit memory limit. Higher resolution, full-pulse
 gradient accuracy, energy and momentum checks, and independent candidate
 verification remain necessary before the resulting topology is treated as an
 engineering result.
+
+An accepted density field can be converted to equal-volume solid voxels and
+voids while preserving the material amount to the nearest voxel per cell:
+
+```sh
+python -m tools.reconstruct_multicell_blast outputs/multicell-blast-opt/design-00001.npz outputs/multicell-blast-opt/inputs.json --output outputs/multicell-blast-opt/binary-00001.npz
+```
+
+The companion JSON records mass and face-connected component counts. The NPZ
+contains the shared and full-domain masks and eight quadrature positions for
+each solid voxel. Connectivity is reported rather than repaired; detached
+material and disconnected face sheets require a revised design. Reconstruction
+alone is not a dynamic simulation or evidence of blast performance.
