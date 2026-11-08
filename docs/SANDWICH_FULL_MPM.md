@@ -41,26 +41,26 @@ crushing. See the [problem definition](BLAST_SANDWICH_DESIGN.md) and
 
 ## Central-load material optimization
 
-<img src="images/sandwich-fullmpm/central-material-optimization.gif" alt="Uniform baseline and saved best-so-far central-load material designs" width="400">
+<img src="images/sandwich-fullmpm/central-v7-material.gif" alt="Saved central-load material designs" width="400">
 
 <table width="100%"><tr>
-<td width="50%"><img src="images/sandwich-fullmpm/central-section-xz.gif" alt="Central X–Z material section" width="100%"></td>
-<td width="50%"><img src="images/sandwich-fullmpm/central-section-yz.gif" alt="Central Y–Z material section" width="100%"></td>
+<td width="50%"><img src="images/sandwich-fullmpm/central-v7-xz.gif" alt="Central X–Z material section" width="100%"></td>
+<td width="50%"><img src="images/sandwich-fullmpm/central-v7-yz.gif" alt="Central Y–Z material section" width="100%"></td>
 </tr></table>
 
-This discrete two-state sequence shows the actual saved uniform baseline and
-best-so-far controls from a short, central-load-only fixed-mass reduced-model
+This discrete seven-state sequence shows the saved uniform baseline and
+selected feasible controls from a central-load-only fixed-mass reduced-model
 search. Both designs have 1.8468 kg total mass. The candidate is exploratory:
 it has not passed full-MPM verification, three-load qualification, or
 independent optimum verification. The images show material fields, not motion.
-[GIF and source provenance](images/sandwich-fullmpm/central-material-optimization.json).
+[GIF and source provenance](images/sandwich-fullmpm/central-v7-render.json).
 The side views show the full span above and an enlarged central section below;
-grey layers are the 2 mm skins. [Section provenance](images/sandwich-fullmpm/central-sections.json).
+grey layers are the 2 mm skins. [Section provenance](images/sandwich-fullmpm/central-v7-sections.json).
 
 Reproduce the fields and ParaView render from the saved control snapshot:
 
 ```sh
-python -m tools.export_sandwich_design_history evidence/blast-sandwich-reduced/central-material-controls.npz outputs/central-material-fields
+python -m tools.export_sandwich_design_history evidence/blast-sandwich-reduced/central-v7-controls.npz outputs/central-material-fields
 pvpython --force-offscreen-rendering tools/render_sandwich_design_history.py outputs/central-material-fields outputs/central-material-render
 ```
 

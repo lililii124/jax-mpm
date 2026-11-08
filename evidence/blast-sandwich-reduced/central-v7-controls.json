@@ -1,0 +1,120 @@
+{
+  "states": [
+    {
+      "label": "uniform-baseline",
+      "controls_sha256": "299407adb3f1bd645191cfecb3c33a47510b1dfba3c0a936d741bdd8513526c0",
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+        "remote_artifact": "uniform-baseline-controls.json",
+        "remote_sha256": "6a9c26a603fe3b3b81251760522306d2bf43ea50b54d5dd2211c63e43d53a103",
+        "optimizer_receipt_sha256": "4d08ee01bb87fc0a2a2b9856655b98da97257872f4732f78498a795879574a1e"
+      },
+      "objective": 0.1911909976782933,
+      "iteration": 0,
+      "feasible": true,
+      "mass_kg": 1.8468,
+      "role": "exploratory-central-only-reduced-model-candidate",
+      "load_case": "central",
+      "symmetry_group": "D2 x/y reflections",
+      "nonlinear_blast_qualified": false,
+      "full_mpm_verified": false
+    },
+    {
+      "label": "best-so-far",
+      "controls_sha256": "f9169a43972d756d72b22aed127dd6bf8edfd063edb4271ec0665a676e297d2b",
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v3-20261030",
+        "remote_artifact": "best-so-far-controls.json",
+        "remote_sha256": "3ff239aced303c1fa2dd3ba102e46a64882c75271596e94b0d824b853723271d",
+        "optimizer_receipt_sha256": "72f2da1350a686040d0bebe0837b61f40cb467111966504e12ed66e98777e735"
+      },
+      "objective": 0.16038308373130544,
+      "iteration": 2,
+      "feasible": true,
+      "mass_kg": 1.8468000000000002,
+      "role": "exploratory-central-only-reduced-model-candidate",
+      "load_case": "central",
+      "symmetry_group": "D2 x/y reflections",
+      "nonlinear_blast_qualified": false,
+      "full_mpm_verified": false
+    },
+    {
+      "label": "continuation-best",
+      "controls_sha256": "6b0a2636fb602e581d9a4a3c75986075793519eb13ff28898fd0ad8243a02a5e",
+      "iteration": 2,
+      "objective": 0.15503158507408285,
+      "actual_peak_back_m": 0.0007659824651991535,
+      "actual_peak_skin_Pa": 102584283.16610065,
+      "mass_kg": 1.8468,
+      "feasible": true,
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v7-continue-best-20261109",
+        "controls_json_sha256": "12232167ed7c7260a97f48ac46868d1a074be2a56bdd4157298aece0b69681ba",
+        "receipt_sha256": "e1c2fd8831223ee7051dc5f724f314abc5bf873b33f800b013a420f9dd8a51eb"
+      }
+    },
+    {
+      "label": "continuation-best",
+      "controls_sha256": "0b7b1bbe226fdcb798041c62f1eed08832f851efd3bda1599b47b19dbc9aa82b",
+      "iteration": 3,
+      "objective": 0.15403878515823202,
+      "actual_peak_back_m": 0.0007610684526760004,
+      "actual_peak_skin_Pa": 105344226.66097884,
+      "mass_kg": 1.8468,
+      "feasible": true,
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v7-continue-best-20261109",
+        "controls_json_sha256": "a073d235ec61041c0528a52d4501bdda73a90c0e6e66b4d3017d6bbb6f1b4176",
+        "receipt_sha256": "8c773c44a6029034dd0116f03b982273697b87afabf2d18fcea4f3789eb36314"
+      }
+    },
+    {
+      "label": "continuation-best",
+      "controls_sha256": "24a0a9b9d025d9b5a1afdebdbcf53ced58e5071fb78252ec3b1ac9690563bfb6",
+      "iteration": 4,
+      "objective": 0.15307516967474896,
+      "actual_peak_back_m": 0.0007563511229434804,
+      "actual_peak_skin_Pa": 109633895.34001827,
+      "mass_kg": 1.8468,
+      "feasible": true,
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v7-continue-best-20261109",
+        "controls_json_sha256": "1fa54f6a7dd8bada416057b4b902b54bab9f0e1a0c1e93d199c2fe35267f430c",
+        "receipt_sha256": "3a41fd1952336486614ca123abc7595d11ce2b00a3ecaf3606a6983c5ec02aeb"
+      }
+    },
+    {
+      "label": "continuation-best",
+      "controls_sha256": "835efac7849fefb36df7544be1fa2422c0639c1971048673a948b71c3287a519",
+      "iteration": 5,
+      "objective": 0.15244730032793036,
+      "actual_peak_back_m": 0.0007532894457138005,
+      "actual_peak_skin_Pa": 112308605.3398308,
+      "mass_kg": 1.8468,
+      "feasible": true,
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v7-continue-best-20261109",
+        "controls_json_sha256": "7ebb5a39a04c9fad11f0f0ff55aa1305f1be928fbed7368ded39709eb8490419",
+        "receipt_sha256": "851b074976b600216cf06d1bee7dd52b027468f2612f090912866b851f4dd18a"
+      }
+    },
+    {
+      "label": "continuation-best",
+      "controls_sha256": "2b65c2eabf9ef71f4d8be9eddf770b0b670647309b7776f491836eec608fc89e",
+      "iteration": 6,
+      "objective": 0.1494752153192609,
+      "actual_peak_back_m": 0.0007386605423016454,
+      "actual_peak_skin_Pa": 126447818.06894034,
+      "mass_kg": 1.8468,
+      "feasible": true,
+      "source": {
+        "task": "blast-sandwich-central-fixedmass-sqp-v7-continue-best-20261109",
+        "controls_json_sha256": "4f09ecf4d249c590bc8a6ffb4c8120492bf0b79d0344fcce48a6ecd164a4884a",
+        "receipt_sha256": "5f136e3bb080c549f956788074285d7ec6c8709d627d54ae1b6aa68bd701996e"
+      }
+    }
+  ],
+  "controls_artifact_sha256": "bcca8d123d174a9cfc80d596bfd48e72375ba9278cba767f1841c881ca8746d1",
+  "scope": "Discrete actually saved feasible designs; missing iterations are not interpolated. Reduced model only.",
+  "full_mpm_qualification": false
+}
