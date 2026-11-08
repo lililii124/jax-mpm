@@ -26,6 +26,32 @@ def verify_early_rejection(meta, history, result, outcome, minimum_reduction):
         raise ValueError('Incomplete replay does not prove candidate rejection')
 
 
+def evaluate_secondary_constraints(base_meta, base_rows, meta, rows, bottom_ratio=None, p90_ratio=None,
+                                   min_bottom_coverage=None):
+    result = {'passed': True, 'sampling': 'saved-frames'}
+    for key, limit, label in (('bottom_plane_displacement_max_m', bottom_ratio, 'bottom_peak'),
+                              ('back_displacement_p90_m', p90_ratio, 'p90_peak')):
+        if limit is None:
+            continue
+        if any(key not in row for row in base_rows+rows):
+            raise ValueError('Replay lacks surface statistics required by '+label)
+        baseline = max(row[key] for row in base_rows)
+        candidate = max(row[key] for row in rows)
+        if not np.isfinite(baseline) or baseline <= 0 or not np.isfinite(candidate) or candidate < 0:
+            raise ValueError('Invalid surface statistic for '+label)
+        ratio = candidate/baseline
+        result[label] = {'baseline_m': baseline, 'candidate_m': candidate, 'ratio': ratio, 'limit': limit}
+        result['passed'] &= ratio <= limit
+    if min_bottom_coverage is not None:
+        fraction = meta.get('bottom_plane_sample_fraction')
+        if fraction is None or not np.isfinite(fraction) or not 0 <= fraction <= 1:
+            raise ValueError('Replay lacks valid bottom-plane coverage')
+        result['bottom_coverage'] = {'baseline': base_meta.get('bottom_plane_sample_fraction'),
+                                     'candidate': fraction, 'minimum': min_bottom_coverage}
+        result['passed'] &= fraction >= min_bottom_coverage
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('inputs', type=Path)
@@ -36,12 +62,20 @@ def main():
     parser.add_argument('--replays', type=Path, nargs='+', required=True,
                         help='Replay directories, in proposed-candidate order')
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
+    parser.add_argument('--max-bottom-peak-ratio', type=float)
+    parser.add_argument('--max-p90-peak-ratio', type=float)
+    parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(args.output)
     if not 0 <= args.minimum_reduction < 1:
         raise ValueError('Minimum reduction must lie in [0, 1)')
+    for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio):
+        if value is not None and (not np.isfinite(value) or value <= 0):
+            raise ValueError('Secondary displacement ratios must be finite and positive')
+    if args.min_bottom_coverage is not None and not 0 <= args.min_bottom_coverage <= 1:
+        raise ValueError('Bottom coverage must lie in [0, 1]')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
     manifest = json.loads((args.proposals / 'manifest.json').read_text(encoding='utf-8'))
     feature_limit = manifest.get('max_single_voxel_fraction')
@@ -52,7 +86,7 @@ def main():
             manifest['signature'] != inputs['signature'] or manifest['inputs_sha256'] != sha256(args.inputs)):
         raise ValueError('Proposal inputs do not match the optimizer binding')
     settings = inputs['binding']['settings']
-    base_meta, _, _ = read_run(args.baseline_replay, .02)
+    base_meta, base_rows, _ = read_run(args.baseline_replay, .02)
     if base_meta['geometry_sha256'] != sha256(args.baseline_geometry):
         raise ValueError('Baseline replay geometry differs')
     with np.load(args.baseline_geometry, allow_pickle=False) as data:
@@ -99,10 +133,17 @@ def main():
         if early_rejected:
             outcome = json.loads((replay / 'outcome.json').read_text(encoding='utf-8'))
             verify_early_rejection(meta, history, result, outcome, args.minimum_reduction)
+        secondary = None
+        if not early_rejected and any(value is not None for value in
+                                      (args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage)):
+            secondary = evaluate_secondary_constraints(base_meta, base_rows, meta, history,
+                args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage)
         comparisons.append({'step': row['step'], 'design': str(design),
                             'solid_mask_sha256': row['solid_mask_sha256'], 'early_rejected': early_rejected,
+                            'secondary_constraints': secondary,
                             'comparison': result})
-    completed = [row for row in comparisons if not row['early_rejected']]
+    completed = [row for row in comparisons if not row['early_rejected'] and
+                 (row['secondary_constraints'] is None or row['secondary_constraints']['passed'])]
     best = min(completed, key=lambda row: row['comparison']['candidate_sampled_peak_m']) if completed else None
     accepted = best is not None and best['comparison']['sampled_peak_reduction_fraction'] > args.minimum_reduction
     selected = Path(best['design']) if accepted else args.baseline_design

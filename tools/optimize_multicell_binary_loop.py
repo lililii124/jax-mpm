@@ -105,12 +105,21 @@ def main():
     parser.add_argument('--early-reject', action='store_true')
     parser.add_argument('--max-single-voxel-fraction', type=float,
                         help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
+    parser.add_argument('--max-bottom-peak-ratio', type=float)
+    parser.add_argument('--max-p90-peak-ratio', type=float)
+    parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     if args.iterations < 1 or args.fallback_directions < 0 or not 0 <= args.minimum_reduction < 1:
         raise ValueError('Invalid iteration or acceptance settings')
     if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
         raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
+    import math
+    for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio):
+        if value is not None and (not math.isfinite(value) or value <= 0):
+            raise ValueError('Secondary displacement ratios must be finite and positive')
+    if args.min_bottom_coverage is not None and not 0 <= args.min_bottom_coverage <= 1:
+        raise ValueError('Bottom coverage must lie in [0, 1]')
     if (args.seed_gradient is None) != (args.seed_proposals is None):
         raise ValueError('Seed gradient and proposals must be supplied together')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
@@ -121,12 +130,19 @@ def main():
               'core_young', 'solid_density', 'pressure', 'pulse', 'blast_radius')
     if any(opt_settings[key] != bin_settings[key] for key in fields):
         raise ValueError('Gradient and binary simulations use different physical settings')
-    baseline_meta, _, _ = read_run(args.baseline_replay, .02)
+    baseline_meta, baseline_rows, _ = read_run(args.baseline_replay, .02)
     if baseline_meta['settings'] != bin_settings or baseline_meta['geometry_sha256'] != sha256(args.baseline_geometry):
         raise ValueError('Baseline replay differs from the supplied binary inputs or geometry')
     support_mode = baseline_meta.get('support_mode', 'single')
     if support_mode not in ('single', 'split-disconnected'):
         raise ValueError('Unsupported material-to-grid support mode')
+    required = []
+    if args.max_bottom_peak_ratio is not None: required.append('bottom_plane_displacement_max_m')
+    if args.max_p90_peak_ratio is not None: required.append('back_displacement_p90_m')
+    if any(key not in row for key in required for row in baseline_rows):
+        raise ValueError('Baseline lacks the requested surface statistics')
+    if args.min_bottom_coverage is not None and 'bottom_plane_sample_fraction' not in baseline_meta:
+        raise ValueError('Baseline lacks bottom-plane coverage')
     root = Path(__file__).resolve().parents[1]
     if any(sha256(root / name) != value for name, value in baseline_meta['source_sha256'].items()):
         raise ValueError('Baseline replay uses a different binary solver source snapshot')
@@ -144,6 +160,10 @@ def main():
         binding['early_reject'] = True
     if args.max_single_voxel_fraction is not None:
         binding['max_single_voxel_fraction'] = args.max_single_voxel_fraction
+    for key, value in (('max_bottom_peak_ratio', args.max_bottom_peak_ratio),
+                       ('max_p90_peak_ratio', args.max_p90_peak_ratio),
+                       ('min_bottom_coverage', args.min_bottom_coverage)):
+        if value is not None: binding[key] = value
     folder = args.output
     if args.resume:
         if json.loads((folder / 'binding.json').read_text()) != binding:
@@ -241,8 +261,14 @@ def main():
             preserve_partial_directory(selection_dir, ('selection.json', 'selected-design.npz'))
         if not selection_dir.exists():
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'selecting'})
-            run('tools.select_multicell_binary_step', args.inputs, current_design, current_geometry, current_replay,
-                proposals, '--replays', *replays, '--minimum-reduction', args.minimum_reduction, '--output', selection_dir)
+            selection_args = ['tools.select_multicell_binary_step', args.inputs, current_design, current_geometry,
+                              current_replay, proposals, '--replays', *replays, '--minimum-reduction', args.minimum_reduction,
+                              '--output', selection_dir]
+            for option, value in (('--max-bottom-peak-ratio', args.max_bottom_peak_ratio),
+                                  ('--max-p90-peak-ratio', args.max_p90_peak_ratio),
+                                  ('--min-bottom-coverage', args.min_bottom_coverage)):
+                if value is not None: selection_args.extend((option, value))
+            run(*selection_args)
         selection = json.loads((selection_dir / 'selection.json').read_text())
         selected_design = selection_dir / 'selected-design.npz'
         if sha256(selected_design) != selection['selected_design_sha256']:
