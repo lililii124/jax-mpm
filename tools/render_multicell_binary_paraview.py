@@ -38,10 +38,12 @@ def main():
     view.OrientationAxesVisibility = 0
     view.CenterAxesVisibility = 0
     view.CameraParallelProjection = 1
-    view.CameraPosition = [.53, -.52, .32]
-    view.CameraFocalPoint = [.15, .15, .012]
+    bounds = target.GetDataInformation().GetBounds()
+    center = [(bounds[2*i]+bounds[2*i+1])*.5 for i in range(3)]
+    view.CameraFocalPoint = center
+    view.CameraPosition = [center[0]+.38, center[1]-.67, center[2]+.308]
     view.CameraViewUp = [0, 0, 1]
-    view.CameraParallelScale = .18
+    view.CameraParallelScale = .23
     display = p.Show(target, view)
     display.Representation = 'Surface'
     display.Ambient = .3
