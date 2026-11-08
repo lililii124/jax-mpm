@@ -227,6 +227,8 @@ def main():
     use_constraints = any(value is not None for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
                                                            args.min_bottom_coverage, args.min_common_bottom_coverage))
     if use_constraints: binding['constraint_reference'] = 'initial-replay'
+    if args.min_bottom_coverage is not None or args.min_common_bottom_coverage is not None:
+        binding['proposal_coverage_filter'] = 'v1'
     folder = args.output
     if args.resume:
         if json.loads((folder / 'binding.json').read_text()) != binding:
@@ -270,12 +272,23 @@ def main():
                                  '--fallback-directions', args.fallback_directions, '--output', proposals]
                 if args.max_single_voxel_fraction is not None:
                     proposal_args.extend(('--max-single-voxel-fraction', args.max_single_voxel_fraction))
+                if args.min_bottom_coverage is not None:
+                    proposal_args.extend(('--min-bottom-coverage', args.min_bottom_coverage))
+                if args.min_common_bottom_coverage is not None:
+                    proposal_args.extend(('--min-common-bottom-coverage', args.min_common_bottom_coverage,
+                                          '--constraint-reference-geometry', args.baseline_geometry))
                 run(*proposal_args)
         manifest = json.loads((proposals / 'manifest.json').read_text())
         if manifest['gradient_sha256'] != sha256(gradient) or manifest['inputs_sha256'] != sha256(args.inputs):
             raise ValueError('Proposal manifest does not match the current gradient')
         if manifest.get('max_single_voxel_fraction') != args.max_single_voxel_fraction:
             raise ValueError('Proposal feature limit differs from the optimization settings')
+        if (manifest.get('min_bottom_coverage') != args.min_bottom_coverage or
+                manifest.get('min_common_bottom_coverage') != args.min_common_bottom_coverage):
+            raise ValueError('Proposal coverage filters differ from the optimization settings')
+        if (args.min_common_bottom_coverage is not None and
+                manifest.get('constraint_reference_geometry_sha256') != sha256(args.baseline_geometry)):
+            raise ValueError('Proposal constraint reference differs')
         proposed = [row for row in manifest['steps'] if row['status'] == 'proposed']
         if not proposed:
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'no-feasible-proposals'})

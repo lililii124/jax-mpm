@@ -93,6 +93,13 @@ def main():
         raise ValueError('Supply both constraint reference replay and geometry')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
     manifest = json.loads((args.proposals / 'manifest.json').read_text(encoding='utf-8'))
+    for key, value in (('min_bottom_coverage', args.min_bottom_coverage),
+                       ('min_common_bottom_coverage', args.min_common_bottom_coverage)):
+        if key in manifest and manifest[key] != value:
+            raise ValueError('Proposal coverage filter differs: '+key)
+    if 'constraint_reference_geometry_sha256' in manifest:
+        if args.constraint_reference_geometry is None or sha256(args.constraint_reference_geometry) != manifest['constraint_reference_geometry_sha256']:
+            raise ValueError('Proposal constraint reference geometry differs')
     feature_limit = manifest.get('max_single_voxel_fraction')
     if feature_limit is not None:
         if not 0 <= feature_limit <= 1 or manifest.get('feature_filter_sha256') != sha256(Path(__file__).with_name('multicell_feature_filter.py')):

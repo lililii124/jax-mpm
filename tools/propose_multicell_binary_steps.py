@@ -21,6 +21,9 @@ def main():
     parser.add_argument('--fallback-seed', type=int, default=370)
     parser.add_argument('--max-single-voxel-fraction', type=float,
                         help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
+    parser.add_argument('--min-bottom-coverage', type=float)
+    parser.add_argument('--min-common-bottom-coverage', type=float)
+    parser.add_argument('--constraint-reference-geometry', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
@@ -30,6 +33,11 @@ def main():
         raise ValueError('Step sizes and logit bound must be finite and positive')
     if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
         raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
+    for value in (args.min_bottom_coverage, args.min_common_bottom_coverage):
+        if value is not None and not 0 <= value <= 1:
+            raise ValueError('Bottom coverage limit must lie in [0, 1]')
+    if (args.min_common_bottom_coverage is None) != (args.constraint_reference_geometry is None):
+        raise ValueError('Common coverage requires its reference geometry')
     meta = json.loads(args.inputs.read_text(encoding='utf-8'))
     binding = meta['binding']
     if hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest() != meta['signature']:
@@ -77,6 +85,10 @@ def main():
     if (base['solid_mask_sha256'] != selected_mask or base['components'] != 1 or
             not base['faces_connected'] or base['populated_column_fraction'] != 1.):
         raise ValueError('Selected baseline must be connected and cover the projected pressure footprint')
+    reference_bottom = None
+    if args.constraint_reference_geometry is not None:
+        with np.load(args.constraint_reference_geometry, allow_pickle=False) as data:
+            reference_bottom = np.asarray(data['solid_mask'][0], dtype=bool).copy()
     args.output.mkdir(parents=True)
     records = []
     seen = {selected_mask}
@@ -88,6 +100,12 @@ def main():
         fraction = single_voxel_run_fraction(cell)
         record = {'step': step, 'direction': kind, 'solid_mask_sha256': mask,
                   'single_voxel_fraction': fraction}
+        bottom = np.asarray(solid[0], dtype=bool)
+        bottom_fraction = float(np.mean(bottom))
+        record['bottom_coverage'] = bottom_fraction
+        if reference_bottom is not None:
+            if reference_bottom.shape != bottom.shape: raise ValueError('Reference bottom grid differs')
+            record['common_bottom_coverage'] = float(np.mean(reference_bottom & bottom))
         if mask in seen:
             record['status'] = 'duplicate'
         elif (report['components'] != 1 or not report['faces_connected'] or
@@ -95,6 +113,10 @@ def main():
             record['status'] = 'infeasible'
         elif args.max_single_voxel_fraction is not None and fraction > args.max_single_voxel_fraction:
             record['status'] = 'feature-limit'
+        elif ((args.min_bottom_coverage is not None and bottom_fraction < args.min_bottom_coverage) or
+              (args.min_common_bottom_coverage is not None and
+               record['common_bottom_coverage'] < args.min_common_bottom_coverage)):
+            record['status'] = 'bottom-coverage-limit'
         elif not np.isclose(report['binary_mass_kg'], base['binary_mass_kg'], rtol=1e-12, atol=1e-12):
             raise ValueError('Binary material mass changed')
         else:
@@ -132,6 +154,11 @@ def main():
                 'feature_filter_sha256': sha256(root/'tools/multicell_feature_filter.py'),
                 'fallback_seed': args.fallback_seed if args.fallback_directions else None,
                 'steps': records, 'qualification': 'Proposals require complete binary MPM replay before acceptance.'}
+    if args.min_bottom_coverage is not None:
+        manifest['min_bottom_coverage'] = args.min_bottom_coverage
+    if args.min_common_bottom_coverage is not None:
+        manifest['min_common_bottom_coverage'] = args.min_common_bottom_coverage
+        manifest['constraint_reference_geometry_sha256'] = sha256(args.constraint_reference_geometry)
     temp = args.output / 'manifest.json.tmp'
     temp.write_text(json.dumps(manifest, indent=2, allow_nan=False) + '\n', encoding='utf-8')
     temp.replace(args.output / 'manifest.json')
