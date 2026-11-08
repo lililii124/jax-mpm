@@ -117,6 +117,8 @@ def main():
                 diagnostic_only=args.allow_disconnected_diagnostic,
                 limitation='Single-field reference-grid model: no self-contact, plasticity or failure; adjacent disconnected surfaces may share grid support.')
     (args.output/'inputs.json').write_text(json.dumps(meta, indent=2, allow_nan=False)+'\n', encoding='utf-8')
+    np.savez_compressed(args.output/'reference.npz', nodes=xyz, spacing=h,
+                        shape=np.asarray(support.shape))
     rows = []
     completed = 0
     while True:
@@ -129,7 +131,8 @@ def main():
         if not row['valid'] or not all(np.isfinite(v) for v in row.values()):
             raise FloatingPointError(f'Invalid state at step {completed}')
         np.savez_compressed(args.output/f'frame-{completed:07d}.npz', position=pos+np.asarray(displacement),
-                            displacement=np.asarray(displacement), von_mises=np.asarray(stress))
+                            displacement=np.asarray(displacement), von_mises=np.asarray(stress),
+                            nodal_displacement=np.asarray(state.displacement))
         rows.append(row)
         (args.output/'history.json').write_text(json.dumps(rows, indent=2, allow_nan=False)+'\n', encoding='utf-8')
         print(json.dumps(row, allow_nan=False), flush=True)

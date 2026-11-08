@@ -86,3 +86,12 @@ runtime, sampling interval, time horizon and mass. It rejects disconnected
 geometries and excessive sampled energy residuals. The reported maximum is
 the maximum among recorded frames, so the sampling interval must be refined
 when measuring a transient peak.
+
+For ParaView, export a completed replay with
+`python -m tools.export_multicell_binary_vtk REPLAY GEOMETRY.npz VTK_OUTPUT`.
+The solid voxels form a hexahedral volume; its vertices use the original
+reference-grid displacement interpolation and its cell stress is the mean of
+the eight material-point values. Render with
+`pvpython tools/render_multicell_binary_paraview.py VTK_OUTPUT GIF_OUTPUT --stress-limit-mpa 100 --cutaway`.
+Use a common stress limit when comparing designs. The deformation is shown at
+physical scale, and the cutaway exposes the interior.
