@@ -54,6 +54,10 @@ Its output must be compared with the matching uniform-material central-load
 baseline; running the command does not itself establish an improvement or
 mesh convergence.
 
+For the later six-iteration continuation shown in the current gallery, use
+`examples/sandwich_central_v7_fullmpm.json`. It binds a different saved control
+field and therefore requires its own independent full-MPM trajectory.
+
 After the candidate finishes, compare the complete histories' peak metrics:
 
 ```sh

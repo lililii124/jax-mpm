@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "backend": "prebound",
+  "block_size": 4096,
+  "settings": {
+    "xy_step": 0.01,
+    "z_step": 0.001,
+    "controls": [24, 24, 3],
+    "stage": "fixed-mass"
+  },
+  "physical_source_signature": "62cf1ac98a9657c2012233af5421441ef35820013d63f7d567278ea07a49842b",
+  "controls": "../evidence/blast-sandwich-reduced/central-v7-best.json",
+  "controls_sha256": "2b65c2eabf9ef71f4d8be9eddf770b0b670647309b7776f491836eec608fc89e",
+  "case": "central",
+  "output": "../outputs/sandwich-central-v7-fullmpm",
+  "save_every": 1000
+}
