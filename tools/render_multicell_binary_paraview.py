@@ -64,16 +64,24 @@ def main():
         if len(center_projection)!=3:
             raise ValueError('Invalid blast center projection')
         marker=p.Disk()
-        marker.InnerRadius=.0035
-        marker.OuterRadius=.0045
+        marker.InnerRadius=.004
+        marker.OuterRadius=.0055
         marker.CircumferentialResolution=64
         location=p.Transform(Input=marker)
-        location.Transform.Translate=[center_projection[0],center_projection[1],center_projection[2]+.002]
+        location.Transform.Translate=[center_projection[0],center_projection[1],center_projection[2]+.04]
         marker_display=p.Show(location,view)
         marker_display.DiffuseColor=[.72,.08,.04]
         marker_display.AmbientColor=[.72,.08,.04]
         marker_display.Ambient=1
         marker_display.Diffuse=0
+        projection=p.Line(Point1=center_projection,
+                          Point2=[center_projection[0],center_projection[1],center_projection[2]+.04])
+        projection_display=p.Show(projection,view)
+        projection_display.DiffuseColor=[.72,.08,.04]
+        projection_display.AmbientColor=[.72,.08,.04]
+        projection_display.Ambient=1
+        projection_display.Diffuse=0
+        projection_display.LineWidth=2
     frames = []
     times = [row['time_s'] for row in records]
     if any(b <= a for a, b in zip(times, times[1:])):
