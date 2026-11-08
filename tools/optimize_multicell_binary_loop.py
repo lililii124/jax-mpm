@@ -62,6 +62,7 @@ def preserve_incomplete_replay(replay, geometry_sha256, baseline_meta):
         meta = json.loads(meta_path.read_text(encoding='utf-8'))
         if (meta['geometry_sha256'] != geometry_sha256 or
                 meta.get('support_mode', 'single') != baseline_meta.get('support_mode', 'single') or
+                meta.get('peak_sampling', 'saved-frames') != baseline_meta.get('peak_sampling', 'saved-frames') or
                 any(meta[key] != baseline_meta[key] for key in ('settings', 'source_sha256', 'frame_interval'))):
             raise ValueError('Interrupted replay does not match the current calculation')
         if history_path.exists():
@@ -190,12 +191,16 @@ def main():
                                baseline_meta.get('empty_column_load', 'omit')]
                 if support_mode == 'split-disconnected':
                     replay_args.append('--split-disconnected-support')
+                if baseline_meta.get('peak_sampling', 'saved-frames') == 'every-step':
+                    replay_args.append('--track-subframe-peak')
                 run(*replay_args)
             replay_meta, _, _ = read_run(replay, .02)
             if replay_meta['geometry_sha256'] != sha256(geometry):
                 raise ValueError('Stored replay does not match its geometry')
             if replay_meta.get('support_mode', 'single') != support_mode:
                 raise ValueError('Stored replay uses a different material-to-grid support mode')
+            if replay_meta.get('peak_sampling', 'saved-frames') != baseline_meta.get('peak_sampling', 'saved-frames'):
+                raise ValueError('Stored replay uses a different peak sampling mode')
             replays.append(replay)
         selection_dir = stage / 'selection'
         if args.resume:

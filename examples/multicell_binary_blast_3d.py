@@ -32,6 +32,7 @@ def main():
     p.add_argument('--frame-interval', type=int, default=200)
     p.add_argument('--empty-column-load', choices=('omit','redistribute'), default='omit')
     p.add_argument('--split-disconnected-support', action='store_true')
+    p.add_argument('--track-subframe-peak', action='store_true')
     p.add_argument('--allow-disconnected-diagnostic', action='store_true')
     args = p.parse_args()
     if args.output.exists() and any(args.output.iterdir()):
@@ -111,13 +112,23 @@ def main():
     state = initial_state(ref, mat, jnp.zeros_like(load))
 
     def advance(st, length):
-        def body(current, _):
+        def advance_one(current):
             t0 = current.time
             t1 = t0 + dt
             p0 = jnp.sin(jnp.pi*jnp.minimum(t0/pulse, 1.))**2*(t0 < pulse)
             p1 = jnp.sin(jnp.pi*jnp.minimum(t1/pulse, 1.))**2*(t1 < pulse)
-            return step(current, ref, mat, dt, load*p0, load*p1, fixed)[0], None
-        return jax.lax.scan(body, st, None, length=length)[0]
+            return step(current, ref, mat, dt, load*p0, load*p1, fixed)[0]
+        if args.track_subframe_peak:
+            def tracked(carry, _):
+                current, peak = carry
+                following = advance_one(current)
+                back = jnp.sum(following.displacement[jnp.asarray(bi), 2]*jnp.asarray(bw), axis=1)
+                return (following, jnp.maximum(peak, jnp.max(jnp.abs(back)))), None
+            (following, peak), _ = jax.lax.scan(tracked, (st, jnp.asarray(0., dtype=load.dtype)), None, length=length)
+            return following, peak
+        def body(current, _):
+            return advance_one(current), None
+        return jax.lax.scan(body, st, None, length=length)[0], jnp.asarray(0., dtype=load.dtype)
     advance = jax.jit(advance, static_argnums=(1,))
     @jax.jit
     def observe(st):
@@ -143,6 +154,7 @@ def main():
                 settings=s, steps=nsteps, frame_interval=args.frame_interval, cfl=cfl,
                 empty_column_load=args.empty_column_load,
                 support_mode='split-disconnected' if split is not None else 'single',
+                peak_sampling='every-step' if args.track_subframe_peak else 'saved-frames',
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],
                 connected_components=report['components'], populated_column_fraction=float(np.mean(occupied)),
@@ -157,6 +169,7 @@ def main():
     np.savez_compressed(args.output/'reference.npz', **reference_data)
     rows = []
     completed = 0
+    interval_peak = 0.
     while True:
         displacement, stress, back, kinetic, energy, min_j, pe, ae = observe(state)
         row = dict(step=completed, time_s=float(state.time), valid=bool(state.valid),
@@ -164,6 +177,8 @@ def main():
                    pressure_work_J=float(state.body_work), boundary_work_J=float(state.boundary_work),
                    energy_residual_J=float(kinetic+energy-state.body_work-state.boundary_work),
                    min_J=float(min_j), momentum_residual=float(pe), angular_momentum_residual=float(ae))
+        if args.track_subframe_peak:
+            row['back_displacement_interval_peak_m'] = max(float(back), float(interval_peak))
         if not row['valid'] or not all(np.isfinite(v) for v in row.values()):
             raise FloatingPointError(f'Invalid state at step {completed}')
         np.savez_compressed(args.output/f'frame-{completed:07d}.npz', position=pos+np.asarray(displacement),
@@ -175,7 +190,7 @@ def main():
         if completed == nsteps:
             break
         count = min(args.frame_interval, nsteps-completed)
-        state = advance(state, count)
+        state, interval_peak = advance(state, count)
         completed += count
 
 

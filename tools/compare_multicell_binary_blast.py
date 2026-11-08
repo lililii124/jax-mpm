@@ -30,6 +30,13 @@ def read_run(path, energy_tolerance, allow_incomplete=False):
         raise ValueError(f'{path}: invalid deformation')
     fields = ('back_displacement_max_m', 'kinetic_J', 'elastic_J', 'pressure_work_J',
               'boundary_work_J', 'energy_residual_J', 'min_J', 'momentum_residual')
+    peak_sampling = meta.get('peak_sampling', 'saved-frames')
+    if peak_sampling not in ('saved-frames', 'every-step'):
+        raise ValueError(f'{path}: unsupported peak sampling mode')
+    if peak_sampling == 'every-step':
+        fields += ('back_displacement_interval_peak_m',)
+        if any(row['back_displacement_interval_peak_m'] + 1e-15 < row['back_displacement_max_m'] for row in rows):
+            raise ValueError(f'{path}: interval peak is below the saved-frame response')
     if not all(np.isfinite(row[key]) for row in rows for key in fields):
         raise ValueError(f'{path}: non-finite history')
     scale = max(max(abs(row['pressure_work_J'] + row['boundary_work_J']) for row in rows),
@@ -52,12 +59,16 @@ def compare(baseline, candidate, energy_tolerance=.02):
         raise ValueError('Projected pressure allocation differs')
     if a.get('support_mode','single') != b.get('support_mode','single'):
         raise ValueError('Material-to-grid support mode differs')
+    if a.get('peak_sampling', 'saved-frames') != b.get('peak_sampling', 'saved-frames'):
+        raise ValueError('Peak sampling mode differs')
     if not np.isclose(a['binary_mass_kg'], b['binary_mass_kg'], rtol=1e-12, atol=1e-12):
         raise ValueError('Reconstructed material mass differs')
     if a['solid_mask_sha256'] == b['solid_mask_sha256']:
         raise ValueError('Baseline and candidate have identical solid geometry')
-    ap = max(row['back_displacement_max_m'] for row in ah)
-    bp = max(row['back_displacement_max_m'] for row in bh)
+    peak_field = ('back_displacement_interval_peak_m' if a.get('peak_sampling', 'saved-frames') == 'every-step'
+                  else 'back_displacement_max_m')
+    ap = max(row[peak_field] for row in ah)
+    bp = max(row[peak_field] for row in bh)
     if ap <= 0:
         raise ValueError('Baseline has zero recorded response')
     return dict(baseline=str(baseline), candidate=str(candidate),
@@ -69,7 +80,9 @@ def compare(baseline, candidate, energy_tolerance=.02):
                 baseline_populated_column_fraction=a.get('populated_column_fraction'),
                 candidate_populated_column_fraction=b.get('populated_column_fraction'),
                 energy_tolerance=energy_tolerance,
-                limitation=('Peak displacement is sampled only at stored frames. '
+                peak_sampling=a.get('peak_sampling', 'saved-frames'),
+                limitation=(('Peak displacement is sampled at every integration step. ' if peak_field != 'back_displacement_max_m'
+                             else 'Peak displacement is sampled only at stored frames. ')+
                             'Projected pressure uses '+a.get('empty_column_load','omit')+
                             ' allocation; cavity-side pressure is omitted. This is an elastic replay, not experimental validation.'))
 
