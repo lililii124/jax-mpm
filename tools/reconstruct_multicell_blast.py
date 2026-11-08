@@ -106,6 +106,7 @@ def main():
     args.output.parent.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(args.output, cell_mask=cell, solid_mask=solid,
                         positions=positions, particle_volume=np.asarray(volume))
+    report['geometry_sha256'] = hashlib.sha256(args.output.read_bytes()).hexdigest()
     metadata_path.write_text(json.dumps(report, indent=2, allow_nan=False) + '\n', encoding='utf-8')
     print(json.dumps(report, indent=2, allow_nan=False))
 

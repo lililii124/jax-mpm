@@ -64,3 +64,17 @@ unequal voxel dimensions when choosing resolution and the number of passes.
 Runs without this option retain the unfiltered design. A running calculation
 uses its own source snapshot; resume requires the same source hashes and
 settings as its checkpoint.
+
+The connected binary geometry can be replayed under the same full-domain
+loading and perimeter boundary condition:
+
+```sh
+python -m examples.multicell_binary_blast_3d outputs/multicell-blast-opt/binary-00001.npz outputs/multicell-blast-opt/inputs.json --output outputs/multicell-blast-binary
+```
+
+The replay stores particle frames and a sampled work, energy, momentum and
+minimum-determinant history. It rejects disconnected geometry by default.
+This single-field reference-grid calculation has no self-contact, plasticity
+or failure; nearby disconnected surfaces can share grid support. A successful
+replay alone does not establish physical performance, convergence, or the
+accuracy of the continuous-density objective.
