@@ -290,8 +290,8 @@ def run(config_path):
     direction = np.random.default_rng(20261030).normal(size=reduced_count)
     direction /= np.linalg.norm(direction)
     h = 1e-3
-    plus = evaluate_reduced(q0_reduced + h * direction)
-    minus = evaluate_reduced(q0_reduced - h * direction)
+    plus = evaluate_reduced(start_reduced + h * direction)
+    minus = evaluate_reduced(start_reduced - h * direction)
     analytic = initial['gradient'] @ direction
     finite_difference = (plus['values'] - minus['values']) / (2 * h)
     gradient_relative = np.abs(analytic - finite_difference) / np.maximum(
@@ -359,7 +359,7 @@ def run(config_path):
         optimizer_message=str(result.message), iterations_completed=len(history),
         iteration_budget=int(config['iterations']), wall_seconds=time.time()-started,
         selected_case='central', selected_frozen_load_index=CASE_INDEX,
-        other_load_cases_evaluated=False, initial_material='uniform model q0',
+        other_load_cases_evaluated=False, initial_material=start_label,
         initial_objective=float(initial['values'][0]), final_objective=float(final_row['values'][0]),
         best_candidate_feasible=best['feasible'], constraints=constraints(best['x']).tolist(),
         mass_kg=final_row['mass_kg'], mass_relative=final_row['mass_relative'],

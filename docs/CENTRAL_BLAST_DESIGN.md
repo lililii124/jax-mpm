@@ -36,9 +36,11 @@ A further bounded search starts from the saved best candidate using
 configuration's `inputs/continuation-controls.npz` alongside the other
 pinned inputs. This starts a fresh SQP solve from that material field; it is
 not a restoration of the previous solver's internal state. The configuration's
-legacy `initial_material` label and the final summary's `initial_material`
-field say uniform; for this continuation the actual start is identified by
-the hash in `optimization-inputs.json` and `continuation-start` outputs.
+legacy `initial_material` label says uniform; the actual start is identified
+by the hash in `optimization-inputs.json` and `continuation-start` outputs.
+An earlier continuation stopped because its finite-difference probe was
+mistakenly centred on the uniform material rather than the continuation point.
+The probe now uses the same controls as the analytic gradient.
 
 This is an effective elastic-core design problem. It does not include an
 explicit explosive, skin plasticity or core crushing. The frozen basis is
