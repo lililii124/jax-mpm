@@ -39,7 +39,7 @@ def main():
         raise ValueError('Geometry does not match its reconstruction report')
     if report['inputs_sha256'] != digest(args.inputs) or report['optimization_signature'] != inputs['signature']:
         raise ValueError('Geometry metadata and optimization settings differ')
-    if (not report['faces_connected'] or report['detached_solid_voxels']) and not args.allow_disconnected_diagnostic:
+    if (not report['faces_connected'] or report['components'] != 1) and not args.allow_disconnected_diagnostic:
         raise ValueError('Binary geometry is disconnected; use only for an explicitly labelled diagnostic')
     s = inputs['binding']['settings']
     nsteps = args.steps if args.steps is not None else int(s['steps'])
@@ -68,16 +68,21 @@ def main():
     fixed = jnp.asarray(np.broadcast_to(fixed, xyz.shape))
     xy = np.stack(np.meshgrid((np.arange(gx)+.5)*h[0], (np.arange(gy)+.5)*h[1], indexing='ij'), -1).reshape(-1, 2)
     area = np.full(len(xy), h[0]*h[1])
-    fi, fw = surface_weights(support, np.column_stack((xy, np.full(len(xy), gz*h[2]))))
-    bi, bw = surface_weights(support, np.column_stack((xy, np.zeros(len(xy)))))
     center = np.array((gx*h[0]/2, gy*h[1]/2))
     footprint = np.exp(-.5*np.sum(((xy-center)/s['blast_radius'])**2, axis=1))
     footprint /= np.sum(footprint*area)/np.sum(area)
+    occupied = np.any(solid, axis=0).T.reshape(-1)
+    top = (gz-np.argmax(solid[::-1], axis=0)).T.reshape(-1)*h[2]
+    bottom = np.argmax(solid, axis=0).T.reshape(-1)*h[2]
+    xy = xy[occupied]
+    area, footprint = area[occupied], footprint[occupied]
+    fi, fw = surface_weights(support, np.column_stack((xy, top[occupied])))
+    bi, bw = surface_weights(support, np.column_stack((xy, bottom[occupied])))
     load = jnp.zeros((len(xyz), 3), dtype=jnp.float64).at[jnp.asarray(fi.reshape(-1)), 2].add(
         -s['pressure']*jnp.asarray((fw*area[:, None]*footprint[:, None]).reshape(-1)))
     dt = float(s['dt'])
     pulse = float(s['pulse'])
-    wave = math.sqrt(s['skin_young']*(1-.28)/(s['solid_density']*(1+.28)*(1-2*.28)))
+    wave = math.sqrt(max(s['skin_young'],s['core_young'])*(1-.28)/(s['solid_density']*(1+.28)*(1-2*.28)))
     cfl = dt*wave*math.sqrt(float(np.sum(1/h**2)))
     if cfl > s['cfl_limit']:
         raise ValueError('Time step exceeds the configured CFL limit')
@@ -114,8 +119,9 @@ def main():
                 settings=s, steps=nsteps, frame_interval=args.frame_interval, cfl=cfl,
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],
+                connected_components=report['components'], populated_column_fraction=float(np.mean(occupied)),
                 diagnostic_only=args.allow_disconnected_diagnostic,
-                limitation='Single-field reference-grid model: no self-contact, plasticity or failure; adjacent disconnected surfaces may share grid support.')
+                limitation='Single-field reference-grid model: no self-contact, plasticity or failure; projected pressure acts on the uppermost solid voxel in each populated column and does not resolve pressure on cavity sides.')
     (args.output/'inputs.json').write_text(json.dumps(meta, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     np.savez_compressed(args.output/'reference.npz', nodes=xyz, spacing=h,
                         shape=np.asarray(support.shape))

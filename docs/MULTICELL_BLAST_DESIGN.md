@@ -7,6 +7,13 @@ central pressure footprint acts on the entire top face, centred on the middle
 cell. The perimeter is clamped. The cell pattern is not prescribed and the
 initial field can be uniform or seeded random.
 
+To leave the entire thickness free for optimization, use `--skin 0
+--skin-layers 0`. In that mode there are no fixed face sheets, and every
+voxel belongs to the repeated design cell. Set `--core-young` to the Young
+modulus of the chosen solid. For binary replay, the projected pressure acts
+on the uppermost solid voxel in each occupied column; it does not model gas
+flow or pressure on cavity sides.
+
 The initial configuration uses 100 × 100 × 20 mm cells, 2 mm face sheets,
 30% core material fraction and 2.43 kg total material. Each grid cell contains
 eight integration particles. The total material mass is fixed by a

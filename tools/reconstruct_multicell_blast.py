@@ -24,7 +24,7 @@ def reconstruct(rho, settings):
     size = np.asarray(settings['cell_size'], dtype=np.float64)
     if rho.shape != (nz, ny, nx) or not np.all(np.isfinite(rho)):
         raise ValueError('Invalid cell density field')
-    if min(nx, ny, nz, layers) < 1 or not 0 < fraction < 1 or np.any(size <= 0):
+    if min(nx, ny, nz) < 1 or layers < 0 or not 0 < fraction < 1 or np.any(size <= 0):
         raise ValueError('Invalid cell geometry or volume fraction')
     if np.any((rho < 0) | (rho > 1)) or not np.isclose(rho.mean(), fraction, atol=1e-9, rtol=0):
         raise ValueError('Density field does not match the prescribed fraction')
@@ -88,6 +88,7 @@ def reconstruct(rho, settings):
                   voxel_size_m=h.tolist(), components=len(components),
                   detached_solid_voxels=int(solid.sum()) - sheet_connected,
                   faces_connected=any(bottom and top for _, bottom, top in components),
+                  populated_column_fraction=float(np.mean(np.any(solid, axis=0))),
                   solid_mask_sha256=mask_digest(solid),
                   description='Binary geometric reconstruction; no dynamic validation has been performed.')
     return cell, solid, positions, particle_volume, report

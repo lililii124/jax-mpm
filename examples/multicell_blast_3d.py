@@ -29,8 +29,9 @@ def build(args):
 
     nx, ny, nz = args.cell
     if min(nx,ny,nz) < 1: raise ValueError('Cell grid counts must be positive')
-    if min(args.cell_size)<=0 or args.skin_layers<1 or args.skin<=0:
-        raise ValueError('Cell dimensions and face-sheet thickness must be positive')
+    if (min(args.cell_size)<=0 or args.skin_layers<0 or args.skin<0 or
+            ((args.skin_layers==0) != (args.skin==0))):
+        raise ValueError('Cell dimensions must be positive and skin thickness must match its layers')
     if args.steps<1 or args.dt<=0 or args.pulse<=0 or args.blast_radius<=0 or args.pressure<=0:
         raise ValueError('Positive duration, timestep, radius and pressure are required')
     if args.displacement_scale<=0 or args.checkpoint_block<1 or getattr(args,'filter_passes',0)<0:
@@ -72,7 +73,7 @@ def build(args):
     face_scale=(fw*face_area[:,None]*footprint[:,None]).reshape(-1)
     node_ids=fi.reshape(-1)
     dt=args.dt; nsteps=args.steps
-    wave=math.sqrt(args.skin_young*(1-.28)/(args.solid_density*(1+.28)*(1-2*.28)))
+    wave=math.sqrt(max(args.skin_young,args.core_young)*(1-.28)/(args.solid_density*(1+.28)*(1-2*.28)))
     cfl=dt*wave*math.sqrt(float(np.sum(1/h**2)))
     if cfl > args.cfl_limit: raise ValueError(f'CFL {cfl:g} exceeds limit {args.cfl_limit:g}')
     def objective(logits):
@@ -111,6 +112,7 @@ def build(args):
     return objective, dict(particles=len(pos),nodes=len(xyz),design_variables=nx*ny*nz,
         cells=(gx,gy,gz),dt=dt,steps=nsteps,tiles=9,full_domain=True,
         cell_size_m=size.tolist(),plate_size_m=[float(gx*h[0]),float(gy*h[1]),float(gz*h[2])],
+        fixed_face_sheets=args.skin_layers>0,
         blast_center_m=center.tolist(),blast_gaussian_sigma_m=radius,
         adjacent_cell_center_pressure_ratio=float(np.exp(-.5*(size[0]/radius)**2)),
         objective='16-norm upper bound of absolute back-face displacement over space and time',

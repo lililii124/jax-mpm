@@ -9,7 +9,8 @@ import numpy as np
 def read_run(path, energy_tolerance):
     meta = json.loads((path/'inputs.json').read_text(encoding='utf-8'))
     rows = json.loads((path/'history.json').read_text(encoding='utf-8'))
-    if meta['diagnostic_only'] or not meta['connected_faces'] or meta['detached_voxels']:
+    if (meta['diagnostic_only'] or not meta['connected_faces'] or meta['detached_voxels']
+            or meta.get('connected_components', 1) != 1):
         raise ValueError(f'{path}: geometry was not accepted as connected')
     if meta['steps'] != meta['settings']['steps']:
         raise ValueError(f'{path}: replay does not cover the configured time horizon')
