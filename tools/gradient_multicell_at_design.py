@@ -44,7 +44,11 @@ def main():
             'filter_passes', 'skin_young', 'core_young', 'solid_density', 'pressure',
             'pulse', 'blast_radius', 'dt', 'cfl_limit', 'steps', 'checkpoint_block',
             'displacement_scale')
-    objective, plan = build(argparse.Namespace(**{key: settings[key] for key in keys}))
+    model = {key: settings[key] for key in keys}
+    for key in ('pressure_placement', 'density_floor'):
+        if key in settings:
+            model[key] = settings[key]
+    objective, plan = build(argparse.Namespace(**model))
     import jax.numpy as jnp
     with np.load(args.design, allow_pickle=False) as data:
         q = np.asarray(data['logits'], dtype=np.float64).reshape(-1)

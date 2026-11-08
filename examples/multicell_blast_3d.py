@@ -28,6 +28,12 @@ def build(args):
         point_material, surface_weights, initial_state, step)
 
     nx, ny, nz = args.cell
+    pressure_placement = getattr(args, 'pressure_placement', 'top')
+    density_floor = float(getattr(args, 'density_floor', 0.))
+    if pressure_placement not in ('top', 'exposed') or not 0 <= density_floor < args.volume_fraction:
+        raise ValueError('Invalid pressure placement or density floor')
+    if pressure_placement == 'exposed' and args.skin_layers:
+        raise ValueError('Exposed pressure requires an open cell without face sheets')
     if min(nx,ny,nz) < 1: raise ValueError('Cell grid counts must be positive')
     if (min(args.cell_size)<=0 or args.skin_layers<0 or args.skin<0 or
             ((args.skin_layers==0) != (args.skin==0))):
@@ -60,9 +66,18 @@ def build(args):
     volume = np.full(len(pos), float(np.prod(h))/8); support = rectilinear_support(pos, volume, h)
     target_mass=float(args.solid_density*(np.sum(volume[~core])+np.sum(volume[core])*args.volume_fraction))
     xy = np.stack(np.meshgrid((np.arange(gx)+.5)*h[0],(np.arange(gy)+.5)*h[1],indexing='ij'),-1).reshape(-1,2)
-    facepts=np.column_stack((xy,np.full(len(xy),gz*h[2])))
-    face_area=np.full(len(xy),h[0]*h[1]); fi,fw=surface_weights(support,facepts)
-    bi,bw=surface_weights(support,np.column_stack((xy,np.zeros(len(xy)))))
+    face_area=np.full(len(xy),h[0]*h[1])
+    if pressure_placement == 'exposed':
+        xy_layers=np.repeat(xy,nz,axis=0)
+        heights=np.tile(np.arange(nz),len(xy))*h[2]
+        fi,fw=surface_weights(support,np.column_stack((xy_layers,heights+h[2])))
+        bi,bw=surface_weights(support,np.column_stack((xy_layers,heights)))
+        fi,fw=fi.reshape(len(xy),nz,-1),fw.reshape(len(xy),nz,-1)
+        bi,bw=bi.reshape(len(xy),nz,-1),bw.reshape(len(xy),nz,-1)
+    else:
+        facepts=np.column_stack((xy,np.full(len(xy),gz*h[2])))
+        fi,fw=surface_weights(support,facepts)
+        bi,bw=surface_weights(support,np.column_stack((xy,np.zeros(len(xy)))))
     # Clamp a narrow perimeter frame on both sheets.
     xyz=support.nodes
     fixed=((xyz[:,0]<h[0]*1.01)|(xyz[:,0]>(gx-1.01)*h[0])|
@@ -70,7 +85,8 @@ def build(args):
     fixed=np.broadcast_to(fixed,xyz.shape)
     center=np.array((gx*h[0]/2,gy*h[1]/2)); radius=args.blast_radius
     footprint=np.exp(-.5*np.sum(((xy-center)/radius)**2,axis=1)); footprint/=np.sum(footprint*face_area)/np.sum(face_area)
-    face_scale=(fw*face_area[:,None]*footprint[:,None]).reshape(-1)
+    face_scale=((fw*face_area[:,None,None]*footprint[:,None,None]) if pressure_placement=='exposed'
+                else (fw*face_area[:,None]*footprint[:,None])).reshape(-1)
     node_ids=fi.reshape(-1)
     dt=args.dt; nsteps=args.steps
     wave=math.sqrt(max(args.skin_young,args.core_young)*(1-.28)/(args.solid_density*(1+.28)*(1-2*.28)))
@@ -81,11 +97,20 @@ def build(args):
         rho_core=project_fixed_volume(filtered,args.volume_fraction,beta=args.beta).reshape(-1)
         rho=jnp.asarray(phi_particles).at[jnp.asarray(core_ids)].set(rho_core[jnp.asarray(flat_design)])
         skin_mask=jnp.asarray(~core)
-        young=jnp.where(skin_mask,args.skin_young,args.core_young*rho**2)
-        density=jnp.where(skin_mask,args.solid_density,args.solid_density*rho)
+        effective=density_floor+(1-density_floor/args.volume_fraction)*rho
+        young=jnp.where(skin_mask,args.skin_young,args.core_young*effective**2)
+        density=jnp.where(skin_mask,args.solid_density,args.solid_density*effective)
         ref=reference_grid(support,density); mat=point_material(young,.28)
         mass_ok=jnp.abs(jnp.sum(ref.particle_mass)/target_mass-1.)<=1e-10
-        load=jnp.zeros((len(xyz),3),dtype=jnp.float64).at[jnp.asarray(node_ids),2].add(-args.pressure*jnp.asarray(face_scale))
+        if pressure_placement=='exposed':
+            from mpm_jax.exposed_pressure import exposed_weights
+            columns=jnp.tile(rho_core.reshape(nz,ny,nx),(1,3,3)).transpose(2,1,0).reshape(len(xy),nz)
+            front=exposed_weights(columns,from_top=True)
+            back_visibility=exposed_weights(columns,from_top=False)
+            scale=jnp.asarray(face_scale).reshape(len(xy),nz,-1)*front[...,None]
+        else:
+            scale=jnp.asarray(face_scale)
+        load=jnp.zeros((len(xyz),3),dtype=jnp.float64).at[jnp.asarray(node_ids),2].add(-args.pressure*scale.reshape(-1))
         zero=jnp.zeros_like(load)
         state=initial_state(ref,mat,zero)
         def body(carry,i):
@@ -94,7 +119,8 @@ def build(args):
             p0=jnp.sin(jnp.pi*jnp.minimum(t0/args.pulse,1.))**2*(t0<args.pulse)
             p1=jnp.sin(jnp.pi*jnp.minimum(t1/args.pulse,1.))**2*(t1<args.pulse)
             nxt,_,_=step(st,ref,mat,dt,load*p0,load*p1,fixed)
-            back=jnp.sum(nxt.displacement[jnp.asarray(bi),2]*jnp.asarray(bw),axis=1)
+            back=jnp.sum(nxt.displacement[jnp.asarray(bi),2]*jnp.asarray(bw),axis=-1)
+            if pressure_placement=='exposed': back=jnp.sum(back*back_visibility,axis=1)
             following=lax.stop_gradient(jnp.maximum(scale,jnp.max(jnp.abs(back))))
             power=power*(scale/following)**16+jnp.sum((back/following)**16)
             return (nxt,following,power),None
@@ -117,8 +143,12 @@ def build(args):
         adjacent_cell_center_pressure_ratio=float(np.exp(-.5*(size[0]/radius)**2)),
         objective='16-norm upper bound of absolute back-face displacement over space and time',
         fixed_mass_fraction=args.volume_fraction,filter_passes=getattr(args,'filter_passes',0),soft_density=True,cfl_number=cfl,
+        pressure_placement=pressure_placement,density_floor=density_floor,
         nominal_total_mass_kg=target_mass,
-        proxy_material='Soft-material relaxation: density scales with projected rho and Young modulus with rho^2; no true void.',
+        proxy_material=('Soft-material relaxation: effective density fraction is floor + '
+                        '(1 - floor / volume_fraction) * rho; Young modulus scales with its square. No true void.'),
+        pressure_qualification=('Smoothed visibility of column surfaces; no cavity-side pressure or fluid dynamics.'
+                                if pressure_placement=='exposed' else 'Pressure acts on the fixed top plane.'),
         uncheckpointed_state_bytes_lower_bound=8*nsteps*(9*len(xyz)+9*len(pos)),
         checkpoint_block=args.checkpoint_block,
         physical_horizon_s=nsteps*dt,validity='nonfinite objective marks TL state invalid')
@@ -131,6 +161,8 @@ def main():
     p.add_argument('--skin',type=float,default=.002);p.add_argument('--skin-layers',type=int,default=2);p.add_argument('--volume-fraction',type=float,default=.3)
     p.add_argument('--beta',type=float,default=5.);p.add_argument('--skin-young',type=float,default=70e9)
     p.add_argument('--filter-passes',type=int,default=0)
+    p.add_argument('--pressure-placement',choices=('top','exposed'),default='top')
+    p.add_argument('--density-floor',type=float,default=0.)
     p.add_argument('--core-young',type=float,default=20e9);p.add_argument('--solid-density',type=float,default=2700.)
     p.add_argument('--pressure',type=float,default=2e6);p.add_argument('--pulse',type=float,default=2e-5)
     p.add_argument('--blast-radius',type=float,default=.08);p.add_argument('--dt',type=float,default=1e-8);p.add_argument('--cfl-limit',type=float,default=.1)
