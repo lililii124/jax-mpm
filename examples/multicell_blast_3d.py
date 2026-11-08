@@ -16,6 +16,7 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from mpm_jax.shared_cell_design import project_fixed_volume
+from mpm_jax.periodic_filter import filter_cell_logits
 
 
 def build(args):
@@ -32,7 +33,7 @@ def build(args):
         raise ValueError('Cell dimensions and face-sheet thickness must be positive')
     if args.steps<1 or args.dt<=0 or args.pulse<=0 or args.blast_radius<=0 or args.pressure<=0:
         raise ValueError('Positive duration, timestep, radius and pressure are required')
-    if args.displacement_scale<=0 or args.checkpoint_block<1:
+    if args.displacement_scale<=0 or args.checkpoint_block<1 or getattr(args,'filter_passes',0)<0:
         raise ValueError('Positive displacement scale and checkpoint block are required')
     # Each voxel has eight integration particles. Each tile has independent
     # dynamics and shares only its material design variables.
@@ -75,7 +76,8 @@ def build(args):
     cfl=dt*wave*math.sqrt(float(np.sum(1/h**2)))
     if cfl > args.cfl_limit: raise ValueError(f'CFL {cfl:g} exceeds limit {args.cfl_limit:g}')
     def objective(logits):
-        rho_core=project_fixed_volume(logits.reshape(nz,ny,nx),args.volume_fraction,beta=args.beta).reshape(-1)
+        filtered=filter_cell_logits(logits.reshape(nz,ny,nx),getattr(args,'filter_passes',0))
+        rho_core=project_fixed_volume(filtered,args.volume_fraction,beta=args.beta).reshape(-1)
         rho=jnp.asarray(phi_particles).at[jnp.asarray(core_ids)].set(rho_core[jnp.asarray(flat_design)])
         skin_mask=jnp.asarray(~core)
         young=jnp.where(skin_mask,args.skin_young,args.core_young*rho**2)
@@ -112,7 +114,7 @@ def build(args):
         blast_center_m=center.tolist(),blast_gaussian_sigma_m=radius,
         adjacent_cell_center_pressure_ratio=float(np.exp(-.5*(size[0]/radius)**2)),
         objective='16-norm upper bound of absolute back-face displacement over space and time',
-        fixed_mass_fraction=args.volume_fraction,soft_density=True,cfl_number=cfl,
+        fixed_mass_fraction=args.volume_fraction,filter_passes=getattr(args,'filter_passes',0),soft_density=True,cfl_number=cfl,
         nominal_total_mass_kg=target_mass,
         proxy_material='Soft-material relaxation: density scales with projected rho and Young modulus with rho^2; no true void.',
         uncheckpointed_state_bytes_lower_bound=8*nsteps*(9*len(xyz)+9*len(pos)),
@@ -126,6 +128,7 @@ def main():
     p.add_argument('--cell-size',type=float,nargs=3,default=(.1,.1,.02))
     p.add_argument('--skin',type=float,default=.002);p.add_argument('--skin-layers',type=int,default=2);p.add_argument('--volume-fraction',type=float,default=.3)
     p.add_argument('--beta',type=float,default=5.);p.add_argument('--skin-young',type=float,default=70e9)
+    p.add_argument('--filter-passes',type=int,default=0)
     p.add_argument('--core-young',type=float,default=20e9);p.add_argument('--solid-density',type=float,default=2700.)
     p.add_argument('--pressure',type=float,default=2e6);p.add_argument('--pulse',type=float,default=2e-5)
     p.add_argument('--blast-radius',type=float,default=.08);p.add_argument('--dt',type=float,default=1e-8);p.add_argument('--cfl-limit',type=float,default=.1)

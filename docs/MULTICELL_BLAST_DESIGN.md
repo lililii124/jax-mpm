@@ -54,3 +54,13 @@ contains the shared and full-domain masks and eight quadrature positions for
 each solid voxel. Connectivity is reported rather than repaired; detached
 material and disconnected face sheets require a revised design. Reconstruction
 alone is not a dynamic simulation or evidence of blast performance.
+
+For subsequent searches, `--filter-passes 2` smooths the design field with
+wraparound across the in-plane cell boundaries and a zero normal gradient at
+the top and bottom of the core. The fixed-volume projection follows the
+filter. This discourages grid-scale variations but does not ensure a connected
+or manufacturable topology. The filter operates in voxel units; account for
+unequal voxel dimensions when choosing resolution and the number of passes.
+Runs without this option retain the unfiltered design. A running calculation
+uses its own source snapshot; resume requires the same source hashes and
+settings as its checkpoint.
