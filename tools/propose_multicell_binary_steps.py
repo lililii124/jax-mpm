@@ -19,6 +19,8 @@ def main():
     parser.add_argument('--logit-bound', type=float, default=12.)
     parser.add_argument('--fallback-directions', type=int, default=0)
     parser.add_argument('--fallback-seed', type=int, default=370)
+    parser.add_argument('--max-single-voxel-fraction', type=float,
+                        help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
@@ -26,6 +28,8 @@ def main():
     if (not np.isfinite(args.steps).all() or min(args.steps) <= 0 or
             not np.isfinite(args.logit_bound) or args.logit_bound <= 0 or args.fallback_directions < 0):
         raise ValueError('Step sizes and logit bound must be finite and positive')
+    if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
+        raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
     meta = json.loads(args.inputs.read_text(encoding='utf-8'))
     binding = meta['binding']
     if hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest() != meta['signature']:
@@ -45,6 +49,7 @@ def main():
     from mpm_jax.periodic_filter import filter_cell_logits
     from mpm_jax.shared_cell_design import project_fixed_volume
     from tools.reconstruct_multicell_blast import reconstruct
+    from tools.multicell_feature_filter import single_voxel_run_fraction
 
     with np.load(args.gradient, allow_pickle=False) as data:
         if str(data['signature'].item()) != meta['signature'] or str(data['inputs_sha256'].item()) != sha256(args.inputs):
@@ -80,12 +85,16 @@ def main():
         rho = density(proposal)
         cell, solid, positions, volume, report = reconstruct(rho, settings)
         mask = report['solid_mask_sha256']
-        record = {'step': step, 'direction': kind, 'solid_mask_sha256': mask}
+        fraction = single_voxel_run_fraction(cell)
+        record = {'step': step, 'direction': kind, 'solid_mask_sha256': mask,
+                  'single_voxel_fraction': fraction}
         if mask in seen:
             record['status'] = 'duplicate'
         elif (report['components'] != 1 or not report['faces_connected'] or
               report['populated_column_fraction'] != 1.):
             record['status'] = 'infeasible'
+        elif args.max_single_voxel_fraction is not None and fraction > args.max_single_voxel_fraction:
+            record['status'] = 'feature-limit'
         elif not np.isclose(report['binary_mass_kg'], base['binary_mass_kg'], rtol=1e-12, atol=1e-12):
             raise ValueError('Binary material mass changed')
         else:
@@ -119,6 +128,8 @@ def main():
                 break
     manifest = {'signature': meta['signature'], 'inputs_sha256': sha256(args.inputs),
                 'gradient_sha256': sha256(args.gradient), 'baseline_solid_mask_sha256': selected_mask,
+                'max_single_voxel_fraction': args.max_single_voxel_fraction,
+                'feature_filter_sha256': sha256(root/'tools/multicell_feature_filter.py'),
                 'fallback_seed': args.fallback_seed if args.fallback_directions else None,
                 'steps': records, 'qualification': 'Proposals require complete binary MPM replay before acceptance.'}
     temp = args.output / 'manifest.json.tmp'

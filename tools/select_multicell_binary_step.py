@@ -9,6 +9,7 @@ import numpy as np
 
 from tools.compare_multicell_binary_blast import compare, read_run
 from tools.reconstruct_multicell_blast import mask_digest, reconstruct
+from tools.multicell_feature_filter import single_voxel_run_fraction
 
 
 def sha256(path):
@@ -43,6 +44,10 @@ def main():
         raise ValueError('Minimum reduction must lie in [0, 1)')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
     manifest = json.loads((args.proposals / 'manifest.json').read_text(encoding='utf-8'))
+    feature_limit = manifest.get('max_single_voxel_fraction')
+    if feature_limit is not None:
+        if not 0 <= feature_limit <= 1 or manifest.get('feature_filter_sha256') != sha256(Path(__file__).with_name('multicell_feature_filter.py')):
+            raise ValueError('Proposal feature filter is invalid or has changed')
     if (hashlib.sha256(json.dumps(inputs['binding'], sort_keys=True).encode()).hexdigest() != inputs['signature'] or
             manifest['signature'] != inputs['signature'] or manifest['inputs_sha256'] != sha256(args.inputs)):
         raise ValueError('Proposal inputs do not match the optimizer binding')
@@ -75,13 +80,18 @@ def main():
             raise ValueError('Replay does not match the proposed geometry')
         with np.load(geometry, allow_pickle=False) as data:
             solid = data['solid_mask']
+            cell = data['cell_mask']
             if mask_digest(solid) != row['solid_mask_sha256']:
                 raise ValueError('Proposed solid mask differs from its manifest')
             if not np.any(solid, axis=0).all():
                 raise ValueError('Candidate does not cover the projected pressure footprint')
+            if feature_limit is not None and single_voxel_run_fraction(cell) > feature_limit:
+                raise ValueError('Candidate exceeds the configured feature limit')
         with np.load(design, allow_pickle=False) as data:
-            report = reconstruct(data['rho_cell'], settings)[-1]
-        if (report['solid_mask_sha256'] != row['solid_mask_sha256'] or report['components'] != 1 or
+            reconstructed = reconstruct(data['rho_cell'], settings)
+        report = reconstructed[-1]
+        if (not np.array_equal(cell, reconstructed[0]) or
+                report['solid_mask_sha256'] != row['solid_mask_sha256'] or report['components'] != 1 or
                 not report['faces_connected'] or report['populated_column_fraction'] != 1.):
             raise ValueError('Candidate design and connected geometry differ')
         result = compare(args.baseline_replay, replay, allow_incomplete_candidate=True)

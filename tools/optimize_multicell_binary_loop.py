@@ -103,10 +103,14 @@ def main():
     parser.add_argument('--seed-gradient', type=Path)
     parser.add_argument('--seed-proposals', type=Path)
     parser.add_argument('--early-reject', action='store_true')
+    parser.add_argument('--max-single-voxel-fraction', type=float,
+                        help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     if args.iterations < 1 or args.fallback_directions < 0 or not 0 <= args.minimum_reduction < 1:
         raise ValueError('Invalid iteration or acceptance settings')
+    if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
+        raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
     if (args.seed_gradient is None) != (args.seed_proposals is None):
         raise ValueError('Seed gradient and proposals must be supplied together')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
@@ -138,6 +142,8 @@ def main():
                        seed_manifest_sha256=sha256(args.seed_proposals / 'manifest.json'))
     if args.early_reject:
         binding['early_reject'] = True
+    if args.max_single_voxel_fraction is not None:
+        binding['max_single_voxel_fraction'] = args.max_single_voxel_fraction
     folder = args.output
     if args.resume:
         if json.loads((folder / 'binding.json').read_text()) != binding:
@@ -170,11 +176,16 @@ def main():
                 shutil.copytree(args.seed_proposals, proposals)
             else:
                 write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'proposing'})
-                run('tools.propose_multicell_binary_steps', args.inputs, gradient, '--steps', *args.steps,
-                    '--fallback-directions', args.fallback_directions, '--output', proposals)
+                proposal_args = ['tools.propose_multicell_binary_steps', args.inputs, gradient, '--steps', *args.steps,
+                                 '--fallback-directions', args.fallback_directions, '--output', proposals]
+                if args.max_single_voxel_fraction is not None:
+                    proposal_args.extend(('--max-single-voxel-fraction', args.max_single_voxel_fraction))
+                run(*proposal_args)
         manifest = json.loads((proposals / 'manifest.json').read_text())
         if manifest['gradient_sha256'] != sha256(gradient) or manifest['inputs_sha256'] != sha256(args.inputs):
             raise ValueError('Proposal manifest does not match the current gradient')
+        if manifest.get('max_single_voxel_fraction') != args.max_single_voxel_fraction:
+            raise ValueError('Proposal feature limit differs from the optimization settings')
         proposed = [row for row in manifest['steps'] if row['status'] == 'proposed']
         if not proposed:
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'no-feasible-proposals'})
