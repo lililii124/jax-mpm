@@ -12,6 +12,7 @@ def main():
     parser.add_argument('--stress-limit-mpa', type=float, required=True)
     parser.add_argument('--cutaway', action='store_true')
     parser.add_argument('--show-blast-center', action='store_true')
+    parser.add_argument('--view', choices=('isometric', 'side'), default='isometric')
     args = parser.parse_args()
     if args.stress_limit_mpa <= 0:
         parser.error('Stress limit must be positive')
@@ -42,9 +43,10 @@ def main():
     bounds = target.GetDataInformation().GetBounds()
     center = [(bounds[2*i]+bounds[2*i+1])*.5 for i in range(3)]
     view.CameraFocalPoint = center
-    view.CameraPosition = [center[0]+.38, center[1]-.67, center[2]+.308]
+    view.CameraPosition = ([center[0], center[1]-.8, center[2]] if args.view == 'side'
+                           else [center[0]+.38, center[1]-.67, center[2]+.308])
     view.CameraViewUp = [0, 0, 1]
-    view.CameraParallelScale = .23
+    view.CameraParallelScale = .17 if args.view == 'side' else .23
     display = p.Show(target, view)
     display.Representation = 'Surface'
     display.Ambient = .3
@@ -102,6 +104,7 @@ def main():
                    loop=0, disposal=2, optimize=False)
     result = dict(renderer='ParaView', frames=len(frames), stress_limit_pa=maximum,
                   physical_deformation_scale=1, cutaway=args.cutaway,
+                  view=args.view,
                   blast_center_marker=args.show_blast_center,
                   duration_ms=durations, gif_sha256=hashlib.sha256(gif.read_bytes()).hexdigest(),
                   source_geometry_sha256=receipt['geometry_sha256'])
