@@ -141,7 +141,7 @@ def main():
         kinetic = .5*jnp.sum(ref.nodal_mass[:, None]*st.velocity**2)
         energy = elastic_energy(st.F, ref, mat)
         linear, angular = momentum(st, ref)
-        return (displacement, stress, jnp.max(jnp.abs(back)), kinetic, energy,
+        return (displacement, stress, back, kinetic, energy,
                 jnp.min(jnp.linalg.det(st.F)), jnp.linalg.norm(linear-st.impulse),
                 jnp.linalg.norm(angular-st.angular_impulse))
 
@@ -159,6 +159,8 @@ def main():
                 support_mode='split-disconnected' if split is not None else 'single',
                 peak_sampling='every-step' if args.track_subframe_peak else 'saved-frames',
                 rejection_peak_m=args.reject_if_peak_ge,
+                back_sampling='column-underside',
+                bottom_plane_sample_fraction=float(np.mean(bottom_voxel[occupied] == 0)),
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],
                 connected_components=report['components'], populated_column_fraction=float(np.mean(occupied)),
@@ -174,15 +176,23 @@ def main():
     rows = []
     completed = 0
     interval_peak = 0.
+    on_bottom_plane = bottom_voxel[occupied] == 0
     while True:
         displacement, stress, back, kinetic, energy, min_j, pe, ae = observe(state)
+        back = np.abs(np.asarray(back))
+        back_peak = float(back.max())
         row = dict(step=completed, time_s=float(state.time), valid=bool(state.valid),
-                   back_displacement_max_m=float(back), kinetic_J=float(kinetic), elastic_J=float(energy),
+                   back_displacement_max_m=back_peak, back_displacement_p90_m=float(np.percentile(back, 90)),
+                   back_displacement_median_m=float(np.median(back)), kinetic_J=float(kinetic), elastic_J=float(energy),
                    pressure_work_J=float(state.body_work), boundary_work_J=float(state.boundary_work),
                    energy_residual_J=float(kinetic+energy-state.body_work-state.boundary_work),
                    min_J=float(min_j), momentum_residual=float(pe), angular_momentum_residual=float(ae))
         if args.track_subframe_peak:
-            row['back_displacement_interval_peak_m'] = max(float(back), float(interval_peak))
+            row['back_displacement_interval_peak_m'] = max(back_peak, float(interval_peak))
+        if np.any(on_bottom_plane):
+            row['bottom_plane_displacement_max_m'] = float(back[on_bottom_plane].max())
+        if np.any(~on_bottom_plane):
+            row['internal_underside_displacement_max_m'] = float(back[~on_bottom_plane].max())
         if not row['valid'] or not all(np.isfinite(v) for v in row.values()):
             raise FloatingPointError(f'Invalid state at step {completed}')
         np.savez_compressed(args.output/f'frame-{completed:07d}.npz', position=pos+np.asarray(displacement),

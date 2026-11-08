@@ -37,6 +37,17 @@ def read_run(path, energy_tolerance, allow_incomplete=False):
         fields += ('back_displacement_interval_peak_m',)
         if any(row['back_displacement_interval_peak_m'] + 1e-15 < row['back_displacement_max_m'] for row in rows):
             raise ValueError(f'{path}: interval peak is below the saved-frame response')
+    if 'bottom_plane_sample_fraction' in meta:
+        fraction = meta['bottom_plane_sample_fraction']
+        if not np.isfinite(fraction) or not 0 <= fraction <= 1:
+            raise ValueError(f'{path}: invalid bottom-plane sample fraction')
+        surface_fields = ['back_displacement_p90_m', 'back_displacement_median_m']
+        if fraction > 0: surface_fields.append('bottom_plane_displacement_max_m')
+        if fraction < 1: surface_fields.append('internal_underside_displacement_max_m')
+        fields += tuple(surface_fields)
+        for row in rows:
+            if any(row[key] < 0 or row[key] > row['back_displacement_max_m'] + 1e-15 for key in surface_fields):
+                raise ValueError(f'{path}: inconsistent surface displacement statistics')
     if not all(np.isfinite(row[key]) for row in rows for key in fields):
         raise ValueError(f'{path}: non-finite history')
     scale = max(max(abs(row['pressure_work_J'] + row['boundary_work_J']) for row in rows),
@@ -61,6 +72,8 @@ def compare(baseline, candidate, energy_tolerance=.02, allow_incomplete_candidat
         raise ValueError('Material-to-grid support mode differs')
     if a.get('peak_sampling', 'saved-frames') != b.get('peak_sampling', 'saved-frames'):
         raise ValueError('Peak sampling mode differs')
+    if a.get('back_sampling', 'column-underside') != b.get('back_sampling', 'column-underside'):
+        raise ValueError('Back-surface sampling mode differs')
     if not np.isclose(a['binary_mass_kg'], b['binary_mass_kg'], rtol=1e-12, atol=1e-12):
         raise ValueError('Reconstructed material mass differs')
     if a['solid_mask_sha256'] == b['solid_mask_sha256']:
@@ -83,6 +96,7 @@ def compare(baseline, candidate, energy_tolerance=.02, allow_incomplete_candidat
                 energy_tolerance=energy_tolerance,
                 candidate_complete=candidate_complete, candidate_horizon_s=bh[-1]['time_s'],
                 peak_sampling=a.get('peak_sampling', 'saved-frames'),
+                back_sampling=a.get('back_sampling', 'column-underside'),
                 limitation=(('Peak displacement is sampled at every integration step. ' if peak_field != 'back_displacement_max_m'
                              else 'Peak displacement is sampled only at stored frames. ')+
                             ('' if candidate_complete else 'Candidate is incomplete; its reported reduction is an upper bound. ')+
