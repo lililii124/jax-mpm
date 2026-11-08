@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 
@@ -39,10 +40,14 @@ def main():
     parser.add_argument('--steps', type=float, nargs='+', default=[.025, .0125, .00625, .003125])
     parser.add_argument('--fallback-directions', type=int, default=8)
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
+    parser.add_argument('--seed-gradient', type=Path)
+    parser.add_argument('--seed-proposals', type=Path)
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     if args.iterations < 1 or args.fallback_directions < 0 or not 0 <= args.minimum_reduction < 1:
         raise ValueError('Invalid iteration or acceptance settings')
+    if (args.seed_gradient is None) != (args.seed_proposals is None):
+        raise ValueError('Seed gradient and proposals must be supplied together')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
     binary = json.loads(args.binary_inputs.read_text(encoding='utf-8'))
     opt_settings = inputs['binding']['settings']
@@ -64,6 +69,9 @@ def main():
                'baseline_replay_history_sha256': sha256(args.baseline_replay / 'history.json'),
                'steps': args.steps, 'fallback_directions': args.fallback_directions,
                'minimum_reduction': args.minimum_reduction}
+    if args.seed_gradient is not None:
+        binding.update(seed_gradient_sha256=sha256(args.seed_gradient),
+                       seed_manifest_sha256=sha256(args.seed_proposals / 'manifest.json'))
     folder = args.output
     if args.resume:
         if json.loads((folder / 'binding.json').read_text()) != binding:
@@ -80,16 +88,22 @@ def main():
         stage.mkdir(exist_ok=True)
         gradient = stage / 'gradient.npz'
         if not gradient.exists():
-            write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'gradient'})
-            run('tools.gradient_multicell_at_design', args.inputs, current_design, '--output', gradient)
+            if iteration == 1 and args.seed_gradient is not None:
+                shutil.copyfile(args.seed_gradient, gradient)
+            else:
+                write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'gradient'})
+                run('tools.gradient_multicell_at_design', args.inputs, current_design, '--output', gradient)
         with np.load(gradient, allow_pickle=False) as data:
             if str(data['design_sha256'].item()) != sha256(current_design) or str(data['inputs_sha256'].item()) != sha256(args.inputs):
                 raise ValueError('Stored gradient does not belong to the current design')
         proposals = stage / 'proposals'
         if not proposals.exists():
-            write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'proposing'})
-            run('tools.propose_multicell_binary_steps', args.inputs, gradient, '--steps', *args.steps,
-                '--fallback-directions', args.fallback_directions, '--output', proposals)
+            if iteration == 1 and args.seed_proposals is not None:
+                shutil.copytree(args.seed_proposals, proposals)
+            else:
+                write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'proposing'})
+                run('tools.propose_multicell_binary_steps', args.inputs, gradient, '--steps', *args.steps,
+                    '--fallback-directions', args.fallback_directions, '--output', proposals)
         manifest = json.loads((proposals / 'manifest.json').read_text())
         if manifest['gradient_sha256'] != sha256(gradient) or manifest['inputs_sha256'] != sha256(args.inputs):
             raise ValueError('Proposal manifest does not match the current gradient')
