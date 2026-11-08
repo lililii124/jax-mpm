@@ -9,7 +9,7 @@ stresses, lengths, times, and temperatures use kg/m³, Pa, m, s, and K.
 See the [elastic model and 3D example map](ELASTIC_MODEL_MAP.md) for runnable
 commands, existing verification and remaining spatial validation gaps.
 
-The [MAT002 finite-strain solid](MAT002_SVK.md) adds the separate
+The [orthotropic finite-strain solid](MAT002_SVK.md) adds the separate
 `orthotropic-svk` Green-strain branch and its native-kernel check.
 
 - `linear_elastic(E, nu)` uses infinitesimal strain sym(F)−I.
@@ -20,8 +20,8 @@ The [MAT002 finite-strain solid](MAT002_SVK.md) adds the separate
 - `transverse_isotropic` has longitudinal local axis 3. The examples tilt this
   axis by 30 degrees, rather than rotating only within the isotropic plane.
 - `neo_hookean` uses tau=mu(B−I)+lambda log(J)I. `elastic` remains an alias.
-- `blatz_ko` implements the supplied MAT007 REF=0 rubber branch, with reference
-  Poisson ratio 0.463. Its stress is G[B−J^(1−1/(1−2nu))I]; this is a selected
+- `blatz_ko` implements the selected reference rubber branch (MAT007, REF=0),
+  with reference Poisson ratio 0.463. Its stress is G[B−J^(1−1/(1−2nu))I]; this is a selected
   branch, not every variant called Blatz–Ko.
 - `fluid` uses W=K(J−1)²/2 and sigma=K(J−1)I. Shear history is discarded.
 
@@ -31,12 +31,12 @@ The [MAT002 finite-strain solid](MAT002_SVK.md) adds the separate
 |---|---|---|
 | Bilinear J2 | Combined isotropic/kinematic hardening; beta=1 gives isotropic hardening | Rate-independent; no erosion |
 | Thermal plasticity | Two-point property tables, thermal expansion, J2 return | Temperature prescribed to the material-point update; spatial example holds initial temperature fixed; no conduction |
-| Johnson–Cook | Implicit rate-dependent radial return at old temperature, explicit plastic heating, optional D1–D5 failure | Closure differs from the supplied one-step old-rate implementation; examples leave optional failure disabled |
+| Johnson–Cook | Implicit rate-dependent radial return at old temperature, explicit plastic heating, optional D1–D5 failure | Closure differs from the reference one-step old-rate implementation; examples leave optional failure disabled |
 | Steinberg–Guinan | Pressure/temperature strength, strain hardening cap, linear EOS, work energy | Selected GAMA=F=0 solid branch; no melting/spall; invalid temperatures rejected |
-| JH-2 | Intact/fractured strength, damage, delayed bulking, polynomial EOS, tensile cutoff | Supplied MAT110 revision-7 profile; negative FS unsupported |
+| JH-2 | Intact/fractured strength, damage, delayed bulking, polynomial EOS, tensile cutoff | Reference ceramic-model profile; negative FS unsupported |
 | HJC | Pressure/rate strength, compaction, lagged unloading modulus, damage | `legacy-v3`, `strain-floor`, and `mat111-compatible` point profiles; cold-start damage seed is off by default |
-| RHT | Three surfaces, Lode dependence, hardening, damage, p-alpha compaction, energy coupling | Bounded adaptive integration; unsupported/nonconverged returns are marked invalid; no general interior fallback from the supplied core |
-| MAT173-inspired Mohr–Coulomb | Constant-property six-plane principal stress return; nonassociated flow; selected NOVOID=1 hydrostatic tension branch | First-draft Fortran source; JAX adapter is small-strain and selected-branch only; complex Final Check and native history mapping are pending; see [slope response](MAT173_LANDSLIDE.md) |
+| RHT | Three surfaces, Lode dependence, hardening, damage, p-alpha compaction, energy coupling | Bounded adaptive integration; unsupported/nonconverged returns are marked invalid; no general interior fallback in the reference core |
+| Mohr–Coulomb (MAT173 reference branch) | Constant-property six-plane principal stress return; nonassociated flow; selected NOVOID=1 hydrostatic tension branch | Preliminary reference implementation; JAX adapter is small-strain and selected-branch only; complex-loading verification and native history mapping are pending; see [slope response](MAT173_LANDSLIDE.md) |
 
 Incremental kinematics use the right polar stretch of F_new inverse(F_old),
 its logarithmic strain, and rotation of tensor history. This is the spatial
@@ -49,9 +49,9 @@ The RHT return solver uses yielding-point batches for large arrays; the
 
 ### HJC profiles
 
-`hjc()` and `hjc(profile="legacy-v3")` preserve the supplied v3 conventions,
+`hjc()` and `hjc(profile="legacy-v3")` preserve the original reference conventions,
 including the EFMIN activation gate, tensile strength expression and plastic
-strain handling at zero strength. The five supplied HJC reference traces apply
+strain handling at zero strength. The five archived HJC reference traces apply
 to this profile and remain unchanged.
 
 `hjc(profile="strain-floor")` selects the strength and damage expressions in
@@ -71,15 +71,15 @@ The new profile does not establish full Radioss equivalence, strain-rate
 filtering, nonlocal damage regularization or automatic particle deletion.
 At `D=1`, cohesion is lost while compressive confinement can still carry shear
 stress. Damage is a local state variable, not a resolved crack surface.
-The optional `cold_start_damage=True` retains the supplied conditional seed
+The optional `cold_start_damage=True` retains the reference conditional seed
 in either profile: with `raw=D1*(T/fc)^D2`, initial damage is
 `min(1, 1e-4/raw)` only when `raw > minimum_fracture_strain`, otherwise zero.
 This is a numerical initialization choice outside the cited evolution
 equations, and remains disabled by default.
 
-`hjc(compacted_tension="mat111-linear")` independently selects the supplied
-MAT111 compacted-pressure block. With modified compression
-`u=(1/J-1-lock_strain)/(1+lock_strain)`, its pressure before the tensile cutoff is
+`hjc(compacted_tension="mat111-linear")` independently selects the linear-tension
+compacted-pressure branch of the MAT111 reference implementation. With modified
+compression `u=(1/J-1-lock_strain)/(1+lock_strain)`, its pressure before the tensile cutoff is
 `K1*u+(K2+K3*u)*max(u,0)**2`. Thus fully compacted material unloading below the
 locking volume uses a linear tensile branch. The default
 `compacted_tension="legacy-polynomial"` retains the original full polynomial,
@@ -88,7 +88,7 @@ the partially compacted unloading branch are independent of this choice.
 The published symmetry-constrained beam never reached full compaction and
 retains its original source and result.
 
-`hjc(profile="mat111-compatible")` follows the supplied current MAT111
+`hjc(profile="mat111-compatible")` follows the MAT111 reference implementation's
 `hjc_point` scalar path, including the uncapped nonpositive-pressure strength,
 subreference logarithmic rate factor, EFMIN activation gate, zero-strength
 plastic increment, and the zero-trial-stress damage increment. It selects
@@ -97,7 +97,7 @@ The scalar path preserves arithmetic
 boundaries because the source's exact-zero trial-stress branch changes the
 damage increment; reassociation near hydrostatic loading can select another branch.
 Host failure/erosion and structural validation remain separate.
-The source Final Check does not transfer to JAX.
+Verification of the reference implementation does not establish JAX equivalence.
 
 `python -m examples.material_engineering --case concrete-bending-mat111 --grid 64 --ppc 3 --frames 60 --no-render`
 runs this profile on the 12 mm symmetry-constrained beam. Its geometry, supports,
@@ -113,16 +113,18 @@ these choices; resume earlier
 checkpoints with their original code version. Completed result records and
 their reference data are retained.
 
-## Final Check source audit
+## Source verification audit
 
-`tools/audit_delivery.py` compares the current source SHA-256 to its manifest
-and acceptance record. [source_audit.json](source_audit.json) records nine
-eligible IDs from `MAT001_296_latest_20261017`:
+`tools/audit_delivery.py` compares each reference source SHA-256 with its
+manifest and acceptance record. The archived
+[source audit](source_audit.json) records nine eligible reference branches.
+Source IDs below identify the precise branches; they are not model names or
+claims of full solver compatibility:
 
 | Source ID | JAX branch | Scope of source evidence |
 |---|---|---|
 | MAT001 | Isotropic linear elasticity | Ordinary solid branch |
-| MAT002 | Orthotropic elasticity | Supplied engineering constants/orientation branch |
+| MAT002 | Orthotropic elasticity | Reference engineering constants/orientation branch |
 | MAT003 | Mixed-hardening bilinear J2 | Rate off, no erosion |
 | MAT004 | Prescribed-temperature plasticity | Fixed-temperature selected branch; dynamic thermal host not validated |
 | MAT007 | Blatz–Ko | REF=0, nu=0.463 |
@@ -131,9 +133,10 @@ eligible IDs from `MAT001_296_latest_20261017`:
 | MAT015 | Johnson–Cook | Selected source plastic/thermal/damage checks |
 | MAT111 | HJC | Selected source D1=0.04 profile |
 
-A source Final Check pass is not inherited by this JAX rewrite. MAT006's
-historical result is excluded because its structural Final Check is pending.
-MAT110 and MAT272 are not listed as Final Check passes; their JH-2/RHT
+A reference-implementation verification pass is not inherited by this JAX
+rewrite. MAT006's historical result is excluded because its structural
+verification is pending. MAT110 and MAT272 are not listed as verified
+reference branches; their JH-2/RHT
 implementations have separately documented reference-trace tests.
 
 Demonstration parameters are not calibrated for a particular experimental

@@ -9,8 +9,8 @@
 
 The three linear laws use infinitesimal strain `sym(F)-I` and assume small
 strain and small rotation. Rotating material axes does not supply finite-rotation
-objectivity. Blatz–Ko implements the selected MAT007 REF=0 branch with reference
-Poisson ratio 0.463. Neo-Hookean and this Blatz–Ko branch use finite-strain stresses.
+objectivity. Blatz–Ko implements a selected reference rubber branch
+(MAT007, REF=0) with reference Poisson ratio 0.463. Neo-Hookean and this Blatz–Ko branch use finite-strain stresses.
 
 [`elastic_models`](../examples/elastic_models.py) releases a prestrained 3D block;
 [`suite`](../examples/suite.py) supports each flag for cantilever, torsion, shear
