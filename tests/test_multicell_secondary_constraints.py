@@ -23,3 +23,11 @@ def test_constraints_fail_closed_for_missing_surface_or_insufficient_coverage():
     assert not result['passed']
     with pytest.raises(ValueError, match='lacks surface statistics'):
         evaluate_secondary_constraints({}, baseline, {}, [{}], p90_ratio=1.)
+
+
+def test_common_bottom_coverage_is_required_when_configured():
+    result = evaluate_secondary_constraints({}, [{}], {}, [{}], common_bottom_coverage=.1,
+                                            min_common_bottom_coverage=.25)
+    assert not result['passed']
+    with pytest.raises(ValueError, match='common bottom-plane coverage'):
+        evaluate_secondary_constraints({}, [{}], {}, [{}], min_common_bottom_coverage=.25)

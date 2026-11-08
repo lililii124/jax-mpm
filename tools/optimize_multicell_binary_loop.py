@@ -7,6 +7,8 @@ import shutil
 import subprocess
 import sys
 
+import numpy as np
+
 from tools.compare_multicell_binary_blast import read_run
 
 
@@ -108,6 +110,8 @@ def main():
     parser.add_argument('--max-bottom-peak-ratio', type=float)
     parser.add_argument('--max-p90-peak-ratio', type=float)
     parser.add_argument('--min-bottom-coverage', type=float)
+    parser.add_argument('--min-common-bottom-coverage', type=float,
+                        help='Minimum fraction of projected columns with bottom material in both designs')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     if args.iterations < 1 or args.fallback_directions < 0 or not 0 <= args.minimum_reduction < 1:
@@ -120,6 +124,8 @@ def main():
             raise ValueError('Secondary displacement ratios must be finite and positive')
     if args.min_bottom_coverage is not None and not 0 <= args.min_bottom_coverage <= 1:
         raise ValueError('Bottom coverage must lie in [0, 1]')
+    if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
+        raise ValueError('Common bottom coverage must lie in [0, 1]')
     if (args.seed_gradient is None) != (args.seed_proposals is None):
         raise ValueError('Seed gradient and proposals must be supplied together')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
@@ -143,6 +149,11 @@ def main():
         raise ValueError('Baseline lacks the requested surface statistics')
     if args.min_bottom_coverage is not None and 'bottom_plane_sample_fraction' not in baseline_meta:
         raise ValueError('Baseline lacks bottom-plane coverage')
+    if args.min_common_bottom_coverage is not None:
+        with np.load(args.baseline_geometry, allow_pickle=False) as data:
+            baseline_coverage = float(np.mean(data['solid_mask'][0]))
+        if baseline_coverage < args.min_common_bottom_coverage:
+            raise ValueError('Common bottom coverage exceeds the baseline bottom coverage')
     root = Path(__file__).resolve().parents[1]
     if any(sha256(root / name) != value for name, value in baseline_meta['source_sha256'].items()):
         raise ValueError('Baseline replay uses a different binary solver source snapshot')
@@ -162,7 +173,8 @@ def main():
         binding['max_single_voxel_fraction'] = args.max_single_voxel_fraction
     for key, value in (('max_bottom_peak_ratio', args.max_bottom_peak_ratio),
                        ('max_p90_peak_ratio', args.max_p90_peak_ratio),
-                       ('min_bottom_coverage', args.min_bottom_coverage)):
+                       ('min_bottom_coverage', args.min_bottom_coverage),
+                       ('min_common_bottom_coverage', args.min_common_bottom_coverage)):
         if value is not None: binding[key] = value
     folder = args.output
     if args.resume:
@@ -173,7 +185,6 @@ def main():
         write_json(folder / 'binding.json', binding)
     current_design, current_geometry, current_replay = args.baseline_design, args.baseline_geometry, args.baseline_replay
     sys.path.insert(0, str(root))
-    import numpy as np
     from tools.reconstruct_multicell_blast import reconstruct
     for iteration in range(1, args.iterations + 1):
         stage = folder / f'iteration-{iteration:04d}'
@@ -266,7 +277,8 @@ def main():
                               '--output', selection_dir]
             for option, value in (('--max-bottom-peak-ratio', args.max_bottom_peak_ratio),
                                   ('--max-p90-peak-ratio', args.max_p90_peak_ratio),
-                                  ('--min-bottom-coverage', args.min_bottom_coverage)):
+                                  ('--min-bottom-coverage', args.min_bottom_coverage),
+                                  ('--min-common-bottom-coverage', args.min_common_bottom_coverage)):
                 if value is not None: selection_args.extend((option, value))
             run(*selection_args)
         selection = json.loads((selection_dir / 'selection.json').read_text())

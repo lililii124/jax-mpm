@@ -27,7 +27,8 @@ def verify_early_rejection(meta, history, result, outcome, minimum_reduction):
 
 
 def evaluate_secondary_constraints(base_meta, base_rows, meta, rows, bottom_ratio=None, p90_ratio=None,
-                                   min_bottom_coverage=None):
+                                   min_bottom_coverage=None, common_bottom_coverage=None,
+                                   min_common_bottom_coverage=None):
     result = {'passed': True, 'sampling': 'saved-frames'}
     for key, limit, label in (('bottom_plane_displacement_max_m', bottom_ratio, 'bottom_peak'),
                               ('back_displacement_p90_m', p90_ratio, 'p90_peak')):
@@ -49,6 +50,12 @@ def evaluate_secondary_constraints(base_meta, base_rows, meta, rows, bottom_rati
         result['bottom_coverage'] = {'baseline': base_meta.get('bottom_plane_sample_fraction'),
                                      'candidate': fraction, 'minimum': min_bottom_coverage}
         result['passed'] &= fraction >= min_bottom_coverage
+    if min_common_bottom_coverage is not None:
+        fraction = common_bottom_coverage
+        if fraction is None or not np.isfinite(fraction) or not 0 <= fraction <= 1:
+            raise ValueError('Replay lacks valid common bottom-plane coverage')
+        result['common_bottom_coverage'] = {'candidate': fraction, 'minimum': min_common_bottom_coverage}
+        result['passed'] &= fraction >= min_common_bottom_coverage
     return result
 
 
@@ -65,6 +72,8 @@ def main():
     parser.add_argument('--max-bottom-peak-ratio', type=float)
     parser.add_argument('--max-p90-peak-ratio', type=float)
     parser.add_argument('--min-bottom-coverage', type=float)
+    parser.add_argument('--min-common-bottom-coverage', type=float,
+                        help='Minimum fraction of projected columns with bottom material in both designs')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
@@ -76,6 +85,8 @@ def main():
             raise ValueError('Secondary displacement ratios must be finite and positive')
     if args.min_bottom_coverage is not None and not 0 <= args.min_bottom_coverage <= 1:
         raise ValueError('Bottom coverage must lie in [0, 1]')
+    if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
+        raise ValueError('Common bottom coverage must lie in [0, 1]')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
     manifest = json.loads((args.proposals / 'manifest.json').read_text(encoding='utf-8'))
     feature_limit = manifest.get('max_single_voxel_fraction')
@@ -91,6 +102,7 @@ def main():
         raise ValueError('Baseline replay geometry differs')
     with np.load(args.baseline_geometry, allow_pickle=False) as data:
         solid = data['solid_mask']
+        base_bottom = np.asarray(solid[0], dtype=bool).copy()
         if mask_digest(solid) != base_meta['solid_mask_sha256']:
             raise ValueError('Baseline solid mask differs from its replay')
         if not np.any(solid, axis=0).all():
@@ -114,6 +126,9 @@ def main():
             raise ValueError('Replay does not match the proposed geometry')
         with np.load(geometry, allow_pickle=False) as data:
             solid = data['solid_mask']
+            if solid.shape[1:] != base_bottom.shape:
+                raise ValueError('Candidate and baseline bottom grids differ')
+            common_bottom_coverage = float(np.mean(base_bottom & np.asarray(solid[0], dtype=bool)))
             cell = data['cell_mask']
             if mask_digest(solid) != row['solid_mask_sha256']:
                 raise ValueError('Proposed solid mask differs from its manifest')
@@ -135,9 +150,11 @@ def main():
             verify_early_rejection(meta, history, result, outcome, args.minimum_reduction)
         secondary = None
         if not early_rejected and any(value is not None for value in
-                                      (args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage)):
+                                      (args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage,
+                                       args.min_common_bottom_coverage)):
             secondary = evaluate_secondary_constraints(base_meta, base_rows, meta, history,
-                args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage)
+                args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage,
+                common_bottom_coverage, args.min_common_bottom_coverage)
         comparisons.append({'step': row['step'], 'design': str(design),
                             'solid_mask_sha256': row['solid_mask_sha256'], 'early_rejected': early_rejected,
                             'secondary_constraints': secondary,
