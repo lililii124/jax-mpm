@@ -102,7 +102,12 @@ def main():
                 jnp.linalg.norm(angular-st.angular_impulse))
 
     args.output.mkdir(parents=True, exist_ok=True)
+    root = Path(__file__).resolve().parents[1]
+    source_files = ('examples/multicell_binary_blast_3d.py', 'mpm_jax/compact_tl.py',
+                    'mpm_jax/total_lagrangian.py', 'mpm_jax/materials/elastic.py')
     meta = dict(geometry_sha256=digest(args.geometry), inputs_sha256=digest(args.inputs),
+                source_sha256={name: digest(root/name) for name in source_files},
+                jax_version=jax.__version__, numpy_version=np.__version__,
                 settings=s, steps=nsteps, frame_interval=args.frame_interval, cfl=cfl,
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],

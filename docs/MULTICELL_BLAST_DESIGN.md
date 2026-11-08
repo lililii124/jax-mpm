@@ -78,3 +78,11 @@ This single-field reference-grid calculation has no self-contact, plasticity
 or failure; nearby disconnected surfaces can share grid support. A successful
 replay alone does not establish physical performance, convergence, or the
 accuracy of the continuous-density objective.
+
+Two completed binary replays can be compared with
+`python -m tools.compare_multicell_binary_blast BASELINE CANDIDATE --output comparison.json`.
+The comparison requires matching load, boundary settings, solver source,
+runtime, sampling interval, time horizon and mass. It rejects disconnected
+geometries and excessive sampled energy residuals. The reported maximum is
+the maximum among recorded frames, so the sampling interval must be refined
+when measuring a transient peak.
