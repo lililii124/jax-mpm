@@ -81,7 +81,7 @@ settings as its checkpoint.
 
 Use `--require-connected-binary` to reject line-search proposals whose
 fixed-count binary reconstruction has disconnected components, does not
-connect the two thickness boundaries, or leaves an empty projected column.
+connect the two thickness boundaries.
 This preserves the specified material amount without prescribing a cell shape.
 The discrete test can restrict or stop the search; connectivity alone does not
 establish adequate feature size, manufacturability, or physical performance.
@@ -106,7 +106,9 @@ The comparison requires matching load, boundary settings, solver source,
 runtime, sampling interval, time horizon and mass. It rejects disconnected
 geometries and excessive sampled energy residuals. The reported maximum is
 the maximum among recorded frames, so the sampling interval must be refined
-when measuring a transient peak.
+when measuring a transient peak. The populated projected area is reported:
+through-holes alter the integrated applied force in this approximation, and
+the pressure acting on cavity sides is not resolved.
 
 For ParaView, export a completed replay with
 `python -m tools.export_multicell_binary_vtk REPLAY GEOMETRY.npz VTK_OUTPUT`.

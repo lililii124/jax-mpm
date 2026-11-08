@@ -24,8 +24,7 @@ from tools.reconstruct_multicell_blast import reconstruct
 def binary_feasibility(rho, settings):
     """Check the voxelized finite-domain material without repairing it."""
     report=reconstruct(rho,settings)[-1]
-    ok=(report['components']==1 and report['faces_connected'] and
-        report['populated_column_fraction']==1.)
+    ok=report['components']==1 and report['faces_connected']
     return ok,report
 
 

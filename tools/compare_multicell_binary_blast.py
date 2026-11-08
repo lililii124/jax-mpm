@@ -56,8 +56,10 @@ def compare(baseline, candidate, energy_tolerance=.02):
                 baseline_sampled_peak_m=ap, candidate_sampled_peak_m=bp,
                 sampled_peak_reduction_fraction=(ap-bp)/ap,
                 baseline_max_energy_error=ae, candidate_max_energy_error=be,
+                baseline_populated_column_fraction=a.get('populated_column_fraction'),
+                candidate_populated_column_fraction=b.get('populated_column_fraction'),
                 energy_tolerance=energy_tolerance,
-                limitation='Peak displacement is sampled only at stored frames; this is a single-field elastic replay, not experimental validation.')
+                limitation='Peak displacement is sampled only at stored frames. Projected pressure acts on occupied columns; through-holes change the applied resultant and cavity-side pressure is omitted. This is a single-field elastic replay, not experimental validation.')
 
 
 def main():
