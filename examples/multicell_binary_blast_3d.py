@@ -65,8 +65,11 @@ def main():
     skin = (pos[:, 2] < s['skin']) | (pos[:, 2] > gz * h[2] - s['skin'])
     mat = point_material(jnp.asarray(np.where(skin, s['skin_young'], s['core_young'])), .28)
     xyz = support.nodes
-    fixed = ((xyz[:, 0] < h[0] * 1.01) | (xyz[:, 0] > (gx - 1.01) * h[0]) |
-             (xyz[:, 1] < h[1] * 1.01) | (xyz[:, 1] > (gy - 1.01) * h[1]))[:, None]
+    edge = np.asarray(s.get('fixed_edge_width', [h[0] * 1.01, h[1] * 1.01]), dtype=float)
+    if edge.shape != (2,) or not np.isfinite(edge).all() or np.any(edge <= 0) or np.any(edge >= (gx*h[0]/2, gy*h[1]/2)):
+        raise ValueError('Fixed edge widths must be positive and less than half the domain')
+    fixed = ((xyz[:, 0] < edge[0]) | (xyz[:, 0] > gx*h[0]-edge[0]) |
+             (xyz[:, 1] < edge[1]) | (xyz[:, 1] > gy*h[1]-edge[1]))[:, None]
     fixed = jnp.asarray(np.broadcast_to(fixed, xyz.shape))
     xy = np.stack(np.meshgrid((np.arange(gx)+.5)*h[0], (np.arange(gy)+.5)*h[1], indexing='ij'), -1).reshape(-1, 2)
     area = np.full(len(xy), h[0]*h[1])
