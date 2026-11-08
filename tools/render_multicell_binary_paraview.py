@@ -11,6 +11,7 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--stress-limit-mpa', type=float, required=True)
     parser.add_argument('--cutaway', action='store_true')
+    parser.add_argument('--show-blast-center', action='store_true')
     args = parser.parse_args()
     if args.stress_limit_mpa <= 0:
         parser.error('Stress limit must be positive')
@@ -58,6 +59,21 @@ def main():
     lut.AutomaticRescaleRangeMode = 'Never'
     display.LookupTable = lut
     display.SetScalarBarVisibility(view, False)
+    if args.show_blast_center:
+        initial_bounds=reader.GetDataInformation().GetBounds()
+        marker=p.Disk()
+        marker.InnerRadius=.0035
+        marker.OuterRadius=.0045
+        marker.CircumferentialResolution=64
+        location=p.Transform(Input=marker)
+        location.Transform.Translate=[(initial_bounds[0]+initial_bounds[1])*.5,
+                                      (initial_bounds[2]+initial_bounds[3])*.5,
+                                      initial_bounds[5]+.002]
+        marker_display=p.Show(location,view)
+        marker_display.DiffuseColor=[.72,.08,.04]
+        marker_display.AmbientColor=[.72,.08,.04]
+        marker_display.Ambient=1
+        marker_display.Diffuse=0
     frames = []
     times = [row['time_s'] for row in records]
     if any(b <= a for a, b in zip(times, times[1:])):
@@ -78,6 +94,7 @@ def main():
                    loop=0, disposal=2, optimize=False)
     result = dict(renderer='ParaView', frames=len(frames), stress_limit_pa=maximum,
                   physical_deformation_scale=1, cutaway=args.cutaway,
+                  blast_center_marker=args.show_blast_center,
                   duration_ms=durations, gif_sha256=hashlib.sha256(gif.read_bytes()).hexdigest(),
                   source_geometry_sha256=receipt['geometry_sha256'])
     (args.output/'render.json').write_text(json.dumps(result, indent=2)+'\n')
