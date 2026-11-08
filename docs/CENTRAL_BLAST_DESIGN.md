@@ -54,6 +54,15 @@ Its output must be compared with the matching uniform-material central-load
 baseline; running the command does not itself establish an improvement or
 mesh convergence.
 
+After the candidate finishes, compare the complete histories' peak metrics:
+
+```sh
+python -m tools.compare_central_candidate_fullmpm evidence/blast-sandwich-reduced/union130-completed-initial-responses.json outputs/sandwich-central-candidate-fullmpm --output outputs/central-candidate-comparison.json
+```
+
+The comparison checks completion, load case, duration, physical settings,
+source hashes, candidate controls and fixed mass before reporting a change.
+
 This is an effective elastic-core design problem. It does not include an
 explicit explosive, skin plasticity or core crushing. The frozen basis is
 reused for candidate exploration; its earlier multi-load validation did not
