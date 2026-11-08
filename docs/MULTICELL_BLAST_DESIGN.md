@@ -50,10 +50,11 @@ verification remain necessary before the resulting topology is treated as an
 engineering result.
 
 For the free-thickness initial binary structure, the sampled back-face
-displacement was still increasing at 200 microseconds. The current 200 µs
-objective therefore measures a prescribed window, not a demonstrated complete
-transient peak. A longer replay is required to choose an adequate optimization
-horizon before interpreting a design as minimizing the full response.
+displacement was still increasing at 200 microseconds. A preliminary 1 ms
+binary replay found its largest sampled value, 0.970 mm, near 357 microseconds.
+The 200 µs search is therefore a windowed exploration; a separate 1 ms search
+is running. Time-step refinement of the 1 ms replay remains in progress. A
+finite-window maximum is not a bound on every later response.
 
 An accepted density field can be converted to equal-volume solid voxels and
 voids while preserving the material amount to the nearest voxel per cell:
