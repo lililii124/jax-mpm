@@ -16,7 +16,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
 | Blast-loaded sandwich design | Multi-load optimization gallery withdrawn. The rank-191 development check stopped at uniform pressure: omitted linear strain energy is 7.460%, above the unchanged 5% gate. A separate central-pressure-only search is submitted with uniform initial material and mirror-symmetric controls; existing full-MPM runs continue | Review the bounded fixed-mass search and independently verify any retained design before publication |
-| Multi-cell sandwich microstructure | New separate engineering case requested; not yet implemented | After the current optimization, jointly solve the full blast-loaded domain containing multiple identical cells, starting from uniform material or a small random perturbation, without prescribing the cell topology; hold total material amount fixed throughout |
+| Multi-cell sandwich microstructure | Highest priority: shared-cell design mapping implemented and its fixed-volume derivative checked; full-domain dynamics and optimization remain to be implemented | Jointly solve the full 3 × 3 blast-loaded domain with identical cells, starting from uniform material or a small random perturbation, without prescribing cell topology; hold total material amount fixed throughout |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -61,7 +61,8 @@ constraint preserves mass while spatial controls redistribute it.
 
 The user also requested a separate structural-core topology problem without a
 prescribed cell topology. The blast-loaded design domain itself must contain
-multiple resolved cells; optimize their shared material distribution jointly under
+3 × 3 resolved cells in the plane, with the explosion centre aligned with the
+geometric centre of the central cell; optimize their shared material distribution jointly under
 the spatially varying load. All cells have the same shape and material field,
 enforced through shared design variables, while the actual response of every
 cell is solved in the full domain. Start from a uniform field or a small random
@@ -72,6 +73,12 @@ material. The total amount of material is fixed throughout optimization;
 compare designs at equal mass and matched loading. Explicit
 MPM contact and crushing must be checked separately from any smooth
 differentiable optimization surrogate.
+
+`mpm_jax.shared_cell_design` provides a differentiable fixed-volume shared
+voxel field, explicit positions for the full 3 × 3 domain and a fixed-count
+binary reconstruction. Continuous weights are optimization proxies; they do
+not establish real voids, a full-domain MPM response or an optimized result.
+Thresholding requires a separate material-volume check after reconstruction.
 
 The [problem specification](BLAST_SANDWICH_DESIGN.md) defines geometry, loading,
 design controls, constraints, memory strategy and acceptance criteria.
