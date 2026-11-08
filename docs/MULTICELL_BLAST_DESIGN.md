@@ -14,6 +14,15 @@ modulus of the chosen solid. For binary replay, the projected pressure acts
 on the uppermost solid voxel in each occupied column; it does not model gas
 flow or pressure on cavity sides.
 
+For an additional equal-normal-impulse sensitivity check, pass
+`--empty-column-load redistribute` to the binary replay. This allocates the
+projected load from an empty column to its nearest occupied columns. It
+preserves the total normal force but can shift the force centroid and alter
+the local pressure distribution. Both the force and first moment are reported
+by `tools.measure_binary_blast_load`; this approximation does not replace a
+fluid–structure blast calculation. Baseline and candidate replays must use
+the same allocation mode and solver version.
+
 The initial configuration uses 100 × 100 × 20 mm cells, 2 mm face sheets,
 30% core material fraction and 2.43 kg total material. Each grid cell contains
 eight integration particles. The total material mass is fixed by a

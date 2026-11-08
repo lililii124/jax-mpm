@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from mpm_jax.compact_tl import (elastic_energy, face_stress, initial_state,
     point_material, reference_grid, rectilinear_support, step, surface_weights)
 from mpm_jax.total_lagrangian import momentum, sample_nodal
+from tools.projected_pressure import allocate_projected_pressure
 from tools.reconstruct_multicell_blast import mask_digest
 
 
@@ -29,6 +30,7 @@ def main():
     p.add_argument('--output', required=True, type=Path)
     p.add_argument('--steps', type=int)
     p.add_argument('--frame-interval', type=int, default=200)
+    p.add_argument('--empty-column-load', choices=('omit','redistribute'), default='omit')
     p.add_argument('--allow-disconnected-diagnostic', action='store_true')
     args = p.parse_args()
     if args.output.exists() and any(args.output.iterdir()):
@@ -72,6 +74,8 @@ def main():
     footprint = np.exp(-.5*np.sum(((xy-center)/s['blast_radius'])**2, axis=1))
     footprint /= np.sum(footprint*area)/np.sum(area)
     occupied = np.any(solid, axis=0).T.reshape(-1)
+    footprint = allocate_projected_pressure(footprint.reshape(gx,gy),occupied.reshape(gx,gy),
+                                            args.empty_column_load).reshape(-1)
     top = (gz-np.argmax(solid[::-1], axis=0)).T.reshape(-1)*h[2]
     bottom = np.argmax(solid, axis=0).T.reshape(-1)*h[2]
     xy = xy[occupied]
@@ -111,12 +115,13 @@ def main():
 
     args.output.mkdir(parents=True, exist_ok=True)
     root = Path(__file__).resolve().parents[1]
-    source_files = ('examples/multicell_binary_blast_3d.py', 'tools/reconstruct_multicell_blast.py', 'mpm_jax/compact_tl.py',
+    source_files = ('examples/multicell_binary_blast_3d.py', 'tools/reconstruct_multicell_blast.py', 'tools/projected_pressure.py', 'mpm_jax/compact_tl.py',
                     'mpm_jax/total_lagrangian.py', 'mpm_jax/materials/elastic.py')
     meta = dict(geometry_sha256=digest(args.geometry), solid_mask_sha256=mask_digest(solid), inputs_sha256=digest(args.inputs),
                 source_sha256={name: digest(root/name) for name in source_files},
                 jax_version=jax.__version__, numpy_version=np.__version__,
                 settings=s, steps=nsteps, frame_interval=args.frame_interval, cfl=cfl,
+                empty_column_load=args.empty_column_load,
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],
                 connected_components=report['components'], populated_column_fraction=float(np.mean(occupied)),
