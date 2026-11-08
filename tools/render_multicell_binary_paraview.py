@@ -60,15 +60,15 @@ def main():
     display.LookupTable = lut
     display.SetScalarBarVisibility(view, False)
     if args.show_blast_center:
-        initial_bounds=reader.GetDataInformation().GetBounds()
+        center_projection=receipt['blast_center_projection_m']
+        if len(center_projection)!=3:
+            raise ValueError('Invalid blast center projection')
         marker=p.Disk()
         marker.InnerRadius=.0035
         marker.OuterRadius=.0045
         marker.CircumferentialResolution=64
         location=p.Transform(Input=marker)
-        location.Transform.Translate=[(initial_bounds[0]+initial_bounds[1])*.5,
-                                      (initial_bounds[2]+initial_bounds[3])*.5,
-                                      initial_bounds[5]+.002]
+        location.Transform.Translate=[center_projection[0],center_projection[1],center_projection[2]+.002]
         marker_display=p.Show(location,view)
         marker_display.DiffuseColor=[.72,.08,.04]
         marker_display.AmbientColor=[.72,.08,.04]

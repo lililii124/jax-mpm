@@ -70,7 +70,11 @@ def export(source, geometry, output):
                             source_sha256=hashlib.sha256(frame.read_bytes()).hexdigest()))
     datasets = ''.join(f'<DataSet timestep="{r["time_s"]:.17g}" part="0" file="{r["file"]}"/>' for r in records)
     (output/'series.pvd').write_text('<?xml version="1.0"?><VTKFile type="Collection" version="0.1" byte_order="LittleEndian"><Collection>'+datasets+'</Collection></VTKFile>', encoding='utf-8')
+    settings=meta['settings']
+    size=np.asarray(settings['cell_size'],dtype=float)
+    top=float(size[2]*(1+2*settings['skin_layers']/settings['cell'][2]))
     receipt = dict(geometry_sha256=meta['geometry_sha256'], frames=records,
+                   blast_center_projection_m=[float(1.5*size[0]),float(1.5*size[1]),top],
                    max_energy_residual=energy_error, physical_deformation_scale=1,
                    interpolation='Original quadratic reference-grid basis at voxel corners; cell stress is the mean of eight quadrature samples.')
     (output/'export.json').write_text(json.dumps(receipt, indent=2)+'\n', encoding='utf-8')
