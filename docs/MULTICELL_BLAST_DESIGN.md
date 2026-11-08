@@ -79,6 +79,13 @@ Runs without this option retain the unfiltered design. A running calculation
 uses its own source snapshot; resume requires the same source hashes and
 settings as its checkpoint.
 
+Use `--require-connected-binary` to reject line-search proposals whose
+fixed-count binary reconstruction has disconnected components, does not
+connect the two thickness boundaries, or leaves an empty projected column.
+This preserves the specified material amount without prescribing a cell shape.
+The discrete test can restrict or stop the search; connectivity alone does not
+establish adequate feature size, manufacturability, or physical performance.
+
 The connected binary geometry can be replayed under the same full-domain
 loading and perimeter boundary condition:
 

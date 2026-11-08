@@ -18,6 +18,15 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from examples.multicell_blast_3d import build
 from mpm_jax.shared_cell_design import project_fixed_volume
 from mpm_jax.periodic_filter import filter_cell_logits
+from tools.reconstruct_multicell_blast import reconstruct
+
+
+def binary_feasibility(rho, settings):
+    """Check the voxelized finite-domain material without repairing it."""
+    report=reconstruct(rho,settings)[-1]
+    ok=(report['components']==1 and report['faces_connected'] and
+        report['populated_column_fraction']==1.)
+    return ok,report
 
 
 def atomic_json(path, obj):
@@ -35,6 +44,7 @@ def main():
     p.add_argument('--cell',type=int,nargs=3,default=(16,16,20));p.add_argument('--cell-size',type=float,nargs=3,default=(.1,.1,.02))
     p.add_argument('--skin',type=float,default=.002);p.add_argument('--skin-layers',type=int,default=2);p.add_argument('--volume-fraction',type=float,default=.3)
     p.add_argument('--beta',type=float,default=5.);p.add_argument('--filter-passes',type=int,default=0);p.add_argument('--skin-young',type=float,default=70e9);p.add_argument('--core-young',type=float,default=20e9)
+    p.add_argument('--require-connected-binary',action='store_true')
     p.add_argument('--solid-density',type=float,default=2700.);p.add_argument('--pressure',type=float,default=2e6);p.add_argument('--pulse',type=float,default=2e-5)
     p.add_argument('--blast-radius',type=float,default=.08);p.add_argument('--dt',type=float,default=1e-8);p.add_argument('--cfl-limit',type=float,default=.1)
     p.add_argument('--steps',type=int,default=20000);p.add_argument('--checkpoint-block',type=int,default=32);p.add_argument('--displacement-scale',type=float,default=.005)
@@ -46,7 +56,7 @@ def main():
     if not a.check_only and a.steps*a.dt < a.pulse:
         raise ValueError('An optimization must include the entire pressure pulse')
     physics={k:v for k,v in vars(a).items() if k not in ('iterations','initial_step','min_step','output','resume','check_only','check_epsilon','init','seed')}
-    relevant=('examples/multicell_blast_3d.py','mpm_jax/shared_cell_design.py','mpm_jax/periodic_filter.py',
+    relevant=('examples/multicell_blast_3d.py','mpm_jax/shared_cell_design.py','mpm_jax/periodic_filter.py','tools/reconstruct_multicell_blast.py',
         'mpm_jax/compact_tl.py','mpm_jax/total_lagrangian.py','mpm_jax/materials/elastic.py',
         'tools/optimize_multicell_blast.py')
     root=Path(__file__).resolve().parents[1]
@@ -58,6 +68,8 @@ def main():
     objective,plan=build(model_args)
     import jax.numpy as jnp
     n=int(np.prod(a.cell)); out=a.output
+    def density_for(q):
+        return np.asarray(project_fixed_volume(filter_cell_logits(q.reshape(a.cell[2],a.cell[1],a.cell[0]),a.filter_passes),a.volume_fraction,beta=a.beta))
     if not a.resume and out.exists() and any(out.iterdir()):
         raise FileExistsError('Fresh optimization requires an empty output directory')
     out.mkdir(parents=True,exist_ok=True)
@@ -73,8 +85,10 @@ def main():
         iteration=0;history=[]
         atomic_json(out/'inputs.json',dict(signature=signature,binding=binding,initialization=a.init,seed=a.seed,plan=plan))
     if q.shape!=(n,): raise ValueError('Checkpoint design shape does not match cell grid')
+    if a.require_connected_binary and not binary_feasibility(density_for(q),vars(a))[0]:
+        raise ValueError('Initial or resumed design does not produce a connected binary structure')
     if not a.resume and not a.check_only:
-        rho0=np.asarray(project_fixed_volume(filter_cell_logits(q.reshape(a.cell[2],a.cell[1],a.cell[0]),a.filter_passes),a.volume_fraction,beta=a.beta))
+        rho0=density_for(q)
         atomic_npz(out/'design-00000.npz',logits=np.asarray(q),rho_cell=rho0,cell_shape=np.asarray(a.cell),
                    tile_repeats=np.asarray((3,3,1)),projected_mean=rho0.mean())
         atomic_json(history_path,[])
@@ -94,16 +108,22 @@ def main():
         direction=-g/norm
         previous_value=value
         accepted=None; step=a.initial_step
+        rejected_connectivity=0
         for ls in range(24):
             proposal=jnp.clip(q+step*jnp.asarray(direction),-a.logit_bound,a.logit_bound)
+            if a.require_connected_binary and not binary_feasibility(density_for(proposal),vars(a))[0]:
+                rejected_connectivity+=1;step*=.5
+                if step<a.min_step:break
+                continue
             candidate=float(ev(proposal))
             if np.isfinite(candidate) and candidate < value-1e-10*max(abs(value),1e-12):
                 accepted=(proposal,candidate,step,ls+1);break
             step*=.5
             if step<a.min_step:break
-        if accepted is None: raise RuntimeError('Bounded backtracking found no finite descending full-domain design')
+        if accepted is None:
+            raise RuntimeError(f'Bounded backtracking found no admissible descending design; {rejected_connectivity} proposals failed connectivity')
         q,new_value,step,nsearch=accepted; iteration+=1
-        rho=np.asarray(project_fixed_volume(filter_cell_logits(q.reshape(a.cell[2],a.cell[1],a.cell[0]),a.filter_passes),a.volume_fraction,beta=a.beta))
+        rho=density_for(q)
         # Store every actual candidate; tied tile identity is explicit in the file.
         design_file=f'design-{iteration:05d}.npz'
         atomic_npz(out/design_file,logits=np.asarray(q),rho_cell=rho,cell_shape=np.asarray(a.cell),
@@ -112,6 +132,7 @@ def main():
         if not np.isfinite(value) or not np.isfinite(np.asarray(grad)).all(): raise FloatingPointError('Accepted design produced nonfinite objective/gradient')
         record=dict(iteration=iteration,objective=value,previous_objective=previous_value,
                     gradient_norm=float(jnp.linalg.norm(grad)),step_size=step,line_search_evaluations=nsearch,
+                    connectivity_rejections=rejected_connectivity,binary_connectivity_required=a.require_connected_binary,
                     design_file=design_file,projected_mean=float(rho.mean()),projected_min=float(rho.min()),projected_max=float(rho.max()),
                     actual_core_mass_kg=float(rho.mean()*9*np.prod(a.cell_size)*a.solid_density),
                     fixed_volume_fraction=float(a.volume_fraction),nominal_total_mass_kg=plan['nominal_total_mass_kg'],
