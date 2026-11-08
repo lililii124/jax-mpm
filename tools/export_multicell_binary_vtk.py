@@ -10,6 +10,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from mpm_jax.compact_tl import surface_weights
+from mpm_jax.multifield_support import surface_fields
 from tools.compare_multicell_binary_blast import read_run
 from tools.reconstruct_multicell_blast import mask_digest
 
@@ -31,15 +32,26 @@ def export(source, geometry, output, allow_incomplete=False):
     with np.load(source/'reference.npz', allow_pickle=False) as saved:
         nodes, spacing = saved['nodes'], saved['spacing']
         shape = tuple(saved['shape'])
+        split_mode = meta.get('support_mode', 'single') == 'split-disconnected'
+        if split_mode:
+            grid_nodes = saved['grid_nodes']
+            split = SimpleNamespace(voxel_coordinates=saved['voxel_coordinates'],
+                                    pair_keys=saved['pair_keys'], pair_fields=saved['pair_fields'])
     voxels = np.argwhere(mask)[:, ::-1]
     corners = np.array(((0,0,0), (1,0,0), (1,1,0), (0,1,0),
                         (0,0,1), (1,0,1), (1,1,1), (0,1,1)))
-    unique, inverse = np.unique((voxels[:, None, :]+corners[None, :, :]).reshape(-1, 3),
-                                axis=0, return_inverse=True)
-    points = unique * spacing
-    cells = inverse.reshape(-1, 8)
-    support = SimpleNamespace(nodes=nodes, spacing=spacing, shape=shape)
+    vertices = (voxels[:, None, :]+corners[None, :, :]).reshape(-1, 3)
+    if split_mode:
+        points = vertices * spacing
+        cells = np.arange(len(points)).reshape(-1, 8)
+    else:
+        unique, inverse = np.unique(vertices, axis=0, return_inverse=True)
+        points = unique * spacing
+        cells = inverse.reshape(-1, 8)
+    support = SimpleNamespace(nodes=grid_nodes if split_mode else nodes, spacing=spacing, shape=shape)
     indices, weights = surface_weights(support, points)
+    if split_mode:
+        indices = surface_fields(split, indices, np.repeat(voxels, 8, axis=0), weights)
     output.mkdir(parents=True, exist_ok=False)
     records = []
     for row in rows:
@@ -78,7 +90,8 @@ def export(source, geometry, output, allow_incomplete=False):
                    computed_time_s=rows[-1]['time_s'], target_time_s=meta['steps']*meta['settings']['dt'],
                    blast_center_projection_m=[float(1.5*size[0]),float(1.5*size[1]),top],
                    max_energy_residual=energy_error, physical_deformation_scale=1,
-                   interpolation='Original quadratic reference-grid basis at voxel corners; cell stress is the mean of eight quadrature samples.')
+                   support_mode=meta.get('support_mode', 'single'),
+                   interpolation='Quadratic reference-grid basis at voxel corners; cell stress is the mean of eight quadrature samples.')
     (output/'export.json').write_text(json.dumps(receipt, indent=2)+'\n', encoding='utf-8')
     return receipt
 

@@ -31,6 +31,7 @@ def main():
     p.add_argument('--steps', type=int)
     p.add_argument('--frame-interval', type=int, default=200)
     p.add_argument('--empty-column-load', choices=('omit','redistribute'), default='omit')
+    p.add_argument('--split-disconnected-support', action='store_true')
     p.add_argument('--allow-disconnected-diagnostic', action='store_true')
     args = p.parse_args()
     if args.output.exists() and any(args.output.iterdir()):
@@ -61,6 +62,12 @@ def main():
     if not np.isclose(len(pos) * volume * s['solid_density'], report['binary_mass_kg'], rtol=1e-12):
         raise ValueError('Geometry mass differs from its reconstruction report')
     support = rectilinear_support(pos, volume, h)
+    grid_support = support
+    split = None
+    if args.split_disconnected_support:
+        from mpm_jax.multifield_support import split_disconnected_node_support
+        split = split_disconnected_node_support(support)
+        support = split.support
     ref = reference_grid(support, float(s['solid_density']))
     skin = (pos[:, 2] < s['skin']) | (pos[:, 2] > gz * h[2] - s['skin'])
     mat = point_material(jnp.asarray(np.where(skin, s['skin_young'], s['core_young'])), .28)
@@ -79,12 +86,20 @@ def main():
     occupied = np.any(solid, axis=0).T.reshape(-1)
     footprint = allocate_projected_pressure(footprint.reshape(gx,gy),occupied.reshape(gx,gy),
                                             args.empty_column_load).reshape(-1)
-    top = (gz-np.argmax(solid[::-1], axis=0)).T.reshape(-1)*h[2]
-    bottom = np.argmax(solid, axis=0).T.reshape(-1)*h[2]
+    top_voxel = (gz-1-np.argmax(solid[::-1], axis=0)).T.reshape(-1)
+    bottom_voxel = np.argmax(solid, axis=0).T.reshape(-1)
+    top = (top_voxel+1)*h[2]
+    bottom = bottom_voxel*h[2]
+    owner_x = np.repeat(np.arange(gx), gy)[occupied]
+    owner_y = np.tile(np.arange(gy), gx)[occupied]
     xy = xy[occupied]
     area, footprint = area[occupied], footprint[occupied]
-    fi, fw = surface_weights(support, np.column_stack((xy, top[occupied])))
-    bi, bw = surface_weights(support, np.column_stack((xy, bottom[occupied])))
+    fi, fw = surface_weights(grid_support, np.column_stack((xy, top[occupied])))
+    bi, bw = surface_weights(grid_support, np.column_stack((xy, bottom[occupied])))
+    if split is not None:
+        from mpm_jax.multifield_support import surface_fields
+        fi = surface_fields(split, fi, np.column_stack((owner_x, owner_y, top_voxel[occupied])), fw)
+        bi = surface_fields(split, bi, np.column_stack((owner_x, owner_y, bottom_voxel[occupied])), bw)
     load = jnp.zeros((len(xyz), 3), dtype=jnp.float64).at[jnp.asarray(fi.reshape(-1)), 2].add(
         -s['pressure']*jnp.asarray((fw*area[:, None]*footprint[:, None]).reshape(-1)))
     dt = float(s['dt'])
@@ -120,19 +135,26 @@ def main():
     root = Path(__file__).resolve().parents[1]
     source_files = ('examples/multicell_binary_blast_3d.py', 'tools/reconstruct_multicell_blast.py', 'tools/projected_pressure.py', 'mpm_jax/compact_tl.py',
                     'mpm_jax/total_lagrangian.py', 'mpm_jax/materials/elastic.py')
+    if split is not None:
+        source_files += ('mpm_jax/multifield_support.py',)
     meta = dict(geometry_sha256=digest(args.geometry), solid_mask_sha256=mask_digest(solid), inputs_sha256=digest(args.inputs),
                 source_sha256={name: digest(root/name) for name in source_files},
                 jax_version=jax.__version__, numpy_version=np.__version__,
                 settings=s, steps=nsteps, frame_interval=args.frame_interval, cfl=cfl,
                 empty_column_load=args.empty_column_load,
+                support_mode='split-disconnected' if split is not None else 'single',
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],
                 connected_components=report['components'], populated_column_fraction=float(np.mean(occupied)),
                 diagnostic_only=args.allow_disconnected_diagnostic,
-                limitation='Single-field reference-grid model: no self-contact, plasticity or failure; projected pressure acts on the uppermost solid voxel in each populated column and does not resolve pressure on cavity sides.')
+                limitation='Reference-grid elastic model without self-contact, plasticity or failure; projected pressure acts on the uppermost solid voxel in each populated column and does not resolve pressure on cavity sides.')
     (args.output/'inputs.json').write_text(json.dumps(meta, indent=2, allow_nan=False)+'\n', encoding='utf-8')
-    np.savez_compressed(args.output/'reference.npz', nodes=xyz, spacing=h,
-                        shape=np.asarray(support.shape))
+    reference_data = dict(nodes=xyz, spacing=h, shape=np.asarray(grid_support.shape),
+                          support_mode=np.asarray('split-disconnected' if split is not None else 'single'))
+    if split is not None:
+        reference_data.update(grid_nodes=grid_support.nodes, voxel_coordinates=split.voxel_coordinates,
+                              pair_keys=split.pair_keys, pair_fields=split.pair_fields)
+    np.savez_compressed(args.output/'reference.npz', **reference_data)
     rows = []
     completed = 0
     while True:

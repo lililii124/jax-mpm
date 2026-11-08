@@ -50,6 +50,8 @@ def compare(baseline, candidate, energy_tolerance=.02):
             raise ValueError(f'Replay {field} differs')
     if a.get('empty_column_load','omit')!=b.get('empty_column_load','omit'):
         raise ValueError('Projected pressure allocation differs')
+    if a.get('support_mode','single') != b.get('support_mode','single'):
+        raise ValueError('Material-to-grid support mode differs')
     if not np.isclose(a['binary_mass_kg'], b['binary_mass_kg'], rtol=1e-12, atol=1e-12):
         raise ValueError('Reconstructed material mass differs')
     if a['solid_mask_sha256'] == b['solid_mask_sha256']:
@@ -69,7 +71,7 @@ def compare(baseline, candidate, energy_tolerance=.02):
                 energy_tolerance=energy_tolerance,
                 limitation=('Peak displacement is sampled only at stored frames. '
                             'Projected pressure uses '+a.get('empty_column_load','omit')+
-                            ' allocation; cavity-side pressure is omitted. This is a single-field elastic replay, not experimental validation.'))
+                            ' allocation; cavity-side pressure is omitted. This is an elastic replay, not experimental validation.'))
 
 
 def main():
