@@ -33,6 +33,7 @@ def main():
     p.add_argument('--empty-column-load', choices=('omit','redistribute'), default='omit')
     p.add_argument('--split-disconnected-support', action='store_true')
     p.add_argument('--track-subframe-peak', action='store_true')
+    p.add_argument('--reject-if-peak-ge', type=float)
     p.add_argument('--allow-disconnected-diagnostic', action='store_true')
     args = p.parse_args()
     if args.output.exists() and any(args.output.iterdir()):
@@ -49,6 +50,8 @@ def main():
     nsteps = args.steps if args.steps is not None else int(s['steps'])
     if nsteps < 1 or args.frame_interval < 1:
         raise ValueError('Steps and frame interval must be positive')
+    if args.reject_if_peak_ge is not None and (not np.isfinite(args.reject_if_peak_ge) or args.reject_if_peak_ge <= 0):
+        raise ValueError('Rejection peak must be finite and positive')
     with np.load(args.geometry, allow_pickle=False) as data:
         pos = np.asarray(data['positions'])
         volume = float(data['particle_volume'])
@@ -155,6 +158,7 @@ def main():
                 empty_column_load=args.empty_column_load,
                 support_mode='split-disconnected' if split is not None else 'single',
                 peak_sampling='every-step' if args.track_subframe_peak else 'saved-frames',
+                rejection_peak_m=args.reject_if_peak_ge,
                 binary_mass_kg=report['binary_mass_kg'], particles=len(pos),
                 connected_faces=report['faces_connected'], detached_voxels=report['detached_solid_voxels'],
                 connected_components=report['components'], populated_column_fraction=float(np.mean(occupied)),
@@ -188,6 +192,15 @@ def main():
         (args.output/'history.json').write_text(json.dumps(rows, indent=2, allow_nan=False)+'\n', encoding='utf-8')
         print(json.dumps(row, allow_nan=False), flush=True)
         if completed == nsteps:
+            break
+        peak_field = 'back_displacement_interval_peak_m' if args.track_subframe_peak else 'back_displacement_max_m'
+        observed_peak = max(item[peak_field] for item in rows)
+        if args.reject_if_peak_ge is not None and observed_peak >= args.reject_if_peak_ge:
+            outcome = dict(reason='peak-threshold', threshold_m=args.reject_if_peak_ge,
+                           observed_peak_m=observed_peak, step=completed)
+            temp = args.output/'outcome.json.tmp'
+            temp.write_text(json.dumps(outcome, indent=2, allow_nan=False)+'\n', encoding='utf-8')
+            temp.replace(args.output/'outcome.json')
             break
         count = min(args.frame_interval, nsteps-completed)
         state, interval_peak = advance(state, count)

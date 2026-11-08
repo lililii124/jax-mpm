@@ -69,6 +69,16 @@ def preserve_incomplete_replay(replay, geometry_sha256, baseline_meta):
             _, history, _ = read_run(replay, .02, allow_incomplete=True)
             if history[-1]['step'] == meta['steps']:
                 return
+            outcome = replay / 'outcome.json'
+            if outcome.exists():
+                recorded = json.loads(outcome.read_text(encoding='utf-8'))
+                field = ('back_displacement_interval_peak_m' if meta.get('peak_sampling') == 'every-step'
+                         else 'back_displacement_max_m')
+                observed = max(row[field] for row in history)
+                if (recorded.get('reason') == 'peak-threshold' and recorded.get('step') == history[-1]['step'] and
+                        observed >= recorded.get('threshold_m', float('inf'))):
+                    return
+                raise ValueError('Interrupted replay outcome is inconsistent')
     index = 1
     while True:
         target = replay.with_name(replay.name + f'.interrupted-{index:03d}')
@@ -92,6 +102,7 @@ def main():
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
     parser.add_argument('--seed-gradient', type=Path)
     parser.add_argument('--seed-proposals', type=Path)
+    parser.add_argument('--early-reject', action='store_true')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
     if args.iterations < 1 or args.fallback_directions < 0 or not 0 <= args.minimum_reduction < 1:
@@ -125,6 +136,8 @@ def main():
     if args.seed_gradient is not None:
         binding.update(seed_gradient_sha256=sha256(args.seed_gradient),
                        seed_manifest_sha256=sha256(args.seed_proposals / 'manifest.json'))
+    if args.early_reject:
+        binding['early_reject'] = True
     folder = args.output
     if args.resume:
         if json.loads((folder / 'binding.json').read_text()) != binding:
@@ -167,6 +180,12 @@ def main():
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'no-feasible-proposals'})
             return
         replays = []
+        current_meta, current_rows, _ = read_run(current_replay, .02)
+        peak_field = ('back_displacement_interval_peak_m' if current_meta.get('peak_sampling') == 'every-step'
+                      else 'back_displacement_max_m')
+        cutoff = max(row[peak_field] for row in current_rows) * (1 - args.minimum_reduction)
+        if not np.isfinite(cutoff) or cutoff <= 0:
+            raise ValueError('Current baseline has no positive finite peak')
         for index, row in enumerate(proposed):
             design = proposals / row['design']; geometry = proposals / row['geometry']
             if sha256(design) != row['design_sha256'] or sha256(geometry) != row['geometry_sha256']:
@@ -193,14 +212,18 @@ def main():
                     replay_args.append('--split-disconnected-support')
                 if baseline_meta.get('peak_sampling', 'saved-frames') == 'every-step':
                     replay_args.append('--track-subframe-peak')
+                if args.early_reject:
+                    replay_args.extend(('--reject-if-peak-ge', cutoff))
                 run(*replay_args)
-            replay_meta, _, _ = read_run(replay, .02)
+            replay_meta, replay_rows, _ = read_run(replay, .02, allow_incomplete=args.early_reject)
             if replay_meta['geometry_sha256'] != sha256(geometry):
                 raise ValueError('Stored replay does not match its geometry')
             if replay_meta.get('support_mode', 'single') != support_mode:
                 raise ValueError('Stored replay uses a different material-to-grid support mode')
             if replay_meta.get('peak_sampling', 'saved-frames') != baseline_meta.get('peak_sampling', 'saved-frames'):
                 raise ValueError('Stored replay uses a different peak sampling mode')
+            if replay_rows[-1]['step'] < replay_meta['steps'] and not (replay / 'outcome.json').exists():
+                raise ValueError('Incomplete replay has no rejection certificate')
             replays.append(replay)
         selection_dir = stage / 'selection'
         if args.resume:

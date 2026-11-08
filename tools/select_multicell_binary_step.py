@@ -1,4 +1,4 @@
-"""Select a fixed-mass candidate only after complete binary blast replays."""
+"""Select a fixed-mass candidate from verified binary blast replays."""
 import argparse
 import hashlib
 import json
@@ -15,6 +15,16 @@ def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def verify_early_rejection(meta, history, result, outcome, minimum_reduction):
+    observed = result['candidate_sampled_peak_m']
+    cutoff = result['baseline_sampled_peak_m'] * (1 - minimum_reduction)
+    if (outcome['reason'] != 'peak-threshold' or outcome['step'] != history[-1]['step'] or
+            not np.isclose(outcome['threshold_m'], meta['rejection_peak_m'], rtol=1e-12, atol=0.) or
+            not np.isclose(outcome['observed_peak_m'], observed, rtol=1e-12, atol=0.) or
+            observed < outcome['threshold_m'] or observed < cutoff):
+        raise ValueError('Incomplete replay does not prove candidate rejection')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('inputs', type=Path)
@@ -23,7 +33,7 @@ def main():
     parser.add_argument('baseline_replay', type=Path)
     parser.add_argument('proposals', type=Path)
     parser.add_argument('--replays', type=Path, nargs='+', required=True,
-                        help='Completed replay directories, in proposed-candidate order')
+                        help='Replay directories, in proposed-candidate order')
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -53,14 +63,14 @@ def main():
         raise ValueError('Baseline design and replay differ')
     proposed = [row for row in manifest['steps'] if row['status'] == 'proposed']
     if len(proposed) != len(args.replays) or not proposed:
-        raise ValueError('Supply one complete replay for every proposed candidate')
+        raise ValueError('Supply one replay for every proposed candidate')
     comparisons = []
     for row, replay in zip(proposed, args.replays):
         design = args.proposals / row['design']
         geometry = args.proposals / row['geometry']
         if sha256(design) != row['design_sha256'] or sha256(geometry) != row['geometry_sha256']:
             raise ValueError('Proposal files do not match their manifest')
-        meta, _, _ = read_run(replay, .02)
+        meta, history, _ = read_run(replay, .02, allow_incomplete=True)
         if meta['geometry_sha256'] != row['geometry_sha256'] or meta['solid_mask_sha256'] != row['solid_mask_sha256']:
             raise ValueError('Replay does not match the proposed geometry')
         with np.load(geometry, allow_pickle=False) as data:
@@ -74,11 +84,17 @@ def main():
         if (report['solid_mask_sha256'] != row['solid_mask_sha256'] or report['components'] != 1 or
                 not report['faces_connected'] or report['populated_column_fraction'] != 1.):
             raise ValueError('Candidate design and connected geometry differ')
-        result = compare(args.baseline_replay, replay)
+        result = compare(args.baseline_replay, replay, allow_incomplete_candidate=True)
+        early_rejected = not result['candidate_complete']
+        if early_rejected:
+            outcome = json.loads((replay / 'outcome.json').read_text(encoding='utf-8'))
+            verify_early_rejection(meta, history, result, outcome, args.minimum_reduction)
         comparisons.append({'step': row['step'], 'design': str(design),
-                            'solid_mask_sha256': row['solid_mask_sha256'], 'comparison': result})
-    best = min(comparisons, key=lambda row: row['comparison']['candidate_sampled_peak_m'])
-    accepted = best['comparison']['sampled_peak_reduction_fraction'] > args.minimum_reduction
+                            'solid_mask_sha256': row['solid_mask_sha256'], 'early_rejected': early_rejected,
+                            'comparison': result})
+    completed = [row for row in comparisons if not row['early_rejected']]
+    best = min(completed, key=lambda row: row['comparison']['candidate_sampled_peak_m']) if completed else None
+    accepted = best is not None and best['comparison']['sampled_peak_reduction_fraction'] > args.minimum_reduction
     selected = Path(best['design']) if accepted else args.baseline_design
     args.output.mkdir(parents=True)
     target = args.output / 'selected-design.npz'

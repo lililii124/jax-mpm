@@ -47,11 +47,11 @@ def read_run(path, energy_tolerance, allow_incomplete=False):
     return meta, rows, energy_error
 
 
-def compare(baseline, candidate, energy_tolerance=.02):
+def compare(baseline, candidate, energy_tolerance=.02, allow_incomplete_candidate=False):
     if not 0 < energy_tolerance < 1:
         raise ValueError('Energy tolerance must be between zero and one')
     a, ah, ae = read_run(baseline, energy_tolerance)
-    b, bh, be = read_run(candidate, energy_tolerance)
+    b, bh, be = read_run(candidate, energy_tolerance, allow_incomplete=allow_incomplete_candidate)
     for field in ('settings', 'steps', 'frame_interval', 'source_sha256', 'jax_version', 'numpy_version'):
         if a[field] != b[field]:
             raise ValueError(f'Replay {field} differs')
@@ -71,6 +71,7 @@ def compare(baseline, candidate, energy_tolerance=.02):
     bp = max(row[peak_field] for row in bh)
     if ap <= 0:
         raise ValueError('Baseline has zero recorded response')
+    candidate_complete = bh[-1]['step'] == b['steps']
     return dict(baseline=str(baseline), candidate=str(candidate),
                 baseline_geometry_sha256=a['geometry_sha256'], candidate_geometry_sha256=b['geometry_sha256'],
                 mass_kg=a['binary_mass_kg'], horizon_s=ah[-1]['time_s'],
@@ -80,9 +81,11 @@ def compare(baseline, candidate, energy_tolerance=.02):
                 baseline_populated_column_fraction=a.get('populated_column_fraction'),
                 candidate_populated_column_fraction=b.get('populated_column_fraction'),
                 energy_tolerance=energy_tolerance,
+                candidate_complete=candidate_complete, candidate_horizon_s=bh[-1]['time_s'],
                 peak_sampling=a.get('peak_sampling', 'saved-frames'),
                 limitation=(('Peak displacement is sampled at every integration step. ' if peak_field != 'back_displacement_max_m'
                              else 'Peak displacement is sampled only at stored frames. ')+
+                            ('' if candidate_complete else 'Candidate is incomplete; its reported reduction is an upper bound. ')+
                             'Projected pressure uses '+a.get('empty_column_load','omit')+
                             ' allocation; cavity-side pressure is omitted. This is an elastic replay, not experimental validation.'))
 
