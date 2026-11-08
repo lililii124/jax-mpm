@@ -27,3 +27,12 @@ def test_partial_proposals_are_preserved_before_regeneration(tmp_path):
     preserve_partial_directory(proposals, ('manifest.json',))
     assert not proposals.exists()
     assert (tmp_path/'proposals.interrupted-001/candidate.npz').read_bytes() == b'partial'
+
+
+def test_truncated_manifest_is_preserved_before_regeneration(tmp_path):
+    proposals = tmp_path/'proposals'
+    proposals.mkdir()
+    (proposals/'manifest.json').write_text('{')
+    preserve_partial_directory(proposals, ('manifest.json',))
+    assert not proposals.exists()
+    assert (tmp_path/'proposals.interrupted-001/manifest.json').read_text() == '{'

@@ -29,7 +29,18 @@ def run(*args):
 
 
 def preserve_partial_directory(path, required):
-    if not path.exists() or all((path / name).is_file() for name in required):
+    if not path.exists():
+        return
+    complete = all((path / name).is_file() for name in required)
+    if complete:
+        for name in required:
+            if name.endswith('.json'):
+                try:
+                    json.loads((path / name).read_text(encoding='utf-8'))
+                except (json.JSONDecodeError, UnicodeDecodeError):
+                    complete = False
+                    break
+    if complete:
         return
     index = 1
     while True:
