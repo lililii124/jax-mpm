@@ -176,6 +176,9 @@ def main():
                        ('min_bottom_coverage', args.min_bottom_coverage),
                        ('min_common_bottom_coverage', args.min_common_bottom_coverage)):
         if value is not None: binding[key] = value
+    use_constraints = any(value is not None for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
+                                                           args.min_bottom_coverage, args.min_common_bottom_coverage))
+    if use_constraints: binding['constraint_reference'] = 'initial-replay'
     folder = args.output
     if args.resume:
         if json.loads((folder / 'binding.json').read_text()) != binding:
@@ -280,6 +283,9 @@ def main():
                                   ('--min-bottom-coverage', args.min_bottom_coverage),
                                   ('--min-common-bottom-coverage', args.min_common_bottom_coverage)):
                 if value is not None: selection_args.extend((option, value))
+            if use_constraints:
+                selection_args.extend(('--constraint-reference-replay', args.baseline_replay,
+                                       '--constraint-reference-geometry', args.baseline_geometry))
             run(*selection_args)
         selection = json.loads((selection_dir / 'selection.json').read_text())
         selected_design = selection_dir / 'selected-design.npz'

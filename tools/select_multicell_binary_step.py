@@ -74,6 +74,8 @@ def main():
     parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--min-common-bottom-coverage', type=float,
                         help='Minimum fraction of projected columns with bottom material in both designs')
+    parser.add_argument('--constraint-reference-replay', type=Path)
+    parser.add_argument('--constraint-reference-geometry', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
@@ -87,6 +89,8 @@ def main():
         raise ValueError('Bottom coverage must lie in [0, 1]')
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
+    if (args.constraint_reference_replay is None) != (args.constraint_reference_geometry is None):
+        raise ValueError('Supply both constraint reference replay and geometry')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
     manifest = json.loads((args.proposals / 'manifest.json').read_text(encoding='utf-8'))
     feature_limit = manifest.get('max_single_voxel_fraction')
@@ -107,6 +111,27 @@ def main():
             raise ValueError('Baseline solid mask differs from its replay')
         if not np.any(solid, axis=0).all():
             raise ValueError('Baseline does not cover the projected pressure footprint')
+    constraint_meta, constraint_rows = base_meta, base_rows
+    if args.constraint_reference_replay is not None:
+        constraint_meta, constraint_rows, _ = read_run(args.constraint_reference_replay, .02)
+        if constraint_meta['geometry_sha256'] != sha256(args.constraint_reference_geometry):
+            raise ValueError('Constraint reference geometry differs from replay')
+        for field in ('settings', 'steps', 'frame_interval', 'source_sha256', 'jax_version', 'numpy_version'):
+            if constraint_meta[field] != base_meta[field]:
+                raise ValueError('Constraint reference replay differs: '+field)
+        for field, default in (('empty_column_load', 'omit'), ('support_mode', 'single'),
+                               ('peak_sampling', 'saved-frames'), ('back_sampling', 'column-underside')):
+            if constraint_meta.get(field, default) != base_meta.get(field, default):
+                raise ValueError('Constraint reference replay differs: '+field)
+        if not np.isclose(constraint_meta['binary_mass_kg'], base_meta['binary_mass_kg'], rtol=1e-12, atol=1e-12):
+            raise ValueError('Constraint reference mass differs')
+        with np.load(args.constraint_reference_geometry, allow_pickle=False) as data:
+            reference_solid = data['solid_mask']
+            if mask_digest(reference_solid) != constraint_meta['solid_mask_sha256']:
+                raise ValueError('Constraint reference solid mask differs')
+            if reference_solid.shape[1:] != base_bottom.shape:
+                raise ValueError('Constraint reference bottom grid differs')
+            base_bottom = np.asarray(reference_solid[0], dtype=bool).copy()
     with np.load(args.baseline_design, allow_pickle=False) as data:
         base_mask = reconstruct(data['rho_cell'], settings)[-1]['solid_mask_sha256']
     if (base_mask != manifest['baseline_solid_mask_sha256'] or
@@ -152,7 +177,7 @@ def main():
         if not early_rejected and any(value is not None for value in
                                       (args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage,
                                        args.min_common_bottom_coverage)):
-            secondary = evaluate_secondary_constraints(base_meta, base_rows, meta, history,
+            secondary = evaluate_secondary_constraints(constraint_meta, constraint_rows, meta, history,
                 args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage,
                 common_bottom_coverage, args.min_common_bottom_coverage)
         comparisons.append({'step': row['step'], 'design': str(design),
