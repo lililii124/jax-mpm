@@ -80,6 +80,13 @@ def main():
             if str(z['signature'].item())!=signature: raise ValueError('Checkpoint physics or initialization settings differ')
             q=jnp.asarray(z['q']); iteration=int(z['iteration'])
         history=json.loads(history_path.read_text(encoding='utf-8'))
+        if (not isinstance(history,list) or len(history)!=iteration or
+                any(row.get('iteration')!=i for i,row in enumerate(history,1))):
+            raise ValueError('Checkpoint and iteration history disagree; preserve output for recovery')
+        design_path=out/f'design-{iteration:05d}.npz'
+        with np.load(design_path,allow_pickle=False) as saved:
+            if not np.array_equal(np.asarray(q),saved['logits']):
+                raise ValueError('Checkpoint and saved design disagree; preserve output for recovery')
     else:
         rng=np.random.default_rng(a.seed); q=jnp.zeros(n) if a.init=='uniform' else jnp.asarray(rng.normal(0,.1,n))
         iteration=0;history=[]
