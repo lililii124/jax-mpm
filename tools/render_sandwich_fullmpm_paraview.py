@@ -15,6 +15,8 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--spacing', type=float, nargs=3, required=True)
     parser.add_argument('--color-limit-mm', type=float, default=1.)
+    parser.add_argument('--camera-side', action='store_true')
+    parser.add_argument('--show-blast-center', action='store_true')
     args = parser.parse_args()
     if args.color_limit_mm <= 0:
         parser.error('color-limit-mm must be positive')
@@ -33,10 +35,10 @@ def main():
     view.OrientationAxesVisibility = 0
     view.CenterAxesVisibility = 0
     view.CameraParallelProjection = 1
-    view.CameraPosition = [.6, -.55, .65]
+    view.CameraPosition = [.15, -.65, .05] if args.camera_side else [.6, -.55, .65]
     view.CameraFocalPoint = [.15, .15, 0]
     view.CameraViewUp = [0, 0, 1]
-    view.CameraParallelScale = .21
+    view.CameraParallelScale = .17 if args.camera_side else .21
     display = p.Show(reader, view)
     display.Representation = 'Surface'
     display.Ambient = 1
@@ -52,6 +54,30 @@ def main():
     lut.AutomaticRescaleRangeMode = 'Never'
     display.LookupTable = lut
     display.SetScalarBarVisibility(view, False)
+    if args.show_blast_center:
+        summary = receipt['source_summary']
+        if summary['case'] != 'central':
+            raise ValueError('Blast center marker requires the central-pressure case')
+        settings = summary['plan']['settings']
+        center = [settings['length']/2, settings['width']/2, 0.]
+        marker = p.Disk()
+        marker.InnerRadius = .004
+        marker.OuterRadius = .0055
+        marker.CircumferentialResolution = 64
+        location = p.Transform(Input=marker)
+        location.Transform.Translate = [center[0], center[1], .04]
+        marker_display = p.Show(location, view)
+        marker_display.DiffuseColor = [.72, .08, .04]
+        marker_display.AmbientColor = [.72, .08, .04]
+        marker_display.Ambient = 1
+        marker_display.Diffuse = 0
+        projection = p.Line(Point1=center, Point2=[center[0], center[1], .04])
+        projection_display = p.Show(projection, view)
+        projection_display.DiffuseColor = [.72, .08, .04]
+        projection_display.AmbientColor = [.72, .08, .04]
+        projection_display.Ambient = 1
+        projection_display.Diffuse = 0
+        projection_display.LineWidth = 2
     frames = []
     for i, time in enumerate(times):
         view.ViewTime = time
@@ -69,6 +95,7 @@ def main():
     frames[0].save(gif, save_all=True, append_images=frames[1:], duration=duration,
                    loop=0, disposal=2, optimize=False)
     receipt.update(renderer='ParaView', size=[400, 400], color_range_m=[0, maximum],
+                   camera_side=args.camera_side, blast_center_marker=args.show_blast_center,
                    gif_sha256=hashlib.sha256(gif.read_bytes()).hexdigest(),
                    duration_ms=duration, source='Completed independent full MPM; no ROM state.')
     (args.output/'render.json').write_text(json.dumps(receipt, indent=2)+'\n')

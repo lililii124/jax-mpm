@@ -297,6 +297,13 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
+<table width="100%">
+<tr>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/central-v7-response.gif" alt="Central blast response" width="100%"><br>Central blast response</td>
+<td width="50%" align="center"><img src="docs/images/sandwich-fullmpm/central-v7-side.gif" alt="Central blast response, side view" width="100%"><br>Side view</td>
+</tr>
+</table>
+
 <!-- END EXAMPLE GIFS -->
 
 ## Installation
