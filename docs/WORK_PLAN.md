@@ -1,9 +1,9 @@
 # Active work
 
-Updated 2026-10-30. Only a running process or a newer accepted state counts as
-computational progress; an existing output directory does not.
-The states below distinguish completed calculations from qualified results.
-Live process status is recorded separately by the read-only local monitor.
+The periodic-material entry was updated 2026-11-09; other entries retain their
+2026-10-30 snapshot and may be stale. Only a running process or a newer
+accepted state counts as computational progress; an existing output directory
+does not. Live status is recorded separately by the local monitor.
 
 | Work | Last established state | Next deliverable |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
 | Blast-loaded sandwich design | Multi-load optimization gallery withdrawn. The rank-191 development check stopped at uniform pressure: omitted linear strain energy is 7.460%, above the unchanged 5% gate. A separate central-pressure-only search is submitted with uniform initial material and mirror-symmetric controls; existing full-MPM runs continue | Review the bounded fixed-mass search and independently verify any retained design before publication |
-| Multi-cell sandwich microstructure | Highest priority: a 3 × 3 full-domain soft-material MPM optimizer has been started with a seeded random shared field, fixed mass and a 200 µs horizon. A 15 µs nonzero gradient check is running separately | Audit the actual full-domain gradient and energy balance; continue optimization, then reconstruct and verify explicit material geometry under the same load |
+| Periodic blast-resistant material | Highest priority: a 3 × 3 full-domain search with identical shared cells, no prescribed face sheets and fixed 1.458 kg mass is running for 200 µs. The connected binary initial structure completed its independent replay; the 25.5 µs gradient check passed. A larger-time-step search and full-horizon gradient check run separately | Verify actual objective descent, reconstruct connected candidates, replay them at the reference time step and compare their sampled back-face response at equal mass |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -72,7 +72,8 @@ number of cells under the footprint must allow the domain to behave as a
 material. The total amount of material is fixed throughout optimization;
 compare designs at equal mass and matched loading. Explicit
 MPM contact and crushing must be checked separately from any smooth
-differentiable optimization surrogate.
+differentiable optimization surrogate. The primary search leaves the entire
+cell thickness free; earlier fixed-face-sheet runs are separate comparisons.
 
 `mpm_jax.shared_cell_design` provides a differentiable fixed-volume shared
 voxel field, explicit positions for the full 3 × 3 domain and a fixed-count
