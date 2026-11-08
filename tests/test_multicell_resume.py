@@ -1,6 +1,6 @@
 import json
 
-from tools.optimize_multicell_binary_loop import preserve_incomplete_replay
+from tools.optimize_multicell_binary_loop import preserve_incomplete_replay, preserve_partial_directory
 
 
 def test_incomplete_replay_is_preserved_before_restart(tmp_path):
@@ -18,3 +18,12 @@ def test_incomplete_replay_is_preserved_before_restart(tmp_path):
     preserve_incomplete_replay(replay, 'geometry', metadata)
     assert not replay.exists()
     assert json.loads((tmp_path/'replay-000.interrupted-001/history.json').read_text()) == [row]
+
+
+def test_partial_proposals_are_preserved_before_regeneration(tmp_path):
+    proposals = tmp_path/'proposals'
+    proposals.mkdir()
+    (proposals/'candidate.npz').write_bytes(b'partial')
+    preserve_partial_directory(proposals, ('manifest.json',))
+    assert not proposals.exists()
+    assert (tmp_path/'proposals.interrupted-001/candidate.npz').read_bytes() == b'partial'

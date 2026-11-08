@@ -28,6 +28,18 @@ def run(*args):
     subprocess.run([sys.executable, '-m', *map(str, args)], check=True)
 
 
+def preserve_partial_directory(path, required):
+    if not path.exists() or all((path / name).is_file() for name in required):
+        return
+    index = 1
+    while True:
+        target = path.with_name(path.name + f'.interrupted-{index:03d}')
+        if not target.exists():
+            path.rename(target)
+            return
+        index += 1
+
+
 def preserve_incomplete_replay(replay, geometry_sha256, baseline_meta):
     if not replay.exists():
         return
@@ -126,6 +138,8 @@ def main():
             if str(data['design_sha256'].item()) != sha256(current_design) or str(data['inputs_sha256'].item()) != sha256(args.inputs):
                 raise ValueError('Stored gradient does not belong to the current design')
         proposals = stage / 'proposals'
+        if args.resume:
+            preserve_partial_directory(proposals, ('manifest.json',))
         if not proposals.exists():
             if iteration == 1 and args.seed_proposals is not None:
                 shutil.copytree(args.seed_proposals, proposals)
@@ -173,6 +187,8 @@ def main():
                 raise ValueError('Stored replay uses a different material-to-grid support mode')
             replays.append(replay)
         selection_dir = stage / 'selection'
+        if args.resume:
+            preserve_partial_directory(selection_dir, ('selection.json', 'selected-design.npz'))
         if not selection_dir.exists():
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'selecting'})
             run('tools.select_multicell_binary_step', args.inputs, current_design, current_geometry, current_replay,

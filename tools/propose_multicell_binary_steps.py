@@ -121,7 +121,9 @@ def main():
                 'gradient_sha256': sha256(args.gradient), 'baseline_solid_mask_sha256': selected_mask,
                 'fallback_seed': args.fallback_seed if args.fallback_directions else None,
                 'steps': records, 'qualification': 'Proposals require complete binary MPM replay before acceptance.'}
-    (args.output / 'manifest.json').write_text(json.dumps(manifest, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    temp = args.output / 'manifest.json.tmp'
+    temp.write_text(json.dumps(manifest, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    temp.replace(args.output / 'manifest.json')
     print(json.dumps(manifest, indent=2, allow_nan=False))
 
 

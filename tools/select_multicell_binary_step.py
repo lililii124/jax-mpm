@@ -88,7 +88,9 @@ def main():
               'selected_solid_mask_sha256': best['solid_mask_sha256'] if accepted else base_mask,
               'minimum_reduction': args.minimum_reduction, 'comparisons': comparisons,
               'qualification': 'Sampled peak comparison for connected elastic solids under matched projected pressure; not experimental validation.'}
-    (args.output / 'selection.json').write_text(json.dumps(result, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    temp = args.output / 'selection.json.tmp'
+    temp.write_text(json.dumps(result, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+    temp.replace(args.output / 'selection.json')
     print(json.dumps(result, indent=2, allow_nan=False))
 
 
