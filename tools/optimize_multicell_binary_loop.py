@@ -28,6 +28,32 @@ def run(*args):
     subprocess.run([sys.executable, '-m', *map(str, args)], check=True)
 
 
+def preserve_incomplete_replay(replay, geometry_sha256, baseline_meta):
+    if not replay.exists():
+        return
+    meta_path, history_path = replay / 'inputs.json', replay / 'history.json'
+    if not meta_path.exists():
+        if any(replay.iterdir()):
+            raise ValueError('Replay has files but no metadata; review before resuming')
+    else:
+        meta = json.loads(meta_path.read_text(encoding='utf-8'))
+        if (meta['geometry_sha256'] != geometry_sha256 or
+                meta.get('support_mode', 'single') != baseline_meta.get('support_mode', 'single') or
+                any(meta[key] != baseline_meta[key] for key in ('settings', 'source_sha256', 'frame_interval'))):
+            raise ValueError('Interrupted replay does not match the current calculation')
+        if history_path.exists():
+            _, history, _ = read_run(replay, .02, allow_incomplete=True)
+            if history[-1]['step'] == meta['steps']:
+                return
+    index = 1
+    while True:
+        target = replay.with_name(replay.name + f'.interrupted-{index:03d}')
+        if not target.exists():
+            replay.rename(target)
+            return
+        index += 1
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('inputs', type=Path)
@@ -129,6 +155,8 @@ def main():
                               optimization_signature=binary['signature'])
                 write_json(report_path, report)
             replay = stage / f'replay-{index:03d}'
+            if args.resume:
+                preserve_incomplete_replay(replay, row['geometry_sha256'], baseline_meta)
             if not replay.exists():
                 write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'replaying',
                                                    'candidate': index + 1, 'candidates': len(proposed)})
