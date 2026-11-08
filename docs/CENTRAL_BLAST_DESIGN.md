@@ -42,6 +42,18 @@ An earlier continuation stopped because its finite-difference probe was
 mistakenly centred on the uniform material rather than the continuation point.
 The probe now uses the same controls as the analytic gradient.
 
+For the saved two-iteration candidate, a separate full-MPM calculation starts
+from rest under the same central pressure and fixed mass:
+
+```sh
+python -m tools.run_sandwich_fullmpm examples/sandwich_central_candidate_fullmpm.json
+```
+
+This reproduces the 10 mm in-plane, 1 mm through-thickness comparison setup.
+Its output must be compared with the matching uniform-material central-load
+baseline; running the command does not itself establish an improvement or
+mesh convergence.
+
 This is an effective elastic-core design problem. It does not include an
 explicit explosive, skin plasticity or core crushing. The frozen basis is
 reused for candidate exploration; its earlier multi-load validation did not
