@@ -16,6 +16,7 @@ Live process status is recorded separately by the read-only local monitor.
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
 | Blast-loaded sandwich design | Multi-load optimization gallery withdrawn. The rank-191 development check stopped at uniform pressure: omitted linear strain energy is 7.460%, above the unchanged 5% gate. A separate central-pressure-only search is submitted with uniform initial material and mirror-symmetric controls; existing full-MPM runs continue | Review the bounded fixed-mass search and independently verify any retained design before publication |
+| Periodic tubular sandwich core | New separate engineering case requested; not yet implemented | After the current optimization, compare through-thickness and in-plane tube arrays under the same centrally applied impact or blast pulse, at equal total mass; model actual tubes, contact and crushing and consider differentiable geometry optimization |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -52,12 +53,19 @@ with ParaView; do not impose a propagated crack or alter fields for display.
 
 ## Sandwich design
 
-The active design objective is now fixed-mass material redistribution: keep
-total mass at 1.8468 kg and minimize the worst back-face peak displacement over
-the three prescribed pressure cases. Geometry, thickness, clamping, pressure
-and the 200 MPa skin-stress limit remain unchanged. The existing exact mean
-core-density constraint preserves mass while spatial controls redistribute it.
-Minimum-mass exploration is no longer the main optimization route.
+The active design objective is fixed-mass material redistribution under the
+central pressure case: keep total mass at 1.8468 kg while reducing peak
+back-face displacement. Geometry, thickness, clamping, pressure and the
+200 MPa skin-stress limit remain unchanged. The exact mean core-density
+constraint preserves mass while spatial controls redistribute it.
+
+The user also requested a separate periodic structural-core case: arrays of
+through-thickness tubes and in-plane tubes, with possible crossed layers or
+other metamaterial cells. Use equal mass and matched loading for comparisons,
+then consider JAX-based optimization of tube geometry and spacing. Explicit
+MPM contact and crushing must be checked separately from any smooth
+differentiable optimization surrogate. Uniform periodic and graded designs
+are alternatives to investigate, not results already established.
 
 The [problem specification](BLAST_SANDWICH_DESIGN.md) defines geometry, loading,
 design controls, constraints, memory strategy and acceptance criteria.
