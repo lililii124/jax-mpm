@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 
 
-def read_run(path, energy_tolerance):
+def read_run(path, energy_tolerance, allow_incomplete=False):
     meta = json.loads((path/'inputs.json').read_text(encoding='utf-8'))
     rows = json.loads((path/'history.json').read_text(encoding='utf-8'))
     if (meta['diagnostic_only'] or not meta['connected_faces'] or meta['detached_voxels']
@@ -14,7 +14,13 @@ def read_run(path, energy_tolerance):
         raise ValueError(f'{path}: geometry was not accepted as connected')
     if meta['steps'] != meta['settings']['steps']:
         raise ValueError(f'{path}: replay does not cover the configured time horizon')
-    expected = list(range(0, meta['steps'], meta['frame_interval'])) + [meta['steps']]
+    if not rows:
+        raise ValueError(f'{path}: frame history is empty')
+    last = rows[-1]['step']
+    if last < 0 or last > meta['steps'] or (last < meta['steps'] and not allow_incomplete):
+        raise ValueError(f'{path}: replay is incomplete or exceeds the configured horizon')
+    expected = (list(range(0, last + 1, meta['frame_interval'])) if last < meta['steps'] else
+                list(range(0, meta['steps'], meta['frame_interval'])) + [meta['steps']])
     if [row['step'] for row in rows] != expected:
         raise ValueError(f'{path}: frame history is incomplete or has inconsistent intervals')
     times = np.array([row['time_s'] for row in rows])

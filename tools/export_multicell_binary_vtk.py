@@ -20,8 +20,8 @@ def xml_array(name, values, kind='Float64', components=1):
     return f'<DataArray type="{kind}" Name="{name}" NumberOfComponents="{components}" format="ascii">{data}</DataArray>'
 
 
-def export(source, geometry, output):
-    meta, rows, energy_error = read_run(source, .02)
+def export(source, geometry, output, allow_incomplete=False):
+    meta, rows, energy_error = read_run(source, .02, allow_incomplete=allow_incomplete)
     if hashlib.sha256(geometry.read_bytes()).hexdigest() != meta['geometry_sha256']:
         raise ValueError('Geometry does not match the replay')
     with np.load(geometry, allow_pickle=False) as saved:
@@ -74,6 +74,8 @@ def export(source, geometry, output):
     size=np.asarray(settings['cell_size'],dtype=float)
     top=float(size[2]*(1+2*settings['skin_layers']/settings['cell'][2]))
     receipt = dict(geometry_sha256=meta['geometry_sha256'], frames=records,
+                   completed=rows[-1]['step']==meta['steps'],
+                   computed_time_s=rows[-1]['time_s'], target_time_s=meta['steps']*meta['settings']['dt'],
                    blast_center_projection_m=[float(1.5*size[0]),float(1.5*size[1]),top],
                    max_energy_residual=energy_error, physical_deformation_scale=1,
                    interpolation='Original quadratic reference-grid basis at voxel corners; cell stress is the mean of eight quadrature samples.')
@@ -86,8 +88,9 @@ def main():
     parser.add_argument('source', type=Path)
     parser.add_argument('geometry', type=Path)
     parser.add_argument('output', type=Path)
+    parser.add_argument('--allow-incomplete', action='store_true')
     args = parser.parse_args()
-    result = export(args.source, args.geometry, args.output)
+    result = export(args.source, args.geometry, args.output, allow_incomplete=args.allow_incomplete)
     print(json.dumps(dict(frames=len(result['frames']), series=str(args.output/'series.pvd'))))
 
 
