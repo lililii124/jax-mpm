@@ -53,8 +53,13 @@ For the free-thickness initial binary structure, the sampled back-face
 displacement was still increasing at 200 microseconds. A preliminary 1 ms
 binary replay found its largest sampled value, 0.970 mm, near 357 microseconds.
 The 200 µs search is therefore a windowed exploration; a separate 1 ms search
-is running. Time-step refinement of the 1 ms replay remains in progress. A
-finite-window maximum is not a bound on every later response.
+is running. A fine-time-step replay of this initial geometry found a sampled
+peak of 0.97032 mm at 357 µs. The larger time step differed by 0.0029% in
+sampled peak and 0.147% in maximum normalized curve error over 1 ms. This
+[check](../evidence/multicell-blast/free-initial-1ms-refinement.json) concerns
+one initial geometry; it does not establish spatial convergence or validate
+candidate designs. A finite-window maximum is not a bound on every later
+response.
 
 An accepted density field can be converted to equal-volume solid voxels and
 voids while preserving the material amount to the nearest voxel per cell:
