@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import sys
+import time
 
 import numpy as np
 
@@ -94,10 +95,14 @@ def main():
         atomic_npz(checkpoint,q=np.asarray(q),iteration=np.asarray(0),signature=np.asarray(signature))
     print(json.dumps(dict(stage='initializing-full-domain',plan=plan,iteration=iteration,signature=signature)),flush=True)
     vg=jax.jit(jax.value_and_grad(objective)); ev=jax.jit(objective)
+    started=time.monotonic()
+    print(json.dumps(dict(stage='initial-gradient',iteration=iteration)),flush=True)
     value,grad=vg(q); value=float(value)
     if not np.isfinite(value) or not np.isfinite(np.asarray(grad)).all(): raise FloatingPointError('Initial state is nonfinite/invalid')
+    print(json.dumps(dict(stage='initial-gradient-complete',iteration=iteration,seconds=time.monotonic()-started)),flush=True)
     if a.check_only:
         rng=np.random.default_rng(a.seed+1);d=jnp.asarray(rng.normal(size=n));d/=jnp.linalg.norm(d);eps=a.check_epsilon
+        print(json.dumps(dict(stage='gradient-finite-difference',iteration=iteration)),flush=True)
         fd=float((ev(q+eps*d)-ev(q-eps*d))/(2*eps)); ad=float(jnp.vdot(grad,d)); scale=max(abs(fd),abs(ad),1e-30)
         result=dict(plan=plan,objective=value,directional_fd=fd,directional_ad=ad,absolute_error=abs(fd-ad),relative_error=abs(fd-ad)/scale if scale>1e-15 else None,informative=scale>1e-15)
         atomic_json(out/'gradient-check.json',result);print(json.dumps(result,indent=2));return
@@ -114,6 +119,7 @@ def main():
                 rejected_connectivity+=1;step*=.5
                 if step<a.min_step:break
                 continue
+            print(json.dumps(dict(stage='line-search',iteration=iteration+1,trial=ls+1,step_size=step)),flush=True)
             candidate=float(ev(proposal))
             if np.isfinite(candidate) and candidate < value-1e-10*max(abs(value),1e-12):
                 accepted=(proposal,candidate,step,ls+1);break
@@ -127,6 +133,7 @@ def main():
         design_file=f'design-{iteration:05d}.npz'
         atomic_npz(out/design_file,logits=np.asarray(q),rho_cell=rho,cell_shape=np.asarray(a.cell),
                    tile_repeats=np.asarray((3,3,1)),projected_mean=rho.mean())
+        print(json.dumps(dict(stage='accepted-gradient',iteration=iteration)),flush=True)
         value,grad=vg(q);value=float(value)
         if not np.isfinite(value) or not np.isfinite(np.asarray(grad)).all(): raise FloatingPointError('Accepted design produced nonfinite objective/gradient')
         record=dict(iteration=iteration,objective=value,previous_objective=previous_value,
