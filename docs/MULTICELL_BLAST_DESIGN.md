@@ -113,7 +113,11 @@ geometries and excessive sampled energy residuals. The reported maximum is
 the maximum among recorded frames, so the sampling interval must be refined
 when measuring a transient peak. The populated projected area is reported:
 through-holes alter the integrated applied force in this approximation, and
-the pressure acting on cavity sides is not resolved.
+the pressure acting on cavity sides is not resolved. Use
+`python -m tools.measure_binary_blast_load GEOMETRY.npz REPLAY` to record the
+actual projected normal force and impulse. A reduced displacement with a
+different applied resultant cannot by itself establish an equal-load
+improvement.
 
 For ParaView, export a completed replay with
 `python -m tools.export_multicell_binary_vtk REPLAY GEOMETRY.npz VTK_OUTPUT`.
