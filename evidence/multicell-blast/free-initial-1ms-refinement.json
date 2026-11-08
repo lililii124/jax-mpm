@@ -1016,5 +1016,13 @@
       0.0007212538422022828
     ]
   ],
+  "applied_load": {
+    "geometry_sha256": "030a081eeae834b9421d1a068b7033825c6abd19bd30919aa8319068eb793189",
+    "populated_column_fraction": 1.0,
+    "projected_weighted_area_m2": 0.09000000000000002,
+    "peak_normal_force_N": 180000.00000000003,
+    "normal_impulse_Ns": 1.8000000000000005,
+    "model": "Fixed reference projected pressure on the uppermost solid in each occupied column; no cavity-side pressure."
+  },
   "limitation": "One initial geometry and 1 ms window; no spatial convergence, plasticity, damage, contact, fluid flow or experimental validation."
 }
