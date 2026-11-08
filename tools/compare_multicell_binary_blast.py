@@ -43,8 +43,8 @@ def compare(baseline, candidate, energy_tolerance=.02):
             raise ValueError(f'Replay {field} differs')
     if not np.isclose(a['binary_mass_kg'], b['binary_mass_kg'], rtol=1e-12, atol=1e-12):
         raise ValueError('Reconstructed material mass differs')
-    if a['geometry_sha256'] == b['geometry_sha256']:
-        raise ValueError('Baseline and candidate have identical geometry files')
+    if a['solid_mask_sha256'] == b['solid_mask_sha256']:
+        raise ValueError('Baseline and candidate have identical solid geometry')
     ap = max(row['back_displacement_max_m'] for row in ah)
     bp = max(row['back_displacement_max_m'] for row in bh)
     if ap <= 0:

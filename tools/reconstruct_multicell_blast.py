@@ -10,6 +10,12 @@ from pathlib import Path
 import numpy as np
 
 
+def mask_digest(mask):
+    mask = np.asarray(mask, dtype=bool)
+    return hashlib.sha256(np.asarray(mask.shape, dtype='<i8').tobytes() +
+                          np.packbits(mask.reshape(-1)).tobytes()).hexdigest()
+
+
 def reconstruct(rho, settings):
     nx, ny, nz = map(int, settings['cell'])
     rho = np.asarray(rho, dtype=np.float64)
@@ -82,6 +88,7 @@ def reconstruct(rho, settings):
                   voxel_size_m=h.tolist(), components=len(components),
                   detached_solid_voxels=int(solid.sum()) - sheet_connected,
                   faces_connected=any(bottom and top for _, bottom, top in components),
+                  solid_mask_sha256=mask_digest(solid),
                   description='Binary geometric reconstruction; no dynamic validation has been performed.')
     return cell, solid, positions, particle_volume, report
 

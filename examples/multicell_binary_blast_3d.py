@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from mpm_jax.compact_tl import (elastic_energy, face_stress, initial_state,
     point_material, reference_grid, rectilinear_support, step, surface_weights)
 from mpm_jax.total_lagrangian import momentum, sample_nodal
+from tools.reconstruct_multicell_blast import mask_digest
 
 
 def digest(path):
@@ -48,6 +49,8 @@ def main():
         pos = np.asarray(data['positions'])
         volume = float(data['particle_volume'])
         solid = np.asarray(data['solid_mask'], dtype=bool)
+    if report['solid_mask_sha256'] != mask_digest(solid):
+        raise ValueError('Solid mask differs from its reconstruction report')
     nx, ny, nz = map(int, s['cell'])
     gx, gy, gz = nx * 3, ny * 3, nz + 2 * int(s['skin_layers'])
     h = np.asarray(s['cell_size']) / (nx, ny, nz)
@@ -103,9 +106,9 @@ def main():
 
     args.output.mkdir(parents=True, exist_ok=True)
     root = Path(__file__).resolve().parents[1]
-    source_files = ('examples/multicell_binary_blast_3d.py', 'mpm_jax/compact_tl.py',
+    source_files = ('examples/multicell_binary_blast_3d.py', 'tools/reconstruct_multicell_blast.py', 'mpm_jax/compact_tl.py',
                     'mpm_jax/total_lagrangian.py', 'mpm_jax/materials/elastic.py')
-    meta = dict(geometry_sha256=digest(args.geometry), inputs_sha256=digest(args.inputs),
+    meta = dict(geometry_sha256=digest(args.geometry), solid_mask_sha256=mask_digest(solid), inputs_sha256=digest(args.inputs),
                 source_sha256={name: digest(root/name) for name in source_files},
                 jax_version=jax.__version__, numpy_version=np.__version__,
                 settings=s, steps=nsteps, frame_interval=args.frame_interval, cfl=cfl,
