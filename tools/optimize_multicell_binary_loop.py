@@ -1,11 +1,14 @@
 """Iterate full-domain shared-cell designs with binary MPM acceptance."""
 import argparse
 import hashlib
+import importlib.metadata
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
+import uuid
 
 import numpy as np
 
@@ -28,6 +31,49 @@ def write_json(path, value):
 
 def run(*args):
     subprocess.run([sys.executable, '-m', *map(str, args)], check=True)
+
+
+def gradient_cache_path(cache, root, inputs_path, design_path):
+    inputs = json.loads(inputs_path.read_text(encoding='utf-8'))
+    binding = inputs['binding']
+    signature = hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
+    if signature != inputs['signature']:
+        raise ValueError('Gradient cache input signature differs')
+    for name, expected in binding['source_sha256'].items():
+        if sha256(root / name) != expected:
+            raise ValueError('Gradient cache source differs: '+name)
+    versions = tuple(importlib.metadata.version(name) for name in ('jax', 'jaxlib', 'numpy'))
+    if versions != (binding['jax'], binding['jaxlib'], binding['numpy']):
+        raise ValueError('Gradient cache runtime versions differ')
+    parts = [sha256(inputs_path), sha256(design_path), sha256(root/'tools/gradient_multicell_at_design.py')]
+    return cache/(hashlib.sha256(('\n'.join(parts)).encode()).hexdigest()+'.npz')
+
+
+def validate_cached_gradient(path, inputs_path, design_path):
+    with np.load(path, allow_pickle=False) as data, np.load(design_path, allow_pickle=False) as design:
+        gradient = np.asarray(data['gradient'])
+        objective = float(data['objective'])
+        if (str(data['inputs_sha256'].item()) != sha256(inputs_path) or
+                str(data['design_sha256'].item()) != sha256(design_path) or
+                not np.array_equal(data['logits'], np.asarray(design['logits']).reshape(-1)) or
+                not np.array_equal(data['rho_cell'], design['rho_cell']) or
+                gradient.shape != np.asarray(design['logits']).reshape(-1).shape or
+                not np.isfinite(gradient).all() or not np.isfinite(objective) or not np.linalg.norm(gradient) > 0):
+            raise ValueError('Cached gradient is invalid or belongs to another design')
+
+
+def publish_cached_gradient(source, cache_path, inputs_path, design_path):
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = cache_path.with_name(cache_path.name+'.'+uuid.uuid4().hex+'.tmp')
+    try:
+        shutil.copyfile(source, temporary)
+        validate_cached_gradient(temporary, inputs_path, design_path)
+        try:
+            os.link(temporary, cache_path)
+        except FileExistsError:
+            validate_cached_gradient(cache_path, inputs_path, design_path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def preserve_partial_directory(path, required):
@@ -104,6 +150,8 @@ def main():
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
     parser.add_argument('--seed-gradient', type=Path)
     parser.add_argument('--seed-proposals', type=Path)
+    parser.add_argument('--gradient-cache', type=Path,
+                        help='Reuse completed, matching gradients from this directory')
     parser.add_argument('--early-reject', action='store_true')
     parser.add_argument('--max-single-voxel-fraction', type=float,
                         help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
@@ -197,8 +245,16 @@ def main():
             if iteration == 1 and args.seed_gradient is not None:
                 shutil.copyfile(args.seed_gradient, gradient)
             else:
-                write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'gradient'})
-                run('tools.gradient_multicell_at_design', args.inputs, current_design, '--output', gradient)
+                cache_path = (gradient_cache_path(args.gradient_cache, root, args.inputs, current_design)
+                              if args.gradient_cache is not None else None)
+                if cache_path is not None and cache_path.exists():
+                    validate_cached_gradient(cache_path, args.inputs, current_design)
+                    shutil.copyfile(cache_path, gradient)
+                else:
+                    write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'gradient'})
+                    run('tools.gradient_multicell_at_design', args.inputs, current_design, '--output', gradient)
+                    if cache_path is not None:
+                        publish_cached_gradient(gradient, cache_path, args.inputs, current_design)
         with np.load(gradient, allow_pickle=False) as data:
             if str(data['design_sha256'].item()) != sha256(current_design) or str(data['inputs_sha256'].item()) != sha256(args.inputs):
                 raise ValueError('Stored gradient does not belong to the current design')
