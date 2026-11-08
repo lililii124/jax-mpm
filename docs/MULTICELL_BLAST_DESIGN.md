@@ -49,6 +49,12 @@ gradient accuracy, energy and momentum checks, and independent candidate
 verification remain necessary before the resulting topology is treated as an
 engineering result.
 
+For the free-thickness initial binary structure, the sampled back-face
+displacement was still increasing at 200 microseconds. The current 200 µs
+objective therefore measures a prescribed window, not a demonstrated complete
+transient peak. A longer replay is required to choose an adequate optimization
+horizon before interpreting a design as minimizing the full response.
+
 An accepted density field can be converted to equal-volume solid voxels and
 voids while preserving the material amount to the nearest voxel per cell:
 
