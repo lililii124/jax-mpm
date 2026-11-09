@@ -190,6 +190,8 @@ def main():
     parser.add_argument('--fallback-directions', type=int, default=8)
     parser.add_argument('--explore-directions', type=int, default=0)
     parser.add_argument('--explore-seed', type=int, default=370)
+    parser.add_argument('--retry-rejected-rounds', type=int, default=0,
+                        help='Try fresh exploration directions after a rejected iteration')
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
     parser.add_argument('--objective', choices=('underside-peak', 'fixed-bottom-peak'), default='underside-peak')
     parser.add_argument('--seed-gradient', type=Path)
@@ -210,8 +212,11 @@ def main():
                         help='Minimum fraction of projected columns with bottom material in both designs')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
-    if args.iterations < 1 or args.fallback_directions < 0 or args.explore_directions < 0 or not 0 <= args.minimum_reduction < 1:
+    if (args.iterations < 1 or args.fallback_directions < 0 or args.explore_directions < 0 or
+            args.retry_rejected_rounds < 0 or not 0 <= args.minimum_reduction < 1):
         raise ValueError('Invalid iteration or acceptance settings')
+    if args.retry_rejected_rounds and not args.explore_directions:
+        raise ValueError('Retrying rejected rounds requires exploration directions')
     if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
         raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
     import math
@@ -286,6 +291,8 @@ def main():
         binding['require_common_bottom_every_step'] = True
     if args.explore_directions:
         binding.update(explore_directions=args.explore_directions, explore_seed=args.explore_seed)
+    if args.retry_rejected_rounds:
+        binding['retry_rejected_rounds'] = args.retry_rejected_rounds
     if args.max_single_voxel_fraction is not None:
         binding['max_single_voxel_fraction'] = args.max_single_voxel_fraction
     for key, value in (('max_bottom_peak_ratio', args.max_bottom_peak_ratio),
@@ -309,6 +316,8 @@ def main():
         folder.mkdir(parents=True, exist_ok=False)
         write_json(folder / 'binding.json', binding)
     current_design, current_geometry, current_replay = args.baseline_design, args.baseline_geometry, args.baseline_replay
+    rejected_rounds = 0
+    previous_gradient = None
     sys.path.insert(0, str(root))
     from tools.reconstruct_multicell_blast import reconstruct
     for iteration in range(1, args.iterations + 1):
@@ -318,6 +327,10 @@ def main():
         if not gradient.exists():
             if iteration == 1 and args.seed_gradient is not None:
                 shutil.copyfile(args.seed_gradient, gradient)
+            elif rejected_rounds and previous_gradient is not None:
+                fixed_geometry = args.baseline_geometry if args.objective == 'fixed-bottom-peak' else None
+                validate_cached_gradient(previous_gradient, args.inputs, current_design, fixed_geometry)
+                shutil.copyfile(previous_gradient, gradient)
             else:
                 fixed_geometry = args.baseline_geometry if args.objective == 'fixed-bottom-peak' else None
                 cache_path = (gradient_cache_path(args.gradient_cache, root, args.inputs, current_design, fixed_geometry)
@@ -341,6 +354,7 @@ def main():
             if actual != expected:
                 raise ValueError('Stored gradient uses different bottom observation points')
         proposals = stage / 'proposals'
+        exploration_seed = args.explore_seed + rejected_rounds
         if args.resume:
             preserve_partial_directory(proposals, ('manifest.json',))
         if not proposals.exists():
@@ -352,7 +366,9 @@ def main():
                                  '--fallback-directions', args.fallback_directions, '--output', proposals]
                 if args.explore_directions:
                     proposal_args.extend(('--explore-directions', args.explore_directions,
-                                          '--explore-seed', args.explore_seed))
+                                          '--explore-seed', exploration_seed))
+                if args.retry_rejected_rounds:
+                    proposal_args.extend(('--fallback-seed', exploration_seed))
                 if args.max_single_voxel_fraction is not None:
                     proposal_args.extend(('--max-single-voxel-fraction', args.max_single_voxel_fraction))
                 if args.min_bottom_coverage is not None:
@@ -367,7 +383,7 @@ def main():
         if manifest.get('max_single_voxel_fraction') != args.max_single_voxel_fraction:
             raise ValueError('Proposal feature limit differs from the optimization settings')
         if (manifest.get('explore_directions', 0) != args.explore_directions or
-                (args.explore_directions and manifest.get('explore_seed') != args.explore_seed)):
+                (args.explore_directions and manifest.get('explore_seed') != exploration_seed)):
             raise ValueError('Proposal exploration settings differ')
         if (manifest.get('min_bottom_coverage') != args.min_bottom_coverage or
                 manifest.get('min_common_bottom_coverage') != args.min_common_bottom_coverage):
@@ -377,7 +393,13 @@ def main():
             raise ValueError('Proposal constraint reference differs')
         proposed = [row for row in manifest['steps'] if row['status'] == 'proposed']
         if not proposed:
-            write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'no-feasible-proposals'})
+            rejected_rounds += 1
+            retry = rejected_rounds <= args.retry_rejected_rounds and iteration < args.iterations
+            write_json(folder / 'status.json', {'iteration': iteration,
+                'stage': 'retry-no-feasible-proposals' if retry else 'no-feasible-proposals'})
+            if retry:
+                previous_gradient = gradient
+                continue
             return
         replays = []
         current_meta, current_rows, _ = read_run(current_replay, .02)
@@ -466,9 +488,16 @@ def main():
         if sha256(selected_design) != selection['selected_design_sha256']:
             raise ValueError('Stored selection does not match its design')
         if not selection['accepted']:
-            write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'no-physical-improvement',
-                                                'selected_design': str(current_design)})
+            rejected_rounds += 1
+            retry = rejected_rounds <= args.retry_rejected_rounds and iteration < args.iterations
+            write_json(folder / 'status.json', {'iteration': iteration,
+                'stage': 'retry-no-physical-improvement' if retry else 'no-physical-improvement',
+                'selected_design': str(current_design)})
+            if retry:
+                previous_gradient = gradient
+                continue
             return
+        rejected_rounds = 0
         matches = [i for i, row in enumerate(proposed) if row['solid_mask_sha256'] == selection['selected_solid_mask_sha256']]
         if len(matches) != 1:
             raise ValueError('Selected candidate is ambiguous')
