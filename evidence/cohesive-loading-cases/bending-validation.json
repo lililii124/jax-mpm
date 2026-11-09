@@ -1,0 +1,22 @@
+{
+  "fracture-cases-bending-supported": {
+    "grid": 160,
+    "fracture_energy_J_m2": 200.0,
+    "frames": 49,
+    "final_potential_extension_m": 0.007500000000000003,
+    "final_connected_failed_m": 0.006500000000000002,
+    "max_detached_failed_m": 0.003000000000000001,
+    "first_saved_failure_s": 4.333333333333334e-05,
+    "final_fracture_J_per_m": 1.3779514041901388,
+    "final_numerical_fraction": 0.264566599706007,
+    "max_unexplained_J_per_m": 7.956657555041602e-11,
+    "max_insertion_energy_J_per_m": 1.3086232830268323e-19,
+    "minimum_surface_J_per_m": -0.0029384797184441834,
+    "min_face_gap_m": -3.418881072491516e-05,
+    "max_sampled_strain": 0.07388716817131558,
+    "extension_limit_reached": true,
+    "mesh_convergence_established": false,
+    "nodal_traction_balance_at_insertion_verified": false,
+    "history_sha256": "b9a680557daa06850aa43931c9bf8f1a3d9de6e1e98b3fbecfc2b74b20004d1d"
+  }
+}

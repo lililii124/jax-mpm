@@ -24,14 +24,17 @@ def load_saved(run,frame):
     info=json.loads((run/'input.json').read_text())
     rows=list(csv.DictReader((run/'history.csv').open()))
     row=rows[frame]
-    if info['case']!='Localized double-cantilever cohesive insertion' or row['valid']!='True':
-        raise ValueError('Require a valid saved DCB state')
+    if info['case'] not in ('Localized double-cantilever cohesive insertion','bending','tension','mixed') or row['valid']!='True':
+        raise ValueError('Require a valid saved cohesive state')
     boundaries=[]
     for entry in info['boundary_conditions']:
         values={k:tuple(v) if isinstance(v,list) else v for k,v in entry.items()}
+        boundary_type=values.pop('type',None)
         if values.get('end') is None:
             values['end']=float('inf')
-        boundaries.append((MovingVelocityBox if 'ramp_time' in values else VelocityBox)(**values))
+        if boundary_type not in (None,'MovingVelocityBox','VelocityBox'):
+            raise ValueError('Unsupported boundary type in saved state')
+        boundaries.append((MovingVelocityBox if boundary_type=='MovingVelocityBox' or 'ramp_time' in values else VelocityBox)(**values))
     config=Config(dim=2,n_grid=info['grid'],dt=info['dt_s'],domain_size=info['grid']*info['dx_m'],
                   material='neo-hookean',gravity=(0.,0.),boundary_cells=0,boundaries=tuple(boundaries))
     state=block(config,info['lower_m'],info['upper_m'],particles_per_cell=2,
@@ -89,7 +92,8 @@ def main():
             requested=jnp.minimum(c[0],target-s.time)
             ns,npth,increment,report=retry_step(s,p,material,config,law,requested,
                                                consistent_gradients=info['consistent_gradients'],
-                                               couple_tip_nodes=info.get('couple_tip_nodes',False))
+                                               couple_tip_nodes=info.get('couple_tip_nodes',False),
+                                               face_mass_fraction=info.get('face_mass_fraction',0.))
             accepted=report.accepted & ((report.accepted_dt>=minimum)|(requested<minimum))
             # Work has eight fields; the ninth ledger entry records insertion.
             padded=jnp.pad(jnp.stack(increment),(0,1))

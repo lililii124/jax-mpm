@@ -121,16 +121,18 @@ def discrete_surface_gradient(old, new, maximum, birth, bonded, law):
     return gradient, after, energy, error
 
 
-def transfers(position, normals, side, mass, config, vertices, count, nodes, mass_weighted=True, couple_tip_nodes=False):
+def transfers(position, normals, side, mass, config, vertices, count, nodes, mass_weighted=True, couple_tip_nodes=False,
+              minimum_mass_fraction=0.):
     support = stencil(position, config)
     fields = link_fields(position+side*1e-6*config.dx*normals, support, vertices, count, nodes[support.indices],
                          tip_support_dx=config.dx if couple_tip_nodes else None)
     indices = support.indices+fields*((config.n_grid+1)**2)
     local_mass = mass[indices]
+    usable = local_mass>minimum_mass_fraction*local_mass.max(axis=1,keepdims=True)
     if mass_weighted:
-        weights = support.weights*local_mass/jnp.maximum(local_mass.max(axis=1,keepdims=True),1e-100)
+        weights = jnp.where(usable,support.weights*local_mass/jnp.maximum(local_mass.max(axis=1,keepdims=True),1e-100),0.)
     else:
-        weights = jnp.where(local_mass>0,support.weights,0.)
+        weights = jnp.where(usable,support.weights,0.)
     total = weights.sum(axis=1)
     weights /= jnp.where(total > 0, total, 1.)[:,None]
     basis = jnp.concatenate((jnp.ones_like(weights)[...,None],support.dpos/config.dx),axis=-1)
@@ -168,10 +170,12 @@ class Work(NamedTuple):
     residual: jax.Array
 
 
-@partial(jax.jit, static_argnames=('config','law','consistent_gradients','couple_tip_nodes'))
-def step(state, path, material, config, law, consistent_gradients=False, dt=None, couple_tip_nodes=False):
+@partial(jax.jit, static_argnames=('config','law','consistent_gradients','couple_tip_nodes','face_mass_fraction'))
+def step(state, path, material, config, law, consistent_gradients=False, dt=None, couple_tip_nodes=False,face_mass_fraction=0.):
     if config.dim != 2 or config.material not in ('elastic','neo-hookean'):
         raise ValueError('Extrinsic cohesive MPM requires 2D neo-Hookean elasticity')
+    if not 0<=face_mass_fraction<1:
+        raise ValueError('face_mass_fraction must be in [0,1)')
     dt = config.dt if dt is None else dt
     vertices = path.vertices
     first = vertices[1]-vertices[0]
@@ -199,9 +203,9 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
     initial_impulse = mass[:,None]*(initial-transferred)
     normals = vertex_normals(vertices,path.count)
     plus = transfers(path.plus,normals,1.,mass,config,visibility,path.count,nodes,
-                     mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes)
+                     mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes,minimum_mass_fraction=face_mass_fraction)
     minus = transfers(path.minus,normals,-1.,mass,config,visibility,path.count,nodes,
-                      mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes)
+                      mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes,minimum_mass_fraction=face_mass_fraction)
     plus, minus = shared_tip(plus,minus,path.count)
     old_positions = segment_positions(path.plus,path.minus)
 

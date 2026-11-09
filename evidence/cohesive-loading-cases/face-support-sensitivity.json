@@ -1,0 +1,47 @@
+{
+  "source_checkpoint_sha256": "3b5dd939297832c7ac2aa431d745556a1bed2029a9667b47a0978a69b2fef097",
+  "time_s": 8.564992852456012e-05,
+  "dt_s": 2.2497187851518562e-08,
+  "rows": [
+    {
+      "fraction": 1e-10,
+      "iterations": 5,
+      "residual": 1.438843910396138e-11,
+      "energy_remainder_J_per_m": 1.5492659238836026e-12,
+      "max_difference_from_1e8": {
+        "x": 0.0,
+        "v": 0.0,
+        "F": 0.0,
+        "C": 0.0,
+        "maximum": 0.0
+      }
+    },
+    {
+      "fraction": 1e-08,
+      "iterations": 5,
+      "residual": 1.438843910396138e-11,
+      "energy_remainder_J_per_m": 1.5492659238836026e-12,
+      "max_difference_from_1e8": {
+        "x": 0.0,
+        "v": 0.0,
+        "F": 0.0,
+        "C": 0.0,
+        "maximum": 0.0
+      }
+    },
+    {
+      "fraction": 1e-06,
+      "iterations": 5,
+      "residual": 1.438843910396138e-11,
+      "energy_remainder_J_per_m": 1.5492659238836026e-12,
+      "max_difference_from_1e8": {
+        "x": 0.0,
+        "v": 0.0,
+        "F": 0.0,
+        "C": 0.0,
+        "maximum": 0.0
+      }
+    }
+  ],
+  "scope": "One accepted step from the exact formerly failing bending state; not trajectory or mesh convergence."
+}

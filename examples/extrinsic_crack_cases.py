@@ -73,7 +73,7 @@ def main():
     metadata=dict(case=args.case,grid=grid,dx_m=dx,dt_s=config.dt,duration_s=duration,young_Pa=E,poisson=nu,
                   density_kg_m3=rho,law=asdict(law),insertion_spacing_m=spacing,averaging_radius_m=radius,
                   max_extension_m=case['extension'],max_turn_deg=45.,capacity=96,particle_count=len(reference),
-                  consistent_gradients=True,couple_tip_nodes=True,adaptive=True,
+                  consistent_gradients=True,couple_tip_nodes=True,adaptive=True,face_mass_fraction=1e-8,
                   lower_m=case['lower'],upper_m=case['upper'],initial_vertices_m=case['vertices'],
                   boundary_conditions=[dict(type=type(b).__name__,**asdict(b)) for b in config.boundaries],
                   render_center=case['center'],render_half_height=case['half_height'],
@@ -88,7 +88,7 @@ def main():
         for frame,target in enumerate(np.linspace(0,duration,args.frames)):
             if target>0:
                 state,path,ledger,control=integrate_to(state,path,material,config,law,ledger,control,
-                                                       jnp.asarray(target),spacing,radius,case['extension'])
+                                                       jnp.asarray(target),spacing,radius,case['extension'],face_mass_fraction=1e-8)
             count=int(path.count)
             q=segment_positions(path.plus,path.minus)
             response=surface_response(q,path.maximum,path.birth_traction,path.bonded,law)

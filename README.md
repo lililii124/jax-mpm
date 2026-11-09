@@ -279,6 +279,10 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="50%" align="center"><img src="docs/images/home/fracture--extrinsic-gc200.gif" alt="Energy-controlled cohesive crack turning" width="100%"><br><a href="docs/EXTRINSIC_CRACK.md">Cohesive crack turning</a></td>
 <td width="50%" align="center"><img src="docs/images/home/fracture--extrinsic-gc800.gif" alt="Cohesive crack with higher fracture energy" width="100%"><br><a href="docs/EXTRINSIC_CRACK.md">Higher fracture energy</a></td>
 </tr>
+<tr>
+<td width="50%" align="center"><img src="docs/images/home/fracture--notched-tension.gif" alt="Edge-notched plate under tension" width="100%"><br><a href="docs/COHESIVE_LOADING_CASES.md">Notched tension</a></td>
+<td width="50%" align="center"><img src="docs/images/home/fracture--mixed-loading.gif" alt="Combined opening and shear" width="100%"><br><a href="docs/COHESIVE_LOADING_CASES.md">Mixed loading</a></td>
+</tr>
 </table>
 
 ### JAX design

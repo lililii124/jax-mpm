@@ -1,0 +1,33 @@
+{
+  "completed": false,
+  "last": {
+    "step": 3853,
+    "time_s": 8.564992852456012e-05,
+    "vertices": 8,
+    "potential_extension_m": 0.003,
+    "connected_failed_m": 0.002,
+    "detached_failed_m": 0.0,
+    "tip_x_m": 0.04018012773780185,
+    "tip_y_m": 0.028522624638487242,
+    "kinetic_J_per_m": 14.689109586210535,
+    "elastic_J_per_m": 14.354154015665506,
+    "surface_J_per_m": 0.01287924392384589,
+    "fracture_J_per_m": 0.45824186800046574,
+    "external_J_per_m": 30.42600589639071,
+    "transfer_loss_J_per_m": 0.8906976260315485,
+    "boundary_projection_loss_J_per_m": 0.020923556558598514,
+    "insertion_energy_J_per_m": 1.3086232830268323e-19,
+    "unexplained_J_per_m": 2.1038726316646716e-13,
+    "numerical_fraction": 0.029961907773714335,
+    "max_iteration_residual": 9.964697371403122e-10,
+    "mean_iterations": 4.699454970153128,
+    "min_J": 0.9793493223839852,
+    "max_strain": 0.025478674871351137,
+    "min_face_gap_m": 8.403516461210087e-07,
+    "rejected_attempts": 9,
+    "minimum_dt_s": 8.787964004499438e-11,
+    "stop_code": 2,
+    "valid": false,
+    "elapsed_s": 281.7115962000098
+  }
+}

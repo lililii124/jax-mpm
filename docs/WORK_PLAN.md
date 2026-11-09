@@ -6,6 +6,7 @@ does not. Live status is recorded separately by the local monitor.
 
 | Work | Last established state | Next deliverable |
 | --- | --- | --- |
+| [Cohesive loading cases](COHESIVE_LOADING_CASES.md) | Tension, mixed loading and three-point bending completed with 49 saved states each; ParaView GIFs exported. Near-empty face-support nodes are excluded while retaining affine reproduction and conjugate force/power. Plate cases added to gallery; bending remains a development review because late numerical loss reaches 26.46% | Reduce bending numerical loss and check face-support/time/grid sensitivity; preserve distinction between interface insertion, complete separation and physical crack-front prediction |
 | [Explicit/cohesive crack MPM](EXTRINSIC_CRACK.md) | 2026-11-09: [finite-tip support coupling](COHESIVE_INSERTION_AUDIT.md) is available in dynamics; with exact geometric quadrature it removes 6.36%/8.93% endpoint residuals in two patches. The fresh DCB completes 2 ms and passes saved-field checks, but still kinks and has no connected complete separation. Off-grid integration and principal-stress steering remain unqualified | Integrate compatible moving-domain quadrature with constitutive updates and APIC moments; energy-based extension selection; localized mixed-mode/time/grid checks; branching, general recontact and 3D remain open |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |

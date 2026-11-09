@@ -1,0 +1,16 @@
+{
+  "test": "tests/test_face_mass_support.py",
+  "result": "1 passed in 11.53s",
+  "checks": [
+    "near-empty face node excluded",
+    "affine motion",
+    "force resultant",
+    "force moment",
+    "conjugate power"
+  ],
+  "source_sha256": {
+    "tests/test_face_mass_support.py": "c1e06db0033c3a9b30cf9ed827cce37d313370de670f790fe99a607bc2e9e114",
+    "mpm_jax/extrinsic_crack.py": "7d8ae568ba590f40ceb34dc80e6d52c5440ea143db4c50fa9dcb4f3e6d5304ad",
+    "mpm_jax/adaptive_crack.py": "7d2ac9bb4163a530f64affc76d4ec4e90fee52182d2c0681025ee1babc161d83"
+  }
+}
