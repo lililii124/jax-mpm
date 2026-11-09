@@ -35,7 +35,9 @@ def test_common_peak_includes_unsaved_steps(tmp_path, monkeypatch):
         runs.append((folder, geometry))
 
     def read_run(folder, tolerance):
-        return metadata[str(folder)], [{'step': 0}, {'step': 1}], None
+        peak = 2.0 if folder.name == 'initial' else 3.0
+        return metadata[str(folder)], [{'step': 0, 'back_displacement_interval_peak_m': 0.0},
+                                      {'step': 1, 'back_displacement_interval_peak_m': peak}], None
 
     def surface_weights(grid, points):
         return np.arange(len(points))[:, None], np.ones((len(points), 1))
@@ -56,7 +58,18 @@ def test_common_peak_includes_unsaved_steps(tmp_path, monkeypatch):
     assert result['candidate_saved_peak_m'] / result['reference_saved_peak_m'] == pytest.approx(0.5)
     assert result['p90_sampling'] == 'saved-frames'
 
-    metadata[str(runs[0][0])]['bottom_point_peak_sampling'] = 'not-recorded'
+    bad_frame = runs[1][0] / 'frame-0000001.npz'
+    with np.load(bad_frame) as frame:
+        values = {key: frame[key] for key in frame.files}
+    values['bottom_interval_peak_m'][:] = 4.0
+    np.savez_compressed(bad_frame, **values)
+    with pytest.raises(ValueError, match='disagree'):
+        surface.compare_common_bottom(*runs[0], *runs[1], require_every_step=True)
+
     metadata[str(runs[1][0])]['bottom_point_peak_sampling'] = 'not-recorded'
+    with pytest.raises(ValueError, match='sampling modes differ'):
+        surface.compare_common_bottom(*runs[0], *runs[1], require_every_step=True)
+
+    metadata[str(runs[0][0])]['bottom_point_peak_sampling'] = 'not-recorded'
     with pytest.raises(ValueError, match='not recorded'):
         surface.compare_common_bottom(*runs[0], *runs[1], require_every_step=True)

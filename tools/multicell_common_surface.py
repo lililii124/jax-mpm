@@ -40,7 +40,8 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
     from mpm_jax.compact_tl import surface_weights
     from mpm_jax.multifield_support import surface_fields
     peaks = []
-    for folder, meta, rows in ((reference, meta_a, rows_a), (candidate, meta_b, rows_b)):
+    for folder, meta, rows, solid in ((reference, meta_a, rows_a, masks[0]),
+                                      (candidate, meta_b, rows_b, masks[1])):
         with np.load(folder/'reference.npz', allow_pickle=False) as data:
             spacing, shape = np.asarray(data['spacing']), tuple(data['shape'])
             split_mode = meta.get('support_mode', 'single') == 'split-disconnected'
@@ -59,6 +60,9 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
             if columns.ndim != 2 or columns.shape[1] != 2 or len(np.unique(columns, axis=0)) != len(columns):
                 raise ValueError('Bottom sample columns are invalid')
             lookup = {tuple(column): i for i, column in enumerate(columns)}
+            occupied = np.argwhere(np.any(solid, axis=0))
+            if set(lookup) != {(int(x), int(y)) for y, x in occupied}:
+                raise ValueError('Bottom sample columns do not match the solid geometry')
             try: point_ids = np.asarray([lookup[(int(x), int(y))] for y, x in yx], dtype=np.int64)
             except KeyError as error: raise ValueError('Common bottom sample is absent') from error
         maximum, p90, point_peak = 0., 0., 0.
@@ -71,6 +75,8 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
                     interval = np.asarray(data['bottom_interval_peak_m'])
                     if interval.shape != (len(columns),) or not np.isfinite(interval).all() or np.any(interval < 0):
                         raise ValueError('Invalid bottom point interval peaks')
+                    if not np.isclose(interval.max(), row['back_displacement_interval_peak_m'], rtol=1e-10, atol=1e-15):
+                        raise ValueError('Bottom point peaks disagree with the recorded interval maximum')
                     if np.any(interval[point_ids]+1e-15 < values):
                         raise ValueError('Bottom point interval peak is below its saved frame')
                     point_peak = max(point_peak, float(interval[point_ids].max()))
