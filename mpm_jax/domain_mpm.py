@@ -14,7 +14,7 @@ from .core import grid_boundaries
 from .cohesive_crack import midpoint_bulk
 from .domain_transfer import batch_stencils,particle_to_grid,grid_to_fragment,velocity_gradient,internal_force
 from . import implicit_contact,normal_cohesive
-from .boundaries import VelocityBox,CyclicVelocityBox
+from .boundaries import VelocityBox,CyclicVelocityBox,RampDisplacementBox
 
 
 def kinetic_energy(state,config,moment=None):
@@ -90,7 +90,7 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
     initial=constrain(transferred,time)
     initial_impulse=mass[:,None]*(initial-transferred)
     if contact is not None:
-        if n_fields!=2 or config.boundary_cells or any(not isinstance(b,(VelocityBox,CyclicVelocityBox)) for b in config.boundaries):
+        if n_fields!=2 or config.boundary_cells or any(not isinstance(b,(VelocityBox,CyclicVelocityBox,RampDisplacementBox)) for b in config.boundaries):
             raise ValueError('Implicit contact requires two fields and prescribed velocity boxes only')
         if contact_stiffness is None:
             raise ValueError('An explicit contact stiffness is required')

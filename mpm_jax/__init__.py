@@ -10,7 +10,7 @@ from .materials import steinberg_guinan
 from .materials import woven_elastic
 from .contact import coupled_advance, coupled_step
 from .boundaries import (
-    CyclicVelocityBox, MovingVelocityBox, PlaneWall, RotatingVelocityBox, VelocityBox,
+    CyclicVelocityBox, MovingVelocityBox, RampDisplacementBox, PlaneWall, RotatingVelocityBox, VelocityBox,
     fixed_box, MovingWedgeTool,
 )
 from .contact_laws import (
@@ -47,6 +47,7 @@ __all__ = [
     "MovingVelocityBox",
     "MovingWedgeTool",
     "CyclicVelocityBox",
+    "RampDisplacementBox",
     "RotatingVelocityBox",
     "RigidSphereBoundary",
     "hertz_contact",

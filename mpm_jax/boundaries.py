@@ -190,6 +190,33 @@ class CyclicVelocityBox:
 
 
 @dataclass(frozen=True)
+class RampDisplacementBox:
+    """Apply a smooth prescribed displacement, then hold the translated grip."""
+
+    lower: tuple[float, ...]
+    upper: tuple[float, ...]
+    displacement: tuple[float, ...]
+    ramp_time: float
+    components: tuple[bool, ...] | None = None
+    start: float = 0.0
+
+    def validate(self, dim, domain_size):
+        VelocityBox(self.lower,self.upper,self.displacement,self.components,start=self.start).validate(dim,domain_size)
+        if not np.isfinite(self.ramp_time) or self.ramp_time<=0:
+            raise ValueError('Displacement ramp duration must be finite and positive')
+
+    def motion(self,time):
+        phase=jnp.clip((time-self.start)/self.ramp_time,0.,1.)
+        value=phase**3*(10.-15.*phase+6.*phase**2)
+        rate=30.*phase**2*(1.-phase)**2/self.ramp_time
+        target=jnp.asarray(self.displacement,dtype=jnp.result_type(time,float))
+        return value*target,rate*target
+
+    def apply(self,velocity,coordinates,time):
+        return CyclicVelocityBox.apply(self,velocity,coordinates,time)
+
+
+@dataclass(frozen=True)
 class RotatingVelocityBox:
     """Rotate a reference box to an angle and back, then hold at rest."""
 
