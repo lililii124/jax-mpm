@@ -18,8 +18,8 @@ class RetryReport(NamedTuple):
     last_residual: jax.Array
 
 
-@partial(jax.jit,static_argnames=('config','law','max_halvings','consistent_gradients','couple_tip_nodes','face_mass_fraction'))
-def retry_step(state,path,material,config,law,dt,max_halvings=8,consistent_gradients=False,couple_tip_nodes=False,face_mass_fraction=0.):
+@partial(jax.jit,static_argnames=('config','law','max_halvings','consistent_gradients','couple_tip_nodes','face_mass_fraction','particle_mediated_faces'))
+def retry_step(state,path,material,config,law,dt,max_halvings=8,consistent_gradients=False,couple_tip_nodes=False,face_mass_fraction=0.,particle_mediated_faces=False):
     """Return one accepted substep or the unchanged input and zero work.
 
     Each rejected attempt starts again from the original state, including the
@@ -46,7 +46,7 @@ def retry_step(state,path,material,config,law,dt,max_halvings=8,consistent_gradi
         trial_dt=dt*2.**(-previous.attempts)
         following,newpath,work=step(state,path,material,config,law,
                                     consistent_gradients=consistent_gradients,dt=trial_dt,couple_tip_nodes=couple_tip_nodes,
-                                    face_mass_fraction=face_mass_fraction)
+                                    face_mass_fraction=face_mass_fraction,particle_mediated_faces=particle_mediated_faces)
         accepted=following.valid & newpath.valid & jnp.all(jnp.isfinite(jnp.stack(work)))
         returned=jax.lax.cond(accepted,lambda _:(following,newpath,work),lambda _:(state,path,empty),None)
         report=RetryReport(accepted,previous.attempts+1,previous.rejected+(~accepted).astype(jnp.int32),
@@ -72,9 +72,9 @@ def controller(dt,dtype=jnp.float64):
     return Controller(duration,zero,zero,zero,duration,jnp.asarray(0.,dtype=dtype),zero)
 
 
-@partial(jax.jit,static_argnames=('config','law','consistent_gradients','couple_tip_nodes','max_steps','face_mass_fraction'))
+@partial(jax.jit,static_argnames=('config','law','consistent_gradients','couple_tip_nodes','max_steps','face_mass_fraction','particle_mediated_faces'))
 def integrate_to(state,path,material,config,law,ledger,control,target,spacing,radius,max_extension,
-                 consistent_gradients=True,couple_tip_nodes=True,max_steps=100000,face_mass_fraction=0.):
+                 consistent_gradients=True,couple_tip_nodes=True,max_steps=100000,face_mass_fraction=0.,particle_mediated_faces=False):
     """Advance through accepted steps; ledger holds eight work fields and insertion energy.
 
     stop_code: 1 exhausted retries, 2 minimum duration, 3 invalid insertion,
@@ -92,7 +92,7 @@ def integrate_to(state,path,material,config,law,ledger,control,target,spacing,ra
         requested=jnp.minimum(c.proposed_dt,target-s.time)
         ns,npth,increment,report=retry_step(s,p,material,config,law,requested,
                                            consistent_gradients=consistent_gradients,couple_tip_nodes=couple_tip_nodes,
-                                           face_mass_fraction=face_mass_fraction)
+                                           face_mass_fraction=face_mass_fraction,particle_mediated_faces=particle_mediated_faces)
         small=report.accepted & (report.accepted_dt<minimum)&(requested>=minimum)
         accepted=report.accepted & ~small
 

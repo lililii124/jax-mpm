@@ -93,7 +93,8 @@ def main():
             ns,npth,increment,report=retry_step(s,p,material,config,law,requested,
                                                consistent_gradients=info['consistent_gradients'],
                                                couple_tip_nodes=info.get('couple_tip_nodes',False),
-                                               face_mass_fraction=info.get('face_mass_fraction',0.))
+                                               face_mass_fraction=info.get('face_mass_fraction',0.),
+                                               particle_mediated_faces=info.get('particle_mediated_faces',False))
             accepted=report.accepted & ((report.accepted_dt>=minimum)|(requested<minimum))
             # Work has eight fields; the ninth ledger entry records insertion.
             padded=jnp.pad(jnp.stack(increment),(0,1))

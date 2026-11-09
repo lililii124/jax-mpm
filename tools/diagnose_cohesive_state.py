@@ -24,15 +24,23 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('run',type=Path)
     parser.add_argument('--frame',type=int,required=True)
-    parser.add_argument('--checkpoint',type=Path,required=True)
+    parser.add_argument('--checkpoint',type=Path)
     parser.add_argument('--output',type=Path,required=True)
-    parser.add_argument('--face-mass-fraction',type=float,default=0.)
+    parser.add_argument('--face-mass-fraction',type=float)
+    parser.add_argument('--powers',type=int,nargs='+',default=(0,2,4,6,8,9,10,12))
+    parser.add_argument('--particle-mediated-faces',action='store_true')
     args=parser.parse_args()
     jax.config.update('jax_enable_x64',True)
     s,p,cfg,info,_=load_saved(args.run,args.frame)
-    with np.load(args.checkpoint,allow_pickle=False) as data:
-        s=s._replace(**{k:jnp.asarray(data['state_'+k]) for k in s._fields if k!='history'})
-        p=p._replace(**{k:jnp.asarray(data['path_'+k]) for k in p._fields})
+    if args.checkpoint is not None:
+        with np.load(args.checkpoint,allow_pickle=False) as data:
+            s=s._replace(**{k:jnp.asarray(data['state_'+k]) for k in s._fields if k!='history'})
+            p=p._replace(**{k:jnp.asarray(data['path_'+k]) for k in p._fields})
+    if args.face_mass_fraction is None:
+        args.face_mass_fraction=info.get('face_mass_fraction',0.)
+    mediated=args.particle_mediated_faces or info.get('particle_mediated_faces',False)
+    if any(power<0 for power in args.powers):
+        parser.error('Time-step divisor powers must be nonnegative')
     material=neo_hookean(info['young_Pa'],info['poisson']);law=CohesiveLaw(**info['law'])
     tied=info.get('couple_tip_nodes',False);consistent=info['consistent_gradients']
     v=p.vertices;first=v[1]-v[0];vis=v.at[0].add(-3*cfg.dx*first/jnp.linalg.norm(first))
@@ -78,17 +86,19 @@ def main():
                     area_work_error=p.area*error)
 
     rows=[]
-    for power in (0,2,4,6,8,9,10,12):
+    for power in args.powers:
         dt=cfg.dt/(2**power)
-        ns,npth,work=step(s,p,material,cfg,law,consistent_gradients=consistent,couple_tip_nodes=tied,dt=jnp.asarray(dt),face_mass_fraction=args.face_mass_fraction)
+        ns,npth,work,audit=step(s,p,material,cfg,law,consistent_gradients=consistent,couple_tip_nodes=tied,dt=jnp.asarray(dt),face_mass_fraction=args.face_mass_fraction,audit_transfer=True,particle_mediated_faces=mediated)
         values=surface_diagnostic(segment_positions(npth.plus,npth.minus))
         row=dict(dt_s=dt,dt_divisor=2**power,valid=bool(ns.valid & npth.valid),iterations=int(work.iterations),
                  residual=float(work.residual),bulk_work_error=float(work.bulk_error),surface_work_error=float(work.surface_error),
                  minimum_J=float(jnp.linalg.det(ns.F).min()),maximum_particle_speed=float(jnp.linalg.norm(ns.v,axis=1).max()),
+                 transfer_loss_J_per_m=float(work.transfer_loss),
+                 transfer_audit={k:float(value) for k,value in audit._asdict().items()},
                  segments={k:np.asarray(value)[:count-1].tolist() for k,value in values.items()})
         rows.append(row)
         print(json.dumps({k:value for k,value in row.items() if k!='segments'}),flush=True)
-    report=dict(time_s=float(s.time),face_mass_fraction=args.face_mass_fraction,support_valid=bool(support.valid),plus_valid=bool(plus.valid),minus_valid=bool(minus.valid),
+    report=dict(time_s=float(s.time),face_mass_fraction=args.face_mass_fraction,particle_mediated_faces=mediated,support_valid=bool(support.valid),plus_valid=bool(plus.valid),minus_valid=bool(minus.valid),
                 minimum_occupied_mass=float(m[m>0].min()),minimum_face_mass=float(min(occupied_face)),
                 maximum_face_inverse_mass=float(max(inverse)),rows=rows)
     def clean(value):

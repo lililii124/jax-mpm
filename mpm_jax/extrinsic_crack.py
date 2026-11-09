@@ -12,6 +12,7 @@ from .core import grid_boundaries, grid_to_particle, particle_stencil, stencil
 from .materials import kirchhoff_stress
 from .polyline_crack import link_fields, make_path, shifted_nodes, vertex_normals
 from .crack_mpm import _cross
+from .apic_projection import velocity_projection,force_adjoint
 
 
 class CohesivePath(NamedTuple):
@@ -170,8 +171,17 @@ class Work(NamedTuple):
     residual: jax.Array
 
 
-@partial(jax.jit, static_argnames=('config','law','consistent_gradients','couple_tip_nodes','face_mass_fraction'))
-def step(state, path, material, config, law, consistent_gradients=False, dt=None, couple_tip_nodes=False,face_mass_fraction=0.):
+class TransferAudit(NamedTuple):
+    particle_to_grid_loss: jax.Array
+    grid_to_particle_loss: jax.Array
+    surface_impulse_grid_norm: jax.Array
+    surface_impulse_particle_norm: jax.Array
+    bulk_impulse_grid_norm: jax.Array
+    bulk_impulse_particle_norm: jax.Array
+
+
+@partial(jax.jit, static_argnames=('config','law','consistent_gradients','couple_tip_nodes','face_mass_fraction','audit_transfer','particle_mediated_faces'))
+def step(state, path, material, config, law, consistent_gradients=False, dt=None, couple_tip_nodes=False,face_mass_fraction=0.,audit_transfer=False,particle_mediated_faces=False):
     if config.dim != 2 or config.material not in ('elastic','neo-hookean'):
         raise ValueError('Extrinsic cohesive MPM requires 2D neo-Hookean elasticity')
     if not 0<=face_mass_fraction<1:
@@ -218,14 +228,17 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
         bulk_gradient = support.gradients if consistent_gradients else 4/config.dx**2*support.weights[...,None]*support.dpos
         bulk_contribution = -state.volume[:,None,None]*jnp.einsum('pij,pkj->pki',tau,bulk_gradient)
         bulk_force = jnp.zeros_like(momentum).at[remapped.indices].add(bulk_contribution)
-        next_plus = path.plus+dt*face_velocity(middle,plus)
-        next_minus = path.minus+dt*face_velocity(middle,minus)
+        face_grid=velocity_projection(middle,remapped,state.mass,mass,config) if particle_mediated_faces else middle
+        next_plus = path.plus+dt*face_velocity(face_grid,plus)
+        next_minus = path.minus+dt*face_velocity(face_grid,minus)
         q = segment_positions(next_plus,next_minus)
         grad,after,energy,error = discrete_surface_gradient(old_positions,q,path.maximum,path.birth_traction,path.bonded,law)
         force = -path.area[:,None,None]*grad
         fp = jnp.zeros_like(path.plus).at[:-1].add(force[:,0]).at[1:].add(force[:,1])
         fm = jnp.zeros_like(path.minus).at[:-1].add(force[:,2]).at[1:].add(force[:,3])
         surface_force = scatter_face_force(fp,plus,momentum.shape)+scatter_face_force(fm,minus,momentum.shape)
+        if particle_mediated_faces:
+            surface_force=force_adjoint(surface_force,remapped,state.mass,mass,config)
         raw = jnp.where(occupied[:,None],initial+dt*((bulk_force+surface_force)/denominator+jnp.asarray(config.gravity)),0.)
         bounded = 2*constrain(.5*(initial+raw),state.time+.5*dt)-initial
         return bounded,(middle,vp,F,next_plus,next_minus,after,energy,error,bulk_force,surface_force,raw,valid)
@@ -256,7 +269,18 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
     projection = .5*jnp.sum(mass[:,None]*(initial-transferred)**2)
     bulk_error = dt*jnp.sum(bulk_force*middle)+elastic_energy(following,material,config)-elastic_energy(state,material,config)
     surface_error = dt*jnp.sum(surface_force*middle)+jnp.sum(path.area*energy)
-    return following,path,Work(boundary,gravity,transfer,projection,bulk_error,surface_error,iterations,residual)
+    work=Work(boundary,gravity,transfer,projection,bulk_error,surface_error,iterations,residual)
+    if audit_transfer:
+        def impulse_norm(force):
+            acceleration=force/denominator
+            pv,pc=grid_to_particle(acceleration,remapped,config)
+            grid=.5*jnp.sum(mass[:,None]*acceleration**2)
+            particle=.5*jnp.sum(state.mass*(jnp.sum(pv**2,axis=1)+.25*config.dx**2*jnp.sum(pc**2,axis=(1,2))))
+            return grid,particle
+        p2g=kinetic_energy(state,config)-.5*jnp.sum(mass[:,None]*transferred**2)
+        g2p=.5*jnp.sum(mass[:,None]*velocity**2)-kinetic_energy(following,config)
+        return following,path,work,TransferAudit(p2g,g2p,*impulse_norm(surface_force),*impulse_norm(bulk_force))
+    return following,path,work
 
 
 class InsertionReport(NamedTuple):
