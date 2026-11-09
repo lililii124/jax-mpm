@@ -1,0 +1,25 @@
+{
+  "reference_commit": "0b781eabd9b58008941ec9111b5e32c74f9d2d9b",
+  "reference_history_sha256": "b9a680557daa06850aa43931c9bf8f1a3d9de6e1e98b3fbecfc2b74b20004d1d",
+  "comparisons": {
+    "fracture-bending-support-1e6": {
+      "final_particle_position_rms_difference_m": 8.030470162690021e-05,
+      "final_particle_position_max_difference_m": 0.00015722142679455876,
+      "final_tip_difference_m": 0.0013628820633613103,
+      "rejected_attempts": 0,
+      "source_files_match": true
+    },
+    "fracture-bending-half-dt": {
+      "final_particle_position_rms_difference_m": 4.743513172765638e-06,
+      "final_particle_position_max_difference_m": 0.00018574808884602137,
+      "final_tip_difference_m": 8.125778170170247e-05,
+      "rejected_attempts": 30,
+      "source_files_match": true
+    }
+  },
+  "completed": true,
+  "convergence_established": false,
+  "default_parameters_changed": false,
+  "homepage_updated": false,
+  "diagnosis": "Late compressive recontact coincides with repeated substeps and transfer losses. Half nominal duration does not resolve the loss; larger support cutoff changes the path. Temporal coincidence alone does not prove the high-frequency mechanism."
+}

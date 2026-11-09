@@ -45,19 +45,25 @@ def main():
     parser.add_argument('--grid',type=int)
     parser.add_argument('--duration',type=float)
     parser.add_argument('--frames',type=int,default=49)
+    parser.add_argument('--cfl',type=float,default=.075)
+    parser.add_argument('--face-mass-fraction',type=float,default=1e-8)
     args=parser.parse_args()
     case=scenario(args.case)
     grid=case['grid'] if args.grid is None else args.grid
     duration=case['duration'] if args.duration is None else args.duration
     if grid<96 or not np.isfinite(duration) or duration<=0 or args.frames<2:
         parser.error('Require grid >=96, finite positive duration and at least two frames')
+    if not np.isfinite(args.cfl) or not 0<args.cfl<=.25:
+        parser.error('Require 0 < CFL <= 0.25')
+    if not np.isfinite(args.face_mass_fraction) or not 0<=args.face_mass_fraction<1:
+        parser.error('Require 0 <= face mass fraction < 1')
     if args.output.exists() and any(args.output.iterdir()):
         parser.error('Output directory must be empty')
     jax.config.update('jax_enable_x64',True)
     E,nu,rho=3e9,.2,1200.
     wave=np.sqrt(E*(1-nu)/((1+nu)*(1-2*nu)*rho))
     dx=case['domain']/grid
-    nominal=int(np.ceil(duration/(.075*dx/wave)))
+    nominal=int(np.ceil(duration/(args.cfl*dx/wave)))
     config=Config(dim=2,n_grid=grid,dt=duration/nominal,domain_size=case['domain'],material='neo-hookean',
                   gravity=(0.,0.),boundary_cells=0,boundaries=case['boundaries'])
     material=neo_hookean(E,nu)
@@ -73,7 +79,8 @@ def main():
     metadata=dict(case=args.case,grid=grid,dx_m=dx,dt_s=config.dt,duration_s=duration,young_Pa=E,poisson=nu,
                   density_kg_m3=rho,law=asdict(law),insertion_spacing_m=spacing,averaging_radius_m=radius,
                   max_extension_m=case['extension'],max_turn_deg=45.,capacity=96,particle_count=len(reference),
-                  consistent_gradients=True,couple_tip_nodes=True,adaptive=True,face_mass_fraction=1e-8,
+                  consistent_gradients=True,couple_tip_nodes=True,adaptive=True,face_mass_fraction=args.face_mass_fraction,
+                  requested_cfl=args.cfl,
                   lower_m=case['lower'],upper_m=case['upper'],initial_vertices_m=case['vertices'],
                   boundary_conditions=[dict(type=type(b).__name__,**asdict(b)) for b in config.boundaries],
                   render_center=case['center'],render_half_height=case['half_height'],
@@ -88,7 +95,7 @@ def main():
         for frame,target in enumerate(np.linspace(0,duration,args.frames)):
             if target>0:
                 state,path,ledger,control=integrate_to(state,path,material,config,law,ledger,control,
-                                                       jnp.asarray(target),spacing,radius,case['extension'],face_mass_fraction=1e-8)
+                                                       jnp.asarray(target),spacing,radius,case['extension'],face_mass_fraction=args.face_mass_fraction)
             count=int(path.count)
             q=segment_positions(path.plus,path.minus)
             response=surface_response(q,path.maximum,path.birth_traction,path.bonded,law)
@@ -125,6 +132,8 @@ def main():
                                 plus=np.asarray(path.plus[:count]),minus=np.asarray(path.minus[:count]),
                                 maximum=np.asarray(path.maximum[:count-1]),area=np.asarray(path.area[:count-1]),
                                 birth_traction=np.asarray(path.birth_traction[:count-1]),bonded=np.asarray(path.bonded[:count-1]),
+                                ledger=np.asarray(ledger),
+                                **{f'control_{key}':np.asarray(value) for key,value in control._asdict().items()},
                                 softening=np.asarray(response.softening[:count-1]),time=float(state.time))
     summary=dict(**metadata,frames=len(rows),steps=int(control.accepted),all_states_valid=True,final=rows[-1],
                  elapsed_s=time.perf_counter()-started,

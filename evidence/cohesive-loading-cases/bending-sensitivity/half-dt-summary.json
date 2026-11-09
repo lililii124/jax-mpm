@@ -1,0 +1,164 @@
+{
+  "case": "bending",
+  "grid": 160,
+  "dx_m": 0.0005,
+  "dt_s": 1.1249384799268791e-08,
+  "duration_s": 0.00016,
+  "young_Pa": 3000000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "law": {
+    "strength": 12000000.0,
+    "energy": 200.0,
+    "stiffness": 10000000000000.0
+  },
+  "insertion_spacing_m": 0.0005,
+  "averaging_radius_m": 0.0015,
+  "max_extension_m": 0.0075,
+  "max_turn_deg": 45.0,
+  "capacity": 96,
+  "particle_count": 14640,
+  "consistent_gradients": true,
+  "couple_tip_nodes": true,
+  "adaptive": true,
+  "face_mass_fraction": 1e-08,
+  "requested_cfl": 0.0375,
+  "lower_m": [
+    0.01,
+    0.02
+  ],
+  "upper_m": [
+    0.07,
+    0.035
+  ],
+  "initial_vertices_m": [
+    [
+      0.04,
+      0.02
+    ],
+    [
+      0.04,
+      0.026
+    ]
+  ],
+  "boundary_conditions": [
+    {
+      "type": "VelocityBox",
+      "lower": [
+        0.014,
+        0.019
+      ],
+      "upper": [
+        0.016,
+        0.021
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "components": null,
+      "start": 0.0,
+      "end": Infinity
+    },
+    {
+      "type": "VelocityBox",
+      "lower": [
+        0.064,
+        0.019
+      ],
+      "upper": [
+        0.066,
+        0.021
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "components": [
+        false,
+        true
+      ],
+      "start": 0.0,
+      "end": Infinity
+    },
+    {
+      "type": "MovingVelocityBox",
+      "lower": [
+        0.038,
+        0.034
+      ],
+      "upper": [
+        0.042,
+        0.036
+      ],
+      "velocity": [
+        0.0,
+        -6.0
+      ],
+      "components": [
+        false,
+        true
+      ],
+      "start": 0.0,
+      "end": Infinity,
+      "ramp_time": 2e-05
+    }
+  ],
+  "render_center": [
+    0.04,
+    0.028
+  ],
+  "render_half_height": 0.034,
+  "particle_spacing_m": [
+    0.00025,
+    0.0002459016393442623
+  ],
+  "source_sha256": {
+    "examples/extrinsic_crack_cases.py": "1dca4f4f74fdb376a0bbbd233d01bbdeec1533ffeb360044af0e9925caeac908",
+    "mpm_jax/adaptive_crack.py": "7d2ac9bb4163a530f64affc76d4ec4e90fee52182d2c0681025ee1babc161d83",
+    "mpm_jax/extrinsic_crack.py": "7d8ae568ba590f40ceb34dc80e6d52c5440ea143db4c50fa9dcb4f3e6d5304ad",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/polyline_crack.py": "d6ef3ff9dfbe8dac8f9ee9fd7e49653733efed4f23c00566e1578d3f7f3b8556",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5"
+  },
+  "frames": 49,
+  "steps": 15096,
+  "all_states_valid": true,
+  "final": {
+    "step": 15096,
+    "time_s": 0.00016,
+    "vertices": 17,
+    "potential_extension_m": 0.007500000000000003,
+    "connected_failed_m": 0.006000000000000002,
+    "detached_failed_m": 0.0,
+    "tip_x_m": 0.03942198676554682,
+    "tip_y_m": 0.03143236088751732,
+    "kinetic_J_per_m": 20.37369108667386,
+    "elastic_J_per_m": 19.872322670911398,
+    "surface_J_per_m": 0.028228382979234436,
+    "fracture_J_per_m": 1.3098005628155638,
+    "external_J_per_m": 57.04174600247389,
+    "transfer_loss_J_per_m": 15.361680797856106,
+    "boundary_projection_loss_J_per_m": 0.09602249937876117,
+    "insertion_energy_J_per_m": -1.9271016196367191e-19,
+    "unexplained_J_per_m": 1.8589716432870773e-09,
+    "numerical_fraction": 0.270989308366621,
+    "max_iteration_residual": 7.601312006460355e-09,
+    "mean_iterations": 4.654478007419184,
+    "min_J": 0.9753877098074032,
+    "max_strain": 0.0490184495758792,
+    "min_face_gap_m": -1.778885001718843e-06,
+    "rejected_attempts": 30,
+    "minimum_dt_s": 3.515432749771497e-10,
+    "stop_code": 0,
+    "valid": true,
+    "elapsed_s": 1066.036555700004
+  },
+  "elapsed_s": 1066.1388817999978,
+  "limitations": [
+    "Principal-stress direction and point-particle cut integration are not predictive fracture validation",
+    "Geometric insertion cap is not physical crack arrest; no general fragment contact"
+  ]
+}

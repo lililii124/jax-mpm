@@ -1,0 +1,24 @@
+{
+  "renderer": "ParaView",
+  "frames": 49,
+  "distinct_frames": 49,
+  "size": [
+    400,
+    400
+  ],
+  "deformation_scale": 1.0,
+  "stress_range_Pa": [
+    0.0,
+    60000000.0
+  ],
+  "field": "principal_stress",
+  "camera_center": [
+    0.04,
+    0.028
+  ],
+  "camera_half_height": 0.034,
+  "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+  "artificial_crack_lines": false,
+  "source_sha256": "7886879bc79912d96f70fcebd80453e517cc584436af64f87f169af46f12aad3",
+  "gif_sha256": "1b9184d877118edd493975ede9f3267e435831ea2b5b3468b3ca25a083575840"
+}

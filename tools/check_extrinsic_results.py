@@ -21,10 +21,21 @@ def check(directory):
     maximum, previous_bonded = None,None
     first_failure = None
     minimum_surface = np.inf
+    peak_contact_pressure = 0.
+    peak_compression_energy = 0.
     for i,row in enumerate(rows):
         with np.load(directory/f'frame-{i:03d}.npz',allow_pickle=False) as data:
             a = {k:data[k] for k in data.files}
         assert all(np.isfinite(v).all() for v in a.values())
+        if 'ledger' in a:
+            assert a['ledger'].shape==(9,)
+            np.testing.assert_allclose(a['ledger'][[2,3,8]],
+                                      [float(row[k]) for k in ('transfer_loss_J_per_m',
+                                       'boundary_projection_loss_J_per_m','insertion_energy_J_per_m')],atol=1e-12)
+            np.testing.assert_allclose(a['ledger'][0]+a['ledger'][1],float(row['external_J_per_m']),atol=1e-12)
+            assert int(a['control_accepted'])==int(row['step'])
+            assert int(a['control_rejected'])==int(row['rejected_attempts'])
+            assert int(a['control_stop_code'])==0
         plus,minus = a['plus'],a['minus']
         assert len(plus)==int(row['vertices'])
         tangent = .5*np.diff(plus+minus,axis=0)
@@ -41,7 +52,10 @@ def check(directory):
         fraction_failed = np.clip((history-r0)/width,0,1)
         remaining = r0/history*(1-fraction_failed)
         stored = np.where(bonded[:,None],.5*K*remaining*radius**2-.5*strength*r0*(1-fraction_failed),0.)
-        stored += .5*K*np.minimum(opening[:,:,1],0.)**2
+        compression = .5*K*np.minimum(opening[:,:,1],0.)**2
+        stored += compression
+        peak_contact_pressure=max(peak_contact_pressure,float(-K*np.minimum(opening[:,:,1],0.).min()))
+        peak_compression_energy=max(peak_compression_energy,float(np.sum(area*compression.mean(axis=1))))
         dissipation = Gc*np.where(bonded[:,None],fraction_failed,0.)
         surface = np.sum(area*stored.mean(axis=1))
         fracture = np.sum(area*dissipation.mean(axis=1))
@@ -79,6 +93,10 @@ def check(directory):
     assert columns['transfer_loss_J_per_m'].min()>-1e-9
     assert columns['boundary_projection_loss_J_per_m'].min()>-1e-9
     result = dict(grid=info['grid'],fracture_energy_J_m2=Gc,frames=len(rows),
+                  nominal_dt_s=info['dt_s'],face_mass_fraction=info.get('face_mass_fraction',0.),
+                  accepted_steps=int(columns['step'][-1]),
+                  peak_sampled_penalty_pressure_Pa=peak_contact_pressure,
+                  peak_sampled_compression_energy_J_per_m=peak_compression_energy,
                   final_potential_extension_m=float(columns['potential_extension_m'][-1]),
                   final_connected_failed_m=float(columns['connected_failed_m'][-1]),
                   max_detached_failed_m=float(np.abs(columns['detached_failed_m']).max()),
@@ -109,7 +127,8 @@ def main():
     import matplotlib.pyplot as plt
     fig,axes = plt.subplots(2,2,figsize=(10,7),constrained_layout=True)
     for name,columns in history.items():
-        info=result[name];label=f"N={info['grid']}, Gc={info['fracture_energy_J_m2']:g} J/m2"
+        info=result[name]
+        label=f"N={info['grid']}, dt={info['nominal_dt_s']*1e9:.3g} ns, cutoff={info['face_mass_fraction']:g}"
         t=columns['time_s']*1e6
         axes[0,0].plot(t,columns['potential_extension_m']*1e3,label=label)
         axes[0,1].plot(t,columns['connected_failed_m']*1e3,label=label)

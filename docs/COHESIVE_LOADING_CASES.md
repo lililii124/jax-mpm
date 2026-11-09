@@ -73,10 +73,50 @@ affine velocities and cohesive history for that step. This is a local sensitivit
 check, not a trajectory-convergence result. The existing off-grid quadrature
 limitation is not removed by this support rule.
 
+## Bending sensitivity
+
+The late bending loss occurs after insertion has reached its cap. Between
+150 and 160 microseconds, transfer loss increases by 9.67 J/m while external
+work increases by only 0.076 J/m. A fully failed segment has a compressive gap
+of 34.19 micrometres at 150 microseconds, corresponding to a penalty pressure
+of 342 MPa. Its compressive contact remains active after cohesive failure.
+Time-step retries and transfer loss rise together during this interval;
+saved frames establish their coincidence, not a causal high-frequency diagnosis.
+
+With identical material, geometry, loading and duration, raising the face-support
+mass cutoff from 1e-8 to 1e-6 completes 7,152 accepted steps without retries.
+Final numerical loss falls to 12.11%, and the saved frames show no negative
+face gap. However, the crack-tip path also changes substantially. This is
+operator sensitivity, not a qualified accuracy improvement, and the example's
+default cutoff remains 1e-8. Neither bending variant is promoted to the homepage.
+
+Halving the nominal time step with the original cutoff also completes the
+full duration, but numerical loss rises slightly to 27.10%. All three runs
+pass independent saved-field energy reconstruction; this does not remove
+their transfer losses or establish time-step convergence.
+
+| Bending run | Nominal step | Face mass cutoff | Rejected attempts | Numerical loss / final work | Connected complete failure | Peak sampled penalty pressure |
+| --- | --- | --- | --- | --- | --- | --- |
+| Original | 22.50 ns | 1e-8 | 34 | 26.46% | 6.5 mm | 342 MPa |
+| Larger support cutoff | 22.50 ns | 1e-6 | 0 | 12.11% | 6.5 mm | 0 MPa |
+| Half step | 11.25 ns | 1e-8 | 30 | 27.10% | 6.0 mm | 337 MPa |
+
+The next correction must address contact-force transfer and its spatial
+resolution; smaller time steps alone do not resolve the late loss. Full
+histories and reconstruction results are retained in
+[`bending-sensitivity`](../evidence/cohesive-loading-cases/bending-sensitivity).
+
+The runner exposes `--face-mass-fraction` and `--cfl` for controlled comparisons.
+New snapshots retain the work ledger and adaptive controller so a later restart
+can preserve the accepted time-step history. The field checker verifies these
+records and separately reports compressive penalty pressure and energy.
+
 ```bash
 python examples/extrinsic_crack_cases.py tension --output outputs/fracture-tension
 python examples/extrinsic_crack_cases.py mixed --output outputs/fracture-mixed
 python examples/extrinsic_crack_cases.py bending --output outputs/fracture-bending
+python examples/extrinsic_crack_cases.py bending --face-mass-fraction 1e-6 --output outputs/fracture-bending-support-1e6
+python examples/extrinsic_crack_cases.py bending --cfl .0375 --output outputs/fracture-bending-half-dt
 python tools/check_extrinsic_results.py outputs/fracture-tension outputs/fracture-mixed outputs/fracture-bending --output outputs/fracture-check
 ```
 
