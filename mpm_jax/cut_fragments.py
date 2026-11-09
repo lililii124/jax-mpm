@@ -95,6 +95,18 @@ def split_fragment(state,normal,offset):
     normal=jnp.asarray(normal,dtype=state.x.dtype)
     reference_normal=state.F.T@normal
     reference_offset=offset-normal@state.x+reference_normal@state.reference_centroid
+    projected=state.reference.vertices@reference_normal
+    active=jnp.arange(len(projected))<state.reference.count
+    distance=jnp.where(active,jnp.abs(projected-reference_offset),jnp.inf)
+    nearest=jnp.argmin(distance)
+    absolute_pullback=jnp.abs(state.F).T@jnp.abs(normal)
+    scale=jnp.abs(offset)+jnp.abs(normal)@jnp.abs(state.x)
+    scale+=absolute_pullback@jnp.abs(state.reference_centroid)
+    scale+=jnp.max(jnp.where(active,jnp.abs(state.reference.vertices)@absolute_pullback,0.))
+    # Pullback subtracts world coordinates before clipping in local coordinates.
+    # Carry that roundoff scale into the shared cut plane, not a mass cutoff.
+    tolerance=16*jnp.finfo(state.x.dtype).eps*scale
+    reference_offset=jnp.where(distance[nearest]<=tolerance,projected[nearest],reference_offset)
     plus,minus=split(state.reference,reference_normal,reference_offset)
     domains=jax.tree.map(lambda a,b:jnp.stack((a,b)),plus,minus)
 

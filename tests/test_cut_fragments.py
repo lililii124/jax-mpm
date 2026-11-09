@@ -50,3 +50,15 @@ def test_empty_and_small_fragments_are_not_silently_deleted():
     assert 0<float(tiny.mass[0]/parent.mass)<1e-5
     value=lambda o:jax.vmap(lambda c:invariants(c,1/16).kinetic_energy)(split_fragment(parent,normal,o)).sum()
     np.testing.assert_allclose(jax.jit(jax.grad(value))(.504),0.,atol=1e-12)
+def test_world_coordinate_pullback_does_not_create_unresolved_boundary_slivers():
+    h=.06/96/2
+    reference=polygon(h*jnp.array([[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5]]))
+    parent=fragment(reference,1200.,x=[.01015625,.02+(31+.5)*h])
+    pieces=split_fragment(parent,jnp.array([0.,1.]),.03)
+    assert int(pieces.active.sum())==1
+    np.testing.assert_allclose(pieces.mass.sum(),parent.mass,rtol=2e-14)
+    np.testing.assert_allclose(pieces.reference_area.sum(),parent.reference_area,rtol=2e-14)
+    # A resolved offset still creates both positive pieces.
+    resolved=split_fragment(parent,jnp.array([0.,1.]),.03-1e-10)
+    assert int(resolved.active.sum())==2
+
