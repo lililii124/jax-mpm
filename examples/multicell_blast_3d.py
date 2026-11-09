@@ -66,6 +66,13 @@ def build(args):
     volume = np.full(len(pos), float(np.prod(h))/8); support = rectilinear_support(pos, volume, h)
     target_mass=float(args.solid_density*(np.sum(volume[~core])+np.sum(volume[core])*args.volume_fraction))
     xy = np.stack(np.meshgrid((np.arange(gx)+.5)*h[0],(np.arange(gy)+.5)*h[1],indexing='ij'),-1).reshape(-1,2)
+    observation_mask = getattr(args, 'fixed_bottom_mask', None)
+    observation_indices = None
+    if observation_mask is not None:
+        observation_mask = np.asarray(observation_mask, dtype=bool)
+        if observation_mask.shape != (gy, gx) or not np.any(observation_mask):
+            raise ValueError('Fixed bottom observation mask must be nonempty and match the full-domain grid')
+        observation_indices = np.flatnonzero(observation_mask.T.reshape(-1))
     face_area=np.full(len(xy),h[0]*h[1])
     if pressure_placement == 'exposed':
         xy_layers=np.repeat(xy,nz,axis=0)
@@ -124,7 +131,10 @@ def build(args):
             p1=jnp.sin(jnp.pi*jnp.minimum(t1/args.pulse,1.))**2*(t1<args.pulse)
             nxt,_,_=step(st,ref,mat,dt,load*p0,load*p1,fixed)
             back=jnp.sum(nxt.displacement[jnp.asarray(bi),2]*jnp.asarray(bw),axis=-1)
-            if pressure_placement=='exposed': back=jnp.sum(back*back_visibility,axis=1)
+            if observation_indices is not None:
+                if pressure_placement == 'exposed': back = back[:, 0]
+                back = back[jnp.asarray(observation_indices)]
+            elif pressure_placement=='exposed': back=jnp.sum(back*back_visibility,axis=1)
             following=lax.stop_gradient(jnp.maximum(scale,jnp.max(jnp.abs(back))))
             power=power*(scale/following)**16+jnp.sum((back/following)**16)
             return (nxt,following,power),None
@@ -146,7 +156,10 @@ def build(args):
         fixed_face_sheets=args.skin_layers>0,
         blast_center_m=center.tolist(),blast_gaussian_sigma_m=radius,
         adjacent_cell_center_pressure_ratio=float(np.exp(-.5*(size[0]/radius)**2)),
-        objective='16-norm upper bound of absolute back-face displacement over space and time',
+        objective=('16-norm upper bound of fixed-bottom-point displacement over space and time'
+                   if observation_indices is not None else
+                   '16-norm upper bound of absolute back-face displacement over space and time'),
+        fixed_bottom_observation_points=None if observation_indices is None else len(observation_indices),
         fixed_mass_fraction=args.volume_fraction,filter_passes=getattr(args,'filter_passes',0),soft_density=True,cfl_number=cfl,
         pressure_placement=pressure_placement,density_floor=density_floor,
         nominal_total_mass_kg=target_mass,

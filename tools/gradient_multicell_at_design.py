@@ -15,6 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('inputs', type=Path)
     parser.add_argument('design', type=Path)
+    parser.add_argument('--fixed-bottom-geometry', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
     if args.output.exists():
@@ -48,6 +49,13 @@ def main():
     for key in ('pressure_placement', 'density_floor', 'fixed_edge_width'):
         if key in settings:
             model[key] = settings[key]
+    if args.fixed_bottom_geometry is not None:
+        with np.load(args.fixed_bottom_geometry, allow_pickle=False) as data:
+            reference = np.asarray(data['solid_mask'], dtype=bool)
+        nx, ny, nz = settings['cell']
+        if reference.shape != (nz + 2*settings['skin_layers'], 3*ny, 3*nx) or not np.any(reference[0]):
+            raise ValueError('Fixed bottom reference geometry differs from the full-domain grid')
+        model['fixed_bottom_mask'] = reference[0]
     objective, plan = build(argparse.Namespace(**model))
     import jax.numpy as jnp
     with np.load(args.design, allow_pickle=False) as data:
@@ -72,9 +80,12 @@ def main():
         raise FloatingPointError('Invalid objective or gradient')
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temp = args.output.with_name(args.output.stem + '.tmp.npz')
-    np.savez_compressed(temp, logits=q, rho_cell=rho, gradient=grad, objective=value,
-                        inputs_sha256=sha256(args.inputs), design_sha256=sha256(args.design),
-                        signature=signature, solid_mask_sha256=report['solid_mask_sha256'])
+    output = dict(logits=q, rho_cell=rho, gradient=grad, objective=value,
+                  inputs_sha256=sha256(args.inputs), design_sha256=sha256(args.design),
+                  signature=signature, solid_mask_sha256=report['solid_mask_sha256'])
+    if args.fixed_bottom_geometry is not None:
+        output['fixed_bottom_geometry_sha256'] = sha256(args.fixed_bottom_geometry)
+    np.savez_compressed(temp, **output)
     temp.replace(args.output)
     print(json.dumps({'stage': 'complete', 'objective': value, 'gradient_norm': norm,
                       'solid_mask_sha256': report['solid_mask_sha256'],

@@ -33,7 +33,7 @@ def run(*args):
     subprocess.run([sys.executable, '-m', *map(str, args)], check=True)
 
 
-def gradient_cache_path(cache, root, inputs_path, design_path):
+def gradient_cache_path(cache, root, inputs_path, design_path, fixed_bottom_geometry=None):
     inputs = json.loads(inputs_path.read_text(encoding='utf-8'))
     binding = inputs['binding']
     signature = hashlib.sha256(json.dumps(binding, sort_keys=True).encode()).hexdigest()
@@ -46,10 +46,12 @@ def gradient_cache_path(cache, root, inputs_path, design_path):
     if versions != (binding['jax'], binding['jaxlib'], binding['numpy']):
         raise ValueError('Gradient cache runtime versions differ')
     parts = [sha256(inputs_path), sha256(design_path), sha256(root/'tools/gradient_multicell_at_design.py')]
+    if fixed_bottom_geometry is not None:
+        parts.append(sha256(fixed_bottom_geometry))
     return cache/(hashlib.sha256(('\n'.join(parts)).encode()).hexdigest()+'.npz')
 
 
-def validate_cached_gradient(path, inputs_path, design_path):
+def validate_cached_gradient(path, inputs_path, design_path, fixed_bottom_geometry=None):
     with np.load(path, allow_pickle=False) as data, np.load(design_path, allow_pickle=False) as design:
         gradient = np.asarray(data['gradient'])
         objective = float(data['objective'])
@@ -60,18 +62,22 @@ def validate_cached_gradient(path, inputs_path, design_path):
                 gradient.shape != np.asarray(design['logits']).reshape(-1).shape or
                 not np.isfinite(gradient).all() or not np.isfinite(objective) or not np.linalg.norm(gradient) > 0):
             raise ValueError('Cached gradient is invalid or belongs to another design')
+        expected = sha256(fixed_bottom_geometry) if fixed_bottom_geometry is not None else None
+        actual = str(data['fixed_bottom_geometry_sha256'].item()) if 'fixed_bottom_geometry_sha256' in data else None
+        if actual != expected:
+            raise ValueError('Cached gradient uses different bottom observation points')
 
 
-def publish_cached_gradient(source, cache_path, inputs_path, design_path):
+def publish_cached_gradient(source, cache_path, inputs_path, design_path, fixed_bottom_geometry=None):
     cache_path.parent.mkdir(parents=True, exist_ok=True)
     temporary = cache_path.with_name(cache_path.name+'.'+uuid.uuid4().hex+'.tmp')
     try:
         shutil.copyfile(source, temporary)
-        validate_cached_gradient(temporary, inputs_path, design_path)
+        validate_cached_gradient(temporary, inputs_path, design_path, fixed_bottom_geometry)
         try:
             os.link(temporary, cache_path)
         except FileExistsError:
-            validate_cached_gradient(cache_path, inputs_path, design_path)
+            validate_cached_gradient(cache_path, inputs_path, design_path, fixed_bottom_geometry)
     finally:
         temporary.unlink(missing_ok=True)
 
@@ -275,6 +281,7 @@ def main():
         binding['early_reject'] = True
     if args.objective != 'underside-peak':
         binding['objective'] = args.objective
+        binding['gradient_observation'] = 'fixed-bottom-initial-geometry'
     if args.require_common_bottom_every_step:
         binding['require_common_bottom_every_step'] = True
     if args.explore_directions:
@@ -312,19 +319,27 @@ def main():
             if iteration == 1 and args.seed_gradient is not None:
                 shutil.copyfile(args.seed_gradient, gradient)
             else:
-                cache_path = (gradient_cache_path(args.gradient_cache, root, args.inputs, current_design)
+                fixed_geometry = args.baseline_geometry if args.objective == 'fixed-bottom-peak' else None
+                cache_path = (gradient_cache_path(args.gradient_cache, root, args.inputs, current_design, fixed_geometry)
                               if args.gradient_cache is not None else None)
                 if cache_path is not None and cache_path.exists():
-                    validate_cached_gradient(cache_path, args.inputs, current_design)
+                    validate_cached_gradient(cache_path, args.inputs, current_design, fixed_geometry)
                     shutil.copyfile(cache_path, gradient)
                 else:
                     write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'gradient'})
-                    run('tools.gradient_multicell_at_design', args.inputs, current_design, '--output', gradient)
+                    gradient_args = ['tools.gradient_multicell_at_design', args.inputs, current_design, '--output', gradient]
+                    if fixed_geometry is not None:
+                        gradient_args.extend(('--fixed-bottom-geometry', fixed_geometry))
+                    run(*gradient_args)
                     if cache_path is not None:
-                        publish_cached_gradient(gradient, cache_path, args.inputs, current_design)
+                        publish_cached_gradient(gradient, cache_path, args.inputs, current_design, fixed_geometry)
         with np.load(gradient, allow_pickle=False) as data:
             if str(data['design_sha256'].item()) != sha256(current_design) or str(data['inputs_sha256'].item()) != sha256(args.inputs):
                 raise ValueError('Stored gradient does not belong to the current design')
+            expected = sha256(args.baseline_geometry) if args.objective == 'fixed-bottom-peak' else None
+            actual = str(data['fixed_bottom_geometry_sha256'].item()) if 'fixed_bottom_geometry_sha256' in data else None
+            if actual != expected:
+                raise ValueError('Stored gradient uses different bottom observation points')
         proposals = stage / 'proposals'
         if args.resume:
             preserve_partial_directory(proposals, ('manifest.json',))
