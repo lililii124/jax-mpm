@@ -1,0 +1,152 @@
+{
+  "date": "2026-11-09",
+  "source_method_revision": "d93fa770576e53cdc35c19eb6c8884383b94c254",
+  "sources": {
+    "mpm_jax/crack_mpm.py": "a1f689a14ba5f3c88f7b8351eadd5af07f0af71685cd30a8d503d65cd51fc7b5",
+    "examples/explicit_crack_tension.py": "598f31e4f85c6b3982fc105370aed7e069c10858c90250c04e680937a264a9ca",
+    "tests/test_crack_mpm.py": "17d0274467241092201fe27166d35e624f5e0ec0b7a5ad24dd4fb6e58a7cc883",
+    "tools/render_explicit_crack_paraview.py": "8384cf2a5b6b35c2038e1863688ffb103771d5ce6d519064313b8ac2da45a50a"
+  },
+  "focused_tests_passed": 6,
+  "cases": {
+    "coarse": {
+      "model": "2D plane-strain elastic MPM; straight explicit crack; experimental tensile tip kinetics",
+      "source_method": "https://github.com/titoadibaskoro/mpm-fracture",
+      "particle_count": 8192,
+      "grid": 96,
+      "dx_m": 0.000625,
+      "dt_s": 5.62429696287964e-08,
+      "young_Pa": 3000000000.0,
+      "poisson": 0.2,
+      "density_kg_m3": 1200.0,
+      "tip_law": {
+        "strength": 12000000.0,
+        "radius": 0.0015,
+        "max_speed": 500.0,
+        "max_length": 0.041
+      },
+      "grip_speed_m_s": 2.0,
+      "frames": 41,
+      "steps": 3556,
+      "all_states_valid": true,
+      "extension_m": 0.027844263124890252,
+      "final_opening_m": 0.0007843269028407415,
+      "elapsed_s": 41.116285099997185,
+      "crack_exited": true,
+      "particle_spacing_m": [
+        0.00031250000000000006,
+        0.00031249999999999995
+      ],
+      "limitations": [
+        "Fixed straight crack centreline and small-strain constitutive law",
+        "Strength-driven demonstration, not calibrated fracture-energy validation",
+        "No particle deletion, preassigned opening, or visual displacement scaling"
+      ],
+      "max_sampled_local_strain": 0.04273693138335766,
+      "first_saved_exited_time_s": 9.999999999999828e-05,
+      "history_sha256": "a1187872c2686c3b3e2c4b40f1d36cf13af05921185eef3555da41e9171b42c7",
+      "history_file": "coarse.csv"
+    },
+    "fine": {
+      "model": "2D plane-strain elastic MPM; straight explicit crack; experimental tensile tip kinetics",
+      "source_method": "https://github.com/titoadibaskoro/mpm-fracture",
+      "particle_count": 14706,
+      "grid": 128,
+      "dx_m": 0.00046875,
+      "dt_s": 4.2185192997257965e-08,
+      "young_Pa": 3000000000.0,
+      "poisson": 0.2,
+      "density_kg_m3": 1200.0,
+      "tip_law": {
+        "strength": 12000000.0,
+        "radius": 0.0015,
+        "max_speed": 500.0,
+        "max_length": 0.041
+      },
+      "grip_speed_m_s": 2.0,
+      "frames": 41,
+      "steps": 4741,
+      "all_states_valid": true,
+      "extension_m": 0.027888052015015978,
+      "final_opening_m": 0.0007943570524913998,
+      "elapsed_s": 90.00767829996767,
+      "crack_exited": true,
+      "particle_spacing_m": [
+        0.00023391812865497077,
+        0.00023255813953488368
+      ],
+      "limitations": [
+        "Fixed straight crack centreline and small-strain constitutive law",
+        "Strength-driven demonstration, not calibrated fracture-energy validation",
+        "No particle deletion, preassigned opening, or visual displacement scaling"
+      ],
+      "max_sampled_local_strain": 0.04922609226905972,
+      "first_saved_exited_time_s": 9.997890740350437e-05,
+      "history_sha256": "b782dc4ace656879341e3645e33d94d1e2f27eee7ce651b249b59dc882ef1452",
+      "history_file": "fine.csv"
+    },
+    "held": {
+      "model": "2D plane-strain elastic MPM; straight explicit crack; experimental tensile tip kinetics",
+      "source_method": "https://github.com/titoadibaskoro/mpm-fracture",
+      "particle_count": 8192,
+      "grid": 96,
+      "dx_m": 0.000625,
+      "dt_s": 5.621925509487e-08,
+      "young_Pa": 3000000000.0,
+      "poisson": 0.2,
+      "density_kg_m3": 1200.0,
+      "tip_law": {
+        "strength": 1000000000000.0,
+        "radius": 0.0015,
+        "max_speed": 500.0,
+        "max_length": 0.041
+      },
+      "grip_speed_m_s": 2.0,
+      "frames": 17,
+      "steps": 1423,
+      "all_states_valid": true,
+      "extension_m": 0.0,
+      "final_opening_m": 0.00026734271555424525,
+      "elapsed_s": 19.01271599996835,
+      "crack_exited": false,
+      "particle_spacing_m": [
+        0.00031250000000000006,
+        0.00031249999999999995
+      ],
+      "limitations": [
+        "Fixed straight crack centreline and small-strain constitutive law",
+        "Strength-driven demonstration, not calibrated fracture-energy validation",
+        "No particle deletion, preassigned opening, or visual displacement scaling"
+      ],
+      "max_sampled_local_strain": 0.03769972454343029,
+      "first_saved_exited_time_s": null,
+      "history_sha256": "e95dbfd054c96090b846a8d1f84bca643d1e04dc56d20a88c186a515eabb41dd",
+      "history_file": "held.csv"
+    }
+  },
+  "relative_final_opening_difference": 0.01262675218807452,
+  "quantitative_fracture_validation": false,
+  "remaining": [
+    "fracture energy and dissipation balance",
+    "moving and turning crack paths",
+    "mixed-mode and convergence checks"
+  ],
+  "render": {
+    "renderer": "ParaView",
+    "frames": 41,
+    "distinct_frames": 41,
+    "size": [
+      400,
+      400
+    ],
+    "deformation_scale": 1.0,
+    "stress_range_Pa": [
+      0.0,
+      60000000.0
+    ],
+    "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+    "artificial_crack_lines": false,
+    "source_sha256": "0657584fb098a9d8a846f4d5104da0e46b5e288578e31a964e69e9d4ca3541ca",
+    "gif_sha256": "5e2b0bd78a5edcbc96775846afabceded2e50c6f7cd2409bfb602268d87dbf56"
+  }
+}
