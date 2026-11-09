@@ -77,15 +77,22 @@ def publish_cached_gradient(source, cache_path, inputs_path, design_path):
 
 
 def acceptance_receipt(root, inputs, binary_inputs, baseline_design, baseline_geometry, baseline_replay,
-                       reference_geometry, reference_replay, proposals, proposed, replays, selection):
+                       reference_geometry, reference_replay, proposals, proposed, replays, selection,
+                       common_surface=False):
     sources = ('tools/optimize_multicell_binary_loop.py', 'tools/select_multicell_binary_step.py',
                'tools/compare_multicell_binary_blast.py', 'tools/reconstruct_multicell_blast.py',
                'tools/multicell_feature_filter.py')
+    if common_surface:
+        sources += ('tools/multicell_common_surface.py', 'mpm_jax/compact_tl.py', 'mpm_jax/multifield_support.py')
     def replay_digest(path):
         outcome = path/'outcome.json'
         return {'inputs': sha256(path/'inputs.json'), 'history': sha256(path/'history.json'),
                 'outcome': sha256(outcome) if outcome.exists() else None}
-    return {'inputs': sha256(inputs), 'binary_inputs': sha256(binary_inputs),
+    def frame_digests(path):
+        rows = json.loads((path/'history.json').read_text(encoding='utf-8'))
+        return {'reference': sha256(path/'reference.npz'),
+                'frames': {str(row['step']): sha256(path/f"frame-{row['step']:07d}.npz") for row in rows}}
+    result = {'inputs': sha256(inputs), 'binary_inputs': sha256(binary_inputs),
             'baseline_design': sha256(baseline_design), 'baseline_geometry': sha256(baseline_geometry),
             'baseline_replay': replay_digest(baseline_replay),
             'reference_geometry': sha256(reference_geometry), 'reference_replay': replay_digest(reference_replay),
@@ -96,6 +103,10 @@ def acceptance_receipt(root, inputs, binary_inputs, baseline_design, baseline_ge
             'selection': sha256(selection/'selection.json'),
             'selected_design': sha256(selection/'selected-design.npz'),
             'sources': {name: sha256(root/name) for name in sources}}
+    if common_surface:
+        result['reference_frames'] = frame_digests(reference_replay)
+        result['candidate_frames'] = [frame_digests(path) for path in replays]
+    return result
 
 
 def preserve_partial_directory(path, required):
@@ -181,6 +192,8 @@ def main():
                         help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
     parser.add_argument('--max-bottom-peak-ratio', type=float)
     parser.add_argument('--max-p90-peak-ratio', type=float)
+    parser.add_argument('--max-common-bottom-peak-ratio', type=float)
+    parser.add_argument('--max-common-bottom-p90-ratio', type=float)
     parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--min-common-bottom-coverage', type=float,
                         help='Minimum fraction of projected columns with bottom material in both designs')
@@ -191,13 +204,17 @@ def main():
     if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
         raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
     import math
-    for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio):
+    for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
+                  args.max_common_bottom_peak_ratio, args.max_common_bottom_p90_ratio):
         if value is not None and (not math.isfinite(value) or value <= 0):
             raise ValueError('Secondary displacement ratios must be finite and positive')
     if args.min_bottom_coverage is not None and not 0 <= args.min_bottom_coverage <= 1:
         raise ValueError('Bottom coverage must lie in [0, 1]')
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
+    use_common = args.max_common_bottom_peak_ratio is not None or args.max_common_bottom_p90_ratio is not None
+    if use_common and (args.min_common_bottom_coverage is None or args.min_common_bottom_coverage <= 0):
+        raise ValueError('Common-bottom response limits require positive minimum common coverage')
     if (args.seed_gradient is None) != (args.seed_proposals is None):
         raise ValueError('Seed gradient and proposals must be supplied together')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
@@ -218,6 +235,9 @@ def main():
         raise ValueError('Baseline lacks the requested surface statistics')
     if args.min_bottom_coverage is not None and 'bottom_plane_sample_fraction' not in baseline_meta:
         raise ValueError('Baseline lacks bottom-plane coverage')
+    if use_common and (not (args.baseline_replay/'reference.npz').is_file() or
+                       any(not (args.baseline_replay/f"frame-{row['step']:07d}.npz").is_file() for row in baseline_rows)):
+        raise ValueError('Common-bottom response limits require every baseline frame and reference')
     if args.min_common_bottom_coverage is not None:
         with np.load(args.baseline_geometry, allow_pickle=False) as data:
             baseline_coverage = float(np.mean(data['solid_mask'][0]))
@@ -244,10 +264,13 @@ def main():
         binding['max_single_voxel_fraction'] = args.max_single_voxel_fraction
     for key, value in (('max_bottom_peak_ratio', args.max_bottom_peak_ratio),
                        ('max_p90_peak_ratio', args.max_p90_peak_ratio),
+                       ('max_common_bottom_peak_ratio', args.max_common_bottom_peak_ratio),
+                       ('max_common_bottom_p90_ratio', args.max_common_bottom_p90_ratio),
                        ('min_bottom_coverage', args.min_bottom_coverage),
                        ('min_common_bottom_coverage', args.min_common_bottom_coverage)):
         if value is not None: binding[key] = value
     use_constraints = any(value is not None for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
+                                                           args.max_common_bottom_peak_ratio, args.max_common_bottom_p90_ratio,
                                                            args.min_bottom_coverage, args.min_common_bottom_coverage))
     if use_constraints: binding['constraint_reference'] = 'initial-replay'
     if args.min_bottom_coverage is not None or args.min_common_bottom_coverage is not None:
@@ -378,6 +401,8 @@ def main():
                               '--output', selection_dir]
             for option, value in (('--max-bottom-peak-ratio', args.max_bottom_peak_ratio),
                                   ('--max-p90-peak-ratio', args.max_p90_peak_ratio),
+                                  ('--max-common-bottom-peak-ratio', args.max_common_bottom_peak_ratio),
+                                  ('--max-common-bottom-p90-ratio', args.max_common_bottom_p90_ratio),
                                   ('--min-bottom-coverage', args.min_bottom_coverage),
                                   ('--min-common-bottom-coverage', args.min_common_bottom_coverage)):
                 if value is not None: selection_args.extend((option, value))
@@ -387,13 +412,13 @@ def main():
             run(*selection_args)
             receipt = acceptance_receipt(root, args.inputs, args.binary_inputs, current_design, current_geometry,
                                          current_replay, args.baseline_geometry, args.baseline_replay,
-                                         proposals, proposed, replays, selection_dir)
+                                         proposals, proposed, replays, selection_dir, use_common)
             write_json(selection_dir/'acceptance-receipt.json', receipt)
         else:
             recorded = json.loads((selection_dir/'acceptance-receipt.json').read_text())
             actual = acceptance_receipt(root, args.inputs, args.binary_inputs, current_design, current_geometry,
                                         current_replay, args.baseline_geometry, args.baseline_replay,
-                                        proposals, proposed, replays, selection_dir)
+                                        proposals, proposed, replays, selection_dir, use_common)
             if recorded != actual:
                 raise ValueError('Stored acceptance evidence or validation code differs')
         selection = json.loads((selection_dir / 'selection.json').read_text())

@@ -71,6 +71,8 @@ def main():
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
     parser.add_argument('--max-bottom-peak-ratio', type=float)
     parser.add_argument('--max-p90-peak-ratio', type=float)
+    parser.add_argument('--max-common-bottom-peak-ratio', type=float)
+    parser.add_argument('--max-common-bottom-p90-ratio', type=float)
     parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--min-common-bottom-coverage', type=float,
                         help='Minimum fraction of projected columns with bottom material in both designs')
@@ -82,13 +84,17 @@ def main():
         raise FileExistsError(args.output)
     if not 0 <= args.minimum_reduction < 1:
         raise ValueError('Minimum reduction must lie in [0, 1)')
-    for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio):
+    for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
+                  args.max_common_bottom_peak_ratio, args.max_common_bottom_p90_ratio):
         if value is not None and (not np.isfinite(value) or value <= 0):
             raise ValueError('Secondary displacement ratios must be finite and positive')
     if args.min_bottom_coverage is not None and not 0 <= args.min_bottom_coverage <= 1:
         raise ValueError('Bottom coverage must lie in [0, 1]')
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
+    use_common = args.max_common_bottom_peak_ratio is not None or args.max_common_bottom_p90_ratio is not None
+    if use_common and (args.min_common_bottom_coverage is None or args.min_common_bottom_coverage <= 0):
+        raise ValueError('Common-bottom response limits require positive minimum common coverage')
     if (args.constraint_reference_replay is None) != (args.constraint_reference_geometry is None):
         raise ValueError('Supply both constraint reference replay and geometry')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
@@ -183,10 +189,25 @@ def main():
         secondary = None
         if not early_rejected and any(value is not None for value in
                                       (args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage,
-                                       args.min_common_bottom_coverage)):
+                                       args.min_common_bottom_coverage, args.max_common_bottom_peak_ratio,
+                                       args.max_common_bottom_p90_ratio)):
             secondary = evaluate_secondary_constraints(constraint_meta, constraint_rows, meta, history,
                 args.max_bottom_peak_ratio, args.max_p90_peak_ratio, args.min_bottom_coverage,
                 common_bottom_coverage, args.min_common_bottom_coverage)
+            if use_common and secondary['passed']:
+                from tools.multicell_common_surface import compare_common_bottom
+                reference_replay = args.constraint_reference_replay or args.baseline_replay
+                reference_geometry = args.constraint_reference_geometry or args.baseline_geometry
+                common_result = compare_common_bottom(reference_replay, reference_geometry, replay, geometry)
+                if not np.isclose(common_result['common_bottom_coverage'], common_bottom_coverage, rtol=0, atol=1e-12):
+                    raise ValueError('Common-bottom coverage differs from geometry')
+                common_result['peak_limit'] = args.max_common_bottom_peak_ratio
+                common_result['p90_limit'] = args.max_common_bottom_p90_ratio
+                secondary['common_bottom_response'] = common_result
+                if args.max_common_bottom_peak_ratio is not None:
+                    secondary['passed'] &= common_result['peak_ratio'] <= args.max_common_bottom_peak_ratio
+                if args.max_common_bottom_p90_ratio is not None:
+                    secondary['passed'] &= common_result['p90_peak_ratio'] <= args.max_common_bottom_p90_ratio
         comparisons.append({'step': row['step'], 'design': str(design),
                             'solid_mask_sha256': row['solid_mask_sha256'], 'early_rejected': early_rejected,
                             'secondary_constraints': secondary,

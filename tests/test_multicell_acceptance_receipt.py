@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from tools.optimize_multicell_binary_loop import acceptance_receipt
@@ -31,3 +32,15 @@ def test_receipt_changes_when_replay_or_validator_changes(tmp_path):
     (candidate/'history.json').write_text('candidatehistory.json')
     (root/'tools/select_multicell_binary_step.py').write_text('new validator')
     assert receipt() != initial
+    for name in ('tools/multicell_common_surface.py', 'mpm_jax/compact_tl.py', 'mpm_jax/multifield_support.py'):
+        path = root/name; path.parent.mkdir(parents=True, exist_ok=True); path.write_text(name)
+    for folder in (baseline, candidate):
+        (folder/'history.json').write_text(json.dumps([{'step': 0}]))
+        (folder/'reference.npz').write_bytes(b'reference')
+        (folder/'frame-0000000.npz').write_bytes(b'frame')
+    def common_receipt():
+        return acceptance_receipt(root, inputs, binary, design, geometry, baseline, geometry, baseline,
+                                  proposals, proposed, [candidate], selection, common_surface=True)
+    original = common_receipt()
+    (candidate/'frame-0000000.npz').write_bytes(b'modified')
+    assert common_receipt() != original
