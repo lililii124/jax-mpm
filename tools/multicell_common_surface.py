@@ -9,7 +9,8 @@ from tools.compare_multicell_binary_blast import compare, read_run
 from tools.reconstruct_multicell_blast import mask_digest
 
 
-def compare_common_bottom(reference, reference_geometry, candidate, candidate_geometry, require_every_step=False):
+def compare_common_bottom(reference, reference_geometry, candidate, candidate_geometry, require_every_step=False,
+                          include_series=False):
     reference, reference_geometry = Path(reference), Path(reference_geometry)
     candidate, candidate_geometry = Path(candidate), Path(candidate_geometry)
     comparison = compare(reference, candidate)
@@ -40,6 +41,7 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
     from mpm_jax.compact_tl import surface_weights
     from mpm_jax.multifield_support import surface_fields
     peaks = []
+    series = []
     for folder, meta, rows, solid in ((reference, meta_a, rows_a, masks[0]),
                                       (candidate, meta_b, rows_b, masks[1])):
         with np.load(folder/'reference.npz', allow_pickle=False) as data:
@@ -66,6 +68,7 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
             try: point_ids = np.asarray([lookup[(int(x), int(y))] for y, x in yx], dtype=np.int64)
             except KeyError as error: raise ValueError('Common bottom sample is absent') from error
         maximum, p90, point_peak = 0., 0., 0.
+        curve = []
         for row in rows:
             path = folder/f"frame-{row['step']:07d}.npz"
             with np.load(path, allow_pickle=False) as data:
@@ -79,13 +82,18 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
                         raise ValueError('Bottom point peaks disagree with the recorded interval maximum')
                     if np.any(interval[point_ids]+1e-15 < values):
                         raise ValueError('Bottom point interval peak is below its saved frame')
-                    point_peak = max(point_peak, float(interval[point_ids].max()))
+                    interval_maximum = float(interval[point_ids].max())
+                    point_peak = max(point_peak, interval_maximum)
             if not np.isfinite(values).all(): raise ValueError('Non-finite common-bottom displacement')
             maximum = max(maximum, float(values.max()))
             p90 = max(p90, float(np.percentile(values, 90)))
+            if include_series:
+                curve.append({'time_s': row['time_s'], 'saved_peak_m': float(values.max()),
+                              'interval_peak_m': interval_maximum if every_step else None})
         peaks.append((point_peak if every_step else maximum, p90, maximum))
+        if include_series: series.append(curve)
     if peaks[0][0] <= 0: raise ValueError('Reference common-bottom peak is zero')
-    return {'sampling': 'every-step' if every_step else 'saved-frames', 'p90_sampling': 'saved-frames',
+    result = {'sampling': 'every-step' if every_step else 'saved-frames', 'p90_sampling': 'saved-frames',
             'common_columns': len(yx),
             'common_bottom_coverage': float(np.mean(common)),
             'reference_peak_m': peaks[0][0], 'candidate_peak_m': peaks[1][0],
@@ -94,3 +102,5 @@ def compare_common_bottom(reference, reference_geometry, candidate, candidate_ge
             'p90_peak_ratio': peaks[1][1]/peaks[0][1] if peaks[0][1] > 0 else None,
             'reference_saved_peak_m': peaks[0][2], 'candidate_saved_peak_m': peaks[1][2],
             'physical_horizon_s': comparison['horizon_s']}
+    if include_series: result['series'] = {'reference': series[0], 'candidate': series[1]}
+    return result
