@@ -1,5 +1,8 @@
 # Cohesive cracks under different loads
 
+Additional [offset and inclined-notch comparisons](COHESIVE_GEOMETRIES.md)
+are retained separately as stopped development runs with accepted-prefix GIFs.
+
 <table width="100%">
 <tr>
 <td width="33%" align="center"><img src="images/home/fracture--notched-tension.gif" alt="Edge-notched plate under tension" width="100%"><br>Notched tension</td>

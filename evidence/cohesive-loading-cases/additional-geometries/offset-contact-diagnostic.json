@@ -1,0 +1,58 @@
+{
+  "time_s": 7.25e-05,
+  "face_mass_fraction": 1e-08,
+  "support_valid": true,
+  "plus_valid": true,
+  "minus_valid": true,
+  "minimum_occupied_mass": 3.9235342858856466e-17,
+  "minimum_face_mass": 8.940041732266676e-10,
+  "maximum_face_inverse_mass": 19138427.493917935,
+  "rows": [
+    {
+      "dt_s": 2.1093338020741783e-08,
+      "dt_divisor": 1,
+      "valid": false,
+      "iterations": 32,
+      "residual": 7.117858748417866,
+      "bulk_work_error": -8.242295734817162e-13,
+      "surface_work_error": 5.610618076244824e-13,
+      "minimum_J": 0.9217845028917407,
+      "maximum_particle_speed": 14.820123616517977,
+      "transfer_loss_J_per_m": 0.12011906189358124,
+      "transfer_audit": {
+        "particle_to_grid_loss": 0.000759323547767643,
+        "grid_to_particle_loss": 0.11935973834581359,
+        "surface_impulse_grid_norm": 4076585735304795.0,
+        "surface_impulse_particle_norm": 216109114451474.12,
+        "bulk_impulse_grid_norm": 480285166634012.25,
+        "bulk_impulse_particle_norm": 256947773335465.5
+      }
+    },
+    {
+      "dt_s": 3.2958340657409036e-10,
+      "dt_divisor": 64,
+      "valid": true,
+      "iterations": 4,
+      "residual": 5.728809458299615e-10,
+      "bulk_work_error": -6.821210263296962e-13,
+      "surface_work_error": -4.107537966408716e-13,
+      "minimum_J": 0.9219194198713822,
+      "maximum_particle_speed": 13.496488725022196,
+      "transfer_loss_J_per_m": 0.0015008917757084461,
+      "transfer_audit": {
+        "particle_to_grid_loss": 0.000759323547767643,
+        "grid_to_particle_loss": 0.0007415682279408031,
+        "surface_impulse_grid_norm": 907687761792294.0,
+        "surface_impulse_particle_norm": 216428957087298.12,
+        "bulk_impulse_grid_norm": 479646686941040.6,
+        "bulk_impulse_particle_norm": 256740873265487.3
+      }
+    }
+  ],
+  "snapshot_sha256": "f14fa0ab8a276d3164be90c01f2a69ebe065634e9f165bf5d124edf772e8d1e2",
+  "source_report_sha256": "468aa9d923711c703a0bce498e2b982d69c06633670350cccd08c6bea52c2c0c",
+  "diagnostic_source_sha256": {
+    "tools/diagnose_cohesive_state.py": "39e17980bac54da3c53ad120452116529ad49ebd920c328a9212bdeda6bbf6b3",
+    "tools/recover_extrinsic_dcb.py": "83a53800ca7f69009a0b18a0df944ebfe9be0a06f758a2a8532386a21861a62a"
+  }
+}

@@ -9,10 +9,18 @@ from pathlib import Path
 import numpy as np
 
 
-def check(directory):
-    info = json.loads((directory/'summary.json').read_text())
+def check(directory,allow_partial=False):
+    completed = (directory/'summary.json').exists()
+    if not completed and not allow_partial:
+        raise ValueError('Incomplete trajectory; use --allow-partial for accepted-prefix checks')
+    info = json.loads((directory/('summary.json' if completed else 'input.json')).read_text())
     rows = list(csv.DictReader((directory/'history.csv').open()))
+    if not completed:
+        info.update(all_states_valid=all(row['valid']=='True' for row in rows),frames=len(rows))
     assert info['all_states_valid'] and len(rows)==info['frames'] and all(r['valid']=='True' for r in rows)
+    assert len(list(directory.glob('frame-*.npz')))==len(rows)
+    if completed:
+        np.testing.assert_allclose(float(rows[-1]['time_s']),info['duration_s'],atol=1e-15,rtol=1e-12)
     columns = {k:np.asarray([float(r[k]) for r in rows]) for k in rows[0] if k!='valid'}
     assert all(np.isfinite(v).all() for v in columns.values())
     E,nu,rho = info['young_Pa'],info['poisson'],info['density_kg_m3']
@@ -27,6 +35,7 @@ def check(directory):
         with np.load(directory/f'frame-{i:03d}.npz',allow_pickle=False) as data:
             a = {k:data[k] for k in data.files}
         assert all(np.isfinite(v).all() for v in a.values())
+        np.testing.assert_allclose(float(a['time']),float(row['time_s']),atol=1e-15,rtol=1e-12)
         if 'ledger' in a:
             assert a['ledger'].shape==(9,)
             np.testing.assert_allclose(a['ledger'][[2,3,8]],
@@ -93,6 +102,8 @@ def check(directory):
     assert columns['transfer_loss_J_per_m'].min()>-1e-9
     assert columns['boundary_projection_loss_J_per_m'].min()>-1e-9
     result = dict(grid=info['grid'],fracture_energy_J_m2=Gc,frames=len(rows),
+                  completed_schedule=completed,checked_end_time_s=float(rows[-1]['time_s']),
+                  requested_end_time_s=info['duration_s'],
                   nominal_dt_s=info['dt_s'],face_mass_fraction=info.get('face_mass_fraction',0.),
                   accepted_steps=int(columns['step'][-1]),
                   peak_sampled_penalty_pressure_Pa=peak_contact_pressure,
@@ -116,10 +127,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('runs',type=Path,nargs='+')
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--allow-partial',action='store_true')
     args = parser.parse_args()
     result,history = {},{}
     for directory in args.runs:
-        result[directory.name],history[directory.name] = check(directory)
+        result[directory.name],history[directory.name] = check(directory,args.allow_partial)
     args.output.mkdir(parents=True,exist_ok=True)
     (args.output/'validation.json').write_text(json.dumps(result,indent=2)+'\n')
     import matplotlib

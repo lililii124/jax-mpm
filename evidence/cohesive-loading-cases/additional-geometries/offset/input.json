@@ -1,0 +1,103 @@
+{
+  "case": "offset",
+  "grid": 128,
+  "dx_m": 0.00046875,
+  "dt_s": 2.1093338020741783e-08,
+  "duration_s": 0.00012,
+  "young_Pa": 3000000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "law": {
+    "strength": 12000000.0,
+    "energy": 200.0,
+    "stiffness": 10000000000000.0
+  },
+  "insertion_spacing_m": 0.0005,
+  "averaging_radius_m": 0.0015,
+  "max_extension_m": 0.025,
+  "max_turn_deg": 45.0,
+  "capacity": 96,
+  "particle_count": 14706,
+  "consistent_gradients": true,
+  "couple_tip_nodes": true,
+  "adaptive": true,
+  "face_mass_fraction": 1e-08,
+  "requested_cfl": 0.075,
+  "lower_m": [
+    0.01,
+    0.02
+  ],
+  "upper_m": [
+    0.05,
+    0.04
+  ],
+  "initial_vertices_m": [
+    [
+      0.01,
+      0.026
+    ],
+    [
+      0.022,
+      0.026
+    ]
+  ],
+  "boundary_conditions": [
+    {
+      "type": "MovingVelocityBox",
+      "lower": [
+        0.008,
+        0.018
+      ],
+      "upper": [
+        0.052,
+        0.022
+      ],
+      "velocity": [
+        -0.0,
+        -2.5
+      ],
+      "components": null,
+      "start": 0.0,
+      "end": Infinity,
+      "ramp_time": 2e-05
+    },
+    {
+      "type": "MovingVelocityBox",
+      "lower": [
+        0.008,
+        0.038
+      ],
+      "upper": [
+        0.052,
+        0.042
+      ],
+      "velocity": [
+        0.0,
+        2.5
+      ],
+      "components": null,
+      "start": 0.0,
+      "end": Infinity,
+      "ramp_time": 2e-05
+    }
+  ],
+  "render_center": [
+    0.03,
+    0.03
+  ],
+  "render_half_height": 0.023,
+  "particle_spacing_m": [
+    0.00023391812865497077,
+    0.00023255813953488368
+  ],
+  "source_sha256": {
+    "examples/extrinsic_crack_cases.py": "6890d71eb7970301a0a382c7db52d6c6a3ac88c50e34c8b8399fb461c56700a0",
+    "mpm_jax/adaptive_crack.py": "7d2ac9bb4163a530f64affc76d4ec4e90fee52182d2c0681025ee1babc161d83",
+    "mpm_jax/extrinsic_crack.py": "85024a8ecec158840f1fcdfba9e1cbe402c08738eb7017517780f5480b9099f7",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/polyline_crack.py": "d6ef3ff9dfbe8dac8f9ee9fd7e49653733efed4f23c00566e1578d3f7f3b8556",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5"
+  }
+}

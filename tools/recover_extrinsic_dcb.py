@@ -26,7 +26,7 @@ def load_saved(run,frame):
         raise ValueError('This contact prototype failed patch balance; use its recorded source revision for historical replay')
     rows=list(csv.DictReader((run/'history.csv').open()))
     row=rows[frame]
-    if info['case'] not in ('Localized double-cantilever cohesive insertion','bending','tension','mixed') or row['valid']!='True':
+    if info['case'] not in ('Localized double-cantilever cohesive insertion','bending','tension','mixed','offset','inclined') or row['valid']!='True':
         raise ValueError('Require a valid saved cohesive state')
     boundaries=[]
     for entry in info['boundary_conditions']:
