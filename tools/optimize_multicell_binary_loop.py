@@ -144,6 +144,7 @@ def preserve_incomplete_replay(replay, geometry_sha256, baseline_meta):
         if (meta['geometry_sha256'] != geometry_sha256 or
                 meta.get('support_mode', 'single') != baseline_meta.get('support_mode', 'single') or
                 meta.get('peak_sampling', 'saved-frames') != baseline_meta.get('peak_sampling', 'saved-frames') or
+                meta.get('bottom_point_peak_sampling', 'not-recorded') != baseline_meta.get('bottom_point_peak_sampling', 'not-recorded') or
                 any(meta[key] != baseline_meta[key] for key in ('settings', 'source_sha256', 'frame_interval'))):
             raise ValueError('Interrupted replay does not match the current calculation')
         if history_path.exists():
@@ -194,6 +195,8 @@ def main():
     parser.add_argument('--max-p90-peak-ratio', type=float)
     parser.add_argument('--max-common-bottom-peak-ratio', type=float)
     parser.add_argument('--max-common-bottom-p90-ratio', type=float)
+    parser.add_argument('--require-common-bottom-every-step', action='store_true',
+                        help='Require every-step common-bottom maximum; p90 remains saved-frame sampled')
     parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--min-common-bottom-coverage', type=float,
                         help='Minimum fraction of projected columns with bottom material in both designs')
@@ -213,6 +216,8 @@ def main():
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
     use_common = args.max_common_bottom_peak_ratio is not None or args.max_common_bottom_p90_ratio is not None
+    if args.require_common_bottom_every_step and args.max_common_bottom_peak_ratio is None:
+        raise ValueError('Every-step common-bottom sampling requires a common-bottom peak limit')
     if use_common and (args.min_common_bottom_coverage is None or args.min_common_bottom_coverage <= 0):
         raise ValueError('Common-bottom response limits require positive minimum common coverage')
     if (args.seed_gradient is None) != (args.seed_proposals is None):
@@ -238,6 +243,8 @@ def main():
     if use_common and (not (args.baseline_replay/'reference.npz').is_file() or
                        any(not (args.baseline_replay/f"frame-{row['step']:07d}.npz").is_file() for row in baseline_rows)):
         raise ValueError('Common-bottom response limits require every baseline frame and reference')
+    if args.require_common_bottom_every_step and baseline_meta.get('bottom_point_peak_sampling') != 'every-step':
+        raise ValueError('Baseline lacks every-step bottom point peaks')
     if args.min_common_bottom_coverage is not None:
         with np.load(args.baseline_geometry, allow_pickle=False) as data:
             baseline_coverage = float(np.mean(data['solid_mask'][0]))
@@ -258,6 +265,8 @@ def main():
                        seed_manifest_sha256=sha256(args.seed_proposals / 'manifest.json'))
     if args.early_reject:
         binding['early_reject'] = True
+    if args.require_common_bottom_every_step:
+        binding['require_common_bottom_every_step'] = True
     if args.explore_directions:
         binding.update(explore_directions=args.explore_directions, explore_seed=args.explore_seed)
     if args.max_single_voxel_fraction is not None:
@@ -378,6 +387,8 @@ def main():
                     replay_args.append('--split-disconnected-support')
                 if baseline_meta.get('peak_sampling', 'saved-frames') == 'every-step':
                     replay_args.append('--track-subframe-peak')
+                if baseline_meta.get('bottom_point_peak_sampling', 'not-recorded') == 'every-step':
+                    replay_args.append('--track-bottom-point-peaks')
                 if args.early_reject:
                     replay_args.extend(('--reject-if-peak-ge', cutoff))
                 run(*replay_args)
@@ -388,6 +399,8 @@ def main():
                 raise ValueError('Stored replay uses a different material-to-grid support mode')
             if replay_meta.get('peak_sampling', 'saved-frames') != baseline_meta.get('peak_sampling', 'saved-frames'):
                 raise ValueError('Stored replay uses a different peak sampling mode')
+            if replay_meta.get('bottom_point_peak_sampling', 'not-recorded') != baseline_meta.get('bottom_point_peak_sampling', 'not-recorded'):
+                raise ValueError('Stored replay uses a different bottom point peak sampling mode')
             if replay_rows[-1]['step'] < replay_meta['steps'] and not (replay / 'outcome.json').exists():
                 raise ValueError('Incomplete replay has no rejection certificate')
             replays.append(replay)
@@ -409,6 +422,8 @@ def main():
             if use_constraints:
                 selection_args.extend(('--constraint-reference-replay', args.baseline_replay,
                                        '--constraint-reference-geometry', args.baseline_geometry))
+            if args.require_common_bottom_every_step:
+                selection_args.append('--require-common-bottom-every-step')
             run(*selection_args)
             receipt = acceptance_receipt(root, args.inputs, args.binary_inputs, current_design, current_geometry,
                                          current_replay, args.baseline_geometry, args.baseline_replay,

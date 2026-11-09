@@ -73,6 +73,8 @@ def main():
     parser.add_argument('--max-p90-peak-ratio', type=float)
     parser.add_argument('--max-common-bottom-peak-ratio', type=float)
     parser.add_argument('--max-common-bottom-p90-ratio', type=float)
+    parser.add_argument('--require-common-bottom-every-step', action='store_true',
+                        help='Require every-step common-bottom maximum; p90 remains saved-frame sampled')
     parser.add_argument('--min-bottom-coverage', type=float)
     parser.add_argument('--min-common-bottom-coverage', type=float,
                         help='Minimum fraction of projected columns with bottom material in both designs')
@@ -93,6 +95,8 @@ def main():
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
     use_common = args.max_common_bottom_peak_ratio is not None or args.max_common_bottom_p90_ratio is not None
+    if args.require_common_bottom_every_step and args.max_common_bottom_peak_ratio is None:
+        raise ValueError('Every-step common-bottom sampling requires a common-bottom peak limit')
     if use_common and (args.min_common_bottom_coverage is None or args.min_common_bottom_coverage <= 0):
         raise ValueError('Common-bottom response limits require positive minimum common coverage')
     if (args.constraint_reference_replay is None) != (args.constraint_reference_geometry is None):
@@ -198,7 +202,8 @@ def main():
                 from tools.multicell_common_surface import compare_common_bottom
                 reference_replay = args.constraint_reference_replay or args.baseline_replay
                 reference_geometry = args.constraint_reference_geometry or args.baseline_geometry
-                common_result = compare_common_bottom(reference_replay, reference_geometry, replay, geometry)
+                common_result = compare_common_bottom(reference_replay, reference_geometry, replay, geometry,
+                                                       require_every_step=args.require_common_bottom_every_step)
                 if not np.isclose(common_result['common_bottom_coverage'], common_bottom_coverage, rtol=0, atol=1e-12):
                     raise ValueError('Common-bottom coverage differs from geometry')
                 common_result['peak_limit'] = args.max_common_bottom_peak_ratio
@@ -207,6 +212,8 @@ def main():
                 if args.max_common_bottom_peak_ratio is not None:
                     secondary['passed'] &= common_result['peak_ratio'] <= args.max_common_bottom_peak_ratio
                 if args.max_common_bottom_p90_ratio is not None:
+                    if common_result['p90_peak_ratio'] is None:
+                        raise ValueError('Reference common-bottom p90 response is zero')
                     secondary['passed'] &= common_result['p90_peak_ratio'] <= args.max_common_bottom_p90_ratio
         comparisons.append({'step': row['step'], 'design': str(design),
                             'solid_mask_sha256': row['solid_mask_sha256'], 'early_rejected': early_rejected,

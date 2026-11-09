@@ -55,6 +55,9 @@ def read_run(path, energy_tolerance, allow_incomplete=False):
     peak_sampling = meta.get('peak_sampling', 'saved-frames')
     if peak_sampling not in ('saved-frames', 'every-step'):
         raise ValueError(f'{path}: unsupported peak sampling mode')
+    point_sampling = meta.get('bottom_point_peak_sampling', 'not-recorded')
+    if point_sampling not in ('not-recorded', 'every-step') or (point_sampling == 'every-step' and peak_sampling != 'every-step'):
+        raise ValueError(f'{path}: unsupported bottom point peak sampling mode')
     if peak_sampling == 'every-step':
         fields += ('back_displacement_interval_peak_m',)
         if any(row['back_displacement_interval_peak_m'] + 1e-15 < row['back_displacement_max_m'] for row in rows):
@@ -94,6 +97,8 @@ def compare(baseline, candidate, energy_tolerance=.02, allow_incomplete_candidat
         raise ValueError('Material-to-grid support mode differs')
     if a.get('peak_sampling', 'saved-frames') != b.get('peak_sampling', 'saved-frames'):
         raise ValueError('Peak sampling mode differs')
+    if a.get('bottom_point_peak_sampling', 'not-recorded') != b.get('bottom_point_peak_sampling', 'not-recorded'):
+        raise ValueError('Bottom point peak sampling mode differs')
     if a.get('back_sampling', 'column-underside') != b.get('back_sampling', 'column-underside'):
         raise ValueError('Back-surface sampling mode differs')
     if not np.isclose(a['binary_mass_kg'], b['binary_mass_kg'], rtol=1e-12, atol=1e-12):

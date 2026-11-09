@@ -33,9 +33,12 @@ def main():
     p.add_argument('--empty-column-load', choices=('omit','redistribute'), default='omit')
     p.add_argument('--split-disconnected-support', action='store_true')
     p.add_argument('--track-subframe-peak', action='store_true')
+    p.add_argument('--track-bottom-point-peaks', action='store_true')
     p.add_argument('--reject-if-peak-ge', type=float)
     p.add_argument('--allow-disconnected-diagnostic', action='store_true')
     args = p.parse_args()
+    if args.track_bottom_point_peaks and not args.track_subframe_peak:
+        p.error('--track-bottom-point-peaks requires --track-subframe-peak')
     if args.output.exists() and any(args.output.iterdir()):
         raise FileExistsError('Output directory must be empty')
     inputs = json.loads(args.inputs.read_text(encoding='utf-8'))
@@ -126,8 +129,11 @@ def main():
                 current, peak = carry
                 following = advance_one(current)
                 back = jnp.sum(following.displacement[jnp.asarray(bi), 2]*jnp.asarray(bw), axis=1)
-                return (following, jnp.maximum(peak, jnp.max(jnp.abs(back)))), None
-            (following, peak), _ = jax.lax.scan(tracked, (st, jnp.asarray(0., dtype=load.dtype)), None, length=length)
+                value = jnp.abs(back) if args.track_bottom_point_peaks else jnp.max(jnp.abs(back))
+                return (following, jnp.maximum(peak, value)), None
+            initial_peak = (jnp.zeros(len(xy), dtype=load.dtype) if args.track_bottom_point_peaks
+                            else jnp.asarray(0., dtype=load.dtype))
+            (following, peak), _ = jax.lax.scan(tracked, (st, initial_peak), None, length=length)
             return following, peak
         def body(current, _):
             return advance_one(current), None
@@ -158,6 +164,7 @@ def main():
                 empty_column_load=args.empty_column_load,
                 support_mode='split-disconnected' if split is not None else 'single',
                 peak_sampling='every-step' if args.track_subframe_peak else 'saved-frames',
+                bottom_point_peak_sampling='every-step' if args.track_bottom_point_peaks else 'not-recorded',
                 rejection_peak_m=args.reject_if_peak_ge,
                 back_sampling='column-underside',
                 bottom_plane_sample_fraction=float(np.mean(bottom_voxel[occupied] == 0)),
@@ -169,13 +176,15 @@ def main():
     (args.output/'inputs.json').write_text(json.dumps(meta, indent=2, allow_nan=False)+'\n', encoding='utf-8')
     reference_data = dict(nodes=xyz, spacing=h, shape=np.asarray(grid_support.shape),
                           support_mode=np.asarray('split-disconnected' if split is not None else 'single'))
+    if args.track_bottom_point_peaks:
+        reference_data['bottom_sample_columns'] = np.column_stack((owner_x, owner_y))
     if split is not None:
         reference_data.update(grid_nodes=grid_support.nodes, voxel_coordinates=split.voxel_coordinates,
                               pair_keys=split.pair_keys, pair_fields=split.pair_fields)
     np.savez_compressed(args.output/'reference.npz', **reference_data)
     rows = []
     completed = 0
-    interval_peak = 0.
+    interval_peak = np.zeros(len(xy)) if args.track_bottom_point_peaks else 0.
     on_bottom_plane = bottom_voxel[occupied] == 0
     while True:
         displacement, stress, back, kinetic, energy, min_j, pe, ae = observe(state)
@@ -188,16 +197,18 @@ def main():
                    energy_residual_J=float(kinetic+energy-state.body_work-state.boundary_work),
                    min_J=float(min_j), momentum_residual=float(pe), angular_momentum_residual=float(ae))
         if args.track_subframe_peak:
-            row['back_displacement_interval_peak_m'] = max(back_peak, float(interval_peak))
+            row['back_displacement_interval_peak_m'] = max(back_peak, float(np.max(interval_peak)))
         if np.any(on_bottom_plane):
             row['bottom_plane_displacement_max_m'] = float(back[on_bottom_plane].max())
         if np.any(~on_bottom_plane):
             row['internal_underside_displacement_max_m'] = float(back[~on_bottom_plane].max())
         if not row['valid'] or not all(np.isfinite(v) for v in row.values()):
             raise FloatingPointError(f'Invalid state at step {completed}')
-        np.savez_compressed(args.output/f'frame-{completed:07d}.npz', position=pos+np.asarray(displacement),
-                            displacement=np.asarray(displacement), von_mises=np.asarray(stress),
-                            nodal_displacement=np.asarray(state.displacement))
+        frame = dict(position=pos+np.asarray(displacement), displacement=np.asarray(displacement),
+                     von_mises=np.asarray(stress), nodal_displacement=np.asarray(state.displacement))
+        if args.track_bottom_point_peaks:
+            frame['bottom_interval_peak_m'] = np.maximum(back, np.asarray(interval_peak))
+        np.savez_compressed(args.output/f'frame-{completed:07d}.npz', **frame)
         rows.append(row)
         history_temp = args.output/'history.json.tmp'
         history_temp.write_text(json.dumps(rows, indent=2, allow_nan=False)+'\n', encoding='utf-8')
