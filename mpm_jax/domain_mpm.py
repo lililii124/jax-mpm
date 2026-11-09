@@ -13,7 +13,7 @@ import jax.numpy as jnp
 from .core import grid_boundaries
 from .cohesive_crack import midpoint_bulk
 from .domain_transfer import batch_stencils,particle_to_grid,grid_to_fragment,velocity_gradient,internal_force
-from . import implicit_contact
+from . import implicit_contact,normal_cohesive
 from .boundaries import VelocityBox,CyclicVelocityBox
 
 
@@ -50,11 +50,12 @@ class ContactWork(NamedTuple):
     residual: jax.Array
     normal_resultant: jax.Array
     net_moment: jax.Array
+    softening_number: jax.Array
 
 
-@partial(jax.jit,static_argnames=('config','n_fields','tile_radius','batch_size'))
+@partial(jax.jit,static_argnames=('config','n_fields','tile_radius','batch_size','cohesive_law'))
 def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,tile_radius=1,batch_size=32,
-         contact=None,contact_stiffness=None):
+         contact=None,contact_stiffness=None,cohesive_law=None):
     """One trial step; callers commit only if every returned state.valid is true.
 
     Boundary boxes act on each nodal field in physical coordinates. Optional
@@ -64,6 +65,10 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
     """
     if config.dim!=2 or config.material not in ('elastic','neo-hookean') or n_fields<1:
         raise ValueError('Domain midpoint dynamics requires 2D neo-Hookean elasticity')
+    if cohesive_law is not None:
+        if contact is None or not isinstance(contact,normal_cohesive.Interface):
+            raise ValueError('A normal-cohesive interface is required for cohesive evolution')
+        contact_stiffness=cohesive_law.stiffness
     dt=jnp.asarray(config.dt if dt is None else dt,dtype=state.x.dtype)
     fields=jnp.zeros(len(state.x),dtype=jnp.int32) if fields is None else jnp.asarray(fields)
     if fields.shape!=(len(state.x),) or not jnp.issubdtype(fields.dtype,jnp.integer):
@@ -101,7 +106,7 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
         raw=jnp.where(occupied[:,None],initial+dt*((bulk+force)/denominator+jnp.asarray(config.gravity)),0.)
         bounded=2*constrain(.5*(initial+raw),time+.5*dt)-initial
         if contact is not None:
-            solved=implicit_contact.solve(contact,contact_trace,initial,bounded,contact_stiffness,dt,config.dx)
+            solved=implicit_contact.solve(contact,contact_trace,initial,bounded,contact_stiffness,dt,config.dx,cohesive_law)
             raw=raw+dt*solved.force/denominator
             bounded=solved.velocity
             valid &= solved.valid
@@ -143,8 +148,12 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
     work=Work(boundary,gravity,external,transfer,projection,geometry,bulk_error,ledger_error,iterations,residual)
     if contact is None:
         return following,work
-    new_contact=implicit_contact.advect(contact,contact_trace,middle,dt)
-    surface_change=implicit_contact.stored_energy(new_contact,contact_stiffness)-implicit_contact.stored_energy(contact,contact_stiffness)
+    new_contact=implicit_contact.advect(contact,contact_trace,middle,dt,transport_tangent=cohesive_law is not None)
+    if cohesive_law is None:
+        surface_change=implicit_contact.stored_energy(new_contact,contact_stiffness)-implicit_contact.stored_energy(contact,contact_stiffness)
+    else:
+        new_contact=normal_cohesive.update_history(new_contact)
+        surface_change=sum(normal_cohesive.energy(new_contact,cohesive_law))-sum(normal_cohesive.energy(contact,cohesive_law))
     power_error=surface_change+dt*jnp.sum(solved.force*middle)
     work=work._replace(ledger_error=work.ledger_error+surface_change)
     contact_valid=constitutive_valid&jnp.isfinite(power_error)
@@ -156,5 +165,5 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
     f=solved.force.reshape(2,size,2)
     moment=jnp.sum(nodes[None,:,0]*f[:,:,1]-nodes[None,:,1]*f[:,:,0])
     contact_work=ContactWork(surface_change,power_error,solved.iterations,solved.residual,
-                             jnp.sum(f[0],axis=0)@contact.normal,moment)
+                             jnp.sum(f[0],axis=0)@contact.normal,moment,solved.softening_number)
     return following,new_contact,work,contact_work

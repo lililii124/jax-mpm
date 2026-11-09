@@ -115,11 +115,15 @@ def face_velocities(velocity,support):
     return plus,minus
 
 
-def advect(interface,support,velocity,dt):
+def advect(interface,support,velocity,dt,transport_tangent=False):
     """Move the normal traces at fixed common spatial tangential coordinates."""
     plus,minus=face_velocities(velocity,support)
+    tangent=.5*(plus+minus)
+    tangent=tangent-(tangent@interface.normal)[:,None]*interface.normal
     plus=(plus@interface.normal)[:,None]*interface.normal
     minus=(minus@interface.normal)[:,None]*interface.normal
+    if transport_tangent:
+        plus=plus+tangent;minus=minus+tangent
     return interface._replace(plus=interface.plus+dt*plus,minus=interface.minus+dt*minus)
 
 
@@ -135,16 +139,23 @@ class Solve(NamedTuple):
     iterations: jax.Array
     residual: jax.Array
     valid: jax.Array
+    softening_number: jax.Array
 
 
-def solve(interface,support,initial,free_velocity,stiffness,dt,dx):
+def solve(interface,support,initial,free_velocity,stiffness,dt,dx,cohesive_law=None):
     """Solve the contact gap after eliminating unconstrained grid velocities."""
     old=opening(interface);plus,minus=face_velocities(.5*(initial+free_velocity),support)
     rhs=old+dt*((plus-minus)@interface.normal);alpha=.5*dt**2
     scale=dx+jnp.max(jnp.abs(old))+jnp.max(jnp.abs(rhs))
 
+    def traction(gap):
+        if cohesive_law is None:
+            return discrete_pressure(old,gap,stiffness)
+        from .normal_cohesive import discrete_traction
+        return discrete_traction(old,gap,interface.maximum,interface.bonded,cohesive_law)
+
     def equation(gap):
-        pressure,derivative=discrete_pressure(old,gap,stiffness)
+        pressure,derivative=traction(gap)
         residual=gap-rhs+alpha*(support.compliance@(interface.area*pressure))
         tangent=jnp.eye(len(old))+alpha*support.compliance*(interface.area*derivative)[None,:]
         return residual,tangent
@@ -170,11 +181,23 @@ def solve(interface,support,initial,free_velocity,stiffness,dt,dx):
     residual0=jnp.max(jnp.abs(equation(rhs)[0]))/scale
     gap,iterations,residual=jax.lax.while_loop(lambda c:(c[1]<32)&(c[2]>1e-12),iterate,
                                              (rhs,jnp.asarray(0),residual0))
-    pressure,_=discrete_pressure(old,gap,stiffness)
+    pressure,_=traction(gap)
     force=scatter(pressure,support,interface.area,initial.shape)
     local_force=jnp.pad(force,((0,1),(0,0)))[support.nodes]
     correction=dt*support.inverse_mass*local_force
     velocity=free_velocity.at[support.nodes].add(correction,mode='drop')
     valid=support.valid&jnp.isfinite(stiffness)&(stiffness>0)&jnp.isfinite(dt)&(dt>0)&(residual<=1e-10)
     valid &= jnp.all(jnp.isfinite(velocity))&jnp.all(jnp.isfinite(force))
-    return Solve(velocity,force,gap,iterations,residual,valid)
+    softening_number=jnp.asarray(0.,dtype=old.dtype)
+    if cohesive_law is not None:
+        root_area=jnp.sqrt(interface.area)
+        weighted=root_area[:,None]*support.compliance*root_area[None,:]
+        spectral_bound=jnp.max(jnp.sum(jnp.abs(weighted),axis=1))
+        negative_slope=.5*cohesive_law.strength/(cohesive_law.final_opening-cohesive_law.peak_opening)
+        softening_number=alpha*negative_slope*spectral_bound
+        # A sufficient bound for a positive effective inertial tangent. Do not
+        # accept an arbitrary Newton root after softening makes it indefinite.
+        valid &= softening_number<.95
+        valid &= jnp.all(jnp.isfinite(interface.maximum))&jnp.all(interface.maximum>=0)
+        valid &= jnp.all((~interface.bonded)|(interface.maximum>=jnp.maximum(old,0.)))
+    return Solve(velocity,force,gap,iterations,residual,valid,softening_number)
