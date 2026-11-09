@@ -30,9 +30,16 @@ def scenario(name):
                                 VelocityBox((.064,.019),(.066,.021),(0.,0.),components=(False,True)),
                                 MovingVelocityBox((.038,.034),(.042,.036),(0.,-6.),
                                                   components=(False,True),ramp_time=20e-6)))
-    upper_velocity=(0.,2.5) if name=='tension' else (2.,1.5)
+    if name not in ('tension','mixed','offset','inclined'):
+        raise ValueError(f'Unknown loading case: {name}')
+    upper_velocity=(2.,1.5) if name=='mixed' else (0.,2.5)
+    vertices=((.01,.03),(.022,.03))
+    if name=='offset':
+        vertices=((.01,.026),(.022,.026))
+    elif name=='inclined':
+        vertices=((.01,.026),(.0203923048454133,.032))
     return dict(domain=.06,grid=128,duration=120e-6,lower=(.01,.02),upper=(.05,.04),
-                vertices=((.01,.03),(.022,.03)),extension=.025 if name=='tension' else .009,
+                vertices=vertices,extension=.009 if name=='mixed' else .025,
                 center=(.03,.03),half_height=.023,
                 boundaries=(MovingVelocityBox((.008,.018),(.052,.022),tuple(-v for v in upper_velocity),ramp_time=20e-6),
                             MovingVelocityBox((.008,.038),(.052,.042),upper_velocity,ramp_time=20e-6)))
@@ -40,7 +47,7 @@ def scenario(name):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('case',choices=('bending','tension','mixed'))
+    parser.add_argument('case',choices=('bending','tension','mixed','offset','inclined'))
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--grid',type=int)
     parser.add_argument('--duration',type=float)

@@ -336,8 +336,11 @@ roundoff alignment band.
 python tools/audit_domain_transfer.py --output outputs/domain-transfer.json
 ```
 
-The coupled dynamic solver still needs evolving-domain kinematics, the work
-associated with D_p changing as F changes, compatible interface motion and
-force scatter, and finite-tip insertion with independent fragment fields.
-The old point-APIC kinetic ledger must not be reused for the domain operator.
-No new dynamic fracture accuracy claim follows from these frozen-domain checks.
+The moving-domain bulk solver now advances F and position while recording
+the signed kinetic-energy change associated with D_p. Its independent
+[dynamic audit](DOMAIN_DYNAMICS.md) includes transient compression and release
+of a pre-existing through-crack. The geometry term is exposed, not removed,
+and the release still has substantial transfer loss. Compatible interface
+motion and force scatter, and finite-tip activation with independent fragment
+fields remain open. The old point-APIC kinetic ledger must not be reused for
+the domain operator. These checks do not qualify dynamic crack propagation.

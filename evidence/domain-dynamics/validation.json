@@ -1,0 +1,99 @@
+{
+  "runs": {
+    "domain-dynamics-grid32": {
+      "case": "Moving-domain transient compression",
+      "grid": 32,
+      "dt_s": 3.125e-06,
+      "domains": 256,
+      "steps": 160,
+      "final_numerical_loss_fraction": 0.0453551949918561,
+      "final_absolute_geometry_fraction": 8.910562245111437e-06,
+      "max_balance_error_J_per_m": 9.520162436160717e-15,
+      "final_snapshot_sha256": "295dd1eb9f43525ba8db672ce5f6f6c4bd0a1c11b16be4f2043aed65205c8c90",
+      "history_sha256": "6db54be78d0c406a3b886fac4efe67f44bbbb760a56f166f254c1a2ff365423a"
+    },
+    "domain-dynamics-grid32-halfdt": {
+      "case": "Moving-domain transient compression",
+      "grid": 32,
+      "dt_s": 1.6666666666666667e-06,
+      "domains": 256,
+      "steps": 300,
+      "final_numerical_loss_fraction": 0.05865987044317079,
+      "final_absolute_geometry_fraction": 7.107456923483976e-06,
+      "max_balance_error_J_per_m": 1.6368850719317152e-14,
+      "final_snapshot_sha256": "6769d9043f934d71d8873c77ba7da0aa418e55d5e409eadd14a36368050d44bd",
+      "history_sha256": "5ce6b9b6c10e2dbf5b8b5eca2c415db40439591d8cc991f1e0ca1e6344f4c600"
+    },
+    "domain-dynamics-grid64": {
+      "case": "Moving-domain transient compression",
+      "grid": 64,
+      "dt_s": 1.6666666666666667e-06,
+      "domains": 1024,
+      "steps": 300,
+      "final_numerical_loss_fraction": 0.02196626827013925,
+      "final_absolute_geometry_fraction": 5.016816455386274e-06,
+      "max_balance_error_J_per_m": 6.477457459297398e-15,
+      "final_snapshot_sha256": "8afa4c8317bfaf045e5d1fcf0f86cb027d6a5e9d3442419dcecace277bc792a7",
+      "history_sha256": "81c9c2dcdfaf72d023d3c5a17da6cb07b78f1f7b18b67d94e50ed96202fc5443"
+    },
+    "domain-dynamics-grid128": {
+      "case": "Moving-domain transient compression",
+      "grid": 128,
+      "dt_s": 8.620689655172414e-07,
+      "domains": 4096,
+      "steps": 580,
+      "final_numerical_loss_fraction": 0.008521046315814946,
+      "final_absolute_geometry_fraction": 2.444896196836486e-06,
+      "max_balance_error_J_per_m": 4.621303340002214e-15,
+      "final_snapshot_sha256": "9dda198089d3427b028311f772e973ae2afdac5c382f88aa56dc4201bf8a7f91",
+      "history_sha256": "51d94ddc34006348fa0a7fb64aea016e4717e3cd77ade9c4f1abad4d3ca679d4"
+    },
+    "domain-crack-release-grid64": {
+      "case": "Moving-domain transient release",
+      "grid": 64,
+      "dt_s": 1.6666666666666667e-06,
+      "domains": 2048,
+      "steps": 300,
+      "final_numerical_loss_fraction": 0.2024700962188547,
+      "final_absolute_geometry_fraction": 3.8770262060358375e-05,
+      "max_balance_error_J_per_m": 6.359461980834299e-14,
+      "final_snapshot_sha256": "d1e667ed27bc49f8a4bddeed196f541cffcfbe57ef9fef64a5f306d732d0e0dc",
+      "history_sha256": "fff41a27c34583afbff0b71bb6111bc02363d24dd95f4951f4a8b345e631d1e3"
+    }
+  },
+  "adjacent_comparisons": [
+    {
+      "coarser": "domain-dynamics-grid32",
+      "reference": "domain-dynamics-grid32-halfdt",
+      "history_relative_L2": {
+        "kinetic_J_per_m": 0.018167679632291593,
+        "elastic_J_per_m": 0.030922190965816932,
+        "external_J_per_m": 0.009062098583362427,
+        "mean_right_displacement_m": 0.0006095519636239149
+      }
+    },
+    {
+      "coarser": "domain-dynamics-grid32-halfdt",
+      "reference": "domain-dynamics-grid64",
+      "history_relative_L2": {
+        "kinetic_J_per_m": 0.0781003443647978,
+        "elastic_J_per_m": 0.09655586727417742,
+        "external_J_per_m": 0.0370346016364186,
+        "mean_right_displacement_m": 0.0030645692724163213
+      }
+    },
+    {
+      "coarser": "domain-dynamics-grid64",
+      "reference": "domain-dynamics-grid128",
+      "history_relative_L2": {
+        "kinetic_J_per_m": 0.03422320862921866,
+        "elastic_J_per_m": 0.03249429594842745,
+        "external_J_per_m": 0.0167598188449188,
+        "mean_right_displacement_m": 0.0010682414557581052
+      }
+    }
+  ],
+  "validation_scope": "Final-field reconstruction and supplied work histories; not full per-step replay",
+  "mesh_convergence_established": false,
+  "fracture_validation": false
+}
