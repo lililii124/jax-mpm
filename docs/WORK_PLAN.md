@@ -1,7 +1,6 @@
 # Active work
 
-The periodic-material entry was updated 2026-11-09; other entries retain their
-2026-10-30 snapshot and may be stale. Only a running process or a newer
+Entries retain their 2026-10-30 snapshot and may be stale. Only a running process or a newer
 accepted state counts as computational progress; an existing output directory
 does not. Live status is recorded separately by the local monitor.
 
@@ -16,7 +15,6 @@ does not. Live status is recorded separately by the local monitor.
 | Phase-field fracture with a hole | Full loading schedule, public source and 25-state GIF complete; actual empty hole with a free boundary | Preserve the completed single-mesh example in the phase-field gallery |
 | Hyperelastic symmetry under blast pressure | All five 6 ms calculations and synchronized GIFs complete; sixfold refinement and rotation controls complete | Preserve the common-grid, common-scale gallery |
 | Blast-loaded sandwich design | Multi-load optimization gallery withdrawn. The rank-191 development check stopped at uniform pressure: omitted linear strain energy is 7.460%, above the unchanged 5% gate. A separate central-pressure-only search is submitted with uniform initial material and mirror-symmetric controls; existing full-MPM runs continue | Review the bounded fixed-mass search and independently verify any retained design before publication |
-| Periodic blast-resistant material | Highest priority: a 3 × 3 full-domain search with identical shared cells, no prescribed face sheets and fixed 1.458 kg mass is running. A 1 ms search replaces the insufficient 200 µs analysis window; the initial binary structure's preliminary 1 ms sampled peak is 0.970 mm at about 357 µs. The 25.5 µs gradient check passed; long-horizon time-step and gradient checks are running | Verify actual objective descent, reconstruct connected candidates, replay them at the reference time step and compare their sampled back-face response at equal mass |
 | Hypervelocity sphere impact | The conditioned volume/area contact centroid passed moving-state time-step qualification at one quarter of the original CFL step. A corrected virgin trajectory has reached material failure; the old trajectory is retired from production | Continue the corrected trajectory toward a debris cloud and complete refinement |
 | Complete cutting animations | All planned runs complete; whole three-pass history 0–276.167 microseconds and full second pass 100.500–159.167 microseconds are published in eight 400×400 GIFs; both increment-rate views use a fixed logarithmic colour scale. Completed remote raw tasks were retired after verified media and compact provenance download | Preserve the completed animations and compact provenance |
 | Public cutting implementation | Published plane-strain displacement-softening JC, Johnson/Seo presets, fresh/resumable three-pass drivers and ParaView renderer; actual contact state and event restart matched bitwise | Preserve the public implementation and complete production animations |
@@ -58,29 +56,6 @@ central pressure case: keep total mass at 1.8468 kg while reducing peak
 back-face displacement. Geometry, thickness, clamping, pressure and the
 200 MPa skin-stress limit remain unchanged. The exact mean core-density
 constraint preserves mass while spatial controls redistribute it.
-
-The user also requested a separate structural-core topology problem without a
-prescribed cell topology. The blast-loaded design domain itself must contain
-3 × 3 resolved cells in the plane, with the explosion centre aligned with the
-geometric centre of the central cell; optimize their shared material distribution jointly under
-the spatially varying load. All cells have the same shape and material field,
-enforced through shared design variables, while the actual response of every
-cell is solved in the full domain. Start from a uniform field or a small random
-perturbation. Do not optimize an isolated unit-cell problem and tile its result.
-The characteristic microstructural scale and the
-number of cells under the footprint must allow the domain to behave as a
-material. The total amount of material is fixed throughout optimization;
-compare designs at equal mass and matched loading. Explicit
-MPM contact and crushing must be checked separately from any smooth
-differentiable optimization surrogate. The primary search leaves the entire
-cell thickness free; earlier fixed-face-sheet runs are separate comparisons.
-
-`mpm_jax.shared_cell_design` provides a differentiable fixed-volume shared
-voxel field, explicit positions for the full 3 × 3 domain and a fixed-count
-binary reconstruction. Continuous weights are optimization proxies; they do
-not establish real voids, a full-domain MPM response or an optimized result.
-Thresholding requires a separate material-volume check after reconstruction.
-[Full-domain model and current limitations](MULTICELL_BLAST_DESIGN.md).
 
 The [problem specification](BLAST_SANDWICH_DESIGN.md) defines geometry, loading,
 design controls, constraints, memory strategy and acceptance criteria.
