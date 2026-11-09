@@ -168,9 +168,10 @@ class Work(NamedTuple):
 
 
 @partial(jax.jit, static_argnames=('config','law','consistent_gradients'))
-def step(state, path, material, config, law, consistent_gradients=False):
+def step(state, path, material, config, law, consistent_gradients=False, dt=None):
     if config.dim != 2 or config.material not in ('elastic','neo-hookean'):
         raise ValueError('Extrinsic cohesive MPM requires 2D neo-Hookean elasticity')
+    dt = config.dt if dt is None else dt
     vertices = path.vertices
     first = vertices[1]-vertices[0]
     visibility = vertices.at[0].add(-3*config.dx*first/jnp.maximum(jnp.linalg.norm(first),1e-100))
@@ -205,20 +206,20 @@ def step(state, path, material, config, law, consistent_gradients=False):
         vp, gradient = grid_to_particle(middle,remapped,config)
         if consistent_gradients:
             gradient = jnp.einsum('pki,pkj->pij',middle[remapped.indices],support.gradients)
-        F,tau,valid = midpoint_bulk(state.F,gradient,config.dt,material)
+        F,tau,valid = midpoint_bulk(state.F,gradient,dt,material)
         bulk_gradient = support.gradients if consistent_gradients else 4/config.dx**2*support.weights[...,None]*support.dpos
         bulk_contribution = -state.volume[:,None,None]*jnp.einsum('pij,pkj->pki',tau,bulk_gradient)
         bulk_force = jnp.zeros_like(momentum).at[remapped.indices].add(bulk_contribution)
-        next_plus = path.plus+config.dt*face_velocity(middle,plus)
-        next_minus = path.minus+config.dt*face_velocity(middle,minus)
+        next_plus = path.plus+dt*face_velocity(middle,plus)
+        next_minus = path.minus+dt*face_velocity(middle,minus)
         q = segment_positions(next_plus,next_minus)
         grad,after,energy,error = discrete_surface_gradient(old_positions,q,path.maximum,path.birth_traction,path.bonded,law)
         force = -path.area[:,None,None]*grad
         fp = jnp.zeros_like(path.plus).at[:-1].add(force[:,0]).at[1:].add(force[:,1])
         fm = jnp.zeros_like(path.minus).at[:-1].add(force[:,2]).at[1:].add(force[:,3])
         surface_force = scatter_face_force(fp,plus,momentum.shape)+scatter_face_force(fm,minus,momentum.shape)
-        raw = jnp.where(occupied[:,None],initial+config.dt*((bulk_force+surface_force)/denominator+jnp.asarray(config.gravity)),0.)
-        bounded = 2*constrain(.5*(initial+raw),state.time+.5*config.dt)-initial
+        raw = jnp.where(occupied[:,None],initial+dt*((bulk_force+surface_force)/denominator+jnp.asarray(config.gravity)),0.)
+        bounded = 2*constrain(.5*(initial+raw),state.time+.5*dt)-initial
         return bounded,(middle,vp,F,next_plus,next_minus,after,energy,error,bulk_force,surface_force,raw,valid)
 
     def iterate(carry):
@@ -232,20 +233,21 @@ def step(state, path, material, config, law, consistent_gradients=False):
     bounded,data = evaluate(velocity)
     middle,vp,F,next_plus,next_minus,after,energy,error,bulk_force,surface_force,raw,bulk_valid = data
     v,C = grid_to_particle(velocity,remapped,config)
-    x = state.x+config.dt*vp
+    x = state.x+dt*vp
     valid = state.valid & path.valid & support.valid & plus.valid & minus.valid & bulk_valid & (residual<=1e-8)
+    valid &= jnp.isfinite(dt) & (dt>0)
     valid &= jnp.max(jnp.abs(path.area*error)) <= 1e-10*(1+jnp.sum(path.area)*law.energy)
     for array in (x,v,C,F,next_plus,next_minus):
         valid &= jnp.all(jnp.isfinite(array))
     valid &= jnp.all((x>=.5*config.dx)&(x<config.domain_size-.5*config.dx))
-    following = state._replace(x=x,v=v,C=C,F=F,time=state.time+config.dt,valid=valid)
+    following = state._replace(x=x,v=v,C=C,F=F,time=state.time+dt,valid=valid)
     path = path._replace(plus=next_plus,minus=next_minus,maximum=after.maximum,valid=valid)
     boundary = jnp.sum(mass[:,None]*(bounded-raw)*middle)+jnp.sum(initial_impulse*initial)
-    gravity = config.dt*jnp.sum(mass[:,None]*jnp.asarray(config.gravity)*middle)
+    gravity = dt*jnp.sum(mass[:,None]*jnp.asarray(config.gravity)*middle)
     transfer = kinetic_energy(state,config)-.5*jnp.sum(mass[:,None]*transferred**2)+.5*jnp.sum(mass[:,None]*velocity**2)-kinetic_energy(following,config)
     projection = .5*jnp.sum(mass[:,None]*(initial-transferred)**2)
-    bulk_error = config.dt*jnp.sum(bulk_force*middle)+elastic_energy(following,material,config)-elastic_energy(state,material,config)
-    surface_error = config.dt*jnp.sum(surface_force*middle)+jnp.sum(path.area*energy)
+    bulk_error = dt*jnp.sum(bulk_force*middle)+elastic_energy(following,material,config)-elastic_energy(state,material,config)
+    surface_error = dt*jnp.sum(surface_force*middle)+jnp.sum(path.area*energy)
     return following,path,Work(boundary,gravity,transfer,projection,bulk_error,surface_error,iterations,residual)
 
 

@@ -70,8 +70,8 @@ remain confounding factors.
 2. Replace broad principal-stress averaging with candidate-extension energy
    comparisons consistent with the cohesive law; verify on symmetric and mirrored
    loading before enabling it in demonstrations.
-3. Diagnose the failed local solve from the last valid state and add step rejection
-   with controlled time-step reduction. Rejected states must never enter media.
+3. Extend the transactional step-recovery checks below to further loading paths
+   and establish time-step accuracy independently of nonlinear convergence.
 4. Establish spatial, temporal and insertion-spacing convergence before making
    predictive path or speed claims. Branching, fragment recontact and 3D crack
    surfaces remain separate open work.
@@ -93,3 +93,68 @@ must be empty before a new simulation; runs never overwrite previous fields.
 The patch/energy/affine checks passed five focused tests; analytical tip-field,
 rotation, angle and empty-annulus checks passed three tests. These checks do not
 convert the failed localized run into a successful fracture validation.
+
+## Transactional recovery of the failed step
+
+`mpm_jax.adaptive_crack.retry_step` retries an unaccepted coupled step with
+successively halved durations. Every attempt starts from the same particle
+state and irreversible cohesive history. Failed attempts contribute no work,
+damage or motion. Exhaustion returns the original state and a false acceptance
+flag; callers must check it before inserting segments or advancing their clock.
+The duration is a runtime JAX argument, so halving does not compile a separate
+solver for every step size.
+
+The replay tool starts from saved frame 32 at 1.599955 ms and continues the
+same boundary schedule to 2 ms. It rejects two attempts, temporarily reduces
+the step from 224.997 ns to 56.249 ns and accepts 1,824 continuation steps.
+The largest accepted nonlinear residual is 9.996e-10. The continuation completes
+in 92.46 seconds on the local CPU. Its last saved state passes an independent
+NumPy reconstruction of bulk, APIC kinetic and interface energies; the energy
+remainder is -4.31e-14 J/m, and irreversible history is nondecreasing.
+
+```bash
+python tools/recover_extrinsic_dcb.py outputs/dcb-consistent --frame 32 --output outputs/dcb-recovery
+```
+
+The tool caps the minimum accepted step and total accepted-step count, grows
+the proposed duration after 32 quiet steps, and writes only a compact report
+and the last accepted field. Two focused tests verify that recovery matches a
+direct step at the accepted duration and that exhaustion returns unchanged
+state/history with zero work. The two existing coupled-energy tests also pass
+with the runtime-duration implementation.
+
+This repairs the observed nonlinear failure, not the earlier crack-direction
+error. The original failed trajectory and its diagnostics remain preserved.
+These are acceptance retries, not an estimate of temporal truncation error;
+no time-convergence or crack-path claim follows from completing the replay.
+
+## Compatible cut quadrature prototype
+
+`tools/audit_cut_interface.py` integrates the actual quadratic MPM shape
+functions on both sides of a straight crack spanning an interior rectangular
+body. It partitions the body at shape-function knot lines and the physical
+crack, triangulates the resulting polygons and uses 3 x 3 Duffy quadrature.
+The crack trace is independently partitioned at the same knot lines and uses
+three-point line quadrature. The integration weights depend only on geometry;
+the interface force is never fitted to the bulk residual.
+
+The focused check covers nine cuts on a 12-cell grid: angles 0, 0.31 and 0.68
+radians, each at offsets -0.375, 0 and 0.25 grid spacings. The constant stress
+has unequal normal components and nonzero shear. Both separated fields must
+balance individually at nodes whose supports do not meet the outer boundary.
+Their worst relative force residual is 2.89e-15. The maximum difference between
+the sum of cut bulk integrals and the independently integrated intact body is
+6.26e-16; face resultant and moment errors are below 7.03e-16. Partition of unity,
+integrated affine reproduction and opposite interface actions are also checked.
+
+```bash
+python tools/audit_cut_interface.py --grid 12 --output outputs/cut-quadrature.json
+```
+
+This provides a verified geometric integration route to the subcell patch
+defect. It is **not yet a production transfer operator**: geometry clipping
+runs on the host, the crack spans the body, and the stress is constant. Finite
+tips, multiple segments, evolving material domains, constitutive quadrature,
+APIC transfer moments and work-conjugate face motion must be integrated before
+this can replace the current point-particle solver. The existing dynamic runs
+do not use this prototype.
