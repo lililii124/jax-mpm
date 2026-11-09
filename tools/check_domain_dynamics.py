@@ -23,20 +23,44 @@ def check(run):
     assert all(np.isfinite(value).all() for value in state.values())
     F,C,v=state['F'],state['C'],state['v'];J=np.linalg.det(F)
     assert (J>0).all()
-    h=info['dx_m']/2;area=h*h;mass=info['density_kg_m3']*area
-    moment=.25*info['dx_m']**2*np.eye(2)+h*h/12*(F@F.swapaxes(-1,-2))
-    kinetic=.5*mass*np.sum(np.sum(v*v,axis=1)+np.trace(C@moment@C.swapaxes(-1,-2),axis1=-2,axis2=-1))
+    h=info['dx_m']/2
+    area=np.full(len(F),h*h);covariance=np.broadcast_to(h*h/12*np.eye(2),(len(F),2,2)).copy()
+    if 'reference_vertices' in state:
+        area=np.zeros(len(F));covariance=np.zeros((len(F),2,2))
+        for i,count in enumerate(state['reference_count']):
+            if count<3:
+                continue
+            p=state['reference_vertices'][i,:count];q=np.roll(p,-1,axis=0)
+            cross=p[:,0]*q[:,1]-q[:,0]*p[:,1];area[i]=.5*cross.sum()
+            assert area[i]>0
+            center=np.sum((p+q)*cross[:,None],axis=0)/(6*area[i])
+            xx=np.sum((p[:,0]**2+p[:,0]*q[:,0]+q[:,0]**2)*cross)/(12*area[i])
+            yy=np.sum((p[:,1]**2+p[:,1]*q[:,1]+q[:,1]**2)*cross)/(12*area[i])
+            xy=np.sum((2*p[:,0]*p[:,1]+p[:,0]*q[:,1]+q[:,0]*p[:,1]+2*q[:,0]*q[:,1])*cross)/(24*area[i])
+            covariance[i]=np.array([[xx,xy],[xy,yy]])-np.outer(center,center)
+            np.testing.assert_allclose(center,state['reference_centroid'][i],atol=1e-16)
+        np.testing.assert_allclose(area,state['reference_area'],atol=1e-18,rtol=1e-12)
+        np.testing.assert_allclose(covariance,state['reference_covariance'],atol=1e-18,rtol=1e-11)
+    mass=info['density_kg_m3']*area
+    if 'mass' in state:
+        np.testing.assert_allclose(mass,state['mass'],atol=1e-15,rtol=1e-12)
+    np.testing.assert_allclose(area.sum(),.04*.01,atol=1e-16)
+    moment=.25*info['dx_m']**2*np.eye(2)+F@covariance@F.swapaxes(-1,-2)
+    kinetic=.5*np.sum(mass*(np.sum(v*v,axis=1)+np.trace(C@moment@C.swapaxes(-1,-2),axis1=-2,axis2=-1)))
     E,nu=info['young_Pa'],info['poisson'];mu=E/(2*(1+nu));lam=E*nu/((1+nu)*(1-2*nu))
     logJ=np.log(J)
-    elastic=area*np.sum(.5*mu*(np.sum(F*F,axis=(1,2))-2)-mu*logJ+.5*lam*logJ**2)
+    elastic=np.sum(area*(.5*mu*(np.sum(F*F,axis=(1,2))-2)-mu*logJ+.5*lam*logJ**2))
     np.testing.assert_allclose([kinetic,elastic],[values['kinetic_J_per_m'][-1],values['elastic_J_per_m'][-1]],atol=1e-12,rtol=1e-10)
     ledger=state['ledger']
-    balance=kinetic+elastic+ledger[3]+ledger[4]-ledger[5]-ledger[:3].sum()
+    F0=np.asarray(info.get('initial_F',np.eye(2)));logJ0=np.log(np.linalg.det(F0))
+    initial=area.sum()*(.5*mu*(np.sum(F0*F0)-2)-mu*logJ0+.5*lam*logJ0**2)
+    np.testing.assert_allclose(initial,info.get('initial_energy_J_per_m',0.),atol=1e-12)
+    balance=kinetic+elastic-initial+ledger[3]+ledger[4]-ledger[5]-ledger[:3].sum()
     np.testing.assert_allclose(balance,values['balance_error_J_per_m'][-1],atol=1e-12)
     assert np.max(np.abs(values['balance_error_J_per_m']))<1e-9
     assert values['transfer_loss_J_per_m'].min()>-1e-10
     assert values['absolute_geometry_energy_J_per_m'][-1]>=abs(ledger[5])-1e-14
-    report=dict(grid=info['grid'],dt_s=info['dt_s'],domains=info['domains'],steps=info['steps'],
+    report=dict(case=info['case'],grid=info['grid'],dt_s=info['dt_s'],domains=info['domains'],steps=info['steps'],
                 final_numerical_loss_fraction=float(values['numerical_loss_fraction'][-1]),
                 final_absolute_geometry_fraction=float(values['absolute_geometry_fraction'][-1]),
                 max_balance_error_J_per_m=float(np.abs(values['balance_error_J_per_m']).max()),
@@ -54,6 +78,8 @@ def main():
         reports[run.name],histories[run.name]=check(run)
     comparisons=[]
     for a,b in zip(args.runs[:-1],args.runs[1:]):
+        if reports[a.name]['case']!=reports[b.name]['case']:
+            continue
         av,bv=histories[a.name],histories[b.name]
         np.testing.assert_allclose(av['time_s'],bv['time_s'],atol=1e-15)
         keys=('kinetic_J_per_m','elastic_J_per_m','external_J_per_m','mean_right_displacement_m')
