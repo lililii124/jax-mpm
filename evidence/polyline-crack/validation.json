@@ -1,0 +1,59 @@
+{
+  "coarse": {
+    "grid": 96,
+    "frames": 41,
+    "final_extension_m": 0.013000000000000008,
+    "final_pending_extension_m": 0.0001589347299609657,
+    "initial_segment_final_angle_deg": 14.992125020914791,
+    "first_inserted_segment_final_angle_deg": 7.456607134977984,
+    "final_mouth_gap_m": 0.0004419231986229295,
+    "maximum_sampled_strain": 0.07391436033443766,
+    "final_vertices": 28,
+    "history_sha256": "6c7744846fbd7ad6084800c9ca69f2837424704b45163e1035251aa53a9b3d9e"
+  },
+  "fine": {
+    "grid": 128,
+    "frames": 41,
+    "final_extension_m": 0.013000000000000008,
+    "final_pending_extension_m": 0.0003520873461573253,
+    "initial_segment_final_angle_deg": 15.004241196121914,
+    "first_inserted_segment_final_angle_deg": 2.792214492553993,
+    "final_mouth_gap_m": 0.00044308128933672505,
+    "maximum_sampled_strain": 0.1634384339700019,
+    "final_vertices": 28,
+    "history_sha256": "f5a8cdd1619c23282e0ae0d4ddd55439c59ebc41a45280dc98aa9904af57e4af"
+  },
+  "mirror": {
+    "grid": 96,
+    "frames": 41,
+    "final_extension_m": 0.013000000000000008,
+    "final_pending_extension_m": 0.00015893472996098825,
+    "initial_segment_final_angle_deg": -14.992125020914912,
+    "first_inserted_segment_final_angle_deg": -7.456607134979453,
+    "final_mouth_gap_m": 0.0004419231986229258,
+    "maximum_sampled_strain": 0.07391436033443877,
+    "final_vertices": 28,
+    "history_sha256": "8bf4d16ef9b4831e56b7f706aacf58388bdbb8a3c202421ea868589d06b081b8"
+  },
+  "held": {
+    "grid": 96,
+    "frames": 41,
+    "final_extension_m": 0.0,
+    "final_pending_extension_m": 0.0,
+    "initial_segment_final_angle_deg": 15.062097303541416,
+    "first_inserted_segment_final_angle_deg": null,
+    "final_mouth_gap_m": 0.00046138063188010255,
+    "maximum_sampled_strain": 0.06148579807335697,
+    "final_vertices": 2,
+    "history_sha256": "7fc188ca4e6dbfb1860fa8f3962908aaafd5d672b3180d3b462c08c7fb3c4788"
+  },
+  "checks": {
+    "max_reflected_particle_error_m": 4.371503159461554e-16,
+    "max_reflected_path_error_m": 3.2612801348363973e-16,
+    "held_crack_did_not_grow": true,
+    "all_paths_simple": true,
+    "final_extension_difference_m": 0.0,
+    "mesh_convergence_established": false,
+    "fracture_energy_validation": false
+  }
+}

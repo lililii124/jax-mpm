@@ -1,0 +1,74 @@
+{
+  "case": "Advected inclined crack with principal-tension turning",
+  "grid": 128,
+  "dx_m": 0.00046875,
+  "dt_s": 4.21792618629174e-08,
+  "duration_s": 0.00012,
+  "inclination_deg": 15.0,
+  "young_Pa": 3000000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "particle_count": 14706,
+  "particle_spacing_m": [
+    0.00023391812865497077,
+    0.00023255813953488368
+  ],
+  "tip_law": {
+    "strength": 12000000.0,
+    "radius": 0.0015,
+    "max_speed": 166.66666666666669,
+    "max_length": 0.016
+  },
+  "max_length_means": "Accumulated new extension, excluding the initial crack",
+  "insertion_spacing_m": 0.0005,
+  "max_turn_per_insertion_deg": 45.0,
+  "capacity": 64,
+  "initial_path_m": [
+    [
+      0.01,
+      0.026784609690826525
+    ],
+    [
+      0.022,
+      0.03
+    ]
+  ],
+  "constitutive_model": "neo-Hookean",
+  "fracture_energy_prescribed": false,
+  "contact": false,
+  "source_sha256": {
+    "examples/polyline_crack_tension.py": "bbefaa227733228e238a821e83ef977a0de4c719547d0f3a1e0997af70652fdf",
+    "mpm_jax/polyline_crack.py": "321aaa5c5968e00fd43dae47b979588dd6c25576e943a56e1ed4b4a2d0ab7c8c",
+    "mpm_jax/crack_mpm.py": "a1f689a14ba5f3c88f7b8351eadd5af07f0af71685cd30a8d503d65cd51fc7b5",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5"
+  },
+  "frames": 41,
+  "steps": 2845,
+  "all_states_valid": true,
+  "final": {
+    "step": 2845,
+    "time_s": 0.00012000000000000357,
+    "vertices": 28,
+    "tip_x_m": 0.034775370803826186,
+    "tip_y_m": 0.030053837535658684,
+    "extension_m": 0.013000000000000008,
+    "pending_extension_m": 0.0003520873461573253,
+    "traction_Pa": 164660449.6315307,
+    "kinetic_J_per_m": 4.318127909146236,
+    "elastic_J_per_m": 310.4287421050334,
+    "max_face_gap_m": 0.0004307072850293737,
+    "min_face_gap_m": 0.0,
+    "max_strain": 0.12049289377819283,
+    "min_J": 0.9294582912772396,
+    "valid": true,
+    "elapsed_s": 82.61182680004276
+  },
+  "elapsed_s": 82.69531879998976,
+  "limitations": [
+    "Experimental strength kinetics; no calibrated fracture-energy balance",
+    "One nonbranching path; self-intersection and capacity overflow stop the solver",
+    "No crack-face contact; overlapping faces require another formulation"
+  ]
+}

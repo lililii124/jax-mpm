@@ -275,6 +275,10 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="50%" align="center"><img src="docs/images/home/fracture--cohesive-dcb.gif" alt="Localized cohesive crack propagation" width="100%"><br><a href="docs/COHESIVE_DCB.md">Cohesive crack propagation</a></td>
 <td width="50%" align="center"><img src="docs/images/home/fracture--cohesive-dcb-tip.gif" alt="Cohesive crack-tip detail" width="100%"><br><a href="docs/COHESIVE_DCB.md">Crack-tip detail</a></td>
 </tr>
+<tr>
+<td width="50%" align="center"><img src="docs/images/home/fracture--turning-crack.gif" alt="Inclined material crack under tension" width="100%"><br><a href="docs/POLYLINE_CRACK.md">Advected inclined crack</a></td>
+<td width="50%" align="center"><img src="docs/images/home/fracture--turning-detail.gif" alt="Experimental stress-selected crack turning" width="100%"><br><a href="docs/POLYLINE_CRACK.md">Stress-selected turning</a></td>
+</tr>
 </table>
 
 ### JAX design

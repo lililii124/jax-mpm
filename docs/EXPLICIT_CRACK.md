@@ -11,7 +11,7 @@ the split-field and explicit-path ideas described by
 [mpm-fracture](https://github.com/titoadibaskoro/mpm-fracture). This is an
 independent implementation; source code was not copied from that repository.
 
-The current branch supports one straight 2D crack under symmetric mode-I
+The original branch supports one straight 2D crack under symmetric mode-I
 loading. A link crossing the finite crack enters a separate nodal velocity
 field. Opening faces exchange no momentum. Optional frictionless nodal contact
 removes closing normal relative velocity with equal and opposite impulses;
@@ -68,7 +68,8 @@ This demonstrates explicit separation; it does not yet establish quantitative
 fracture accuracy. Peak sampled local strain reaches 4.9%, so the linear
 constitutive approximation also needs checking. Two resolutions alone do not
 establish convergence. The strength law has no prescribed fracture energy or
-verified dissipation balance. Crack-centreline advection, stress-selected
-turning, multiple cracks and three-dimensional crack surfaces are not yet
-implemented. Those extensions remain active work; this example does not
-replace the existing AT2 cases.
+verified dissipation balance. A separate [polyline branch](POLYLINE_CRACK.md)
+now implements crack-face advection and stress-selected segment insertion,
+with mirrored-loading and two-grid checks. Energy-controlled turning,
+multiple cracks and three-dimensional crack surfaces remain open. These
+examples do not replace the existing AT2 cases.
