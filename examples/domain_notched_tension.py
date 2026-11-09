@@ -15,7 +15,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from mpm_jax import Config,MovingVelocityBox,RampDisplacementBox,neo_hookean
+from mpm_jax import Config,MovingVelocityBox,RampDisplacementBox,CyclicVelocityBox,neo_hookean
 from mpm_jax.cohesive_crack import CohesiveLaw
 from mpm_jax.cut_geometry import polygon
 from mpm_jax.cut_fragments import fragment,split_fragment
@@ -28,9 +28,11 @@ def main():
     parser.add_argument('--grid',type=int,default=48)
     parser.add_argument('--cfl',type=float,default=.075)
     parser.add_argument('--duration',type=float,default=120e-6)
-    parser.add_argument('--loading',choices=('velocity','hold'),default='velocity')
+    parser.add_argument('--loading',choices=('velocity','hold','pulse'),default='velocity')
+    parser.add_argument('--notch',choices=('edge','double'),default='edge')
     parser.add_argument('--opening',type=float,default=30e-6)
     parser.add_argument('--ramp-time',type=float,default=40e-6)
+    parser.add_argument('--period',type=float,default=80e-6,help='pulse duration from zero displacement back to zero')
     parser.add_argument('--batch-size',type=int,default=32)
     parser.add_argument('--output',type=Path,required=True)
     args=parser.parse_args()
@@ -38,8 +40,8 @@ def main():
         parser.error('Require grid multiple of 24 >=24, positive duration and 0 < CFL <=.15')
     if args.output.exists() and any(args.output.iterdir()):
         parser.error('Output directory must be empty')
-    if args.batch_size<1 or not np.isfinite(args.opening) or args.opening<=0 or not np.isfinite(args.ramp_time) or args.ramp_time<=0:
-        parser.error('Require positive finite opening/ramp time and batch size >=1')
+    if args.batch_size<1 or not np.isfinite(args.opening) or args.opening<=0 or not np.isfinite(args.ramp_time) or args.ramp_time<=0 or not np.isfinite(args.period) or args.period<=0:
+        parser.error('Require positive finite opening, ramp time, period and batch size >=1')
     jax.config.update('jax_enable_x64',True)
     E,nu,rho=3e9,.2,1200.;domain=.06;cut=.03;tip=.022
     dx=domain/args.grid;h=dx/2
@@ -50,6 +52,9 @@ def main():
     if args.loading=='hold':
         boundaries=(RampDisplacementBox((.008,.018),(.052,.022),(0.,-.5*args.opening),args.ramp_time),
                     RampDisplacementBox((.008,.038),(.052,.042),(0.,.5*args.opening),args.ramp_time))
+    if args.loading=='pulse':
+        boundaries=(CyclicVelocityBox((.008,.018),(.052,.022),(0.,-.5*args.opening),args.period),
+                    CyclicVelocityBox((.008,.038),(.052,.042),(0.,.5*args.opening),args.period))
     config=Config(dim=2,n_grid=args.grid,dt=dt,domain_size=domain,material='neo-hookean',
                   gravity=(0.,0.),boundary_cells=0,boundaries=boundaries)
     axis=(.01+(np.arange(round(.04/h))+.5)*h,.02+(np.arange(round(.02/h))+.5)*h)
@@ -60,11 +65,19 @@ def main():
     state=jax.tree.map(lambda a:a.reshape((-1,)+a.shape[2:]),children)
     fields=jnp.tile(jnp.arange(2),len(points));keep=np.flatnonzero(np.asarray(state.active))
     state=jax.tree.map(lambda a:a[keep],state);fields=fields[keep]
-    cracked=implicit_contact.line_interface((.01,cut),(tip,cut),(0.,1.),config)
-    intact=implicit_contact.line_interface((tip,cut),(.05,cut),(0.,1.),config)
-    line=implicit_contact.Interface(jnp.concatenate((cracked.plus,intact.plus)),jnp.concatenate((cracked.minus,intact.minus)),
-                                    jnp.concatenate((cracked.area,intact.area)),intact.normal,cracked.valid&intact.valid)
-    bonded=jnp.arange(len(line.area))>=len(cracked.area)
+    if args.notch=='edge':
+        crack_segments=[(.01,tip)]
+    else:
+        crack_segments=[(.01,.022),(.038,.05)]
+    intact_segments=[(crack_segments[0][1],crack_segments[1][0])] if args.notch=='double' else [(tip,.05)]
+    cracked_parts=[implicit_contact.line_interface((a,cut),(b,cut),(0.,1.),config) for a,b in crack_segments]
+    intact_parts=[implicit_contact.line_interface((a,cut),(b,cut),(0.,1.),config) for a,b in intact_segments]
+    parts=cracked_parts+intact_parts
+    line=implicit_contact.Interface(jnp.concatenate([p.plus for p in parts]),jnp.concatenate([p.minus for p in parts]),
+                                    jnp.concatenate([p.area for p in parts]),parts[-1].normal,
+                                    jnp.all(jnp.stack([p.valid for p in parts])))
+    bonded=jnp.concatenate([jnp.zeros(len(p.area),dtype=bool) for p in cracked_parts]+
+                           [jnp.ones(len(p.area),dtype=bool) for p in intact_parts])
     interface=normal_cohesive.initialize(line,bonded)
     material=neo_hookean(E,nu);law=CohesiveLaw(12e6,200.,1e13)
     ref_vertices=np.asarray(state.reference.vertices);ref_center=np.asarray(state.reference_centroid)
@@ -75,10 +88,12 @@ def main():
     sources=['examples/domain_notched_tension.py','mpm_jax/normal_cohesive.py','mpm_jax/implicit_contact.py',
              'mpm_jax/domain_mpm.py','mpm_jax/domain_transfer.py','mpm_jax/cut_fragments.py','mpm_jax/cut_geometry.py',
              'mpm_jax/cohesive_crack.py','mpm_jax/core.py','mpm_jax/boundaries.py']
-    info=dict(case='Domain-integrated Mode-I edge-notch tension',grid=args.grid,dx_m=dx,dt_s=dt,steps=40*per_frame,
+    info=dict(case='Domain-integrated Mode-I prescribed-path tension',notch=args.notch,grid=args.grid,dx_m=dx,dt_s=dt,steps=40*per_frame,
               loading=args.loading,batch_size=args.batch_size,prescribed_total_opening_m=args.opening if args.loading=='hold' else None,
+              pulse_peak_opening_m=args.opening if args.loading=='pulse' else None,pulse_period_s=args.period if args.loading=='pulse' else None,
               duration_s=args.duration,young_Pa=E,poisson=nu,density_kg_m3=rho,domains=len(keep),law=asdict(law),
-              interface_quadrature=len(interface.area),initial_crack_length_m=tip-.01,prescribed_path_length_m=.04,
+              interface_quadrature=len(interface.area),initial_crack_segments_m=[list(s) for s in crack_segments],
+              initial_crack_length_m=sum(b-a for a,b in crack_segments),prescribed_path_length_m=.04,
               zero_initial_physical_damage=True,initial_energy_J_per_m=0.,
               boundary_conditions=[dict(type=type(b).__name__,**asdict(b)) for b in boundaries],
               source_sha256={p:hashlib.sha256((root/p).read_bytes().replace(b'\r\n',b'\n')).hexdigest() for p in sources})
@@ -117,7 +132,21 @@ def main():
             stored,dissipated=map(float,normal_cohesive.energy(interface,law))
             max_open=np.asarray(interface.maximum);bound=np.asarray(interface.bonded);area=np.asarray(interface.area)
             damaged=max_open>law.peak_opening*(1+1e-8);failed=max_open>=law.final_opening*(1-1e-8)
-            connected=np.cumprod(~bound|failed).astype(bool);damage_connected=np.cumprod(~bound|damaged).astype(bool)
+            connected_mask=np.zeros(len(bound),dtype=bool);damage_connected_mask=np.zeros(len(bound),dtype=bool)
+            offset=0;side_metrics=[]
+            for part in cracked_parts:
+                n=len(part.area);offset+=n
+            for part in intact_parts:
+                n=len(part.area);sl=slice(offset,offset+n);offset+=n
+                if args.notch=='double':
+                    left_failed=np.cumprod(failed[sl]).astype(bool);right_failed=np.cumprod(failed[sl][::-1]).astype(bool)[::-1]
+                    left_damaged=np.cumprod(damaged[sl]).astype(bool);right_damaged=np.cumprod(damaged[sl][::-1]).astype(bool)[::-1]
+                    connected_mask[sl]=left_failed|right_failed;damage_connected_mask[sl]=left_damaged|right_damaged
+                    side_metrics=[(float(np.sum(area[sl]*left_failed)),float(np.sum(area[sl]*left_damaged))),
+                                  (float(np.sum(area[sl]*right_failed)),float(np.sum(area[sl]*right_damaged)))]
+                else:
+                    connected_mask[sl]=np.cumprod(failed[sl]).astype(bool);damage_connected_mask[sl]=np.cumprod(damaged[sl]).astype(bool)
+            connected=connected_mask;damage_connected=damage_connected_mask
             vertices=x[:,None,:]+np.einsum('pij,pkj->pki',F,ref_vertices-ref_center[:,None,:])
             drift=0.
             for field,samples in enumerate((np.asarray(interface.plus),np.asarray(interface.minus))):
@@ -135,6 +164,9 @@ def main():
                      connected_failed_m=float(np.sum(area*bound*connected)),detached_failed_m=float(np.sum(area*bound*failed*(~connected))),
                      connected_damaged_m=float(np.sum(area*bound*damage_connected)),minimum_trace_gap_m=float(jnp.min(implicit_contact.opening(interface))),
                      maximum_trace_geometry_drift_m=drift,min_J=float(np.linalg.det(F).min()),valid=bool(ok),elapsed_s=time.perf_counter()-started)
+            if args.notch=='double':
+                row.update(left_connected_failed_m=side_metrics[0][0],right_connected_failed_m=side_metrics[1][0],
+                           left_connected_damaged_m=side_metrics[0][1],right_connected_damaged_m=side_metrics[1][1])
             rows.append(row)
             if writer is None:
                 writer=csv.DictWriter(stream,fieldnames=row);writer.writeheader()
