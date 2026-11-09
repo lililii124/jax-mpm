@@ -6,6 +6,28 @@ from pathlib import Path
 import numpy as np
 
 
+def physical_edge_width(settings):
+    widths = settings.get('fixed_edge_width')
+    if widths is None:
+        widths = [1.01*settings['cell_size'][axis]/settings['cell'][axis] for axis in (0, 1)]
+    widths = np.asarray(widths, dtype=float)
+    if widths.shape != (2,) or not np.isfinite(widths).all() or np.any(widths <= 0):
+        raise ValueError('Invalid physical fixed-edge width')
+    return widths
+
+
+def verify_physical_model_compatibility(proxy, binary):
+    fields = ('cell', 'cell_size', 'skin', 'skin_layers', 'volume_fraction', 'skin_young',
+              'core_young', 'solid_density', 'pressure', 'pulse', 'blast_radius')
+    if any(proxy[key] != binary[key] for key in fields):
+        raise ValueError('Gradient and binary simulations use different physical settings')
+    if not np.allclose(physical_edge_width(proxy), physical_edge_width(binary), rtol=0, atol=1e-12):
+        raise ValueError('Gradient and binary simulations use different fixed-edge widths')
+    a, b = float(proxy['dt'])*int(proxy['steps']), float(binary['dt'])*int(binary['steps'])
+    if not np.isfinite([a, b]).all() or min(a, b) <= 0 or not np.isclose(a, b, rtol=1e-10, atol=1e-14):
+        raise ValueError('Gradient and binary simulations use different physical time horizons')
+
+
 def read_run(path, energy_tolerance, allow_incomplete=False):
     meta = json.loads((path/'inputs.json').read_text(encoding='utf-8'))
     rows = json.loads((path/'history.json').read_text(encoding='utf-8'))

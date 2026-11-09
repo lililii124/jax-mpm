@@ -80,8 +80,12 @@ def build(args):
         bi,bw=surface_weights(support,np.column_stack((xy,np.zeros(len(xy)))))
     # Clamp a narrow perimeter frame on both sheets.
     xyz=support.nodes
-    fixed=((xyz[:,0]<h[0]*1.01)|(xyz[:,0]>(gx-1.01)*h[0])|
-           (xyz[:,1]<h[1]*1.01)|(xyz[:,1]>(gy-1.01)*h[1]))[:,None]
+    edge = np.asarray(getattr(args, 'fixed_edge_width', None) if getattr(args, 'fixed_edge_width', None) is not None
+                      else [h[0]*1.01, h[1]*1.01], dtype=float)
+    if edge.shape != (2,) or not np.isfinite(edge).all() or np.any(edge <= 0) or np.any(edge >= (gx*h[0]/2, gy*h[1]/2)):
+        raise ValueError('Fixed edge widths must be positive and less than half the domain')
+    fixed=((xyz[:,0]<edge[0])|(xyz[:,0]>gx*h[0]-edge[0])|
+           (xyz[:,1]<edge[1])|(xyz[:,1]>gy*h[1]-edge[1]))[:,None]
     fixed=np.broadcast_to(fixed,xyz.shape)
     center=np.array((gx*h[0]/2,gy*h[1]/2)); radius=args.blast_radius
     footprint=np.exp(-.5*np.sum(((xy-center)/radius)**2,axis=1)); footprint/=np.sum(footprint*face_area)/np.sum(face_area)
@@ -138,6 +142,7 @@ def build(args):
     return objective, dict(particles=len(pos),nodes=len(xyz),design_variables=nx*ny*nz,
         cells=(gx,gy,gz),dt=dt,steps=nsteps,tiles=9,full_domain=True,
         cell_size_m=size.tolist(),plate_size_m=[float(gx*h[0]),float(gy*h[1]),float(gz*h[2])],
+        fixed_edge_width_m=edge.tolist(),
         fixed_face_sheets=args.skin_layers>0,
         blast_center_m=center.tolist(),blast_gaussian_sigma_m=radius,
         adjacent_cell_center_pressure_ratio=float(np.exp(-.5*(size[0]/radius)**2)),
@@ -158,6 +163,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--cell',type=int,nargs=3,default=(16,16,20))
     p.add_argument('--cell-size',type=float,nargs=3,default=(.1,.1,.02))
+    p.add_argument('--fixed-edge-width',type=float,nargs=2)
     p.add_argument('--skin',type=float,default=.002);p.add_argument('--skin-layers',type=int,default=2);p.add_argument('--volume-fraction',type=float,default=.3)
     p.add_argument('--beta',type=float,default=5.);p.add_argument('--skin-young',type=float,default=70e9)
     p.add_argument('--filter-passes',type=int,default=0)

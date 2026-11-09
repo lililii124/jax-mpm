@@ -42,6 +42,7 @@ def atomic_npz(path, **data):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--cell',type=int,nargs=3,default=(16,16,20));p.add_argument('--cell-size',type=float,nargs=3,default=(.1,.1,.02))
+    p.add_argument('--fixed-edge-width',type=float,nargs=2)
     p.add_argument('--skin',type=float,default=.002);p.add_argument('--skin-layers',type=int,default=2);p.add_argument('--volume-fraction',type=float,default=.3)
     p.add_argument('--beta',type=float,default=5.);p.add_argument('--filter-passes',type=int,default=0);p.add_argument('--skin-young',type=float,default=70e9);p.add_argument('--core-young',type=float,default=20e9)
     p.add_argument('--require-connected-binary',action='store_true')
@@ -57,6 +58,7 @@ def main():
     if not a.check_only and a.steps*a.dt < a.pulse:
         raise ValueError('An optimization must include the entire pressure pulse')
     physics={k:v for k,v in vars(a).items() if k not in ('iterations','initial_step','min_step','output','resume','check_only','check_epsilon','init','seed')}
+    if physics.get('fixed_edge_width') is None: physics.pop('fixed_edge_width', None)
     relevant=('examples/multicell_blast_3d.py','mpm_jax/shared_cell_design.py','mpm_jax/periodic_filter.py','mpm_jax/exposed_pressure.py','tools/reconstruct_multicell_blast.py',
         'mpm_jax/compact_tl.py','mpm_jax/total_lagrangian.py','mpm_jax/materials/elastic.py',
         'tools/optimize_multicell_blast.py')
@@ -65,7 +67,7 @@ def main():
     import jax, jaxlib
     binding=dict(settings=physics,source_sha256=sources,jax=jax.__version__,jaxlib=jaxlib.__version__,numpy=np.__version__)
     signature=hashlib.sha256(json.dumps(binding,sort_keys=True).encode()).hexdigest()
-    model_args=argparse.Namespace(**{k:v for k,v in vars(a).items() if k in ('cell','cell_size','skin','skin_layers','volume_fraction','beta','filter_passes','skin_young','core_young','solid_density','pressure','pulse','blast_radius','dt','cfl_limit','steps','checkpoint_block','displacement_scale','pressure_placement','density_floor')})
+    model_args=argparse.Namespace(**{k:v for k,v in vars(a).items() if k in ('cell','cell_size','fixed_edge_width','skin','skin_layers','volume_fraction','beta','filter_passes','skin_young','core_young','solid_density','pressure','pulse','blast_radius','dt','cfl_limit','steps','checkpoint_block','displacement_scale','pressure_placement','density_floor')})
     objective,plan=build(model_args)
     import jax.numpy as jnp
     n=int(np.prod(a.cell)); out=a.output

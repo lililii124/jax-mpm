@@ -45,7 +45,7 @@ def main():
             'pulse', 'blast_radius', 'dt', 'cfl_limit', 'steps', 'checkpoint_block',
             'displacement_scale')
     model = {key: settings[key] for key in keys}
-    for key in ('pressure_placement', 'density_floor'):
+    for key in ('pressure_placement', 'density_floor', 'fixed_edge_width'):
         if key in settings:
             model[key] = settings[key]
     objective, plan = build(argparse.Namespace(**model))

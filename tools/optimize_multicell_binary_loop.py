@@ -12,7 +12,7 @@ import uuid
 
 import numpy as np
 
-from tools.compare_multicell_binary_blast import read_run
+from tools.compare_multicell_binary_blast import read_run, verify_physical_model_compatibility
 
 
 def sha256(path):
@@ -204,10 +204,7 @@ def main():
     binary = json.loads(args.binary_inputs.read_text(encoding='utf-8'))
     opt_settings = inputs['binding']['settings']
     bin_settings = binary['binding']['settings']
-    fields = ('cell', 'cell_size', 'skin', 'skin_layers', 'volume_fraction', 'skin_young',
-              'core_young', 'solid_density', 'pressure', 'pulse', 'blast_radius')
-    if any(opt_settings[key] != bin_settings[key] for key in fields):
-        raise ValueError('Gradient and binary simulations use different physical settings')
+    verify_physical_model_compatibility(opt_settings, bin_settings)
     baseline_meta, baseline_rows, _ = read_run(args.baseline_replay, .02)
     if baseline_meta['settings'] != bin_settings or baseline_meta['geometry_sha256'] != sha256(args.baseline_geometry):
         raise ValueError('Baseline replay differs from the supplied binary inputs or geometry')

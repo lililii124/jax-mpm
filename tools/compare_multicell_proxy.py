@@ -42,19 +42,12 @@ def main():
     from examples.multicell_blast_3d import build
     from mpm_jax.periodic_filter import filter_cell_logits
     from mpm_jax.shared_cell_design import project_fixed_volume
-    from tools.compare_multicell_binary_blast import compare, read_run
+    from tools.compare_multicell_binary_blast import compare, read_run, verify_physical_model_compatibility
     from tools.reconstruct_multicell_blast import mask_digest, reconstruct
 
     initial_meta, _, _ = read_run(args.initial_replay, .02)
     candidate_meta, _, _ = read_run(args.candidate_replay, .02)
-    physical_fields = ('cell', 'cell_size', 'skin', 'skin_layers', 'volume_fraction', 'skin_young',
-                       'core_young', 'solid_density', 'pressure', 'pulse', 'blast_radius')
-    if any(settings[key] != initial_meta['settings'][key] for key in physical_fields):
-        raise ValueError('Proxy and physical replay use different physical settings')
-    proxy_horizon = settings['steps']*settings['dt']
-    physical_horizon = initial_meta['steps']*initial_meta['settings']['dt']
-    if abs(proxy_horizon-physical_horizon) > max(settings['dt'], initial_meta['settings']['dt']):
-        raise ValueError('Proxy and physical replay cover different physical horizons')
+    verify_physical_model_compatibility(settings, initial_meta['settings'])
     if initial_meta['geometry_sha256'] != digest(args.initial_geometry) or candidate_meta['geometry_sha256'] != digest(args.candidate_geometry):
         raise ValueError('Physical replays and geometries differ')
     designs = []
@@ -81,6 +74,7 @@ def main():
     results = {}
     for placement in ('top', 'exposed'):
         model = {key: settings[key] for key in keys}
+        if 'fixed_edge_width' in settings: model['fixed_edge_width'] = settings['fixed_edge_width']
         model.update(pressure_placement=placement, density_floor=args.density_floor)
         objective, plan = build(argparse.Namespace(**model))
         evaluate = jax.jit(objective)
@@ -98,7 +92,8 @@ def main():
                                   plan=plan)
     sources = ('examples/multicell_blast_3d.py', 'mpm_jax/exposed_pressure.py', 'mpm_jax/periodic_filter.py',
                'mpm_jax/shared_cell_design.py', 'mpm_jax/compact_tl.py', 'mpm_jax/total_lagrangian.py',
-               'mpm_jax/materials/elastic.py', 'tools/compare_multicell_proxy.py')
+               'mpm_jax/materials/elastic.py', 'tools/compare_multicell_binary_blast.py',
+               'tools/compare_multicell_proxy.py')
     result = dict(physical=physical, proxy=results, density_floor=args.density_floor,
                   source_sha256={name: digest(root/name) for name in sources},
                   inputs_sha256=digest(args.inputs), initial_design_sha256=digest(args.initial_design),
