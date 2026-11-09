@@ -1,0 +1,29 @@
+{
+  "renderer": "ParaView",
+  "frames": 21,
+  "distinct_frames": 21,
+  "size": [
+    400,
+    400
+  ],
+  "supersample": 4,
+  "deformation_scale": 1.0,
+  "stress_field": "negative Cauchy sigma_xx",
+  "constitutive_model": "compressible Neo-Hookean",
+  "stress_range_Pa": [
+    0.0,
+    20000.0
+  ],
+  "camera_center": [
+    0.04,
+    0.04
+  ],
+  "camera_parallel_scale": 0.023,
+  "geometry": "Current polygons from reference_vertices/count/centroid mapped by frame F and x",
+  "included_domains": 4128,
+  "checked_frames": 21,
+  "max_rendered_vertex_error_m": 0.0,
+  "source_sha256": "a8eac1b4bceea6b7072e16af9ea9b5d79c1b3807311a0048e618167656d0c747",
+  "final_state_sha256": "dcf59a121a4fcfa4f6ee8e686ec3c0dd9936a676b1fea6d3cb06f506580fcb59",
+  "gif_sha256": "e5a7141a83c05054c5c642e7e795aa1a5b4f1efbf48bd469fc4cdb1cc8ac9714"
+}

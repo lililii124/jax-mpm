@@ -1,5 +1,8 @@
 # Domain dynamics audit
 
+The subsequent [implicit planar-contact audit](DOMAIN_CONTACT.md) couples this
+bulk operator to a work-conjugate pressure trace and checks elastic bar collision.
+
 This records the completed moving-domain compression and release runs. Evidence contains each run's `input.json`, `summary.json`, and `history.csv`, plus the validation report. Large state snapshots and saved frame files are intentionally omitted. The original outputs remain under `outputs/`.
 
 ## Compression results

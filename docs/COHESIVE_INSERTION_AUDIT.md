@@ -344,3 +344,10 @@ and the release still has substantial transfer loss. Compatible interface
 motion and force scatter, and finite-tip activation with independent fragment
 fields remain open. The old point-APIC kinetic ledger must not be reused for
 the domain operator. These checks do not qualify dynamic crack propagation.
+
+An [implicit fixed-normal contact branch](DOMAIN_CONTACT.md) now advances
+complete bar-collision trajectories with these domain transfers. Its unfiltered
+trace passes the frozen pressure patch; stiffness is handled by a condensed
+gap solve rather than a mass cutoff. This covers planar contact only. Cohesive
+failure, finite tips and changing contact geometry remain required for the
+stopped fracture examples.

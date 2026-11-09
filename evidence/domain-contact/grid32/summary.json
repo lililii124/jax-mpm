@@ -1,0 +1,90 @@
+{
+  "case": "Planar elastic bar collision",
+  "grid": 32,
+  "dx_m": 0.0025,
+  "dt_s": 3.3333333333333333e-06,
+  "steps": 60,
+  "duration_s": 0.0002,
+  "young_Pa": 3000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "domains": 264,
+  "contact_stiffness_Pa_per_m": 100000000000.0,
+  "interface_quadrature": 15,
+  "cut_m": 0.0403,
+  "initial_speed_m_s": 0.25,
+  "initial_energy_J_per_m": 0.01500000000000001,
+  "linear_wave_speed_m_s": 52.70462766947299,
+  "linear_impact_pressure_Pa": 15811.388300841898,
+  "minimum_end_reflection_time_s": 0.00037378121943190234,
+  "boundary_conditions": [
+    {
+      "type": "VelocityBox",
+      "lower": [
+        0.0,
+        0.0
+      ],
+      "upper": [
+        0.08,
+        0.08
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "components": [
+        false,
+        true
+      ],
+      "start": 0.0,
+      "end": Infinity
+    }
+  ],
+  "source_sha256": {
+    "examples/domain_bar_collision.py": "408e212064871f1ef7e4dd7de007d2438eaba9592d8719fbb6736ee7ccbcaa53",
+    "mpm_jax/implicit_contact.py": "fcd2781ed0e8dff9d38c75e594883028faa7b90d9180baa52bbeeaba761f5a92",
+    "mpm_jax/domain_mpm.py": "680f5fe7b521bde77cfdf466a253449da4aa33c6cb72cbf5747c898cb6a0f1ce",
+    "mpm_jax/domain_transfer.py": "6551a19b1a66ded618276736459d48cbfb3f97c229eccad288391d77a9ef72ae",
+    "mpm_jax/cut_fragments.py": "7a4b109b9d4166684326dbba4fb8141a3039b4033963882e2de0fae8ca5d05c9",
+    "mpm_jax/cut_geometry.py": "3896be73178be865bc13f5b2b11a2db9ea8f3274e71d77dc8e316321f3d313a5",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5"
+  },
+  "completed": true,
+  "final": {
+    "time_s": 0.00019999999999999985,
+    "steps": 60,
+    "kinetic_J_per_m": 0.005975170035724236,
+    "elastic_J_per_m": 0.006774598507148634,
+    "contact_energy_J_per_m": 0.0,
+    "external_J_per_m": -4.183997177699055e-18,
+    "transfer_loss_J_per_m": 0.0022497888629725927,
+    "boundary_projection_loss_J_per_m": 0.0,
+    "geometry_energy_J_per_m": -4.4259417060488193e-07,
+    "absolute_geometry_energy_J_per_m": 4.4259417060488193e-07,
+    "balance_error_J_per_m": 1.6061804664069257e-14,
+    "numerical_loss_fraction": 0.14998592419817275,
+    "max_contact_power_error_J_per_m": 6.180582216024487e-15,
+    "max_contact_residual": 3.5333979338212046e-16,
+    "max_bulk_residual": 6.704399591784016e-10,
+    "max_contact_net_moment_N": 1.0887124535230441e-14,
+    "mean_contact_iterations": 0.6,
+    "contact_pressure_Pa": 9880.059844157855,
+    "mean_contact_pressure_Pa": 16267.694759249147,
+    "plateau_pressure_Pa": 15535.563296124208,
+    "plateau_linear_reference_relative_error": -0.01744470501069173,
+    "minimum_trace_gap_m": 1.329762535501322e-07,
+    "minimum_geometry_gap_m": 1.2170930197008545e-07,
+    "maximum_trace_geometry_drift_m": 1.006534559172545e-08,
+    "min_J": 0.9947060761546355,
+    "valid": true,
+    "elapsed_s": 4.240428400051314
+  },
+  "max_balance_error_J_per_m": 2.890027626933911e-14,
+  "limitations": [
+    "Fixed-normal, fixed tangential quadrature; no finite-sliding contact or fracture growth",
+    "Independent normal traces can drift from affine material-domain boundaries; drift is measured",
+    "Linear acoustic reference is approximate for the nonlinear bulk and does not establish convergence"
+  ]
+}

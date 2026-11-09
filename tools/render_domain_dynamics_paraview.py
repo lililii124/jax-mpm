@@ -17,6 +17,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--size', type=int, default=400)
     parser.add_argument('--stress-max', type=float, default=40000.)
+    parser.add_argument('--field', choices=('principal_stress','compression_x'), default='principal_stress')
     parser.add_argument('--center', nargs=2, type=float, default=(.04, .04))
     parser.add_argument('--parallel-scale', type=float, default=.023)
     args = parser.parse_args()
@@ -84,7 +85,7 @@ def main():
                     raise ValueError(f'Nonpositive deformation determinant in {path.name}')
                 B = F[i] @ F[i].T
                 sigma = (mu / J) * (B - np.eye(2)) + (lam * np.log(J) / J) * np.eye(2)
-                stresses.append(float(np.linalg.eigvalsh(sigma)[-1]))
+                stresses.append(float(np.linalg.eigvalsh(sigma)[-1] if args.field=='principal_stress' else -sigma[0,0]))
             xy = np.concatenate(xy_list, axis=0)
             values = np.asarray(stresses)
         xyz = np.column_stack((xy, np.zeros(len(xy))))
@@ -103,7 +104,7 @@ def main():
         mesh.SetPoints(points)
         mesh.SetPolys(cells)
         field = numpy_to_vtk(values, deep=True)
-        field.SetName('principal_stress')
+        field.SetName(args.field)
         mesh.GetCellData().SetScalars(field)
         source = pv.TrivialProducer()
         source.GetClientSideObject().SetOutput(mesh)
@@ -122,8 +123,8 @@ def main():
         display.Representation = 'Surface'
         display.Ambient = 1.
         display.Diffuse = 0.
-        pv.ColorBy(display, ('CELLS', 'principal_stress'))
-        lut = pv.GetColorTransferFunction('principal_stress')
+        pv.ColorBy(display, ('CELLS', args.field))
+        lut = pv.GetColorTransferFunction(args.field)
         lut.RGBPoints = [0., .19, .36, .59,
                          .5 * args.stress_max, .88, .91, .94,
                          args.stress_max, .77, .16, .10]
@@ -148,7 +149,8 @@ def main():
     gif_hash = hashlib.sha256(args.output.read_bytes()).hexdigest()
     receipt = dict(renderer='ParaView', frames=len(images), distinct_frames=len(distinct),
                    size=[args.size, args.size], supersample=4, deformation_scale=1.,
-                   stress_field='maximum in-plane Cauchy principal stress (compressible Neo-Hookean)',
+                   stress_field=('maximum in-plane Cauchy principal stress' if args.field=='principal_stress' else 'negative Cauchy sigma_xx'),
+                   constitutive_model='compressible Neo-Hookean',
                    stress_range_Pa=[0., args.stress_max], camera_center=args.center,
                    camera_parallel_scale=args.parallel_scale,
                    geometry='Current polygons from reference_vertices/count/centroid mapped by frame F and x',
