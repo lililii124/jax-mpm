@@ -1,0 +1,88 @@
+{
+  "case": "Domain-integrated Mode-I prescribed-path tension",
+  "notch": "double",
+  "grid": 48,
+  "dx_m": 0.00125,
+  "dt_s": 5.5555555555555555e-08,
+  "steps": 2160,
+  "loading": "hold",
+  "batch_size": 32,
+  "prescribed_total_opening_m": 8e-05,
+  "pulse_peak_opening_m": null,
+  "pulse_period_s": null,
+  "duration_s": 0.00012,
+  "young_Pa": 3000000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "domains": 2048,
+  "law": {
+    "strength": 12000000.0,
+    "energy": 200.0,
+    "stiffness": 10000000000000.0
+  },
+  "interface_quadrature": 105,
+  "initial_crack_segments_m": [
+    [
+      0.01,
+      0.022
+    ],
+    [
+      0.038,
+      0.05
+    ]
+  ],
+  "initial_crack_length_m": 0.024,
+  "prescribed_path_length_m": 0.04,
+  "zero_initial_physical_damage": true,
+  "initial_energy_J_per_m": 0.0,
+  "boundary_conditions": [
+    {
+      "type": "RampDisplacementBox",
+      "lower": [
+        0.008,
+        0.018
+      ],
+      "upper": [
+        0.052,
+        0.022
+      ],
+      "displacement": [
+        0.0,
+        -4e-05
+      ],
+      "ramp_time": 4e-05,
+      "components": null,
+      "start": 0.0
+    },
+    {
+      "type": "RampDisplacementBox",
+      "lower": [
+        0.008,
+        0.038
+      ],
+      "upper": [
+        0.052,
+        0.042
+      ],
+      "displacement": [
+        0.0,
+        4e-05
+      ],
+      "ramp_time": 4e-05,
+      "components": null,
+      "start": 0.0
+    }
+  ],
+  "source_sha256": {
+    "examples/domain_notched_tension.py": "c7336d1b18bb3d8f9e0d08ecf45a0ff737114477d4b3b2b2ac74b4147b142520",
+    "mpm_jax/normal_cohesive.py": "99a955a901b1263eab822ad698aebd3f1ba6c5d819064587fdff15a47b70a24b",
+    "mpm_jax/implicit_contact.py": "8b121351cf8560a0fcdbe0ae1b74feb76a875298d5899afe8f3502383f629368",
+    "mpm_jax/domain_mpm.py": "c7a8a4971c5a27f33bc9709cff4f061b306606c8a76d4a2532d37d4ced919c15",
+    "mpm_jax/domain_transfer.py": "eeb688929f26d1dc9bc85b17b684f2ed105016e4707862de95ad13ac685a0185",
+    "mpm_jax/cut_fragments.py": "c7b1f91aadc67ec44db44d3638fbda34928bd559a2cfac659ca3269b0ad83bcf",
+    "mpm_jax/cut_geometry.py": "3896be73178be865bc13f5b2b11a2db9ea8f3274e71d77dc8e316321f3d313a5",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/boundaries.py": "70a90334bce67907d91cbb4eeebf0559b28346194ad430add49c640dfb84880b"
+  }
+}

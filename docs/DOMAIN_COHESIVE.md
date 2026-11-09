@@ -120,14 +120,52 @@ recontact and spatial/time convergence remain part of the fracture work.
 
 ## Additional loading cases
 
-Two submitted additions use the existing planar interface: double-edge-notch tension
+Two completed additions use the existing planar interface: double-edge-notch tension
 with a 16 mm intact central ligament, and single-notch opening followed by
 unloading and closure. Each begins with zero damage in its bonded region.
 The double-notch case measures fronts from both ends without counting the
 initial unbonded notches as new failure. The closure case retains irreversible
-tensile damage while restoring compressive contact. These cases are under
-development; computed response and numerical losses must be reviewed before
-gallery publication.
+tensile damage while restoring compressive contact. Both complete all 2,160
+steps and 41 saved states. Independent reconstruction checks their geometry,
+source hashes, constitutive history and energy ledger. They remain development
+demonstrations: final numerical dissipation is large, so accounting closure
+does not establish physical accuracy or a causal crack-tip speed.
+
+<table width="100%">
+<tr>
+<td width="50%"><img src="images/home/fracture--domain-double-notch.gif" alt="Double-notch development calculation" width="100%"></td>
+<td width="50%"><img src="images/home/fracture--domain-opening-closure.gif" alt="Opening and recontact development calculation" width="100%"></td>
+</tr>
+<tr>
+<td width="50%"><img src="images/home/fracture--domain-double-notch-tip.gif" alt="Double-notch local view" width="100%"></td>
+<td width="50%"><img src="images/home/fracture--domain-opening-closure-tip.gif" alt="Opening and recontact local view" width="100%"></td>
+</tr>
+</table>
+
+| Quantity | Double notch | Opening and recontact |
+| --- | ---: | ---: |
+| Complete history | 120 microseconds | 120 microseconds |
+| First saved fully failed bonded point | 27 microseconds | 27 microseconds |
+| Entire bonded ligament failed by | 33 microseconds | 42 microseconds |
+| Fully failed bonded length | 16 mm | 28 mm |
+| Fracture dissipation | 3.2 J/m | 5.6 J/m |
+| Net external work | 8.37673 J/m | 15.92839 J/m |
+| Transfer plus boundary-projection loss | 4.43956 J/m | 9.82404 J/m |
+| Numerical loss / net work | 53.00% | 61.68% |
+
+The unloading run reaches a saved compressive gap of -2.065 micrometres,
+corresponding to 20.65 MPa under its penalty law. Maximum sampled detached
+failed and damaged lengths are zero in both cases. These connectivity checks
+do not establish tip causality: a continuous softening region can still
+develop under remote loading.
+
+Each ParaView animation uses computed polygons at their actual deformation,
+a fixed 0–20 MPa principal-stress range, and a 400 x 400 frame. The lower row
+uses a fixed 5 x 5 mm camera around the initial left crack tip; it changes
+the camera only. All 41 states are rendered. The local GIFs encode 40 frames
+after merging duplicate images. Compact histories and checks are in
+[`double-notch-grid48`](../evidence/domain-cohesive/double-notch-grid48) and
+[`opening-closure-grid48`](../evidence/domain-cohesive/opening-closure-grid48).
 
 Both first runs use 80 micrometres total peak grip opening and the 48-cell
 grid over 120 microseconds. Double-notch loading reaches its held opening

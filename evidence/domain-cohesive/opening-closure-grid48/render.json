@@ -1,0 +1,29 @@
+{
+  "renderer": "ParaView",
+  "frames": 41,
+  "distinct_frames": 41,
+  "size": [
+    400,
+    400
+  ],
+  "supersample": 4,
+  "deformation_scale": 1.0,
+  "stress_field": "maximum in-plane Cauchy principal stress",
+  "constitutive_model": "compressible Neo-Hookean",
+  "stress_range_Pa": [
+    0.0,
+    20000000.0
+  ],
+  "camera_center": [
+    0.03,
+    0.03
+  ],
+  "camera_parallel_scale": 0.023,
+  "geometry": "Current polygons from reference_vertices/count/centroid mapped by frame F and x",
+  "included_domains": 2048,
+  "checked_frames": 41,
+  "max_rendered_vertex_error_m": 0.0,
+  "source_sha256": "780218627dd03cc958a14e67fa8a2dc4b07d389e8252af19d4a685385b3e16c0",
+  "final_state_sha256": "42878aa3a41c682f6fbcb2f9e493f88f10ab0d28b5deba5d088c628426e76e7b",
+  "gif_sha256": "4ee5538f799f501d31a33c15b4a56fcafc4c65095311e6a23c37d214f6d90875"
+}

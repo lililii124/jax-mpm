@@ -283,6 +283,10 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <td width="50%" align="center"><img src="docs/images/home/fracture--notched-tension.gif" alt="Edge-notched plate under tension" width="100%"><br><a href="docs/COHESIVE_LOADING_CASES.md">Notched tension</a></td>
 <td width="50%" align="center"><img src="docs/images/home/fracture--mixed-loading.gif" alt="Combined opening and shear" width="100%"><br><a href="docs/COHESIVE_LOADING_CASES.md">Mixed loading</a></td>
 </tr>
+<tr>
+<td width="50%" align="center"><img src="docs/images/home/fracture--domain-double-notch.gif" alt="Prescribed-path double-notch development calculation" width="100%"><br><a href="docs/DOMAIN_COHESIVE.md#additional-loading-cases">Double notch · development</a></td>
+<td width="50%" align="center"><img src="docs/images/home/fracture--domain-opening-closure.gif" alt="Prescribed-path opening and recontact development calculation" width="100%"><br><a href="docs/DOMAIN_COHESIVE.md#additional-loading-cases">Opening and recontact · development</a></td>
+</tr>
 </table>
 
 ### JAX design
