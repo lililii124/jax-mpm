@@ -76,6 +76,28 @@ def publish_cached_gradient(source, cache_path, inputs_path, design_path):
         temporary.unlink(missing_ok=True)
 
 
+def acceptance_receipt(root, inputs, binary_inputs, baseline_design, baseline_geometry, baseline_replay,
+                       reference_geometry, reference_replay, proposals, proposed, replays, selection):
+    sources = ('tools/optimize_multicell_binary_loop.py', 'tools/select_multicell_binary_step.py',
+               'tools/compare_multicell_binary_blast.py', 'tools/reconstruct_multicell_blast.py',
+               'tools/multicell_feature_filter.py')
+    def replay_digest(path):
+        outcome = path/'outcome.json'
+        return {'inputs': sha256(path/'inputs.json'), 'history': sha256(path/'history.json'),
+                'outcome': sha256(outcome) if outcome.exists() else None}
+    return {'inputs': sha256(inputs), 'binary_inputs': sha256(binary_inputs),
+            'baseline_design': sha256(baseline_design), 'baseline_geometry': sha256(baseline_geometry),
+            'baseline_replay': replay_digest(baseline_replay),
+            'reference_geometry': sha256(reference_geometry), 'reference_replay': replay_digest(reference_replay),
+            'proposal_manifest': sha256(proposals/'manifest.json'),
+            'candidates': [{'design': sha256(proposals/row['design']),
+                            'geometry': sha256(proposals/row['geometry']), 'replay': replay_digest(replay)}
+                           for row, replay in zip(proposed, replays)],
+            'selection': sha256(selection/'selection.json'),
+            'selected_design': sha256(selection/'selected-design.npz'),
+            'sources': {name: sha256(root/name) for name in sources}}
+
+
 def preserve_partial_directory(path, required):
     if not path.exists():
         return
@@ -351,7 +373,7 @@ def main():
             replays.append(replay)
         selection_dir = stage / 'selection'
         if args.resume:
-            preserve_partial_directory(selection_dir, ('selection.json', 'selected-design.npz'))
+            preserve_partial_directory(selection_dir, ('selection.json', 'selected-design.npz', 'acceptance-receipt.json'))
         if not selection_dir.exists():
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'selecting'})
             selection_args = ['tools.select_multicell_binary_step', args.inputs, current_design, current_geometry,
@@ -366,6 +388,17 @@ def main():
                 selection_args.extend(('--constraint-reference-replay', args.baseline_replay,
                                        '--constraint-reference-geometry', args.baseline_geometry))
             run(*selection_args)
+            receipt = acceptance_receipt(root, args.inputs, args.binary_inputs, current_design, current_geometry,
+                                         current_replay, args.baseline_geometry, args.baseline_replay,
+                                         proposals, proposed, replays, selection_dir)
+            write_json(selection_dir/'acceptance-receipt.json', receipt)
+        else:
+            recorded = json.loads((selection_dir/'acceptance-receipt.json').read_text())
+            actual = acceptance_receipt(root, args.inputs, args.binary_inputs, current_design, current_geometry,
+                                        current_replay, args.baseline_geometry, args.baseline_replay,
+                                        proposals, proposed, replays, selection_dir)
+            if recorded != actual:
+                raise ValueError('Stored acceptance evidence or validation code differs')
         selection = json.loads((selection_dir / 'selection.json').read_text())
         selected_design = selection_dir / 'selected-design.npz'
         if sha256(selected_design) != selection['selected_design_sha256']:
