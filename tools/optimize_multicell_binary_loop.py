@@ -385,6 +385,9 @@ def main():
         if (manifest.get('explore_directions', 0) != args.explore_directions or
                 (args.explore_directions and manifest.get('explore_seed') != exploration_seed)):
             raise ValueError('Proposal exploration settings differ')
+        fallback_seed = (exploration_seed if args.retry_rejected_rounds else 370) if args.fallback_directions else None
+        if manifest.get('fallback_seed') != fallback_seed:
+            raise ValueError('Proposal fallback seed differs')
         if (manifest.get('min_bottom_coverage') != args.min_bottom_coverage or
                 manifest.get('min_common_bottom_coverage') != args.min_common_bottom_coverage):
             raise ValueError('Proposal coverage filters differ from the optimization settings')
