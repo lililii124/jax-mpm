@@ -260,7 +260,7 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 </tr>
 </table>
 
-### Phase-field fracture
+### Fracture
 
 <table width="100%">
 <tr>
@@ -270,6 +270,10 @@ APIC transfers, explicit dynamics, constitutive history, and two-body contact.
 <tr>
 <td width="50%" align="center"><img src="docs/images/home/at2--three-point-bending.gif" alt="AT2 three-point bending fracture" width="100%"><br><a href="docs/AT2_THREE_POINT_BENDING.md">Three-point bending</a></td>
 <td width="50%" align="center"><img src="docs/images/home/at2--offset-hole.gif" alt="AT2 crack and free hole boundary" width="100%"><br><a href="docs/AT2_OFFSET_HOLE.md">Crack–hole interaction</a></td>
+</tr>
+<tr>
+<td width="50%" align="center"><img src="docs/images/home/fracture--cohesive-dcb.gif" alt="Localized cohesive crack propagation" width="100%"><br><a href="docs/COHESIVE_DCB.md">Cohesive crack propagation</a></td>
+<td width="50%" align="center"><img src="docs/images/home/fracture--cohesive-dcb-tip.gif" alt="Cohesive crack-tip detail" width="100%"><br><a href="docs/COHESIVE_DCB.md">Crack-tip detail</a></td>
 </tr>
 </table>
 
@@ -508,8 +512,10 @@ See [spherical contact](docs/CONTACT.md) for equations and examples.
   turbulence model, or thermal conduction.
 - Failed particles retain mass. The default keeps grid participation; optional
   [ballistic failure](docs/FAILURE.md) removes their load-carrying capacity and
-  advances them as noncontacting debris. There is no crack-surface reconstruction,
-  fragment recontact, or fracture-energy regularization.
+  advances them as noncontacting debris. That debris model has no crack-surface
+  reconstruction, fragment recontact, or fracture-energy regularization.
+  The separate [cohesive fracture solver](docs/COHESIVE_DCB.md) resolves two
+  velocity fields with prescribed interface strength and fracture energy.
 - Elastic material gradients are tested in 2D and 3D. Plasticity/damage return
   maps and their adaptive loops are not advertised as differentiable.
 - Invalid deformation, missing grid support, nonfinite states, and failed

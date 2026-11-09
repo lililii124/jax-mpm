@@ -120,6 +120,7 @@ waveform accuracy or mesh convergence.
 The entire potential interface is present from the start. The high-toughness
 case develops a wide cohesive process zone and its remaining bonds fail
 within one saved interval. The plotted connected failed length must not be
-interpreted as a measured crack-front speed. Localized double-cantilever
-loading is the next propagation benchmark, before adding stress-selected
-turning and new interface insertion.
+interpreted as a measured crack-front speed. The subsequent
+[localized double-cantilever example](COHESIVE_DCB.md) demonstrates connected
+progressive interface failure at two resolutions. Stress-selected turning
+and new interface insertion remain open.

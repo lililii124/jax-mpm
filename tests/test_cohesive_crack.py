@@ -2,7 +2,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from mpm_jax import Config, block, elastic
+from mpm_jax import Config, VelocityBox, block, elastic
 from mpm_jax.cohesive_crack import (
     CohesiveLaw, Interface, discrete_traction, face_transfer, face_velocity,
     midpoint_bulk, response, scatter_face_force, step,
@@ -104,3 +104,20 @@ def test_discrete_interface_work_across_softening_and_load_direction_changes():
     force, after, energy = discrete_traction(old, new, maximum, jnp.asarray([0., 1.]), jnp.ones(3, dtype=bool), law)
     np.testing.assert_allclose(jnp.sum(force*(new-old), axis=-1), energy, rtol=1e-12, atol=1e-12)
     assert bool(jnp.all(after.maximum >= maximum))
+
+
+def test_midpoint_fixed_constraint_has_no_drift_and_reports_projection_loss():
+    config = Config(dim=2, n_grid=16, dt=1e-5, gravity=(0., 0.), boundary_cells=0,
+                    boundaries=(VelocityBox((0., 0.), (1., 1.), (0., 0.), components=(True, False)),))
+    state = block(config, (.25, .375), (.75, .625), velocity=(1., 0.), dtype=jnp.float64)
+    x = jnp.stack((jnp.linspace(.28, .72, 8), jnp.full(8, .5)), axis=-1)
+    interface = Interface(x, x, jnp.zeros(8), jnp.full(8, .5/8), jnp.ones(8, dtype=bool), jnp.asarray(True))
+    law = CohesiveLaw(1000., 1., 1e7)
+    following, _, work = step(state, interface, elastic(), config,
+                              jnp.asarray([[.1, .5], [.9, .5]]), law, midpoint_boundaries=True)
+    assert bool(following.valid)
+    np.testing.assert_allclose(following.x, state.x, atol=1e-14)
+    np.testing.assert_allclose(following.v, 0., atol=1e-12)
+    np.testing.assert_allclose(work.boundary, 0., atol=1e-12)
+    np.testing.assert_allclose(work.boundary_projection_loss, .5*state.mass.sum(), rtol=1e-13)
+    np.testing.assert_allclose(work.tangent_impulse, -state.mass.sum(), rtol=1e-13)

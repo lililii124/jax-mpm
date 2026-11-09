@@ -64,7 +64,7 @@ def main():
         def body(_, carry):
             s, face, accumulated = carry
             s, face, increment = step(s, face, material, config, segment, law)
-            summed = accumulated+jnp.stack(increment)
+            summed = accumulated+jnp.stack(increment[:9])
             summed = summed.at[-1].set(jnp.maximum(accumulated[-1], increment.iteration_residual))
             return s, face, summed
         return jax.lax.fori_loop(0, count, body, (state, interface, work))

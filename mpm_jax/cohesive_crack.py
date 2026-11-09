@@ -88,6 +88,10 @@ class StepWork(NamedTuple):
     cohesive_grid_error: jax.Array
     iterations: jax.Array
     iteration_residual: jax.Array
+    positive_normal_impulse: jax.Array
+    negative_normal_impulse: jax.Array
+    tangent_impulse: jax.Array
+    boundary_projection_loss: jax.Array
 
 
 def kinetic_energy(state, config):
@@ -162,8 +166,8 @@ def midpoint_bulk(F, gradient, dt, material):
     return following, tau, valid
 
 
-@partial(jax.jit, static_argnames=('config', 'law'))
-def step(state, interface, material, config, segment, law):
+@partial(jax.jit, static_argnames=('config', 'law', 'midpoint_boundaries'))
+def step(state, interface, material, config, segment, law, midpoint_boundaries=False):
     """Coupled midpoint solve on a straight symmetry plane, with an energy ledger."""
     if config.dim != 2 or config.material not in ('elastic', 'neo-hookean'):
         raise ValueError('Cohesive midpoint MPM currently requires 2D neo-Hookean elasticity')
@@ -180,12 +184,16 @@ def step(state, interface, material, config, segment, law):
     momentum = jnp.zeros((2*size, 2), dtype=state.x.dtype).at[remapped.indices].add(old_contribution)
     occupied = mass > 0
     denominator = jnp.where(occupied, mass, 1.)[:, None]
-    initial_velocity = momentum/denominator
+    transferred_velocity = momentum/denominator
     plus = face_transfer(interface.plus, mass, config, segment, True)
     minus = face_transfer(interface.minus, mass, config, segment, False)
-    def constrain(v):
+    def constrain(v, time):
         return jnp.concatenate([grid_boundaries(v[i*size:(i+1)*size], config,
-                                                state.time+config.dt, mass[i*size:(i+1)*size]) for i in (0, 1)])
+                                                time, mass[i*size:(i+1)*size]) for i in (0, 1)])
+
+    initial_velocity = constrain(transferred_velocity, state.time) if midpoint_boundaries else transferred_velocity
+    initial_impulse = mass[:, None]*(initial_velocity-transferred_velocity)
+    projection_loss = .5*jnp.sum(mass[:, None]*(initial_velocity-transferred_velocity)**2)
 
     def evaluate(velocity):
         middle = .5*(initial_velocity+velocity)
@@ -200,7 +208,11 @@ def step(state, interface, material, config, segment, law):
         force = traction*interface.area[:, None]
         cohesive_force = scatter_face_force(-force, plus, momentum.shape)+scatter_face_force(force, minus, momentum.shape)
         raw = jnp.where(occupied[:, None], initial_velocity+config.dt*((bulk_force+cohesive_force)/denominator+jnp.asarray(config.gravity)), 0.)
-        return constrain(raw), (middle, vp, F, next_plus, next_minus, after, force, energy, bulk_force, cohesive_force, raw, valid)
+        if midpoint_boundaries:
+            bounded = 2*constrain(.5*(initial_velocity+raw), state.time+.5*config.dt)-initial_velocity
+        else:
+            bounded = constrain(raw, state.time+config.dt)
+        return bounded, (middle, vp, F, next_plus, next_minus, after, force, energy, bulk_force, cohesive_force, raw, valid)
 
     def iterate(carry):
         velocity, count, _ = carry
@@ -210,7 +222,7 @@ def step(state, interface, material, config, segment, law):
 
     velocity, iterations, residual = jax.lax.while_loop(
         lambda c: (c[1] < 24) & (c[2] > 1e-9), iterate,
-        (constrain(initial_velocity), jnp.asarray(0), jnp.asarray(jnp.inf)))
+        (constrain(initial_velocity, state.time+config.dt), jnp.asarray(0), jnp.asarray(jnp.inf)))
     bounded, data = evaluate(velocity)
     middle, vp, F, next_plus, next_minus, after, force, energy, bulk_force, cohesive_force, raw, constitutive_valid = data
     v, C = grid_to_particle(velocity, remapped, config)
@@ -222,14 +234,24 @@ def step(state, interface, material, config, segment, law):
     valid = valid & jnp.all((x >= .5*config.dx) & (x < config.domain_size-.5*config.dx))
     following = state._replace(x=x, v=v, C=C, F=F, time=state.time+config.dt, valid=valid)
     next_interface = interface._replace(plus=next_plus, minus=next_minus, maximum=after.maximum, valid=valid)
-    boundary_work = jnp.sum(mass[:, None]*(bounded-raw)*middle)
+    boundary_impulse = mass[:, None]*(bounded-raw)
+    boundary_work = jnp.sum(boundary_impulse*middle)+jnp.sum(initial_impulse*initial_velocity)
+    boundary_impulse = boundary_impulse+initial_impulse
     gravity_work = config.dt*jnp.sum(mass[:, None]*jnp.asarray(config.gravity)*middle)
     interface_energy_change = jnp.sum(interface.area*energy)
     work = config.dt*jnp.sum(force*(face_velocity(middle, plus)-face_velocity(middle, minus)))
-    old_grid_energy = .5*jnp.sum(mass[:, None]*initial_velocity**2)
+    old_grid_energy = .5*jnp.sum(mass[:, None]*transferred_velocity**2)
     final_grid_energy = .5*jnp.sum(mass[:, None]*velocity**2)
     transfer_loss = kinetic_energy(state, config)-old_grid_energy+final_grid_energy-kinetic_energy(following, config)
     bulk_error = config.dt*jnp.sum(bulk_force*middle)+elastic_energy(following, material, config)-elastic_energy(state, material, config)
     cohesive_grid_error = config.dt*jnp.sum(cohesive_force*middle)+interface_energy_change
+    node = jnp.arange(size)
+    coordinates = config.dx*jnp.stack((node//(config.n_grid+1), node%(config.n_grid+1)), axis=-1)
+    positive = jnp.tile((coordinates-segment[0]) @ normal >= 0, 2)
+    normal_impulse = boundary_impulse @ normal
+    positive_impulse = jnp.sum(jnp.where(positive, normal_impulse, 0.))
+    negative_impulse = jnp.sum(jnp.where(~positive, normal_impulse, 0.))
+    tangent_impulse = jnp.sum(boundary_impulse @ (tangent/jnp.maximum(length, jnp.finfo(state.x.dtype).tiny)))
     return following, next_interface, StepWork(boundary_work, gravity_work, work, work-interface_energy_change,
-                                               transfer_loss, bulk_error, cohesive_grid_error, iterations, residual)
+                                               transfer_loss, bulk_error, cohesive_grid_error, iterations, residual,
+                                               positive_impulse, negative_impulse, tangent_impulse, projection_loss)

@@ -17,6 +17,9 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--size', type=int, default=400)
     parser.add_argument('--stress-max', type=float, default=60e6)
+    parser.add_argument('--field', default='stress_yy')
+    parser.add_argument('--center', nargs=2, type=float, default=(.03, .03))
+    parser.add_argument('--half-height', type=float, default=.023)
     args = parser.parse_args()
     summary = json.loads((args.input / 'summary.json').read_text())
     if not summary['all_states_valid'] or args.size < 128 or args.stress_max <= 0:
@@ -36,10 +39,10 @@ def main():
     view.OrientationAxesVisibility = 0
     view.CenterAxesVisibility = 0
     view.CameraParallelProjection = 1
-    view.CameraPosition = [.03, .03, 1.]
-    view.CameraFocalPoint = [.03, .03, 0.]
+    view.CameraPosition = [*args.center, 1.]
+    view.CameraFocalPoint = [*args.center, 0.]
     view.CameraViewUp = [0., 1., 0.]
-    view.CameraParallelScale = .023
+    view.CameraParallelScale = args.half_height
     view.UseFXAA = 1
     args.output.parent.mkdir(parents=True, exist_ok=True)
     scratch = args.output.with_suffix('.frame.png')
@@ -51,7 +54,7 @@ def main():
             xy = data['x'][:, None, :] + np.einsum('pij,kj->pki', data['F'], corners)
             xy = xy.reshape(-1, 2)
             xyz = np.column_stack((xy, np.zeros(len(xy))))
-            values = data['stress_yy']
+            values = data[args.field]
         if not np.isfinite(xyz).all() or not np.isfinite(values).all():
             raise ValueError('Nonfinite coordinates or stresses')
         points = vtk.vtkPoints()
@@ -63,7 +66,7 @@ def main():
         mesh.SetPoints(points)
         mesh.SetPolys(cells)
         field = numpy_to_vtk(values, deep=True)
-        field.SetName('stress_yy')
+        field.SetName(args.field)
         mesh.GetCellData().SetScalars(field)
         source = pv.TrivialProducer()
         source.GetClientSideObject().SetOutput(mesh)
@@ -75,8 +78,8 @@ def main():
         display.Representation = 'Surface'
         display.Ambient = 1.
         display.Diffuse = 0.
-        pv.ColorBy(display, ('CELLS', 'stress_yy'))
-        lut = pv.GetColorTransferFunction('stress_yy')
+        pv.ColorBy(display, ('CELLS', args.field))
+        lut = pv.GetColorTransferFunction(args.field)
         lut.RGBPoints = [0., .19, .36, .59,
                          .5 * args.stress_max, .88, .91, .94,
                          args.stress_max, .77, .16, .10]
@@ -99,6 +102,7 @@ def main():
     images[-1].save(args.output.with_suffix('.png'))
     receipt = dict(renderer='ParaView', frames=len(images), distinct_frames=len(distinct),
                    size=[args.size, args.size], deformation_scale=1., stress_range_Pa=[0., args.stress_max],
+                   field=args.field, camera_center=args.center, camera_half_height=args.half_height,
                    geometry='Particle reference rectangles mapped by computed F and translated to computed x',
                    artificial_crack_lines=False, source_sha256=source_hash.hexdigest(),
                    gif_sha256=hashlib.sha256(args.output.read_bytes()).hexdigest())

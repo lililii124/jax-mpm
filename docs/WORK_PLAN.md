@@ -6,7 +6,7 @@ does not. Live status is recorded separately by the local monitor.
 
 | Work | Last established state | Next deliverable |
 | --- | --- | --- |
-| [Explicit/cohesive crack MPM](COHESIVE_CRACK.md) | 2026-11-09: coupled midpoint JAX solver with prescribed cohesive fracture energy; two grids and a toughness control complete; independent saved-field energy checks and 41-frame ParaView comparisons available | Localized double-cantilever propagation, transfer-loss refinement, then moving/turning crack paths and new interface insertion; general fracture validation remains open |
+| [Explicit/cohesive crack MPM](COHESIVE_DCB.md) | 2026-11-09: localized double-cantilever propagation complete at two resolutions; connected extension 12.000/12.275 mm, numerical loss 2.326/1.278%; whole-specimen and crack-tip ParaView GIFs available | Moving/turning crack paths and new interface insertion; mesh convergence and general fracture validation remain open |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
 | [Triaxial weaving process](WEAVING_PROCESS.md) | The masked contact-array implementation passed actual-state and nonzero-contact equivalence checks; production completed 6.95 ms with 3.36 GB peak USS and continues toward 8.05 ms | Complete the 47.0412 ms protocol under the physical guards and render its process |
