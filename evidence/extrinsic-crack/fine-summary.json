@@ -1,0 +1,71 @@
+{
+  "case": "Stress-triggered cohesive crack insertion",
+  "grid": 128,
+  "dx_m": 0.00046875,
+  "dt_s": 2.1093338020741783e-08,
+  "duration_s": 0.00012,
+  "inclination_deg": 15.0,
+  "young_Pa": 3000000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "law": {
+    "strength": 12000000.0,
+    "energy": 200.0,
+    "stiffness": 10000000000000.0
+  },
+  "insertion_spacing_m": 0.0005,
+  "averaging_radius_m": 0.0015,
+  "max_extension_m": 0.025,
+  "max_turn_deg": 45.0,
+  "capacity": 64,
+  "particle_count": 14706,
+  "particle_spacing_m": [
+    0.00023391812865497077,
+    0.00023255813953488368
+  ],
+  "source_sha256": {
+    "examples/extrinsic_crack_tension.py": "080d9b6a5bc217ef2bdbd4291ef8564b8e0924adf6696badcf141b894b57774e",
+    "mpm_jax/extrinsic_crack.py": "2c81f1279488ed58df094a34cc85e3cc6590dd3753d9fe4d3e9aa805f1a84ba2",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/polyline_crack.py": "321aaa5c5968e00fd43dae47b979588dd6c25576e943a56e1ed4b4a2d0ab7c8c",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5"
+  },
+  "frames": 41,
+  "steps": 5689,
+  "all_states_valid": true,
+  "final": {
+    "step": 5689,
+    "time_s": 0.00011999999999998228,
+    "vertices": 52,
+    "potential_extension_m": 0.02500000000000002,
+    "connected_failed_m": 0.025000000000000015,
+    "detached_failed_m": 0.0,
+    "tip_x_m": 0.04688527739114209,
+    "tip_y_m": 0.029938601447784655,
+    "kinetic_J_per_m": 3.704272146527284,
+    "elastic_J_per_m": 79.0676212930696,
+    "surface_J_per_m": 2.3933767217549067e-15,
+    "fracture_J_per_m": 5.000000000000002,
+    "external_J_per_m": 90.53733607885611,
+    "transfer_loss_J_per_m": 2.6761887039892676,
+    "boundary_projection_loss_J_per_m": 0.08925393530356103,
+    "insertion_energy_J_per_m": 4.093628214986396e-19,
+    "unexplained_J_per_m": -3.361311229355124e-11,
+    "numerical_fraction": 0.030544775879910873,
+    "max_iteration_residual": 9.996857013414526e-10,
+    "mean_iterations": 4.164703814378625,
+    "min_J": 0.9876427714836916,
+    "max_strain": 0.10733098998077661,
+    "min_face_gap_m": 4.4811024523619546e-05,
+    "valid": true,
+    "elapsed_s": 605.2488248000154
+  },
+  "elapsed_s": 605.3595634999801,
+  "limitations": [
+    "Regularized shifted-gap unloading; not an initially rigid cohesive law",
+    "Stress averaging does not guarantee exact nodal traction balance at insertion",
+    "One nonbranching crack; no general fragment contact or 3D surfaces"
+  ]
+}

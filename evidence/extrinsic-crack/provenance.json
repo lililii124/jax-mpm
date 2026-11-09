@@ -1,0 +1,128 @@
+{
+  "source_sha256": {
+    "examples/extrinsic_crack_tension.py": "080d9b6a5bc217ef2bdbd4291ef8564b8e0924adf6696badcf141b894b57774e",
+    "mpm_jax/extrinsic_crack.py": "2c81f1279488ed58df094a34cc85e3cc6590dd3753d9fe4d3e9aa805f1a84ba2",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/polyline_crack.py": "321aaa5c5968e00fd43dae47b979588dd6c25576e943a56e1ed4b4a2d0ab7c8c",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5",
+    "mpm_jax/crack_mpm.py": "a1f689a14ba5f3c88f7b8351eadd5af07f0af71685cd30a8d503d65cd51fc7b5",
+    "tests/test_extrinsic_crack.py": "f1c503550028a897d610a2505f7ebcde6ce10f69db5eec8e4228ee230d6ae405",
+    "tools/check_extrinsic_results.py": "3593263ba693b25c6545c60f5e1cf857c1b5c0a9c3b8a73f2740cec68f4b8a6d",
+    "tools/render_explicit_crack_paraview.py": "9e1b21a76fc050c1c18f8ef9e8e124c82354d9b0e7fcf7d2b9573843634b9b08"
+  },
+  "text_hash_convention": "SHA256 after CRLF to LF normalization",
+  "runtime": {
+    "python": "3.12.16",
+    "jax": "0.12.0.1",
+    "backend": "cpu",
+    "x64": true
+  },
+  "runs": {
+    "extrinsic-inclined-n96-affine": {
+      "history": "coarse.csv",
+      "summary": "coarse-summary.json"
+    },
+    "extrinsic-inclined-n128-affine": {
+      "history": "fine.csv",
+      "summary": "fine-summary.json"
+    },
+    "extrinsic-gc800-n96-affine": {
+      "history": "tough.csv",
+      "summary": "tough-summary.json"
+    }
+  },
+  "render_receipts": [
+    {
+      "renderer": "ParaView",
+      "frames": 41,
+      "distinct_frames": 40,
+      "size": [
+        400,
+        400
+      ],
+      "deformation_scale": 1.0,
+      "stress_range_Pa": [
+        0.0,
+        60000000.0
+      ],
+      "field": "principal_stress",
+      "camera_center": [
+        0.03,
+        0.03
+      ],
+      "camera_half_height": 0.023,
+      "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+      "artificial_crack_lines": false,
+      "source_sha256": "76398620b19dae0987d89391ff9922f22effae946e30d3971b804bc1f925a82b",
+      "gif_sha256": "56985c0f022254e866be56b77a58ac1f805a5cc794d16550a26fcf8856c871fd",
+      "encoded_frames": 40,
+      "duration_ms": 4900,
+      "published_file": "docs/images/home/fracture--extrinsic-gc200.gif"
+    },
+    {
+      "renderer": "ParaView",
+      "frames": 41,
+      "distinct_frames": 40,
+      "size": [
+        400,
+        400
+      ],
+      "deformation_scale": 1.0,
+      "stress_range_Pa": [
+        0.0,
+        60000000.0
+      ],
+      "field": "principal_stress",
+      "camera_center": [
+        0.03,
+        0.03
+      ],
+      "camera_half_height": 0.023,
+      "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+      "artificial_crack_lines": false,
+      "source_sha256": "bf45063a1d4095df072eac7e84eac4dc7fa9e64f446bd6b70037680093aa8aa6",
+      "gif_sha256": "ac7192f124ec0b0e45ef3d74ba7ee673eb7b95de90e484f7e17075bd1f52a350",
+      "encoded_frames": 40,
+      "duration_ms": 4900,
+      "published_file": "docs/images/home/fracture--extrinsic-gc800.gif"
+    },
+    {
+      "renderer": "ParaView",
+      "frames": 41,
+      "distinct_frames": 40,
+      "size": [
+        400,
+        400
+      ],
+      "deformation_scale": 1.0,
+      "stress_range_Pa": [
+        0.0,
+        60000000.0
+      ],
+      "field": "principal_stress",
+      "camera_center": [
+        0.03,
+        0.03
+      ],
+      "camera_half_height": 0.023,
+      "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+      "artificial_crack_lines": false,
+      "source_sha256": "754f043b28818804102394d57c86e2fa6f3bc707b85bf1e239186453eddcf1ca",
+      "gif_sha256": "b588b1bbe8566a3bea8da7bb67aba9f3ee4a53f583ec2dba7c0ad2370e15622d",
+      "encoded_frames": 40,
+      "duration_ms": 4900,
+      "published_file": "docs/images/extrinsic-refined.gif"
+    }
+  ],
+  "gif_encoding": "Each animation covers 41 source states; identical consecutive frames are merged with display duration preserved.",
+  "focused_checks": {
+    "initial_law_insertion_and_coupling": "4 passed before the added rigid-motion regression exposed the correction issue",
+    "after_coordinate_resolution_fix": "2 passed, 2 deselected; rotating or coupled",
+    "after_affine_transfer_fix": "2 passed, 3 deselected; face_transfer or coupled",
+    "note": "Targeted checks were rerun for changed operators; no claim of a fresh repository-wide suite."
+  },
+  "field_checker": "tools/check_extrinsic_results.py outputs/extrinsic-inclined-n96-affine outputs/extrinsic-inclined-n128-affine outputs/extrinsic-gc800-n96-affine --output outputs/extrinsic-review",
+  "validation_scope": "Stored-field stress, APIC kinetic energy, bulk/interface energies, history irreversibility and insertion-energy accounting. Not a convergence or predictive fracture validation."
+}

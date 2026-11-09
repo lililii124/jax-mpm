@@ -5,6 +5,8 @@ horizontal path. The crack faces move with the material. New segments are
 selected from the computed stress; their coordinates are not prescribed.
 This is an experimental strength-driven branch. It does not yet combine
 turning with the fracture-energy control of the [cohesive solver](COHESIVE_DCB.md).
+The subsequent [extrinsic cohesive branch](EXTRINSIC_CRACK.md) adds birth
+traction, fracture-energy control and an insertion-energy ledger.
 
 <table width="100%">
 <tr>
@@ -94,7 +96,7 @@ geometry, so the opening outline can show steps or domain overlap near the tip.
 
 The branch supports one nonbranching path and has no face contact. It cannot
 represent intersecting cracks, detached-fragment collisions or 3D surfaces.
-Insertion currently introduces traction-free segments without prescribed
-fracture energy. The next integration step is traction-consistent cohesive
-insertion and energy accounting on moving, turning interfaces; the existing
-straight cohesive benchmark remains the energy-controlled reference.
+This control introduces traction-free segments without prescribed fracture
+energy. The extrinsic branch now adds cohesive insertion and energy accounting
+on moving interfaces. Exact nodal traction balance at insertion remains open;
+the straight cohesive benchmark remains the localized-loading reference.

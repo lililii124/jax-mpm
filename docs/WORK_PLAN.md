@@ -6,7 +6,7 @@ does not. Live status is recorded separately by the local monitor.
 
 | Work | Last established state | Next deliverable |
 | --- | --- | --- |
-| [Explicit/cohesive crack MPM](COHESIVE_DCB.md) | 2026-11-09: localized cohesive propagation complete at two resolutions; [advected polyline cracks](POLYLINE_CRACK.md) now turn under stress-selected insertion, with mirrored and arrested controls; the tiny-segment advection failure was found and replaced by finite-length insertion | Couple turning/insertion to cohesive traction and fracture-energy accounting; refine insertion spacing and tip fields; branching, recontact, 3D surfaces and general fracture validation remain open |
+| [Explicit/cohesive crack MPM](EXTRINSIC_CRACK.md) | 2026-11-09: moving cohesive insertion now carries birth traction and prescribed fracture energy; two grids and a fourfold-toughness control complete, with independent field/energy checks; affine face interpolation fixes the truncated-stencil defect; straight localized DCB and strength-driven controls remain available | Localized mixed-mode validation, nodal traction balance at insertion, insertion-spacing/time/grid convergence; branching, general recontact, 3D surfaces and predictive fracture validation remain open |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |
 | [Triaxial weaving process](WEAVING_PROCESS.md) | The masked contact-array implementation passed actual-state and nonzero-contact equivalence checks; production completed 6.95 ms with 3.36 GB peak USS and continues toward 8.05 ms | Complete the 47.0412 ms protocol under the physical guards and render its process |
