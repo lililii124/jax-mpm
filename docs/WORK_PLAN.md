@@ -1,21 +1,23 @@
-# Active work
+# Work log
 
 Entries retain their 2026-10-30 snapshot and may be stale. Only a running process or a newer
 accepted state counts as computational progress; an existing output directory
 does not. Live status is recorded separately by the local monitor.
 
-The 2026-11-10 closeout scope is the currently submitted domain-cohesive
-calculations and their key GIFs. The user requested completion after this
-delivery; further hole, bending and multiple-crack extensions are not queued.
-The remaining calculation in this delivery is the 96-cell opening/hold
-comparison. The two 48-cell additional cases have completed and their GIFs
-are included as development results, with numerical-loss limitations stated.
+The 2026-11-10 closeout comprises the submitted domain-cohesive calculations
+and their key GIFs. All three runs have completed 120 microseconds, passed
+independent reconstruction, and produced complete ParaView animations. The
+two additional cases are in the homepage gallery as development results,
+with numerical-loss limitations stated. The opening/hold refinement is
+archived separately. Per the user's closeout instruction, no further hole,
+bending or multiple-crack run is queued. Earlier entries below are a
+historical work log, not a new automatic execution queue.
 
 | Work | Last established state | Next deliverable |
 | --- | --- | --- |
 | [Cohesive loading cases](COHESIVE_LOADING_CASES.md) | Three loading cases completed with 49 saved states and ParaView GIFs each; plate cases are in the gallery. Bending sensitivity runs also completed: half step gives 27.10% numerical loss versus 26.46%; larger face mass cutoff gives 12.11% but changes the crack path. Late compressive recontact reaches about 340 MPa. Bending remains development-only | Correct compressive contact-force transfer and spatial resolution; establish time/grid/support sensitivity before promoting bending. Keep insertion, complete failure and physical front prediction distinct |
-| [Explicit/cohesive crack MPM](DOMAIN_COHESIVE.md) | Continued-velocity notch run completes with 40.9% numerical loss. The 30-micrometre opening/hold run completes 120 microseconds with 1.55% loss, 0.8125 mm connected damage and no complete failure. Fine-grid initial cut roundoff was corrected; a fresh 96-cell hold run is submitted from revision 5a0361c. Separable tile integration reduces a saved-state step from 0.308 to 0.206 s | Compare hold resolutions; establish physical tip-led growth/arrest and general finite-tip/mixed-mode geometry |
-| Additional domain-cohesive cases | Double-notch tension and opening/recontact complete 120 microseconds from revision 1b268a6; complete ParaView GIFs and local views are prepared. Final numerical losses are 53.00% and 61.68%; these are development demonstrations, not quantitative validation | Publish the key GIFs and compact evidence; no additional geometry run is queued in this closeout |
+| [Explicit/cohesive crack MPM](DOMAIN_COHESIVE.md) | Continued-velocity notch run completes with 40.9% numerical loss. Both 30-micrometre opening/hold runs complete 120 microseconds; numerical loss falls from 1.5485% to 0.4255% with refinement. Both have 0.8125 mm connected damage and no complete failure. Fracture dissipation changes by 5.35%, so convergence remains unproven | Current delivery complete; unrestricted crack topology, mixed mode and quantitative validation remain limitations, with no new run queued |
+| Additional domain-cohesive cases | Double-notch tension and opening/recontact complete 120 microseconds from revision 1b268a6; complete ParaView GIFs and local views are published. Final numerical losses are 53.00% and 61.68%; these are development demonstrations, not quantitative validation | Current delivery complete; preserve the animations, compact evidence and documented limitations |
 | [Additional explicit fracture geometries](COHESIVE_GEOMETRIES.md) | Offset and 30-degree inclined edge-notch runs stopped at 72.5 and 67.5 microseconds during contact-driven time-step reduction. Saved-prefix checks pass, but numerical losses are 12.35% and 6.40%; development GIFs only | Correct compatible contact transfer before resuming. A free-hole case and interacting cracks remain pending; multiple crack paths require new field topology |
 | Three-strand forming | Full 0–20 ms animation available | Preserve the accepted animation |
 | Tight dry forming | Full 0–60 ms animation available | Preserve the accepted animation |

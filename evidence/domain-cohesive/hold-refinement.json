@@ -1,0 +1,106 @@
+{
+  "completed": true,
+  "physical_inputs_equal": true,
+  "compared_input_keys": [
+    "loading",
+    "prescribed_total_opening_m",
+    "duration_s",
+    "young_Pa",
+    "poisson",
+    "density_kg_m3",
+    "law",
+    "initial_crack_length_m",
+    "prescribed_path_length_m",
+    "zero_initial_physical_damage",
+    "boundary_conditions"
+  ],
+  "grid_levels": [
+    48,
+    96
+  ],
+  "steps": [
+    2160,
+    4280
+  ],
+  "dt_s": [
+    5.5555555555555555e-08,
+    2.8037383177570096e-08
+  ],
+  "source_commits": {
+    "coarse": "f92a961a27de4b030edf19d2d1d8a59ef67ff262",
+    "fine": "5a0361cf0e4f349d9d73a3504615e4ef1aeea635"
+  },
+  "source_differences": [
+    "mpm_jax/cut_fragments.py"
+  ],
+  "source_difference_reason": "Fine-grid initial geometry includes the documented world-coordinate pullback roundoff correction",
+  "comparisons": {
+    "connected_damaged_m": {
+      "coarse_final": 0.0008125000000000007,
+      "fine_final": 0.0008125000000000008,
+      "final_difference": 1.0842021724855044e-19,
+      "relative_final_change_from_coarse": 2.220446049250313e-16,
+      "maximum_history_absolute_difference": 0.00017708333333333354
+    },
+    "connected_failed_m": {
+      "coarse_final": 0.0,
+      "fine_final": 0.0,
+      "final_difference": 0.0,
+      "relative_final_change_from_coarse": null,
+      "maximum_history_absolute_difference": 0.0
+    },
+    "fracture_J_per_m": {
+      "coarse_final": 0.015230863362878289,
+      "fine_final": 0.01604528756785803,
+      "final_difference": 0.0008144242049797409,
+      "relative_final_change_from_coarse": 0.05347196580889246,
+      "maximum_history_absolute_difference": 0.0009318578991739917
+    },
+    "elastic_J_per_m": {
+      "coarse_final": 2.2754096686741736,
+      "fine_final": 2.4750205159322505,
+      "final_difference": 0.19961084725807687,
+      "relative_final_change_from_coarse": 0.08772523471537563,
+      "maximum_history_absolute_difference": 0.20299516032048048
+    },
+    "interface_stored_J_per_m": {
+      "coarse_final": 0.057306100419588724,
+      "fine_final": 0.06585578050710676,
+      "final_difference": 0.008549680087518038,
+      "relative_final_change_from_coarse": 0.1491931927825878,
+      "maximum_history_absolute_difference": 0.008956421039494247
+    },
+    "external_J_per_m": {
+      "coarse_final": 2.3858274387460483,
+      "fine_final": 2.569786959825807,
+      "final_difference": 0.18395952107975866,
+      "relative_final_change_from_coarse": 0.07710512424001825,
+      "maximum_history_absolute_difference": 0.18395952107975866
+    },
+    "numerical_loss_fraction": {
+      "coarse_final": 0.015485264480122643,
+      "fine_final": 0.00425536780717207,
+      "final_difference": -0.011229896672950573,
+      "relative_final_change_from_coarse": -0.7251988939139923,
+      "maximum_history_absolute_difference": 0.05097701657333935
+    },
+    "maximum_trace_geometry_drift_m": {
+      "coarse_final": 3.509833693959852e-07,
+      "fine_final": 1.3301269460516685e-07,
+      "final_difference": -2.1797067479081833e-07,
+      "relative_final_change_from_coarse": -0.621028498204712,
+      "maximum_history_absolute_difference": 2.1797067479081833e-07
+    }
+  },
+  "mesh_convergence_established": false,
+  "predictive_fracture_validation": false,
+  "limitations": [
+    "Grid and timestep are refined together at the same nominal CFL",
+    "Two resolutions and matching connected damage length do not establish convergence",
+    "The hold case does not completely fracture; it does not validate the high-opening trajectories"
+  ],
+  "history_sha256": {
+    "coarse": "73e497d6bdd28f8a8ba6d6f6c621f4791da8fb0df55911850f4495fcf4d0b037",
+    "fine": "5c09ab48408790efb1b91e96b1f214c02dcfa29e5dd1ff56d2b5eac5f70f36ea"
+  }
+}

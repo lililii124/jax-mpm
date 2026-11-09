@@ -77,7 +77,7 @@ line or displacement magnification is added. Source revision, inputs, histories,
 independent checks and render provenance are in
 [`evidence/domain-cohesive`](../evidence/domain-cohesive).
 
-## Next loading comparison
+## Opening/hold comparison
 
 A separate displacement-controlled protocol reaches a total grip opening of
 30 micrometres over 40 microseconds and then holds. A quintic ramp gives zero
@@ -93,15 +93,40 @@ has completely failed. This is a low-opening damage/arrest comparison, not
 a completed crack-propagation demonstration. Its maximum energy-accounting
 remainder is 1.63e-11 J/m; the original sources match revision `f92a961`.
 
-<img src="images/home/fracture--domain-opening-hold.gif" alt="Computed stress during small-opening loading and hold" width="400">
+<table width="100%"><tr>
+<td width="50%"><img src="images/home/fracture--domain-opening-hold.gif" alt="48-cell opening and hold" width="100%"></td>
+<td width="50%"><img src="images/home/fracture--domain-opening-hold-fine.gif" alt="96-cell opening and hold" width="100%"></td>
+</tr></table>
 
 The first 96-cell attempt was rejected before accepting any step. Pulling
 the world-coordinate cut plane into each local domain created 128 unresolved
 slivers of approximately 1e-21 square metres. The corrected pullback carries
 world-coordinate roundoff into the shared cutting plane; it does not delete
 positive mass. The initial geometry now has 8,192 active domains, no invalid
-integration supports, and conserved area. A fresh 96-cell hold run uses
-revision `5a0361c`; its completion and mesh comparison are pending.
+integration supports, and conserved area. The fresh 96-cell run from revision
+`5a0361c` completed all 4,280 steps and 120 microseconds. Independent
+reconstruction verifies its sources and all 41 saved states.
+
+| Final quantity | 48 cells | 96 cells |
+| --- | ---: | ---: |
+| Connected damaged length | 0.8125 mm | 0.8125 mm |
+| Completely failed length | 0 | 0 |
+| Fracture dissipation | 0.015231 J/m | 0.016045 J/m |
+| Bulk elastic energy | 2.27541 J/m | 2.47502 J/m |
+| Numerical loss / net work | 1.5485% | 0.4255% |
+| Maximum trace/material-boundary drift | 0.351 micrometres | 0.133 micrometres |
+
+![Opening/hold resolution comparison](../evidence/domain-cohesive/hold-refinement.png)
+
+Material, geometric and boundary inputs match. Grid spacing and time step
+are refined together at the same nominal CFL. The final fracture dissipation
+changes by 5.35%, and bulk elastic energy by 8.77%; matching final damage
+lengths do not establish convergence. The fine run's maximum independently
+reconstructed energy remainder is 2.57e-11 J/m. This low-opening comparison
+does not validate the stronger-loading demonstrations. The
+[comparison record](../evidence/domain-cohesive/hold-refinement.json) and
+[fine-run evidence](../evidence/domain-cohesive/hold-grid96) retain the
+source difference, histories and checks.
 
 Both resolutions use bounded batches of 32 domains and the
 separable tile contraction. In a synchronized replay of an actual saved state,
@@ -113,10 +138,12 @@ python examples/domain_notched_tension.py --grid 48 --output outputs/domain-cohe
 python tools/check_domain_cohesive.py outputs/domain-cohesive-notch-grid48 --output outputs/domain-cohesive-check
 pvpython tools/render_domain_dynamics_paraview.py --input outputs/domain-cohesive-notch-grid48 --output outputs/domain-cohesive-notch-grid48.gif --field principal_stress --stress-max 60000000 --center .03 .03 --parallel-scale .023
 python examples/domain_notched_tension.py --grid 48 --loading hold --opening 30e-6 --ramp-time 40e-6 --output outputs/domain-cohesive-hold-grid48
+python examples/domain_notched_tension.py --grid 96 --loading hold --opening 30e-6 --ramp-time 40e-6 --output outputs/domain-cohesive-hold-grid96-pullback
 ```
 
 Finite-tip topology for unrestricted paths, mixed-mode cohesion, general
-recontact and spatial/time convergence remain part of the fracture work.
+recontact and spatial/time convergence remain limitations. No further run is
+queued in this delivery.
 
 ## Additional loading cases
 
@@ -181,8 +208,9 @@ python examples/domain_notched_tension.py --grid 48 --loading pulse --opening 80
 ```
 
 Hole interaction, three-point bending, and interacting non-collinear cracks
-remain later extensions. A prescribed planar interface cannot establish
-freely selected turning or branching paths.
+were proposed extensions and are not part of the user's final closeout scope.
+A prescribed planar interface cannot establish freely selected turning or
+branching paths.
 
 The archived trajectory's exact sources are verified against revision
 `1d339ac`. Pass `--source-commit 1d339ac` when checking those original raw
