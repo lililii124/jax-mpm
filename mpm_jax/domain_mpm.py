@@ -44,7 +44,7 @@ class Work(NamedTuple):
 
 
 class ContactWork(NamedTuple):
-    stored_change: jax.Array
+    interface_energy_change: jax.Array
     power_error: jax.Array
     iterations: jax.Array
     residual: jax.Array

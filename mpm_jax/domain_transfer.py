@@ -88,6 +88,62 @@ def domain_stencil(state,config,tile_radius=1):
     return DomainStencil(indices,weights,gradients,dpos,normalized*config.dx**2,inverse,volume,valid)
 
 
+@partial(jax.jit,static_argnames=('config','tile_radius'))
+def domain_stencil_separable(state,config,tile_radius=1):
+    """Integrate the same tiled cut domain with factored quadratic weights.
+
+    Each knot tile's quadrature is contracted to its nine local nodes before
+    scattering. This avoids constructing a core stencil for every quadrature
+    point while retaining the exact polygon pieces and quadrature rule.
+    """
+    if config.dim!=2 or not isinstance(tile_radius,int) or tile_radius<0:
+        raise ValueError('Require 2D geometry and a nonnegative integer tile radius')
+    domain,pieces,base,lower=_tiles(state,config,tile_radius)
+    dtype=state.x.dtype
+    points,quadrature=jax.vmap(bulk_quadrature)(pieces)
+    u=(points-lower[:,None,:])/config.dx
+    ux,uy=u[...,0],u[...,1]
+    wx=jnp.stack((.5*(1-ux)**2,.5+ux*(1-ux),.5*ux**2),axis=-1)
+    wy=jnp.stack((.5*(1-uy)**2,.5+uy*(1-uy),.5*uy**2),axis=-1)
+    dwx=jnp.stack((ux-1,1-2*ux,ux),axis=-1)/config.dx
+    dwy=jnp.stack((uy-1,1-2*uy,uy),axis=-1)/config.dx
+    tile_weights=jnp.einsum('tq,tqi,tqj->tij',quadrature,wx,wy)
+    tile_grad_x=jnp.einsum('tq,tqi,tqj->tij',quadrature,dwx,wy)
+    tile_grad_y=jnp.einsum('tq,tqi,tqj->tij',quadrature,wx,dwy)
+    tile_gradients=jnp.stack((tile_grad_x,tile_grad_y),axis=-1)
+
+    coordinates,indices,node_lower,width=_nodes(base,config,tile_radius)
+    count=width**2
+    local_axis=jnp.arange(3)
+    tile_nodes=base[None,:]+jnp.asarray(list(product(range(-tile_radius,tile_radius+1),repeat=2)))
+    tile_nodes=tile_nodes[:,:,None]+local_axis[None,None,:]
+    # Arrange each tile's (x,y) tensor-product nodes in row-major grid order.
+    local_x=tile_nodes[:,0,:]-node_lower[0]
+    local_y=tile_nodes[:,1,:]-node_lower[1]
+    destinations=(local_x[:,:,None]*width+local_y[:,None,:]).reshape(-1)
+    integral=jnp.zeros(count,dtype=dtype).at[destinations].add(tile_weights.reshape(-1),mode='drop')
+    derivative=jnp.zeros((count,2),dtype=dtype).at[destinations].add(tile_gradients.reshape(-1,2),mode='drop')
+
+    volume=state.reference_area*jnp.linalg.det(state.F)
+    denominator=jnp.where(state.active,volume,1.)
+    weights=integral/denominator;gradients=derivative/denominator
+    dpos=coordinates*config.dx-state.x
+    normalized=jnp.einsum('k,ki,kj->ij',weights,dpos/config.dx,dpos/config.dx)
+    unit=jnp.eye(2,dtype=dtype)
+    normalized=jnp.where(state.active,normalized,.25*unit)
+    rank=(jnp.linalg.det(normalized)>1e-12)&jnp.all(jnp.diag(normalized)>0)
+    inverse=jnp.linalg.inv(jnp.where(rank,normalized,unit))/config.dx**2
+
+    tile_active=jnp.sum(quadrature,axis=1)>0
+    complete=jnp.all((tile_nodes>=0)&(tile_nodes<=config.n_grid),axis=(1,2))
+    basis_valid=jnp.all((~tile_active)|complete)
+    inside=jnp.all((coordinates>=0)&(coordinates<=config.n_grid),axis=1)
+    area_error=jnp.abs(quadrature.sum()-volume)
+    valid=state.valid&jnp.all(pieces.valid)&basis_valid&_covered(domain,lower,config)&rank
+    valid &= (~state.active)|((volume>0)&(area_error<=2e-11*volume)&jnp.all((weights==0)|inside))
+    return DomainStencil(indices,weights,gradients,dpos,normalized*config.dx**2,inverse,volume,valid)
+
+
 class BoundaryIntegral(NamedTuple):
     indices: jax.Array
     vectors: jax.Array
@@ -132,8 +188,8 @@ def _batch(function,states,batch_size):
 
 @partial(jax.jit,static_argnames=('config','tile_radius','batch_size'))
 def batch_stencils(states,config,tile_radius=1,batch_size=32):
-    """Bound quadrature intermediates by scanning fixed-size batches."""
-    return _batch(lambda s:domain_stencil(s,config,tile_radius),states,batch_size)
+    """Scan bounded batches using the equivalent separable tile contraction."""
+    return _batch(lambda s:domain_stencil_separable(s,config,tile_radius),states,batch_size)
 
 
 @partial(jax.jit,static_argnames=('config','tile_radius','batch_size'))

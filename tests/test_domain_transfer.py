@@ -5,7 +5,8 @@ import numpy as np
 from mpm_jax import Config
 from mpm_jax.cut_geometry import polygon
 from mpm_jax.cut_fragments import fragment,split_fragment,invariants,kinetic_moment
-from mpm_jax.domain_transfer import domain_stencil,particle_to_grid,grid_to_fragment,internal_force,velocity_gradient
+from mpm_jax.domain_transfer import (domain_stencil,domain_stencil_separable,
+                                     particle_to_grid,grid_to_fragment,internal_force,velocity_gradient)
 
 jax.config.update('jax_enable_x64',True)
 
@@ -55,3 +56,34 @@ def test_domain_outside_quadrature_patch_is_rejected():
     parent=fragment(polygon([[.3,.3],[.7,.3],[.7,.7],[.3,.7]]),1000.)
     support=domain_stencil(parent,config,tile_radius=1)
     assert not bool(support.valid)
+
+
+def test_separable_volume_average_matches_original_on_deformed_cut_patches():
+    config=Config(dim=2,n_grid=16,dt=1e-5,gravity=(0.,0.),boundary_cells=0)
+    reference=polygon([[-.025,-.019],[.025,-.019],[.025,.019],[-.025,.019]])
+    angles=jnp.asarray([.13,.57,1.02])
+    offsets=jnp.asarray([-.3,0.,.3])*config.dx
+    shear=jnp.array([[1.04,.16],[-.08,.96]])
+    parents=[]
+    normals=[]
+    cuts=[]
+    for angle in angles:
+        normal=jnp.array([jnp.cos(angle),jnp.sin(angle)])
+        rotation=jnp.array([[jnp.cos(angle),-jnp.sin(angle)],
+                            [jnp.sin(angle),jnp.cos(angle)]])
+        parent=fragment(reference,1200.,x=jnp.array([.5,.5]),F=rotation@shear)
+        for offset in offsets:
+            parents.append(parent)
+            normals.append(normal)
+            cuts.append(normal@parent.x+offset)
+    parents=jax.tree.map(lambda *a:jnp.stack(a),*parents)
+    normals=jnp.stack(normals);cuts=jnp.stack(cuts)
+    children=jax.jit(jax.vmap(split_fragment))(parents,normals,cuts)
+    flat=jax.tree.map(lambda a:a.reshape((-1,)+a.shape[2:]),children)
+    reference_support=jax.jit(jax.vmap(lambda p:domain_stencil(p,config)))(flat)
+    factored_support=jax.jit(jax.vmap(lambda p:domain_stencil_separable(p,config)))(flat)
+    assert bool(jnp.all(reference_support.valid)&jnp.all(factored_support.valid))
+    np.testing.assert_array_equal(factored_support.indices,reference_support.indices)
+    for name in ('weights','gradients','dpos','moment','inverse_moment','volume'):
+        np.testing.assert_allclose(getattr(factored_support,name),getattr(reference_support,name),
+                                   atol=2e-13,rtol=2e-12)
