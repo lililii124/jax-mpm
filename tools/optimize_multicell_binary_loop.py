@@ -104,6 +104,7 @@ def acceptance_receipt(root, inputs, binary_inputs, baseline_design, baseline_ge
             'selected_design': sha256(selection/'selected-design.npz'),
             'sources': {name: sha256(root/name) for name in sources}}
     if common_surface:
+        result['baseline_frames'] = frame_digests(baseline_replay)
         result['reference_frames'] = frame_digests(reference_replay)
         result['candidate_frames'] = [frame_digests(path) for path in replays]
     return result
@@ -184,6 +185,7 @@ def main():
     parser.add_argument('--explore-directions', type=int, default=0)
     parser.add_argument('--explore-seed', type=int, default=370)
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
+    parser.add_argument('--objective', choices=('underside-peak', 'fixed-bottom-peak'), default='underside-peak')
     parser.add_argument('--seed-gradient', type=Path)
     parser.add_argument('--seed-proposals', type=Path)
     parser.add_argument('--gradient-cache', type=Path,
@@ -215,8 +217,11 @@ def main():
         raise ValueError('Bottom coverage must lie in [0, 1]')
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
-    use_common = args.max_common_bottom_peak_ratio is not None or args.max_common_bottom_p90_ratio is not None
-    if args.require_common_bottom_every_step and args.max_common_bottom_peak_ratio is None:
+    use_common = (args.objective == 'fixed-bottom-peak' or args.max_common_bottom_peak_ratio is not None
+                  or args.max_common_bottom_p90_ratio is not None)
+    if args.objective == 'fixed-bottom-peak' and args.early_reject:
+        raise ValueError('Underside-peak early rejection is incompatible with fixed-bottom objective')
+    if args.require_common_bottom_every_step and args.max_common_bottom_peak_ratio is None and args.objective != 'fixed-bottom-peak':
         raise ValueError('Every-step common-bottom sampling requires a common-bottom peak limit')
     if use_common and (args.min_common_bottom_coverage is None or args.min_common_bottom_coverage <= 0):
         raise ValueError('Common-bottom response limits require positive minimum common coverage')
@@ -250,6 +255,9 @@ def main():
             baseline_coverage = float(np.mean(data['solid_mask'][0]))
         if baseline_coverage < args.min_common_bottom_coverage:
             raise ValueError('Common bottom coverage exceeds the baseline bottom coverage')
+        if args.objective == 'fixed-bottom-peak' and (baseline_coverage <= 0 or
+                args.min_common_bottom_coverage + 1e-12 < baseline_coverage):
+            raise ValueError('Fixed-bottom objective must retain every initial bottom observation point')
     root = Path(__file__).resolve().parents[1]
     if any(sha256(root / name) != value for name, value in baseline_meta['source_sha256'].items()):
         raise ValueError('Baseline replay uses a different binary solver source snapshot')
@@ -265,6 +273,8 @@ def main():
                        seed_manifest_sha256=sha256(args.seed_proposals / 'manifest.json'))
     if args.early_reject:
         binding['early_reject'] = True
+    if args.objective != 'underside-peak':
+        binding['objective'] = args.objective
     if args.require_common_bottom_every_step:
         binding['require_common_bottom_every_step'] = True
     if args.explore_directions:
@@ -278,7 +288,7 @@ def main():
                        ('min_bottom_coverage', args.min_bottom_coverage),
                        ('min_common_bottom_coverage', args.min_common_bottom_coverage)):
         if value is not None: binding[key] = value
-    use_constraints = any(value is not None for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
+    use_constraints = use_common or any(value is not None for value in (args.max_bottom_peak_ratio, args.max_p90_peak_ratio,
                                                            args.max_common_bottom_peak_ratio, args.max_common_bottom_p90_ratio,
                                                            args.min_bottom_coverage, args.min_common_bottom_coverage))
     if use_constraints: binding['constraint_reference'] = 'initial-replay'
@@ -411,7 +421,7 @@ def main():
             write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'selecting'})
             selection_args = ['tools.select_multicell_binary_step', args.inputs, current_design, current_geometry,
                               current_replay, proposals, '--replays', *replays, '--minimum-reduction', args.minimum_reduction,
-                              '--output', selection_dir]
+                              '--objective', args.objective, '--output', selection_dir]
             for option, value in (('--max-bottom-peak-ratio', args.max_bottom_peak_ratio),
                                   ('--max-p90-peak-ratio', args.max_p90_peak_ratio),
                                   ('--max-common-bottom-peak-ratio', args.max_common_bottom_peak_ratio),

@@ -26,6 +26,21 @@ def verify_early_rejection(meta, history, result, outcome, minimum_reduction):
         raise ValueError('Incomplete replay does not prove candidate rejection')
 
 
+def rank_fixed_bottom(completed, current_peak, fixed_coverage, minimum_reduction):
+    if not np.isfinite(current_peak) or current_peak <= 0:
+        raise ValueError('Current fixed-bottom peak must be finite and positive')
+    for row in completed:
+        response = row['secondary_constraints']['common_bottom_response']
+        if not np.isclose(response['common_bottom_coverage'], fixed_coverage, rtol=0, atol=1e-12):
+            raise ValueError('Candidate does not retain all fixed observation points')
+        row['objective_peak_m'] = response['candidate_peak_m']
+        if not np.isfinite(row['objective_peak_m']) or row['objective_peak_m'] < 0:
+            raise ValueError('Candidate fixed-bottom peak must be finite and nonnegative')
+        row['objective_reduction_fraction'] = (current_peak - row['objective_peak_m']) / current_peak
+    best = min(completed, key=lambda row: row['objective_peak_m'])
+    return best, best['objective_reduction_fraction'] > minimum_reduction
+
+
 def evaluate_secondary_constraints(base_meta, base_rows, meta, rows, bottom_ratio=None, p90_ratio=None,
                                    min_bottom_coverage=None, common_bottom_coverage=None,
                                    min_common_bottom_coverage=None):
@@ -69,6 +84,7 @@ def main():
     parser.add_argument('--replays', type=Path, nargs='+', required=True,
                         help='Replay directories, in proposed-candidate order')
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
+    parser.add_argument('--objective', choices=('underside-peak', 'fixed-bottom-peak'), default='underside-peak')
     parser.add_argument('--max-bottom-peak-ratio', type=float)
     parser.add_argument('--max-p90-peak-ratio', type=float)
     parser.add_argument('--max-common-bottom-peak-ratio', type=float)
@@ -94,8 +110,9 @@ def main():
         raise ValueError('Bottom coverage must lie in [0, 1]')
     if args.min_common_bottom_coverage is not None and not 0 <= args.min_common_bottom_coverage <= 1:
         raise ValueError('Common bottom coverage must lie in [0, 1]')
-    use_common = args.max_common_bottom_peak_ratio is not None or args.max_common_bottom_p90_ratio is not None
-    if args.require_common_bottom_every_step and args.max_common_bottom_peak_ratio is None:
+    use_common = (args.objective == 'fixed-bottom-peak' or args.max_common_bottom_peak_ratio is not None
+                  or args.max_common_bottom_p90_ratio is not None)
+    if args.require_common_bottom_every_step and args.max_common_bottom_peak_ratio is None and args.objective != 'fixed-bottom-peak':
         raise ValueError('Every-step common-bottom sampling requires a common-bottom peak limit')
     if use_common and (args.min_common_bottom_coverage is None or args.min_common_bottom_coverage <= 0):
         raise ValueError('Common-bottom response limits require positive minimum common coverage')
@@ -149,6 +166,10 @@ def main():
             if reference_solid.shape[1:] != base_bottom.shape:
                 raise ValueError('Constraint reference bottom grid differs')
             base_bottom = np.asarray(reference_solid[0], dtype=bool).copy()
+    fixed_coverage = float(np.mean(base_bottom))
+    if args.objective == 'fixed-bottom-peak' and (fixed_coverage <= 0 or
+            args.min_common_bottom_coverage + 1e-12 < fixed_coverage):
+        raise ValueError('Fixed-bottom objective must retain every initial bottom observation point')
     with np.load(args.baseline_design, allow_pickle=False) as data:
         base_mask = reconstruct(data['rho_cell'], settings)[-1]['solid_mask_sha256']
     if (base_mask != manifest['baseline_solid_mask_sha256'] or
@@ -188,6 +209,8 @@ def main():
         result = compare(args.baseline_replay, replay, allow_incomplete_candidate=True)
         early_rejected = not result['candidate_complete']
         if early_rejected:
+            if args.objective == 'fixed-bottom-peak':
+                raise ValueError('Underside-peak early rejection cannot prove fixed-bottom rejection')
             outcome = json.loads((replay / 'outcome.json').read_text(encoding='utf-8'))
             verify_early_rejection(meta, history, result, outcome, args.minimum_reduction)
         secondary = None
@@ -221,8 +244,23 @@ def main():
                             'comparison': result})
     completed = [row for row in comparisons if not row['early_rejected'] and
                  (row['secondary_constraints'] is None or row['secondary_constraints']['passed'])]
-    best = min(completed, key=lambda row: row['comparison']['candidate_sampled_peak_m']) if completed else None
-    accepted = best is not None and best['comparison']['sampled_peak_reduction_fraction'] > args.minimum_reduction
+    if args.objective == 'fixed-bottom-peak' and completed:
+        from tools.multicell_common_surface import compare_common_bottom
+        reference_replay = args.constraint_reference_replay or args.baseline_replay
+        reference_geometry = args.constraint_reference_geometry or args.baseline_geometry
+        reference_meta = constraint_meta
+        if reference_meta['solid_mask_sha256'] == base_meta['solid_mask_sha256']:
+            current_peak = completed[0]['secondary_constraints']['common_bottom_response']['reference_peak_m']
+        else:
+            current = compare_common_bottom(reference_replay, reference_geometry,
+                args.baseline_replay, args.baseline_geometry, require_every_step=args.require_common_bottom_every_step)
+            if not np.isclose(current['common_bottom_coverage'], fixed_coverage, rtol=0, atol=1e-12):
+                raise ValueError('Current design does not retain all fixed observation points')
+            current_peak = current['candidate_peak_m']
+        best, accepted = rank_fixed_bottom(completed, current_peak, fixed_coverage, args.minimum_reduction)
+    else:
+        best = min(completed, key=lambda row: row['comparison']['candidate_sampled_peak_m']) if completed else None
+        accepted = best is not None and best['comparison']['sampled_peak_reduction_fraction'] > args.minimum_reduction
     selected = Path(best['design']) if accepted else args.baseline_design
     args.output.mkdir(parents=True)
     target = args.output / 'selected-design.npz'
@@ -230,7 +268,7 @@ def main():
     result = {'accepted': accepted, 'selected_step': best['step'] if accepted else 0.,
               'selected_design_sha256': sha256(target),
               'selected_solid_mask_sha256': best['solid_mask_sha256'] if accepted else base_mask,
-              'minimum_reduction': args.minimum_reduction, 'comparisons': comparisons,
+              'minimum_reduction': args.minimum_reduction, 'objective': args.objective, 'comparisons': comparisons,
               'qualification': 'Sampled peak comparison for connected elastic solids under matched projected pressure; not experimental validation.'}
     temp = args.output / 'selection.json.tmp'
     temp.write_text(json.dumps(result, indent=2, allow_nan=False) + '\n', encoding='utf-8')
