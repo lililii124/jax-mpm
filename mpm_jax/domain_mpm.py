@@ -13,6 +13,8 @@ import jax.numpy as jnp
 from .core import grid_boundaries
 from .cohesive_crack import midpoint_bulk
 from .domain_transfer import batch_stencils,particle_to_grid,grid_to_fragment,velocity_gradient,internal_force
+from . import implicit_contact
+from .boundaries import VelocityBox,CyclicVelocityBox
 
 
 def kinetic_energy(state,config,moment=None):
@@ -41,13 +43,24 @@ class Work(NamedTuple):
     residual: jax.Array
 
 
+class ContactWork(NamedTuple):
+    stored_change: jax.Array
+    power_error: jax.Array
+    iterations: jax.Array
+    residual: jax.Array
+    normal_resultant: jax.Array
+    net_moment: jax.Array
+
+
 @partial(jax.jit,static_argnames=('config','n_fields','tile_radius','batch_size'))
-def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,tile_radius=1,batch_size=32):
+def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,tile_radius=1,batch_size=32,
+         contact=None,contact_stiffness=None):
     """One trial step; callers commit only if every returned state.valid is true.
 
     Boundary boxes act on each nodal field in physical coordinates. Optional
     nodal force is held fixed over the step. No interface/contact law is added
-    implicitly between separate fields.
+    implicitly between separate fields. Supplying contact adds a fixed-normal
+    implicit interface and returns (state, interface, work, contact_work).
     """
     if config.dim!=2 or config.material not in ('elastic','neo-hookean') or n_fields<1:
         raise ValueError('Domain midpoint dynamics requires 2D neo-Hookean elasticity')
@@ -71,6 +84,13 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
 
     initial=constrain(transferred,time)
     initial_impulse=mass[:,None]*(initial-transferred)
+    if contact is not None:
+        if n_fields!=2 or config.boundary_cells or any(not isinstance(b,(VelocityBox,CyclicVelocityBox)) for b in config.boundaries):
+            raise ValueError('Implicit contact requires two fields and prescribed velocity boxes only')
+        if contact_stiffness is None:
+            raise ValueError('An explicit contact stiffness is required')
+        free=constrain(jnp.ones_like(initial),time+.5*dt)-constrain(jnp.zeros_like(initial),time+.5*dt)
+        contact_trace=implicit_contact.trace(contact,mass,free,config)
 
     def evaluate(velocity):
         middle=.5*(initial+velocity)
@@ -80,7 +100,13 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
         bulk=internal_force(tau,state.reference_area,support,total)
         raw=jnp.where(occupied[:,None],initial+dt*((bulk+force)/denominator+jnp.asarray(config.gravity)),0.)
         bounded=2*constrain(.5*(initial+raw),time+.5*dt)-initial
-        return bounded,(middle,vp,F,bulk,raw,valid)
+        if contact is not None:
+            solved=implicit_contact.solve(contact,contact_trace,initial,bounded,contact_stiffness,dt,config.dx)
+            raw=raw+dt*solved.force/denominator
+            bounded=solved.velocity
+            valid &= solved.valid
+            return bounded,(middle,vp,F,bulk,raw,valid,solved)
+        return bounded,(middle,vp,F,bulk,raw,valid,None)
 
     def iterate(carry):
         velocity,count,_=carry
@@ -90,7 +116,7 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
 
     velocity,iterations,residual=jax.lax.while_loop(lambda c:(c[1]<32)&(c[2]>1e-9),iterate,
                                                    (initial,jnp.asarray(0),jnp.asarray(jnp.inf)))
-    bounded,(middle,vp,F,bulk,raw,constitutive_valid)=evaluate(velocity)
+    bounded,(middle,vp,F,bulk,raw,constitutive_valid,solved)=evaluate(velocity)
     v,C=grid_to_fragment(velocity,support)
     following=state._replace(x=state.x+dt*vp,v=v,C=C,F=F)
     valid=jnp.all(state.valid)&jnp.all(support.valid)&constitutive_valid&(residual<=1e-8)&jnp.isfinite(dt)&(dt>0)
@@ -114,4 +140,21 @@ def step(state,material,config,time,fields=None,force=None,dt=None,n_fields=1,ti
     change=elastic_energy(following,material)-elastic_energy(state,material)
     bulk_error=dt*jnp.sum(bulk*middle)+change
     ledger_error=K1-K0+change+transfer+projection-geometry-boundary-gravity-external
-    return following,Work(boundary,gravity,external,transfer,projection,geometry,bulk_error,ledger_error,iterations,residual)
+    work=Work(boundary,gravity,external,transfer,projection,geometry,bulk_error,ledger_error,iterations,residual)
+    if contact is None:
+        return following,work
+    new_contact=implicit_contact.advect(contact,contact_trace,middle,dt)
+    surface_change=implicit_contact.stored_energy(new_contact,contact_stiffness)-implicit_contact.stored_energy(contact,contact_stiffness)
+    power_error=surface_change+dt*jnp.sum(solved.force*middle)
+    work=work._replace(ledger_error=work.ledger_error+surface_change)
+    contact_valid=constitutive_valid&jnp.isfinite(power_error)
+    energy_scale=jnp.abs(surface_change)+jnp.abs(dt*jnp.sum(solved.force*middle))+K0+1e-20
+    contact_valid &= jnp.abs(power_error)<=1e-8*energy_scale
+    new_contact=new_contact._replace(valid=new_contact.valid&valid&contact_valid)
+    following=following._replace(valid=following.valid&contact_valid)
+    index=jnp.arange(size);nodes=config.dx*jnp.stack((index//(config.n_grid+1),index%(config.n_grid+1)),axis=1)
+    f=solved.force.reshape(2,size,2)
+    moment=jnp.sum(nodes[None,:,0]*f[:,:,1]-nodes[None,:,1]*f[:,:,0])
+    contact_work=ContactWork(surface_change,power_error,solved.iterations,solved.residual,
+                             jnp.sum(f[0],axis=0)@contact.normal,moment)
+    return following,new_contact,work,contact_work
