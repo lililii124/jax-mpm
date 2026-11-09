@@ -147,6 +147,8 @@ def main():
     parser.add_argument('--iterations', type=int, default=4)
     parser.add_argument('--steps', type=float, nargs='+', default=[.025, .0125, .00625, .003125])
     parser.add_argument('--fallback-directions', type=int, default=8)
+    parser.add_argument('--explore-directions', type=int, default=0)
+    parser.add_argument('--explore-seed', type=int, default=370)
     parser.add_argument('--minimum-reduction', type=float, default=1e-6)
     parser.add_argument('--seed-gradient', type=Path)
     parser.add_argument('--seed-proposals', type=Path)
@@ -162,7 +164,7 @@ def main():
                         help='Minimum fraction of projected columns with bottom material in both designs')
     parser.add_argument('--resume', action='store_true')
     args = parser.parse_args()
-    if args.iterations < 1 or args.fallback_directions < 0 or not 0 <= args.minimum_reduction < 1:
+    if args.iterations < 1 or args.fallback_directions < 0 or args.explore_directions < 0 or not 0 <= args.minimum_reduction < 1:
         raise ValueError('Invalid iteration or acceptance settings')
     if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
         raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
@@ -217,6 +219,8 @@ def main():
                        seed_manifest_sha256=sha256(args.seed_proposals / 'manifest.json'))
     if args.early_reject:
         binding['early_reject'] = True
+    if args.explore_directions:
+        binding.update(explore_directions=args.explore_directions, explore_seed=args.explore_seed)
     if args.max_single_voxel_fraction is not None:
         binding['max_single_voxel_fraction'] = args.max_single_voxel_fraction
     for key, value in (('max_bottom_peak_ratio', args.max_bottom_peak_ratio),
@@ -270,6 +274,9 @@ def main():
                 write_json(folder / 'status.json', {'iteration': iteration, 'stage': 'proposing'})
                 proposal_args = ['tools.propose_multicell_binary_steps', args.inputs, gradient, '--steps', *args.steps,
                                  '--fallback-directions', args.fallback_directions, '--output', proposals]
+                if args.explore_directions:
+                    proposal_args.extend(('--explore-directions', args.explore_directions,
+                                          '--explore-seed', args.explore_seed))
                 if args.max_single_voxel_fraction is not None:
                     proposal_args.extend(('--max-single-voxel-fraction', args.max_single_voxel_fraction))
                 if args.min_bottom_coverage is not None:
@@ -283,6 +290,9 @@ def main():
             raise ValueError('Proposal manifest does not match the current gradient')
         if manifest.get('max_single_voxel_fraction') != args.max_single_voxel_fraction:
             raise ValueError('Proposal feature limit differs from the optimization settings')
+        if (manifest.get('explore_directions', 0) != args.explore_directions or
+                (args.explore_directions and manifest.get('explore_seed') != args.explore_seed)):
+            raise ValueError('Proposal exploration settings differ')
         if (manifest.get('min_bottom_coverage') != args.min_bottom_coverage or
                 manifest.get('min_common_bottom_coverage') != args.min_common_bottom_coverage):
             raise ValueError('Proposal coverage filters differ from the optimization settings')

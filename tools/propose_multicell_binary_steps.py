@@ -19,6 +19,8 @@ def main():
     parser.add_argument('--logit-bound', type=float, default=12.)
     parser.add_argument('--fallback-directions', type=int, default=0)
     parser.add_argument('--fallback-seed', type=int, default=370)
+    parser.add_argument('--explore-directions', type=int, default=0)
+    parser.add_argument('--explore-seed', type=int, default=370)
     parser.add_argument('--max-single-voxel-fraction', type=float,
                         help='Maximum fraction of solid voxels in an axis-aligned one-voxel run')
     parser.add_argument('--min-bottom-coverage', type=float)
@@ -29,7 +31,8 @@ def main():
     if args.output.exists():
         raise FileExistsError(args.output)
     if (not np.isfinite(args.steps).all() or min(args.steps) <= 0 or
-            not np.isfinite(args.logit_bound) or args.logit_bound <= 0 or args.fallback_directions < 0):
+            not np.isfinite(args.logit_bound) or args.logit_bound <= 0 or args.fallback_directions < 0 or
+            args.explore_directions < 0):
         raise ValueError('Step sizes and logit bound must be finite and positive')
     if args.max_single_voxel_fraction is not None and not 0 <= args.max_single_voxel_fraction <= 1:
         raise ValueError('Single-voxel fraction limit must lie in [0, 1]')
@@ -134,6 +137,17 @@ def main():
     unit_gradient = gradient / norm
     for step in args.steps:
         try_step(-unit_gradient, step, 'gradient')
+    if args.explore_directions:
+        rng = np.random.default_rng(args.explore_seed)
+        for index in range(args.explore_directions):
+            noise = rng.normal(size=q.shape)
+            noise -= np.dot(noise, unit_gradient) * unit_gradient
+            noise_norm = np.linalg.norm(noise)
+            if not noise_norm > 0: raise FloatingPointError('Could not generate an exploration direction')
+            direction = -unit_gradient + noise / noise_norm
+            direction /= np.linalg.norm(direction)
+            for step in args.steps:
+                try_step(direction, step, f'gradient-plus-orthogonal-{index}')
     if args.fallback_directions and not any(x['status'] == 'proposed' for x in records):
         rng = np.random.default_rng(args.fallback_seed)
         for index in range(args.fallback_directions):
@@ -156,6 +170,9 @@ def main():
                 'steps': records, 'qualification': 'Proposals require complete binary MPM replay before acceptance.'}
     if args.min_bottom_coverage is not None:
         manifest['min_bottom_coverage'] = args.min_bottom_coverage
+    if args.explore_directions:
+        manifest['explore_directions'] = args.explore_directions
+        manifest['explore_seed'] = args.explore_seed
     if args.min_common_bottom_coverage is not None:
         manifest['min_common_bottom_coverage'] = args.min_common_bottom_coverage
         manifest['constraint_reference_geometry_sha256'] = sha256(args.constraint_reference_geometry)
