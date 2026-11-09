@@ -177,6 +177,12 @@ def check_run(run, source_commit=None, verified_revision=None):
     max_contact_residual = float(np.max(history['max_interface_residual']))
     max_bulk_residual = float(np.max(history['max_bulk_residual']))
     max_net_moment = float(np.max(history['max_interface_net_moment_N']))
+    max_detached_damage = 0.
+    max_compressive_pressure = 0.
+    max_compression_energy = 0.
+    first_failed_time = None
+    full_failure_time = None
+    postpeak_minimum_gap = None
     for idx, path in enumerate(frames):
         with np.load(path, allow_pickle=False) as archive:
             frame = {key: archive[key].copy() for key in archive.files}
@@ -205,6 +211,16 @@ def check_run(run, source_commit=None, verified_revision=None):
         conn_fail_m = float(np.sum(quadrature_area*bonded*connected_failed))
         detached_fail_m = float(np.sum(quadrature_area*bonded*failed*(~connected_failed)))
         conn_damage_m = float(np.sum(quadrature_area*bonded*connected_damaged))
+        max_detached_damage = max(max_detached_damage, float(np.sum(quadrature_area*bonded*damaged*(~connected_damaged))))
+        compression = np.maximum(-gap, 0.)
+        max_compressive_pressure = max(max_compressive_pressure, float(law['stiffness']*compression.max()))
+        max_compression_energy = max(max_compression_energy, float(.5*law['stiffness']*np.sum(quadrature_area*compression**2)))
+        if first_failed_time is None and np.any(failed & bonded):
+            first_failed_time = float(frame['time_s'])
+        if full_failure_time is None and np.all(failed[bonded]):
+            full_failure_time = float(frame['time_s'])
+        if info.get('loading') == 'pulse' and float(frame['time_s']) >= .5*info['pulse_period_s']:
+            postpeak_minimum_gap = float(gap.min()) if postpeak_minimum_gap is None else min(postpeak_minimum_gap, float(gap.min()))
         contact_gap = float(gap.min())
         drift, _ = trace_drift(frame, vertices, counts, centroid, final['fields'], x0, F0,
                                face_mask, frame['plus'], frame['minus'])
@@ -290,6 +306,12 @@ def check_run(run, source_commit=None, verified_revision=None):
                   final_connected_failed_m=float(history['connected_failed_m'][-1]),
                   final_detached_failed_m=float(history['detached_failed_m'][-1]),
                   final_connected_damaged_m=float(history['connected_damaged_m'][-1]),
+                  maximum_detached_damaged_length_m=max_detached_damage,
+                  first_saved_complete_failure_time_s=first_failed_time,
+                  first_saved_full_ligament_failure_time_s=full_failure_time,
+                  maximum_saved_compressive_pressure_Pa=max_compressive_pressure,
+                  maximum_saved_compression_energy_J_per_m=max_compression_energy,
+                  postpeak_minimum_saved_gap_m=postpeak_minimum_gap,
                   final_numerical_loss_fraction=float(history['numerical_loss_fraction'][-1]),
                   initial_damage_fraction=0., initial_unbonded_quadrature_count=int(np.sum(~bonded)),
                   initial_crack_unbonded_but_not_damaged=True,
