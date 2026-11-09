@@ -2,7 +2,7 @@
 
 import jax.numpy as jnp
 
-from .core import grid_to_particle
+from mpm_jax.core import grid_to_particle
 
 
 def velocity_projection(velocity, support, particle_mass, grid_mass, config):

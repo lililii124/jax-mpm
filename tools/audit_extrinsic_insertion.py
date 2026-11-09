@@ -15,10 +15,10 @@ import numpy as np
 from mpm_jax import Config,block,neo_hookean
 from mpm_jax.cohesive_crack import CohesiveLaw,scatter_face_force
 from mpm_jax.core import particle_stencil
-from mpm_jax.extrinsic_crack import initialize,segment_positions,shared_tip,surface_gradient,transfers,released_vertices
+from mpm_jax.extrinsic_crack import initialize,segment_positions,shared_tip,surface_gradient,transfers,surface_response
 from mpm_jax.materials import kirchhoff_stress
 from mpm_jax.polyline_crack import link_fields,shifted_nodes,vertex_normals
-from mpm_jax.apic_projection import force_adjoint
+from tools.apic_transfer_audit import force_adjoint
 
 
 def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=False,compression=False):
@@ -66,7 +66,9 @@ def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=Fals
     fm=jnp.zeros_like(path.minus).at[:-1].add(force[:,2]).at[1:].add(force[:,3])
     cohesive=scatter_face_force(fp,plus,bulk.shape)+scatter_face_force(fm,minus,bulk.shape)
     if particle_mediated_faces:
-        released=released_vertices(path,law)[:,None]
+        response=surface_response(segment_positions(path.plus,path.minus),path.maximum,path.birth_traction,path.bonded,law,update=False)
+        failed=(~path.bonded)|jnp.all(response.softening>=1-1e-8,axis=1)
+        released=(jnp.pad(failed,(1,0),constant_values=True)&jnp.pad(failed,(0,1),constant_values=True))[:,None]
         direct=scatter_face_force(jnp.where(released,0.,fp),plus,bulk.shape)+scatter_face_force(jnp.where(released,0.,fm),minus,bulk.shape)
         mediated=scatter_face_force(jnp.where(released,fp,0.),plus,bulk.shape)+scatter_face_force(jnp.where(released,fm,0.),minus,bulk.shape)
         cohesive=direct+force_adjoint(mediated,support._replace(indices=indices),state.mass,mass,config)

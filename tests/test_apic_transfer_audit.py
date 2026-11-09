@@ -2,11 +2,11 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from mpm_jax import Config,block,neo_hookean
-from mpm_jax.apic_projection import velocity_projection,force_adjoint
+from mpm_jax import Config,block
+from tools.apic_transfer_audit import velocity_projection,force_adjoint
 from mpm_jax.core import particle_stencil
-from mpm_jax.cohesive_crack import CohesiveLaw,face_velocity,scatter_face_force,elastic_energy,kinetic_energy
-from mpm_jax.extrinsic_crack import initialize,transfers,step,segment_positions,surface_response
+from mpm_jax.cohesive_crack import face_velocity,scatter_face_force
+from mpm_jax.extrinsic_crack import transfers
 from mpm_jax.polyline_crack import link_fields
 
 jax.config.update('jax_enable_x64',True)
@@ -39,27 +39,3 @@ def test_split_apic_trace_preserves_affine_fields_and_force_adjoint():
     np.testing.assert_allclose(jnp.sum(coordinates[:,0]*force[:,1]-coordinates[:,1]*force[:,0]),
                                jnp.sum(points[:,0]*face_force[:,1]-points[:,1]*face_force[:,0]),atol=1e-13)
     assert float(jnp.sum(mass[:,None]*project(v)**2))<=float(jnp.sum(mass[:,None]*v**2))
-
-
-def test_compressive_recontact_with_mediated_faces_closes_energy_ledger():
-    config=Config(dim=2,n_grid=16,dt=1e-5,material='neo-hookean',gravity=(0.,0.),boundary_cells=0)
-    material=neo_hookean(1e6,.2);law=CohesiveLaw(1000.,1.,1e6)
-    state=block(config,(.25,.25),(.75,.75),dtype=jnp.float64)
-    path=initialize([[.25,.5],[.5,.5],[.75,.5]],capacity=6)
-    path=path._replace(plus=path.plus.at[:3,1].add(-1e-4),minus=path.minus.at[:3,1].add(1e-4))
-    def energy(s,p):
-        r=surface_response(segment_positions(p.plus,p.minus),p.maximum,p.birth_traction,p.bonded,law)
-        return kinetic_energy(s,config)+elastic_energy(s,material,config)+jnp.sum(p.area*(r.stored+r.dissipated))
-    following,newpath,work,audit=step(state,path,material,config,law,consistent_gradients=True,
-                                      particle_mediated_faces=True,audit_transfer=True)
-    assert bool(following.valid & newpath.valid)
-    np.testing.assert_allclose(energy(following,newpath)-energy(state,path)+work.transfer_loss+work.boundary_projection_loss,
-                               work.boundary+work.gravity,atol=1e-10)
-    np.testing.assert_allclose(audit.particle_to_grid_loss+audit.grid_to_particle_loss,work.transfer_loss,atol=1e-14)
-    np.testing.assert_allclose(jnp.sum(following.mass[:,None]*following.v,axis=0),0.,atol=1e-12)
-
-
-def test_mediated_contact_does_not_change_intact_traction_patch():
-    from tools.audit_extrinsic_insertion import audit
-    result=audit(48,.5,0.,consistent=True,particle_mediated_faces=True)
-    assert result['relative_residual']<1e-10

@@ -47,7 +47,6 @@ def main():
     parser.add_argument('--frames',type=int,default=49)
     parser.add_argument('--cfl',type=float,default=.075)
     parser.add_argument('--face-mass-fraction',type=float,default=1e-8)
-    parser.add_argument('--particle-mediated-faces',action='store_true',help='Use APIC-mediated contact traces at fully released vertices')
     args=parser.parse_args()
     case=scenario(args.case)
     grid=case['grid'] if args.grid is None else args.grid
@@ -75,14 +74,13 @@ def main():
     spacing,radius=.0005,.0015
     source_names=['examples/extrinsic_crack_cases.py','mpm_jax/adaptive_crack.py','mpm_jax/extrinsic_crack.py',
                   'mpm_jax/cohesive_crack.py','mpm_jax/polyline_crack.py','mpm_jax/core.py',
-                  'mpm_jax/materials/elastic.py','mpm_jax/boundaries.py','mpm_jax/apic_projection.py']
+                  'mpm_jax/materials/elastic.py','mpm_jax/boundaries.py']
     root=Path(__file__).resolve().parents[1]
     metadata=dict(case=args.case,grid=grid,dx_m=dx,dt_s=config.dt,duration_s=duration,young_Pa=E,poisson=nu,
                   density_kg_m3=rho,law=asdict(law),insertion_spacing_m=spacing,averaging_radius_m=radius,
                   max_extension_m=case['extension'],max_turn_deg=45.,capacity=96,particle_count=len(reference),
                   consistent_gradients=True,couple_tip_nodes=True,adaptive=True,face_mass_fraction=args.face_mass_fraction,
                   requested_cfl=args.cfl,
-                  particle_mediated_faces=args.particle_mediated_faces,
                   lower_m=case['lower'],upper_m=case['upper'],initial_vertices_m=case['vertices'],
                   boundary_conditions=[dict(type=type(b).__name__,**asdict(b)) for b in config.boundaries],
                   render_center=case['center'],render_half_height=case['half_height'],
@@ -97,8 +95,7 @@ def main():
         for frame,target in enumerate(np.linspace(0,duration,args.frames)):
             if target>0:
                 state,path,ledger,control=integrate_to(state,path,material,config,law,ledger,control,
-                                                       jnp.asarray(target),spacing,radius,case['extension'],face_mass_fraction=args.face_mass_fraction,
-                                                       particle_mediated_faces=args.particle_mediated_faces)
+                                                       jnp.asarray(target),spacing,radius,case['extension'],face_mass_fraction=args.face_mass_fraction)
             count=int(path.count)
             q=segment_positions(path.plus,path.minus)
             response=surface_response(q,path.maximum,path.birth_traction,path.bonded,law)

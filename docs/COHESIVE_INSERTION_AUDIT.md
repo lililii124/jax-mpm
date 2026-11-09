@@ -214,3 +214,62 @@ The production option changes the topology map only. It still uses particle
 quadrature and the existing affine face interpolation, so the off-grid force
 integration error discussed above remains open in dynamics. Compatible moving
 domain quadrature and energy-based extension selection remain required.
+
+## Contact-transfer diagnostics
+
+The bending continuation separates particle-to-grid and grid-to-particle
+kinetic losses. At the accepted 156.667 microsecond state, one nominal step
+loses 0.002504 and 0.003299 J/m respectively. At one sixty-fourth of that
+duration the first loss is unchanged and the second is 0.002323 J/m. Repeating
+more transfers therefore does not make these losses vanish.
+
+An APIC-mediated face trace was examined using a fixed-stencil G2P/P2G
+round trip P and the exact force transpose P.T. It reproduces affine velocity,
+preserves resultants and moments, and preserves interface power. P is a
+mass-self-adjoint contraction, not an idempotent projection. However, applying
+it only to surface forces breaks their compatibility with the bulk gradient:
+
+| Patch | Original relative nodal residual | Mediated faces |
+| --- | --- | --- |
+| Intact uniform tensile traction | Roundoff | 14.76% |
+| Fully released interface under uniform compression | 8.28e-8 | 14.68% |
+
+Restricting mediation to fully released vertices preserves the intact patch
+but still fails the compressive-contact patch. Both dynamic trials were stopped;
+the solver option was removed. The small pressure-gap construction accounts for
+the compressive reference's nonzero roundoff-scale geometric error. The audit
+helper remains outside the solver for reproducing this rejected approach.
+[`contact-transfer`](../evidence/cohesive-loading-cases/contact-transfer) contains
+the measured residuals, accepted-state diagnostics and stopped-trial provenance.
+The impulse norms in those diagnostics are mass norms of acceleration,
+in J/(m s2); multiplying by dt2 gives the isolated impulse's kinetic energy.
+They do not include cross terms between bulk and surface forces.
+
+## JAX cut geometry
+
+[`cut_geometry.py`](../mpm_jax/cut_geometry.py) implements convex half-plane
+clipping with fixed-capacity arrays, batched bulk quadrature and outward-normal
+boundary quadrature. It supports JIT and vmap; coordinates have automatic
+derivatives while the active clipping topology is fixed. Capacity overflow,
+clockwise input and nonconvex input are invalidated rather than silently used.
+Empty or degenerate pieces have zero quadrature weights.
+
+The three-point edge and nine-point Duffy triangle rules integrate the actual
+quadratic MPM basis after pieces are split at spline knots. The compiled
+grid-12 audit covers three angles and three subcell offsets with nonzero
+constant shear and unequal normal stresses. All nine cases conserve area and
+first moment; the largest relative nodal force residual is 3.11e-15. Independent
+checks also cover batched complementary cuts and the exact area derivative
+with respect to a moving cut. The
+[`compiled audit`](../evidence/extrinsic-insertion-audit/jax-cut-geometry.json)
+records its source hashes and timings.
+
+```bash
+python tools/audit_jax_cut_geometry.py --output outputs/jax-cut-geometry.json
+```
+
+This replaces the geometry audit's host polygon loops, not the dynamic
+solver's particle integration. Production coupling still requires evolving
+fragment volumes, constitutive histories, consistent APIC moments and matching
+bulk/interface kinematics. Finite crack tips and curved or branching paths
+also remain outside this new compiled audit.

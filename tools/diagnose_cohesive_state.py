@@ -28,7 +28,6 @@ def main():
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--face-mass-fraction',type=float)
     parser.add_argument('--powers',type=int,nargs='+',default=(0,2,4,6,8,9,10,12))
-    parser.add_argument('--particle-mediated-faces',action='store_true')
     args=parser.parse_args()
     jax.config.update('jax_enable_x64',True)
     s,p,cfg,info,_=load_saved(args.run,args.frame)
@@ -38,7 +37,6 @@ def main():
             p=p._replace(**{k:jnp.asarray(data['path_'+k]) for k in p._fields})
     if args.face_mass_fraction is None:
         args.face_mass_fraction=info.get('face_mass_fraction',0.)
-    mediated=args.particle_mediated_faces or info.get('particle_mediated_faces',False)
     if any(power<0 for power in args.powers):
         parser.error('Time-step divisor powers must be nonnegative')
     material=neo_hookean(info['young_Pa'],info['poisson']);law=CohesiveLaw(**info['law'])
@@ -88,7 +86,7 @@ def main():
     rows=[]
     for power in args.powers:
         dt=cfg.dt/(2**power)
-        ns,npth,work,audit=step(s,p,material,cfg,law,consistent_gradients=consistent,couple_tip_nodes=tied,dt=jnp.asarray(dt),face_mass_fraction=args.face_mass_fraction,audit_transfer=True,particle_mediated_faces=mediated)
+        ns,npth,work,audit=step(s,p,material,cfg,law,consistent_gradients=consistent,couple_tip_nodes=tied,dt=jnp.asarray(dt),face_mass_fraction=args.face_mass_fraction,audit_transfer=True)
         values=surface_diagnostic(segment_positions(npth.plus,npth.minus))
         row=dict(dt_s=dt,dt_divisor=2**power,valid=bool(ns.valid & npth.valid),iterations=int(work.iterations),
                  residual=float(work.residual),bulk_work_error=float(work.bulk_error),surface_work_error=float(work.surface_error),
@@ -98,7 +96,7 @@ def main():
                  segments={k:np.asarray(value)[:count-1].tolist() for k,value in values.items()})
         rows.append(row)
         print(json.dumps({k:value for k,value in row.items() if k!='segments'}),flush=True)
-    report=dict(time_s=float(s.time),face_mass_fraction=args.face_mass_fraction,particle_mediated_faces=mediated,support_valid=bool(support.valid),plus_valid=bool(plus.valid),minus_valid=bool(minus.valid),
+    report=dict(time_s=float(s.time),face_mass_fraction=args.face_mass_fraction,support_valid=bool(support.valid),plus_valid=bool(plus.valid),minus_valid=bool(minus.valid),
                 minimum_occupied_mass=float(m[m>0].min()),minimum_face_mass=float(min(occupied_face)),
                 maximum_face_inverse_mass=float(max(inverse)),rows=rows)
     def clean(value):

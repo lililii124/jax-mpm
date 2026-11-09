@@ -1,0 +1,128 @@
+{
+  "grid": 12,
+  "knot_cells": 81,
+  "jax_version": "0.12.0.1",
+  "backend": "cpu",
+  "rows": [
+    {
+      "angle_rad": 0.0,
+      "phase_over_dx": -0.375,
+      "relative_nodal_residual": 3.1080214073638975e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 1.205147799977567,
+      "includes_compilation": true
+    },
+    {
+      "angle_rad": 0.0,
+      "phase_over_dx": 0.0,
+      "relative_nodal_residual": 2.1725516284810427e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.005205599998589605,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.0,
+      "phase_over_dx": 0.25,
+      "relative_nodal_residual": 2.1972419612820376e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.005360199953429401,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.31,
+      "phase_over_dx": -0.375,
+      "relative_nodal_residual": 1.9930215547475688e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.0034581999643705785,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.31,
+      "phase_over_dx": 0.0,
+      "relative_nodal_residual": 1.588979678844143e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.003520800033584237,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.31,
+      "phase_over_dx": 0.25,
+      "relative_nodal_residual": 1.6063228883583147e-15,
+      "area": 0.5624999999999999,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.00648049998562783,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.68,
+      "phase_over_dx": -0.375,
+      "relative_nodal_residual": 1.1731539392217779e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.0073049000347964466,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.68,
+      "phase_over_dx": 0.0,
+      "relative_nodal_residual": 1.0563993589747385e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.005087800032924861,
+      "includes_compilation": false
+    },
+    {
+      "angle_rad": 0.68,
+      "phase_over_dx": 0.25,
+      "relative_nodal_residual": 1.1925232657296998e-15,
+      "area": 0.5625,
+      "first_moment": [
+        0.28125,
+        0.28125
+      ],
+      "elapsed_s": 0.0036645999643951654,
+      "includes_compilation": false
+    }
+  ],
+  "max_relative_residual": 3.1080214073638975e-15,
+  "compiled_geometry": true,
+  "production_dynamics_integrated": false,
+  "limitations": [
+    "Convex pieces and through-cuts; split at spline knots before quadrature",
+    "No evolving fragment constitutive state, APIC moments or fracture-front update in this audit"
+  ],
+  "source_sha256": {
+    "mpm_jax/cut_geometry.py": "b19e0af3433e0949519620e2c156f0cb369ca7c9111616b8131f1faf1f978336",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "tools/audit_jax_cut_geometry.py": "f44b5b7d0e7f3b1fbce4c984e208d227271e8ac139444a76b48633d10d7726c1"
+  }
+}

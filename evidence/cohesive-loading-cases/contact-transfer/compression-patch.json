@@ -1,0 +1,30 @@
+[
+  {
+    "grid": 48,
+    "spacing_over_dx": 0.5,
+    "phase_over_dx": 0.0,
+    "consistent_gradient": true,
+    "segments": 24,
+    "particle_mediated_faces": false,
+    "compression": true,
+    "intact_max_force_N_per_m": 1.2409517857747687e-13,
+    "relative_residual": 8.276078101241966e-08,
+    "best_scalar_traction_multiplier": 0.9999999172595788,
+    "best_scalar_relative_residual": 1.8353284376817715e-09,
+    "maximum_acceleration_m_s2": 2.903693694679534e-05
+  },
+  {
+    "grid": 48,
+    "spacing_over_dx": 0.5,
+    "phase_over_dx": 0.0,
+    "consistent_gradient": true,
+    "segments": 24,
+    "particle_mediated_faces": true,
+    "compression": true,
+    "intact_max_force_N_per_m": 1.2409517857747687e-13,
+    "relative_residual": 0.14680835508415352,
+    "best_scalar_traction_multiplier": 0.8984247199376931,
+    "best_scalar_relative_residual": 0.09425413599364009,
+    "maximum_acceleration_m_s2": 160.03470687745795
+  }
+]

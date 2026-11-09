@@ -1,0 +1,94 @@
+{
+  "time_s": 0.0001566666666666667,
+  "face_mass_fraction": 1e-08,
+  "particle_mediated_faces": true,
+  "support_valid": true,
+  "plus_valid": true,
+  "minus_valid": true,
+  "minimum_occupied_mass": 7.172105587623768e-13,
+  "minimum_face_mass": 8.043282316653977e-09,
+  "maximum_face_inverse_mass": 164434.60175256254,
+  "rows": [
+    {
+      "dt_s": 2.2497187851518562e-08,
+      "dt_divisor": 1,
+      "valid": true,
+      "iterations": 5,
+      "residual": 1.9343470313762792e-10,
+      "bulk_work_error": 4.405364961712621e-13,
+      "surface_work_error": 1.0296076955057575e-13,
+      "minimum_J": 0.9750553259628577,
+      "maximum_particle_speed": 15.556150367504468,
+      "transfer_loss_J_per_m": 0.009997469116324709,
+      "transfer_audit": {
+        "particle_to_grid_loss": 0.0025042335794047688,
+        "grid_to_particle_loss": 0.00749323553691994,
+        "surface_impulse_grid_norm": 12438591901382.602,
+        "surface_impulse_particle_norm": 10366827428131.22,
+        "bulk_impulse_grid_norm": 59789961590177.11,
+        "bulk_impulse_particle_norm": 41266871052197.34
+      }
+    },
+    {
+      "dt_s": 5.6242969628796405e-09,
+      "dt_divisor": 4,
+      "valid": true,
+      "iterations": 4,
+      "residual": 8.218545740663731e-12,
+      "bulk_work_error": -1.3429257705865894e-12,
+      "surface_work_error": 1.1422246618920183e-13,
+      "minimum_J": 0.9749537702040012,
+      "maximum_particle_speed": 15.63547826652304,
+      "transfer_loss_J_per_m": 0.005271407325732724,
+      "transfer_audit": {
+        "particle_to_grid_loss": 0.0025042335794047688,
+        "grid_to_particle_loss": 0.0027671737463279555,
+        "surface_impulse_grid_norm": 12434407431338.184,
+        "surface_impulse_particle_norm": 10363341601445.91,
+        "bulk_impulse_grid_norm": 59746870881080.69,
+        "bulk_impulse_particle_norm": 41201168214749.38
+      }
+    },
+    {
+      "dt_s": 1.4060742407199101e-09,
+      "dt_divisor": 16,
+      "valid": true,
+      "iterations": 3,
+      "residual": 5.5653775755934006e-11,
+      "bulk_work_error": -2.1742607714259066e-12,
+      "surface_work_error": -3.5241248839131244e-13,
+      "minimum_J": 0.9749307329709823,
+      "maximum_particle_speed": 15.655202980795156,
+      "transfer_loss_J_per_m": 0.004881304335295766,
+      "transfer_audit": {
+        "particle_to_grid_loss": 0.0025042335794047688,
+        "grid_to_particle_loss": 0.0023770707558909976,
+        "surface_impulse_grid_norm": 12436664453450.95,
+        "surface_impulse_particle_norm": 10365223444844.9,
+        "bulk_impulse_grid_norm": 59720761521366.5,
+        "bulk_impulse_particle_norm": 41177330155223.66
+      }
+    },
+    {
+      "dt_s": 3.5151856017997753e-10,
+      "dt_divisor": 64,
+      "valid": true,
+      "iterations": 3,
+      "residual": 7.789376769854495e-13,
+      "bulk_work_error": -2.241762331323116e-12,
+      "surface_work_error": 1.4247819805614503e-13,
+      "minimum_J": 0.9749251241798523,
+      "maximum_particle_speed": 15.660065082540015,
+      "transfer_loss_J_per_m": 0.004833418081680918,
+      "transfer_audit": {
+        "particle_to_grid_loss": 0.0025042335794047688,
+        "grid_to_particle_loss": 0.0023291845022761493,
+        "surface_impulse_grid_norm": 12437433995456.82,
+        "surface_impulse_particle_norm": 10365865020317.234,
+        "bulk_impulse_grid_norm": 59713277434673.69,
+        "bulk_impulse_particle_norm": 41170909801092.56
+      }
+    }
+  ],
+  "full_diagnostic_sha256": "0a17ef4da39ac3027a7de7687a5be152cd7c300a07cc7cbc7daaaeec55cc2440"
+}
