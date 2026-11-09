@@ -1,6 +1,7 @@
 import jax
 import jax.numpy as jnp
 import numpy as np
+import pytest
 
 from mpm_jax import Config, block, neo_hookean
 from mpm_jax.cohesive_crack import CohesiveLaw, elastic_energy, kinetic_energy
@@ -62,7 +63,8 @@ def test_rotating_surface_is_objective_and_discrete_work_has_no_resultant_or_cou
     np.testing.assert_allclose(torque,0.,atol=1e-8)
 
 
-def test_coupled_midpoint_step_closes_bulk_surface_and_transfer_ledger():
+@pytest.mark.parametrize('consistent',[False,True])
+def test_coupled_midpoint_step_closes_bulk_surface_and_transfer_ledger(consistent):
     config = Config(dim=2,n_grid=16,dt=1e-5,gravity=(0.,0.),boundary_cells=0)
     material = neo_hookean(1e4,.2)
     state = block(config,(.25,.375),(.75,.625),dtype=jnp.float64)
@@ -73,7 +75,7 @@ def test_coupled_midpoint_step_closes_bulk_surface_and_transfer_ledger():
                         maximum=path.maximum.at[:2].set(.01),bonded=path.bonded.at[:2].set(True))
     old = surface_response(segment_positions(path.plus,path.minus),path.maximum,path.birth_traction,path.bonded,law)
     energy0 = kinetic_energy(state,config)+elastic_energy(state,material,config)+jnp.sum(path.area*(old.stored+old.dissipated))
-    following,newpath,work = step(state,path,material,config,law)
+    following,newpath,work = step(state,path,material,config,law,consistent_gradients=consistent)
     assert bool(following.valid & newpath.valid)
     after = surface_response(segment_positions(newpath.plus,newpath.minus),newpath.maximum,newpath.birth_traction,newpath.bonded,law)
     energy1 = kinetic_energy(following,config)+elastic_energy(following,material,config)+jnp.sum(newpath.area*(after.stored+after.dissipated))
@@ -101,7 +103,8 @@ def test_stress_selected_insertion_has_no_instantaneous_energy_jump():
     assert bool(following.bonded[1]) and float(jnp.linalg.norm(following.birth_traction[1]))>law.strength
 
 
-def test_face_transfer_reproduces_affine_velocity_with_missing_nodes():
+@pytest.mark.parametrize('mass_weighted',[False,True])
+def test_face_transfer_reproduces_affine_velocity_with_missing_nodes(mass_weighted):
     config = Config(dim=2,n_grid=16,dt=1e-5,gravity=(0.,0.),boundary_cells=0)
     size = 17**2
     index = jnp.arange(size)
@@ -110,7 +113,7 @@ def test_face_transfer_reproduces_affine_velocity_with_missing_nodes():
     points = jnp.asarray([[.49,.49],[.51,.51]])
     normals = jnp.asarray([[0.,1.],[0.,1.]])
     far = jnp.asarray([[.1,.1],[.2,.1]])
-    transfer = transfers(points,normals,1.,mass,config,far,jnp.asarray(2),nodes)
+    transfer = transfers(points,normals,1.,mass,config,far,jnp.asarray(2),nodes,mass_weighted=mass_weighted)
     A = jnp.asarray([[.3,-.4],[.2,.5]])
     b = jnp.asarray([.8,-.6])
     velocity = jnp.tile(nodes@A.T+b,(2,1))
@@ -122,3 +125,10 @@ def test_face_transfer_reproduces_affine_velocity_with_missing_nodes():
     repeated = jnp.tile(nodes,(2,1))
     np.testing.assert_allclose(jnp.sum(repeated[:,0]*nodal[:,1]-repeated[:,1]*nodal[:,0]),
                                jnp.sum(points[:,0]*force[:,1]-points[:,1]*force[:,0]),atol=1e-13)
+
+
+def test_grid_aligned_cohesive_patch_balances_uniform_bulk_stress():
+    from tools.audit_extrinsic_insertion import audit
+    result=audit(48,.5,0.,consistent=True)
+    assert result['intact_max_force_N_per_m']<1e-10
+    assert result['relative_residual']<1e-10

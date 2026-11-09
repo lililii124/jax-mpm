@@ -1,0 +1,22 @@
+{
+  "extrinsic-dcb-n160": {
+    "grid": 160,
+    "fracture_energy_J_m2": 2.0,
+    "frames": 41,
+    "final_potential_extension_m": 0.003,
+    "final_connected_failed_m": 0.0025,
+    "max_detached_failed_m": 0.0,
+    "first_saved_failure_s": 0.0008999887501406534,
+    "final_fracture_J_per_m": 0.005642511085601253,
+    "final_numerical_fraction": 0.10797586763175471,
+    "max_unexplained_J_per_m": 3.777533841287095e-14,
+    "max_insertion_energy_J_per_m": 7.957072484452705e-21,
+    "minimum_surface_J_per_m": 0.0,
+    "min_face_gap_m": 0.0,
+    "max_sampled_strain": 0.024475746900459505,
+    "extension_limit_reached": false,
+    "mesh_convergence_established": false,
+    "nodal_traction_balance_at_insertion_verified": false,
+    "history_sha256": "774c1cf79efa13ae79968a30d4ec5b4683d2737866b08134d059a55c0a845ce1"
+  }
+}

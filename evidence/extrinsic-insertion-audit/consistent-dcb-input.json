@@ -1,0 +1,111 @@
+{
+  "case": "Localized double-cantilever cohesive insertion",
+  "grid": 160,
+  "dx_m": 0.0005,
+  "dt_s": 2.2499718753515582e-07,
+  "duration_s": 0.002,
+  "inclination_deg": 0.0,
+  "young_Pa": 30000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "law": {
+    "strength": 120000.0,
+    "energy": 2.0,
+    "stiffness": 100000000000.0
+  },
+  "insertion_spacing_m": 0.0005,
+  "averaging_radius_m": 0.0015,
+  "max_extension_m": 0.028,
+  "max_turn_deg": 45.0,
+  "capacity": 64,
+  "particle_count": 5760,
+  "consistent_gradients": true,
+  "lower_m": [
+    0.01,
+    0.037
+  ],
+  "upper_m": [
+    0.07,
+    0.043
+  ],
+  "boundary_conditions": [
+    {
+      "lower": [
+        0.009,
+        0.036
+      ],
+      "upper": [
+        0.012,
+        0.038
+      ],
+      "velocity": [
+        0.0,
+        -1.0
+      ],
+      "components": [
+        false,
+        true
+      ],
+      "start": 0.0,
+      "end": null,
+      "ramp_time": 0.0002
+    },
+    {
+      "lower": [
+        0.009,
+        0.042
+      ],
+      "upper": [
+        0.012,
+        0.044
+      ],
+      "velocity": [
+        0.0,
+        1.0
+      ],
+      "components": [
+        false,
+        true
+      ],
+      "start": 0.0,
+      "end": null,
+      "ramp_time": 0.0002
+    },
+    {
+      "lower": [
+        0.068,
+        0.034
+      ],
+      "upper": [
+        0.072,
+        0.046
+      ],
+      "velocity": [
+        0.0,
+        0.0
+      ],
+      "components": [
+        true,
+        false
+      ],
+      "start": 0.0,
+      "end": null
+    }
+  ],
+  "initial_tip_x_m": 0.035,
+  "grip_speed_m_s": 1.0,
+  "ramp_s": 0.0002,
+  "particle_spacing_m": [
+    0.00025,
+    0.0002499999999999999
+  ],
+  "source_sha256": {
+    "examples/extrinsic_crack_dcb.py": "ee0fc6daf83a8d5b340d3d9300557bcf46b2d0742bf529efacb37af314f204a6",
+    "mpm_jax/extrinsic_crack.py": "96c964af9fb07710dd8f34fdf94a44d401d75835b89ceffe5bc18caf60e7e110",
+    "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+    "mpm_jax/polyline_crack.py": "321aaa5c5968e00fd43dae47b979588dd6c25576e943a56e1ed4b4a2d0ab7c8c",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "mpm_jax/boundaries.py": "990fc3d0d0d3afa266b107c0bd4dae14583ecd0eb114b9cafefbc77d6df24af5"
+  }
+}

@@ -59,7 +59,8 @@ def check(directory):
         F,v,C = a['F'],a['v'],a['C']
         J = np.linalg.det(F)
         assert J.min()>0
-        volume = .04*.02/len(F)
+        extent = np.asarray(info.get('upper_m',[.05,.04]))-np.asarray(info.get('lower_m',[.01,.02]))
+        volume = np.prod(extent)/len(F)
         bulk = volume*np.sum(.5*mu*(np.sum(F*F,axis=(1,2))-2)-mu*np.log(J)+.5*lam*np.log(J)**2)
         kinetic = .5*rho*volume*np.sum(np.sum(v*v,axis=1)+.25*info['dx_m']**2*np.sum(C*C,axis=(1,2)))
         stress = (mu*(F@F.swapaxes(-1,-2)-np.eye(2))+lam*np.log(J)[:,None,None]*np.eye(2))/J[:,None,None]

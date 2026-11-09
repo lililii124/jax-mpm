@@ -1,0 +1,44 @@
+{
+  "completed": false,
+  "failure_time_s": 0.0016454044324444007,
+  "last_valid_time_s": 0.001599955000562315,
+  "failure_residual": 1.0007857531232454,
+  "valid_saved_frames": 33,
+  "failed_state_exported": false,
+  "published_as_success": false,
+  "note": "Consistent-gradient DCB failed coupled validity checks; previous fields are diagnostics only.",
+  "sources": {
+    "legacy-patch.json": {
+      "source": "outputs/extrinsic-legacy-production-audit.json",
+      "raw_sha256": "dc2ca067090b8179fc73590546ffd661a72070e166c1fb04296e74d64c4d96bb"
+    },
+    "consistent-patch.json": {
+      "source": "outputs/extrinsic-consistent-production-audit.json",
+      "raw_sha256": "432aeb94e0ebc5f00f66807b8e5ad0ac891de602e0f55ff4cf8eb47562e4a4ef"
+    },
+    "localized-tip.json": {
+      "source": "outputs/extrinsic-dcb-tip-diagnostic.json",
+      "raw_sha256": "1f5a6115067f908fc9561315ecf47dd2a4d781224fbd6f8490f9046aee279c28"
+    },
+    "legacy-dcb-validation.json": {
+      "source": "outputs/extrinsic-dcb-baseline-validation/validation.json",
+      "raw_sha256": "8397aea9941f6d0d5879153f1d137ae4fa799aa0654e6b4dbf5174b606f23859"
+    },
+    "legacy-dcb-summary.json": {
+      "source": "outputs/extrinsic-dcb-n160/summary.json",
+      "raw_sha256": "abcdee5b1b547bcaccb7bed6aad6a9f69f793a18201cbb3685c6d7e4fce6df7c"
+    },
+    "consistent-dcb-input.json": {
+      "source": "outputs/extrinsic-dcb-straight-consistent/input.json",
+      "raw_sha256": "277857fde3d090d3e8e2f7e738b4f07fd8428aaf36b08c81e2cd2ac984d6d26c"
+    },
+    "consistent-dcb-history.csv": {
+      "source": "outputs/extrinsic-dcb-straight-consistent/history.csv",
+      "raw_sha256": "b7a34503a11c748779e814ff5ddf9fddb165a3e9c870f3c9c449463f8a1e3482"
+    },
+    "legacy-dcb-history.csv": {
+      "source": "outputs/extrinsic-dcb-n160/history.csv",
+      "raw_sha256": "44228084cf1da1ea3418a27b7c3ad7e07d61b42454e2d7b22857830b9ea46cab"
+    }
+  }
+}

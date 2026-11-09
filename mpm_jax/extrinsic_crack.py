@@ -121,12 +121,15 @@ def discrete_surface_gradient(old, new, maximum, birth, bonded, law):
     return gradient, after, energy, error
 
 
-def transfers(position, normals, side, mass, config, vertices, count, nodes):
+def transfers(position, normals, side, mass, config, vertices, count, nodes, mass_weighted=True):
     support = stencil(position, config)
     fields = link_fields(position+side*1e-6*config.dx*normals, support, vertices, count, nodes[support.indices])
     indices = support.indices+fields*((config.n_grid+1)**2)
     local_mass = mass[indices]
-    weights = support.weights*local_mass/jnp.maximum(local_mass.max(axis=1,keepdims=True),1e-100)
+    if mass_weighted:
+        weights = support.weights*local_mass/jnp.maximum(local_mass.max(axis=1,keepdims=True),1e-100)
+    else:
+        weights = jnp.where(local_mass>0,support.weights,0.)
     total = weights.sum(axis=1)
     weights /= jnp.where(total > 0, total, 1.)[:,None]
     basis = jnp.concatenate((jnp.ones_like(weights)[...,None],support.dpos/config.dx),axis=-1)
@@ -164,8 +167,8 @@ class Work(NamedTuple):
     residual: jax.Array
 
 
-@partial(jax.jit, static_argnames=('config','law'))
-def step(state, path, material, config, law):
+@partial(jax.jit, static_argnames=('config','law','consistent_gradients'))
+def step(state, path, material, config, law, consistent_gradients=False):
     if config.dim != 2 or config.material not in ('elastic','neo-hookean'):
         raise ValueError('Extrinsic cohesive MPM requires 2D neo-Hookean elasticity')
     vertices = path.vertices
@@ -192,16 +195,19 @@ def step(state, path, material, config, law):
     initial = constrain(transferred,state.time)
     initial_impulse = mass[:,None]*(initial-transferred)
     normals = vertex_normals(vertices,path.count)
-    plus = transfers(path.plus,normals,1.,mass,config,visibility,path.count,nodes)
-    minus = transfers(path.minus,normals,-1.,mass,config,visibility,path.count,nodes)
+    plus = transfers(path.plus,normals,1.,mass,config,visibility,path.count,nodes,mass_weighted=not consistent_gradients)
+    minus = transfers(path.minus,normals,-1.,mass,config,visibility,path.count,nodes,mass_weighted=not consistent_gradients)
     plus, minus = shared_tip(plus,minus,path.count)
     old_positions = segment_positions(path.plus,path.minus)
 
     def evaluate(velocity):
         middle = .5*(initial+velocity)
         vp, gradient = grid_to_particle(middle,remapped,config)
+        if consistent_gradients:
+            gradient = jnp.einsum('pki,pkj->pij',middle[remapped.indices],support.gradients)
         F,tau,valid = midpoint_bulk(state.F,gradient,config.dt,material)
-        bulk_contribution = -4/config.dx**2*state.volume[:,None,None]*support.weights[...,None]*jnp.einsum('pij,pkj->pki',tau,support.dpos)
+        bulk_gradient = support.gradients if consistent_gradients else 4/config.dx**2*support.weights[...,None]*support.dpos
+        bulk_contribution = -state.volume[:,None,None]*jnp.einsum('pij,pkj->pki',tau,bulk_gradient)
         bulk_force = jnp.zeros_like(momentum).at[remapped.indices].add(bulk_contribution)
         next_plus = path.plus+config.dt*face_velocity(middle,plus)
         next_minus = path.minus+config.dt*face_velocity(middle,minus)

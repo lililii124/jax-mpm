@@ -1,0 +1,154 @@
+{
+  "case": "Homogeneous, area-preserving prestress; interior nodal equilibrium",
+  "rows": [
+    {
+      "grid": 48,
+      "spacing_over_dx": 2.0,
+      "phase_over_dx": 0.0,
+      "consistent_gradient": true,
+      "segments": 6,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.5000000000000008,
+      "best_scalar_traction_multiplier": 0.7999999999999983,
+      "best_scalar_relative_residual": 0.44721359549995754,
+      "maximum_acceleration_m_s2": 160.00000000000057
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 1.0,
+      "phase_over_dx": 0.0,
+      "consistent_gradient": true,
+      "segments": 12,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 1.1968428366289076e-14,
+      "best_scalar_traction_multiplier": 0.9999999999999977,
+      "best_scalar_relative_residual": 1.1707660732610612e-14,
+      "maximum_acceleration_m_s2": 4.714821533191343e-12
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 0.5,
+      "phase_over_dx": 0.0,
+      "consistent_gradient": true,
+      "segments": 24,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 1.20015872037963e-14,
+      "best_scalar_traction_multiplier": 0.9999999999999977,
+      "best_scalar_relative_residual": 1.1735172159580723e-14,
+      "maximum_acceleration_m_s2": 4.9767554288173946e-12
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 0.25,
+      "phase_over_dx": 0.0,
+      "consistent_gradient": true,
+      "segments": 48,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 1.1987760143734295e-14,
+      "best_scalar_traction_multiplier": 0.9999999999999977,
+      "best_scalar_relative_residual": 1.1721547912871157e-14,
+      "maximum_acceleration_m_s2": 4.8457882031328e-12
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 2.0,
+      "phase_over_dx": 0.125,
+      "consistent_gradient": true,
+      "segments": 6,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.5089151742729462,
+      "best_scalar_traction_multiplier": 0.80217983651226,
+      "best_scalar_relative_residual": 0.45936250478113083,
+      "maximum_acceleration_m_s2": 430.000000000001
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 1.0,
+      "phase_over_dx": 0.125,
+      "consistent_gradient": true,
+      "segments": 12,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.11736554457178149,
+      "best_scalar_traction_multiplier": 1.002724795640325,
+      "best_scalar_relative_residual": 0.11733451537588356,
+      "maximum_acceleration_m_s2": 180.0000000000005
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 0.5,
+      "phase_over_dx": 0.125,
+      "consistent_gradient": true,
+      "segments": 24,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.11736554457178149,
+      "best_scalar_traction_multiplier": 1.002724795640325,
+      "best_scalar_relative_residual": 0.11733451537588356,
+      "maximum_acceleration_m_s2": 180.0000000000009
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 0.25,
+      "phase_over_dx": 0.125,
+      "consistent_gradient": true,
+      "segments": 48,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.11736554457178151,
+      "best_scalar_traction_multiplier": 1.002724795640325,
+      "best_scalar_relative_residual": 0.11733451537588357,
+      "maximum_acceleration_m_s2": 180.0000000000007
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 2.0,
+      "phase_over_dx": 0.375,
+      "consistent_gradient": true,
+      "segments": 6,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.5650711635908114,
+      "best_scalar_traction_multiplier": 0.7595113438045396,
+      "best_scalar_relative_residual": 0.4934120969151437,
+      "maximum_acceleration_m_s2": 112.00000000000111
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 1.0,
+      "phase_over_dx": 0.375,
+      "consistent_gradient": true,
+      "segments": 12,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.23876104359275258,
+      "best_scalar_traction_multiplier": 0.9493891797556742,
+      "best_scalar_relative_residual": 0.23306516626846932,
+      "maximum_acceleration_m_s2": 32.00000000000069
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 0.5,
+      "phase_over_dx": 0.375,
+      "consistent_gradient": true,
+      "segments": 24,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.23876104359275258,
+      "best_scalar_traction_multiplier": 0.949389179755674,
+      "best_scalar_relative_residual": 0.23306516626846932,
+      "maximum_acceleration_m_s2": 32.000000000000774
+    },
+    {
+      "grid": 48,
+      "spacing_over_dx": 0.25,
+      "phase_over_dx": 0.375,
+      "consistent_gradient": true,
+      "segments": 48,
+      "intact_max_force_N_per_m": 1.2446987884828786e-13,
+      "relative_residual": 0.23876104359275252,
+      "best_scalar_traction_multiplier": 0.9493891797556742,
+      "best_scalar_relative_residual": 0.2330651662684692,
+      "maximum_acceleration_m_s2": 32.00000000000072
+    }
+  ],
+  "source_sha256": {
+    "tools/audit_extrinsic_insertion.py": "d101a1a4b66ef9aa5b73f91ac8565205af0e5266799fc7b4f8dffadda8eea910",
+    "mpm_jax/extrinsic_crack.py": "96c964af9fb07710dd8f34fdf94a44d401d75835b89ceffe5bc18caf60e7e110",
+    "mpm_jax/polyline_crack.py": "321aaa5c5968e00fd43dae47b979588dd6c25576e943a56e1ed4b4a2d0ab7c8c"
+  }
+}

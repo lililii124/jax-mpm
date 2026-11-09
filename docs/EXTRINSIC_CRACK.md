@@ -1,5 +1,10 @@
 # Energy-controlled cohesive insertion
 
+The subsequent [localized-loading and nodal-force audit](COHESIVE_INSERTION_AUDIT.md)
+found insertion-force imbalance and an unreliable principal-stress direction
+rule. The animations below demonstrate cohesive separation and energy accounting;
+they are not validated crack-path predictions.
+
 The moving-polyline branch now inserts cohesive segments carrying the sampled
 pre-insertion traction. Their strength decreases with separation and their
 complete failure consumes a prescribed fracture energy. The geometric front
