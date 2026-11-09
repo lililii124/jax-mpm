@@ -273,3 +273,71 @@ solver's particle integration. Production coupling still requires evolving
 fragment volumes, constitutive histories, consistent APIC moments and matching
 bulk/interface kinematics. Finite crack tips and curved or branching paths
 also remain outside this new compiled audit.
+
+## Conservative fragments and domain-averaged transfers
+
+[`cut_fragments.py`](../mpm_jax/cut_fragments.py) now stores a convex reference
+domain, its area and covariance, its current centroid, F, affine velocity C,
+mass and intensive constitutive history. A spatial cut is pulled back through
+F before clipping. Children inherit F, C and history; mass follows reference
+area, and centroid velocity is shifted by C times the centroid displacement.
+Empty children remain inactive slots. Small positive domains are retained.
+
+For a current fragment volume V and centroid x_p, the quadratic basis is
+averaged over the whole domain:
+
+\[
+\bar N_i=V^{-1}\int_\Omega N_i\,dV,\qquad
+D_p=\sum_i\bar N_i(x_i-x_p)(x_i-x_p)^T
+=\frac{\Delta x^2}{4}I+\operatorname{Cov}(\Omega).
+\]
+
+[`domain_transfer.py`](../mpm_jax/domain_transfer.py) uses these weights for
+mass and affine momentum scatter. Its velocity fit uses the same D_p inverse.
+Bulk force and deformation rate share the integrated basis gradient. The
+current-domain covariance therefore cannot be dropped from the kinetic or
+angular-momentum accounting while retaining these transfers.
+
+With complete quadratic support, a split preserves each grid node's combined
+mass and momentum. It also preserves total mass, linear momentum, angular
+momentum including affine spin, and
+`0.5 m (v.v + trace(C D_p C.T))`. Reference elastic energy is unchanged because
+F and intensive history are inherited. These are instantaneous split and
+fixed-geometry transfer properties; they are not a proof of conservation after
+advecting the domains. Separate field indices let the children carry independent
+velocities; putting them back on one shared field would recouple them.
+
+The deformed-domain audit uses 256 parent domains, an isotropic contraction
+and a 0.17-radian rotation, then cuts them at nine angle/offset combinations.
+It applies constant compressive traction through the same knot-split geometry
+used by the bulk operator. The maxima are:
+
+| Quantity | Relative error |
+| --- | --- |
+| Interior bulk/contact nodal force balance | 2.37e-15 |
+| Split nodal mass | 2.24e-16 |
+| Split nodal momentum | 1.60e-16 |
+| Split mass, momentum, angular momentum, kinetic energy and reference area | 2.56e-16 |
+
+The [`domain-transfer record`](../evidence/extrinsic-insertion-audit/domain-transfer.json)
+contains every cut, separate invariant errors, contact resultants and moments,
+source hashes and timings. Quadrature is scanned in batches of 32 fragments:
+25,920 bulk points per batch, without a full all-fragment quadrature array.
+Domains extending outside their allocated knot tiles are rejected, not cropped.
+
+An exactly symmetric cut initially produced two unresolved corner slivers of
+3.61e-35 reference area. Clipping now aligns a plane with a vertex when their
+separation is within 16 machine epsilons of the projection scale. Complementary
+cuts use the same geometric convention; there is no mass-based deletion rule.
+Cut-position derivatives are only claimed away from topology changes and this
+roundoff alignment band.
+
+```bash
+python tools/audit_domain_transfer.py --output outputs/domain-transfer.json
+```
+
+The coupled dynamic solver still needs evolving-domain kinematics, the work
+associated with D_p changing as F changes, compatible interface motion and
+force scatter, and finite-tip insertion with independent fragment fields.
+The old point-APIC kinetic ledger must not be reused for the domain operator.
+No new dynamic fracture accuracy claim follows from these frozen-domain checks.

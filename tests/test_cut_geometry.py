@@ -63,3 +63,10 @@ def test_invalid_geometry_and_capacity_overflow_are_reported():
     p=polygon([[0.,0.],[1.,0.],[1.,1.],[0.,1.]],capacity=4)
     q=clip(p,jnp.array([1.,1.]),.25)
     assert not bool(q.valid)  # five true vertices cannot fit in capacity four
+
+
+def test_roundoff_near_vertex_does_not_create_an_unresolved_sliver():
+    p=polygon([[0.,0.],[1.,0.],[1.,1.],[0.,1.]])
+    plus,minus=split(p,jnp.array([1.,1.]),2.-4e-16)
+    np.testing.assert_allclose(moments(plus)[0],0.,atol=0.)
+    np.testing.assert_allclose(moments(minus),moments(p),atol=2e-16)

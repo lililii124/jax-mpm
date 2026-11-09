@@ -1,0 +1,214 @@
+{
+  "grid": 16,
+  "parent_domains": 256,
+  "batch_size": 32,
+  "F": [
+    [
+      0.9658730715713695,
+      -0.1657987020856561
+    ],
+    [
+      0.1657987020856561,
+      0.9658730715713695
+    ]
+  ],
+  "stress": [
+    [
+      -1.0,
+      -0.0
+    ],
+    [
+      -0.0,
+      -1.0
+    ]
+  ],
+  "rows": [
+    {
+      "angle_rad": 0.0,
+      "phase_over_dx": -0.375,
+      "active_fragments": 275,
+      "relative_force_residual": 9.553699568784324e-16,
+      "relative_nodal_mass_error": 1.253465828869047e-16,
+      "relative_nodal_momentum_error": 1.1729909722079732e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 2.842170943040401e-14,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 2.5573958629204167e-16,
+      "contact_resultant_error": 7.850462293418876e-17,
+      "contact_moment_error": 5.551115123125783e-17,
+      "elapsed_s": 3.319731099996716
+    },
+    {
+      "angle_rad": 0.0,
+      "phase_over_dx": 0.0,
+      "active_fragments": 274,
+      "relative_force_residual": 1.0112636895239685e-15,
+      "relative_nodal_mass_error": 1.1888179638028074e-16,
+      "relative_nodal_momentum_error": 1.2233298068176282e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 1.1842378929335005e-16,
+      "contact_resultant_error": 2.830524433501838e-16,
+      "contact_moment_error": 1.3877787807814457e-16,
+      "elapsed_s": 0.06095180002739653
+    },
+    {
+      "angle_rad": 0.0,
+      "phase_over_dx": 0.25,
+      "active_fragments": 274,
+      "relative_force_residual": 1.1930006579686005e-15,
+      "relative_nodal_mass_error": 1.1053895758609149e-16,
+      "relative_nodal_momentum_error": 1.3698558113382982e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 2.842170943040401e-14,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 2.5573958629204167e-16,
+      "contact_resultant_error": 1.1102230246251565e-16,
+      "contact_moment_error": 5.551115123125783e-17,
+      "elapsed_s": 0.06260150001617149
+    },
+    {
+      "angle_rad": 0.31,
+      "phase_over_dx": -0.375,
+      "active_fragments": 274,
+      "relative_force_residual": 1.820966920180527e-15,
+      "relative_nodal_mass_error": 1.5106035952772812e-16,
+      "relative_nodal_momentum_error": 1.0703698938954302e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 1.1842378929335005e-16,
+      "contact_resultant_error": 3.002224531865041e-16,
+      "contact_moment_error": 1.6653345369377348e-16,
+      "elapsed_s": 0.06446539994794875
+    },
+    {
+      "angle_rad": 0.31,
+      "phase_over_dx": 0.0,
+      "active_fragments": 274,
+      "relative_force_residual": 1.192723472584487e-15,
+      "relative_nodal_mass_error": 1.5233275614084541e-16,
+      "relative_nodal_momentum_error": 1.329468535590717e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 1.1842378929335005e-16,
+      "contact_resultant_error": 4.775249788392736e-16,
+      "contact_moment_error": 0.0,
+      "elapsed_s": 0.061999999976251274
+    },
+    {
+      "angle_rad": 0.31,
+      "phase_over_dx": 0.25,
+      "active_fragments": 274,
+      "relative_force_residual": 2.3704849425671842e-15,
+      "relative_nodal_mass_error": 2.2397858549726542e-16,
+      "relative_nodal_momentum_error": 1.5544913122983526e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 0.0,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 0.0,
+      "contact_resultant_error": 4.335559509131367e-16,
+      "contact_moment_error": 5.551115123125783e-17,
+      "elapsed_s": 0.0619728000019677
+    },
+    {
+      "angle_rad": 0.68,
+      "phase_over_dx": -0.375,
+      "active_fragments": 281,
+      "relative_force_residual": 1.1262075564920766e-15,
+      "relative_nodal_mass_error": 1.8614657511003703e-16,
+      "relative_nodal_momentum_error": 1.5959184473614443e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 1.1842378929335005e-16,
+      "contact_resultant_error": 3.236828524569469e-16,
+      "contact_moment_error": 5.551115123125783e-17,
+      "elapsed_s": 0.11054050002712756
+    },
+    {
+      "angle_rad": 0.68,
+      "phase_over_dx": 0.0,
+      "active_fragments": 280,
+      "relative_force_residual": 1.4728333556606003e-15,
+      "relative_nodal_mass_error": 2.0108982570433164e-16,
+      "relative_nodal_momentum_error": 1.5378234081916135e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 1.1842378929335005e-16,
+      "contact_resultant_error": 2.830524433501838e-16,
+      "contact_moment_error": 1.6653345369377348e-16,
+      "elapsed_s": 0.14841520000481978
+    },
+    {
+      "angle_rad": 0.68,
+      "phase_over_dx": 0.25,
+      "active_fragments": 281,
+      "relative_force_residual": 1.3093507056935177e-15,
+      "relative_nodal_mass_error": 1.5000117746508764e-16,
+      "relative_nodal_momentum_error": 1.314138497311896e-16,
+      "invariant_absolute_errors": {
+        "mass": 0.0,
+        "linear_momentum": 2.842170943040401e-14,
+        "angular_momentum": 0.0,
+        "kinetic_energy": 0.0,
+        "reference_area": 0.0
+      },
+      "max_relative_invariant_error": 1.1842378929335005e-16,
+      "contact_resultant_error": 3.925231146709438e-16,
+      "contact_moment_error": 2.220446049250313e-16,
+      "elapsed_s": 0.14899489999515936
+    }
+  ],
+  "jax_version": "0.12.0.1",
+  "backend": "cpu",
+  "bulk_quadrature_points_per_batch": 25920,
+  "max_relative_force_residual": 2.3704849425671842e-15,
+  "max_relative_nodal_mass_error": 2.2397858549726542e-16,
+  "max_relative_nodal_momentum_error": 1.5959184473614443e-16,
+  "max_relative_invariant_error": 2.5573958629204167e-16,
+  "moving_domain_energy_update_validated": false,
+  "fracture_front_evolution_validated": false,
+  "source_sha256": {
+    "mpm_jax/cut_fragments.py": "7a4b109b9d4166684326dbba4fb8141a3039b4033963882e2de0fae8ca5d05c9",
+    "mpm_jax/domain_transfer.py": "6551a19b1a66ded618276736459d48cbfb3f97c229eccad288391d77a9ef72ae",
+    "mpm_jax/cut_geometry.py": "3896be73178be865bc13f5b2b11a2db9ea8f3274e71d77dc8e316321f3d313a5",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "tools/audit_domain_transfer.py": "76a8b6d90867dc5f402c7b0abe68102588f257d85b66031ce9273d54ac76d81f"
+  }
+}

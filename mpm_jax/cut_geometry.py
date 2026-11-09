@@ -31,15 +31,24 @@ def polygon(vertices,capacity=12):
 def clip(poly,normal,offset):
     """Intersect with normal.x >= offset; overflow invalidates the result.
 
-    Coordinates are differentiable while the active topology is fixed. The
-    discrete vertex count and inside/outside decisions are not differentiated.
+    Coordinates are differentiable while the active topology is fixed. A plane
+    within 16 floating-point epsilons of a vertex is snapped to that vertex,
+    avoiding unresolved corner slivers. No mass or area cutoff is applied.
     """
     normal=jnp.asarray(normal,dtype=poly.vertices.dtype)
     offset=jnp.asarray(offset,dtype=poly.vertices.dtype)
     capacity=len(poly.vertices);index=jnp.arange(capacity)
-    a=poly.vertices;b=poly.vertices[(index+1)%jnp.maximum(poly.count,1)]
-    da=a@normal-offset;db=b@normal-offset
-    active=index<poly.count;inside_a=da>=0;inside_b=db>=0
+    active=index<poly.count
+    projected=poly.vertices@normal
+    distance=jnp.where(active,jnp.abs(projected-offset),jnp.inf)
+    nearest=jnp.argmin(distance)
+    scale=jnp.maximum(jnp.abs(offset),jnp.max(jnp.where(active,jnp.abs(projected),0.)))
+    snap=(poly.count>0)&(distance[nearest]<=16*jnp.finfo(projected.dtype).eps*scale)
+    offset=jnp.where(snap,projected[nearest],offset)
+    following=(index+1)%jnp.maximum(poly.count,1)
+    a=poly.vertices;b=poly.vertices[following]
+    da=projected-offset;db=da[following]
+    inside_a=da>=0;inside_b=db>=0
     crossing=active&(inside_a!=inside_b)&(da!=0)&(db!=0)
     ratio=da/jnp.where(crossing,da-db,1.)
     intersection=a+ratio[:,None]*(b-a)
