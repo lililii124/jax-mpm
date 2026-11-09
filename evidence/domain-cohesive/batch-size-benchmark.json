@@ -1,0 +1,111 @@
+{
+  "case": "domain midpoint batch-size timing; single step from saved grid-48 frame 006",
+  "source_frame_time_s": 1.800000000000002e-05,
+  "dt_s": 5.5555555555555555e-08,
+  "grid": 48,
+  "domains": 2048,
+  "interface_quadrature": 102,
+  "reconstructed_frame000_position_max_abs_m": 0.0,
+  "runs": {
+    "batch_size_32": {
+      "valid": true,
+      "mean_seconds": 0.30855776664490503,
+      "samples_seconds": [
+        0.2864351000171155,
+        0.3263320999685675,
+        0.31290609994903207
+      ],
+      "kinetic_energy": 1.9695088907281755,
+      "elastic_energy": 4.187348421936152,
+      "interface_stored": 0.10120749025719246,
+      "interface_dissipated": 0.02843194949771608,
+      "work": [
+        0.06613378181849247,
+        0.0,
+        0.0,
+        0.000822187499815108,
+        5.048569017352487e-05,
+        2.1959415619221545e-08,
+        -9.041708496851576e-13,
+        -8.067158052682544e-13,
+        4.0,
+        5.889091391416799e-10
+      ],
+      "contact_work": [
+        0.002561328438822008,
+        9.551667264284895e-14,
+        1.0,
+        9.283619626614697e-19,
+        -204845.43916138768,
+        1.1368683772161603e-13,
+        0.0009156883700495975
+      ]
+    },
+    "batch_size_128": {
+      "valid": true,
+      "mean_seconds": 0.4612607999782388,
+      "samples_seconds": [
+        0.45148109999718145,
+        0.447311699972488,
+        0.4849895999650471
+      ],
+      "kinetic_energy": 1.9695088907281755,
+      "elastic_energy": 4.187348421936152,
+      "interface_stored": 0.10120749025719246,
+      "interface_dissipated": 0.02843194949771608,
+      "work": [
+        0.06613378181849247,
+        0.0,
+        0.0,
+        0.000822187499815108,
+        5.048569017352487e-05,
+        2.1959415619221545e-08,
+        -9.041708496851576e-13,
+        -8.067158052682544e-13,
+        4.0,
+        5.889091391416799e-10
+      ],
+      "contact_work": [
+        0.002561328438822008,
+        9.551667264284895e-14,
+        1.0,
+        9.283619626614697e-19,
+        -204845.43916138768,
+        1.1368683772161603e-13,
+        0.0009156883700495975
+      ]
+    }
+  },
+  "speed_ratio_32_over_128": 0.6689442646317703,
+  "cross_batch_max_differences": {
+    "x": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    },
+    "F": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    },
+    "v": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    },
+    "C": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    },
+    "plus": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    },
+    "minus": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    },
+    "maximum": {
+      "max_abs": 0.0,
+      "max_scaled": 0.0
+    }
+  },
+  "interpretation": "Execution-only batching comparison on one frozen saved input; not a physics or grid-convergence result."
+}

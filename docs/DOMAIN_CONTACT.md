@@ -92,8 +92,10 @@ python tools/check_domain_contact.py outputs/domain-contact-collision-grid32 out
 pvpython tools/render_domain_dynamics_paraview.py --input outputs/domain-contact-collision-grid128 --output outputs/domain-contact-collision-grid128.gif --field compression_x --stress-max 20000
 ```
 
-Finite-tip fragment activation, compatible cohesive traction and evolving
-crack geometry remain required before replacing the stopped offset-notch,
-inclined-notch and bending contact calculations. Those cases must be recomputed
+The subsequent [Mode-I cohesive branch](DOMAIN_COHESIVE.md) adds irreversible
+opening and compressive recontact on a prescribed planar path. Finite-tip
+topology for unrestricted paths and evolving contact geometry remain required
+before replacing the stopped offset-notch, inclined-notch and bending
+calculations. Those cases must be recomputed
 with the new discretization; their old snapshots are diagnostic inputs, not
 interchangeable states for the new moment and transfer operators.

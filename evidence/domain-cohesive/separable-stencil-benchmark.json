@@ -1,0 +1,153 @@
+{
+  "case": "separable integrated basis candidate; saved grid-48 frame 006 support and one coupled step",
+  "source_frame_time_s": 1.800000000000002e-05,
+  "dt_s": 5.5555555555555555e-08,
+  "grid": 48,
+  "domains": 2048,
+  "interface_quadrature": 102,
+  "frame000_reconstructed_position_max_abs_m": 0.0,
+  "support": {
+    "original_mean_seconds": 0.2333218000130728,
+    "candidate_mean_seconds": 0.14674166665645316,
+    "speed_ratio_original_over_candidate": 1.5900173776771818,
+    "differences": {
+      "weights": {
+        "max_abs": 2.3869795029440866e-15,
+        "max_scaled": 1.6466273313774911e-15
+      },
+      "gradients": {
+        "max_abs": 4.888534022029489e-12,
+        "max_scaled": 1.1948801878298605e-14
+      },
+      "dpos": {
+        "max_abs": 0.0,
+        "max_scaled": 0.0
+      },
+      "moment": {
+        "max_abs": 8.999725064576941e-22,
+        "max_scaled": 8.999721254373324e-22
+      },
+      "inverse_moment": {
+        "max_abs": 5.122274160385132e-09,
+        "max_scaled": 2.167441679801074e-15
+      },
+      "volume": {
+        "max_abs": 0.0,
+        "max_scaled": 0.0
+      },
+      "indices_equal": true,
+      "valid_equal": true
+    }
+  },
+  "coupled_step": {
+    "original_mean_seconds": 0.30774780000016716,
+    "candidate_mean_seconds": 0.20549339998979121,
+    "speed_ratio_original_over_candidate": 1.4976043026951518,
+    "original_valid": true,
+    "candidate_valid": true,
+    "differences": {
+      "x": {
+        "max_abs": 3.469446951953614e-18,
+        "max_scaled": 3.3052188884345236e-18
+      },
+      "F": {
+        "max_abs": 4.336808689942018e-19,
+        "max_scaled": 2.1651936227940624e-19
+      },
+      "v": {
+        "max_abs": 3.1086244689504383e-15,
+        "max_scaled": 7.246564504818953e-16
+      },
+      "C": {
+        "max_abs": 2.9215518893010994e-11,
+        "max_scaled": 3.714844326519763e-14
+      },
+      "interface_plus": {
+        "max_abs": 0.0,
+        "max_scaled": 0.0
+      },
+      "interface_minus": {
+        "max_abs": 0.0,
+        "max_scaled": 0.0
+      },
+      "interface_maximum": {
+        "max_abs": 0.0,
+        "max_scaled": 0.0
+      },
+      "work": [
+        {
+          "max_abs": 6.938893903907228e-17,
+          "max_scaled": 6.508464530662967e-17
+        },
+        {
+          "max_abs": 0.0,
+          "max_scaled": 0.0
+        },
+        {
+          "max_abs": 0.0,
+          "max_scaled": 0.0
+        },
+        {
+          "max_abs": 2.220446049250313e-16,
+          "max_scaled": 2.2186219260359106e-16
+        },
+        {
+          "max_abs": 1.6940658945086007e-19,
+          "max_scaled": 1.6939803727403424e-19
+        },
+        {
+          "max_abs": 4.440892098500626e-16,
+          "max_scaled": 4.440892000981233e-16
+        },
+        {
+          "max_abs": 6.467517879235747e-18,
+          "max_scaled": 6.467517879229899e-18
+        },
+        {
+          "max_abs": 1.5265566588595902e-16,
+          "max_scaled": 1.526556658858359e-16
+        },
+        {
+          "max_abs": 0.0,
+          "max_scaled": 0.0
+        },
+        {
+          "max_abs": 2.0633993672541248e-16,
+          "max_scaled": 2.06339936603897e-16
+        }
+      ],
+      "contact_work": [
+        {
+          "max_abs": 0.0,
+          "max_scaled": 0.0
+        },
+        {
+          "max_abs": 8.488617216547405e-18,
+          "max_scaled": 8.488617216546595e-18
+        },
+        {
+          "max_abs": 0.0,
+          "max_scaled": 0.0
+        },
+        {
+          "max_abs": 5.456000254177297e-22,
+          "max_scaled": 5.456000254177297e-22
+        },
+        {
+          "max_abs": 0.0,
+          "max_scaled": 0.0
+        },
+        {
+          "max_abs": 8.526512829121202e-14,
+          "max_scaled": 8.526512829120233e-14
+        },
+        {
+          "max_abs": 1.0842021724855044e-19,
+          "max_scaled": 1.0832102894211634e-19
+        }
+      ],
+      "valid_equal": true
+    }
+  },
+  "interpretation": "Candidate-only comparison; domain_mpm default remains the original transfer. Timing is execution-only, not a physics result."
+}

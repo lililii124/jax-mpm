@@ -1,0 +1,41 @@
+{
+  "rows": [
+    {
+      "angle_rad": 0.0,
+      "offset_over_dx": 0.17,
+      "quadrature_points": 27,
+      "interior_force_relative_residual": 2.2562573169418716e-15,
+      "relative_resultant_error": 0.0,
+      "net_force_norm": 0.0,
+      "net_moment": -7.209944447028604e-18
+    },
+    {
+      "angle_rad": 0.31,
+      "offset_over_dx": -0.375,
+      "quadrature_points": 36,
+      "interior_force_relative_residual": 1.2739222716277971e-15,
+      "relative_resultant_error": 1.4952517562289568e-16,
+      "net_force_norm": 0.0,
+      "net_moment": 3.363101965425837e-17
+    },
+    {
+      "angle_rad": 0.68,
+      "offset_over_dx": 0.25,
+      "quadrature_points": 48,
+      "interior_force_relative_residual": 1.0877440891526514e-15,
+      "relative_resultant_error": 1.9303508309325148e-16,
+      "net_force_norm": 0.0,
+      "net_moment": -2.1732483146381194e-18
+    }
+  ],
+  "max_interior_force_relative_residual": 2.2562573169418716e-15,
+  "scope": "Frozen unit compressive traction integration; no claim of an equilibrated zero-gap penalty state",
+  "source_sha256": {
+    "tools/audit_domain_contact_patch.py": "e585d9ae280a701ae718194cc54b6de16057d29a0dc1f5ac99edf6ddce0f5cda",
+    "mpm_jax/implicit_contact.py": "8b121351cf8560a0fcdbe0ae1b74feb76a875298d5899afe8f3502383f629368",
+    "mpm_jax/domain_transfer.py": "eeb688929f26d1dc9bc85b17b684f2ed105016e4707862de95ad13ac685a0185",
+    "mpm_jax/cut_fragments.py": "7a4b109b9d4166684326dbba4fb8141a3039b4033963882e2de0fae8ca5d05c9",
+    "mpm_jax/cut_geometry.py": "3896be73178be865bc13f5b2b11a2db9ea8f3274e71d77dc8e316321f3d313a5",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506"
+  }
+}

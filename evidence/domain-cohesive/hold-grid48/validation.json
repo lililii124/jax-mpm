@@ -1,0 +1,80 @@
+{
+  "runs": {
+    "domain-cohesive-hold-grid48": {
+      "run": "domain-cohesive-hold-grid48",
+      "completed": true,
+      "grid": 48,
+      "dt_s": 5.5555555555555555e-08,
+      "actual_duration_s": 0.00011999999999999592,
+      "requested_duration_s": 0.00012,
+      "final_step_count": 2160,
+      "reference_polygon_area_m2": 0.0008000000000000003,
+      "bonded_path_length_m": 0.028000000000000004,
+      "maximum_fracture_energy_J_per_m": 0.015230863362878289,
+      "fracture_energy_limit_J_per_m": 5.6000000000000005,
+      "max_frame_history_errors": {
+        "kinetic_J_per_m": 2.7755575615628914e-17,
+        "elastic_J_per_m": 4.878764059412788e-12,
+        "interface_stored_J_per_m": 2.7755575615628914e-17,
+        "fracture_J_per_m": 0.0,
+        "balance_error_J_per_m": 4.878764059412788e-12,
+        "connected_failed_m": 0.0,
+        "detached_failed_m": 0.0,
+        "connected_damaged_m": 0.0,
+        "minimum_trace_gap_m": 0.0,
+        "maximum_trace_geometry_drift_m": 0.0
+      },
+      "max_final_frame_npz_error": 0.0,
+      "final_ledger_mismatches_J_per_m": {
+        "external": 0.0,
+        "transfer": 0.0,
+        "projection": 0.0,
+        "geometry": 0.0,
+        "balance": -5.195770458285686e-15
+      },
+      "max_balance_error_J_per_m": 1.6276313630214645e-11,
+      "max_interface_power_error_J_per_m": 1.2979413990910417e-13,
+      "max_interface_residual": 7.679078403604433e-13,
+      "max_bulk_residual": 9.826599157824086e-10,
+      "max_interface_net_moment_N": 6.750155989720952e-13,
+      "initial_momentum_kg_m_s": [
+        0.0,
+        0.0
+      ],
+      "max_momentum_change_kg_m_s": 0.07155533791187965,
+      "maximum_trace_geometry_drift_m": 3.509833693959852e-07,
+      "final_connected_failed_m": 0.0,
+      "final_detached_failed_m": 0.0,
+      "final_connected_damaged_m": 0.0008125000000000007,
+      "final_numerical_loss_fraction": 0.015485264480122643,
+      "initial_damage_fraction": 0.0,
+      "initial_unbonded_quadrature_count": 33,
+      "initial_crack_unbonded_but_not_damaged": true,
+      "mesh_convergence_established": false,
+      "predictive_fracture_validation": false,
+      "source_commit": "f92a961a27de4b030edf19d2d1d8a59ef67ff262",
+      "source_provenance": "all input source hashes verified against git revision",
+      "source_sha256_from_run_input": {
+        "examples/domain_notched_tension.py": "22791ae64e7c1f4f84300b3bc5756635303f102f691f55a0c1eeb7cee762abd2",
+        "mpm_jax/normal_cohesive.py": "99a955a901b1263eab822ad698aebd3f1ba6c5d819064587fdff15a47b70a24b",
+        "mpm_jax/implicit_contact.py": "8b121351cf8560a0fcdbe0ae1b74feb76a875298d5899afe8f3502383f629368",
+        "mpm_jax/domain_mpm.py": "c7a8a4971c5a27f33bc9709cff4f061b306606c8a76d4a2532d37d4ced919c15",
+        "mpm_jax/domain_transfer.py": "eeb688929f26d1dc9bc85b17b684f2ed105016e4707862de95ad13ac685a0185",
+        "mpm_jax/cut_fragments.py": "7a4b109b9d4166684326dbba4fb8141a3039b4033963882e2de0fae8ca5d05c9",
+        "mpm_jax/cut_geometry.py": "3896be73178be865bc13f5b2b11a2db9ea8f3274e71d77dc8e316321f3d313a5",
+        "mpm_jax/cohesive_crack.py": "a42d8cca18845a6a8aef916aa08c0f945c3771e4114955fd6e8f0094dfeeac90",
+        "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+        "mpm_jax/boundaries.py": "70a90334bce67907d91cbb4eeebf0559b28346194ad430add49c640dfb84880b"
+      },
+      "final_snapshot_sha256": "2d29450bea22eefa60f8f38b73e39e52ef406c6e191c30ff0808d373ddb34755",
+      "concatenated_frames_sha256": "1bcdbe7063e5fbb1b50d8550ac8a9eb57349bbcd43c93435a0b1f81846ac4324",
+      "history_sha256": "73e497d6bdd28f8a8ba6d6f6c621f4791da8fb0df55911850f4495fcf4d0b037"
+    }
+  },
+  "source_commit": "f92a961a27de4b030edf19d2d1d8a59ef67ff262",
+  "source_provenance": "all input source hashes verified against git revision",
+  "mesh_convergence_established": false,
+  "predictive_fracture_validation": false,
+  "validation_scope": "Independent NumPy reconstruction of stored frames, cohesive state, energies, and ledgers; not predictive fracture validation",
+  "checker_sha256": "74179370ca23a26029cdaec58b0e7aa1a43c7f16af6650e490091e8598fd581f"
+}
