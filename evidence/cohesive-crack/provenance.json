@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-09",
+  "source_sha256": {
+    "mpm_jax/cohesive_crack.py": "80e4a8e01abe9ece2619f39d5840ac1ce10f1a11f854023f306a03e097b2d451",
+    "mpm_jax/crack_mpm.py": "a1f689a14ba5f3c88f7b8351eadd5af07f0af71685cd30a8d503d65cd51fc7b5",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "mpm_jax/materials/elastic.py": "fbfaa811e5196c2fac7b38897cc6bc0f74c87a9df1f9bc9fa6d658b657657ff8",
+    "examples/cohesive_crack_tension.py": "708b45850935314498dbca26bea1b97b839e2b075d2e94abd0e028cdf4e5f50e",
+    "tests/test_cohesive_crack.py": "a4a8e123d3f57792455bf1a67637df57926dfd0e9c726cfbf2189f23b515c96c",
+    "tools/render_explicit_crack_paraview.py": "8384cf2a5b6b35c2038e1863688ffb103771d5ce6d519064313b8ac2da45a50a",
+    "tools/check_cohesive_results.py": "f97fe02cf2c4c9e0bc8f9886d31c6a206b2a5ccb8f5db465353a86183465331b"
+  },
+  "cohesive_focused_tests_passed": 6,
+  "renders": {
+    "gc200-n96": {
+      "renderer": "ParaView",
+      "frames": 41,
+      "distinct_frames": 41,
+      "size": [
+        400,
+        400
+      ],
+      "deformation_scale": 1.0,
+      "stress_range_Pa": [
+        0.0,
+        18000000.0
+      ],
+      "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+      "artificial_crack_lines": false,
+      "source_sha256": "823449ce183b74af02a0ec774df03b0db39a6877e9584eef5a132cdadaf6a24f",
+      "gif_sha256": "3ac62ba6199867bf17df914ae70cab040f87dc77e75496e9866d599e16f59948"
+    },
+    "gc200-n128": {
+      "renderer": "ParaView",
+      "frames": 41,
+      "distinct_frames": 41,
+      "size": [
+        400,
+        400
+      ],
+      "deformation_scale": 1.0,
+      "stress_range_Pa": [
+        0.0,
+        18000000.0
+      ],
+      "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+      "artificial_crack_lines": false,
+      "source_sha256": "80430919be95754d29b21bb1aeb6bc1021138687fbce59632b45f8c189af29dc",
+      "gif_sha256": "bc86028bf85f217da83a2b6a5ec3ce5a21bcf853ca639daabe4ae93caaa5da4c"
+    },
+    "gc800-n96": {
+      "renderer": "ParaView",
+      "frames": 41,
+      "distinct_frames": 41,
+      "size": [
+        400,
+        400
+      ],
+      "deformation_scale": 1.0,
+      "stress_range_Pa": [
+        0.0,
+        18000000.0
+      ],
+      "geometry": "Particle reference rectangles mapped by computed F and translated to computed x",
+      "artificial_crack_lines": false,
+      "source_sha256": "07eefad0c30ada592120f9f66c79a1843e38edb91523616612bf2f9f125029c9",
+      "gif_sha256": "ab246b5fbac71ff7726f3e8afe2a586f3c73d0626e0aae0aa9413cce0491a215"
+    }
+  },
+  "constitutive_parameters": "assumed; not fitted to experimental data",
+  "general_fracture_validation": false,
+  "case_histories": {
+    "cohesive-midpoint-n96": "gc200-n96.csv",
+    "cohesive-midpoint-n128": "gc200-n128.csv",
+    "cohesive-midpoint-gc800": "gc800-n96.csv"
+  }
+}

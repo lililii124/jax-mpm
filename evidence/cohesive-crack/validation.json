@@ -1,0 +1,66 @@
+{
+  "cases": {
+    "cohesive-midpoint-n96": {
+      "grid": 96,
+      "dx_m": 0.000625,
+      "law": {
+        "strength": 12000000.0,
+        "energy": 200.0,
+        "stiffness": 10000000000000.0
+      },
+      "frames": 41,
+      "first_saved_full_separation_s": 5.500562429696145e-05,
+      "final_opening_m": 0.00038424121031154174,
+      "final_fracture_J_per_m": 5.599999999999998,
+      "final_transfer_loss_J_per_m": 3.698841545336707,
+      "final_transfer_fraction": 0.29474618730073315,
+      "max_energy_remainder_J_per_m": 3.622169231221051e-11,
+      "max_relative_energy_remainder": 2.390081269858035e-12,
+      "max_sampled_strain": 0.006792211780658253,
+      "saved_bulk_and_cohesive_fields_checked": true,
+      "history_sha256": "bbebc216fe9a312a1198ac6d70d5187cd1c4917205345e845dd4410ed8abf82f"
+    },
+    "cohesive-midpoint-n128": {
+      "grid": 128,
+      "dx_m": 0.00046875,
+      "law": {
+        "strength": 12000000.0,
+        "energy": 200.0,
+        "stiffness": 10000000000000.0
+      },
+      "frames": 41,
+      "first_saved_full_separation_s": 5.500562429696165e-05,
+      "final_opening_m": 0.00038692805174004506,
+      "final_fracture_J_per_m": 5.599999999999998,
+      "final_transfer_loss_J_per_m": 2.3344325999682396,
+      "final_transfer_fraction": 0.17479473630363776,
+      "max_energy_remainder_J_per_m": 1.2768452961609e-11,
+      "max_relative_energy_remainder": 8.296701452043547e-13,
+      "max_sampled_strain": 0.008000741420543078,
+      "saved_bulk_and_cohesive_fields_checked": true,
+      "history_sha256": "437f6ec9e60d87ff88a98bcbf2b4aa7fd66b80048b86ea1e55892d11744142bb"
+    },
+    "cohesive-midpoint-gc800": {
+      "grid": 96,
+      "dx_m": 0.000625,
+      "law": {
+        "strength": 12000000.0,
+        "energy": 800.0,
+        "stiffness": 10000000000000.0
+      },
+      "frames": 41,
+      "first_saved_full_separation_s": 8.001499812523108e-05,
+      "final_opening_m": 0.00037865156496425683,
+      "final_fracture_J_per_m": 22.39999999999999,
+      "final_transfer_loss_J_per_m": 0.4576009690181118,
+      "final_transfer_fraction": 0.0188600676454062,
+      "max_energy_remainder_J_per_m": 1.5337064951381763e-11,
+      "max_relative_energy_remainder": 6.312885358016976e-13,
+      "max_sampled_strain": 0.007096945013742806,
+      "saved_bulk_and_cohesive_fields_checked": true,
+      "history_sha256": "54d38acd6dd67f3d591e29da571c92a357c83071ff327b122c012a2d85d683cd"
+    }
+  },
+  "general_fracture_validation": false,
+  "scope": "Straight cohesive interface; transfer loss is measured, not removed from the trajectory"
+}

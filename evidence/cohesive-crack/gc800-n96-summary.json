@@ -1,0 +1,57 @@
+{
+  "model": "2D neo-Hookean MPM with energy-controlled cohesive ligament",
+  "law": {
+    "strength": 12000000.0,
+    "energy": 800.0,
+    "stiffness": 10000000000000.0
+  },
+  "young_Pa": 3000000000.0,
+  "poisson": 0.2,
+  "density_kg_m3": 1200.0,
+  "grid": 96,
+  "dx_m": 0.000625,
+  "dt_s": 3.749531308586427e-08,
+  "cfl": 0.1,
+  "particle_count": 8192,
+  "particle_spacing_m": [
+    0.00031250000000000006,
+    0.00031249999999999995
+  ],
+  "grip_speed_m_s": 1.0,
+  "initial_crack_m": 0.012,
+  "frames": 41,
+  "steps": 5334,
+  "all_states_valid": true,
+  "final": {
+    "step": 5334,
+    "time_s": 0.00019999999999998792,
+    "tip_x_m": 0.05000000000000001,
+    "failed_ligament_m": 0.028000000000000008,
+    "opening_m": 0.00037865156496425683,
+    "external_J_per_m": 24.26295481127667,
+    "kinetic_J_per_m": 1.2941141432331555,
+    "elastic_J_per_m": 0.1112396990130411,
+    "cohesive_stored_J_per_m": 0.0,
+    "fracture_J_per_m": 22.39999999999999,
+    "residual_J_per_m": 0.45760096903048364,
+    "residual_fraction": 0.018860067645916107,
+    "cohesive_integration_error_J_per_m": 2.0227825720975447e-12,
+    "min_J": 0.9985403415139917,
+    "transfer_loss_J_per_m": 0.4576009690181118,
+    "bulk_error_J_per_m": -2.523420272846557e-12,
+    "cohesive_grid_error_J_per_m": -2.022780159212159e-12,
+    "unexplained_J_per_m": 1.2371825786061663e-11,
+    "mean_iterations": 4.508811398575178,
+    "max_iteration_residual": 9.996084238128589e-10,
+    "max_strain": 0.0015390969539350596,
+    "valid": true,
+    "elapsed_s": 166.01724629994715
+  },
+  "max_sampled_strain": 0.007096945013742806,
+  "elapsed_s": 166.06546829995932,
+  "limitations": [
+    "Straight prescribed potential interface; failure times are computed",
+    "Fixed plane normal and reference interface area",
+    "Equal mode-I/mode-II parameters; no calibrated experimental material"
+  ]
+}

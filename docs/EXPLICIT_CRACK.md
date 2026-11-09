@@ -1,5 +1,8 @@
 # Explicit crack transfer
 
+The [energy-controlled cohesive implementation](COHESIVE_CRACK.md) is the next
+stage. The example below retains the original strength-and-tip-speed control.
+
 <img src="images/explicit-crack-mode1.gif" alt="Computed opening and propagation of a straight edge crack" width="400">
 
 The JAX implementation in [crack_mpm.py](../mpm_jax/crack_mpm.py) separates
