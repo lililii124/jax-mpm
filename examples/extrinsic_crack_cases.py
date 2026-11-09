@@ -47,7 +47,7 @@ def main():
     parser.add_argument('--frames',type=int,default=49)
     parser.add_argument('--cfl',type=float,default=.075)
     parser.add_argument('--face-mass-fraction',type=float,default=1e-8)
-    parser.add_argument('--particle-mediated-faces',action='store_true')
+    parser.add_argument('--particle-mediated-faces',action='store_true',help='Use APIC-mediated contact traces at fully released vertices')
     args=parser.parse_args()
     case=scenario(args.case)
     grid=case['grid'] if args.grid is None else args.grid

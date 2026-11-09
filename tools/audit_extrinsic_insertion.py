@@ -15,17 +15,17 @@ import numpy as np
 from mpm_jax import Config,block,neo_hookean
 from mpm_jax.cohesive_crack import CohesiveLaw,scatter_face_force
 from mpm_jax.core import particle_stencil
-from mpm_jax.extrinsic_crack import initialize,segment_positions,shared_tip,surface_gradient,transfers
+from mpm_jax.extrinsic_crack import initialize,segment_positions,shared_tip,surface_gradient,transfers,released_vertices
 from mpm_jax.materials import kirchhoff_stress
 from mpm_jax.polyline_crack import link_fields,shifted_nodes,vertex_normals
 from mpm_jax.apic_projection import force_adjoint
 
 
-def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=False):
+def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=False,compression=False):
     config=Config(dim=2,n_grid=grid,dt=1e-6,gravity=(0.,0.),boundary_cells=0)
     material=neo_hookean(1e6,.2)
     state=block(config,(.125,.125),(.875,.875),particles_per_cell=2,density=1000.,dtype=jnp.float64)
-    stretch=np.sqrt(1.002)
+    stretch=np.sqrt(.998 if compression else 1.002)
     state=state._replace(F=jnp.broadcast_to(jnp.diag(jnp.array([1/stretch,stretch])),state.F.shape))
     count=int(round(.25/(spacing_ratio*config.dx)))
     y=.5+phase*config.dx
@@ -37,6 +37,12 @@ def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=Fals
     path=path._replace(birth_traction=path.birth_traction.at[1:,1].set(traction),
                        maximum=path.maximum.at[1:].set(traction/law.stiffness),
                        bonded=path.bonded.at[1:].set(True))
+    if compression:
+        law=CohesiveLaw(500.,1.,1e13)
+        gap=traction/law.stiffness
+        path=path._replace(plus=path.plus.at[:,1].add(gap/2),minus=path.minus.at[:,1].add(-gap/2),
+                           birth_traction=jnp.zeros_like(path.birth_traction),maximum=jnp.zeros_like(path.maximum),
+                           bonded=jnp.zeros_like(path.bonded))
     support=particle_stencil(state,config)
     size=(grid+1)**2
     index=jnp.arange(size)
@@ -60,7 +66,10 @@ def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=Fals
     fm=jnp.zeros_like(path.minus).at[:-1].add(force[:,2]).at[1:].add(force[:,3])
     cohesive=scatter_face_force(fp,plus,bulk.shape)+scatter_face_force(fm,minus,bulk.shape)
     if particle_mediated_faces:
-        cohesive=force_adjoint(cohesive,support._replace(indices=indices),state.mass,mass,config)
+        released=released_vertices(path,law)[:,None]
+        direct=scatter_face_force(jnp.where(released,0.,fp),plus,bulk.shape)+scatter_face_force(jnp.where(released,0.,fm),minus,bulk.shape)
+        mediated=scatter_face_force(jnp.where(released,fp,0.),plus,bulk.shape)+scatter_face_force(jnp.where(released,fm,0.),minus,bulk.shape)
+        cohesive=direct+force_adjoint(mediated,support._replace(indices=indices),state.mass,mass,config)
     mask=(coordinates[:,0]>.375+2*config.dx)&(coordinates[:,0]<.625-2*config.dx)&(jnp.abs(coordinates[:,1]-y)<2*config.dx)
     mask=jnp.tile(mask,2)&(mass>0)
     assert bool(jnp.any(mask))
@@ -74,6 +83,7 @@ def audit(grid,spacing_ratio,phase,consistent=False,particle_mediated_faces=Fals
     fitted_relative=float(jnp.linalg.norm((bulk+fitted*cohesive)[mask])/norm_bulk)
     return dict(grid=grid,spacing_over_dx=spacing_ratio,phase_over_dx=phase,consistent_gradient=consistent,segments=count,
                 particle_mediated_faces=particle_mediated_faces,
+                compression=compression,
                 intact_max_force_N_per_m=intact_error,relative_residual=relative,
                 best_scalar_traction_multiplier=fitted,best_scalar_relative_residual=fitted_relative,
                 maximum_acceleration_m_s2=float(jnp.max(jnp.linalg.norm(residual[mask]/mass[mask,None],axis=1))))

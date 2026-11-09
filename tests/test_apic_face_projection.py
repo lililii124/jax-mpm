@@ -57,3 +57,9 @@ def test_compressive_recontact_with_mediated_faces_closes_energy_ledger():
                                work.boundary+work.gravity,atol=1e-10)
     np.testing.assert_allclose(audit.particle_to_grid_loss+audit.grid_to_particle_loss,work.transfer_loss,atol=1e-14)
     np.testing.assert_allclose(jnp.sum(following.mass[:,None]*following.v,axis=0),0.,atol=1e-12)
+
+
+def test_mediated_contact_does_not_change_intact_traction_patch():
+    from tools.audit_extrinsic_insertion import audit
+    result=audit(48,.5,0.,consistent=True,particle_mediated_faces=True)
+    assert result['relative_residual']<1e-10

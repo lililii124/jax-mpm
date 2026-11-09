@@ -160,6 +160,15 @@ def shared_tip(plus, minus, count):
             Transfer(index, jnp.where(active,m,0.), minus.valid))
 
 
+def released_vertices(path,law):
+    """Mediate contact only where every incident segment has lost cohesion."""
+    response=surface_response(segment_positions(path.plus,path.minus),path.maximum,
+                              path.birth_traction,path.bonded,law,update=False)
+    released=(~path.bonded)|jnp.all(response.softening>=1-1e-8,axis=1)
+    return (jnp.pad(released,(1,0),constant_values=True)&jnp.pad(released,(0,1),constant_values=True)
+            &(jnp.arange(len(path.plus))<path.count))
+
+
 class Work(NamedTuple):
     boundary: jax.Array
     gravity: jax.Array
@@ -218,6 +227,7 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
                       mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes,minimum_mass_fraction=face_mass_fraction)
     plus, minus = shared_tip(plus,minus,path.count)
     old_positions = segment_positions(path.plus,path.minus)
+    mediated=released_vertices(path,law)[:,None] if particle_mediated_faces else None
 
     def evaluate(velocity):
         middle = .5*(initial+velocity)
@@ -228,17 +238,24 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
         bulk_gradient = support.gradients if consistent_gradients else 4/config.dx**2*support.weights[...,None]*support.dpos
         bulk_contribution = -state.volume[:,None,None]*jnp.einsum('pij,pkj->pki',tau,bulk_gradient)
         bulk_force = jnp.zeros_like(momentum).at[remapped.indices].add(bulk_contribution)
-        face_grid=velocity_projection(middle,remapped,state.mass,mass,config) if particle_mediated_faces else middle
-        next_plus = path.plus+dt*face_velocity(face_grid,plus)
-        next_minus = path.minus+dt*face_velocity(face_grid,minus)
+        velocity_plus,velocity_minus=face_velocity(middle,plus),face_velocity(middle,minus)
+        if particle_mediated_faces:
+            face_grid=velocity_projection(middle,remapped,state.mass,mass,config)
+            velocity_plus=jnp.where(mediated,face_velocity(face_grid,plus),velocity_plus)
+            velocity_minus=jnp.where(mediated,face_velocity(face_grid,minus),velocity_minus)
+        next_plus = path.plus+dt*velocity_plus
+        next_minus = path.minus+dt*velocity_minus
         q = segment_positions(next_plus,next_minus)
         grad,after,energy,error = discrete_surface_gradient(old_positions,q,path.maximum,path.birth_traction,path.bonded,law)
         force = -path.area[:,None,None]*grad
         fp = jnp.zeros_like(path.plus).at[:-1].add(force[:,0]).at[1:].add(force[:,1])
         fm = jnp.zeros_like(path.minus).at[:-1].add(force[:,2]).at[1:].add(force[:,3])
-        surface_force = scatter_face_force(fp,plus,momentum.shape)+scatter_face_force(fm,minus,momentum.shape)
         if particle_mediated_faces:
-            surface_force=force_adjoint(surface_force,remapped,state.mass,mass,config)
+            direct=scatter_face_force(jnp.where(mediated,0.,fp),plus,momentum.shape)+scatter_face_force(jnp.where(mediated,0.,fm),minus,momentum.shape)
+            mediated_force=scatter_face_force(jnp.where(mediated,fp,0.),plus,momentum.shape)+scatter_face_force(jnp.where(mediated,fm,0.),minus,momentum.shape)
+            surface_force=direct+force_adjoint(mediated_force,remapped,state.mass,mass,config)
+        else:
+            surface_force=scatter_face_force(fp,plus,momentum.shape)+scatter_face_force(fm,minus,momentum.shape)
         raw = jnp.where(occupied[:,None],initial+dt*((bulk_force+surface_force)/denominator+jnp.asarray(config.gravity)),0.)
         bounded = 2*constrain(.5*(initial+raw),state.time+.5*dt)-initial
         return bounded,(middle,vp,F,next_plus,next_minus,after,energy,error,bulk_force,surface_force,raw,valid)
