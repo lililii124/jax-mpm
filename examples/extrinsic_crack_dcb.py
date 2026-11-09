@@ -32,6 +32,7 @@ def main():
     parser.add_argument('--cfl',type=float,default=.075)
     parser.add_argument('--frames',type=int,default=41)
     parser.add_argument('--legacy-gradients',action='store_true')
+    parser.add_argument('--couple-tip-nodes',action='store_true')
     args = parser.parse_args()
     if args.grid<128 or args.duration<=0 or abs(args.inclination)>3 or not 0<args.cfl<=.1 or args.frames<2:
         parser.error('Invalid grid, duration, inclination, CFL or frame count')
@@ -60,6 +61,7 @@ def main():
                     duration_s=args.duration,inclination_deg=args.inclination,young_Pa=E,poisson=nu,density_kg_m3=rho,
                     law=asdict(law),insertion_spacing_m=spacing,averaging_radius_m=radius,max_extension_m=max_extension,
                     max_turn_deg=45.,capacity=64,particle_count=len(reference),consistent_gradients=not args.legacy_gradients,
+                    couple_tip_nodes=args.couple_tip_nodes,
                     lower_m=[.01,.037],upper_m=[.07,.043],
                     boundary_conditions=[asdict(b) for b in config.boundaries],
                     initial_tip_x_m=.035,grip_speed_m_s=1.,ramp_s=.0002,
@@ -71,7 +73,8 @@ def main():
         def body(_,carry):
             def active(carry):
                 s,p,w,inserted = carry
-                s,p,increment = step(s,p,material,config,law,consistent_gradients=not args.legacy_gradients)
+                s,p,increment = step(s,p,material,config,law,consistent_gradients=not args.legacy_gradients,
+                                     couple_tip_nodes=args.couple_tip_nodes)
                 w = w+jnp.stack(increment)
                 w = w.at[7].set(jnp.maximum(carry[2][7],increment.residual))
                 p,report = insert_tip(s,p,material,config,law,spacing,radius,max_extension)

@@ -158,3 +158,59 @@ tips, multiple segments, evolving material domains, constitutive quadrature,
 APIC transfer moments and work-conjugate face motion must be integrated before
 this can replace the current point-particle solver. The existing dynamic runs
 do not use this prototype.
+
+## Finite-tip support coupling
+
+Endpoint visibility introduces a second issue that remains even with exact
+volume quadrature. For a node whose support contains a finite tip, the
+particle-to-node crossing test can switch fields across a ray extending away
+from that tip. This is an artificial basis jump outside the physical crack.
+Integrating only the physical crack traction cannot balance that missing flux.
+
+The optional `couple_tip_nodes=True` solver branch maps both velocity copies to
+one node whenever an endpoint lies in its quadratic B-spline support. The
+componentwise support radius is 1.5 grid spacings, with a floating-point tie
+tolerance. Mass, momentum, bulk force and both face traces use this same map.
+Coincident face contributions then cancel at coupled nodes. Supports not
+containing an endpoint retain the two independent fields. The edge-crack driver
+continues to extend the root's visibility segment outside the specimen.
+
+This is a finite-resolution constraint around the tip, not an asymptotic tip
+enrichment. It reduces local opening resolution and needs refinement checks.
+The coupled single-step test preserves internal linear momentum, coincident
+tip positions and the discrete bulk/interface/transfer work ledger.
+
+The finite-crack audit partitions each nodal support at the physical crack,
+endpoint rays and spline knots, then independently integrates the physical
+face trace. Its two grid-12 cases use a horizontal crack and a 17.76-degree
+crack shifted by 0.25 grid spacings. Even with this geometry quadrature, the
+legacy map leaves relative interior force residuals of 6.36% and 8.93%.
+Coupling endpoint supports reduces them to 3.99e-15 and 2.73e-15. Independently
+assembled face resultants and moments agree with the prescribed constant
+traction at roundoff. Both this patch test and the coupled-work test pass.
+The [finite-crack record](../evidence/extrinsic-insertion-audit/finite-crack-quadrature.json)
+retains the full comparison and source hashes.
+
+```bash
+python examples/extrinsic_crack_dcb.py --couple-tip-nodes --output outputs/dcb-tied
+python tools/check_extrinsic_results.py outputs/dcb-tied --output outputs/dcb-tied-check
+```
+
+The same horizontal DCB now completes all 8,889 fixed steps and 41 saved states
+through 2 ms without retries. Independent field reconstruction gives a maximum
+energy remainder of 4.01e-14 J/m. The numerical loss is 6.90% of final external
+work. It inserts 2 mm of cohesive interface and dissipates 0.001819 J/m, but
+does not develop a connected fully failed segment. The last tip is near
+(35.128, 38.310) mm, so the path still turns away from the original midplane.
+This trajectory is a diagnostic, not a replacement fracture benchmark.
+
+At the last saved state before growth (0.85004 ms), the 1.5 mm sampling region
+has mean tangential stress 162.16 kPa and normal stress 35.88 kPa, with negligible
+shear. The elastic-tip fit has a 67.5% relative residual. These fields continue
+to expose the limitations of broad principal-stress steering; coupling the
+tip nodes does not validate that direction criterion.
+
+The production option changes the topology map only. It still uses particle
+quadrature and the existing affine face interpolation, so the off-grid force
+integration error discussed above remains open in dynamics. Compatible moving
+domain quadrature and energy-based extension selection remain required.

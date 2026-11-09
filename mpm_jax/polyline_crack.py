@@ -75,7 +75,7 @@ def shifted_nodes(nodes, vertices, count):
     return nodes+jnp.where((distance <= tolerance*tolerance)[..., None], 8*tolerance*normal, 0.)
 
 
-def link_fields(position, support, vertices, count, nodes=None):
+def link_fields(position, support, vertices, count, nodes=None, tip_support_dx=None):
     """Intersection parity with a half-open rule at shared polyline vertices."""
     if nodes is None:
         nodes = shifted_nodes(position[:, None, :]+support.dpos, vertices, count)
@@ -90,7 +90,15 @@ def link_fields(position, support, vertices, count, nodes=None):
         crossing = ((ya > 0) != (yb > 0)) & (parameter > 0) & (parameter < 1) & (denominator != 0)
         return parity ^ crossing
 
-    return jax.lax.fori_loop(0, count-1, cross_edge, jnp.zeros(support.indices.shape, dtype=bool)).astype(jnp.int32)
+    fields = jax.lax.fori_loop(0, count-1, cross_edge, jnp.zeros(support.indices.shape, dtype=bool)).astype(jnp.int32)
+    if tip_support_dx is not None:
+        # Partly cut supports have endpoint shadow jumps. Tie both copies there.
+        endpoints = jnp.stack((vertices[0],vertices[count-1]))
+        scale = jnp.maximum(jnp.max(jnp.abs(nodes)),jnp.max(jnp.abs(endpoints)))
+        tolerance = 128*jnp.finfo(position.dtype).eps*jnp.maximum(scale,tip_support_dx)
+        contains = jnp.all(jnp.abs(nodes[...,None,:]-endpoints)<=1.5*tip_support_dx+tolerance,axis=-1)
+        fields = jnp.where(jnp.any(contains,axis=-1),0,fields)
+    return fields
 
 
 def visibility_path(path, dx):

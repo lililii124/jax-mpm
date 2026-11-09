@@ -121,9 +121,10 @@ def discrete_surface_gradient(old, new, maximum, birth, bonded, law):
     return gradient, after, energy, error
 
 
-def transfers(position, normals, side, mass, config, vertices, count, nodes, mass_weighted=True):
+def transfers(position, normals, side, mass, config, vertices, count, nodes, mass_weighted=True, couple_tip_nodes=False):
     support = stencil(position, config)
-    fields = link_fields(position+side*1e-6*config.dx*normals, support, vertices, count, nodes[support.indices])
+    fields = link_fields(position+side*1e-6*config.dx*normals, support, vertices, count, nodes[support.indices],
+                         tip_support_dx=config.dx if couple_tip_nodes else None)
     indices = support.indices+fields*((config.n_grid+1)**2)
     local_mass = mass[indices]
     if mass_weighted:
@@ -167,8 +168,8 @@ class Work(NamedTuple):
     residual: jax.Array
 
 
-@partial(jax.jit, static_argnames=('config','law','consistent_gradients'))
-def step(state, path, material, config, law, consistent_gradients=False, dt=None):
+@partial(jax.jit, static_argnames=('config','law','consistent_gradients','couple_tip_nodes'))
+def step(state, path, material, config, law, consistent_gradients=False, dt=None, couple_tip_nodes=False):
     if config.dim != 2 or config.material not in ('elastic','neo-hookean'):
         raise ValueError('Extrinsic cohesive MPM requires 2D neo-Hookean elasticity')
     dt = config.dt if dt is None else dt
@@ -180,7 +181,8 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
     index = jnp.arange(size)
     nodes = config.dx*jnp.stack((index//(config.n_grid+1),index%(config.n_grid+1)),axis=-1)
     nodes = shifted_nodes(nodes, visibility, path.count)
-    fields = link_fields(state.x, support, visibility, path.count, nodes[support.indices])
+    fields = link_fields(state.x, support, visibility, path.count, nodes[support.indices],
+                         tip_support_dx=config.dx if couple_tip_nodes else None)
     remapped = support._replace(indices=support.indices+fields*size)
     mass = jnp.zeros(2*size, dtype=state.x.dtype).at[remapped.indices].add(support.weights*state.mass[:,None])
     affine = jnp.einsum('pij,pkj->pki',state.C,support.dpos)
@@ -196,8 +198,10 @@ def step(state, path, material, config, law, consistent_gradients=False, dt=None
     initial = constrain(transferred,state.time)
     initial_impulse = mass[:,None]*(initial-transferred)
     normals = vertex_normals(vertices,path.count)
-    plus = transfers(path.plus,normals,1.,mass,config,visibility,path.count,nodes,mass_weighted=not consistent_gradients)
-    minus = transfers(path.minus,normals,-1.,mass,config,visibility,path.count,nodes,mass_weighted=not consistent_gradients)
+    plus = transfers(path.plus,normals,1.,mass,config,visibility,path.count,nodes,
+                     mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes)
+    minus = transfers(path.minus,normals,-1.,mass,config,visibility,path.count,nodes,
+                      mass_weighted=not consistent_gradients,couple_tip_nodes=couple_tip_nodes)
     plus, minus = shared_tip(plus,minus,path.count)
     old_positions = segment_positions(path.plus,path.minus)
 

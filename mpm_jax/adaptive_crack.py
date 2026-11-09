@@ -18,8 +18,8 @@ class RetryReport(NamedTuple):
     last_residual: jax.Array
 
 
-@partial(jax.jit,static_argnames=('config','law','max_halvings','consistent_gradients'))
-def retry_step(state,path,material,config,law,dt,max_halvings=8,consistent_gradients=False):
+@partial(jax.jit,static_argnames=('config','law','max_halvings','consistent_gradients','couple_tip_nodes'))
+def retry_step(state,path,material,config,law,dt,max_halvings=8,consistent_gradients=False,couple_tip_nodes=False):
     """Return one accepted substep or the unchanged input and zero work.
 
     Each rejected attempt starts again from the original state, including the
@@ -45,7 +45,7 @@ def retry_step(state,path,material,config,law,dt,max_halvings=8,consistent_gradi
         previous=carry[3]
         trial_dt=dt*2.**(-previous.attempts)
         following,newpath,work=step(state,path,material,config,law,
-                                    consistent_gradients=consistent_gradients,dt=trial_dt)
+                                    consistent_gradients=consistent_gradients,dt=trial_dt,couple_tip_nodes=couple_tip_nodes)
         accepted=following.valid & newpath.valid & jnp.all(jnp.isfinite(jnp.stack(work)))
         returned=jax.lax.cond(accepted,lambda _:(following,newpath,work),lambda _:(state,path,empty),None)
         report=RetryReport(accepted,previous.attempts+1,previous.rejected+(~accepted).astype(jnp.int32),

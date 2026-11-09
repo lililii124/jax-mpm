@@ -1,0 +1,70 @@
+{
+  "case": "finite straight edge crack, constant stress, interior nodal equilibrium",
+  "scope": "host-side exact-geometry quadrature prototype; no dynamics or crack-path validation",
+  "method": "polygon cut quadrature split by B-spline knots, crack line and endpoint rays; physical face line quadrature",
+  "stress_dependent_fitting": false,
+  "grid": 12,
+  "body": [
+    0.125,
+    0.875,
+    0.125,
+    0.875
+  ],
+  "nodes_checked_per_case": 49,
+  "source_sha256": {
+    "tools/audit_finite_crack.py": "c269bf4f3109cb2246b0adfc15107edca0b7af87e9515feaaa74168e6efa7d1b",
+    "tools/audit_cut_interface.py": "15acc882c81c946e06d98fd15fedfd73d22c3d56fccee3eed3dd0e763ce74ec9",
+    "mpm_jax/polyline_crack.py": "d6ef3ff9dfbe8dac8f9ee9fd7e49653733efed4f23c00566e1578d3f7f3b8556",
+    "mpm_jax/core.py": "793d023ff846afac55d0234ab76708b7263d5822cd25f53674e9bbc452f20506",
+    "tests/test_finite_crack_quadrature.py": "a484bb46250784debaf17955df4a4b8f127dcbf535dc3371363dbc9ee2aa8673"
+  },
+  "cli_run": "tools/audit_finite_crack.py --grid 12",
+  "focused_test": "tests/test_finite_crack_quadrature.py: 1 passed in 38.46s",
+  "rows": [
+    {
+      "angle_degrees": 0.0,
+      "offset_over_dx": 0.0,
+      "legacy": {
+        "relative_interior_residual": 0.0636413017000411,
+        "max_interior_residual": 0.01400218314451359,
+        "physical_face_length": 0.42500000000000004,
+        "pair_resultant_error": 0.0,
+        "face_resultant_error": 2.3551386880256624e-16,
+        "face_moment_error": 0.0,
+        "bulk_partition_error": 6.678361126932795e-16
+      },
+      "tied": {
+        "relative_interior_residual": 3.99134263142936e-15,
+        "max_interior_residual": 3.2051779605418365e-16,
+        "physical_face_length": 0.42500000000000004,
+        "pair_resultant_error": 0.0,
+        "face_resultant_error": 2.3551386880256624e-16,
+        "face_moment_error": 0.0,
+        "bulk_partition_error": 6.850346755208008e-16
+      }
+    },
+    {
+      "angle_degrees": 17.76169164905552,
+      "offset_over_dx": 0.25,
+      "legacy": {
+        "relative_interior_residual": 0.08929834185497981,
+        "max_interior_residual": 0.02553112691252481,
+        "physical_face_length": 0.4395987130759256,
+        "pair_resultant_error": 0.0,
+        "face_resultant_error": 1.5700924586837752e-16,
+        "face_moment_error": 5.551115123125783e-17,
+        "bulk_partition_error": 6.7237932373901e-16
+      },
+      "tied": {
+        "relative_interior_residual": 2.7332522206065224e-15,
+        "max_interior_residual": 3.026094608094684e-16,
+        "physical_face_length": 0.4395987130759256,
+        "pair_resultant_error": 0.0,
+        "face_resultant_error": 1.5700924586837752e-16,
+        "face_moment_error": 5.551115123125783e-17,
+        "bulk_partition_error": 6.802532412056862e-16
+      }
+    }
+  ],
+  "hash_normalization": "CRLF to LF"
+}
